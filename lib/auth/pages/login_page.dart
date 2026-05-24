@@ -34,7 +34,7 @@ import '../../modules/delvioo/pages/delvioo_main_page.dart';
 // Created in Google Cloud Console: https://console.cloud.google.com/apis/credentials?project=cultioo
 // NOTE: This should be set via environment variable or backend configuration
 const String _kGoogleOAuthServerClientId =
-    'GOOGLE_OAUTH_CLIENT_ID_PLACEHOLDER';
+    '78230737866-6nd5t6olprke59ctq21sctepe0sk2b5p.apps.googleusercontent.com';
 
 
 class LoginPage extends StatefulWidget {
@@ -493,16 +493,6 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
 
   // 🔵 Google Sign-In
   Future<void> _signInWithGoogle() async {
-    // macOS requires separate OAuth configuration in Google Cloud Console
-    if (_isMacOS) {
-      if (mounted) {
-        TopNotification.error(
-          context,
-          'Google Sign-In is not yet configured for macOS. Please use email/password login.',
-        );
-      }
-      return;
-    }
 
     // Use Web OAuth flow for all platforms (iOS, macOS, Desktop)
     // This avoids invalid_audience errors and native SDK issues
@@ -556,80 +546,18 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
 
       print('✅ Got authorization code');
 
-      // Exchange code for token directly with Google
-      print('🔵 Exchanging code for tokens with Google...');
-      final tokenResponse = await http.post(
-        Uri.parse('https://oauth2.googleapis.com/token'),
-        headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-        body: {
+      // Send authorization code to backend to exchange for tokens
+      // Backend has the client secret and can securely exchange the code
+      print('🔵 Sending code to backend for token exchange...');
+      final response = await http.post(
+        Uri.parse('${ApiConfig.baseUrl}/api/auth/google-oauth-desktop'),
+        headers: {'Content-Type': 'application/json'},
+        body: json.encode({
           'code': code,
-          'client_id': _kGoogleOAuthServerClientId,
-          'client_secret': 'GOOGLE_OAUTH_CLIENT_SECRET_PLACEHOLDER',
-          'redirect_uri': 'https://cultioo.com/auth/google-business-callback',
-          'grant_type': 'authorization_code',
-        },
+          'redirectUri': 'https://cultioo.com/auth/google-business-callback',
+          'isDelviooMode': _isDelviooMode,
+        }),
       );
-
-      print('🔵 Google token response: ${tokenResponse.statusCode}');
-
-      if (tokenResponse.statusCode != 200) {
-        throw Exception('Failed to exchange code: ${tokenResponse.body}');
-      }
-
-      final tokenData = json.decode(tokenResponse.body);
-      final idToken = tokenData['id_token'] as String?;
-      final accessToken = tokenData['access_token'] as String?;
-
-      if (idToken == null) {
-        throw Exception('No ID token received from Google');
-      }
-
-      // Decode JWT payload (base64url) to extract email and name
-      final parts = idToken.split('.');
-      if (parts.length < 2) throw Exception('Invalid ID token format');
-      String payload = parts[1];
-      // Pad base64 string if needed
-      while (payload.length % 4 != 0) payload += '=';
-      final decoded = utf8.decode(base64Url.decode(payload));
-      final claims = json.decode(decoded) as Map<String, dynamic>;
-      final email = claims['email'] as String? ?? '';
-      final name = claims['name'] as String? ?? '';
-      final googleId = claims['sub'] as String? ?? '';
-
-      print('🔵 Got ID token: email=$email, name=$name');
-
-      // Send tokens to backend for verification and login
-      // Try multiple endpoint patterns for compatibility
-      http.Response? response;
-      final endpoints = [
-        '/api/auth/google-verify',
-        '/api/auth/google',
-        '/api/auth/google-signin',
-      ];
-
-      for (final endpoint in endpoints) {
-        try {
-          response = await http.post(
-            Uri.parse('${ApiConfig.baseUrl}$endpoint'),
-            headers: {'Content-Type': 'application/json'},
-            body: json.encode({
-              'idToken': idToken,
-              'accessToken': accessToken,
-              'email': email,
-              'name': name,
-              'googleId': googleId,
-              'isDelviooMode': _isDelviooMode,
-            }),
-          );
-          if (response.statusCode != 404) break;
-        } catch (e) {
-          print('🔵 Endpoint $endpoint failed: $e');
-        }
-      }
-
-      if (response == null) {
-        throw Exception('All backend endpoints failed');
-      }
 
       print('🔵 Backend response: ${response.statusCode}');
       print('🔵 Backend body: ${response.body}');
@@ -660,6 +588,9 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                 : AppLocalizations.of(context)?.business ?? 'Business',
             authMethod: 'google',
           );
+
+          // Reload user data to ensure token is available
+          await userProvider.loadUserData();
 
           print('✅ Google Sign-In successful');
 
@@ -1108,11 +1039,6 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
 
   // 🔵 Google Sign-In for Business Upgrade (checks if email exists in users table)
   Future<void> _signInWithGoogleForBusinessUpgrade() async {
-    // Use browser-based OAuth for macOS to avoid keychain issues
-    if (Platform.isMacOS) {
-      print('⚠️ Browser-based sign-in for business upgrade not implemented');
-      return;
-    }
 
     setState(() => _isLoading = true);
 
