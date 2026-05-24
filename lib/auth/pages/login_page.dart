@@ -493,6 +493,17 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
 
   // 🔵 Google Sign-In
   Future<void> _signInWithGoogle() async {
+    // macOS requires separate OAuth configuration in Google Cloud Console
+    if (_isMacOS) {
+      if (mounted) {
+        TopNotification.error(
+          context,
+          'Google Sign-In is not yet configured for macOS. Please use email/password login.',
+        );
+      }
+      return;
+    }
+
     // Use Web OAuth flow for all platforms (iOS, macOS, Desktop)
     // This avoids invalid_audience errors and native SDK issues
     setState(() => _isLoading = true);
