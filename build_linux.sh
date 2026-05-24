@@ -35,7 +35,7 @@ if [[ "$OSTYPE" != "linux"* ]]; then
   if command -v gh &>/dev/null; then
     if git remote get-url origin &>/dev/null; then
       echo "  Triggering Linux build via GitHub Actions …"
-      gh workflow run build_desktop.yml
+      gh workflow run build_linux.yml
       echo "✓ GitHub Actions workflow triggered."
       echo ""
       echo "  → Download the Linux installer from:"

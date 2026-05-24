@@ -35,7 +35,7 @@ if [[ "$OSTYPE" != "msys" && "$OSTYPE" != "win32" && "$OSTYPE" != "cygwin" ]]; t
   if command -v gh &>/dev/null; then
     if git remote get-url origin &>/dev/null; then
       echo "  Triggering Windows EXE build via GitHub Actions …"
-      gh workflow run build_desktop.yml
+      gh workflow run build_windows.yml
       echo "✓ GitHub Actions workflow triggered."
       echo ""
       echo "  → Download the Windows installer from:"
