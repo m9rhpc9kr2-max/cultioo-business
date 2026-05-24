@@ -2436,7 +2436,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
 
     // Responsive values
     final horizontalPadding = isDesktop ? 0.0 : 24.0;
-    final maxFormWidth = isDesktop ? 420.0 : double.infinity;
+    final maxFormWidth = isDesktop ? 600.0 : double.infinity;
     final logoSize = isDesktop ? 48.0 : 60.0;
     final titleSize = isDesktop ? 24.0 : 30.0;
     final inputHeight = isDesktop ? 40.0 : 54.0;

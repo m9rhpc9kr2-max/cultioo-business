@@ -990,7 +990,7 @@ class _RegisterPageState extends State<RegisterPage> {
       body: SafeArea(
         child: Center(
           child: ConstrainedBox(
-            constraints: BoxConstraints(maxWidth: isDesktop ? 480.0 : double.infinity),
+            constraints: BoxConstraints(maxWidth: isDesktop ? 600.0 : double.infinity),
             child: Column(children: [
               // ── Top bar
               Padding(
