@@ -1447,7 +1447,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     isDesktop ? 32 : 24, 12, isDesktop ? 32 : 24, isDesktop ? 32 : 28),
                 child: TradeRepublicButton(
                   width: double.infinity,
-                  height: isDesktop ? 52 : 56,
+                  height: isDesktop ? 42 : 56,
                   label: _currentPage == 2
                       ? 'Create Seller Account'
                       : _currentPage == 3
