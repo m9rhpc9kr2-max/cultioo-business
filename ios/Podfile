@@ -1,0 +1,84 @@
+# Uncomment this line to define a global platform for your project
+platform :ios, '15.0'
+
+# CocoaPods analytics sends network stats synchronously affecting flutter build latency.
+ENV['COCOAPODS_DISABLE_STATS'] = 'true'
+
+project 'Runner', {
+  'Debug' => :debug,
+  'Profile' => :release,
+  'Release' => :release,
+}
+
+def flutter_root
+  generated_xcode_build_settings_path = File.expand_path(File.join('..', 'Flutter', 'Generated.xcconfig'), __FILE__)
+  unless File.exist?(generated_xcode_build_settings_path)
+    raise "#{generated_xcode_build_settings_path} must exist. If you're running pod install manually, make sure flutter pub get is executed first"
+  end
+
+  File.foreach(generated_xcode_build_settings_path) do |line|
+    matches = line.match(/FLUTTER_ROOT\=(.*)/)
+    return matches[1].strip if matches
+  end
+  raise "FLUTTER_ROOT not found in #{generated_xcode_build_settings_path}. Try deleting Generated.xcconfig, then run flutter pub get"
+end
+
+require File.expand_path(File.join('packages', 'flutter_tools', 'bin', 'podhelper'), flutter_root)
+
+flutter_ios_podfile_setup
+
+target 'Runner' do
+  use_frameworks!
+
+  flutter_install_all_ios_pods File.dirname(File.realpath(__FILE__))
+  target 'RunnerTests' do
+    inherit! :search_paths
+  end
+end
+
+post_install do |installer|
+  installer.pods_project.targets.each do |target|
+    flutter_additional_ios_build_settings(target)
+    target.build_configurations.each do |config|
+      config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '15.0'
+      # Only exclude i386, allow arm64 for Apple Silicon simulators (incl. iOS 26)
+      config.build_settings['EXCLUDED_ARCHS[sdk=iphonesimulator*]'] = 'i386'
+      if config.name == 'Release'
+        config.build_settings['ONLY_ACTIVE_ARCH'] = 'NO'
+      end
+      # Allow MLKit and related pods to build for arm64 simulator
+      mlkit_pods = ['GoogleMLKit', 'MLImage', 'MLKitCommon', 'MLKitVision',
+                    'google_mlkit_text_recognition', 'google_mlkit_commons']
+      if mlkit_pods.any? { |p| target.name.include?(p) }
+        config.build_settings.delete('EXCLUDED_ARCHS[sdk=iphonesimulator*]')
+        config.build_settings['EXCLUDED_ARCHS'] = 'i386'
+      end
+    end
+  end
+
+  # Add a run script phase to strip simulator slices using vtool
+  installer.aggregate_targets.each do |aggregate_target|
+    aggregate_target.user_project.targets.each do |target|
+      next unless target.name == 'Runner'
+      phase = target.new_shell_script_build_phase('Strip Simulator Slices')
+      phase.shell_script = <<~'SCRIPT'
+        if [ "$CONFIGURATION" == "Release" ]; then
+          find "$TARGET_BUILD_DIR/$WRAPPER_NAME" -name "*.framework" -type d | while read framework; do
+            binary="$framework/$(basename "$framework" .framework)"
+            if [ ! -f "$binary" ]; then continue; fi
+            # Use vtool to check and remove simulator platform
+            if vtool -show-build "$binary" 2>/dev/null | grep -q "IOSSIMULATOR"; then
+              echo "Stripping simulator slice from: $binary"
+              cp "$binary" "$binary.bak"
+              lipo "$binary.bak" -remove x86_64 -output "$binary" 2>/dev/null || cp "$binary.bak" "$binary"
+              vtool -set-build-version ios 15.0 15.0 -replace -output "$binary.fixed" "$binary" 2>/dev/null && mv "$binary.fixed" "$binary" || true
+              rm -f "$binary.bak"
+            fi
+          done
+        fi
+      SCRIPT
+      phase.run_only_for_deployment_postprocessing = '1'
+      aggregate_target.user_project.save
+    end
+  end
+end
