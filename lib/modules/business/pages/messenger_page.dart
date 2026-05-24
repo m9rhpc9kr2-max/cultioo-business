@@ -27,6 +27,8 @@ import '../../../shared/widgets/top_notification.dart';
 import '../../../shared/services/app_localizations.dart';
 import '../../../shared/widgets/cultioo_spinner.dart';
 import '../../../shared/widgets/trade_republic_tap.dart';
+import 'package:cultioo_business/shared/widgets/desktop_app_wrapper.dart';
+import 'package:cultioo_business/shared/widgets/desktop_optimized_widgets.dart';
 
 class MessengerPage extends StatefulWidget {
   const MessengerPage({super.key});
@@ -669,7 +671,7 @@ class _MessengerPageState extends State<MessengerPage>
             padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
             decoration: BoxDecoration(
               color: isLight ? Colors.black : Colors.white,
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
             ),
             child: Text(
               '$unreadCount',
@@ -723,7 +725,7 @@ class _MessengerPageState extends State<MessengerPage>
       children: [
         // CullyAI — always pinned at top
         _buildCullyAiCard(isLight),
-        const SizedBox(height: 8),
+        const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
         ...uniqueConversations.asMap().entries.map((entry) {
           final index = entry.key + 1;
           final conversation = entry.value;
@@ -827,7 +829,7 @@ class _MessengerPageState extends State<MessengerPage>
                   ? Colors.black.withOpacity(0.3)
                   : Colors.white.withOpacity(0.3),
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
             Text(
               AppLocalizations.of(context)?.noMessages ?? AppLocalizations.of(context)!.tr('No Messages'),
               style: TextStyle(
@@ -840,7 +842,7 @@ class _MessengerPageState extends State<MessengerPage>
             Text(
               AppLocalizations.of(context)?.yourConversationsWillAppearHere ?? AppLocalizations.of(context)!.tr('Your conversations will appear here'),
               style: TextStyle(
-                fontSize: 14,
+                fontSize: DesktopOptimizedWidgets.getFontSize(),
                 fontWeight: FontWeight.w400,
                 color: isLight
                     ? Colors.black.withOpacity(0.5)
@@ -890,7 +892,7 @@ class _MessengerPageState extends State<MessengerPage>
         padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 16),
         decoration: BoxDecoration(
           color: isLight ? Colors.transparent : const Color(0xFF0A0A0A),
-          borderRadius: BorderRadius.circular(16),
+          borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius()),
         ),
         child: Row(
           children: [
@@ -914,7 +916,7 @@ class _MessengerPageState extends State<MessengerPage>
                       Text(
                         'CullyAI',
                         style: TextStyle(
-                          fontSize: 16,
+                          fontSize: DesktopOptimizedWidgets.getFontSize(),
                           fontWeight: FontWeight.w700,
                           color: isLight ? Colors.black : Colors.white,
                           letterSpacing: -0.3,
@@ -946,7 +948,7 @@ class _MessengerPageState extends State<MessengerPage>
                   Text(
                     'Your intelligent assistant — tap to chat',
                     style: TextStyle(
-                      fontSize: 14,
+                      fontSize: DesktopOptimizedWidgets.getFontSize(),
                       fontWeight: FontWeight.w400,
                       color: (isLight ? Colors.black : Colors.white)
                           .withOpacity(0.5),
@@ -1043,7 +1045,7 @@ class _MessengerPageState extends State<MessengerPage>
           color: isLight
               ? Colors.transparent
               : const Color.fromARGB(255, 0, 0, 0),
-          borderRadius: BorderRadius.circular(16),
+          borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius()),
         ),
         child: Row(
           children: [
@@ -1079,7 +1081,7 @@ class _MessengerPageState extends State<MessengerPage>
                               child: Text(
                                 otherPerson,
                                 style: TextStyle(
-                                  fontSize: 16,
+                                  fontSize: DesktopOptimizedWidgets.getFontSize(),
                                   fontWeight: FontWeight.w600,
                                   color: isLight ? Colors.black : Colors.white,
                                   letterSpacing: -0.3,
@@ -1129,7 +1131,7 @@ class _MessengerPageState extends State<MessengerPage>
                         child: Text(
                           lastMessage,
                           style: TextStyle(
-                            fontSize: 14,
+                            fontSize: DesktopOptimizedWidgets.getFontSize(),
                             fontWeight: hasUnread
                                 ? FontWeight.w600
                                 : FontWeight.w400,
@@ -2187,7 +2189,7 @@ class _MessengerPageState extends State<MessengerPage>
                     height: 44,
                     decoration: BoxDecoration(
                       color: isLight ? Colors.white : Colors.black,
-                      borderRadius: BorderRadius.circular(20),
+                      borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                     ),
                     child: Icon(
                       icon,
@@ -2203,7 +2205,7 @@ class _MessengerPageState extends State<MessengerPage>
                         Text(
                           title,
                           style: TextStyle(
-                            fontSize: 16,
+                            fontSize: DesktopOptimizedWidgets.getFontSize(),
                             fontWeight: FontWeight.w500,
                             color: isLight ? Colors.black : Colors.white,
                             letterSpacing: -0.2,
@@ -2296,7 +2298,7 @@ class _MessengerPageState extends State<MessengerPage>
                     isLight: isLight,
                   ),
 
-                  const SizedBox(height: 12),
+                  const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
                   // Cancel button
                   TradeRepublicButton(
@@ -2364,7 +2366,7 @@ class _MessengerPageState extends State<MessengerPage>
                               otherPerson,
                               style: TextStyle(
                                 color: isLight ? Colors.black : Colors.white,
-                                fontSize: 20,
+                                fontSize: DesktopOptimizedWidgets.getFontSize() + 6,
                                 fontWeight: FontWeight.w700,
                                 letterSpacing: -0.5,
                               ),
@@ -2438,7 +2440,7 @@ class _MessengerPageState extends State<MessengerPage>
                           color: isLight
                               ? Colors.transparent
                               : Colors.transparent,
-                          borderRadius: BorderRadius.circular(16),
+                          borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius()),
                         ),
                         child: Row(
                           children: [
@@ -2448,11 +2450,11 @@ class _MessengerPageState extends State<MessengerPage>
                               height: 64,
                               decoration: BoxDecoration(
                                 color: isLight ? Colors.black : Colors.white,
-                                borderRadius: BorderRadius.circular(20),
+                                borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                               ),
                               child: getSelectedImage() != null
                                   ? ClipRRect(
-                                      borderRadius: BorderRadius.circular(20),
+                                      borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                                       child: Image.file(
                                         File(getSelectedImage()!.path),
                                         fit: BoxFit.cover,
@@ -2731,7 +2733,7 @@ class _MessengerPageState extends State<MessengerPage>
             ),
           ),
 
-          const SizedBox(height: 12),
+          const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
           TradeRepublicButton(
             label: AppLocalizations.of(context)?.cancel ?? AppLocalizations.of(context)!.tr('Cancel'),
@@ -2888,7 +2890,7 @@ class _MessengerPageState extends State<MessengerPage>
                               ),
                               decoration: BoxDecoration(
                                 color: Colors.black.withOpacity(0.45),
-                                borderRadius: BorderRadius.circular(20),
+                                borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                               ),
                               child: Text(
                                 timeString,
@@ -2951,7 +2953,7 @@ class _MessengerPageState extends State<MessengerPage>
                                               ? Colors.black
                                               : Colors.white))
                                     .withOpacity(0.12),
-                            borderRadius: BorderRadius.circular(12),
+                            borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius()),
                           ),
                           child: Icon(
                             messageType == 'pdf'
@@ -2987,7 +2989,7 @@ class _MessengerPageState extends State<MessengerPage>
                                       : fname;
                                 }(),
                                 style: TextStyle(
-                                  fontSize: 14,
+                                  fontSize: DesktopOptimizedWidgets.getFontSize(),
                                   fontWeight: FontWeight.w600,
                                   letterSpacing: -0.3,
                                   color: isFromMe
@@ -3069,7 +3071,7 @@ class _MessengerPageState extends State<MessengerPage>
                                                 ? Colors.black
                                                 : Colors.white))
                                       .withOpacity(0.12),
-                              borderRadius: BorderRadius.circular(20),
+                              borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                             ),
                             child: Row(
                               mainAxisSize: MainAxisSize.min,
@@ -3225,12 +3227,12 @@ class _MessengerPageState extends State<MessengerPage>
                             size: 64,
                             color: Colors.white,
                           ),
-                          const SizedBox(height: 16),
+                          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
                           Text(
                             AppLocalizations.of(context)?.failedToLoadImage ?? AppLocalizations.of(context)!.tr('Failed to load image'),
                             style: const TextStyle(
                               color: Colors.white,
-                              fontSize: 16,
+                              fontSize: DesktopOptimizedWidgets.getFontSize(),
                               fontWeight: FontWeight.w500,
                             ),
                           ),
@@ -3324,7 +3326,7 @@ class _MessengerPageState extends State<MessengerPage>
             ],
           ),
 
-          const SizedBox(height: 12),
+          const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
           // Content
           Text(
@@ -3338,7 +3340,7 @@ class _MessengerPageState extends State<MessengerPage>
             ),
           ),
 
-          const SizedBox(height: 24),
+          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
           // Action buttons - Trade Republic Style
           Row(
@@ -3404,7 +3406,7 @@ class _MessengerPageState extends State<MessengerPage>
             ],
           ),
 
-          const SizedBox(height: 12),
+          const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
           // Content
           Text(
@@ -3418,7 +3420,7 @@ class _MessengerPageState extends State<MessengerPage>
             ),
           ),
 
-          const SizedBox(height: 24),
+          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
           // Action buttons - Trade Republic Style
           Row(
@@ -3484,7 +3486,7 @@ class _MessengerPageState extends State<MessengerPage>
               ),
             ],
           ),
-          const SizedBox(height: 12),
+          const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
           TradeRepublicCard(
             backgroundColor: isLight ? null : Colors.transparent,
@@ -3499,7 +3501,7 @@ class _MessengerPageState extends State<MessengerPage>
                 alignment: Alignment.center,
                 decoration: BoxDecoration(
                   color: Colors.red,
-                  borderRadius: BorderRadius.circular(20),
+                  borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                 ),
                 child: const Icon(
                   CupertinoIcons.hand_raised_fill,
@@ -3515,7 +3517,7 @@ class _MessengerPageState extends State<MessengerPage>
             ),
           ),
 
-          const SizedBox(height: 24),
+          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
           // Cancel button - Trade Republic Style
           TradeRepublicButton(
@@ -3656,7 +3658,7 @@ class _MessengerPageState extends State<MessengerPage>
               ),
             ],
           ),
-          const SizedBox(height: 12),
+          const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
           // ── Options ──
           TradeRepublicListTile.navigation(
@@ -3711,7 +3713,7 @@ class _MessengerPageState extends State<MessengerPage>
             },
           ),
 
-          const SizedBox(height: 12),
+          const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
           // ── Cancel ──
           TradeRepublicButton(
@@ -3777,12 +3779,12 @@ class _MessengerPageState extends State<MessengerPage>
           Text(
             AppLocalizations.of(context)?.deleteAllMessageHistory ?? AppLocalizations.of(context)!.tr('Delete all message history'),
             style: TextStyle(
-              fontSize: 14,
+              fontSize: DesktopOptimizedWidgets.getFontSize(),
               height: 1.4,
               color: (isLight ? Colors.black : Colors.white).withOpacity(0.7),
             ),
           ),
-          const SizedBox(height: 24),
+          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
           TradeRepublicButton(
             label: AppLocalizations.of(context)?.delete ?? AppLocalizations.of(context)!.tr('Delete'),
             onPressed: () async {
@@ -3889,7 +3891,7 @@ class _MessengerPageState extends State<MessengerPage>
                               color: (isLight ? Colors.black : Colors.white)
                                   .withOpacity(0.2),
                             ),
-                            const SizedBox(height: 16),
+                            const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
                             Text(
                               AppLocalizations.of(context)?.noBlockedUsers ?? AppLocalizations.of(context)!.tr('No Blocked Users'),
                               style: TextStyle(
@@ -3898,13 +3900,13 @@ class _MessengerPageState extends State<MessengerPage>
                                 color: isLight ? Colors.black : Colors.white,
                               ),
                             ),
-                            const SizedBox(height: 8),
+                            const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                             Text(
                               AppLocalizations.of(
                                     context,
                                   )?.usersYouBlockWillAppearHere ?? AppLocalizations.of(context)!.tr('Users you block will appear here'),
                               style: TextStyle(
-                                fontSize: 14,
+                                fontSize: DesktopOptimizedWidgets.getFontSize(),
                                 fontWeight: FontWeight.w400,
                                 color: isLight ? Colors.black : Colors.white,
                               ),
@@ -3958,7 +3960,7 @@ class _MessengerPageState extends State<MessengerPage>
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
         decoration: BoxDecoration(
           color: Colors.transparent,
-          borderRadius: BorderRadius.circular(16),
+          borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius()),
         ),
         child: Row(
           children: [
@@ -3988,7 +3990,7 @@ class _MessengerPageState extends State<MessengerPage>
                   Text(
                     userName,
                     style: TextStyle(
-                      fontSize: 16,
+                      fontSize: DesktopOptimizedWidgets.getFontSize(),
                       fontWeight: FontWeight.w600,
                       color: isLight ? Colors.black : Colors.white,
                       letterSpacing: -0.3,
@@ -4000,7 +4002,7 @@ class _MessengerPageState extends State<MessengerPage>
                       child: Text(
                         'Blocked ${_formatBlockedTime(blockedAt)}',
                         style: TextStyle(
-                          fontSize: 14,
+                          fontSize: DesktopOptimizedWidgets.getFontSize(),
                           fontWeight: FontWeight.w400,
                           color: (isLight ? Colors.black : Colors.white)
                               .withOpacity(0.5),
@@ -4023,7 +4025,7 @@ class _MessengerPageState extends State<MessengerPage>
                 ),
                 decoration: BoxDecoration(
                   color: const Color(0xFF007AFF),
-                  borderRadius: BorderRadius.circular(12),
+                  borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius()),
                 ),
                 child: Text(
                   AppLocalizations.of(context)?.unblock ?? AppLocalizations.of(context)!.tr('Unblock'),
@@ -4096,7 +4098,7 @@ class _MessengerPageState extends State<MessengerPage>
             ],
           ),
 
-          const SizedBox(height: 24),
+          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
           // Empty state for now
           Expanded(
@@ -4111,7 +4113,7 @@ class _MessengerPageState extends State<MessengerPage>
                       0.2,
                     ),
                   ),
-                  const SizedBox(height: 16),
+                  const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
                   Text(
                     AppLocalizations.of(context)?.noDeletedUsers ?? AppLocalizations.of(context)!.tr('No deleted users'),
                     style: TextStyle(
@@ -4120,20 +4122,20 @@ class _MessengerPageState extends State<MessengerPage>
                       color: isLight ? Colors.black : Colors.white,
                     ),
                   ),
-                  const SizedBox(height: 8),
+                  const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                   Text(
                     AppLocalizations.of(context)?.deletedUsersWillAppearHere ?? AppLocalizations.of(context)!.tr('Deleted users will appear here'),
                     style: TextStyle(
-                      fontSize: 14,
+                      fontSize: DesktopOptimizedWidgets.getFontSize(),
                       color: (isLight ? Colors.black : Colors.white)
                           .withOpacity(0.4),
                     ),
                   ),
-                  const SizedBox(height: 8),
+                  const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                   Text(
                     AppLocalizations.of(context)?.deletedUsersWillAppearHere ?? AppLocalizations.of(context)!.tr('Deleted users will appear here'),
                     style: TextStyle(
-                      fontSize: 14,
+                      fontSize: DesktopOptimizedWidgets.getFontSize(),
                       color: (isLight ? Colors.black : Colors.white)
                           .withOpacity(0.4),
                     ),
@@ -4241,7 +4243,7 @@ class _MessengerPageState extends State<MessengerPage>
                 _getInitials(userName, firstName, lastName),
                 style: TextStyle(
                   color: isLight ? Colors.black : Colors.white,
-                  fontSize: 16,
+                  fontSize: DesktopOptimizedWidgets.getFontSize(),
                   fontWeight: FontWeight.w500,
                 ),
               ),
@@ -4275,14 +4277,14 @@ class _MessengerPageState extends State<MessengerPage>
       width: 40,
       height: 40,
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
         color: imageToShow == null
             ? (isLight ? Colors.black : Colors.white)
             : null,
       ),
       child: imageToShow != null
           ? ClipRRect(
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
               child: _buildProfileImageFromData(imageToShow, userName),
             )
           : Center(
@@ -4290,7 +4292,7 @@ class _MessengerPageState extends State<MessengerPage>
                 _getInitials(userName, firstName, lastName),
                 style: TextStyle(
                   color: isLight ? Colors.white : Colors.black,
-                  fontSize: 16,
+                  fontSize: DesktopOptimizedWidgets.getFontSize(),
                   fontWeight: FontWeight.w600,
                   letterSpacing: -0.5,
                 ),
@@ -4325,14 +4327,14 @@ class _MessengerPageState extends State<MessengerPage>
       width: 32,
       height: 32,
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
         color: imageToShow == null
             ? (isLight ? Colors.black : Colors.white)
             : null,
       ),
       child: imageToShow != null
           ? ClipRRect(
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
               child: _buildChatProfileImageFromData(imageToShow, userName),
             )
           : Center(
@@ -4467,7 +4469,7 @@ class _MessengerPageState extends State<MessengerPage>
         height: 32,
         decoration: BoxDecoration(
           color: isLight ? Colors.black : Colors.white,
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
         ),
         child: Center(
           child: Text(
@@ -4496,7 +4498,7 @@ class _MessengerPageState extends State<MessengerPage>
       height: 32,
       decoration: BoxDecoration(
         color: isLight ? Colors.black : Colors.white,
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
       ),
       child: Center(
         child: Text(
@@ -4612,14 +4614,14 @@ class _MessengerPageState extends State<MessengerPage>
         height: 40,
         decoration: BoxDecoration(
           color: isLight ? Colors.black : Colors.white,
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
         ),
         child: Center(
           child: Text(
             letter,
             style: TextStyle(
               color: isLight ? Colors.white : Colors.black,
-              fontSize: 16,
+              fontSize: DesktopOptimizedWidgets.getFontSize(),
               fontWeight: FontWeight.w600,
               letterSpacing: -0.5,
             ),
@@ -4641,14 +4643,14 @@ class _MessengerPageState extends State<MessengerPage>
       height: 40,
       decoration: BoxDecoration(
         color: isLight ? Colors.black : Colors.white,
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
       ),
       child: Center(
         child: Text(
           userName.isNotEmpty ? userName[0].toUpperCase() : 'U',
           style: TextStyle(
             color: isLight ? Colors.white : Colors.black,
-            fontSize: 16,
+            fontSize: DesktopOptimizedWidgets.getFontSize(),
             fontWeight: FontWeight.w600,
             letterSpacing: -0.5,
           ),
@@ -4927,7 +4929,7 @@ class _MessengerPageState extends State<MessengerPage>
                   ],
                 ),
 
-                const SizedBox(height: 24),
+                const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
                 // Content
                 Text(
@@ -4940,7 +4942,7 @@ class _MessengerPageState extends State<MessengerPage>
                   ),
                 ),
 
-                const SizedBox(height: 24),
+                const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
                 // Buttons Row - Trade Republic Style
                 Row(
@@ -5157,14 +5159,14 @@ class _CullyAiChatPageState extends State<_CullyAiChatPage>
           Text(
             AppLocalizations.of(context)?.thisActionCannotBeUndone ?? AppLocalizations.of(context)!.tr('This action cannot be undone.'),
             style: TextStyle(
-              fontSize: 14,
+              fontSize: DesktopOptimizedWidgets.getFontSize(),
               height: 1.4,
               color: (widget.isLight ? Colors.black : Colors.white).withOpacity(
                 0.7,
               ),
             ),
           ),
-          const SizedBox(height: 24),
+          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
           TradeRepublicButton(
             label: AppLocalizations.of(context)?.delete ?? AppLocalizations.of(context)!.tr('Delete'),
             onPressed: () async {
@@ -5420,7 +5422,7 @@ class _CullyAiChatPageState extends State<_CullyAiChatPage>
           ),
           const SizedBox(width: 12),
           ClipRRect(
-            borderRadius: BorderRadius.circular(20),
+            borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
             child: Image.asset(
               isLight ? 'logo/cully_light.png' : 'logo/cully_dark.png',
               width: isDesktop ? 44 : 40,
@@ -5938,7 +5940,7 @@ class _AnimatedWelcomeState extends State<_AnimatedWelcome>
                 ),
               ),
             ),
-            const SizedBox(height: 8),
+            const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
             FadeTransition(
               opacity: _fades[2],
               child: SlideTransition(

@@ -44,6 +44,8 @@ import '../../../utils/wagon_catalog.dart';
 import '../../../shared/constants/wagon_types.dart';
 import '../../../shared/widgets/trade_republic_tap.dart';
 import '../../../shared/widgets/credit_card_widget.dart';
+import 'package:cultioo_business/shared/widgets/desktop_app_wrapper.dart';
+import 'package:cultioo_business/shared/widgets/desktop_optimized_widgets.dart';
 
 // Smart number formatter for cargo/payload capacity that uses AppSettings
 class GermanNumberFormatter extends TextInputFormatter {
@@ -835,7 +837,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
           color: isLight
               ? Colors.transparent
               : Colors.black,
-          borderRadius: BorderRadius.circular(16),
+          borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius()),
         ),
         child: Row(
           children: [
@@ -1047,7 +1049,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                     color: light ? Colors.black : Colors.white, letterSpacing: -0.4),
               ),
             ]),
-            const SizedBox(height: 8),
+            const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
             Text(
               AppLocalizations.of(ctx)?.confirmPayoutDetailsDesc ?? 'Confirm your payout details',
               style: TextStyle(fontSize: 15,
@@ -1055,20 +1057,20 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
             ),
             const SizedBox(height: 28),
             Container(
-              padding: const EdgeInsets.all(20),
+              padding: DesktopAppWrapper.getPagePadding(),
               decoration: BoxDecoration(
                 color: (light ? Colors.black : Colors.white).withOpacity(0.04),
-                borderRadius: BorderRadius.circular(20),
+                borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
               ),
               child: Column(children: [
                 Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
                   Text(
                     AppLocalizations.of(ctx)?.availableBalance ?? 'Available Balance',
-                    style: TextStyle(fontSize: 14,
+                    style: TextStyle(fontSize: DesktopOptimizedWidgets.getFontSize(),
                         color: (light ? Colors.black : Colors.white).withOpacity(0.6)),
                   ),
                   Text('${AppSettings().currencySymbol}${pendingPayout.toStringAsFixed(2)}',
-                      style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600,
+                      style: TextStyle(fontSize: DesktopOptimizedWidgets.getFontSize(), fontWeight: FontWeight.w600,
                           color: light ? Colors.black : Colors.white)),
                 ]),
                 const SizedBox(height: 10),
@@ -1077,11 +1079,11 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                 Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
                   Text(
                     AppLocalizations.of(ctx)?.youWillReceiveLabel ?? 'You will receive',
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700,
+                    style: TextStyle(fontSize: DesktopOptimizedWidgets.getFontSize(), fontWeight: FontWeight.w700,
                         color: light ? Colors.black : Colors.white),
                   ),
                   Text('${AppSettings().currencySymbol}${pendingPayout.toStringAsFixed(2)}',
-                      style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w700,
+                      style: const TextStyle(fontSize: DesktopOptimizedWidgets.getFontSize(), fontWeight: FontWeight.w700,
                           color: Color(0xFF34C759))),
                 ]),
               ]),
@@ -1090,7 +1092,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
             Text(
               AppLocalizations.of(ctx)?.fundsTransferredImmediately ??
                   'Funds will be transferred to your bank account immediately.',
-              style: TextStyle(fontSize: 14,
+              style: TextStyle(fontSize: DesktopOptimizedWidgets.getFontSize(),
                   color: (light ? Colors.black : Colors.white).withOpacity(0.5)),
             ),
             const SizedBox(height: 28),
@@ -1100,7 +1102,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
               height: 50,
               onPressed: () { HapticFeedback.lightImpact(); Navigator.of(ctx).pop(true); },
             ),
-            const SizedBox(height: 12),
+            const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
             TradeRepublicButton(
               label: AppLocalizations.of(ctx)?.cancel ?? 'Cancel',
               isSecondary: true,
@@ -1123,12 +1125,12 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
       child: Column(mainAxisSize: MainAxisSize.min, children: [
         const DragHandle(),
         const CultiooLoadingIndicator(size: 20),
-        const SizedBox(height: 8),
+        const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
         Text(
           AppLocalizations.of(context)?.processingInstantPayoutMsg ?? 'Processing instant payout...',
           style: TextStyle(
             color: isLight ? Colors.black : Colors.white,
-            fontSize: 16,
+            fontSize: DesktopOptimizedWidgets.getFontSize(),
             fontWeight: FontWeight.w600,
           ),
         ),
@@ -1440,7 +1442,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                 AppLocalizations.of(context)?.unableToLoadAccountData ?? AppLocalizations.of(context)!.tr('Unable to load account data'),
                 style: TextStyle(
                   color: isLight ? Colors.black : Colors.white,
-                  fontSize: 16,
+                  fontSize: DesktopOptimizedWidgets.getFontSize(),
                 ),
               ),
             )
@@ -1536,7 +1538,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                     child: _buildAppSettingsSection(isLight),
                   ),
 
-                  const SizedBox(height: 24),
+                  const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
                   // 11. Sign Out Button - at the very bottom
                   _buildAnimatedSection(
@@ -1553,7 +1555,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                     ),
                   ),
 
-                  const SizedBox(height: 24),
+                  const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
                 ],
               ),
             ),
@@ -1723,7 +1725,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                   label: AppLocalizations.of(context)?.leave ?? AppLocalizations.of(context)!.tr('Leave'),
                   isDestructive: true,
                   height: 36,
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  padding: EdgeInsets.symmetric(horizontal: DesktopAppWrapper.getHorizontalPadding()),
                   onPressed: () {
                     HapticFeedback.lightImpact();
                     _showLeaveGroupConfirmation(context, isLight);
@@ -1741,7 +1743,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
             padding: const EdgeInsets.symmetric(vertical: 48, horizontal: 24),
             decoration: BoxDecoration(
               color: isLight ? Colors.white : Colors.black,
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
             ),
             child: Column(
               children: [
@@ -1752,7 +1754,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                     0.3,
                   ),
                 ),
-                const SizedBox(height: 16),
+                const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
                 Text(
                   AppLocalizations.of(context)?.noGroup ?? AppLocalizations.of(context)!.tr('No Group'),
                   style: TextStyle(
@@ -1775,7 +1777,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
             ),
           ),
         ],
-        const SizedBox(height: 24),
+        const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
       ],
     );
   }
@@ -1803,7 +1805,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                 color: enabled
                     ? (isLight ? Colors.black : Colors.white)
                     : (isLight ? Colors.white : Colors.black),
-                borderRadius: BorderRadius.circular(20),
+                borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
               ),
               child: Icon(
                 icon,
@@ -1821,7 +1823,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                   Text(
                     title,
                     style: TextStyle(
-                      fontSize: 16,
+                      fontSize: DesktopOptimizedWidgets.getFontSize(),
                       fontWeight: FontWeight.w500,
                       color: enabled
                           ? (isLight ? Colors.black : Colors.white)
@@ -1858,10 +1860,10 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
       margin: const EdgeInsets.only(bottom: 8),
       decoration: BoxDecoration(
         color: isLight ? Colors.white : Colors.black,
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
       ),
       child: Padding(
-        padding: const EdgeInsets.all(16),
+        padding: DesktopAppWrapper.getPagePadding(),
         child: Row(
           children: [
             // Group Image - minimal
@@ -1870,10 +1872,10 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
               height: 48,
               decoration: BoxDecoration(
                 color: isLight ? Colors.white : Colors.black,
-                borderRadius: BorderRadius.circular(20),
+                borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
               ),
               child: ClipRRect(
-                borderRadius: BorderRadius.circular(20),
+                borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                 child: group['groupImage'] != null
                     ? Image.network(
                         ApiConfig.getImageUrl(group['groupImage']),
@@ -1909,7 +1911,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                           group['name'] ??
                               AppLocalizations.of(context)?.unknownGroup ?? AppLocalizations.of(context)!.tr('Unknown Group'),
                           style: TextStyle(
-                            fontSize: 16,
+                            fontSize: DesktopOptimizedWidgets.getFontSize(),
                             fontWeight: FontWeight.w600,
                             color: isLight ? Colors.black : Colors.white,
                           ),
@@ -1925,7 +1927,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                           ),
                           decoration: BoxDecoration(
                             color: isLight ? Colors.black : Colors.white,
-                            borderRadius: BorderRadius.circular(20),
+                            borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                           ),
                           child: Text(
                             AppLocalizations.of(context)?.hostLabel ?? AppLocalizations.of(context)!.tr('HOST'),
@@ -2066,7 +2068,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
           ),
         ),
 
-        const SizedBox(height: 16),
+        const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
         // Driver Name
         Text(
@@ -2084,14 +2086,14 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
         Text(
           userData?['email'] ?? AppLocalizations.of(context)!.tr(''),
           style: TextStyle(
-            fontSize: 14,
+            fontSize: DesktopOptimizedWidgets.getFontSize(),
             fontWeight: FontWeight.w400,
             color: (isLight ? Colors.black : Colors.white).withOpacity(0.5),
           ),
           textAlign: TextAlign.center,
         ),
 
-        const SizedBox(height: 16),
+        const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
         // Edit Profile + Status row
         Row(
@@ -2102,7 +2104,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
               padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
               decoration: BoxDecoration(
                 color: Colors.green.withOpacity(0.1),
-                borderRadius: BorderRadius.circular(20),
+                borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
               ),
               child: Row(
                 mainAxisSize: MainAxisSize.min,
@@ -2142,7 +2144,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
           ],
         ),
 
-        const SizedBox(height: 24),
+        const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
       ],
     );
   }
@@ -2152,7 +2154,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
       decoration: BoxDecoration(
         color: Colors.green.withOpacity(0.1),
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
@@ -2366,7 +2368,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
           padding: const EdgeInsets.only(bottom: 12, top: 28, left: 4),
         ),
         TradeRepublicCard(
-          padding: const EdgeInsets.all(16),
+          padding: DesktopAppWrapper.getPagePadding(),
           backgroundColor: isLight ? Colors.white : Colors.black,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -2375,11 +2377,11 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
               if (isInGroup) ...[
                 Container(
                   width: double.infinity,
-                  padding: const EdgeInsets.all(16),
+                  padding: DesktopAppWrapper.getPagePadding(),
                   margin: const EdgeInsets.only(bottom: 14),
                   decoration: BoxDecoration(
                     color: isLight ? Colors.white : Colors.black,
-                    borderRadius: BorderRadius.circular(20),
+                    borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                   ),
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -2388,7 +2390,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                         padding: const EdgeInsets.all(8),
                         decoration: BoxDecoration(
                           color: isLight ? Colors.black : Colors.white,
-                          borderRadius: BorderRadius.circular(20),
+                          borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                         ),
                         child: Icon(
                           isHost
@@ -2448,7 +2450,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                   ),
                 ],
               ),
-              const SizedBox(height: 12),
+              const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
               Row(
                 children: [
                   Expanded(
@@ -2474,7 +2476,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                   ),
                 ],
               ),
-              const SizedBox(height: 16),
+              const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
               // Next Payout Info
               Container(
@@ -2482,7 +2484,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                 padding: const EdgeInsets.all(18),
                 decoration: BoxDecoration(
                   color: isLight ? Colors.white : Colors.black,
-                  borderRadius: BorderRadius.circular(20),
+                  borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                 ),
                 child: Row(
                   children: [
@@ -2526,7 +2528,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
         // WAITING CHARGE CREDITS 
         // ═══════════════════════════════════════════
         if (waitingChargeCredits.isNotEmpty) ...[
-          const SizedBox(height: 24),
+          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
           Padding(
             padding: const EdgeInsets.only(left: 4),
             child: Row(
@@ -2563,14 +2565,14 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
               ),
             ),
           ),
-          const SizedBox(height: 12),
+          const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
           // Total credits summary
           Container(
-            padding: const EdgeInsets.all(16),
+            padding: DesktopAppWrapper.getPagePadding(),
             decoration: BoxDecoration(
               color: Colors.green.shade50.withOpacity(isLight ? 1.0 : 0.1),
-              borderRadius: BorderRadius.circular(16),
+              borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius()),
             ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -2578,7 +2580,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                 Text(
                   AppLocalizations.of(context)?.totalReceived ?? AppLocalizations.of(context)!.tr('Total received'),
                   style: TextStyle(
-                    fontSize: 16,
+                    fontSize: DesktopOptimizedWidgets.getFontSize(),
                     fontWeight: FontWeight.w500,
                     color: isLight ? Colors.black87 : Colors.white70,
                   ),
@@ -2586,7 +2588,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                 Text(
                   '+${appSettings.formatCurrency(waitingChargeCredits.fold<double>(0.0, (sum, c) => sum + ((c['total_charges'] ?? 0.0) as num).toDouble()))}',
                   style: TextStyle(
-                    fontSize: 20,
+                    fontSize: DesktopOptimizedWidgets.getFontSize() + 6,
                     fontWeight: FontWeight.w700,
                     color: Colors.green,
                     letterSpacing: -0.5,
@@ -2595,7 +2597,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
               ],
             ),
           ),
-          const SizedBox(height: 12),
+          const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
           // Individual credit entries
           ...waitingChargeCredits.map((charge) {
@@ -2617,10 +2619,10 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
               onTap: () => _showWaitingChargeInvoice(charge, isLight, appSettings),
               child: Container(
               margin: const EdgeInsets.only(bottom: 10),
-              padding: const EdgeInsets.all(16),
+              padding: DesktopAppWrapper.getPagePadding(),
               decoration: BoxDecoration(
                 color: isLight ? Colors.white : Colors.black,
-                borderRadius: BorderRadius.circular(16),
+                borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius()),
               ),
               child: Row(
                 children: [
@@ -2648,7 +2650,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                         Text(
                           '${AppLocalizations.of(context)?.orderNumber ?? AppLocalizations.of(context)!.tr('Order #')}$orderId',
                           style: TextStyle(
-                            fontSize: 16,
+                            fontSize: DesktopOptimizedWidgets.getFontSize(),
                             fontWeight: FontWeight.w600,
                             color: isLight ? Colors.black : Colors.white,
                             letterSpacing: -0.3,
@@ -2685,7 +2687,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                       Text(
                         '+${appSettings.formatCurrency(totalCharges)}',
                         style: TextStyle(
-                          fontSize: 18,
+                          fontSize: DesktopOptimizedWidgets.getFontSize() + 4,
                           fontWeight: FontWeight.w700,
                           color: Colors.green,
                           letterSpacing: -0.3,
@@ -2742,14 +2744,14 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const DragHandle(),
-                const SizedBox(height: 8),
+                const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                 Row(
                   children: [
                     Container(
                       padding: const EdgeInsets.all(10),
                       decoration: BoxDecoration(
                         color: Colors.green.withOpacity(0.12),
-                        borderRadius: BorderRadius.circular(12),
+                        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius()),
                       ),
                       child: const Icon(CupertinoIcons.doc_text_fill, color: Colors.green, size: 24),
                     ),
@@ -2760,7 +2762,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                         children: [
                           Text(
                             AppLocalizations.of(context)?.tr('Waiting Charges Receipt') ?? 'Waiting Charges Receipt',
-                            style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w700),
+                            style: const TextStyle(fontSize: DesktopOptimizedWidgets.getFontSize() + 4, fontWeight: FontWeight.w700),
                           ),
                           Text(
                             '${AppLocalizations.of(context)?.orderNumber ?? 'Order #'}$orderId',
@@ -2773,7 +2775,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                       decoration: BoxDecoration(
                         color: paid ? Colors.green : Colors.orange,
-                        borderRadius: BorderRadius.circular(20),
+                        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                       ),
                       child: Text(
                         paid ? (AppLocalizations.of(context)?.tr('Paid') ?? 'Paid') : (AppLocalizations.of(context)?.tr('Pending') ?? 'Pending'),
@@ -2782,7 +2784,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                     ),
                   ],
                 ),
-                const SizedBox(height: 24),
+                const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
                 _buildDriverInvoiceRow(isLight, AppLocalizations.of(context)?.tr('Date') ?? 'Date',
                   orderDate != null ? '${orderDate.day.toString().padLeft(2,'0')}.${orderDate.month.toString().padLeft(2,'0')}.${orderDate.year}' : '—'),
                 _buildDriverInvoiceRow(isLight, AppLocalizations.of(context)?.tr('Seller') ?? 'Seller', sellerName),
@@ -2802,7 +2804,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                         style: const TextStyle(fontSize: 22, fontWeight: FontWeight.w800, color: Colors.green)),
                   ],
                 ),
-                const SizedBox(height: 8),
+                const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                 Text(
                   AppLocalizations.of(context)?.tr('This amount was transferred to you for waiting beyond the free waiting time.') ?? 'This amount was transferred to you for waiting beyond the free waiting time.',
                   style: TextStyle(fontSize: 12, color: (isLight ? Colors.black : Colors.white).withOpacity(0.38), height: 1.4),
@@ -2840,13 +2842,13 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
       padding: const EdgeInsets.all(18),
       decoration: BoxDecoration(
         color: isLight ? Colors.white : Colors.black,
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Icon(icon, color: isLight ? Colors.black : Colors.white, size: 22),
-          const SizedBox(height: 12),
+          const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
           Text(
             subtitle,
             style: TextStyle(
@@ -2858,7 +2860,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
           Text(
             amount,
             style: TextStyle(
-              fontSize: 24,
+              fontSize: DesktopOptimizedWidgets.getFontSize() + 10,
               fontWeight: FontWeight.w700,
               color: isLight ? Colors.black : Colors.white,
             ),
@@ -3045,7 +3047,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                       // ═══════════════════════════════════════════
                       // BALANCE SECTION - Hero Element
                       // ═══════════════════════════════════════════
-                      const SizedBox(height: 24),
+                      const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
                       // Balance label
                       Center(
@@ -3059,7 +3061,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                           ),
                         ),
                       ),
-                      const SizedBox(height: 8),
+                      const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
                       // Big Balance Number - centered
                       Center(
@@ -3081,7 +3083,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                         ),
                       ),
 
-                      const SizedBox(height: 24),
+                      const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
                       // Stats Row - pill style
                       Wrap(
@@ -3094,7 +3096,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                             decoration: BoxDecoration(
                               color: (isLight ? Colors.black : Colors.white)
                                   .withOpacity(0.05),
-                              borderRadius: BorderRadius.circular(20),
+                              borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                             ),
                             child: Row(
                               mainAxisSize: MainAxisSize.min,
@@ -3112,7 +3114,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                                     ),
                                   ),
                                   style: TextStyle(
-                                    fontSize: 14,
+                                    fontSize: DesktopOptimizedWidgets.getFontSize(),
                                     fontWeight: FontWeight.w600,
                                     color: isLight ? Colors.black : Colors.white,
                                   ),
@@ -3120,7 +3122,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                                 Text(
                                   ' ${AppLocalizations.of(context)?.totalEarnings ?? AppLocalizations.of(context)!.tr('total')}',
                                   style: TextStyle(
-                                    fontSize: 14,
+                                    fontSize: DesktopOptimizedWidgets.getFontSize(),
                                     fontWeight: FontWeight.w400,
                                     color: (isLight ? Colors.black : Colors.white)
                                         .withOpacity(0.4),
@@ -3134,7 +3136,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                             decoration: BoxDecoration(
                               color: (isLight ? Colors.black : Colors.white)
                                   .withOpacity(0.05),
-                              borderRadius: BorderRadius.circular(20),
+                              borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                             ),
                             child: Row(
                               mainAxisSize: MainAxisSize.min,
@@ -3149,7 +3151,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                                 Text(
                                   '${userData?['totalDeliveries'] ?? 0}',
                                   style: TextStyle(
-                                    fontSize: 14,
+                                    fontSize: DesktopOptimizedWidgets.getFontSize(),
                                     fontWeight: FontWeight.w600,
                                     color: isLight ? Colors.black : Colors.white,
                                   ),
@@ -3157,7 +3159,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                                 Text(
                                   ' ${AppLocalizations.of(context)?.deliveries ?? AppLocalizations.of(context)!.tr('deliveries')}',
                                   style: TextStyle(
-                                    fontSize: 14,
+                                    fontSize: DesktopOptimizedWidgets.getFontSize(),
                                     fontWeight: FontWeight.w400,
                                     color: (isLight ? Colors.black : Colors.white)
                                         .withOpacity(0.4),
@@ -3178,7 +3180,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                         Text(
                           AppLocalizations.of(context)?.groupMembers ?? AppLocalizations.of(context)!.tr('Group Members'),
                           style: TextStyle(
-                            fontSize: 20,
+                            fontSize: DesktopOptimizedWidgets.getFontSize() + 6,
                             fontWeight: FontWeight.w700,
                             color: isLight ? Colors.black : Colors.white,
                             letterSpacing: -0.3,
@@ -3188,20 +3190,20 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                         Text(
                           '${(userData!['groupAggregation']['memberCount'] ?? 1) - 1} members in your group',
                           style: TextStyle(
-                            fontSize: 14,
+                            fontSize: DesktopOptimizedWidgets.getFontSize(),
                             fontWeight: FontWeight.w400,
                             color: (isLight ? Colors.black : Colors.white)
                                 .withOpacity(0.4),
                           ),
                         ),
-                        const SizedBox(height: 12),
+                        const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                         Container(
                           width: double.infinity,
-                          padding: const EdgeInsets.all(16),
+                          padding: DesktopAppWrapper.getPagePadding(),
                           decoration: BoxDecoration(
                             color: (isLight ? Colors.black : Colors.white)
                                 .withOpacity(0.05),
-                            borderRadius: BorderRadius.circular(16),
+                            borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius()),
                           ),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -3242,22 +3244,22 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                       Text(
                         AppLocalizations.of(context)?.payoutSchedule ?? AppLocalizations.of(context)!.tr('Payout Schedule'),
                         style: TextStyle(
-                          fontSize: 20,
+                          fontSize: DesktopOptimizedWidgets.getFontSize() + 6,
                           fontWeight: FontWeight.w700,
                           color: isLight ? Colors.black : Colors.white,
                           letterSpacing: -0.3,
                         ),
                       ),
-                      const SizedBox(height: 12),
+                      const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
                       // Payout Info Card - clean
                       Container(
                         width: double.infinity,
-                        padding: const EdgeInsets.all(16),
+                        padding: DesktopAppWrapper.getPagePadding(),
                         decoration: BoxDecoration(
                           color: (isLight ? Colors.black : Colors.white)
                               .withOpacity(0.05),
-                          borderRadius: BorderRadius.circular(16),
+                          borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius()),
                         ),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -3285,7 +3287,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                                 ),
                               ],
                             ),
-                            const SizedBox(height: 8),
+                            const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                             Text(
                               AppLocalizations.of(context)?.automaticMonthlyPayout ?? AppLocalizations.of(context)!.tr('Automatic monthly payout on the 1st'),
                               style: TextStyle(
@@ -3309,7 +3311,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                         ),
                       ),
 
-                      const SizedBox(height: 16),
+                      const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
                       // Instant Payout Button
                       TradeRepublicButton(
@@ -3327,7 +3329,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                       Text(
                         AppLocalizations.of(context)?.bankAccount ?? AppLocalizations.of(context)!.tr('Bank Account'),
                         style: TextStyle(
-                          fontSize: 20,
+                          fontSize: DesktopOptimizedWidgets.getFontSize() + 6,
                           fontWeight: FontWeight.w700,
                           color: isLight ? Colors.black : Colors.white,
                           letterSpacing: -0.3,
@@ -3339,13 +3341,13 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                               context,
                             )?.yourConnectedPaymentMethod ?? AppLocalizations.of(context)!.tr('Your connected payment method'),
                         style: TextStyle(
-                          fontSize: 14,
+                          fontSize: DesktopOptimizedWidgets.getFontSize(),
                           fontWeight: FontWeight.w400,
                           color: (isLight ? Colors.black : Colors.white)
                               .withOpacity(0.4),
                         ),
                       ),
-                      const SizedBox(height: 16),
+                      const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
                       // Existing payment info (if available) - Modern Bank Card Design
                       // Check multiple sources for payment data
@@ -3466,7 +3468,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                           AppLocalizations.of(context)?.payoutHistory ?? AppLocalizations.of(context)!.tr('Payout History'),
                           textAlign: TextAlign.center,
                           style: TextStyle(
-                            fontSize: 20,
+                            fontSize: DesktopOptimizedWidgets.getFontSize() + 6,
                             fontWeight: FontWeight.w700,
                             color: isLight ? Colors.black : Colors.white,
                             letterSpacing: -0.3,
@@ -3480,14 +3482,14 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                           AppLocalizations.of(context)?.yourPastPayouts ?? AppLocalizations.of(context)!.tr('Your past payouts'),
                           textAlign: TextAlign.center,
                           style: TextStyle(
-                            fontSize: 14,
+                            fontSize: DesktopOptimizedWidgets.getFontSize(),
                             fontWeight: FontWeight.w400,
                             color: (isLight ? Colors.black : Colors.white)
                                 .withOpacity(0.4),
                           ),
                         ),
                       ),
-                      const SizedBox(height: 12),
+                      const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
                       // Payout History List - Trade Republic Style
                       FutureBuilder<List<Map<String, dynamic>>>(
@@ -3501,7 +3503,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                                 color: isLight
                                     ? Colors.transparent
                                     : Colors.black,
-                                borderRadius: BorderRadius.circular(16),
+                                borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius()),
                               ),
                               child: Center(
                                 child: CultiooLoadingIndicator(size: 24),
@@ -3519,7 +3521,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                                 color: isLight
                                     ? Colors.transparent
                                     : Colors.black,
-                                borderRadius: BorderRadius.circular(16),
+                                borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius()),
                               ),
                               child: Text(
                                 AppLocalizations.of(
@@ -3540,7 +3542,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                               child: Column(
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
-                                  const SizedBox(height: 24),
+                                  const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
                                   Container(
                                     width: 56,
                                     height: 56,
@@ -3561,7 +3563,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                                     AppLocalizations.of(context)?.noPayoutHistoryYet ?? AppLocalizations.of(context)!.tr('No payout history yet'),
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
-                                      fontSize: 16,
+                                      fontSize: DesktopOptimizedWidgets.getFontSize(),
                                       fontWeight: FontWeight.w600,
                                       color: (isLight ? Colors.black : Colors.white)
                                           .withOpacity(0.7),
@@ -3572,13 +3574,13 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                                     AppLocalizations.of(context)?.yourPayoutsWillAppearHere ?? AppLocalizations.of(context)!.tr('Your payouts will appear here'),
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
-                                      fontSize: 14,
+                                      fontSize: DesktopOptimizedWidgets.getFontSize(),
                                       fontWeight: FontWeight.w400,
                                       color: (isLight ? Colors.black : Colors.white)
                                           .withOpacity(0.4),
                                     ),
                                   ),
-                                  const SizedBox(height: 24),
+                                  const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
                                 ],
                               ),
                             );
@@ -3781,7 +3783,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
             ],
           ),
 
-          const SizedBox(height: 24),
+          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
             // Description
             Text(
@@ -3829,7 +3831,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
               width: double.infinity,
             ),
 
-            const SizedBox(height: 12),
+            const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
             // Cancel Button
             TradeRepublicButton(
@@ -3839,7 +3841,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
               width: double.infinity,
             ),
 
-            const SizedBox(height: 16),
+            const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
           ],
         ),
     );
@@ -4153,7 +4155,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
             ],
           ),
 
-          const SizedBox(height: 24),
+          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
           // Description
           Text(
@@ -4185,7 +4187,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
             width: double.infinity,
           ),
 
-          const SizedBox(height: 12),
+          const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
           // Secondary cancel button
           TradeRepublicButton(
@@ -4380,7 +4382,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                           height: 52,
                           decoration: BoxDecoration(
                             color: isLight ? Colors.black : Colors.white,
-                            borderRadius: BorderRadius.circular(20),
+                            borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                           ),
                           child: Center(
                             child: Icon(
@@ -4400,7 +4402,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                               Text(
                                 groupName,
                                 style: TextStyle(
-                                  fontSize: 24,
+                                  fontSize: DesktopOptimizedWidgets.getFontSize() + 10,
                                   fontWeight: FontWeight.w700,
                                   color: isLight ? Colors.black : Colors.white,
                                   letterSpacing: -0.5,
@@ -4465,7 +4467,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                                       color: isLight
                                           ? Colors.black.withOpacity(0.05)
                                           : Colors.white.withOpacity(0.1),
-                                      borderRadius: BorderRadius.circular(20),
+                                      borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                                     ),
                                     child: Icon(
                                       CupertinoIcons.chat_bubble,
@@ -4475,13 +4477,13 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                                           : Colors.white.withOpacity(0.4),
                                     ),
                                   ),
-                                  const SizedBox(height: 24),
+                                  const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
                                   Text(
                                     AppLocalizations.of(
                                           context,
                                         )?.noMessagesYet ?? AppLocalizations.of(context)!.tr('No Messages Yet'),
                                     style: TextStyle(
-                                      fontSize: 24,
+                                      fontSize: DesktopOptimizedWidgets.getFontSize() + 10,
                                       fontWeight: FontWeight.w700,
                                       color: isLight
                                           ? Colors.black
@@ -4489,13 +4491,13 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                                       letterSpacing: -0.5,
                                     ),
                                   ),
-                                  const SizedBox(height: 8),
+                                  const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                                   Text(
                                     AppLocalizations.of(
                                           context,
                                         )?.sendFirstMessage ?? AppLocalizations.of(context)!.tr('Send the first message to\\\\nstart the conversation'),
                                     style: TextStyle(
-                                      fontSize: 16,
+                                      fontSize: DesktopOptimizedWidgets.getFontSize(),
                                       color: isLight
                                           ? Colors.black.withOpacity(0.5)
                                           : Colors.white.withOpacity(0.5),
@@ -4565,7 +4567,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                                                         color: isLight
                                                             ? Colors.white
                                                             : Colors.black,
-                                                        fontSize: 14,
+                                                        fontSize: DesktopOptimizedWidgets.getFontSize(),
                                                         fontWeight:
                                                             FontWeight.w600,
                                                       ),
@@ -4629,12 +4631,12 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                                                           ? Colors.white
                                                           : Colors.black),
                                                 borderRadius:
-                                                    BorderRadius.circular(20),
+                                                    BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                                               ),
                                               child: Text(
                                                 message['text'] ?? AppLocalizations.of(context)!.tr(''),
                                                 style: TextStyle(
-                                                  fontSize: 16,
+                                                  fontSize: DesktopOptimizedWidgets.getFontSize(),
                                                   color: isMe
                                                       ? (isLight
                                                             ? Colors.white
@@ -4699,12 +4701,12 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                         minHeight: 48,
                         maxHeight: 120,
                       ),
-                      padding: const EdgeInsets.all(16),
+                      padding: DesktopAppWrapper.getPagePadding(),
                       decoration: BoxDecoration(
                         color: isLight
                             ? Colors.black.withOpacity(0.05)
                             : Colors.white.withOpacity(0.1),
-                        borderRadius: BorderRadius.circular(20),
+                        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                       ),
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
@@ -4718,7 +4720,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                                   AppLocalizations.of(context)?.message ?? AppLocalizations.of(context)!.tr('Message'),
                               style: TextStyle(
                                 color: isLight ? Colors.black : Colors.white,
-                                fontSize: 16,
+                                fontSize: DesktopOptimizedWidgets.getFontSize(),
                               ),
                               maxLines: 5,
                               minLines: 1,
@@ -4813,7 +4815,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                                 height: 36,
                                 decoration: BoxDecoration(
                                   color: isLight ? Colors.black : Colors.white,
-                                  borderRadius: BorderRadius.circular(20),
+                                  borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                                 ),
                                 child: Icon(
                                   CupertinoIcons.arrow_up,
@@ -4923,15 +4925,15 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
 
             decoration: BoxDecoration(
               color: (isLight ? Colors.black : Colors.white).withOpacity(0.05),
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
             ),
             child: Row(
               children: [
                 Container(
-                  padding: const EdgeInsets.all(16),
+                  padding: DesktopAppWrapper.getPagePadding(),
                   decoration: BoxDecoration(
                     color: Colors.amber.withOpacity(0.15),
-                    borderRadius: BorderRadius.circular(20),
+                    borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                   ),
                   child: Column(
                     children: [
@@ -4968,7 +4970,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                         AppLocalizations.of(context)?.averageRating ?? AppLocalizations.of(context)!.tr('Average Rating'),
                         style: TextStyle(
                           color: isLight ? Colors.black : Colors.white,
-                          fontSize: 18,
+                          fontSize: DesktopOptimizedWidgets.getFontSize() + 4,
                           fontWeight: FontWeight.w700,
                         ),
                       ),
@@ -4978,7 +4980,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                         style: TextStyle(
                           color: (isLight ? Colors.black : Colors.white)
                               .withOpacity(0.6),
-                          fontSize: 14,
+                          fontSize: DesktopOptimizedWidgets.getFontSize(),
                         ),
                       ),
                     ],
@@ -5061,7 +5063,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                             color: (isLight ? Colors.black : Colors.white)
                                 .withOpacity(0.3),
                           ),
-                          const SizedBox(height: 16),
+                          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
                           Text(
                             AppLocalizations.of(context)?.noReviewsYet ?? AppLocalizations.of(context)!.tr('No reviews yet'),
                             style: TextStyle(
@@ -5070,7 +5072,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                               color: isLight ? Colors.black : Colors.white,
                             ),
                           ),
-                          const SizedBox(height: 8),
+                          const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                           Text(
                             AppLocalizations.of(
                                   context,
@@ -5159,10 +5161,10 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
 
     return Container(
       margin: const EdgeInsets.only(bottom: 12),
-      padding: const EdgeInsets.all(16),
+      padding: DesktopAppWrapper.getPagePadding(),
       decoration: BoxDecoration(
         color: (isLight ? Colors.black : Colors.white).withOpacity(0.05),
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -5175,7 +5177,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                   color: (isLight ? Colors.black : Colors.white).withOpacity(
                     0.05,
                   ),
-                  borderRadius: BorderRadius.circular(20),
+                  borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                 ),
                 child: Icon(
                   CupertinoIcons.person_fill,
@@ -5283,11 +5285,11 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                     Row(
                       children: [
                         Container(
-                          padding: const EdgeInsets.all(16),
+                          padding: DesktopAppWrapper.getPagePadding(),
                           decoration: BoxDecoration(
                             color: (isLight ? Colors.black : Colors.white)
                                 .withOpacity(0.05),
-                            borderRadius: BorderRadius.circular(20),
+                            borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                           ),
                           child: Icon(
                             CupertinoIcons.text_bubble,
@@ -5336,7 +5338,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                       decoration: BoxDecoration(
                         color: (isLight ? Colors.black : Colors.white)
                             .withOpacity(0.05),
-                        borderRadius: BorderRadius.circular(20),
+                        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                       ),
                       child: Column(
                         children: [
@@ -5348,7 +5350,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                               fontWeight: FontWeight.w700,
                             ),
                           ),
-                          const SizedBox(height: 8),
+                          const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: List.generate(5, (index) {
@@ -5370,7 +5372,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                       ),
                     ),
 
-                    const SizedBox(height: 24),
+                    const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
                     // Customer
                     Row(
@@ -5380,7 +5382,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                           decoration: BoxDecoration(
                             color: (isLight ? Colors.black : Colors.white)
                                 .withOpacity(0.1),
-                            borderRadius: BorderRadius.circular(20),
+                            borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                           ),
                           child: Icon(
                             CupertinoIcons.person_fill,
@@ -5401,15 +5403,15 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                     ),
 
                     if (comment.isNotEmpty) ...[
-                      const SizedBox(height: 24),
+                      const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
                       // Comment
                       Container(
-                        padding: const EdgeInsets.all(16),
+                        padding: DesktopAppWrapper.getPagePadding(),
                         decoration: BoxDecoration(
                           color: (isLight ? Colors.black : Colors.white)
                               .withOpacity(0.05),
-                          borderRadius: BorderRadius.circular(20),
+                          borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                         ),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -5439,7 +5441,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                                 ),
                               ],
                             ),
-                            const SizedBox(height: 12),
+                            const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                             Text(
                               comment,
                               style: TextStyle(
@@ -5505,7 +5507,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                       ],
                     ),
 
-                    const SizedBox(height: 24),
+                    const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
                     Expanded(
                       child: SingleChildScrollView(
@@ -5855,7 +5857,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                 ),
               ],
             ),
-            const SizedBox(height: 24),
+            const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 24),
               child: TradeRepublicTextField(
@@ -5871,14 +5873,14 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                 ),
                   suffixText: suffix,
                   suffixStyle: TextStyle(
-                    fontSize: 18,
+                    fontSize: DesktopOptimizedWidgets.getFontSize() + 4,
                     fontWeight: FontWeight.w500,
                     color: isLight ? Colors.black38 : Colors.white38,
                   ),
                 filled: false,
               ),
             ),
-            const SizedBox(height: 24),
+            const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 24),
               child: TradeRepublicButton(
@@ -6293,7 +6295,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
               ),
             ],
           ),
-          const SizedBox(height: 24),
+          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
           Column(
             children: options.entries.map((entry) {
@@ -6317,7 +6319,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                     color: isSelected
                         ? (isLight ? Colors.black : Colors.white)
                         : (isLight ? Colors.black : Colors.white).withOpacity(0.04),
-                    borderRadius: BorderRadius.circular(20),
+                    borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                   ),
                   child: Row(
                     children: [
@@ -6328,7 +6330,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                             Text(
                               displayName,
                               style: TextStyle(
-                                fontSize: 16,
+                                fontSize: DesktopOptimizedWidgets.getFontSize(),
                                 fontWeight: FontWeight.w600,
                                 color: isSelected
                                     ? (isLight ? Colors.white : Colors.black)
@@ -6365,7 +6367,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
             }).toList(),
           ),
 
-          const SizedBox(height: 8),
+          const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
           TradeRepublicButton(
             label: AppLocalizations.of(context)?.cancel ?? AppLocalizations.of(context)!.tr('Cancel'),
@@ -6373,7 +6375,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
             height: 50,
             onPressed: () => Navigator.pop(context),
           ),
-          const SizedBox(height: 24),
+          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
         ],
       ),
     );
@@ -6419,7 +6421,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
               ),
             ],
           ),
-          const SizedBox(height: 24),
+          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
           Column(
             children: options.map((opt) {
@@ -6441,7 +6443,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                     color: isSelected
                         ? (isLight ? Colors.black : Colors.white)
                         : (isLight ? Colors.black : Colors.white).withOpacity(0.04),
-                    borderRadius: BorderRadius.circular(20),
+                    borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                   ),
                   child: Row(
                     children: [
@@ -6452,7 +6454,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                             Text(
                               opt,
                               style: TextStyle(
-                                fontSize: 16,
+                                fontSize: DesktopOptimizedWidgets.getFontSize(),
                                 fontWeight: FontWeight.w600,
                                 color: isSelected
                                     ? (isLight ? Colors.white : Colors.black)
@@ -6489,7 +6491,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
             }).toList(),
           ),
 
-          const SizedBox(height: 8),
+          const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
           TradeRepublicButton(
             label: AppLocalizations.of(context)?.cancel ?? AppLocalizations.of(context)!.tr('Cancel'),
@@ -6499,7 +6501,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
               Navigator.pop(context);
             },
           ),
-          const SizedBox(height: 24),
+          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
         ],
       ),
     );
@@ -6551,7 +6553,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                 ),
               ],
             ),
-            const SizedBox(height: 24),
+            const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
             Expanded(
               child: SingleChildScrollView(
@@ -6643,7 +6645,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
               ),
             ),
 
-            const SizedBox(height: 8),
+            const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
             TradeRepublicButton(
               label: AppLocalizations.of(context)?.cancel ?? AppLocalizations.of(context)!.tr('Cancel'),
@@ -6651,7 +6653,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
               height: 50,
               onPressed: () => Navigator.pop(context),
             ),
-            const SizedBox(height: 24),
+            const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
           ],
         ),
       ),
@@ -6691,11 +6693,11 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
           color: isSelected
               ? (isLight ? Colors.black : Colors.white)
               : (isLight ? Colors.black : Colors.white).withOpacity(0.04),
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
         ),
         child: Row(
           children: [
-            Text(flag, style: const TextStyle(fontSize: 24)),
+            Text(flag, style: const TextStyle(fontSize: DesktopOptimizedWidgets.getFontSize() + 10,),
             const SizedBox(width: 14),
             Expanded(
               child: Column(
@@ -6704,7 +6706,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                   Text(
                     displayName,
                     style: TextStyle(
-                      fontSize: 16,
+                      fontSize: DesktopOptimizedWidgets.getFontSize(),
                       fontWeight: FontWeight.w600,
                       color: isSelected
                           ? (isLight ? Colors.white : Colors.black)
@@ -6911,7 +6913,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
               ),
             ],
           ),
-          const SizedBox(height: 24),
+          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
           Text(
             AppLocalizations.of(context)?.deleteNavigationSessionsConfirm ?? AppLocalizations.of(context)!.tr('This will delete all saved multi-order navigation sessions. This action cannot be undone.'),
             textAlign: TextAlign.center,
@@ -6928,14 +6930,14 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
             width: double.infinity,
             onPressed: () => Navigator.of(ctx).pop(true),
           ),
-          const SizedBox(height: 12),
+          const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
           TradeRepublicButton(
             label: AppLocalizations.of(context)?.cancel ?? AppLocalizations.of(context)!.tr('Cancel'),
             isSecondary: true,
             width: double.infinity,
             onPressed: () => Navigator.of(ctx).pop(false),
           ),
-          const SizedBox(height: 24),
+          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
         ],
       ),
     );
@@ -6987,7 +6989,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
             padding: const EdgeInsets.all(8),
             decoration: BoxDecoration(
               color: isLight ? Colors.white : Colors.black,
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
             ),
             child: Icon(
               icon,
@@ -7012,7 +7014,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                 Text(
                   value,
                   style: TextStyle(
-                    fontSize: 14,
+                    fontSize: DesktopOptimizedWidgets.getFontSize(),
                     fontWeight: FontWeight.w600,
                     color: isLight ? Colors.black : Colors.white,
                   ),
@@ -7069,7 +7071,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
           Text(
             label,
             style: TextStyle(
-              fontSize: 14,
+              fontSize: DesktopOptimizedWidgets.getFontSize(),
               color: isLight ? Colors.black : Colors.white,
               fontWeight: FontWeight.w500,
             ),
@@ -7077,7 +7079,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
           Text(
             value,
             style: TextStyle(
-              fontSize: 14,
+              fontSize: DesktopOptimizedWidgets.getFontSize(),
               fontWeight: FontWeight.w600,
               color: isLight ? Colors.black : Colors.white,
             ),
@@ -7145,13 +7147,13 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
             ],
           ),
 
-            const SizedBox(height: 24),
+            const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
             Text(
               AppLocalizations.of(context)?.removePaymentMethodConfirm ?? AppLocalizations.of(context)!.tr('Are you sure you want to remove this payment method? This action cannot be undone.'),
               textAlign: TextAlign.center,
               style: TextStyle(
-                fontSize: 16,
+                fontSize: DesktopOptimizedWidgets.getFontSize(),
                 color: (isLight ? Colors.black : Colors.white).withOpacity(0.6),
               ),
             ),
@@ -7169,7 +7171,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
               width: double.infinity,
             ),
 
-            const SizedBox(height: 8),
+            const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
             // Cancel button
             TradeRepublicButton(
@@ -7367,7 +7369,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
             height: 48,
             decoration: BoxDecoration(
               color: const Color(0xFF10B981).withOpacity(0.12),
-              borderRadius: BorderRadius.circular(16),
+              borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius()),
             ),
             child: const Icon(
               CupertinoIcons.leaf_arrow_circlepath,
@@ -7475,7 +7477,7 @@ class _VerificationCenterModalState extends State<_VerificationCenterModal> {
               ),
             ],
           ),
-          const SizedBox(height: 24),
+          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
           // Scrollable Content
           Expanded(
@@ -7485,10 +7487,10 @@ class _VerificationCenterModalState extends State<_VerificationCenterModal> {
                   // Main Verification Card
                   Container(
                     width: double.infinity,
-                    padding: const EdgeInsets.all(16),
+                    padding: DesktopAppWrapper.getPagePadding(),
                     decoration: BoxDecoration(
                       color: widget.isLight ? Colors.white : Colors.black,
-                      borderRadius: BorderRadius.circular(20),
+                      borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                     ),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -7506,7 +7508,7 @@ class _VerificationCenterModalState extends State<_VerificationCenterModal> {
                                     child: Text(
                                       '$verificationScore',
                                       style: TextStyle(
-                                        fontSize: 20,
+                                        fontSize: DesktopOptimizedWidgets.getFontSize() + 6,
                                         fontWeight: FontWeight.w700,
                                         color: widget.isLight
                                             ? Colors.black
@@ -7530,7 +7532,7 @@ class _VerificationCenterModalState extends State<_VerificationCenterModal> {
                                           context,
                                         )?.verificationScore ?? AppLocalizations.of(context)!.tr('Verification Score'),
                                     style: TextStyle(
-                                      fontSize: 20,
+                                      fontSize: DesktopOptimizedWidgets.getFontSize() + 6,
                                       fontWeight: FontWeight.w700,
                                       color: widget.isLight
                                           ? Colors.black
@@ -7540,7 +7542,7 @@ class _VerificationCenterModalState extends State<_VerificationCenterModal> {
                                   Text(
                                     '$verificationScore/100 Points',
                                     style: TextStyle(
-                                      fontSize: 16,
+                                      fontSize: DesktopOptimizedWidgets.getFontSize(),
                                       color:
                                           (widget.isLight
                                                   ? Colors.black
@@ -7548,7 +7550,7 @@ class _VerificationCenterModalState extends State<_VerificationCenterModal> {
                                               .withOpacity(0.7),
                                     ),
                                   ),
-                                  const SizedBox(height: 8),
+                                  const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                                   Container(
                                     padding: const EdgeInsets.symmetric(
                                       horizontal: 12,
@@ -7560,12 +7562,12 @@ class _VerificationCenterModalState extends State<_VerificationCenterModal> {
                                           : verificationScore >= 60
                                           ? Colors.orange.withOpacity(0.2)
                                           : Colors.red.withOpacity(0.2),
-                                      borderRadius: BorderRadius.circular(20),
+                                      borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                                     ),
                                     child: Text(
                                       verificationStatus,
                                       style: TextStyle(
-                                        fontSize: 14,
+                                        fontSize: DesktopOptimizedWidgets.getFontSize(),
                                         fontWeight: FontWeight.w600,
                                         color: verificationScore >= 80
                                             ? Colors.green
@@ -7580,7 +7582,7 @@ class _VerificationCenterModalState extends State<_VerificationCenterModal> {
                             ),
                           ],
                         ),
-                        const SizedBox(height: 24),
+                        const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
                         const TradeRepublicDivider(),
                         const SizedBox(height: 20),
 
@@ -7591,12 +7593,12 @@ class _VerificationCenterModalState extends State<_VerificationCenterModal> {
                                 context,
                               )?.documentVerification ?? AppLocalizations.of(context)!.tr('Document Verification'),
                           style: TextStyle(
-                            fontSize: 18,
+                            fontSize: DesktopOptimizedWidgets.getFontSize() + 4,
                             fontWeight: FontWeight.w700,
                             color: widget.isLight ? Colors.black : Colors.white,
                           ),
                         ),
-                        const SizedBox(height: 16),
+                        const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
                         _buildVerificationItem(
                           AppLocalizations.of(context)?.identityDocument ?? AppLocalizations.of(context)!.tr('Identity Document'),
                           verification['idDocumentVerified'] == true,
@@ -7621,7 +7623,7 @@ class _VerificationCenterModalState extends State<_VerificationCenterModal> {
                           widget.isLight,
                         ),
 
-                        const SizedBox(height: 24),
+                        const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
                         const TradeRepublicDivider(),
                         const SizedBox(height: 20),
 
@@ -7630,12 +7632,12 @@ class _VerificationCenterModalState extends State<_VerificationCenterModal> {
                           AppLocalizations.of(context)?.backgroundChecks ??
                               AppLocalizations.of(context)?.backgroundChecks ?? AppLocalizations.of(context)!.tr('Background Checks'),
                           style: TextStyle(
-                            fontSize: 18,
+                            fontSize: DesktopOptimizedWidgets.getFontSize() + 4,
                             fontWeight: FontWeight.w700,
                             color: widget.isLight ? Colors.black : Colors.white,
                           ),
                         ),
-                        const SizedBox(height: 16),
+                        const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
                         _buildVerificationItem(
                           AppLocalizations.of(
                                 context,
@@ -7660,7 +7662,7 @@ class _VerificationCenterModalState extends State<_VerificationCenterModal> {
                           widget.isLight,
                         ),
 
-                        const SizedBox(height: 24),
+                        const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
                         const TradeRepublicDivider(),
                         const SizedBox(height: 20),
 
@@ -7671,12 +7673,12 @@ class _VerificationCenterModalState extends State<_VerificationCenterModal> {
                                 context,
                               )?.platformCompliance ?? AppLocalizations.of(context)!.tr('Platform Compliance'),
                           style: TextStyle(
-                            fontSize: 18,
+                            fontSize: DesktopOptimizedWidgets.getFontSize() + 4,
                             fontWeight: FontWeight.w700,
                             color: widget.isLight ? Colors.black : Colors.white,
                           ),
                         ),
-                        const SizedBox(height: 16),
+                        const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
                         _buildVerificationItem(
                           AppLocalizations.of(
                                 context,
@@ -7722,10 +7724,10 @@ class _VerificationCenterModalState extends State<_VerificationCenterModal> {
                   // Verification Timeline Card
                   Container(
                     width: double.infinity,
-                    padding: const EdgeInsets.all(16),
+                    padding: DesktopAppWrapper.getPagePadding(),
                     decoration: BoxDecoration(
                       color: widget.isLight ? Colors.white : Colors.black,
-                      borderRadius: BorderRadius.circular(20),
+                      borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                     ),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -7748,7 +7750,7 @@ class _VerificationCenterModalState extends State<_VerificationCenterModal> {
                                     context,
                                   )?.verificationTimeline ?? AppLocalizations.of(context)!.tr('Verification Timeline'),
                               style: TextStyle(
-                                fontSize: 18,
+                                fontSize: DesktopOptimizedWidgets.getFontSize() + 4,
                                 fontWeight: FontWeight.w700,
                                 color: widget.isLight
                                     ? Colors.black
@@ -7807,7 +7809,7 @@ class _VerificationCenterModalState extends State<_VerificationCenterModal> {
                     ),
                   ),
 
-                  const SizedBox(height: 24),
+                  const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
                   // Action Buttons
                   Row(
@@ -7816,7 +7818,7 @@ class _VerificationCenterModalState extends State<_VerificationCenterModal> {
                         child: Container(
                           decoration: BoxDecoration(
                             color: widget.isLight ? Colors.white : Colors.black,
-                            borderRadius: BorderRadius.circular(20),
+                            borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                           ),
                           child: TradeRepublicButton(
                             label:
@@ -7840,7 +7842,7 @@ class _VerificationCenterModalState extends State<_VerificationCenterModal> {
                         child: Container(
                           decoration: BoxDecoration(
                             color: widget.isLight ? Colors.white : Colors.black,
-                            borderRadius: BorderRadius.circular(20),
+                            borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                           ),
                           child: TradeRepublicButton(
                             label:
@@ -7885,7 +7887,7 @@ class _VerificationCenterModalState extends State<_VerificationCenterModal> {
             padding: const EdgeInsets.all(12),
             decoration: BoxDecoration(
               color: (isLight ? Colors.black : Colors.white).withOpacity(0.05),
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
             ),
             child: Icon(
               icon,
@@ -7901,7 +7903,7 @@ class _VerificationCenterModalState extends State<_VerificationCenterModal> {
                 Text(
                   title,
                   style: TextStyle(
-                    fontSize: 16,
+                    fontSize: DesktopOptimizedWidgets.getFontSize(),
                     fontWeight: FontWeight.w600,
                     color: isLight ? Colors.black : Colors.white,
                   ),
@@ -7910,7 +7912,7 @@ class _VerificationCenterModalState extends State<_VerificationCenterModal> {
                 Text(
                   subtitle,
                   style: TextStyle(
-                    fontSize: 14,
+                    fontSize: DesktopOptimizedWidgets.getFontSize(),
                     color: (isLight ? Colors.black : Colors.white).withOpacity(
                       0.7,
                     ),
@@ -7946,7 +7948,7 @@ class _VerificationCenterModalState extends State<_VerificationCenterModal> {
             padding: const EdgeInsets.all(10),
             decoration: BoxDecoration(
               color: color.withOpacity(0.2),
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
             ),
             child: Icon(icon, color: color, size: 18),
           ),
@@ -8092,7 +8094,7 @@ class _CreateGroupModalState extends State<_CreateGroupModal> {
                 ),
               ],
             ),
-            const SizedBox(height: 24),
+            const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
             if (!Platform.isMacOS)
               _buildImageSourceOption(
                 icon: CupertinoIcons.camera,
@@ -8101,7 +8103,7 @@ class _CreateGroupModalState extends State<_CreateGroupModal> {
                     AppLocalizations.of(context)?.takeANewPhoto ?? AppLocalizations.of(context)!.tr('Take a new photo'),
                 onTap: () => Navigator.pop(context, ImageSource.camera),
               ),
-            if (!Platform.isMacOS) const SizedBox(height: 12),
+            if (!Platform.isMacOS) const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
             _buildImageSourceOption(
               icon: CupertinoIcons.photo,
               title: AppLocalizations.of(context)?.gallery ?? AppLocalizations.of(context)!.tr('Gallery'),
@@ -8109,7 +8111,7 @@ class _CreateGroupModalState extends State<_CreateGroupModal> {
                   AppLocalizations.of(context)?.chooseFromYourPhotos ?? AppLocalizations.of(context)!.tr('Choose from your photos'),
               onTap: () => Navigator.pop(context, ImageSource.gallery),
             ),
-            const SizedBox(height: 12),
+            const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
             TradeRepublicButton(
               label: AppLocalizations.of(context)?.cancel ?? AppLocalizations.of(context)!.tr('Cancel'),
               onPressed: () => Navigator.pop(context),
@@ -8463,7 +8465,7 @@ class _CreateGroupModalState extends State<_CreateGroupModal> {
         Text(
           AppLocalizations.of(context)?.createOrJoinGroupToGetStarted ?? AppLocalizations.of(context)!.tr('Create a delivery group with other drivers'),
           style: TextStyle(
-            fontSize: 14,
+            fontSize: DesktopOptimizedWidgets.getFontSize(),
             fontWeight: FontWeight.w400,
             color: (isLight ? Colors.black : Colors.white).withOpacity(0.4),
           ),
@@ -8493,7 +8495,7 @@ class _CreateGroupModalState extends State<_CreateGroupModal> {
               autofocus: true,
               style: TextStyle(
                 color: isLight ? Colors.black : Colors.white,
-                fontSize: 16,
+                fontSize: DesktopOptimizedWidgets.getFontSize(),
                 fontWeight: FontWeight.w500,
               ),
               onChanged: (value) {
@@ -8526,7 +8528,7 @@ class _CreateGroupModalState extends State<_CreateGroupModal> {
               decoration: BoxDecoration(
                 color: (isLight ? Colors.black : Colors.white)
                     .withOpacity(0.05),
-                borderRadius: BorderRadius.circular(16),
+                borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius()),
               ),
               child: Row(
                 children: [
@@ -8588,7 +8590,7 @@ class _CreateGroupModalState extends State<_CreateGroupModal> {
           width: double.infinity,
         ),
 
-        const SizedBox(height: 12),
+        const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
         // Cancel link
         TradeRepublicButton(
@@ -8598,7 +8600,7 @@ class _CreateGroupModalState extends State<_CreateGroupModal> {
           width: double.infinity,
         ),
 
-          const SizedBox(height: 8),
+          const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
         ],
       ),
     );
@@ -8764,7 +8766,7 @@ class _JoinGroupModalState extends State<_JoinGroupModal> {
         Text(
           AppLocalizations.of(context)?.joinAGroup ?? AppLocalizations.of(context)!.tr('Join a Group'),
           style: TextStyle(
-            fontSize: 24,
+            fontSize: DesktopOptimizedWidgets.getFontSize() + 10,
             fontWeight: FontWeight.w700,
             color: widget.isLight ? Colors.black : Colors.white,
             letterSpacing: -0.5,
@@ -8774,7 +8776,7 @@ class _JoinGroupModalState extends State<_JoinGroupModal> {
         Text(
           AppLocalizations.of(context)?.groupCodeExplanation ?? AppLocalizations.of(context)!.tr('Ask your group admin for the 8-digit code'),
           style: TextStyle(
-            fontSize: 14,
+            fontSize: DesktopOptimizedWidgets.getFontSize(),
             color: (widget.isLight ? Colors.black : Colors.white)
                 .withOpacity(0.4),
           ),
@@ -8806,7 +8808,7 @@ class _JoinGroupModalState extends State<_JoinGroupModal> {
           decoration: BoxDecoration(
             color: (widget.isLight ? Colors.black : Colors.white)
                 .withOpacity(0.05),
-            borderRadius: BorderRadius.circular(16),
+            borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius()),
           ),
           child: TradeRepublicTextField(
             controller: _searchController,
@@ -8860,7 +8862,7 @@ class _JoinGroupModalState extends State<_JoinGroupModal> {
           width: double.infinity,
         ),
 
-        const SizedBox(height: 12),
+        const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
         // Cancel
         TradeRepublicButton(
@@ -8870,7 +8872,7 @@ class _JoinGroupModalState extends State<_JoinGroupModal> {
           width: double.infinity,
         ),
 
-          const SizedBox(height: 8),
+          const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
         ],
       ),
     );
@@ -9013,7 +9015,7 @@ class _GroupSettingsModalState extends State<_GroupSettingsModal> {
               ),
             ],
           ),
-          const SizedBox(height: 24),
+          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
           // Content
           Expanded(
@@ -9024,11 +9026,11 @@ class _GroupSettingsModalState extends State<_GroupSettingsModal> {
                   Text(
                     AppLocalizations.of(context)?.chooseNewHostForGroup ?? AppLocalizations.of(context)!.tr('Choose a new host for the group:'),
                     style: TextStyle(
-                      fontSize: 16,
+                      fontSize: DesktopOptimizedWidgets.getFontSize(),
                       color: widget.isLight ? Colors.black : Colors.white,
                     ),
                   ),
-                  const SizedBox(height: 16),
+                  const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
                   // Members List
                   ...eligibleMembers.map(
@@ -9149,14 +9151,14 @@ class _GroupSettingsModalState extends State<_GroupSettingsModal> {
             ],
           ),
 
-          const SizedBox(height: 24),
+          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
           // Minimal description
           Text(
             AppLocalizations.of(context)?.deleteGroupConfirm ?? AppLocalizations.of(context)!.tr('This will permanently delete this group and remove all members. This action cannot be undone.'),
             textAlign: TextAlign.center,
             style: TextStyle(
-              fontSize: 16,
+              fontSize: DesktopOptimizedWidgets.getFontSize(),
               height: 1.4,
               color: (widget.isLight ? Colors.black : Colors.white).withOpacity(
                 0.6,
@@ -9180,7 +9182,7 @@ class _GroupSettingsModalState extends State<_GroupSettingsModal> {
             ),
           ),
 
-          const SizedBox(height: 12),
+          const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
           // Secondary cancel button
           SizedBox(
@@ -9284,7 +9286,7 @@ class _GroupSettingsModalState extends State<_GroupSettingsModal> {
               ),
             ],
           ),
-          const SizedBox(height: 24),
+          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
           Expanded(
             child: SingleChildScrollView(
@@ -9295,7 +9297,7 @@ class _GroupSettingsModalState extends State<_GroupSettingsModal> {
                   _buildSectionHeader(
                     AppLocalizations.of(context)?.groupInformation ?? AppLocalizations.of(context)!.tr('Group Information'),
                   ),
-                  const SizedBox(height: 16),
+                  const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
                   // Group Name
                   _buildSettingsTile(
@@ -9359,7 +9361,7 @@ class _GroupSettingsModalState extends State<_GroupSettingsModal> {
                         decoration: BoxDecoration(
                           color: (widget.isLight ? Colors.black : Colors.white)
                               .withOpacity(0.1),
-                          borderRadius: BorderRadius.circular(20),
+                          borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                         ),
                         child: Text(
                           AppLocalizations.of(context)?.adminLabel ?? AppLocalizations.of(context)!.tr('ADMIN'),
@@ -9379,7 +9381,7 @@ class _GroupSettingsModalState extends State<_GroupSettingsModal> {
                   _buildSectionHeader(
                     AppLocalizations.of(context)?.groupMembers ?? AppLocalizations.of(context)!.tr('Group Members'),
                   ),
-                  const SizedBox(height: 16),
+                  const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
                   // Members List
                   ...members.map((member) => _buildMemberTile(member)),
@@ -9390,7 +9392,7 @@ class _GroupSettingsModalState extends State<_GroupSettingsModal> {
                   _buildSectionHeader(
                     AppLocalizations.of(context)?.groupActions ?? AppLocalizations.of(context)!.tr('Group Actions'),
                   ),
-                  const SizedBox(height: 16),
+                  const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
                   // Share Group Code
                   _buildSettingsTile(
@@ -9445,7 +9447,7 @@ class _GroupSettingsModalState extends State<_GroupSettingsModal> {
                   _buildSectionHeader(
                     AppLocalizations.of(context)?.dangerZone ?? AppLocalizations.of(context)!.tr('Danger Zone'),
                   ),
-                  const SizedBox(height: 16),
+                  const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
                   // Leave Group
                   _buildSettingsTile(
@@ -9495,7 +9497,7 @@ class _GroupSettingsModalState extends State<_GroupSettingsModal> {
                                         ],
                                       ),
 
-                                      const SizedBox(height: 24),
+                                      const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
                                       // Minimal description
                                       Padding(
@@ -9508,7 +9510,7 @@ class _GroupSettingsModalState extends State<_GroupSettingsModal> {
                                               : (AppLocalizations.of(context)?.rejoinGroupLater ?? AppLocalizations.of(context)!.tr('')),
                                           textAlign: TextAlign.center,
                                           style: TextStyle(
-                                            fontSize: 16,
+                                            fontSize: DesktopOptimizedWidgets.getFontSize(),
                                             height: 1.4,
                                             color:
                                                 (widget.isLight
@@ -9537,7 +9539,7 @@ class _GroupSettingsModalState extends State<_GroupSettingsModal> {
                                         ),
                                       ),
 
-                                      const SizedBox(height: 12),
+                                      const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
                                       // Secondary cancel button - Platform check
                                       SizedBox(
@@ -9628,7 +9630,7 @@ class _GroupSettingsModalState extends State<_GroupSettingsModal> {
       margin: const EdgeInsets.only(bottom: 8),
       decoration: BoxDecoration(
         color: (widget.isLight ? Colors.white : Colors.black),
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
       ),
       child: Row(
         children: [
@@ -9637,7 +9639,7 @@ class _GroupSettingsModalState extends State<_GroupSettingsModal> {
             width: 40,
             height: 40,
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
               color: (widget.isLight ? Colors.white : Colors.black),
             ),
             child: Icon(
@@ -9673,7 +9675,7 @@ class _GroupSettingsModalState extends State<_GroupSettingsModal> {
                         decoration: BoxDecoration(
                           color: (widget.isLight ? Colors.black : Colors.white)
                               .withOpacity(0.1),
-                          borderRadius: BorderRadius.circular(20),
+                          borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                         ),
                         child: Text(
                           AppLocalizations.of(context)?.youLabel ?? AppLocalizations.of(context)!.tr('You'),
@@ -9695,7 +9697,7 @@ class _GroupSettingsModalState extends State<_GroupSettingsModal> {
                         decoration: BoxDecoration(
                           color: (widget.isLight ? Colors.black : Colors.white)
                               .withOpacity(0.1),
-                          borderRadius: BorderRadius.circular(20),
+                          borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                         ),
                         child: Text(
                           AppLocalizations.of(context)?.host ?? AppLocalizations.of(context)!.tr('Host'),
@@ -9740,7 +9742,7 @@ class _GroupSettingsModalState extends State<_GroupSettingsModal> {
             width: 40,
             height: 40,
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
               color: (widget.isLight ? Colors.white : Colors.black),
             ),
             child: Icon(
@@ -9762,7 +9764,7 @@ class _GroupSettingsModalState extends State<_GroupSettingsModal> {
                       child: Text(
                         '${member['userName'] ?? AppLocalizations.of(context)?.unknownUser ?? AppLocalizations.of(context)!.tr('Unknown User')}${isCurrentUser ? ' (You)' : ''}',
                         style: TextStyle(
-                          fontSize: 14,
+                          fontSize: DesktopOptimizedWidgets.getFontSize(),
                           fontWeight: FontWeight.w600,
                           color: widget.isLight ? Colors.black : Colors.white,
                         ),
@@ -9777,7 +9779,7 @@ class _GroupSettingsModalState extends State<_GroupSettingsModal> {
                         decoration: BoxDecoration(
                           color: (widget.isLight ? Colors.black : Colors.white)
                               .withOpacity(0.1),
-                          borderRadius: BorderRadius.circular(20),
+                          borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                         ),
                         child: Text(
                           AppLocalizations.of(context)?.host ?? AppLocalizations.of(context)!.tr('Host'),
@@ -9922,7 +9924,7 @@ class _AddAccountModalState extends State<_AddAccountModal> {
                 ),
               ],
             ),
-            const SizedBox(height: 24),
+            const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
             Expanded(
               child: Column(
@@ -9934,7 +9936,7 @@ class _AddAccountModalState extends State<_AddAccountModal> {
                     hintText: AppLocalizations.of(context)?.email ?? AppLocalizations.of(context)!.tr('Email'),
                     keyboardType: TextInputType.emailAddress,
                   ),
-                  const SizedBox(height: 16),
+                  const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
                   // Password Field
                   TradeRepublicTextField.password(
@@ -10002,7 +10004,7 @@ class _AddAccountModalState extends State<_AddAccountModal> {
               ),
             ],
           ),
-          const SizedBox(height: 24),
+          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
           Expanded(
             child: Column(
@@ -10013,17 +10015,17 @@ class _AddAccountModalState extends State<_AddAccountModal> {
                   AppLocalizations.of(context)?.currentAccount ??
                       AppLocalizations.of(context)?.currentAccount ?? AppLocalizations.of(context)!.tr('Current Account'),
                   style: TextStyle(
-                    fontSize: 16,
+                    fontSize: DesktopOptimizedWidgets.getFontSize(),
                     fontWeight: FontWeight.w700,
                     color: widget.isLight ? Colors.black : Colors.white,
                   ),
                 ),
-                const SizedBox(height: 16),
+                const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
                 // Current Account Card
                 TradeRepublicCard(
                   backgroundColor: widget.isLight ? Colors.white : Colors.black,
-                  padding: const EdgeInsets.all(16),
+                  padding: DesktopAppWrapper.getPagePadding(),
                   child: Row(
                     children: [
                       // Profile Picture
@@ -10031,7 +10033,7 @@ class _AddAccountModalState extends State<_AddAccountModal> {
                         width: 50,
                         height: 50,
                         decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(20),
+                          borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                           color: (widget.isLight ? Colors.white : Colors.black),
                         ),
                         child: Icon(
@@ -10052,7 +10054,7 @@ class _AddAccountModalState extends State<_AddAccountModal> {
                                   ? '${currentUser['first_name'] ?? AppLocalizations.of(context)!.tr('Unknown')} ${currentUser['last_name'] ?? AppLocalizations.of(context)!.tr('')}'
                                   : AppLocalizations.of(context)?.currentUser ?? AppLocalizations.of(context)!.tr('Current User'),
                               style: TextStyle(
-                                fontSize: 16,
+                                fontSize: DesktopOptimizedWidgets.getFontSize(),
                                 fontWeight: FontWeight.w700,
                                 color: widget.isLight
                                     ? Colors.black
@@ -10065,7 +10067,7 @@ class _AddAccountModalState extends State<_AddAccountModal> {
                                   ? currentUser['email'] ?? (AppLocalizations.of(context)?.noEmailAddress ?? AppLocalizations.of(context)!.tr('No email'))
                                   : 'driver@example.com',
                               style: TextStyle(
-                                fontSize: 14,
+                                fontSize: DesktopOptimizedWidgets.getFontSize(),
                                 color:
                                     (widget.isLight
                                             ? Colors.black
@@ -10086,7 +10088,7 @@ class _AddAccountModalState extends State<_AddAccountModal> {
                         decoration: BoxDecoration(
                           color: (widget.isLight ? Colors.black : Colors.white)
                               .withOpacity(0.1),
-                          borderRadius: BorderRadius.circular(20),
+                          borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                         ),
                         child: Text(
                           AppLocalizations.of(context)?.active ?? AppLocalizations.of(context)!.tr('Active'),
@@ -10411,13 +10413,13 @@ class _StripePaymentModalState extends State<_StripePaymentModal> {
               'checking',
               AppLocalizations.of(context)?.checkingAccount ?? AppLocalizations.of(context)!.tr('Checking Account'),
             ),
-            const SizedBox(height: 8),
+            const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
             _buildAccountTypeOption(
               'savings',
               AppLocalizations.of(context)?.savingsAccount ?? AppLocalizations.of(context)!.tr('Savings Account'),
             ),
 
-            const SizedBox(height: 12),
+            const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
             // Cancel button
             TradeRepublicButton(
@@ -10445,12 +10447,12 @@ class _StripePaymentModalState extends State<_StripePaymentModal> {
         Navigator.pop(context);
       },
       child: Container(
-        padding: const EdgeInsets.all(16),
+        padding: DesktopAppWrapper.getPagePadding(),
         decoration: BoxDecoration(
           color: isSelected
               ? (widget.isLight ? Colors.black : Colors.white)
               : Colors.transparent,
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
         ),
         child: Row(
           children: [
@@ -10458,7 +10460,7 @@ class _StripePaymentModalState extends State<_StripePaymentModal> {
               child: Text(
                 label,
                 style: TextStyle(
-                  fontSize: 16,
+                  fontSize: DesktopOptimizedWidgets.getFontSize(),
                   fontWeight: isSelected ? FontWeight.w700 : FontWeight.w600,
                   color: isSelected
                       ? (widget.isLight ? Colors.white : Colors.black)
@@ -10516,7 +10518,7 @@ class _StripePaymentModalState extends State<_StripePaymentModal> {
                   ],
                 ),
 
-                const SizedBox(height: 24),
+                const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
                 Text(
                   AppLocalizations.of(
@@ -10524,7 +10526,7 @@ class _StripePaymentModalState extends State<_StripePaymentModal> {
                       )?.pleaseEnterPasswordToConnectBank ?? AppLocalizations.of(context)!.tr('Please enter your password to connect your bank account'),
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                    fontSize: 16,
+                    fontSize: DesktopOptimizedWidgets.getFontSize(),
                     color: (widget.isLight ? Colors.black : Colors.white)
                         .withOpacity(0.6),
                   ),
@@ -10534,19 +10536,19 @@ class _StripePaymentModalState extends State<_StripePaymentModal> {
 
                 // Password Field
                 Container(
-                  padding: const EdgeInsets.all(16),
+                  padding: DesktopAppWrapper.getPagePadding(),
                   decoration: BoxDecoration(
                     color: widget.isLight
                         ? Colors.transparent
                         : Colors.transparent,
-                    borderRadius: BorderRadius.circular(20),
+                    borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                   ),
                   child: TradeRepublicTextField(
                     controller: passwordController,
                     filled: false,
                     obscureText: !isPasswordVisible,
                     style: TextStyle(
-                      fontSize: 16,
+                      fontSize: DesktopOptimizedWidgets.getFontSize(),
                       fontWeight: FontWeight.w600,
                       color: widget.isLight ? Colors.black : Colors.white,
                       letterSpacing: -0.2,
@@ -10706,7 +10708,7 @@ class _StripePaymentModalState extends State<_StripePaymentModal> {
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 18),
             decoration: BoxDecoration(
               color: isDark ? Colors.transparent : Colors.white,
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius()),
             ),
             child: Row(
               children: [
@@ -10750,7 +10752,7 @@ class _StripePaymentModalState extends State<_StripePaymentModal> {
                   height: 50,
                   decoration: BoxDecoration(
                     color: TradeRepublicTheme.textColor(context),
-                    borderRadius: BorderRadius.circular(16),
+                    borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius()),
                   ),
                   child: Icon(
                     CupertinoIcons.creditcard_fill,
@@ -10767,7 +10769,7 @@ class _StripePaymentModalState extends State<_StripePaymentModal> {
                       Text(
                         AppLocalizations.of(context)?.bankAccountSetup ?? AppLocalizations.of(context)!.tr('Bank Account Setup'),
                         style: TextStyle(
-                          fontSize: 20,
+                          fontSize: DesktopOptimizedWidgets.getFontSize() + 6,
                           fontWeight: FontWeight.w700,
                           letterSpacing: -0.5,
                           color: TradeRepublicTheme.textColor(context),
@@ -10790,7 +10792,7 @@ class _StripePaymentModalState extends State<_StripePaymentModal> {
                       const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
                   decoration: BoxDecoration(
                     color: const Color(0xFF34C759).withOpacity(0.12),
-                    borderRadius: BorderRadius.circular(20),
+                    borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                   ),
                   child: const Row(
                     mainAxisSize: MainAxisSize.min,
@@ -10844,14 +10846,14 @@ class _StripePaymentModalState extends State<_StripePaymentModal> {
                         AppLocalizations.of(context)?.fullNameOnAccount ?? AppLocalizations.of(context)!.tr('Full name on account'),
                       ),
                       if (_isUSASystem) ...[
-                        const SizedBox(height: 12),
+                        const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                         _buildGroupedField(
                           AppLocalizations.of(context)?.bankName ?? AppLocalizations.of(context)!.tr('Bank Name'),
                           _bankNameController,
                           CupertinoIcons.building_2_fill,
                           'Chase, Wells Fargo…',
                         ),
-                        const SizedBox(height: 12),
+                        const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                         _buildGroupedTapField(
                           AppLocalizations.of(context)?.accountType ?? AppLocalizations.of(context)!.tr('Account Type'),
                           _selectedAccountType == 'checking'
@@ -10862,7 +10864,7 @@ class _StripePaymentModalState extends State<_StripePaymentModal> {
                           CupertinoIcons.person_crop_rectangle,
                           _showAccountTypeSelector,
                         ),
-                        const SizedBox(height: 12),
+                        const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                         _buildGroupedField(
                           AppLocalizations.of(context)?.routingNumber ?? AppLocalizations.of(context)!.tr('Routing Number'),
                           _routingNumberController,
@@ -10886,7 +10888,7 @@ class _StripePaymentModalState extends State<_StripePaymentModal> {
                             ),
                           ],
                         ),
-                        const SizedBox(height: 12),
+                        const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                         _buildGroupedField(
                           AppLocalizations.of(context)?.accountNumber ?? AppLocalizations.of(context)!.tr('Account Number'),
                           _accountNumberController,
@@ -10895,7 +10897,7 @@ class _StripePaymentModalState extends State<_StripePaymentModal> {
                           keyboardType: TextInputType.number,
                         ),
                       ] else ...[
-                        const SizedBox(height: 12),
+                        const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                         _buildGroupedField(
                           AppLocalizations.of(context)?.bankName ?? AppLocalizations.of(context)!.tr('Bank Name'),
                           _bankNameController,
@@ -10904,7 +10906,7 @@ class _StripePaymentModalState extends State<_StripePaymentModal> {
                                   ?.eGDeutscheBankSparkasse ?? AppLocalizations.of(context)!.tr('e.g. Deutsche Bank'),
                           readOnly: true,
                         ),
-                        const SizedBox(height: 12),
+                        const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                         _buildGroupedField(
                           AppLocalizations.of(context)?.iban ?? AppLocalizations.of(context)!.tr('IBAN'),
                           _ibanController,
@@ -10933,7 +10935,7 @@ class _StripePaymentModalState extends State<_StripePaymentModal> {
                             ),
                           ],
                         ),
-                        const SizedBox(height: 12),
+                        const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                         _buildGroupedField(
                           AppLocalizations.of(context)?.bicSwiftCode ?? AppLocalizations.of(context)!.tr('BIC / SWIFT'),
                           _bicController,
@@ -11099,7 +11101,7 @@ class _StripePaymentModalState extends State<_StripePaymentModal> {
                           : CupertinoColors.white,
                     ),
                   ),
-                  const SizedBox(height: 16),
+                  const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
                 ],
               ),
             ),
@@ -11267,7 +11269,7 @@ class _BankDetailsModalState extends State<_BankDetailsModal> {
               ),
             ],
           ),
-          const SizedBox(height: 24),
+          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
           Expanded(
             child: SingleChildScrollView(
@@ -11277,12 +11279,12 @@ class _BankDetailsModalState extends State<_BankDetailsModal> {
                   // Info Banner
                   Container(
                     width: double.infinity,
-                    padding: const EdgeInsets.all(16),
+                    padding: DesktopAppWrapper.getPagePadding(),
                     margin: const EdgeInsets.only(bottom: 24),
                     decoration: BoxDecoration(
                       color: (widget.isLight ? Colors.black : Colors.white)
                           .withOpacity(0.05),
-                      borderRadius: BorderRadius.circular(20),
+                      borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                     ),
                     child: Row(
                       children: [
@@ -11313,12 +11315,12 @@ class _BankDetailsModalState extends State<_BankDetailsModal> {
                   Text(
                     AppLocalizations.of(context)?.accountHolderName ?? AppLocalizations.of(context)!.tr('Account Holder Name'),
                     style: TextStyle(
-                      fontSize: 14,
+                      fontSize: DesktopOptimizedWidgets.getFontSize(),
                       fontWeight: FontWeight.w600,
                       color: widget.isLight ? Colors.black : Colors.white,
                     ),
                   ),
-                  const SizedBox(height: 8),
+                  const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                   TradeRepublicTextField(
                     controller: _accountHolderController,
                     hintText:
@@ -11333,12 +11335,12 @@ class _BankDetailsModalState extends State<_BankDetailsModal> {
                   Text(
                     AppLocalizations.of(context)?.bankName ?? AppLocalizations.of(context)!.tr('Bank Name'),
                     style: TextStyle(
-                      fontSize: 14,
+                      fontSize: DesktopOptimizedWidgets.getFontSize(),
                       fontWeight: FontWeight.w600,
                       color: widget.isLight ? Colors.black : Colors.white,
                     ),
                   ),
-                  const SizedBox(height: 8),
+                  const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                   TradeRepublicTextField(
                     controller: _bankNameController,
                     readOnly: true,
@@ -11352,12 +11354,12 @@ class _BankDetailsModalState extends State<_BankDetailsModal> {
                   Text(
                     AppLocalizations.of(context)?.iban ?? AppLocalizations.of(context)!.tr('IBAN'),
                     style: TextStyle(
-                      fontSize: 14,
+                      fontSize: DesktopOptimizedWidgets.getFontSize(),
                       fontWeight: FontWeight.w600,
                       color: widget.isLight ? Colors.black : Colors.white,
                     ),
                   ),
-                  const SizedBox(height: 8),
+                  const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                   TradeRepublicTextField(
                     controller: _ibanController,
                     hintText: AppLocalizations.of(context)!.tr('DE89 3704 0044 0532 0130 00') ?? AppLocalizations.of(context)!.tr('DE89 3704 0044 0532 0130 00'),
@@ -11387,12 +11389,12 @@ class _BankDetailsModalState extends State<_BankDetailsModal> {
                   Text(
                     AppLocalizations.of(context)?.bicSwiftCode ?? AppLocalizations.of(context)!.tr('BIC/SWIFT Code'),
                     style: TextStyle(
-                      fontSize: 14,
+                      fontSize: DesktopOptimizedWidgets.getFontSize(),
                       fontWeight: FontWeight.w600,
                       color: widget.isLight ? Colors.black : Colors.white,
                     ),
                   ),
-                  const SizedBox(height: 8),
+                  const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                   TradeRepublicTextField(
                     controller: _bicController,
                     hintText: AppLocalizations.of(context)!.tr('COBADEFFXXX') ?? AppLocalizations.of(context)!.tr('COBADEFFXXX'),
@@ -11869,21 +11871,21 @@ class _ProfileEditModalState extends State<_ProfileEditModal> {
           _firstNameController,
           CupertinoIcons.person,
         ),
-        const SizedBox(height: 24),
+        const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
         _buildTextField(
           AppLocalizations.of(context)?.lastName ?? AppLocalizations.of(context)!.tr('Last Name'),
           _lastNameController,
           CupertinoIcons.person,
         ),
-        const SizedBox(height: 24),
+        const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
         _buildTextField(
           AppLocalizations.of(context)?.email ?? AppLocalizations.of(context)!.tr('Email'),
           _emailController,
           CupertinoIcons.mail,
         ),
-        const SizedBox(height: 24),
+        const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
         _buildPhoneField(),
-        const SizedBox(height: 24),
+        const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
         _buildDateField(),
       ],
     );
@@ -11914,7 +11916,7 @@ class _ProfileEditModalState extends State<_ProfileEditModal> {
             ),
           ],
         ),
-        const SizedBox(height: 24),
+        const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
         Row(
           children: [
             Expanded(
@@ -11936,7 +11938,7 @@ class _ProfileEditModalState extends State<_ProfileEditModal> {
             ),
           ],
         ),
-        const SizedBox(height: 24),
+        const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
         _buildCountryField(),
       ],
     );
@@ -12014,12 +12016,12 @@ class _ProfileEditModalState extends State<_ProfileEditModal> {
           child: Opacity(
             opacity: value,
             child: Container(
-              padding: const EdgeInsets.all(16),
+              padding: DesktopAppWrapper.getPagePadding(),
               decoration: BoxDecoration(
                 color: widget.isLight
                     ? Colors.white
                     : Colors.black.withOpacity(0.3),
-                borderRadius: BorderRadius.circular(20),
+                borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -12040,7 +12042,7 @@ class _ProfileEditModalState extends State<_ProfileEditModal> {
                                 color: widget.isLight
                                     ? Colors.black
                                     : Colors.white,
-                                borderRadius: BorderRadius.circular(20),
+                                borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                               ),
                               child: Icon(
                                 icon,
@@ -12073,7 +12075,7 @@ class _ProfileEditModalState extends State<_ProfileEditModal> {
                             Text(
                               description,
                               style: TextStyle(
-                                fontSize: 14,
+                                fontSize: DesktopOptimizedWidgets.getFontSize(),
                                 color:
                                     (widget.isLight
                                             ? Colors.black
@@ -12143,7 +12145,7 @@ class _ProfileEditModalState extends State<_ProfileEditModal> {
                 height: 140,
                 decoration: BoxDecoration(
                   color: widget.isLight ? Colors.white : Colors.black,
-                  borderRadius: BorderRadius.circular(20),
+                  borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                 ),
                 child: hasImage
                     ? Stack(
@@ -12153,7 +12155,7 @@ class _ProfileEditModalState extends State<_ProfileEditModal> {
                             duration: const Duration(milliseconds: 300),
                             opacity: 1.0,
                             child: ClipRRect(
-                              borderRadius: BorderRadius.circular(20),
+                              borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                               child: SizedBox(
                                 width: double.infinity,
                                 height: double.infinity,
@@ -12293,11 +12295,11 @@ class _ProfileEditModalState extends State<_ProfileEditModal> {
                               );
                             },
                           ),
-                          const SizedBox(height: 8),
+                          const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                           Text(
                             label,
                             style: TextStyle(
-                              fontSize: 14,
+                              fontSize: DesktopOptimizedWidgets.getFontSize(),
                               fontWeight: FontWeight.w600,
                               color:
                                   (widget.isLight ? Colors.black : Colors.white)
@@ -12408,7 +12410,7 @@ class _ProfileEditModalState extends State<_ProfileEditModal> {
                 ? '${_selectedDate!.day.toString().padLeft(2, '0')}.${_selectedDate!.month.toString().padLeft(2, '0')}.${_selectedDate!.year}'
                 : AppLocalizations.of(context)?.selectDate ?? AppLocalizations.of(context)!.tr('Select your date of birth'),
             style: TextStyle(
-              fontSize: 14,
+              fontSize: DesktopOptimizedWidgets.getFontSize(),
               fontWeight: FontWeight.w400,
               color: (widget.isLight ? Colors.black : Colors.white).withOpacity(
                 0.5,
@@ -12434,7 +12436,7 @@ class _ProfileEditModalState extends State<_ProfileEditModal> {
                 brightness: widget.isLight ? Brightness.light : Brightness.dark,
                 textTheme: CupertinoTextThemeData(
                   dateTimePickerTextStyle: TextStyle(
-                    fontSize: 20,
+                    fontSize: DesktopOptimizedWidgets.getFontSize() + 6,
                     fontWeight: FontWeight.w500,
                     color: widget.isLight ? Colors.black : Colors.white,
                   ),
@@ -12461,7 +12463,7 @@ class _ProfileEditModalState extends State<_ProfileEditModal> {
               0.08,
             ),
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
           // Single confirm button - minimal Trade Republic style
           TradeRepublicButton(
@@ -12567,7 +12569,7 @@ class _ProfileEditModalState extends State<_ProfileEditModal> {
               ),
             ),
 
-            const SizedBox(height: 12),
+            const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
             // Cancel button
             TradeRepublicButton(
@@ -12603,21 +12605,21 @@ class _ProfileEditModalState extends State<_ProfileEditModal> {
         Navigator.pop(context);
       },
       child: Container(
-        padding: const EdgeInsets.all(16),
+        padding: DesktopAppWrapper.getPagePadding(),
         decoration: BoxDecoration(
           color: isSelected
               ? (widget.isLight ? Colors.black : Colors.white)
               : Colors.transparent,
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
         ),
         child: Row(
           children: [
-            Text(flagIcon, style: const TextStyle(fontSize: 24)),
+            Text(flagIcon, style: const TextStyle(fontSize: DesktopOptimizedWidgets.getFontSize() + 10,),
             const SizedBox(width: 12),
             Text(
               '$prefix $country',
               style: TextStyle(
-                fontSize: 16,
+                fontSize: DesktopOptimizedWidgets.getFontSize(),
                 fontWeight: isSelected ? FontWeight.w700 : FontWeight.w600,
                 color: isSelected
                     ? (widget.isLight ? Colors.white : Colors.black)
@@ -12721,7 +12723,7 @@ class _ProfileEditModalState extends State<_ProfileEditModal> {
               ),
             ),
 
-            const SizedBox(height: 12),
+            const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
             // Cancel button
             TradeRepublicButton(
@@ -12757,22 +12759,22 @@ class _ProfileEditModalState extends State<_ProfileEditModal> {
         Navigator.pop(context);
       },
       child: Container(
-        padding: const EdgeInsets.all(16),
+        padding: DesktopAppWrapper.getPagePadding(),
         decoration: BoxDecoration(
           color: isSelected
               ? (widget.isLight ? Colors.black : Colors.white)
               : Colors.transparent,
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
         ),
         child: Row(
           children: [
-            Text(flagIcon, style: const TextStyle(fontSize: 24)),
+            Text(flagIcon, style: const TextStyle(fontSize: DesktopOptimizedWidgets.getFontSize() + 10,),
             const SizedBox(width: 12),
             Expanded(
               child: Text(
                 country,
                 style: TextStyle(
-                  fontSize: 16,
+                  fontSize: DesktopOptimizedWidgets.getFontSize(),
                   fontWeight: isSelected ? FontWeight.w700 : FontWeight.w600,
                   color: isSelected
                       ? (widget.isLight ? Colors.white : Colors.black)
@@ -12804,7 +12806,7 @@ class _ProfileEditModalState extends State<_ProfileEditModal> {
             // Content with padding
             Expanded(
               child: Padding(
-                padding: const EdgeInsets.all(16),
+                padding: DesktopAppWrapper.getPagePadding(),
                 child: Column(
                   children: [
                     // Header with Step Indicator
@@ -12835,14 +12837,14 @@ class _ProfileEditModalState extends State<_ProfileEditModal> {
                                     : (widget.isLight
                                           ? Colors.black.withOpacity(0.2)
                                           : Colors.white.withOpacity(0.2)),
-                                borderRadius: BorderRadius.circular(20),
+                                borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                               ),
                             );
                           }),
                         ),
                       ],
                     ),
-                    const SizedBox(height: 12),
+                    const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
                     // Step Subtitle
                     Align(
@@ -12864,7 +12866,7 @@ class _ProfileEditModalState extends State<_ProfileEditModal> {
                       child: SingleChildScrollView(child: _buildStepContent()),
                     ),
 
-                    const SizedBox(height: 16),
+                    const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
                     // Navigation Buttons
                     Row(
@@ -12913,7 +12915,7 @@ class _ProfileEditModalState extends State<_ProfileEditModal> {
         Text(
           AppLocalizations.of(context)?.phoneNumber ?? AppLocalizations.of(context)!.tr('Phone Number'),
           style: TextStyle(
-            fontSize: 14,
+            fontSize: DesktopOptimizedWidgets.getFontSize(),
             fontWeight: FontWeight.w500,
             color: widget.isLight
                 ? Colors.black.withOpacity(0.6)
@@ -12921,7 +12923,7 @@ class _ProfileEditModalState extends State<_ProfileEditModal> {
             letterSpacing: -0.2,
           ),
         ),
-        const SizedBox(height: 8),
+        const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
         Row(
           children: [
             TradeRepublicTap(
@@ -12933,7 +12935,7 @@ class _ProfileEditModalState extends State<_ProfileEditModal> {
                 ),
                 decoration: BoxDecoration(
                   color: widget.isLight ? Colors.white : Colors.black,
-                  borderRadius: BorderRadius.circular(20),
+                  borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                 ),
                 child: Row(
                   children: [
@@ -12991,7 +12993,7 @@ class _ProfileEditModalState extends State<_ProfileEditModal> {
         padding: const EdgeInsets.all(18),
         decoration: BoxDecoration(
           color: widget.isLight ? Colors.white : Colors.black,
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
         ),
         child: Row(
           children: [
@@ -13008,7 +13010,7 @@ class _ProfileEditModalState extends State<_ProfileEditModal> {
                     ? AppLocalizations.of(context)?.dateOfBirth ?? AppLocalizations.of(context)!.tr('Date of Birth')
                     : _dateOfBirthController.text,
                 style: TextStyle(
-                  fontSize: 16,
+                  fontSize: DesktopOptimizedWidgets.getFontSize(),
                   color: _dateOfBirthController.text.isEmpty
                       ? (widget.isLight ? Colors.black : Colors.white)
                             .withOpacity(0.7)
@@ -13035,7 +13037,7 @@ class _ProfileEditModalState extends State<_ProfileEditModal> {
         padding: const EdgeInsets.all(18),
         decoration: BoxDecoration(
           color: widget.isLight ? Colors.white : Colors.black,
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
         ),
         child: Row(
           children: [
@@ -13055,7 +13057,7 @@ class _ProfileEditModalState extends State<_ProfileEditModal> {
               child: Text(
                 _selectedCountry,
                 style: TextStyle(
-                  fontSize: 16,
+                  fontSize: DesktopOptimizedWidgets.getFontSize(),
                   color: widget.isLight ? Colors.black : Colors.white,
                 ),
               ),
@@ -13081,7 +13083,7 @@ class _ProfileEditModalState extends State<_ProfileEditModal> {
         Text(
           label,
           style: TextStyle(
-            fontSize: 14,
+            fontSize: DesktopOptimizedWidgets.getFontSize(),
             fontWeight: FontWeight.w500,
             color: widget.isLight
                 ? Colors.black.withOpacity(0.6)
@@ -13089,7 +13091,7 @@ class _ProfileEditModalState extends State<_ProfileEditModal> {
             letterSpacing: -0.2,
           ),
         ),
-        const SizedBox(height: 8),
+        const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
         TradeRepublicTextField(
           useFormField: true,
           controller: controller,
@@ -13145,7 +13147,7 @@ class _ProfileEditModalState extends State<_ProfileEditModal> {
               ),
             ],
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
           // Camera Option
           if (!Platform.isMacOS)
             Padding(
@@ -13322,7 +13324,7 @@ class _ProfileEditModalState extends State<_ProfileEditModal> {
               ),
             ],
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
           // Camera Option
           if (!Platform.isMacOS)
             Padding(
@@ -13483,7 +13485,7 @@ class _ProfileEditModalState extends State<_ProfileEditModal> {
 
         // Image Preview (if exists)
         if (hasImage) ...[
-          const SizedBox(height: 12),
+          const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
           TradeRepublicTap(
             onTap: () =>
                 _showFullScreenImage(context, image, imageUrl, isLight),
@@ -13491,13 +13493,13 @@ class _ProfileEditModalState extends State<_ProfileEditModal> {
               height: 200,
               decoration: BoxDecoration(
                 color: isLight ? Colors.white : Colors.black,
-                borderRadius: BorderRadius.circular(20),
+                borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
               ),
               child: Stack(
                 children: [
                   // Image
                   ClipRRect(
-                    borderRadius: BorderRadius.circular(20),
+                    borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                     child: SizedBox(
                       width: double.infinity,
                       height: double.infinity,
@@ -13541,7 +13543,7 @@ class _ProfileEditModalState extends State<_ProfileEditModal> {
                       ),
                       decoration: BoxDecoration(
                         color: Colors.black.withOpacity(0.6),
-                        borderRadius: BorderRadius.circular(20),
+                        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                       ),
                       child: Row(
                         mainAxisSize: MainAxisSize.min,
@@ -13610,14 +13612,14 @@ class _ProfileEditModalState extends State<_ProfileEditModal> {
                                     color: Colors.white54,
                                     size: 64,
                                   ),
-                                  const SizedBox(height: 16),
+                                  const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
                                   Text(
                                     AppLocalizations.of(
                                           context,
                                         )?.imageCouldNotBeLoaded ?? AppLocalizations.of(context)!.tr('Image could not be loaded'),
                                     style: TextStyle(
                                       color: Colors.white54,
-                                      fontSize: 16,
+                                      fontSize: DesktopOptimizedWidgets.getFontSize(),
                                     ),
                                   ),
                                 ],
@@ -14159,7 +14161,7 @@ class _VehicleManagementModalState extends State<_VehicleManagementModal> {
             ],
           ),
 
-            const SizedBox(height: 24),
+            const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
             // Description
             Text(
@@ -14187,7 +14189,7 @@ class _VehicleManagementModalState extends State<_VehicleManagementModal> {
               width: double.infinity,
             ),
 
-            const SizedBox(height: 12),
+            const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
             // Cancel button
             TradeRepublicButton(
@@ -14290,7 +14292,7 @@ class _VehicleManagementModalState extends State<_VehicleManagementModal> {
               ),
             ],
           ),
-          const SizedBox(height: 24),
+          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
           // Vehicles List
           Expanded(
@@ -14307,7 +14309,7 @@ class _VehicleManagementModalState extends State<_VehicleManagementModal> {
                               color: (isLight ? Colors.black : Colors.white)
                                   .withOpacity(0.2),
                             ),
-                            const SizedBox(height: 16),
+                            const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
                             Text(
                               AppLocalizations.of(context)?.noVehiclesAddedYet ?? AppLocalizations.of(context)!.tr('No vehicles added yet'),
                               style: TextStyle(
@@ -14321,7 +14323,7 @@ class _VehicleManagementModalState extends State<_VehicleManagementModal> {
                             Text(
                               AppLocalizations.of(context)?.addFirstVehicle ?? AppLocalizations.of(context)!.tr('Tap + to add your first vehicle'),
                               style: TextStyle(
-                                fontSize: 14,
+                                fontSize: DesktopOptimizedWidgets.getFontSize(),
                                 color: (isLight ? Colors.black : Colors.white)
                                     .withOpacity(0.4),
                               ),
@@ -14418,7 +14420,7 @@ class _VehicleManagementModalState extends State<_VehicleManagementModal> {
                   child: Text(
                     [year, make, model].join(' '),
                     style: TextStyle(
-                      fontSize: 16,
+                      fontSize: DesktopOptimizedWidgets.getFontSize(),
                       fontWeight: FontWeight.w600,
                       color: isLight ? Colors.black : Colors.white,
                     ),
@@ -14438,7 +14440,7 @@ class _VehicleManagementModalState extends State<_VehicleManagementModal> {
                 color: (isLight ? Colors.black : Colors.white).withOpacity(0.6),
               ),
             ),
-            const SizedBox(height: 12),
+            const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
             Row(
               children: [
                 Expanded(
@@ -15276,11 +15278,11 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
             AppLocalizations.of(context)?.selectImageSource ?? AppLocalizations.of(context)!.tr('Select Image Source'),
             style: TextStyle(
               color: fg,
-              fontSize: 16,
+              fontSize: DesktopOptimizedWidgets.getFontSize(),
               fontWeight: FontWeight.w700,
             ),
           ),
-          const SizedBox(height: 12),
+          const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
           ListTile(
             contentPadding: EdgeInsets.zero,
             leading: const Icon(CupertinoIcons.camera),
@@ -15293,7 +15295,7 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
             title: Text(AppLocalizations.of(context)?.gallery ?? AppLocalizations.of(context)!.tr('Gallery')),
             onTap: () => Navigator.pop(context, ImageSource.gallery),
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
           ListTile(
             contentPadding: EdgeInsets.zero,
             leading: const Icon(CupertinoIcons.xmark_circle),
@@ -15896,12 +15898,12 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
           onTap: onTap,
           child: AnimatedContainer(
             duration: const Duration(milliseconds: 200),
-            padding: const EdgeInsets.all(16),
+            padding: DesktopAppWrapper.getPagePadding(),
             decoration: BoxDecoration(
               color: isLight
                   ? (hasImage ? Colors.green.withOpacity(0.15) : Colors.white)
                   : (hasImage ? Colors.green.withOpacity(0.25) : Colors.black),
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
             ),
             child: Row(
               children: [
@@ -15913,7 +15915,7 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                         : (isLight
                               ? Colors.black.withOpacity(0.2)
                               : Colors.black.withOpacity(0.3)),
-                    borderRadius: BorderRadius.circular(20),
+                    borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                   ),
                   child: Icon(
                     hasImage
@@ -15933,7 +15935,7 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                       Text(
                         title,
                         style: TextStyle(
-                          fontSize: 16,
+                          fontSize: DesktopOptimizedWidgets.getFontSize(),
                           fontWeight: FontWeight.w600,
                           color: isLight ? Colors.black : Colors.white,
                         ),
@@ -15962,7 +15964,7 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
 
         // Image Preview Container - Only shown when image exists
         if (hasImage) ...[
-          const SizedBox(height: 12),
+          const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
           TradeRepublicTap(
             onTap: () =>
                 _showFullScreenImage(context, image, imageUrl, isLight),
@@ -15971,10 +15973,10 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
               height: 120,
               decoration: BoxDecoration(
                 color: isLight ? Colors.white : Colors.black,
-                borderRadius: BorderRadius.circular(20),
+                borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
               ),
               child: ClipRRect(
-                borderRadius: BorderRadius.circular(20),
+                borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                 child: Stack(
                   fit: StackFit.expand,
                   children: [
@@ -16001,7 +16003,7 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                                   color: Colors.red,
                                   size: 40,
                                 ),
-                                const SizedBox(height: 8),
+                                const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                                 Text(
                                   AppLocalizations.of(
                                         context,
@@ -16029,7 +16031,7 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                         ),
                         decoration: BoxDecoration(
                           color: Colors.black.withOpacity(0.7),
-                          borderRadius: BorderRadius.circular(20),
+                          borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                         ),
                         child: Row(
                           mainAxisSize: MainAxisSize.min,
@@ -16103,14 +16105,14 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                                   color: Colors.white,
                                   size: 48,
                                 ),
-                                const SizedBox(height: 16),
+                                const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
                                 Text(
                                   AppLocalizations.of(
                                         context,
                                       )?.failedToLoadImage ?? AppLocalizations.of(context)!.tr('Failed to load image'),
                                   style: TextStyle(
                                     color: Colors.white,
-                                    fontSize: 16,
+                                    fontSize: DesktopOptimizedWidgets.getFontSize(),
                                   ),
                                 ),
                               ],
@@ -16156,13 +16158,13 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                   ),
                   decoration: BoxDecoration(
                     color: Colors.black.withOpacity(0.5),
-                    borderRadius: BorderRadius.circular(20),
+                    borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                   ),
                   child: Text(
                     AppLocalizations.of(context)?.pinchToZoomDragToMove ?? AppLocalizations.of(context)!.tr('Pinch to zoom • Drag to move'),
                     style: TextStyle(
                       color: Colors.white,
-                      fontSize: 14,
+                      fontSize: DesktopOptimizedWidgets.getFontSize(),
                       fontWeight: FontWeight.w500,
                     ),
                   ),
@@ -16212,7 +16214,7 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                                 DecoratedBox(
                                   decoration: BoxDecoration(
                                     color: isLight ? Colors.black : Colors.white,
-                                    borderRadius: BorderRadius.circular(20),
+                                    borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                                   ),
                                   child: SizedBox(
                                     width: 56,
@@ -16222,14 +16224,14 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                                         '$_currentStep',
                                         style: TextStyle(
                                           color: isLight ? Colors.white : Colors.black,
-                                          fontSize: 24,
+                                          fontSize: DesktopOptimizedWidgets.getFontSize() + 10,
                                           fontWeight: FontWeight.w700,
                                         ),
                                       ),
                                     ),
                                   ),
                                 ),
-                                const SizedBox(height: 16),
+                                const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
                                 // Step Title - Dynamic
                                 Text(
@@ -16238,7 +16240,7 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                                     color: isLight
                                         ? Colors.black
                                         : Colors.white,
-                                    fontSize: 24,
+                                    fontSize: DesktopOptimizedWidgets.getFontSize() + 10,
                                     fontWeight: FontWeight.w700,
                                     letterSpacing: -0.5,
                                   ),
@@ -16275,7 +16277,7 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                                   ],
                                 ),
 
-                                const SizedBox(height: 8),
+                                const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
                                 // Step Labels
                                 Text(
@@ -16292,7 +16294,7 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                             ),
                           ),
 
-                          const SizedBox(height: 24),
+                          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
                           // === STEP 1: BASIC INFO ===
                           if (_currentStep == 1) ...[
@@ -16306,7 +16308,7 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                               onTap: () => _showMakeSelector(isLight),
                             ),
 
-                            const SizedBox(height: 16),
+                            const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
                             // Model Selector
                             _buildModernDropdown(
@@ -16320,7 +16322,7 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                                   : null,
                             ),
 
-                            const SizedBox(height: 16),
+                            const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
                             // Year Field
                             _buildModernTextField(
@@ -16344,7 +16346,7 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                               },
                             ),
 
-                            const SizedBox(height: 16),
+                            const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
                             // Vehicle Type Selector
                             _buildModernDropdown(
@@ -16365,7 +16367,7 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                               AppLocalizations.of(context)?.licensePlate ?? AppLocalizations.of(context)!.tr('License Plate'),
                               isLight,
                             ),
-                            const SizedBox(height: 16),
+                            const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
                             // License Plate Field with Visual Design
                             _buildModernLicensePlateField(isLight),
@@ -16411,15 +16413,15 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                                   : AppLocalizations.of(context)?.fuelEconomy ?? AppLocalizations.of(context)!.tr('Fuel Economy'),
                               isLight,
                             ),
-                            const SizedBox(height: 16),
+                            const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
                             DecoratedBox(
                               decoration: BoxDecoration(
                                 color: isLight ? Colors.white : Colors.black,
-                                borderRadius: BorderRadius.circular(20),
+                                borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                               ),
                               child: Padding(
-                                padding: const EdgeInsets.all(16),
+                                padding: DesktopAppWrapper.getPagePadding(),
                                 child: Row(
                                   children: [
                                     Expanded(
@@ -16431,7 +16433,7 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                                         inputFormatters: [FuelEconomyFormatter()],
                                         style: TextStyle(
                                           color: isLight ? Colors.black : Colors.white,
-                                          fontSize: 16,
+                                          fontSize: DesktopOptimizedWidgets.getFontSize(),
                                           fontWeight: FontWeight.w500,
                                         ),
                                         hintText: AppLocalizations.of(context)?.egWeight ?? AppLocalizations.of(context)!.tr('e.g., 25.5'),
@@ -16462,16 +16464,16 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                               AppLocalizations.of(context)?.cargoCapacity ?? AppLocalizations.of(context)!.tr('Cargo Capacity'),
                               isLight,
                             ),
-                            const SizedBox(height: 16),
+                            const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
                             Padding(
                               padding: const EdgeInsets.only(bottom: 16),
                               child: DecoratedBox(
                                 decoration: BoxDecoration(
                                   color: isLight ? Colors.white : Colors.black,
-                                  borderRadius: BorderRadius.circular(20),
+                                  borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                                 ),
                                 child: Padding(
-                                  padding: const EdgeInsets.all(16),
+                                  padding: DesktopAppWrapper.getPagePadding(),
                                   child: Row(
                                     children: [
                                       Expanded(
@@ -16483,7 +16485,7 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                                           inputFormatters: [GermanNumberFormatter(appSettings)],
                                           style: TextStyle(
                                             color: isLight ? Colors.black : Colors.white,
-                                            fontSize: 16,
+                                            fontSize: DesktopOptimizedWidgets.getFontSize(),
                                             fontWeight: FontWeight.w500,
                                           ),
                                           hintText: capacityHintText,
@@ -16506,23 +16508,23 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                               ),
                             ),
 
-                            const SizedBox(height: 24),
+                            const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
                             // Payload Capacity Field
                             _buildSectionHeader(
                               AppLocalizations.of(context)?.payloadCapacity ?? AppLocalizations.of(context)!.tr('Payload Capacity'),
                               isLight,
                             ),
-                            const SizedBox(height: 16),
+                            const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
                             Padding(
                               padding: const EdgeInsets.only(bottom: 16),
                               child: DecoratedBox(
                                 decoration: BoxDecoration(
                                   color: isLight ? Colors.white : Colors.black,
-                                  borderRadius: BorderRadius.circular(20),
+                                  borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                                 ),
                                 child: Padding(
-                                  padding: const EdgeInsets.all(16),
+                                  padding: DesktopAppWrapper.getPagePadding(),
                                   child: Row(
                                     children: [
                                       Expanded(
@@ -16534,7 +16536,7 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                                           inputFormatters: [GermanNumberFormatter(appSettings)],
                                           style: TextStyle(
                                             color: isLight ? Colors.black : Colors.white,
-                                            fontSize: 16,
+                                            fontSize: DesktopOptimizedWidgets.getFontSize(),
                                             fontWeight: FontWeight.w500,
                                           ),
                                           hintText: capacityHintText,
@@ -16557,14 +16559,14 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                               ),
                             ),
 
-                            const SizedBox(height: 24),
+                            const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
                             // Sectioned Loading Header
                             _buildSectionHeader(
                               AppLocalizations.of(context)?.sectionedLoading ?? AppLocalizations.of(context)!.tr('Sectioned Loading'),
                               isLight,
                             ),
-                            const SizedBox(height: 8),
+                            const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                             Text(
                               AppLocalizations.of(
                                     context,
@@ -16576,7 +16578,7 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                             ),
 
                             // Sections UI (always shown - mandatory)
-                            const SizedBox(height: 16),
+                            const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
                             _buildVehicleSectionsUI(isLight),
 
                             // Dimensions (if required)
@@ -16600,7 +16602,7 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                                   ),
                                 ],
                               ),
-                              const SizedBox(height: 12),
+                              const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                               Row(
                                 children: [
                                   Expanded(
@@ -16624,7 +16626,7 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                                   ),
                                 ],
                               ),
-                              const SizedBox(height: 12),
+                              const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                               _buildModernTextField(
                                 controller: _heightController,
                                 label: AppLocalizations.of(context)?.height ?? AppLocalizations.of(context)!.tr('Height'),
@@ -16651,7 +16653,7 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                                   )?.vehicleRegistration ?? AppLocalizations.of(context)!.tr('Vehicle Registration'),
                               isLight,
                             ),
-                            const SizedBox(height: 16),
+                            const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
                             _buildDocumentCapture(
                               title:
                                   AppLocalizations.of(
@@ -16667,14 +16669,14 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                               onTap: _captureVehicleRegistration,
                             ),
 
-                            const SizedBox(height: 24),
+                            const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
                             // Insurance Proof
                             _buildSectionHeader(
                               AppLocalizations.of(context)?.insuranceProof ?? AppLocalizations.of(context)!.tr('Insurance Proof'),
                               isLight,
                             ),
-                            const SizedBox(height: 16),
+                            const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
                             _buildDocumentCapture(
                               title:
                                   AppLocalizations.of(
@@ -16704,12 +16706,12 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                               },
                               child: AnimatedContainer(
                                 duration: const Duration(milliseconds: 200),
-                                padding: const EdgeInsets.all(16),
+                                padding: DesktopAppWrapper.getPagePadding(),
                                 decoration: BoxDecoration(
                                   color: _acceptTerms
                                       ? (isLight ? Colors.black : Colors.white).withOpacity(0.05)
                                       : Colors.transparent,
-                                  borderRadius: BorderRadius.circular(20),
+                                  borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                                 ),
                                 child: Row(
                                   children: [
@@ -16725,7 +16727,7 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                                                   ? Colors.black
                                                   : Colors.white)
                                             : (isLight ? Colors.black : Colors.white).withOpacity(0.1),
-                                        borderRadius: BorderRadius.circular(20),
+                                        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                                       ),
                                       child: _acceptTerms
                                           ? Icon(
@@ -16746,7 +16748,7 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                                             color: isLight
                                                 ? Colors.black
                                                 : Colors.white,
-                                            fontSize: 14,
+                                            fontSize: DesktopOptimizedWidgets.getFontSize(),
                                           ),
                                           children: [
                                             TextSpan(
@@ -16810,7 +16812,7 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                               ),
                             ),
 
-                            const SizedBox(height: 12),
+                            const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
                             // Data Accuracy Confirmation
                             TradeRepublicTap(
@@ -16821,12 +16823,12 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                               },
                               child: AnimatedContainer(
                                 duration: const Duration(milliseconds: 200),
-                                padding: const EdgeInsets.all(16),
+                                padding: DesktopAppWrapper.getPagePadding(),
                                 decoration: BoxDecoration(
                                   color: _confirmDataAccuracy
                                       ? (isLight ? Colors.black : Colors.white).withOpacity(0.05)
                                       : Colors.transparent,
-                                  borderRadius: BorderRadius.circular(20),
+                                  borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                                 ),
                                 child: Row(
                                   children: [
@@ -16842,7 +16844,7 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                                                   ? Colors.black
                                                   : Colors.white)
                                             : (isLight ? Colors.black : Colors.white).withOpacity(0.1),
-                                        borderRadius: BorderRadius.circular(20),
+                                        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                                       ),
                                       child: _confirmDataAccuracy
                                           ? Icon(
@@ -16864,7 +16866,7 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                                           color: isLight
                                               ? Colors.black
                                               : Colors.white,
-                                          fontSize: 14,
+                                          fontSize: DesktopOptimizedWidgets.getFontSize(),
                                         ),
                                       ),
                                     ),
@@ -16939,7 +16941,7 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
         title,
         style: TextStyle(
           color: isLight ? Colors.black : Colors.white,
-          fontSize: 20,
+          fontSize: DesktopOptimizedWidgets.getFontSize() + 6,
           fontWeight: FontWeight.w700,
           letterSpacing: -0.5,
         ),
@@ -16965,7 +16967,7 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                     ? Colors.black.withOpacity(0.05)
                     : Colors.white.withOpacity(0.1))
               : (isLight ? Colors.white : Colors.black),
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
         ),
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
@@ -17032,7 +17034,7 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                   ? Colors.black.withOpacity(0.05)
                   : Colors.white.withOpacity(0.1))
             : (isLight ? Colors.white : Colors.black),
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
       ),
       child: TradeRepublicTextField(
         useFormField: true,
@@ -17081,10 +17083,10 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
     return DecoratedBox(
       decoration: BoxDecoration(
         color: isLight ? Colors.white : Colors.black,
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
       ),
       child: Padding(
-        padding: const EdgeInsets.all(20),
+        padding: DesktopAppWrapper.getPagePadding(),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -17096,7 +17098,7 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                     AppLocalizations.of(context)?.temperatureRange ?? AppLocalizations.of(context)!.tr('Temperature Range'),
                     style: TextStyle(
                       color: textColor,
-                      fontSize: 16,
+                      fontSize: DesktopOptimizedWidgets.getFontSize(),
                       fontWeight: FontWeight.w700,
                       letterSpacing: -0.3,
                     ),
@@ -17136,7 +17138,7 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
               ],
             ),
 
-            const SizedBox(height: 24),
+            const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
             // ── Min temp ──
             Row(
@@ -17158,7 +17160,7 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                 ),
               ],
             ),
-            const SizedBox(height: 8),
+            const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
             TradeRepublicValueSlider(
               value: _minTempValue.clamp(minLow, minHigh),
               min: minLow,
@@ -17197,7 +17199,7 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                 ),
               ],
             ),
-            const SizedBox(height: 8),
+            const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
             TradeRepublicValueSlider(
               value: _maxTempValue.clamp(maxLow, maxHigh),
               min: maxLow,
@@ -17272,7 +17274,7 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
             color: isActive
                 ? (isLight ? Colors.white : Colors.black)
                 : (isLight ? Colors.black : Colors.white),
-            fontSize: 14,
+            fontSize: DesktopOptimizedWidgets.getFontSize(),
             fontWeight: FontWeight.w700,
           ),
         ),
@@ -17306,7 +17308,7 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                   label,
                   style: TextStyle(
                     color: isLight ? Colors.black : Colors.white,
-                    fontSize: 14,
+                    fontSize: DesktopOptimizedWidgets.getFontSize(),
                     fontWeight: FontWeight.w700,
                     letterSpacing: -0.2,
                   ),
@@ -17341,7 +17343,7 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
           color: isSelected
               ? (isLight ? Colors.black : Colors.white)
               : Colors.transparent,
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
         ),
         child: Text(
           unit,
@@ -17349,7 +17351,7 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
             color: isSelected
                 ? (isLight ? Colors.white : Colors.black)
                 : (isLight ? Colors.black54 : Colors.white54),
-            fontSize: 14,
+            fontSize: DesktopOptimizedWidgets.getFontSize(),
             fontWeight: FontWeight.w600,
           ),
         ),
@@ -17370,14 +17372,14 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
     return AnimatedContainer(
       duration: const Duration(milliseconds: 200),
       margin: const EdgeInsets.only(bottom: 16),
-      padding: const EdgeInsets.all(16),
+      padding: DesktopAppWrapper.getPagePadding(),
       decoration: BoxDecoration(
         color: controller.text.isNotEmpty
             ? (isLight
                   ? Colors.black.withOpacity(0.05)
                   : Colors.white.withOpacity(0.1))
             : (isLight ? Colors.white : Colors.black),
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
       ),
       child: Row(
         children: [
@@ -17403,7 +17405,7 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
               ),
               style: TextStyle(
                 color: isLight ? Colors.black : Colors.white,
-                fontSize: 16,
+                fontSize: DesktopOptimizedWidgets.getFontSize(),
               ),
             ),
           ),
@@ -17428,7 +17430,7 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                     unit,
                     style: TextStyle(
                       color: isLight ? Colors.black : Colors.white,
-                      fontSize: 16,
+                      fontSize: DesktopOptimizedWidgets.getFontSize(),
                       fontWeight: FontWeight.w500,
                     ),
                   ),
@@ -17483,14 +17485,14 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
               AppLocalizations.of(context)?.licensePlate ?? AppLocalizations.of(context)!.tr('License Plate'),
               style: TextStyle(
                 color: isLight ? Colors.black : Colors.white,
-                fontSize: 16,
+                fontSize: DesktopOptimizedWidgets.getFontSize(),
                 fontWeight: FontWeight.w600,
                 letterSpacing: -0.2,
               ),
             ),
           ],
         ),
-        const SizedBox(height: 16),
+        const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
         // Region toggle chips
         SingleChildScrollView(
@@ -17523,7 +17525,7 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                       color: isSelected
                           ? (isLight ? Colors.black : Colors.white)
                           : (isLight ? Colors.black : Colors.white).withOpacity(0.06),
-                      borderRadius: BorderRadius.circular(20),
+                      borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                     ),
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
@@ -17553,7 +17555,7 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
 
         // License Plate Visual
         Center(child: _buildModernLicensePlateVisual(isLight)),
-        const SizedBox(height: 16),
+        const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
         // Front + Rear photo buttons — directly below the plate
         Row(
@@ -17582,7 +17584,7 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
           ],
         ),
 
-        const SizedBox(height: 16),
+        const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
         // State/Country selector (only USA has states, only EU has sub-countries)
         if (_selectedRegion == 'USA')
@@ -17779,7 +17781,7 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                   maxLength: 12,
                   style: const TextStyle(
                     color: Color(0xFF111111),
-                    fontSize: 20,
+                    fontSize: DesktopOptimizedWidgets.getFontSize() + 6,
                     fontWeight: FontWeight.w900,
                     letterSpacing: 2,
                   ),
@@ -17992,7 +17994,7 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                   maxLength: 9,
                   style: const TextStyle(
                     color: Color(0xFF111111),
-                    fontSize: 20,
+                    fontSize: DesktopOptimizedWidgets.getFontSize() + 6,
                     fontWeight: FontWeight.w900,
                     letterSpacing: 2.5,
                   ),
@@ -18163,7 +18165,7 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
             AppLocalizations.of(context)?.vehiclePhotos ?? AppLocalizations.of(context)!.tr('Vehicle Photos'),
             style: TextStyle(
               color: isLight ? Colors.black : Colors.white,
-              fontSize: 16,
+              fontSize: DesktopOptimizedWidgets.getFontSize(),
               fontWeight: FontWeight.w600,
               letterSpacing: -0.2,
             ),
@@ -18172,10 +18174,10 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
 
         // Photo Instructions - Simplified
         Container(
-          padding: const EdgeInsets.all(16),
+          padding: DesktopAppWrapper.getPagePadding(),
           decoration: BoxDecoration(
             color: (isLight ? Colors.black : Colors.white).withOpacity(0.05),
-            borderRadius: BorderRadius.circular(20),
+            borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
           ),
           child: Row(
             children: [
@@ -18190,7 +18192,7 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                   AppLocalizations.of(context)?.photoBothLicensePlatesClearly ?? AppLocalizations.of(context)!.tr('Photo both license plates clearly'),
                   style: TextStyle(
                     color: isLight ? Colors.black : Colors.white,
-                    fontSize: 14,
+                    fontSize: DesktopOptimizedWidgets.getFontSize(),
                     fontWeight: FontWeight.w500,
                   ),
                 ),
@@ -18244,7 +18246,7 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
             padding: const EdgeInsets.all(14),
             decoration: BoxDecoration(
               color: isLight ? Colors.white : Colors.black,
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -18268,7 +18270,7 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                           padding: const EdgeInsets.all(10),
                           decoration: BoxDecoration(
                             color: Colors.green.shade50,
-                            borderRadius: BorderRadius.circular(20),
+                            borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                           ),
                           child: Column(
                             children: [
@@ -18296,7 +18298,7 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                           padding: const EdgeInsets.all(10),
                           decoration: BoxDecoration(
                             color: Colors.white,
-                            borderRadius: BorderRadius.circular(20),
+                            borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                           ),
                           child: Column(
                             children: [
@@ -18329,7 +18331,7 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                           padding: const EdgeInsets.all(10),
                           decoration: BoxDecoration(
                             color: Colors.green.shade50,
-                            borderRadius: BorderRadius.circular(20),
+                            borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                           ),
                           child: Column(
                             children: [
@@ -18357,7 +18359,7 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                           padding: const EdgeInsets.all(10),
                           decoration: BoxDecoration(
                             color: Colors.white,
-                            borderRadius: BorderRadius.circular(20),
+                            borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                           ),
                           child: Column(
                             children: [
@@ -18409,12 +18411,12 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
           onTap: onTap,
           child: AnimatedContainer(
             duration: const Duration(milliseconds: 200),
-            padding: const EdgeInsets.all(16),
+            padding: DesktopAppWrapper.getPagePadding(),
             decoration: BoxDecoration(
               color: isLight
                   ? (hasPhoto ? Colors.green.withOpacity(0.15) : Colors.white)
                   : (hasPhoto ? Colors.green.withOpacity(0.25) : Colors.black),
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
             ),
             child: Row(
               children: [
@@ -18426,7 +18428,7 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                         : (isLight
                               ? Colors.black.withOpacity(0.2)
                               : Colors.black.withOpacity(0.3)),
-                    borderRadius: BorderRadius.circular(20),
+                    borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                   ),
                   child: Icon(
                     hasPhoto ? CupertinoIcons.checkmark_circle_fill : icon,
@@ -18444,7 +18446,7 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                       Text(
                         label,
                         style: TextStyle(
-                          fontSize: 16,
+                          fontSize: DesktopOptimizedWidgets.getFontSize(),
                           fontWeight: FontWeight.w600,
                           color: isLight ? Colors.black : Colors.white,
                         ),
@@ -18473,7 +18475,7 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
 
         // Image Preview Container - Only shown when photo exists
         if (hasPhoto) ...[
-          const SizedBox(height: 12),
+          const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
           TradeRepublicTap(
             onTap: () =>
                 _showFullScreenImage(context, null, photoPath, isLight),
@@ -18482,10 +18484,10 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
               height: 200,
               decoration: BoxDecoration(
                 color: isLight ? Colors.white : Colors.black,
-                borderRadius: BorderRadius.circular(20),
+                borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
               ),
               child: ClipRRect(
-                borderRadius: BorderRadius.circular(20),
+                borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                 child: (photoPath.startsWith('/') || photoPath.startsWith('file://'))
                     ? Image.file(
                         File(photoPath),
@@ -18568,7 +18570,7 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
               ),
             ),
 
-            const SizedBox(height: 12),
+            const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
             // Cancel button - Settings Style
             TradeRepublicButton(
@@ -18676,7 +18678,7 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
               ),
             ),
 
-            const SizedBox(height: 12),
+            const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
             // Cancel button - Settings Style
             TradeRepublicButton(
@@ -18705,12 +18707,12 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
         onTap();
       },
       child: Container(
-        padding: const EdgeInsets.all(16),
+        padding: DesktopAppWrapper.getPagePadding(),
         decoration: BoxDecoration(
           color: isSelected
               ? (isLight ? Colors.black : Colors.white)
               : Colors.transparent,
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
         ),
         child: Row(
           children: [
@@ -18718,7 +18720,7 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
               child: Text(
                 option,
                 style: TextStyle(
-                  fontSize: 16,
+                  fontSize: DesktopOptimizedWidgets.getFontSize(),
                   fontWeight: isSelected ? FontWeight.w700 : FontWeight.w600,
                   color: isSelected
                       ? (isLight ? Colors.white : Colors.black)
@@ -18802,7 +18804,7 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
               ),
             ),
 
-            const SizedBox(height: 12),
+            const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
             // Cancel button - Settings Style
             TradeRepublicButton(
@@ -18879,14 +18881,14 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                             color: isSelected
                                 ? (isLight ? Colors.black : Colors.white)
                                 : Colors.transparent,
-                            borderRadius: BorderRadius.circular(20),
+                            borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                           ),
                           child: Row(
                             children: [
                               // Icon
                               Text(
                                 typeIcon,
-                                style: const TextStyle(fontSize: 24),
+                                style: const TextStyle(fontSize: DesktopOptimizedWidgets.getFontSize() + 10,,
                               ),
                               const SizedBox(width: 16),
                               // Name and Description
@@ -18897,7 +18899,7 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                                     Text(
                                       typeName,
                                       style: TextStyle(
-                                        fontSize: 16,
+                                        fontSize: DesktopOptimizedWidgets.getFontSize(),
                                         fontWeight: isSelected
                                             ? FontWeight.w700
                                             : FontWeight.w600,
@@ -18954,7 +18956,7 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
               ),
             ),
 
-            const SizedBox(height: 12),
+            const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
             // Cancel button - Settings Style
             TradeRepublicButton(
@@ -19029,7 +19031,7 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
               ),
             ),
 
-            const SizedBox(height: 12),
+            const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
             // Cancel button - Settings Style
             TradeRepublicButton(
@@ -19128,10 +19130,10 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                   ? Colors.black.withOpacity(0.05)
                   : Colors.white.withOpacity(0.1))
             : (isLight ? Colors.white : Colors.black),
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
       ),
       child: Padding(
-        padding: const EdgeInsets.all(16),
+        padding: DesktopAppWrapper.getPagePadding(),
         child: Row(
           children: [
             // Icon
@@ -19141,7 +19143,7 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
               decoration: BoxDecoration(
                 color: (iconColor ?? (isLight ? Colors.black : Colors.white))
                     .withOpacity(0.1),
-                borderRadius: BorderRadius.circular(20),
+                borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
               ),
               child: Icon(
                 icon,
@@ -19274,10 +19276,10 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
     return Container(
       decoration: BoxDecoration(
         color: isLight ? Colors.white : Colors.black,
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
       ),
       child: Padding(
-        padding: const EdgeInsets.all(16),
+        padding: DesktopAppWrapper.getPagePadding(),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -19308,7 +19310,7 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                                   : 'Cargo Sections'),
                         style: TextStyle(
                           color: isLight ? Colors.black : Colors.white,
-                          fontSize: 16,
+                          fontSize: DesktopOptimizedWidgets.getFontSize(),
                           fontWeight: FontWeight.w600,
                           letterSpacing: -0.2,
                         ),
@@ -19365,7 +19367,7 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                   color: (isLight ? Colors.black : Colors.white).withOpacity(
                     0.05,
                   ),
-                  borderRadius: BorderRadius.circular(20),
+                  borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                 ),
                 child: Row(
                   children: [
@@ -19414,7 +19416,7 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                     style: TextStyle(
                       color: (isLight ? Colors.black : Colors.white)
                           .withOpacity(0.5),
-                      fontSize: 14,
+                      fontSize: DesktopOptimizedWidgets.getFontSize(),
                     ),
                   ),
                 ),
@@ -19463,9 +19465,9 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                 child: Container(
                   height: 56,
                   clipBehavior: Clip.antiAlias,
-                  padding: const EdgeInsets.all(16),
+                  padding: DesktopAppWrapper.getPagePadding(),
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20),
+                    borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                   ),
                   child: Row(
                     children: _vehicleSections.asMap().entries.map((entry) {
@@ -19508,7 +19510,7 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                               '${percentage.toStringAsFixed(0)}%',
                               style: const TextStyle(
                                 color: Colors.white,
-                                fontSize: 16,
+                                fontSize: DesktopOptimizedWidgets.getFontSize(),
                                 fontWeight: FontWeight.w800,
                                 letterSpacing: -0.3,
                               ),
@@ -19584,7 +19586,7 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                                 name.toUpperCase(),
                                 style: TextStyle(
                                   color: isLight ? Colors.black : Colors.white,
-                                  fontSize: 14,
+                                  fontSize: DesktopOptimizedWidgets.getFontSize(),
                                   fontWeight: FontWeight.w600,
                                   letterSpacing: 0.5,
                                 ),
@@ -19616,13 +19618,13 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                                 _getSectionColor(index).withOpacity(0.7),
                               ],
                             ),
-                            borderRadius: BorderRadius.circular(20),
+                            borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                           ),
                           child: Text(
                             '${percentage.toStringAsFixed(0)}%',
                             style: const TextStyle(
                               color: Colors.white,
-                              fontSize: 16,
+                              fontSize: DesktopOptimizedWidgets.getFontSize(),
                               fontWeight: FontWeight.w700,
                               letterSpacing: -0.3,
                             ),
@@ -19657,7 +19659,7 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
               ? [Colors.white, Colors.white]
               : [Colors.black, Colors.black],
         ),
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
       ),
       child: Stack(
         children: [
@@ -19756,7 +19758,7 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                   _getSectionColor(index).withOpacity(0.7),
                 ],
               ),
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
             ),
             child: Center(
               child: Column(
@@ -19839,7 +19841,7 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                   _getSectionColor(index).withOpacity(0.6),
                 ],
               ),
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
             ),
             child: Center(
               child: Column(
@@ -19906,8 +19908,8 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
         Container(
           width: 200,
           height: 75,
-          padding: const EdgeInsets.all(16),
-          decoration: BoxDecoration(borderRadius: BorderRadius.circular(20)),
+          padding: DesktopAppWrapper.getPagePadding(),
+          decoration: BoxDecoration(borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
           clipBehavior: Clip.antiAlias,
           child: Row(
             children: _vehicleSections.asMap().entries.map((entry) {
@@ -19998,10 +20000,10 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
       margin: const EdgeInsets.only(bottom: 12),
       decoration: BoxDecoration(
         color: isLight ? Colors.white : Colors.black,
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
       ),
       child: Padding(
-        padding: const EdgeInsets.all(16),
+        padding: DesktopAppWrapper.getPagePadding(),
         child: Row(
           children: [
             // Color indicator
@@ -20010,7 +20012,7 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
               height: 44,
               decoration: BoxDecoration(
                 color: _getSectionColor(index),
-                borderRadius: BorderRadius.circular(20),
+                borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
               ),
               child: Center(
                 child: Text(
@@ -20033,7 +20035,7 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                     name,
                     style: TextStyle(
                       color: isLight ? Colors.black : Colors.white,
-                      fontSize: 16,
+                      fontSize: DesktopOptimizedWidgets.getFontSize(),
                       fontWeight: FontWeight.w700,
                     ),
                     overflow: TextOverflow.ellipsis,
@@ -20048,7 +20050,7 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                         ),
                         decoration: BoxDecoration(
                           color: _getSectionColor(index).withOpacity(0.2),
-                          borderRadius: BorderRadius.circular(20),
+                          borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                         ),
                         child: Text(
                           '${percentage.toStringAsFixed(1)}%',
@@ -20064,7 +20066,7 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                         '= ${absoluteCapacity.toStringAsFixed(0)} $unit',
                         style: TextStyle(
                           color: isLight ? Colors.black : Colors.white,
-                          fontSize: 14,
+                          fontSize: DesktopOptimizedWidgets.getFontSize(),
                           fontWeight: FontWeight.w500,
                         ),
                       ),
@@ -20174,14 +20176,14 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                         ),
                       ),
 
-                      const SizedBox(height: 8),
+                      const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
                       // Subtitle
                       Text(
                         '${remainingCapacity.toStringAsFixed(0)} $unit available',
                         style: TextStyle(
                           color: (isLight ? Colors.black : Colors.white).withOpacity(0.5),
-                          fontSize: 16,
+                          fontSize: DesktopOptimizedWidgets.getFontSize(),
                           fontWeight: FontWeight.w400,
                         ),
                       ),
@@ -20220,7 +20222,7 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                             unit,
                             style: TextStyle(
                               color: (isLight ? Colors.black : Colors.white).withOpacity(0.6),
-                              fontSize: 24,
+                              fontSize: DesktopOptimizedWidgets.getFontSize() + 10,
                               fontWeight: FontWeight.w500,
                             ),
                           ),
@@ -20234,7 +20236,7 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                           color: wouldExceed
                               ? Colors.red
                               : (isLight ? Colors.blue : Colors.blue[400]!),
-                          fontSize: 20,
+                          fontSize: DesktopOptimizedWidgets.getFontSize() + 6,
                           fontWeight: FontWeight.w600,
                         ),
                         child: Text(
@@ -20418,14 +20420,14 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                       ],
                     ),
 
-                    const SizedBox(height: 8),
+                    const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
                     // Subtitle
                     Text(
                       '${AppLocalizations.of(context)?.maxCapacity ?? AppLocalizations.of(context)!.tr('Max')} ${maxAvailableCapacity.toStringAsFixed(0)} $unit',
                       style: TextStyle(
                         color: (isLight ? Colors.black : Colors.white).withOpacity(0.5),
-                        fontSize: 16,
+                        fontSize: DesktopOptimizedWidgets.getFontSize(),
                         fontWeight: FontWeight.w400,
                       ),
                     ),
@@ -20464,7 +20466,7 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                           unit,
                           style: TextStyle(
                             color: (isLight ? Colors.black : Colors.white).withOpacity(0.6),
-                            fontSize: 24,
+                            fontSize: DesktopOptimizedWidgets.getFontSize() + 10,
                             fontWeight: FontWeight.w500,
                           ),
                         ),
@@ -20476,7 +20478,7 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                       duration: const Duration(milliseconds: 200),
                       style: TextStyle(
                         color: wouldExceed ? Colors.red : sectionColor,
-                        fontSize: 20,
+                        fontSize: DesktopOptimizedWidgets.getFontSize() + 6,
                         fontWeight: FontWeight.w600,
                       ),
                       child: Text(
@@ -20492,7 +20494,7 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                         color: isLight
                             ? Colors.black.withOpacity(0.05)
                             : Colors.white.withOpacity(0.08),
-                        borderRadius: BorderRadius.circular(16),
+                        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius()),
                       ),
                       child: TradeRepublicTextField(
                         controller: nameController,
@@ -20610,7 +20612,7 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
               ),
             ],
           ),
-          const SizedBox(height: 12),
+          const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
           // Description
           Text(
@@ -20618,7 +20620,7 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
             textAlign: TextAlign.center,
             style: TextStyle(
               color: isLight ? Colors.black : Colors.white,
-              fontSize: 16,
+              fontSize: DesktopOptimizedWidgets.getFontSize(),
               height: 1.4,
             ),
           ),
@@ -20635,7 +20637,7 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
             width: double.infinity,
             isDestructive: true,
           ),
-          const SizedBox(height: 12),
+          const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
           // Cancel button
           TradeRepublicButton(
@@ -20818,11 +20820,11 @@ class _AccountSettingsModalState extends State<_AccountSettingsModal> {
                   ),
                 ],
               ),
-              const SizedBox(height: 8),
+              const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
               Text(
                 AppLocalizations.of(context)?.freeWaitingTimeQuestion ?? AppLocalizations.of(context)!.tr('How long will you wait for free at pickup/delivery?'),
                 style: TextStyle(
-                  fontSize: 14,
+                  fontSize: DesktopOptimizedWidgets.getFontSize(),
                   color: (widget.isLight ? Colors.black : Colors.white)
                       .withOpacity(0.6),
                 ),
@@ -20844,7 +20846,7 @@ class _AccountSettingsModalState extends State<_AccountSettingsModal> {
                   },
                 ),
               ),
-              const SizedBox(height: 16),
+              const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
             ],
           ),
         ),
@@ -20885,11 +20887,11 @@ class _AccountSettingsModalState extends State<_AccountSettingsModal> {
                   ),
                 ],
               ),
-              const SizedBox(height: 8),
+              const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
               Text(
                 AppLocalizations.of(context)?.waitingRateQuestion ?? AppLocalizations.of(context)!.tr('How much per hour after free waiting time?'),
                 style: TextStyle(
-                  fontSize: 14,
+                  fontSize: DesktopOptimizedWidgets.getFontSize(),
                   color: (widget.isLight ? Colors.black : Colors.white)
                       .withOpacity(0.6),
                 ),
@@ -20911,7 +20913,7 @@ class _AccountSettingsModalState extends State<_AccountSettingsModal> {
                   },
                 ),
               ),
-              const SizedBox(height: 16),
+              const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
             ],
           ),
         ),
@@ -21006,11 +21008,11 @@ class _AccountSettingsModalState extends State<_AccountSettingsModal> {
                   ),
                 ],
               ),
-              const SizedBox(height: 8),
+              const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
               Text(
                 AppLocalizations.of(context)?.howFarSearchOrders ?? AppLocalizations.of(context)!.tr('How far should we search for open orders?'),
                 style: TextStyle(
-                  fontSize: 14,
+                  fontSize: DesktopOptimizedWidgets.getFontSize(),
                   color: (isLight ? Colors.black : Colors.white)
                       .withOpacity(0.6),
                 ),
@@ -21032,7 +21034,7 @@ class _AccountSettingsModalState extends State<_AccountSettingsModal> {
 
               // Slider (works in user's unit)
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
+                padding: EdgeInsets.symmetric(horizontal: DesktopAppWrapper.getHorizontalPadding()),
                 child: TradeRepublicContinuousSlider(
                   value: tempDisplayRadius,
                   min: 1,
@@ -21074,7 +21076,7 @@ class _AccountSettingsModalState extends State<_AccountSettingsModal> {
 
               // Quick select buttons
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
+                padding: EdgeInsets.symmetric(horizontal: DesktopAppWrapper.getHorizontalPadding()),
                 child: Row(
                   children: quickSelects.map((radius) {
                     final isSelected = tempDisplayRadius.round() == radius.round();
@@ -21096,11 +21098,11 @@ class _AccountSettingsModalState extends State<_AccountSettingsModal> {
                   }).toList(),
                 ),
               ),
-              const SizedBox(height: 24),
+              const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
               // Save button
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
+                padding: EdgeInsets.symmetric(horizontal: DesktopAppWrapper.getHorizontalPadding()),
                 child: TradeRepublicButton(
                   label: AppLocalizations.of(context)?.save ?? AppLocalizations.of(context)!.tr('Save'),
                   onPressed: () {
@@ -21412,7 +21414,7 @@ class _AccountSettingsModalState extends State<_AccountSettingsModal> {
                       children: [
                         // Warning Icon
                         Container(
-                          padding: const EdgeInsets.all(16),
+                          padding: DesktopAppWrapper.getPagePadding(),
                           decoration: BoxDecoration(
                             color: Colors.red.withOpacity(0.1),
                             shape: BoxShape.circle,
@@ -21424,7 +21426,7 @@ class _AccountSettingsModalState extends State<_AccountSettingsModal> {
                           ),
                         ),
 
-                        const SizedBox(height: 24),
+                        const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
                         // Title
                         Text(
@@ -21437,7 +21439,7 @@ class _AccountSettingsModalState extends State<_AccountSettingsModal> {
                           ),
                         ),
 
-                        const SizedBox(height: 12),
+                        const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
                         // Warning message
                         Text(
@@ -21464,7 +21466,7 @@ class _AccountSettingsModalState extends State<_AccountSettingsModal> {
                           ),
                           decoration: BoxDecoration(
                             color: widget.isLight ? Colors.white : Colors.black,
-                            borderRadius: BorderRadius.circular(20),
+                            borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                           ),
                           child: TradeRepublicTextField(
                             controller: passwordController,
@@ -21475,7 +21477,7 @@ class _AccountSettingsModalState extends State<_AccountSettingsModal> {
                               color: widget.isLight
                                   ? Colors.black
                                   : Colors.white,
-                              fontSize: 16,
+                              fontSize: DesktopOptimizedWidgets.getFontSize(),
                             ),
                             hintText:
                                 AppLocalizations.of(
@@ -21508,14 +21510,14 @@ class _AccountSettingsModalState extends State<_AccountSettingsModal> {
                           ),
                         ),
 
-                        const SizedBox(height: 24),
+                        const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
                         // Warning checklist
                         Container(
-                          padding: const EdgeInsets.all(16),
+                          padding: DesktopAppWrapper.getPagePadding(),
                           decoration: BoxDecoration(
                             color: Colors.red.withOpacity(0.05),
-                            borderRadius: BorderRadius.circular(20),
+                            borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                           ),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -21532,7 +21534,7 @@ class _AccountSettingsModalState extends State<_AccountSettingsModal> {
                                       : Colors.white,
                                 ),
                               ),
-                              const SizedBox(height: 12),
+                              const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                               _buildDeletedItem(
                                 AppLocalizations.of(
                                       context,
@@ -21562,7 +21564,7 @@ class _AccountSettingsModalState extends State<_AccountSettingsModal> {
                           ),
                         ),
 
-                        const SizedBox(height: 24),
+                        const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
                       ],
                     ),
                   ),
@@ -21570,7 +21572,7 @@ class _AccountSettingsModalState extends State<_AccountSettingsModal> {
 
                 // Bottom buttons - fixed at bottom
                 Padding(
-                  padding: const EdgeInsets.all(16),
+                  padding: DesktopAppWrapper.getPagePadding(),
                   child: Column(
                     children: [
                       // Delete account button
@@ -21608,7 +21610,7 @@ class _AccountSettingsModalState extends State<_AccountSettingsModal> {
                               },
                       ),
 
-                      const SizedBox(height: 12),
+                      const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
                       // Cancel button
                       TradeRepublicButton(
@@ -21643,7 +21645,7 @@ class _AccountSettingsModalState extends State<_AccountSettingsModal> {
             child: Text(
               text,
               style: TextStyle(
-                fontSize: 14,
+                fontSize: DesktopOptimizedWidgets.getFontSize(),
                 color: (widget.isLight ? Colors.black : Colors.white)
                     .withOpacity(0.7),
               ),
@@ -21759,7 +21761,7 @@ class _AccountSettingsModalState extends State<_AccountSettingsModal> {
               ),
             ],
           ),
-          const SizedBox(height: 24),
+          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
           Expanded(
             child: SingleChildScrollView(
@@ -21769,7 +21771,7 @@ class _AccountSettingsModalState extends State<_AccountSettingsModal> {
                   _buildSectionHeader(
                     AppLocalizations.of(context)?.securityAndAuthentication ?? AppLocalizations.of(context)!.tr('Security & Authentication'),
                   ),
-                  const SizedBox(height: 16),
+                  const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
                   // Biometric Authentication
                   _buildSettingsTile(
@@ -21839,7 +21841,7 @@ class _AccountSettingsModalState extends State<_AccountSettingsModal> {
                   _buildSectionHeader(
                     AppLocalizations.of(context)?.accountActivity ?? AppLocalizations.of(context)!.tr('Account Activity'),
                   ),
-                  const SizedBox(height: 16),
+                  const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
                   // Login History
                   _buildSettingsTile(
@@ -21865,7 +21867,7 @@ class _AccountSettingsModalState extends State<_AccountSettingsModal> {
                   _buildSectionHeader(
                     AppLocalizations.of(context)?.waitingTimeCharges ?? AppLocalizations.of(context)!.tr('Waiting Time Charges'),
                   ),
-                  const SizedBox(height: 16),
+                  const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
                   // Free Waiting Time
                   _buildSettingsTile(
@@ -21919,7 +21921,7 @@ class _AccountSettingsModalState extends State<_AccountSettingsModal> {
 
                   // AI Order Suggestions Section
                   _buildSectionHeader(AppLocalizations.of(context)?.aiOrderSuggestions ?? AppLocalizations.of(context)!.tr('AI Order Suggestions')),
-                  const SizedBox(height: 16),
+                  const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
                   // Enable/Disable AI Suggestions
                   Builder(
@@ -21974,7 +21976,7 @@ class _AccountSettingsModalState extends State<_AccountSettingsModal> {
                   _buildSectionHeader(
                     AppLocalizations.of(context)?.privacyAndData ?? AppLocalizations.of(context)!.tr('Privacy & Data'),
                   ),
-                  const SizedBox(height: 16),
+                  const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
                   // Download Data
                   _buildSettingsTile(
@@ -22139,7 +22141,7 @@ class _ChangePasswordModalState extends State<_ChangePasswordModal> {
                 ),
               ],
             ),
-            const SizedBox(height: 24),
+            const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
             Expanded(
               child: SingleChildScrollView(
@@ -22192,10 +22194,10 @@ class _ChangePasswordModalState extends State<_ChangePasswordModal> {
 
                     // Password Requirements
                     Container(
-                      padding: const EdgeInsets.all(16),
+                      padding: DesktopAppWrapper.getPagePadding(),
                       decoration: BoxDecoration(
                         color: Colors.blue.withOpacity(0.1),
-                        borderRadius: BorderRadius.circular(20),
+                        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                       ),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -22205,12 +22207,12 @@ class _ChangePasswordModalState extends State<_ChangePasswordModal> {
                                   context,
                                 )?.passwordRequirements ?? AppLocalizations.of(context)!.tr('Password Requirements:'),
                             style: TextStyle(
-                              fontSize: 14,
+                              fontSize: DesktopOptimizedWidgets.getFontSize(),
                               fontWeight: FontWeight.w600,
                               color: Colors.blue,
                             ),
                           ),
-                          const SizedBox(height: 8),
+                          const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                           _buildRequirement('At least 8 characters long'),
                           _buildRequirement(
                             AppLocalizations.of(
@@ -22349,17 +22351,17 @@ class _TwoFactorModalState extends State<_TwoFactorModal> {
             ),
           ],
         ),
-        const SizedBox(height: 24),
+        const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
         // Status
         Container(
           width: double.infinity,
-          padding: const EdgeInsets.all(16),
+          padding: DesktopAppWrapper.getPagePadding(),
           decoration: BoxDecoration(
             color: (widget.isLight ? Colors.black : Colors.white).withOpacity(
               0.05,
             ),
-            borderRadius: BorderRadius.circular(20),
+            borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
           ),
           child: Row(
             children: [
@@ -22374,7 +22376,7 @@ class _TwoFactorModalState extends State<_TwoFactorModal> {
                 child: Text(
                   widget.isEnabled ? '2FA is enabled' : '2FA is disabled',
                   style: TextStyle(
-                    fontSize: 16,
+                    fontSize: DesktopOptimizedWidgets.getFontSize(),
                     fontWeight: FontWeight.w600,
                     color: widget.isLight ? Colors.black : Colors.white,
                   ),
@@ -22384,7 +22386,7 @@ class _TwoFactorModalState extends State<_TwoFactorModal> {
             ],
           ),
         ),
-        const SizedBox(height: 24),
+        const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
         // Action Button
         SizedBox(
@@ -22441,7 +22443,7 @@ class _LoginHistoryModalState extends State<_LoginHistoryModal> {
               ),
             ],
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
           // Subtitle
           Align(
@@ -22449,12 +22451,12 @@ class _LoginHistoryModalState extends State<_LoginHistoryModal> {
             child: Text(
               AppLocalizations.of(context)?.recentLoginActivity ?? AppLocalizations.of(context)!.tr('Recent login activity'),
               style: TextStyle(
-                fontSize: 14,
+                fontSize: DesktopOptimizedWidgets.getFontSize(),
                 color: widget.isLight ? Colors.black : Colors.white,
               ),
             ),
           ),
-          const SizedBox(height: 24),
+          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
           // Login History List
           Expanded(
@@ -22468,11 +22470,11 @@ class _LoginHistoryModalState extends State<_LoginHistoryModal> {
                           size: 64,
                           color: widget.isLight ? Colors.white : Colors.black,
                         ),
-                        const SizedBox(height: 16),
+                        const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
                         Text(
                           AppLocalizations.of(context)?.noLoginHistory ?? AppLocalizations.of(context)!.tr('No login history'),
                           style: TextStyle(
-                            fontSize: 16,
+                            fontSize: DesktopOptimizedWidgets.getFontSize(),
                             color: widget.isLight ? Colors.black : Colors.white,
                           ),
                         ),
@@ -22508,11 +22510,11 @@ class _LoginHistoryModalState extends State<_LoginHistoryModal> {
     bool isAutoLogin = userAgent.contains('auto-login');
 
     return Container(
-      padding: const EdgeInsets.all(16),
+      padding: DesktopAppWrapper.getPagePadding(),
       margin: const EdgeInsets.only(bottom: 12),
       decoration: BoxDecoration(
         color: widget.isLight ? Colors.white : Colors.black.withOpacity(0.3),
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
       ),
       child: Row(
         children: [
@@ -22521,7 +22523,7 @@ class _LoginHistoryModalState extends State<_LoginHistoryModal> {
             padding: const EdgeInsets.all(10),
             decoration: BoxDecoration(
               color: widget.isLight ? Colors.white : Colors.black,
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
             ),
             child: Icon(
               _getDeviceIcon(userAgent),
@@ -22557,7 +22559,7 @@ class _LoginHistoryModalState extends State<_LoginHistoryModal> {
                         ),
                         decoration: BoxDecoration(
                           color: Colors.blue.withOpacity(0.1),
-                          borderRadius: BorderRadius.circular(20),
+                          borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                         ),
                         child: Text(
                           AppLocalizations.of(context)?.autoMode ?? AppLocalizations.of(context)!.tr('Auto'),
@@ -22946,7 +22948,7 @@ class _ProfileImageUploadModalState extends State<_ProfileImageUploadModal> {
           ],
         ),
 
-        const SizedBox(height: 16),
+        const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
         // Scrollable content
         Flexible(
@@ -22994,17 +22996,17 @@ class _ProfileImageUploadModalState extends State<_ProfileImageUploadModal> {
 
                 // Loading indicator
                 if (_isUploading) ...[
-                  const SizedBox(height: 16),
+                  const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
                   Container(
-                    padding: const EdgeInsets.all(16),
+                    padding: DesktopAppWrapper.getPagePadding(),
                     child: Column(
                       children: [
                         CultiooLoadingIndicator(),
-                        const SizedBox(height: 12),
+                        const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                         Text(
                           AppLocalizations.of(context)?.uploadingImage ?? AppLocalizations.of(context)!.tr('Uploading image...'),
                           style: TextStyle(
-                            fontSize: 16,
+                            fontSize: DesktopOptimizedWidgets.getFontSize(),
                             fontWeight: FontWeight.w600,
                             color: widget.isLight ? Colors.black : Colors.white,
                           ),
@@ -23018,7 +23020,7 @@ class _ProfileImageUploadModalState extends State<_ProfileImageUploadModal> {
           ),
         ),
 
-        const SizedBox(height: 8),
+        const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
         // Cancel button - Settings Style
         TradeRepublicButton(
@@ -23050,10 +23052,10 @@ class _ProfileImageUploadModalState extends State<_ProfileImageUploadModal> {
             }
           : null,
       child: Container(
-        padding: const EdgeInsets.all(16),
+        padding: DesktopAppWrapper.getPagePadding(),
         decoration: BoxDecoration(
           color: Colors.transparent,
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
         ),
         child: Row(
           children: [
@@ -23063,7 +23065,7 @@ class _ProfileImageUploadModalState extends State<_ProfileImageUploadModal> {
                 color: isDestructive
                     ? Colors.red.withOpacity(0.1)
                     : (widget.isLight ? Colors.white : Colors.black),
-                borderRadius: BorderRadius.circular(20),
+                borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
               ),
               child: Icon(
                 icon,
@@ -23082,7 +23084,7 @@ class _ProfileImageUploadModalState extends State<_ProfileImageUploadModal> {
                   Text(
                     title,
                     style: TextStyle(
-                      fontSize: 16,
+                      fontSize: DesktopOptimizedWidgets.getFontSize(),
                       fontWeight: FontWeight.w600,
                       color: isDestructive
                           ? Colors.red
@@ -23406,7 +23408,7 @@ class _CarbonFootprintModalState extends State<_CarbonFootprintModal> {
 
               pw.SizedBox(height: 28),
               pw.Divider(color: grey300, thickness: 0.5),
-              pw.SizedBox(height: 24),
+              pw.SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
               // ── 4 KEY STATS in a row ─────────────────────────────────────
               pw.Row(
@@ -23549,7 +23551,7 @@ class _CarbonFootprintModalState extends State<_CarbonFootprintModal> {
             pw.Text(
               value,
               style: pw.TextStyle(
-                fontSize: 18,
+                fontSize: DesktopOptimizedWidgets.getFontSize() + 4,
                 fontWeight: pw.FontWeight.bold,
                 color: PdfColors.black,
                 letterSpacing: -0.5,
@@ -23673,7 +23675,7 @@ class _CarbonFootprintModalState extends State<_CarbonFootprintModal> {
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
             decoration: BoxDecoration(
               color: const Color(0xFF10B981).withOpacity(0.08),
-              borderRadius: BorderRadius.circular(16),
+              borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius()),
             ),
             child: Row(
               children: [
@@ -23705,7 +23707,7 @@ class _CarbonFootprintModalState extends State<_CarbonFootprintModal> {
                   backgroundColor: const Color(0xFF10B981),
                   foregroundColor: Colors.white,
                   height: 40,
-                  borderRadius: BorderRadius.circular(12),
+                  borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius()),
                   padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 0),
                   onPressed: _downloadCertificate,
                 ),
@@ -23713,19 +23715,19 @@ class _CarbonFootprintModalState extends State<_CarbonFootprintModal> {
             ),
           ),
 
-        const SizedBox(height: 16),
+        const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
         Text(
           loc?.last12Months ?? AppLocalizations.of(context)!.tr('Last 12 Months'),
           style: TextStyle(
-            fontSize: 14,
+            fontSize: DesktopOptimizedWidgets.getFontSize(),
             fontWeight: FontWeight.w600,
             color: fg.withOpacity(0.45),
             letterSpacing: 0.4,
           ),
         ),
 
-        const SizedBox(height: 8),
+        const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
         // Monthly list
         Expanded(
@@ -23747,12 +23749,12 @@ class _CarbonFootprintModalState extends State<_CarbonFootprintModal> {
                 padding: const EdgeInsets.only(bottom: 10),
                 child: AnimatedContainer(
                   duration: const Duration(milliseconds: 250),
-                  padding: const EdgeInsets.all(16),
+                  padding: DesktopAppWrapper.getPagePadding(),
                   decoration: BoxDecoration(
                     color: isEditing
                         ? const Color(0xFF10B981).withOpacity(0.10)
                         : fg.withOpacity(0.04),
-                    borderRadius: BorderRadius.circular(16),
+                    borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius()),
                   ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -23771,7 +23773,7 @@ class _CarbonFootprintModalState extends State<_CarbonFootprintModal> {
                                       child: Text(
                                         _formatMonth(key, loc),
                                         style: TextStyle(
-                                          fontSize: 16,
+                                          fontSize: DesktopOptimizedWidgets.getFontSize(),
                                           fontWeight: FontWeight.w600,
                                           color: fg,
                                         ),
@@ -23878,14 +23880,14 @@ class _CarbonFootprintModalState extends State<_CarbonFootprintModal> {
                             ),
                           ],
                         ),
-                        const SizedBox(height: 12),
+                        const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                         TradeRepublicButton(
                           label: AppLocalizations.of(context)?.save ?? AppLocalizations.of(context)!.tr('Save'),
                           width: double.infinity,
                           height: 48,
                           backgroundColor: const Color(0xFF10B981),
                           foregroundColor: Colors.white,
-                          borderRadius: BorderRadius.circular(12),
+                          borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius()),
                           onPressed: () => _saveMonth(key, useMiles: useMiles),
                         ),
                       ],

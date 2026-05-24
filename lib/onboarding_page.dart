@@ -6,6 +6,8 @@ import 'shared/services/app_settings.dart';
 import 'shared/widgets/trade_republic_button.dart';
 import 'shared/widgets/page_indicator.dart';
 import 'shared/services/app_localizations.dart';
+import 'package:cultioo_business/shared/widgets/desktop_app_wrapper.dart';
+import 'package:cultioo_business/shared/widgets/desktop_optimized_widgets.dart';
 
 class OnboardingStep {
   final String title;
@@ -314,7 +316,7 @@ Driver Registration: Free to go! No Cultioo account required - just register as 
                           ),
                         ),
                       ),
-                      const SizedBox(height: 8),
+                      const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                       Text(
                         step.subtitle,
                         style: TextStyle(
@@ -326,16 +328,16 @@ Driver Registration: Free to go! No Cultioo account required - just register as 
                           letterSpacing: -0.2,
                         ),
                       ),
-                      const SizedBox(height: 24),
+                      const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
                       SlideTransition(
                         position: _slideAnimation,
                         child: Container(
-                          padding: const EdgeInsets.all(20),
+                          padding: DesktopAppWrapper.getPagePadding(),
                           decoration: BoxDecoration(
                             color: isLight
                                 ? Colors.black.withValues(alpha: 0.03)
                                 : Colors.white.withValues(alpha: 0.06),
-                            borderRadius: BorderRadius.circular(16),
+                            borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius()),
                           ),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -346,7 +348,7 @@ Driver Registration: Free to go! No Cultioo account required - just register as 
                                   color: isLight
                                       ? Colors.black.withValues(alpha: 0.80)
                                       : Colors.white.withValues(alpha: 0.80),
-                                  fontSize: 14,
+                                  fontSize: DesktopOptimizedWidgets.getFontSize(),
                                   height: 1.55,
                                   letterSpacing: 0.1,
                                   fontWeight: FontWeight.w400,
@@ -383,7 +385,7 @@ Driver Registration: Free to go! No Cultioo account required - just register as 
             height: 120,
             decoration: BoxDecoration(
               color: isLight ? Colors.black : Colors.white,
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
               boxShadow: [
                 BoxShadow(
                   color: Colors.black.withValues(alpha: 0.1),
@@ -415,12 +417,12 @@ Driver Registration: Free to go! No Cultioo account required - just register as 
             textAlign: TextAlign.center,
           ),
         ),
-        const SizedBox(height: 16),
+        const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
         Text(
           step.subtitle,
           style: TextStyle(
             color: isLight ? Colors.black54 : Colors.white70,
-            fontSize: 18,
+            fontSize: DesktopOptimizedWidgets.getFontSize() + 4,
           ),
           textAlign: TextAlign.center,
         ),
@@ -429,12 +431,12 @@ Driver Registration: Free to go! No Cultioo account required - just register as 
         SlideTransition(
           position: _slideAnimation,
           child: Container(
-                  padding: const EdgeInsets.all(16),
+                  padding: DesktopAppWrapper.getPagePadding(),
                   decoration: BoxDecoration(
                     color: isLight
                         ? Colors.black.withValues(alpha: 0.05)
                         : Colors.white.withValues(alpha: 0.1),
-                    borderRadius: BorderRadius.circular(20),
+                    borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                   ),
                   child: Column(
                     children: [
@@ -442,7 +444,7 @@ Driver Registration: Free to go! No Cultioo account required - just register as 
                         step.description,
                         style: TextStyle(
                           color: isLight ? Colors.black : Colors.white,
-                          fontSize: 16,
+                          fontSize: DesktopOptimizedWidgets.getFontSize(),
                           height: 1.5,
                         ),
                         textAlign: TextAlign.center,
@@ -456,7 +458,7 @@ Driver Registration: Free to go! No Cultioo account required - just register as 
     );
 
     return SingleChildScrollView(
-      padding: const EdgeInsets.all(20),
+      padding: DesktopAppWrapper.getPagePadding(),
       child: content,
     );
   }
@@ -532,7 +534,7 @@ Driver Registration: Free to go! No Cultioo account required - just register as 
                     title,
                     style: TextStyle(
                       color: isLight ? Colors.black : Colors.white,
-                      fontSize: 14,
+                      fontSize: DesktopOptimizedWidgets.getFontSize(),
                       fontWeight: FontWeight.w700,
                       letterSpacing: -0.2,
                     ),
@@ -570,7 +572,7 @@ Driver Registration: Free to go! No Cultioo account required - just register as 
             Icons.business_center,
             isLight,
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
           _buildAccountOption(
             AppLocalizations.of(context)?.driverAccount ?? 'Driver Account',
             AppLocalizations.of(context)?.registerDirectlyAsDriver ??
@@ -593,12 +595,12 @@ Driver Registration: Free to go! No Cultioo account required - just register as 
     return ScaleTransition(
       scale: _scaleAnimation,
       child: Container(
-        padding: const EdgeInsets.all(16),
+        padding: DesktopAppWrapper.getPagePadding(),
         decoration: BoxDecoration(
           color: isLight
               ? Colors.black.withValues(alpha: 0.05)
               : Colors.white.withValues(alpha: 0.1),
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
         ),
         child: Row(
           children: [
@@ -607,7 +609,7 @@ Driver Registration: Free to go! No Cultioo account required - just register as 
               height: 50,
               decoration: BoxDecoration(
                 color: isLight ? Colors.black : Colors.white,
-                borderRadius: BorderRadius.circular(20),
+                borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
               ),
               child: Icon(
                 icon,
@@ -624,7 +626,7 @@ Driver Registration: Free to go! No Cultioo account required - just register as 
                     title,
                     style: TextStyle(
                       color: isLight ? Colors.black : Colors.white,
-                      fontSize: 16,
+                      fontSize: DesktopOptimizedWidgets.getFontSize(),
                       fontWeight: FontWeight.w600,
                     ),
                   ),
@@ -633,7 +635,7 @@ Driver Registration: Free to go! No Cultioo account required - just register as 
                     description,
                     style: TextStyle(
                       color: isLight ? Colors.black54 : Colors.white70,
-                      fontSize: 14,
+                      fontSize: DesktopOptimizedWidgets.getFontSize(),
                     ),
                   ),
                 ],

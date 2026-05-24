@@ -21,6 +21,8 @@ import 'package:path_provider/path_provider.dart';
 import '../../shared/services/app_localizations.dart';
 import '../../shared/widgets/cultioo_spinner.dart';
 import '../../shared/widgets/trade_republic_tap.dart';
+import 'package:cultioo_business/shared/widgets/desktop_app_wrapper.dart';
+import 'package:cultioo_business/shared/widgets/desktop_optimized_widgets.dart';
 
 Widget _autoLoginSheetTopChrome() {
   final isDesktop = Platform.isMacOS || Platform.isWindows || Platform.isLinux;
@@ -248,7 +250,7 @@ class _AutoLoginPageState extends State<AutoLoginPage> {
               )),
             ],
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
           // Subtitle with Account Type
           Text(
@@ -278,7 +280,7 @@ class _AutoLoginPageState extends State<AutoLoginPage> {
                         const Color(0xFF5AC8FA).withOpacity(0.2),
                       ],
               ),
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
             ),
             child: Row(
               mainAxisSize: MainAxisSize.min,
@@ -296,7 +298,7 @@ class _AutoLoginPageState extends State<AutoLoginPage> {
                 Text(
                   '${appSettings.userType == 'Driver' ? AppLocalizations.of(context)?.delviooLabel ?? 'Delvioo' : 'Business'} Account',
                   style: TextStyle(
-                    fontSize: 14,
+                    fontSize: DesktopOptimizedWidgets.getFontSize(),
                     fontWeight: FontWeight.w600,
                     color: appSettings.userType == 'Driver'
                         ? Colors.white
@@ -343,7 +345,7 @@ class _AutoLoginPageState extends State<AutoLoginPage> {
             ],
           ),
 
-          const SizedBox(height: 16),
+          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
           // Action buttons - Uber/Trade Republic Style
           Row(
@@ -359,13 +361,13 @@ class _AutoLoginPageState extends State<AutoLoginPage> {
                     decoration: BoxDecoration(
                       color: (isLight ? Colors.black : Colors.white)
                           .withOpacity(isLight ? 0.05 : 0.8),
-                      borderRadius: BorderRadius.circular(20),
+                      borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                     ),
                     child: Center(
                       child: Text(
                         AppLocalizations.of(context)?.cancel ?? 'Cancel',
                         style: TextStyle(
-                          fontSize: 16,
+                          fontSize: DesktopOptimizedWidgets.getFontSize(),
                           fontWeight: FontWeight.w600,
                           color: const Color(0xFFFF3B30),
                           letterSpacing: -0.3,
@@ -387,13 +389,13 @@ class _AutoLoginPageState extends State<AutoLoginPage> {
                     decoration: BoxDecoration(
                       color: (isLight ? Colors.black : Colors.white)
                           .withOpacity(isLight ? 0.05 : 0.8),
-                      borderRadius: BorderRadius.circular(20),
+                      borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                     ),
                     child: Center(
                       child: Text(
                         AppLocalizations.of(context)?.switchAccount ?? 'Switch Account',
                         style: TextStyle(
-                          fontSize: 16,
+                          fontSize: DesktopOptimizedWidgets.getFontSize(),
                           fontWeight: FontWeight.w600,
                           color: isLight ? Colors.black : Colors.white,
                           letterSpacing: -0.3,
@@ -405,7 +407,7 @@ class _AutoLoginPageState extends State<AutoLoginPage> {
               ),
             ],
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
         ],
       ),
     );
@@ -434,7 +436,7 @@ class _AutoLoginPageState extends State<AutoLoginPage> {
       margin: const EdgeInsets.only(bottom: 12),
       child: TradeRepublicTap(
         onTap: onTap,
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
         child: Container(
           padding: const EdgeInsets.all(18),
           decoration: BoxDecoration(
@@ -445,7 +447,7 @@ class _AutoLoginPageState extends State<AutoLoginPage> {
                   ? [Colors.white, Colors.transparent]
                   : [Colors.transparent, const Color(0xFF000000)],
             ),
-            borderRadius: BorderRadius.circular(20),
+            borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
           ),
           child: Row(
             children: [
@@ -465,7 +467,7 @@ class _AutoLoginPageState extends State<AutoLoginPage> {
                             const Color(0xFF5AC8FA).withOpacity(0.15),
                           ],
                   ),
-                  borderRadius: BorderRadius.circular(20),
+                  borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                 ),
                 child: Icon(
                   icon,
@@ -483,7 +485,7 @@ class _AutoLoginPageState extends State<AutoLoginPage> {
                     Text(
                       title,
                       style: TextStyle(
-                        fontSize: 16,
+                        fontSize: DesktopOptimizedWidgets.getFontSize(),
                         fontWeight: FontWeight.w600,
                         color: isLight ? Colors.black : Colors.white,
                         letterSpacing: -0.3,
@@ -575,7 +577,7 @@ class _AutoLoginPageState extends State<AutoLoginPage> {
                   )),
                 ],
               ),
-              const SizedBox(height: 8),
+              const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
               Text(
                 AppLocalizations.of(context)?.authenticateWithPassword ?? 'Authenticate with your password',
@@ -587,7 +589,7 @@ class _AutoLoginPageState extends State<AutoLoginPage> {
                   ),
                 ),
               ),
-              const SizedBox(height: 24),
+              const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
               TradeRepublicTextField.password(
                 controller: _passwordController,
@@ -600,7 +602,7 @@ class _AutoLoginPageState extends State<AutoLoginPage> {
                   }
                 },
               ),
-              const SizedBox(height: 24),
+              const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
               Row(
                 children: [
@@ -682,7 +684,7 @@ class _AutoLoginPageState extends State<AutoLoginPage> {
                 )),
               ],
             ),
-            const SizedBox(height: 8),
+            const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
             Text(
               AppLocalizations.of(context)?.enterYour8Digit2faCode ?? 'Enter your 8-digit 2FA code',
@@ -692,7 +694,7 @@ class _AutoLoginPageState extends State<AutoLoginPage> {
                 color: (isLight ? Colors.black : Colors.white).withOpacity(0.5),
               ),
             ),
-            const SizedBox(height: 24),
+            const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
             TradeRepublicTextField.code(
               controller: _twoFactorController,
@@ -700,7 +702,7 @@ class _AutoLoginPageState extends State<AutoLoginPage> {
               maxLength: 8,
               autofocus: true,
             ),
-            const SizedBox(height: 24),
+            const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
             Row(
               children: [
@@ -723,13 +725,13 @@ class _AutoLoginPageState extends State<AutoLoginPage> {
                             decoration: BoxDecoration(
                               color: (isLight ? Colors.black : Colors.white)
                                   .withOpacity(isLight ? 0.1 : 0.7),
-                              borderRadius: BorderRadius.circular(20),
+                              borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                             ),
                             child: Center(
                               child: Text(
                                 AppLocalizations.of(context)?.cancel ?? 'Cancel',
                                 style: TextStyle(
-                                  fontSize: 16,
+                                  fontSize: DesktopOptimizedWidgets.getFontSize(),
                                   fontWeight: FontWeight.w600,
                                   color: Colors.red,
                                 ),
@@ -765,7 +767,7 @@ class _AutoLoginPageState extends State<AutoLoginPage> {
                                 end: Alignment.bottomRight,
                                 colors: [Color(0xFF34C759), Color(0xFF30D158)],
                               ),
-                              borderRadius: BorderRadius.circular(20),
+                              borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                               boxShadow: [
                                 BoxShadow(
                                   color: const Color(
@@ -786,7 +788,7 @@ class _AutoLoginPageState extends State<AutoLoginPage> {
                                   : Text(
                                       AppLocalizations.of(context)?.verify ?? 'Verify',
                                       style: TextStyle(
-                                        fontSize: 16,
+                                        fontSize: DesktopOptimizedWidgets.getFontSize(),
                                         fontWeight: FontWeight.w600,
                                         color: Colors.white,
                                       ),
@@ -1183,7 +1185,7 @@ class _AutoLoginModalContentState extends State<_AutoLoginModalContent> {
                   )),
                 ],
               ),
-              const SizedBox(height: 8),
+              const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
               Text(
                 AppLocalizations.of(context)?.authenticateWithPassword ?? 'Authenticate with your password',
                 style: TextStyle(
@@ -1193,7 +1195,7 @@ class _AutoLoginModalContentState extends State<_AutoLoginModalContent> {
                       .withOpacity(0.5),
                 ),
               ),
-              const SizedBox(height: 24),
+              const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
               TradeRepublicTextField.password(
                 controller: _passwordController,
                 hintText: AppLocalizations.of(context)?.password ?? 'Password',
@@ -1205,7 +1207,7 @@ class _AutoLoginModalContentState extends State<_AutoLoginModalContent> {
                   }
                 },
               ),
-              const SizedBox(height: 24),
+              const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
               Row(
                 children: [
                   Expanded(
@@ -1373,11 +1375,11 @@ class _AutoLoginModalContentState extends State<_AutoLoginModalContent> {
                 )),
               ],
             ),
-            const SizedBox(height: 8),
+            const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
             Text(
               AppLocalizations.of(context)?.pleaseEnterValid8DigitCode ?? 'Please enter your 8-digit 2FA code',
             ),
-            const SizedBox(height: 24),
+            const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
             Row(
               children: [
                 Expanded(
@@ -1437,7 +1439,7 @@ class _AutoLoginModalContentState extends State<_AutoLoginModalContent> {
                 )),
               ],
             ),
-            const SizedBox(height: 8),
+            const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
             Text(
               AppLocalizations.of(context)?.pleaseEnterValid8DigitCode ?? 'Please enter your 8-digit 2FA code',
             ),
@@ -1497,7 +1499,7 @@ class _AutoLoginModalContentState extends State<_AutoLoginModalContent> {
                 ),
               ),
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
             // Hidden TextField for input
             Opacity(
               opacity: 0.0,
@@ -1883,7 +1885,7 @@ class _AutoLoginModalContentState extends State<_AutoLoginModalContent> {
                                     )),
                                   ],
                                 ),
-                                const SizedBox(height: 8),
+                                const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                                 Text(
                                   AppLocalizations.of(context)?.enterYour8Digit2faCode ?? 'Enter your 8-digit 2FA code',
                                   style: TextStyle(
@@ -1896,14 +1898,14 @@ class _AutoLoginModalContentState extends State<_AutoLoginModalContent> {
                                             .withOpacity(0.5),
                                   ),
                                 ),
-                                const SizedBox(height: 24),
+                                const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
                                 TradeRepublicTextField.code(
                                   controller: _twoFactorController,
                                   hintText: '12345678',
                                   maxLength: 8,
                                   autofocus: true,
                                 ),
-                                const SizedBox(height: 24),
+                                const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
                                 Row(
                                   children: [
                                     Expanded(
@@ -1964,7 +1966,7 @@ class _AutoLoginModalContentState extends State<_AutoLoginModalContent> {
                   ),
                 ],
               ),
-              const SizedBox(height: 24),
+              const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
               // Action buttons - Trade Republic Style (text only)
               Row(
                 children: [
@@ -2022,7 +2024,7 @@ class _AutoLoginModalContentState extends State<_AutoLoginModalContent> {
                   ),
                 ],
               ),
-              const SizedBox(height: 16),
+              const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
             ],
           ),
         ),
@@ -2041,7 +2043,7 @@ class _AutoLoginModalContentState extends State<_AutoLoginModalContent> {
         color: Colors.transparent,
         child: TradeRepublicTap(
           onTap: onTap,
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
           splashColor: (widget.isLight ? Colors.black : Colors.white)
               .withOpacity(0.05),
           highlightColor: (widget.isLight ? Colors.black : Colors.white)
@@ -2052,7 +2054,7 @@ class _AutoLoginModalContentState extends State<_AutoLoginModalContent> {
               color: widget.isLight
                   ? Colors.transparent
                   : Colors.transparent,
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
             ),
             child: Row(
               children: [
@@ -2068,7 +2070,7 @@ class _AutoLoginModalContentState extends State<_AutoLoginModalContent> {
                   child: Text(
                     title,
                     style: TextStyle(
-                      fontSize: 16,
+                      fontSize: DesktopOptimizedWidgets.getFontSize(),
                       fontWeight: FontWeight.w500,
                       color: widget.isLight ? Colors.black : Colors.white,
                       letterSpacing: -0.2,
@@ -2436,7 +2438,7 @@ class _SuccessAnimationWidgetState extends State<_SuccessAnimationWidget>
                               ),
                               textAlign: TextAlign.center,
                             ),
-                            const SizedBox(height: 8),
+                            const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                             Container(
                               padding: const EdgeInsets.symmetric(
                                 horizontal: 20,
@@ -2444,12 +2446,12 @@ class _SuccessAnimationWidgetState extends State<_SuccessAnimationWidget>
                               ),
                               decoration: BoxDecoration(
                                 color: const Color(0xFF34C759).withOpacity(0.1),
-                                borderRadius: BorderRadius.circular(20),
+                                borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                               ),
                               child: Text(
                                 '✓ Login successful',
                                 style: TextStyle(
-                                  fontSize: 16,
+                                  fontSize: DesktopOptimizedWidgets.getFontSize(),
                                   fontWeight: FontWeight.w500,
                                   color: const Color(0xFF34C759),
                                   letterSpacing: -0.2,

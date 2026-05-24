@@ -17,6 +17,8 @@ import '../../../shared/services/app_localizations.dart';
 import '../../../shared/widgets/cultioo_spinner.dart';
 import '../../../shared/widgets/trade_republic_tap.dart';
 import '../../../shared/widgets/trade_republic_bar_chart.dart';
+import 'package:cultioo_business/shared/widgets/desktop_app_wrapper.dart';
+import 'package:cultioo_business/shared/widgets/desktop_optimized_widgets.dart';
 
 class OrdersPage extends StatefulWidget {
   const OrdersPage({super.key});
@@ -664,7 +666,7 @@ class _OrdersPageState extends State<OrdersPage> with TickerProviderStateMixin {
                         child: _buildRevenueSummary(isLight),
                       ),
 
-                      const SizedBox(height: 24),
+                      const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
                       // Filter chips
                       _buildAnimatedSection(
@@ -673,7 +675,7 @@ class _OrdersPageState extends State<OrdersPage> with TickerProviderStateMixin {
                         child: _buildFilterChips(isLight),
                       ),
 
-                      const SizedBox(height: 16),
+                      const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
                       // Orders List
                       _buildAnimatedSection(
@@ -812,7 +814,7 @@ class _OrdersPageState extends State<OrdersPage> with TickerProviderStateMixin {
             ),
           ],
         ),
-        const SizedBox(height: 8),
+        const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
         Text(
           _appSettings.formatCurrency(totalRevenue),
           style: TextStyle(
@@ -822,7 +824,7 @@ class _OrdersPageState extends State<OrdersPage> with TickerProviderStateMixin {
             letterSpacing: -1,
           ),
         ),
-        const SizedBox(height: 24),
+        const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
         // Orders count - Trade Republic minimal row
         TradeRepublicCard(
           boxShadow: const [],
@@ -833,7 +835,7 @@ class _OrdersPageState extends State<OrdersPage> with TickerProviderStateMixin {
               Text(
                 '$totalOrders',
                 style: TextStyle(
-                  fontSize: 20,
+                  fontSize: DesktopOptimizedWidgets.getFontSize() + 6,
                   fontWeight: FontWeight.w700,
                   color: isLight ? Colors.black : Colors.white,
                 ),
@@ -879,7 +881,7 @@ class _OrdersPageState extends State<OrdersPage> with TickerProviderStateMixin {
                 ? Colors.black.withOpacity(0.3)
                 : Colors.white.withOpacity(0.3),
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
           Text(
             AppLocalizations.of(context)?.noOrdersYet ?? 'No Orders Yet',
             style: TextStyle(
@@ -893,7 +895,7 @@ class _OrdersPageState extends State<OrdersPage> with TickerProviderStateMixin {
             AppLocalizations.of(context)?.yourOrdersWillAppearHere ??
                 'Your orders will appear here',
             style: TextStyle(
-              fontSize: 14,
+              fontSize: DesktopOptimizedWidgets.getFontSize(),
               fontWeight: FontWeight.w400,
               color: isLight
                   ? Colors.black.withOpacity(0.5)
@@ -1312,7 +1314,7 @@ class _OrdersPageState extends State<OrdersPage> with TickerProviderStateMixin {
                       child: Text(
                         customerName,
                         style: TextStyle(
-                          fontSize: 16,
+                          fontSize: DesktopOptimizedWidgets.getFontSize(),
                           fontWeight: isUnread
                               ? FontWeight.w700
                               : FontWeight.w600,
@@ -1402,7 +1404,7 @@ class _OrdersPageState extends State<OrdersPage> with TickerProviderStateMixin {
               Text(
                 _appSettings.formatCurrency(totalAmount),
                 style: TextStyle(
-                  fontSize: 16,
+                  fontSize: DesktopOptimizedWidgets.getFontSize(),
                   fontWeight: FontWeight.w600,
                   color: isLight ? Colors.black : Colors.white,
                 ),
@@ -1564,7 +1566,7 @@ class _OrdersPageState extends State<OrdersPage> with TickerProviderStateMixin {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text('Pay Driver',
-                          style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700,
+                          style: TextStyle(fontSize: DesktopOptimizedWidgets.getFontSize() + 6, fontWeight: FontWeight.w700,
                             color: isDark ? Colors.white : Colors.black)),
                         Text('Order #${_displayOrderNumberFor(order)}',
                           style: TextStyle(fontSize: 13,
@@ -1577,7 +1579,7 @@ class _OrdersPageState extends State<OrdersPage> with TickerProviderStateMixin {
                 TradeRepublicCard(
                   boxShadow: const [],
                   width: double.infinity,
-                  padding: const EdgeInsets.all(16),
+                  padding: DesktopAppWrapper.getPagePadding(),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -1586,13 +1588,13 @@ class _OrdersPageState extends State<OrdersPage> with TickerProviderStateMixin {
                           color: isDark ? Colors.white60 : Colors.black45)),
                       Text(
                         shippingCost != null ? _appSettings.formatCurrency(shippingCost) : '—',
-                        style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700,
+                        style: TextStyle(fontSize: DesktopOptimizedWidgets.getFontSize(), fontWeight: FontWeight.w700,
                           color: isDark ? Colors.white : Colors.black),
                       ),
                     ],
                   ),
                 ),
-                const SizedBox(height: 16),
+                const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
                 // Saved payment methods
                 if (savedMethods.isNotEmpty) ...[
@@ -1600,7 +1602,7 @@ class _OrdersPageState extends State<OrdersPage> with TickerProviderStateMixin {
                     style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600,
                       color: isDark ? Colors.white54 : Colors.black45,
                       letterSpacing: 0.5)),
-                  const SizedBox(height: 8),
+                  const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                   ...savedMethods.map((method) {
                     final type = method['type'] ?? '';
                     final isSelected = selectedMethod == 'saved_${method['id']}';
@@ -1649,7 +1651,7 @@ class _OrdersPageState extends State<OrdersPage> with TickerProviderStateMixin {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(label,
-                                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600,
+                                    style: TextStyle(fontSize: DesktopOptimizedWidgets.getFontSize(), fontWeight: FontWeight.w600,
                                       color: isDark ? Colors.white : Colors.black)),
                                   if (detail.isNotEmpty)
                                     Text(detail,
@@ -1666,7 +1668,7 @@ class _OrdersPageState extends State<OrdersPage> with TickerProviderStateMixin {
                       ),
                     );
                   }),
-                  const SizedBox(height: 8),
+                  const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                 ],
 
                 // Monioo Wallet option
@@ -1697,7 +1699,7 @@ class _OrdersPageState extends State<OrdersPage> with TickerProviderStateMixin {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text('Monioo Wallet',
-                                style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600,
+                                style: TextStyle(fontSize: DesktopOptimizedWidgets.getFontSize(), fontWeight: FontWeight.w600,
                                   color: isDark ? Colors.white : Colors.black)),
                               Text('Instant payment from your balance',
                                 style: TextStyle(fontSize: 12,
@@ -1714,7 +1716,7 @@ class _OrdersPageState extends State<OrdersPage> with TickerProviderStateMixin {
                 ),
 
                 if (error != null) ...[
-                  const SizedBox(height: 12),
+                  const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                   Text(error!, style: const TextStyle(color: Colors.red, fontSize: 13)),
                 ],
                 const SizedBox(height: 20),
@@ -2198,7 +2200,7 @@ class _OrdersPageState extends State<OrdersPage> with TickerProviderStateMixin {
                     Text(
                       AppLocalizations.of(context)?.orderLabel ?? 'Order',
                       style: TextStyle(
-                        fontSize: 14,
+                        fontSize: DesktopOptimizedWidgets.getFontSize(),
                         fontWeight: FontWeight.w600,
                         color: isLight ? Colors.black : Colors.white,
                       ),
@@ -2216,9 +2218,9 @@ class _OrdersPageState extends State<OrdersPage> with TickerProviderStateMixin {
                     
                     // Split Order Slider - only if multiple splits exist
                     if (splitFamily.length > 1) ...[
-                      const SizedBox(height: 16),
+                      const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
                       Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 20),
+                        padding: EdgeInsets.symmetric(horizontal: DesktopAppWrapper.getHorizontalPadding()),
                         child: TradeRepublicSlider(
                           labels: splitLabels,
                           selectedIndex: selectedSplitIndex,
@@ -2238,7 +2240,7 @@ class _OrdersPageState extends State<OrdersPage> with TickerProviderStateMixin {
                     DecoratedBox(
                       decoration: BoxDecoration(
                         color: _getStatusColors(status).first,
-                        borderRadius: BorderRadius.circular(20),
+                        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                       ),
                       child: Padding(
                         padding: const EdgeInsets.symmetric(
@@ -2258,7 +2260,7 @@ class _OrdersPageState extends State<OrdersPage> with TickerProviderStateMixin {
                               child: Text(
                                 _getStatusText(status),
                                 style: const TextStyle(
-                                  fontSize: 16,
+                                  fontSize: DesktopOptimizedWidgets.getFontSize(),
                                   fontWeight: FontWeight.w700,
                                   color: Colors.white,
                                 ),
@@ -2273,7 +2275,7 @@ class _OrdersPageState extends State<OrdersPage> with TickerProviderStateMixin {
                   ],
                 ),
 
-                const SizedBox(height: 16),
+                const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
                 Expanded(
                   child: SingleChildScrollView(
@@ -2322,7 +2324,7 @@ class _OrdersPageState extends State<OrdersPage> with TickerProviderStateMixin {
                                         child: Text(
                                           'Loading driver information...',
                                           style: const TextStyle(
-                                            fontSize: 14,
+                                            fontSize: DesktopOptimizedWidgets.getFontSize(),
                                             fontWeight: FontWeight.w500,
                                             color: Colors.white,
                                           ),
@@ -2366,7 +2368,7 @@ class _OrdersPageState extends State<OrdersPage> with TickerProviderStateMixin {
                                               )?.driverAcceptedThisOrder ??
                                               'Driver accepted this order',
                                           style: const TextStyle(
-                                            fontSize: 14,
+                                            fontSize: DesktopOptimizedWidgets.getFontSize(),
                                             fontWeight: FontWeight.w600,
                                             color: Colors.white,
                                           ),
@@ -2486,7 +2488,7 @@ class _OrdersPageState extends State<OrdersPage> with TickerProviderStateMixin {
                           ],
                         ),
 
-                        const SizedBox(height: 12),
+                        const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
                         // Live Location — only for Delvioo orders with an assigned driver
                         if ((currentOrder['delvioo'] ?? 1) == 1 &&
@@ -2571,7 +2573,7 @@ class _OrdersPageState extends State<OrdersPage> with TickerProviderStateMixin {
                                                 DecoratedBox(
                                                   decoration: BoxDecoration(
                                                     color: Colors.blue,
-                                                    borderRadius: BorderRadius.circular(12),
+                                                    borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius()),
                                                   ),
                                                   child: Padding(
                                                     padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
@@ -2589,7 +2591,7 @@ class _OrdersPageState extends State<OrdersPage> with TickerProviderStateMixin {
                                                 DecoratedBox(
                                                   decoration: BoxDecoration(
                                                     color: Colors.green,
-                                                    borderRadius: BorderRadius.circular(12),
+                                                    borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius()),
                                                   ),
                                                   child: Padding(
                                                     padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
@@ -2705,7 +2707,7 @@ class _OrdersPageState extends State<OrdersPage> with TickerProviderStateMixin {
                                                       DecoratedBox(
                                                         decoration: BoxDecoration(
                                                           color: Colors.orange,
-                                                          borderRadius: BorderRadius.circular(12),
+                                                          borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius()),
                                                         ),
                                                         child: const Padding(
                                                           padding: EdgeInsets.all(10),
@@ -2750,13 +2752,13 @@ class _OrdersPageState extends State<OrdersPage> with TickerProviderStateMixin {
                                                         Expanded(
                                                           child: Text(
                                                             AppLocalizations.of(context)?.selfShipPlatformNote ?? 'Cultioo withdraws from this order. As a SaaS platform, we take no responsibility for shipping or delivery.',
-                                                            style: const TextStyle(fontSize: 14, color: Colors.white, fontWeight: FontWeight.w500, height: 1.4),
+                                                            style: const TextStyle(fontSize: DesktopOptimizedWidgets.getFontSize(), color: Colors.white, fontWeight: FontWeight.w500, height: 1.4),
                                                           ),
                                                         ),
                                                       ],
                                                     ),
                                                   ),
-                                                  const SizedBox(height: 12),
+                                                  const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                                                   // ── Steps ──
                                                   TradeRepublicCard(
                                                     padding: EdgeInsets.zero,
@@ -2791,7 +2793,7 @@ class _OrdersPageState extends State<OrdersPage> with TickerProviderStateMixin {
                                                       ],
                                                     ),
                                                   ),
-                                                  const SizedBox(height: 12),
+                                                  const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                                                   // ── Warning ──
                                                   TradeRepublicCard(
                                                     backgroundColor: Colors.orange,
@@ -2809,7 +2811,7 @@ class _OrdersPageState extends State<OrdersPage> with TickerProviderStateMixin {
                                                       ],
                                                     ),
                                                   ),
-                                                  const SizedBox(height: 24),
+                                                  const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
                                                   // ── Confirm Button ──
                                                   Padding(
                                                     padding: const EdgeInsets.symmetric(horizontal: 0),
@@ -2821,7 +2823,7 @@ class _OrdersPageState extends State<OrdersPage> with TickerProviderStateMixin {
                                                       onPressed: () => Navigator.pop(context, true),
                                                     ),
                                                   ),
-                                                  const SizedBox(height: 12),
+                                                  const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                                                   Padding(
                                                     padding: const EdgeInsets.fromLTRB(0, 0, 0, 8),
                                                     child: TradeRepublicButton(
@@ -2852,7 +2854,7 @@ class _OrdersPageState extends State<OrdersPage> with TickerProviderStateMixin {
                                   ],
                                 ),
                                 if ((currentOrder['delvioo'] ?? 1) == 0) ...[
-                                  const SizedBox(height: 12),
+                                  const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                                   TradeRepublicCard(
                                     backgroundColor: Colors.orange,
                                     child: Row(
@@ -2867,7 +2869,7 @@ class _OrdersPageState extends State<OrdersPage> with TickerProviderStateMixin {
                                           child: Text(
                                             'You are responsible for shipping this order to the customer.',
                                             style: const TextStyle(
-                                              fontSize: 14,
+                                              fontSize: DesktopOptimizedWidgets.getFontSize(),
                                               color: Colors.white,
                                               fontWeight: FontWeight.w500,
                                             ),
@@ -2892,7 +2894,7 @@ class _OrdersPageState extends State<OrdersPage> with TickerProviderStateMixin {
                                 AppLocalizations.of(context)?.totalAmount ??
                                     'Total Amount',
                                 style: const TextStyle(
-                                  fontSize: 18,
+                                  fontSize: DesktopOptimizedWidgets.getFontSize() + 4,
                                   fontWeight: FontWeight.w700,
                                   color: Colors.white,
                                 ),
@@ -2935,7 +2937,7 @@ class _OrdersPageState extends State<OrdersPage> with TickerProviderStateMixin {
                                           padding: const EdgeInsets.all(8),
                                           decoration: BoxDecoration(
                                             color: Colors.orange.withOpacity(0.15),
-                                            borderRadius: BorderRadius.circular(12),
+                                            borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius()),
                                           ),
                                           child: const Icon(CupertinoIcons.timer, color: Colors.orange, size: 20),
                                         ),
@@ -2966,7 +2968,7 @@ class _OrdersPageState extends State<OrdersPage> with TickerProviderStateMixin {
                                           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                                           decoration: BoxDecoration(
                                             color: waitingPaid ? Colors.green : Colors.orange,
-                                            borderRadius: BorderRadius.circular(20),
+                                            borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                                           ),
                                           child: Text(
                                             waitingPaid
@@ -2978,7 +2980,7 @@ class _OrdersPageState extends State<OrdersPage> with TickerProviderStateMixin {
                                       ],
                                     ),
                                     if (!waitingPaid) ...[
-                                      const SizedBox(height: 16),
+                                      const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
                                       Row(
                                         children: [
                                           // Invoice button
@@ -2991,7 +2993,7 @@ class _OrdersPageState extends State<OrdersPage> with TickerProviderStateMixin {
                                                 padding: const EdgeInsets.symmetric(vertical: 12),
                                                 decoration: BoxDecoration(
                                                   color: isLight ? Colors.black.withOpacity(0.06) : Colors.white.withOpacity(0.08),
-                                                  borderRadius: BorderRadius.circular(12),
+                                                  borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius()),
                                                 ),
                                                 child: Row(
                                                   mainAxisAlignment: MainAxisAlignment.center,
@@ -3019,7 +3021,7 @@ class _OrdersPageState extends State<OrdersPage> with TickerProviderStateMixin {
                                                 padding: const EdgeInsets.symmetric(vertical: 12),
                                                 decoration: BoxDecoration(
                                                   color: Colors.orange,
-                                                  borderRadius: BorderRadius.circular(12),
+                                                  borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius()),
                                                 ),
                                                 child: Row(
                                                   mainAxisAlignment: MainAxisAlignment.center,
@@ -3072,7 +3074,7 @@ class _OrdersPageState extends State<OrdersPage> with TickerProviderStateMixin {
               DecoratedBox(
                 decoration: BoxDecoration(
                   color: Colors.orange,
-                  borderRadius: BorderRadius.circular(12),
+                  borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius()),
                 ),
                 child: const Padding(
                   padding: EdgeInsets.all(10),
@@ -3106,7 +3108,7 @@ class _OrdersPageState extends State<OrdersPage> with TickerProviderStateMixin {
               ),
             ],
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
           const TradeRepublicDivider(),
           // Step 1
           TradeRepublicListTile(
@@ -3121,7 +3123,7 @@ class _OrdersPageState extends State<OrdersPage> with TickerProviderStateMixin {
             title: AppLocalizations.of(context)?.selfShipStepPendingTitle ?? 'Buyer confirms receipt',
             subtitle: AppLocalizations.of(context)?.selfShipStepPendingDesc ?? 'Once the buyer confirms receipt in the app, the order is complete.',
           ),
-          const SizedBox(height: 12),
+          const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
           // Cultioo note
           TradeRepublicCard(
             backgroundColor: Colors.blue,
@@ -3201,7 +3203,7 @@ class _OrdersPageState extends State<OrdersPage> with TickerProviderStateMixin {
               Text(
                 AppLocalizations.of(context)?.liveLabel ?? 'LIVE',
                 style: const TextStyle(
-                  fontSize: 14,
+                  fontSize: DesktopOptimizedWidgets.getFontSize(),
                   fontWeight: FontWeight.w700,
                   color: Colors.white,
                   letterSpacing: 1.2,
@@ -3263,7 +3265,7 @@ class _OrdersPageState extends State<OrdersPage> with TickerProviderStateMixin {
             ),
           ),
 
-          const SizedBox(height: 16),
+          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
           // View on Map Button
           SizedBox(
@@ -3368,23 +3370,23 @@ class _OrdersPageState extends State<OrdersPage> with TickerProviderStateMixin {
             height: 300,
             decoration: BoxDecoration(
               color: Colors.white,
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
             ),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Icon(CupertinoIcons.map, size: 64, color: Colors.black),
-                const SizedBox(height: 16),
+                const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
                 Text(
                   AppLocalizations.of(context)?.interactiveMap ??
                       'Interactive Map',
                   style: TextStyle(
-                    fontSize: 16,
+                    fontSize: DesktopOptimizedWidgets.getFontSize(),
                     fontWeight: FontWeight.w600,
                     color: Colors.black,
                   ),
                 ),
-                const SizedBox(height: 8),
+                const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                 Text(
                   'Lat: ${double.tryParse(latitude)?.toStringAsFixed(6) ?? latitude}',
                   style: TextStyle(
@@ -3399,7 +3401,7 @@ class _OrdersPageState extends State<OrdersPage> with TickerProviderStateMixin {
                     fontWeight: FontWeight.w600,
                         ),
                       ),
-                      const SizedBox(height: 16),
+                      const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
                       TradeRepublicButton(
                         label:
                             AppLocalizations.of(context)?.openInMapsApp ??
@@ -3535,7 +3537,7 @@ class _OrdersPageState extends State<OrdersPage> with TickerProviderStateMixin {
                                   )?.driverIsEnRouteToPickup ??
                                   'Driver is en route to pickup',
                               style: const TextStyle(
-                                fontSize: 14,
+                                fontSize: DesktopOptimizedWidgets.getFontSize(),
                                 fontWeight: FontWeight.w500,
                                 color: Colors.black,
                               ),
@@ -3550,7 +3552,7 @@ class _OrdersPageState extends State<OrdersPage> with TickerProviderStateMixin {
                       ),
                     ],
                   ),
-                  const SizedBox(height: 12),
+                  const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                   if (_driverLiveLocation!['distance_to_pickup'] != null) ...[
                     _buildDriverInfoRow(
                       CupertinoIcons.map,
@@ -3691,7 +3693,7 @@ class _OrdersPageState extends State<OrdersPage> with TickerProviderStateMixin {
                 ? DecoratedBox(
                     decoration: BoxDecoration(
                       color: Colors.orange,
-                      borderRadius: BorderRadius.circular(20),
+                      borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                     ),
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
@@ -3703,7 +3705,7 @@ class _OrdersPageState extends State<OrdersPage> with TickerProviderStateMixin {
                   )
                 : null,
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
           if (sellerInfoCompleted) ...[
             // Display mode - show saved information
@@ -3753,7 +3755,7 @@ class _OrdersPageState extends State<OrdersPage> with TickerProviderStateMixin {
               isLight,
               CupertinoIcons.calendar,
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
             // Production Date
             _buildDateField(
@@ -3762,7 +3764,7 @@ class _OrdersPageState extends State<OrdersPage> with TickerProviderStateMixin {
               isLight,
               Icons.factory,
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
             // Batch Number
             _buildTradeRepublicTextField(
@@ -3771,7 +3773,7 @@ class _OrdersPageState extends State<OrdersPage> with TickerProviderStateMixin {
               isLight,
               CupertinoIcons.cube_box_fill,
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
             // Notes (Optional)
             _buildTradeRepublicTextField(
@@ -3782,7 +3784,7 @@ class _OrdersPageState extends State<OrdersPage> with TickerProviderStateMixin {
               maxLines: 3,
             ),
 
-            const SizedBox(height: 24),
+            const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
             TradeRepublicButton(
               label: AppLocalizations.of(context)?.saveAndContinue ?? 'Save & Continue',
               backgroundColor: Colors.green,
@@ -3982,14 +3984,14 @@ class _OrdersPageState extends State<OrdersPage> with TickerProviderStateMixin {
             Text(
               label,
               style: TextStyle(
-                fontSize: 14,
+                fontSize: DesktopOptimizedWidgets.getFontSize(),
                 fontWeight: FontWeight.w600,
                 color: isLight ? Colors.black : Colors.white,
               ),
             ),
           ],
         ),
-        const SizedBox(height: 12),
+        const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
         TradeRepublicTextField(controller: controller, maxLines: maxLines),
       ],
     );
@@ -4109,7 +4111,7 @@ class _OrdersPageState extends State<OrdersPage> with TickerProviderStateMixin {
           title: title,
           leading: icon != null ? Icon(icon) : null,
         ),
-        const SizedBox(height: 8),
+        const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
         TradeRepublicCard(
           padding: EdgeInsets.zero,
           child: Column(
@@ -4165,7 +4167,7 @@ class _OrdersPageState extends State<OrdersPage> with TickerProviderStateMixin {
               DecoratedBox(
                 decoration: BoxDecoration(
                   color: Colors.green,
-                  borderRadius: BorderRadius.circular(20),
+                  borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                 ),
                 child: const Padding(
                   padding: EdgeInsets.all(12),
@@ -4194,7 +4196,7 @@ class _OrdersPageState extends State<OrdersPage> with TickerProviderStateMixin {
                   Text(
                     '${currentStep + 1} of ${steps.length} steps completed',
                     style: TextStyle(
-                      fontSize: 14,
+                      fontSize: DesktopOptimizedWidgets.getFontSize(),
                       fontWeight: FontWeight.w600,
                       color: isLight ? Colors.black : Colors.white,
                     ),
@@ -4210,7 +4212,7 @@ class _OrdersPageState extends State<OrdersPage> with TickerProviderStateMixin {
           SizedBox(
             height: 8,
             child: ClipRRect(
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
               child: Stack(
                 children: [
                   // Background
@@ -4281,7 +4283,7 @@ class _OrdersPageState extends State<OrdersPage> with TickerProviderStateMixin {
                         Text(
                           steps[index],
                           style: TextStyle(
-                            fontSize: 18,
+                            fontSize: DesktopOptimizedWidgets.getFontSize() + 4,
                             fontWeight: isActive
                                 ? FontWeight.w700
                                 : FontWeight.w600,
@@ -4295,7 +4297,7 @@ class _OrdersPageState extends State<OrdersPage> with TickerProviderStateMixin {
                             AppLocalizations.of(context)?.currentStep ??
                                 'Current step',
                             style: TextStyle(
-                              fontSize: 14,
+                              fontSize: DesktopOptimizedWidgets.getFontSize(),
                               color: const Color(0xFF4CAF50),
                               fontWeight: FontWeight.w500,
                             ),
@@ -4307,7 +4309,7 @@ class _OrdersPageState extends State<OrdersPage> with TickerProviderStateMixin {
                             AppLocalizations.of(context)?.completedLabel ??
                                 'Completed',
                             style: TextStyle(
-                              fontSize: 14,
+                              fontSize: DesktopOptimizedWidgets.getFontSize(),
                               fontWeight: FontWeight.w600,
                               color: Colors.green,
                             ),
@@ -4322,14 +4324,14 @@ class _OrdersPageState extends State<OrdersPage> with TickerProviderStateMixin {
                     DecoratedBox(
                       decoration: BoxDecoration(
                         color: Colors.green,
-                        borderRadius: BorderRadius.circular(20),
+                        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                       ),
                       child: const Padding(
                         padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                         child: Text(
                           '✓',
                           style: TextStyle(
-                            fontSize: 16,
+                            fontSize: DesktopOptimizedWidgets.getFontSize(),
                             color: Colors.white,
                             fontWeight: FontWeight.w700,
                           ),
@@ -4373,7 +4375,7 @@ class _OrdersPageState extends State<OrdersPage> with TickerProviderStateMixin {
               DecoratedBox(
                 decoration: BoxDecoration(
                   color: Colors.green,
-                  borderRadius: BorderRadius.circular(20),
+                  borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                 ),
                 child: const Padding(
                   padding: EdgeInsets.all(14),
@@ -4405,7 +4407,7 @@ class _OrdersPageState extends State<OrdersPage> with TickerProviderStateMixin {
                           )?.showToCustomerForVerification ??
                           'Show to customer for verification',
                       style: TextStyle(
-                        fontSize: 14,
+                        fontSize: DesktopOptimizedWidgets.getFontSize(),
                         fontWeight: FontWeight.w600,
                         color: isLight ? Colors.black : Colors.white,
                       ),
@@ -4429,12 +4431,12 @@ class _OrdersPageState extends State<OrdersPage> with TickerProviderStateMixin {
                     AppLocalizations.of(context)?.securityCode ??
                         'Security Code',
                     style: const TextStyle(
-                      fontSize: 14,
+                      fontSize: DesktopOptimizedWidgets.getFontSize(),
                       fontWeight: FontWeight.w600,
                       color: Colors.white,
                     ),
                   ),
-                  const SizedBox(height: 8),
+                  const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                   Text(
                     securityCode.toString(),
                     style: const TextStyle(
@@ -4447,7 +4449,7 @@ class _OrdersPageState extends State<OrdersPage> with TickerProviderStateMixin {
                 ],
               ),
             ),
-            const SizedBox(height: 24),
+            const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
           ],
 
           // QR Code Display - Trade Republic Style
@@ -4466,10 +4468,10 @@ class _OrdersPageState extends State<OrdersPage> with TickerProviderStateMixin {
                     child: DecoratedBox(
                       decoration: BoxDecoration(
                         color: Colors.white,
-                        borderRadius: BorderRadius.circular(20),
+                        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                       ),
                       child: Padding(
-                        padding: const EdgeInsets.all(16),
+                        padding: DesktopAppWrapper.getPagePadding(),
                         child: QrImageView(
                           data: securityCode.toString(),
                           version: QrVersions.auto,
@@ -4487,11 +4489,11 @@ class _OrdersPageState extends State<OrdersPage> with TickerProviderStateMixin {
                       ),
                     ),
                   ),
-                  const SizedBox(height: 16),
+                  const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
                   DecoratedBox(
                     decoration: BoxDecoration(
                       color: Colors.green,
-                      borderRadius: BorderRadius.circular(20),
+                      borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                     ),
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
@@ -4575,7 +4577,7 @@ class _OrdersPageState extends State<OrdersPage> with TickerProviderStateMixin {
             title: AppLocalizations.of(context)?.contact ?? 'Contact',
             leading: const Icon(CupertinoIcons.chat_bubble_fill),
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
           TradeRepublicCard(
             padding: EdgeInsets.zero,
             child: Column(
@@ -4729,7 +4731,7 @@ class _OrdersPageState extends State<OrdersPage> with TickerProviderStateMixin {
                         value: email,
                         isLight: isLight,
                       ),
-                      const SizedBox(height: 12),
+                      const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                     ],
                     if (phone.isNotEmpty) ...[
                       _buildInfoChip(
@@ -4738,7 +4740,7 @@ class _OrdersPageState extends State<OrdersPage> with TickerProviderStateMixin {
                         value: phone,
                         isLight: isLight,
                       ),
-                      const SizedBox(height: 24),
+                      const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
                     ],
 
                     // Message input
@@ -4752,11 +4754,11 @@ class _OrdersPageState extends State<OrdersPage> with TickerProviderStateMixin {
                         letterSpacing: -0.3,
                       ),
                     ),
-                    const SizedBox(height: 12),
+                    const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                     Container(
                       decoration: BoxDecoration(
                         color: isLight ? Colors.white : Colors.black,
-                        borderRadius: BorderRadius.circular(20),
+                        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                       ),
                       child: TradeRepublicTextField(
                         controller: messageController,
@@ -4773,7 +4775,7 @@ class _OrdersPageState extends State<OrdersPage> with TickerProviderStateMixin {
                             'Type your message here...',
                       ),
                     ),
-                    const SizedBox(height: 24),
+                    const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
                   ],
                 ),
               ),
@@ -4808,7 +4810,7 @@ class _OrdersPageState extends State<OrdersPage> with TickerProviderStateMixin {
                   height: 60,
                   decoration: BoxDecoration(
                     color: Colors.green,
-                    borderRadius: BorderRadius.circular(20),
+                    borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                   ),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -4823,7 +4825,7 @@ class _OrdersPageState extends State<OrdersPage> with TickerProviderStateMixin {
                         AppLocalizations.of(context)?.sendMessage ??
                             'Send Message',
                         style: TextStyle(
-                          fontSize: 18,
+                          fontSize: DesktopOptimizedWidgets.getFontSize() + 4,
                           fontWeight: FontWeight.w700,
                           color: Colors.white,
                           letterSpacing: -0.3,
@@ -5018,14 +5020,14 @@ class _OrdersPageState extends State<OrdersPage> with TickerProviderStateMixin {
               ),
             ],
           ),
-          const SizedBox(height: 24),
+          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
           Container(
             width: 300,
             height: 300,
-            padding: const EdgeInsets.all(16),
+            padding: DesktopAppWrapper.getPagePadding(),
             decoration: BoxDecoration(
               color: Colors.white,
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
             ),
             child: QrImageView(
               data: qrCodeData,
@@ -5042,12 +5044,12 @@ class _OrdersPageState extends State<OrdersPage> with TickerProviderStateMixin {
               ),
             ),
           ),
-          const SizedBox(height: 24),
+          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
           Text(
             AppLocalizations.of(context)?.showThisCodeToDriver ??
                 'Show this code to the driver',
             style: TextStyle(
-              fontSize: 14,
+              fontSize: DesktopOptimizedWidgets.getFontSize(),
               fontWeight: FontWeight.w600,
               color: isLight ? Colors.black : Colors.white,
             ),
@@ -5088,33 +5090,33 @@ class _OrdersPageState extends State<OrdersPage> with TickerProviderStateMixin {
             mainAxisSize: MainAxisSize.min,
             children: [
               const DragHandle(),
-              const SizedBox(height: 16),
+              const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
               Container(
                 padding: const EdgeInsets.all(14),
                 decoration: BoxDecoration(
                   color: Colors.orange.withOpacity(0.12),
-                  borderRadius: BorderRadius.circular(16),
+                  borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius()),
                 ),
                 child: const Icon(CupertinoIcons.timer, color: Colors.orange, size: 36),
               ),
-              const SizedBox(height: 16),
+              const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
               Text(
                 AppLocalizations.of(ctx)?.waitingCharges ?? 'Waiting Charges',
-                style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w700),
+                style: const TextStyle(fontSize: DesktopOptimizedWidgets.getFontSize() + 6, fontWeight: FontWeight.w700),
               ),
-              const SizedBox(height: 8),
+              const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
               Text(
                 '${AppLocalizations.of(ctx)?.tr('Transfer to driver') ?? 'Transfer to driver'} $driverName: ${_appSettings.formatCurrency(amount)}',
                 style: TextStyle(fontSize: 15, color: Colors.orange.shade700, fontWeight: FontWeight.w600),
                 textAlign: TextAlign.center,
               ),
-              const SizedBox(height: 8),
+              const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
               Text(
                 AppLocalizations.of(ctx)?.tr('The driver waited beyond the free waiting time. This charge will be transferred directly from your wallet to the driver.') ?? 'The driver waited beyond the free waiting time. This charge will be transferred directly from your wallet to the driver.',
                 style: TextStyle(fontSize: 13, color: Colors.grey.shade600, height: 1.4),
                 textAlign: TextAlign.center,
               ),
-              const SizedBox(height: 24),
+              const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
               Row(
                 children: [
                   Expanded(
@@ -5223,14 +5225,14 @@ class _OrdersPageState extends State<OrdersPage> with TickerProviderStateMixin {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const DragHandle(),
-                const SizedBox(height: 8),
+                const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                 Row(
                   children: [
                     Container(
                       padding: const EdgeInsets.all(10),
                       decoration: BoxDecoration(
                         color: Colors.orange.withOpacity(0.12),
-                        borderRadius: BorderRadius.circular(12),
+                        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius()),
                       ),
                       child: const Icon(CupertinoIcons.doc_text_fill, color: Colors.orange, size: 24),
                     ),
@@ -5241,7 +5243,7 @@ class _OrdersPageState extends State<OrdersPage> with TickerProviderStateMixin {
                         children: [
                           Text(
                             AppLocalizations.of(ctx)?.tr('Waiting Charges Invoice') ?? 'Waiting Charges Invoice',
-                            style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w700),
+                            style: const TextStyle(fontSize: DesktopOptimizedWidgets.getFontSize() + 4, fontWeight: FontWeight.w700),
                           ),
                           Text(
                             '${AppLocalizations.of(ctx)?.order ?? 'Order'} #$orderId',
@@ -5252,7 +5254,7 @@ class _OrdersPageState extends State<OrdersPage> with TickerProviderStateMixin {
                     ),
                   ],
                 ),
-                const SizedBox(height: 24),
+                const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
                 _buildInvoiceRow(ctx, isLight, AppLocalizations.of(ctx)?.tr('Date') ?? 'Date',
                     '${invoiceDate.day.toString().padLeft(2, '0')}.${invoiceDate.month.toString().padLeft(2, '0')}.${invoiceDate.year}'),
                 _buildInvoiceRow(ctx, isLight, AppLocalizations.of(ctx)?.tr('Driver') ?? 'Driver', driverName),
@@ -5275,7 +5277,7 @@ class _OrdersPageState extends State<OrdersPage> with TickerProviderStateMixin {
                         style: const TextStyle(fontSize: 22, fontWeight: FontWeight.w800, color: Colors.orange)),
                   ],
                 ),
-                const SizedBox(height: 8),
+                const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                 Text(
                   AppLocalizations.of(ctx)?.tr('This amount will be paid directly to the driver.') ?? 'This amount will be paid directly to the driver.',
                   style: TextStyle(fontSize: 12, color: (isLight ? Colors.black : Colors.white).withOpacity(0.38), height: 1.4),
@@ -5652,7 +5654,7 @@ class _RevenueChartSheetState extends State<_RevenueChartSheet> {
             ),
           ),
 
-          const SizedBox(height: 24),
+          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
           // ── Chart (pure widgets, monochrome bars).
           SizedBox(
@@ -5671,10 +5673,10 @@ class _RevenueChartSheetState extends State<_RevenueChartSheet> {
                           child: Icon(CupertinoIcons.chart_bar,
                               size: 28, color: accent.withOpacity(0.4)),
                         ),
-                        const SizedBox(height: 12),
+                        const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                         Text(
                           AppLocalizations.of(context)?.noRevenueInThisPeriod ?? 'No revenue in this period',
-                          style: TextStyle(fontSize: 14, color: dimColor),
+                          style: TextStyle(fontSize: DesktopOptimizedWidgets.getFontSize(), color: dimColor),
                         ),
                       ],
                     ),
@@ -5744,7 +5746,7 @@ class _RevenueChartSheetState extends State<_RevenueChartSheet> {
               ],
             ),
 
-          const SizedBox(height: 16),
+          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
           // ── Period selector — shared TR-style monochrome segmented control.
           TradeRepublicPeriodSegmented(

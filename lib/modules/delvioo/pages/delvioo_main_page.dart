@@ -26,6 +26,8 @@ import '../../../shared/widgets/cultioo_spinner.dart';
 import '../../../shared/services/driver_location_service.dart';
 import '../../../utils/wagon_catalog.dart';
 import '../../../shared/widgets/trade_republic_tap.dart';
+import 'package:cultioo_business/shared/widgets/desktop_app_wrapper.dart';
+import 'package:cultioo_business/shared/widgets/desktop_optimized_widgets.dart';
 
 
 // Global ValueNotifier to control dock visibility from maps page
@@ -818,7 +820,7 @@ class _DelviooMainPageState extends State<DelviooMainPage> {
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
       decoration: BoxDecoration(
         color: isLight ? Colors.white : Colors.black,
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
@@ -828,7 +830,7 @@ class _DelviooMainPageState extends State<DelviooMainPage> {
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
             decoration: BoxDecoration(
               color: const Color(0xFF007AFF).withOpacity(0.1),
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
             ),
             child: Row(
               mainAxisSize: MainAxisSize.min,
@@ -857,7 +859,7 @@ class _DelviooMainPageState extends State<DelviooMainPage> {
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
             decoration: BoxDecoration(
               color: const Color(0xFF34C759).withOpacity(0.1),
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
             ),
             child: Row(
               mainAxisSize: MainAxisSize.min,
@@ -981,7 +983,7 @@ class _DelviooMainPageState extends State<DelviooMainPage> {
                       color: isLight
                           ? Colors.black.withOpacity(0.04)
                           : Colors.white.withOpacity(0.04),
-                      borderRadius: BorderRadius.circular(20),
+                      borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                     ),
                     child: Row(
                       children: [
@@ -991,7 +993,7 @@ class _DelviooMainPageState extends State<DelviooMainPage> {
                           height: 40,
                           decoration: BoxDecoration(
                             color: isLight ? Colors.black : Colors.white,
-                            borderRadius: BorderRadius.circular(20),
+                            borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                           ),
                           child: Builder(
                             builder: (context) {
@@ -1002,7 +1004,7 @@ class _DelviooMainPageState extends State<DelviooMainPage> {
                                 child: Text(
                                   fallbackLetter,
                                   style: TextStyle(
-                                    fontSize: 16,
+                                    fontSize: DesktopOptimizedWidgets.getFontSize(),
                                     fontWeight: FontWeight.w600,
                                     color: isLight ? Colors.white : Colors.black,
                                   ),
@@ -1017,7 +1019,7 @@ class _DelviooMainPageState extends State<DelviooMainPage> {
                                 try {
                                   final bytes = base64Decode(rawUrl.split(',').last);
                                   return ClipRRect(
-                                    borderRadius: BorderRadius.circular(20),
+                                    borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                                     child: Image.memory(
                                       bytes,
                                       width: 40, height: 40, fit: BoxFit.cover,
@@ -1031,7 +1033,7 @@ class _DelviooMainPageState extends State<DelviooMainPage> {
                               // Regular http/https or server-relative URL
                               final fullUrl = _getImageUrl(rawUrl);
                               return ClipRRect(
-                                borderRadius: BorderRadius.circular(20),
+                                borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                                 child: Image.network(
                                   fullUrl,
                                   width: 40, height: 40, fit: BoxFit.cover,
@@ -1054,7 +1056,7 @@ class _DelviooMainPageState extends State<DelviooMainPage> {
                                     : (appSettings.userName ??
                                     AppLocalizations.of(context)?.driverLabel ?? AppLocalizations.of(context)!.tr('Driver')),
                                 style: TextStyle(
-                                  fontSize: 14,
+                                  fontSize: DesktopOptimizedWidgets.getFontSize(),
                                   fontWeight: FontWeight.w600,
                                   color: isLight ? Colors.black : Colors.white,
                                 ),
@@ -1132,7 +1134,7 @@ class _DelviooMainPageState extends State<DelviooMainPage> {
             HapticFeedback.lightImpact();
             _navigateToPage(index);
           },
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
           hoverColor: isLight
               ? Colors.black.withOpacity(0.04)
               : Colors.white.withOpacity(0.04),
@@ -1149,7 +1151,7 @@ class _DelviooMainPageState extends State<DelviooMainPage> {
               color: isSelected
                   ? (isLight ? Colors.black : Colors.white)
                   : Colors.transparent,
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
             ),
             child: Row(
               mainAxisAlignment: showLabels ? MainAxisAlignment.start : MainAxisAlignment.center,
@@ -1550,7 +1552,7 @@ class _DelviooMainPageState extends State<DelviooMainPage> {
         builder: (ctx, setS) {
           final bidAmount = bidCents / 100.0;
           return Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
+            padding: EdgeInsets.symmetric(horizontal: DesktopAppWrapper.getHorizontalPadding()),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
@@ -1581,7 +1583,7 @@ class _DelviooMainPageState extends State<DelviooMainPage> {
                           Text(
                             'AI Order Suggestion',
                             style: TextStyle(
-                              fontSize: 20,
+                              fontSize: DesktopOptimizedWidgets.getFontSize() + 6,
                               fontWeight: FontWeight.w700,
                               color: isLight ? Colors.black : Colors.white,
                               letterSpacing: -0.4,
@@ -1603,12 +1605,12 @@ class _DelviooMainPageState extends State<DelviooMainPage> {
                           horizontal: 10, vertical: 5),
                       decoration: BoxDecoration(
                         color: const Color(0xFF34C759).withOpacity(0.15),
-                        borderRadius: BorderRadius.circular(20),
+                        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                       ),
                       child: Text(
                         appSettings.formatCurrency(orderValue),
                         style: const TextStyle(
-                          fontSize: 14,
+                          fontSize: DesktopOptimizedWidgets.getFontSize(),
                           fontWeight: FontWeight.w700,
                           color: Color(0xFF34C759),
                         ),
@@ -1616,7 +1618,7 @@ class _DelviooMainPageState extends State<DelviooMainPage> {
                     ),
                   ],
                 ),
-                const SizedBox(height: 16),
+                const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
                 // ── Route card ───────────────────────────────────────────────
                 Container(
@@ -1625,7 +1627,7 @@ class _DelviooMainPageState extends State<DelviooMainPage> {
                     color: isLight
                         ? Colors.grey.withOpacity(0.06)
                         : Colors.white.withOpacity(0.06),
-                    borderRadius: BorderRadius.circular(16),
+                    borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius()),
                   ),
                   child: Column(
                     children: [
@@ -1670,7 +1672,7 @@ class _DelviooMainPageState extends State<DelviooMainPage> {
                                       ? pickupAddr
                                       : 'Pickup Address',
                                   style: TextStyle(
-                                    fontSize: 14,
+                                    fontSize: DesktopOptimizedWidgets.getFontSize(),
                                     fontWeight: FontWeight.w600,
                                     color: isLight
                                         ? Colors.black
@@ -1733,7 +1735,7 @@ class _DelviooMainPageState extends State<DelviooMainPage> {
                                       ? deliveryAddr
                                       : 'Delivery Address',
                                   style: TextStyle(
-                                    fontSize: 14,
+                                    fontSize: DesktopOptimizedWidgets.getFontSize(),
                                     fontWeight: FontWeight.w600,
                                     color: isLight
                                         ? Colors.black
@@ -1810,7 +1812,7 @@ class _DelviooMainPageState extends State<DelviooMainPage> {
                     ],
                   ],
                 ),
-                const SizedBox(height: 16),
+                const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
                 // ── Bid price input ──────────────────────────────────────────
                 TradeRepublicTap(
@@ -1830,12 +1832,12 @@ class _DelviooMainPageState extends State<DelviooMainPage> {
                     );
                   },
                   child: Container(
-                    padding: const EdgeInsets.all(16),
+                    padding: DesktopAppWrapper.getPagePadding(),
                     decoration: BoxDecoration(
                       color: isLight
                           ? Colors.grey.withOpacity(0.06)
                           : Colors.white.withOpacity(0.06),
-                      borderRadius: BorderRadius.circular(16),
+                      borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius()),
                       border: Border.all(
                         color: (isLight ? Colors.black : Colors.white)
                             .withOpacity(0.1),
@@ -1861,7 +1863,7 @@ class _DelviooMainPageState extends State<DelviooMainPage> {
                     ),
                   ),
                 ),
-                const SizedBox(height: 16),
+                const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
                 // ── Action buttons ───────────────────────────────────────────
                 Row(
@@ -2011,7 +2013,7 @@ class _DelviooMainPageState extends State<DelviooMainPage> {
           }
 
           return Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
+            padding: EdgeInsets.symmetric(horizontal: DesktopAppWrapper.getHorizontalPadding()),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
@@ -2129,7 +2131,7 @@ class _DelviooMainPageState extends State<DelviooMainPage> {
                       return numKey(k, onTap: () => addDigit(int.parse(k)));
                     }).toList(),
                   ),
-                const SizedBox(height: 16),
+                const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
                 // Submit
                 TradeRepublicButton(
@@ -2400,7 +2402,7 @@ class _SwipeToAcceptSliderState extends State<_SwipeToAcceptSlider>
             height: 60,
             decoration: BoxDecoration(
               color: Colors.transparent,
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
             ),
             child: Stack(
               alignment: Alignment.centerLeft,
@@ -2420,7 +2422,7 @@ class _SwipeToAcceptSliderState extends State<_SwipeToAcceptSlider>
                             : (widget.isLight
                                   ? Colors.transparent
                                   : Colors.black),
-                        borderRadius: BorderRadius.circular(20),
+                        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                       ),
                     ),
                   ),
@@ -2458,7 +2460,7 @@ class _SwipeToAcceptSliderState extends State<_SwipeToAcceptSlider>
                               dragPercentage,
                             )!
                           : (widget.isLight ? Colors.black : Colors.white),
-                      borderRadius: BorderRadius.circular(20),
+                      borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                     ),
                     child: Center(
                       child: AnimatedSwitcher(
@@ -2978,7 +2980,7 @@ class _SwipeAcceptBottomSheetState extends State<_SwipeAcceptBottomSheet>
           margin: const EdgeInsets.only(top: 0, bottom: 20),
           decoration: BoxDecoration(
             color: widget.isLight ? Colors.black : Colors.white,
-            borderRadius: BorderRadius.circular(20),
+            borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
           ),
         ),
         // Swipe slider
@@ -3037,9 +3039,9 @@ class _SwipeAcceptBottomSheetState extends State<_SwipeAcceptBottomSheet>
 
               // Modern Required Shipping Type Card
               Container(
-                padding: const EdgeInsets.all(16),
+                padding: DesktopAppWrapper.getPagePadding(),
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20),
+                  borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                   gradient: LinearGradient(
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
@@ -3062,7 +3064,7 @@ class _SwipeAcceptBottomSheetState extends State<_SwipeAcceptBottomSheet>
                         color: _getShippingTypeColor(
                           widget.order['shipping_type'],
                         ).withOpacity(0.15),
-                        borderRadius: BorderRadius.circular(20),
+                        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                       ),
                       child: Icon(
                         _getShippingTypeIcon(widget.order['shipping_type']),
@@ -3119,7 +3121,7 @@ class _SwipeAcceptBottomSheetState extends State<_SwipeAcceptBottomSheet>
                   ],
                 ),
               ),
-              const SizedBox(height: 16),
+              const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
               // Vehicle selection button
               TradeRepublicTap(
@@ -3133,7 +3135,7 @@ class _SwipeAcceptBottomSheetState extends State<_SwipeAcceptBottomSheet>
                     color: widget.isLight
                         ? Colors.transparent
                         : Colors.transparent,
-                    borderRadius: BorderRadius.circular(20),
+                    borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                   ),
                   child: Row(
                     children: [
@@ -3143,7 +3145,7 @@ class _SwipeAcceptBottomSheetState extends State<_SwipeAcceptBottomSheet>
                           color: widget.selectedVehicle == null
                               ? const Color(0xFFFF3B30).withOpacity(0.1)
                               : const Color(0xFF007AFF).withOpacity(0.1),
-                          borderRadius: BorderRadius.circular(20),
+                          borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                         ),
                         child: Icon(
                           CupertinoIcons.cube_box,
@@ -3500,7 +3502,7 @@ class _VehicleSelectionSheetState extends State<_VehicleSelectionSheet> {
                             .withOpacity(0.6),
                       ),
                     ),
-                    const SizedBox(height: 24),
+                    const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
                     Text(
                       widget.requiredShippingType != null
                           ? AppLocalizations.of(context)?.noCompatibleVehicles ?? AppLocalizations.of(context)!.tr('No Compatible Vehicles')
@@ -3512,7 +3514,7 @@ class _VehicleSelectionSheetState extends State<_VehicleSelectionSheet> {
                         letterSpacing: -0.5,
                       ),
                     ),
-                    const SizedBox(height: 8),
+                    const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                     Text(
                       widget.requiredShippingType != null
                           ? 'None of your vehicles support\n${_getShippingTypeName(widget.requiredShippingType)} delivery.\nPlease update your vehicle capabilities.'
@@ -3617,7 +3619,7 @@ class _VehicleSelectionSheetState extends State<_VehicleSelectionSheet> {
                             : (widget.isLight
                                   ? Colors.transparent
                                   : Colors.transparent),
-                        borderRadius: BorderRadius.circular(20),
+                        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                       ),
                       child: Row(
                         children: [
@@ -3633,7 +3635,7 @@ class _VehicleSelectionSheetState extends State<_VehicleSelectionSheet> {
                                             ? Colors.black
                                             : Colors.white)
                                         .withOpacity(0.08),
-                              borderRadius: BorderRadius.circular(20),
+                              borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                             ),
                             child: Icon(
                               _getVehicleIcon(vehicle['vehicle_type']),
@@ -3659,7 +3661,7 @@ class _VehicleSelectionSheetState extends State<_VehicleSelectionSheet> {
                                       child: Text(
                                         '${vehicle['vehicle_make']} ${vehicle['vehicle_model']}',
                                         style: TextStyle(
-                                          fontSize: 18,
+                                          fontSize: DesktopOptimizedWidgets.getFontSize() + 4,
                                           fontWeight: FontWeight.w700,
                                           color: isSelected
                                               ? (widget.isLight
@@ -3712,7 +3714,7 @@ class _VehicleSelectionSheetState extends State<_VehicleSelectionSheet> {
                                     Text(
                                       vehicle['vehicle_year'].toString(),
                                       style: TextStyle(
-                                        fontSize: 14,
+                                        fontSize: DesktopOptimizedWidgets.getFontSize(),
                                         fontWeight: FontWeight.w500,
                                         color: isSelected
                                             ? (widget.isLight
@@ -3749,7 +3751,7 @@ class _VehicleSelectionSheetState extends State<_VehicleSelectionSheet> {
                                           (AppLocalizations.of(context)
                                               ?.naValue ?? AppLocalizations.of(context)!.tr('')),
                                       style: TextStyle(
-                                        fontSize: 14,
+                                        fontSize: DesktopOptimizedWidgets.getFontSize(),
                                         fontWeight: FontWeight.w600,
                                         color: isSelected
                                             ? (widget.isLight
@@ -3779,7 +3781,7 @@ class _VehicleSelectionSheetState extends State<_VehicleSelectionSheet> {
                                         vertical: 6,
                                       ),
                                       decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(20),
+                                        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                                         gradient: isActive
                                             ? LinearGradient(
                                                 begin: Alignment.topLeft,
@@ -3836,7 +3838,7 @@ class _VehicleSelectionSheetState extends State<_VehicleSelectionSheet> {
                                         vertical: 6,
                                       ),
                                       decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(20),
+                                        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                                         gradient: LinearGradient(
                                           begin: Alignment.topLeft,
                                           end: Alignment.bottomRight,
@@ -3880,12 +3882,12 @@ class _VehicleSelectionSheetState extends State<_VehicleSelectionSheet> {
                                     ),
                                   ],
                                 ),
-                                const SizedBox(height: 12),
+                                const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                                 // Modern compatibility banner
                                 Container(
                                   padding: const EdgeInsets.all(12),
                                   decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(20),
+                                    borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                                     gradient: compatible
                                         ? LinearGradient(
                                             begin: Alignment.topLeft,

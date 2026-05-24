@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'widgets/glass_effect.dart';
 import 'services/app_settings.dart';
 import 'services/app_localizations.dart';
+import 'package:cultioo_business/shared/widgets/desktop_app_wrapper.dart';
+import 'package:cultioo_business/shared/widgets/desktop_optimized_widgets.dart';
 
 class MyAccountPage extends StatelessWidget {
   const MyAccountPage({super.key});
@@ -32,7 +34,7 @@ class MyAccountPage extends StatelessWidget {
           child: SingleChildScrollView(
             physics: const BouncingScrollPhysics(),
             child: Padding(
-              padding: const EdgeInsets.all(20),
+              padding: DesktopAppWrapper.getPagePadding(),
               child: Column(
                 children: [
             // Profile Section
@@ -47,7 +49,7 @@ class MyAccountPage extends StatelessWidget {
                       color: isLight
                           ? Colors.black.withOpacity(0.1)
                           : Colors.white.withOpacity(0.1),
-                      borderRadius: BorderRadius.circular(20),
+                      borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                     ),
                     child: Icon(
                       Icons.person,
@@ -64,7 +66,7 @@ class MyAccountPage extends StatelessWidget {
                           AppLocalizations.of(context)?.unknownUser ?? 'User',
                           style: TextStyle(
                             color: isLight ? Colors.black : Colors.white,
-                            fontSize: 24,
+                            fontSize: DesktopOptimizedWidgets.getFontSize() + 10,
                             fontWeight: FontWeight.w700,
                           ),
                         ),
@@ -73,10 +75,10 @@ class MyAccountPage extends StatelessWidget {
                           'john.doe@cultioo.com',
                           style: TextStyle(
                             color: isLight ? Colors.black54 : Colors.white70,
-                            fontSize: 16,
+                            fontSize: DesktopOptimizedWidgets.getFontSize(),
                           ),
                         ),
-                        const SizedBox(height: 8),
+                        const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                         Container(
                           padding: const EdgeInsets.symmetric(
                             horizontal: 12,
@@ -84,7 +86,7 @@ class MyAccountPage extends StatelessWidget {
                           ),
                           decoration: BoxDecoration(
                             color: Colors.green.withOpacity(0.2),
-                            borderRadius: BorderRadius.circular(20),
+                            borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                           ),
                           child: Text(
                             AppLocalizations.of(context)?.premiumMember ?? 'Premium Member',
@@ -130,18 +132,18 @@ class MyAccountPage extends StatelessWidget {
                               AppLocalizations.of(context)?.accountInformation ?? 'Account Information',
                               style: TextStyle(
                                 color: Colors.blue,
-                                fontSize: 16,
+                                fontSize: DesktopOptimizedWidgets.getFontSize(),
                                 fontWeight: FontWeight.w600,
                               ),
                             ),
                           ],
                         ),
-                        const SizedBox(height: 12),
+                        const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                         Text(
                           AppLocalizations.of(context)?.upgradeToBusinessInfo ?? 'To upgrade to Business features, you need a regular Cultioo account from the Cultioo App or Website. Drivers can register directly without a Cultioo account.',
                           style: TextStyle(
                             color: isLight ? Colors.black54 : Colors.white70,
-                            fontSize: 14,
+                            fontSize: DesktopOptimizedWidgets.getFontSize(),
                             height: 1.4,
                           ),
                         ),
@@ -226,12 +228,12 @@ class MyAccountPage extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Icon(icon, size: 32, color: color),
-          const SizedBox(height: 8),
+          const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
           Text(
             title,
             style: TextStyle(
               color: isLight ? Colors.black : Colors.white,
-              fontSize: 16,
+              fontSize: DesktopOptimizedWidgets.getFontSize(),
               fontWeight: FontWeight.w600,
             ),
           ),

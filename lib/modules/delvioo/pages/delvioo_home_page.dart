@@ -19,6 +19,8 @@ import '../../../shared/widgets/cultioo_spinner.dart';
 import '../../../utils/wagon_catalog.dart';
 import '../../../shared/widgets/trade_republic_tap.dart';
 import '../../../shared/widgets/trade_republic_bar_chart.dart';
+import 'package:cultioo_business/shared/widgets/desktop_app_wrapper.dart';
+import 'package:cultioo_business/shared/widgets/desktop_optimized_widgets.dart';
 
 class DelviooHomePage extends StatefulWidget {
   const DelviooHomePage({super.key});
@@ -694,7 +696,7 @@ class _DelviooHomePageState extends State<DelviooHomePage>
               child: Text(
                 AppLocalizations.of(context)?.noVehicleSelected ?? 'No vehicle selected',
                 style: TextStyle(
-                  fontSize: 16,
+                  fontSize: DesktopOptimizedWidgets.getFontSize(),
                   fontWeight: FontWeight.w600,
                   color: (isLight ? Colors.black : Colors.white).withOpacity(0.45),
                 ),
@@ -737,7 +739,7 @@ class _DelviooHomePageState extends State<DelviooHomePage>
                   color: isPrimary
                       ? const Color(0xFF00C853).withOpacity(0.12)
                       : (isLight ? Colors.black : Colors.white).withOpacity(0.06),
-                  borderRadius: BorderRadius.circular(16),
+                  borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius()),
                 ),
                 child: Icon(
                   _getVehicleIcon(_selectedVehicle!),
@@ -801,7 +803,7 @@ class _DelviooHomePageState extends State<DelviooHomePage>
                         horizontal: 8, vertical: 3),
                     decoration: BoxDecoration(
                       color: const Color(0xFF00C853).withOpacity(0.12),
-                      borderRadius: BorderRadius.circular(20),
+                      borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                     ),
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
@@ -889,11 +891,11 @@ class _DelviooHomePageState extends State<DelviooHomePage>
                       child: _buildWelcomeHeader(isLight, appSettings),
                     ),
                   ),
-                  const SizedBox(height: 16),
+                  const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
                   // Active Vehicle Card + inline switcher
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    padding: EdgeInsets.symmetric(horizontal: DesktopAppWrapper.getHorizontalPadding()),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -911,7 +913,7 @@ class _DelviooHomePageState extends State<DelviooHomePage>
                             ),
                           ],
                         ),
-                        const SizedBox(height: 8),
+                        const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                         _buildActiveVehicleCard(isLight),
                         // Inline vehicle switcher pills (only when 2+ vehicles)
                         if (_driverVehicles.length > 1) ...[  
@@ -953,7 +955,7 @@ class _DelviooHomePageState extends State<DelviooHomePage>
                                           ? (isLight ? Colors.black : Colors.white)
                                           : (isLight ? Colors.black : Colors.white)
                                               .withOpacity(0.07),
-                                      borderRadius: BorderRadius.circular(20),
+                                      borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                                     ),
                                     child: Row(
                                       mainAxisSize: MainAxisSize.min,
@@ -994,7 +996,7 @@ class _DelviooHomePageState extends State<DelviooHomePage>
 
                   // Total Earnings Card - Animated
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    padding: EdgeInsets.symmetric(horizontal: DesktopAppWrapper.getHorizontalPadding()),
                     child: _buildAnimatedContainer(
                       delay: 1,
                       slideFromRight: false,
@@ -1005,7 +1007,7 @@ class _DelviooHomePageState extends State<DelviooHomePage>
 
                   // Stats Grid - Animated
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    padding: EdgeInsets.symmetric(horizontal: DesktopAppWrapper.getHorizontalPadding()),
                     child: _buildAnimatedContainer(
                       delay: 2,
                       child: _buildStatsGrid(isLight, appSettings),
@@ -1015,7 +1017,7 @@ class _DelviooHomePageState extends State<DelviooHomePage>
 
                   // Truck Visualization - Animated
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    padding: EdgeInsets.symmetric(horizontal: DesktopAppWrapper.getHorizontalPadding()),
                     child: _buildAnimatedContainer(
                       delay: 3,
                       child: _buildTruckVisualization(isLight, appSettings),
@@ -1025,7 +1027,7 @@ class _DelviooHomePageState extends State<DelviooHomePage>
 
                   // Fuel & Emissions Section - Animated
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    padding: EdgeInsets.symmetric(horizontal: DesktopAppWrapper.getHorizontalPadding()),
                     child: _buildAnimatedContainer(
                       delay: 4,
                       slideFromRight: true,
@@ -1036,7 +1038,7 @@ class _DelviooHomePageState extends State<DelviooHomePage>
 
                   // Period Statistics - Animated
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    padding: EdgeInsets.symmetric(horizontal: DesktopAppWrapper.getHorizontalPadding()),
                     child: _buildAnimatedContainer(
                       delay: 5,
                       slideFromRight: true,
@@ -1199,7 +1201,7 @@ class _DelviooHomePageState extends State<DelviooHomePage>
             fontWeight: FontWeight.w400,
           ),
         ),
-        const SizedBox(height: 16),
+        const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
         // Period selector row
         TradeRepublicCard(
           onTap: () {
@@ -1220,7 +1222,7 @@ class _DelviooHomePageState extends State<DelviooHomePage>
                 periodLabel,
                 style: TextStyle(
                   color: isLight ? Colors.black : Colors.white,
-                  fontSize: 14,
+                  fontSize: DesktopOptimizedWidgets.getFontSize(),
                   fontWeight: FontWeight.w500,
                 ),
               ),
@@ -1268,7 +1270,7 @@ class _DelviooHomePageState extends State<DelviooHomePage>
                 ),
               ],
             ),
-            const SizedBox(height: 24),
+            const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
             // Period list
             Expanded(
@@ -1298,7 +1300,7 @@ class _DelviooHomePageState extends State<DelviooHomePage>
                     },
                   ),
 
-                  const SizedBox(height: 12),
+                  const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
                   // Divider with label
                   Padding(
@@ -1312,7 +1314,7 @@ class _DelviooHomePageState extends State<DelviooHomePage>
                           ),
                         ),
                         Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 16),
+                          padding: EdgeInsets.symmetric(horizontal: DesktopAppWrapper.getHorizontalPadding()),
                           child: Text(
                             AppLocalizations.of(context)?.monthlyPeriods ??
                                 'MONTHLY PERIODS',
@@ -1397,7 +1399,7 @@ class _DelviooHomePageState extends State<DelviooHomePage>
                     );
                   }),
 
-                  const SizedBox(height: 24),
+                  const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
                 ],
               ),
             ),
@@ -1422,7 +1424,7 @@ class _DelviooHomePageState extends State<DelviooHomePage>
         color: isSelected
             ? (isLight ? Colors.black : Colors.white).withOpacity(0.05)
             : Colors.transparent,
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
       ),
       child: Row(
         children: [
@@ -1442,7 +1444,7 @@ class _DelviooHomePageState extends State<DelviooHomePage>
                   title,
                   style: TextStyle(
                     color: isLight ? Colors.black : Colors.white,
-                    fontSize: 16,
+                    fontSize: DesktopOptimizedWidgets.getFontSize(),
                     fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500,
                   ),
                 ),
@@ -1464,7 +1466,7 @@ class _DelviooHomePageState extends State<DelviooHomePage>
             earnings,
             style: TextStyle(
               color: isLight ? Colors.black : Colors.white,
-              fontSize: 16,
+              fontSize: DesktopOptimizedWidgets.getFontSize(),
               fontWeight: FontWeight.w600,
             ),
           ),
@@ -1546,7 +1548,7 @@ class _DelviooHomePageState extends State<DelviooHomePage>
             ),
           ],
         ),
-        const SizedBox(height: 16),
+        const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
         _buildAnimatedStatCard(
           delay: 2,
           child: TradeRepublicTap(
@@ -1612,7 +1614,7 @@ class _DelviooHomePageState extends State<DelviooHomePage>
                     decoration: BoxDecoration(
                       color: (isLight ? Colors.black : Colors.white)
                           .withOpacity(0.05),
-                      borderRadius: BorderRadius.circular(20),
+                      borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                     ),
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
@@ -1645,15 +1647,15 @@ class _DelviooHomePageState extends State<DelviooHomePage>
               ),
           ],
         ),
-        const SizedBox(height: 16),
+        const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
         // Truck Container
         Container(
           width: double.infinity,
-          padding: const EdgeInsets.all(16),
+          padding: DesktopAppWrapper.getPagePadding(),
           decoration: BoxDecoration(
             color: (isLight ? Colors.black : Colors.white).withOpacity(0.03),
-            borderRadius: BorderRadius.circular(20),
+            borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
           ),
           child: Column(
             children: [
@@ -1688,13 +1690,13 @@ class _DelviooHomePageState extends State<DelviooHomePage>
             size: 48,
             color: (isLight ? Colors.black : Colors.white).withOpacity(0.3),
           ),
-          const SizedBox(height: 12),
+          const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
           Text(
             AppLocalizations.of(context)?.noVehicleSectionsConfigured ??
                 'No vehicle sections configured',
             style: TextStyle(
               color: isLight ? Colors.black : Colors.white,
-              fontSize: 14,
+              fontSize: DesktopOptimizedWidgets.getFontSize(),
               fontWeight: FontWeight.w500,
             ),
           ),
@@ -1739,7 +1741,7 @@ class _DelviooHomePageState extends State<DelviooHomePage>
       padding: const EdgeInsets.all(2),
       decoration: BoxDecoration(
         color: (isLight ? Colors.black : Colors.white).withOpacity(0.05),
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
       ),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(18),
@@ -1826,7 +1828,7 @@ class _DelviooHomePageState extends State<DelviooHomePage>
                                 '${index + 1}',
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
-                                  fontSize: 24,
+                                  fontSize: DesktopOptimizedWidgets.getFontSize() + 10,
                                   fontWeight: FontWeight.w800,
                                   color: mainTextColor,
                                   fontFamily: 'Poppins',
@@ -1887,7 +1889,7 @@ class _DelviooHomePageState extends State<DelviooHomePage>
           height: 12,
           decoration: BoxDecoration(
             color: color,
-            borderRadius: BorderRadius.circular(20),
+            borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
           ),
         ),
         const SizedBox(width: 8),
@@ -1929,7 +1931,7 @@ class _DelviooHomePageState extends State<DelviooHomePage>
                 ),
               ],
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
             // Vehicle List
             Expanded(
               child: _driverVehicles.isEmpty
@@ -1943,14 +1945,14 @@ class _DelviooHomePageState extends State<DelviooHomePage>
                             color: (isLight ? Colors.black : Colors.white)
                                 .withOpacity(0.3),
                           ),
-                          const SizedBox(height: 16),
+                          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
                           Text(
                             AppLocalizations.of(
                                   context,
                                 )?.noVehiclesRegistered ??
                                 'No vehicles registered',
                             style: TextStyle(
-                              fontSize: 18,
+                              fontSize: DesktopOptimizedWidgets.getFontSize() + 4,
                               fontWeight: FontWeight.w600,
                               color: isLight ? Colors.black : Colors.white,
                               fontFamily: 'Poppins',
@@ -2012,13 +2014,13 @@ class _DelviooHomePageState extends State<DelviooHomePage>
                           },
                           child: Container(
                             margin: const EdgeInsets.only(bottom: 12),
-                            padding: const EdgeInsets.all(16),
+                            padding: DesktopAppWrapper.getPagePadding(),
                             decoration: BoxDecoration(
                               color: isSelected
                                   ? (isLight ? Colors.black : Colors.white)
                                         .withOpacity(0.05)
                                   : Colors.transparent,
-                              borderRadius: BorderRadius.circular(20),
+                              borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                             ),
                             child: Row(
                               children: [
@@ -2030,7 +2032,7 @@ class _DelviooHomePageState extends State<DelviooHomePage>
                                     color:
                                         (isLight ? Colors.black : Colors.white)
                                             .withOpacity(0.05),
-                                    borderRadius: BorderRadius.circular(20),
+                                    borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                                   ),
                                   child: Icon(
                                     _getVehicleIcon(vehicle),
@@ -2055,7 +2057,7 @@ class _DelviooHomePageState extends State<DelviooHomePage>
                                                   )?.vehicle ??
                                                   'Vehicle',
                                         style: TextStyle(
-                                          fontSize: 18,
+                                          fontSize: DesktopOptimizedWidgets.getFontSize() + 4,
                                           fontWeight: FontWeight.w600,
                                           color: isLight
                                               ? Colors.black
@@ -2068,7 +2070,7 @@ class _DelviooHomePageState extends State<DelviooHomePage>
                                         Text(
                                           vehicleDescription,
                                           style: TextStyle(
-                                            fontSize: 14,
+                                            fontSize: DesktopOptimizedWidgets.getFontSize(),
                                             color: isLight
                                                 ? Colors.black
                                                 : Colors.white,
@@ -2076,7 +2078,7 @@ class _DelviooHomePageState extends State<DelviooHomePage>
                                           ),
                                         ),
                                       ],
-                                      const SizedBox(height: 8),
+                                      const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                                       // Capacity & Sections info
                                       Row(
                                         children: [
@@ -2094,7 +2096,7 @@ class _DelviooHomePageState extends State<DelviooHomePage>
                                                             : Colors.white)
                                                         .withOpacity(0.05),
                                                 borderRadius:
-                                                    BorderRadius.circular(20),
+                                                    BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                                               ),
                                               child: Text(
                                                 '📦 ${AppSettings().formatNumber(cargoCapacity, decimals: 1)} $cargoUnit',
@@ -2127,7 +2129,7 @@ class _DelviooHomePageState extends State<DelviooHomePage>
                                                         0.2,
                                                       ),
                                                 borderRadius:
-                                                    BorderRadius.circular(20),
+                                                    BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                                               ),
                                               child: Text(
                                                 '🚛 $numSections sections',
@@ -2242,7 +2244,7 @@ class _DelviooHomePageState extends State<DelviooHomePage>
               ),
             ],
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
           Text(
             isOccupied
                 ? AppLocalizations.of(context)?.currentlyOccupied ??
@@ -2257,14 +2259,14 @@ class _DelviooHomePageState extends State<DelviooHomePage>
               fontWeight: FontWeight.w500,
             ),
           ),
-          const SizedBox(height: 24),
+          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
           // Capacity Info
           Container(
-            padding: const EdgeInsets.all(16),
+            padding: DesktopAppWrapper.getPagePadding(),
             decoration: BoxDecoration(
               color: (isLight ? Colors.black : Colors.white).withOpacity(0.05),
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
             ),
             child: Row(
               children: [
@@ -2275,7 +2277,7 @@ class _DelviooHomePageState extends State<DelviooHomePage>
                         '${AppSettings().formatNumber(_parseDouble(section['percentage'], 100 / _vehicleSections.length), decimals: 0)}%',
                         style: TextStyle(
                           color: isLight ? Colors.black : Colors.white,
-                          fontSize: 24,
+                          fontSize: DesktopOptimizedWidgets.getFontSize() + 10,
                           fontWeight: FontWeight.w700,
                           fontFamily: 'Poppins',
                         ),
@@ -2306,7 +2308,7 @@ class _DelviooHomePageState extends State<DelviooHomePage>
                         isOccupied ? '1' : '0',
                         style: TextStyle(
                           color: isLight ? Colors.black : Colors.white,
-                          fontSize: 24,
+                          fontSize: DesktopOptimizedWidgets.getFontSize() + 10,
                           fontWeight: FontWeight.w700,
                           fontFamily: 'Poppins',
                         ),
@@ -2329,14 +2331,14 @@ class _DelviooHomePageState extends State<DelviooHomePage>
 
           // Load Info if occupied
           if (isOccupied) ...[
-            const SizedBox(height: 16),
+            const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
             Container(
-              padding: const EdgeInsets.all(16),
+              padding: DesktopAppWrapper.getPagePadding(),
               decoration: BoxDecoration(
                 color: (isLight ? Colors.black : Colors.white).withOpacity(
                   0.03,
                 ),
-                borderRadius: BorderRadius.circular(20),
+                borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -2354,14 +2356,14 @@ class _DelviooHomePageState extends State<DelviooHomePage>
                             'Current Load',
                         style: TextStyle(
                           color: isLight ? Colors.black : Colors.white,
-                          fontSize: 14,
+                          fontSize: DesktopOptimizedWidgets.getFontSize(),
                           fontWeight: FontWeight.w600,
                           fontFamily: 'Poppins',
                         ),
                       ),
                     ],
                   ),
-                  const SizedBox(height: 12),
+                  const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                   // Load quantity - big display
                   Row(
                     children: [
@@ -2380,7 +2382,7 @@ class _DelviooHomePageState extends State<DelviooHomePage>
                         style: TextStyle(
                           color: (isLight ? Colors.black : Colors.white)
                               .withOpacity(0.6),
-                          fontSize: 20,
+                          fontSize: DesktopOptimizedWidgets.getFontSize() + 6,
                           fontWeight: FontWeight.w600,
                           fontFamily: 'Poppins',
                         ),
@@ -2388,7 +2390,7 @@ class _DelviooHomePageState extends State<DelviooHomePage>
                     ],
                   ),
                   if (loadProduct.isNotEmpty) ...[
-                    const SizedBox(height: 8),
+                    const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                     Text(
                       loadProduct,
                       style: TextStyle(
@@ -2407,12 +2409,12 @@ class _DelviooHomePageState extends State<DelviooHomePage>
 
           // Available message if not occupied
           if (!isOccupied) ...[
-            const SizedBox(height: 16),
+            const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
             Container(
-              padding: const EdgeInsets.all(16),
+              padding: DesktopAppWrapper.getPagePadding(),
               decoration: BoxDecoration(
                 color: const Color(0xFF10B981).withOpacity(0.1),
-                borderRadius: BorderRadius.circular(20),
+                borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
               ),
               child: Row(
                 children: [
@@ -2429,7 +2431,7 @@ class _DelviooHomePageState extends State<DelviooHomePage>
                       style: TextStyle(
                         color: (isLight ? Colors.black : Colors.white)
                             .withOpacity(0.7),
-                        fontSize: 14,
+                        fontSize: DesktopOptimizedWidgets.getFontSize(),
                         fontFamily: 'Poppins',
                       ),
                     ),
@@ -2439,7 +2441,7 @@ class _DelviooHomePageState extends State<DelviooHomePage>
             ),
           ],
 
-          const SizedBox(height: 24),
+          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
         ],
       ),
     );
@@ -2472,7 +2474,7 @@ class _DelviooHomePageState extends State<DelviooHomePage>
       padding: const EdgeInsets.all(18),
       decoration: BoxDecoration(
         color: (isLight ? Colors.black : Colors.white).withOpacity(0.03),
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -2489,7 +2491,7 @@ class _DelviooHomePageState extends State<DelviooHomePage>
                 ),
             ],
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
           Text(
             value,
             style: TextStyle(
@@ -2526,7 +2528,7 @@ class _DelviooHomePageState extends State<DelviooHomePage>
       padding: const EdgeInsets.all(18),
       decoration: BoxDecoration(
         color: (isLight ? Colors.black : Colors.white).withOpacity(0.03),
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
       ),
       child: Row(
         children: [
@@ -2550,7 +2552,7 @@ class _DelviooHomePageState extends State<DelviooHomePage>
                   title,
                   style: TextStyle(
                     color: isLight ? Colors.black : Colors.white,
-                    fontSize: 14,
+                    fontSize: DesktopOptimizedWidgets.getFontSize(),
                     fontWeight: FontWeight.w500,
                   ),
                 ),
@@ -2624,13 +2626,13 @@ class _DelviooHomePageState extends State<DelviooHomePage>
                       title,
                       style: TextStyle(
                         color: isLight ? Colors.black : Colors.white,
-                        fontSize: 20,
+                        fontSize: DesktopOptimizedWidgets.getFontSize() + 6,
                         fontWeight: FontWeight.w700,
                       ),
                     ),
                   ],
                 ),
-                const SizedBox(height: 24),
+                const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
@@ -2665,7 +2667,7 @@ class _DelviooHomePageState extends State<DelviooHomePage>
                                 color: isPositive
                                     ? const Color(0xFF10B981)
                                     : const Color(0xFFEF4444),
-                                fontSize: 16,
+                                fontSize: DesktopOptimizedWidgets.getFontSize(),
                                 fontWeight: FontWeight.w600,
                               ),
                             ),
@@ -2674,12 +2676,12 @@ class _DelviooHomePageState extends State<DelviooHomePage>
                       ),
                   ],
                 ),
-                const SizedBox(height: 8),
+                const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                 Text(
                   _selectedChartPeriod,
                   style: TextStyle(
                     color: (isLight ? Colors.black : Colors.white).withOpacity(0.5),
-                    fontSize: 14,
+                    fontSize: DesktopOptimizedWidgets.getFontSize(),
                     fontWeight: FontWeight.w500,
                   ),
                 ),
@@ -2710,7 +2712,7 @@ class _DelviooHomePageState extends State<DelviooHomePage>
                           },
                         ),
                 ),
-                const SizedBox(height: 24),
+                const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
                 TradeRepublicPeriodSegmented(
                   isLight: isLight,
                   selected: _selectedChartPeriod,
@@ -2730,7 +2732,7 @@ class _DelviooHomePageState extends State<DelviooHomePage>
                     setModalState(() {});
                   },
                 ),
-                const SizedBox(height: 24),
+                const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
               ],
             ),
           );
@@ -2795,7 +2797,7 @@ class _DelviooHomePageState extends State<DelviooHomePage>
             letterSpacing: -0.5,
           ),
         ),
-        const SizedBox(height: 16),
+        const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
         _buildAnimatedPeriodCard(
           delay: 0,
           child: _buildPeriodCard(
@@ -2815,7 +2817,7 @@ class _DelviooHomePageState extends State<DelviooHomePage>
             isLight: isLight,
           ),
         ),
-        const SizedBox(height: 12),
+        const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
         _buildAnimatedPeriodCard(
           delay: 1,
           child: _buildPeriodCard(
@@ -2835,7 +2837,7 @@ class _DelviooHomePageState extends State<DelviooHomePage>
             isLight: isLight,
           ),
         ),
-        const SizedBox(height: 12),
+        const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
         _buildAnimatedPeriodCard(
           delay: 2,
           child: _buildPeriodCard(
@@ -2885,7 +2887,7 @@ class _DelviooHomePageState extends State<DelviooHomePage>
       padding: const EdgeInsets.all(18),
       decoration: BoxDecoration(
         color: (isLight ? Colors.black : Colors.white).withOpacity(0.03),
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -2894,12 +2896,12 @@ class _DelviooHomePageState extends State<DelviooHomePage>
             title,
             style: TextStyle(
               color: isLight ? Colors.black : Colors.white,
-              fontSize: 18,
+              fontSize: DesktopOptimizedWidgets.getFontSize() + 4,
               fontWeight: FontWeight.w700,
               letterSpacing: -0.3,
             ),
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
           Row(
             children: [
               Expanded(
@@ -2944,12 +2946,12 @@ class _DelviooHomePageState extends State<DelviooHomePage>
     return Column(
       children: [
         Icon(icon, color: isLight ? Colors.black : Colors.white, size: 20),
-        const SizedBox(height: 12),
+        const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
         Text(
           value,
           style: TextStyle(
             color: isLight ? Colors.black : Colors.white,
-            fontSize: 18,
+            fontSize: DesktopOptimizedWidgets.getFontSize() + 4,
             fontWeight: FontWeight.w700,
             letterSpacing: -0.2,
           ),
@@ -3111,7 +3113,7 @@ class _DelviooHomePageState extends State<DelviooHomePage>
             letterSpacing: -0.5,
           ),
         ),
-        const SizedBox(height: 16),
+        const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
         // Main Stats Card
         Container(
@@ -3119,7 +3121,7 @@ class _DelviooHomePageState extends State<DelviooHomePage>
           padding: const EdgeInsets.all(0),
           decoration: BoxDecoration(
             color: (isLight ? Colors.black : Colors.white).withOpacity(0.03),
-            borderRadius: BorderRadius.circular(20),
+            borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
           ),
           child: Column(
             children: [
@@ -3156,11 +3158,11 @@ class _DelviooHomePageState extends State<DelviooHomePage>
                 ],
               ),
 
-              const SizedBox(height: 16),
+              const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
               TradeRepublicDivider(
                 color: (isLight ? Colors.black : Colors.white).withOpacity(0.1),
               ),
-              const SizedBox(height: 16),
+              const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
               // CO2 Emissions Row
               Row(
@@ -3202,7 +3204,7 @@ class _DelviooHomePageState extends State<DelviooHomePage>
           ),
         ),
 
-        const SizedBox(height: 16),
+        const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
         // CO2 Savings Card - Modern Minimal
         Container(
@@ -3210,7 +3212,7 @@ class _DelviooHomePageState extends State<DelviooHomePage>
           padding: const EdgeInsets.all(0),
           decoration: BoxDecoration(
             color: (isLight ? Colors.black : Colors.white).withOpacity(0.03),
-            borderRadius: BorderRadius.circular(20),
+            borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
           ),
           child: Column(
             children: [
@@ -3232,11 +3234,11 @@ class _DelviooHomePageState extends State<DelviooHomePage>
                         size: 24,
                       ),
                     ),
-                    const SizedBox(height: 12),
+                    const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                     Text(
                       AppLocalizations.of(context)?.co2Saved ?? 'CO₂ Saved',
                       style: TextStyle(
-                        fontSize: 14,
+                        fontSize: DesktopOptimizedWidgets.getFontSize(),
                         fontWeight: FontWeight.w500,
                         color: (isLight ? Colors.black : Colors.white)
                             .withOpacity(0.4),
@@ -3256,7 +3258,7 @@ class _DelviooHomePageState extends State<DelviooHomePage>
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        const Text('🌳', style: TextStyle(fontSize: 16)),
+                        const Text('🌳', style: TextStyle(fontSize: DesktopOptimizedWidgets.getFontSize(),),
                         const SizedBox(width: 4),
                         Text(
                           '≈ ${appSettings.formatNumber(savedCO2Kg / 21, decimals: 1)} ${AppLocalizations.of(context)?.treesYear ?? 'trees/year'}',
@@ -3368,7 +3370,7 @@ class _DelviooHomePageState extends State<DelviooHomePage>
           padding: const EdgeInsets.all(10),
           decoration: BoxDecoration(
             color: iconColor.withOpacity(0.1),
-            borderRadius: BorderRadius.circular(20),
+            borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
           ),
           child: Icon(icon, color: iconColor, size: 22),
         ),
@@ -3377,7 +3379,7 @@ class _DelviooHomePageState extends State<DelviooHomePage>
           value,
           style: TextStyle(
             color: isLight ? Colors.black : Colors.white,
-            fontSize: 18,
+            fontSize: DesktopOptimizedWidgets.getFontSize() + 4,
             fontWeight: FontWeight.w700,
             letterSpacing: -0.3,
           ),
@@ -3406,7 +3408,7 @@ class _DelviooHomePageState extends State<DelviooHomePage>
             label,
             style: TextStyle(
               color: Colors.white.withOpacity(0.8),
-              fontSize: 14,
+              fontSize: DesktopOptimizedWidgets.getFontSize(),
             ),
           ),
         ),
@@ -3414,7 +3416,7 @@ class _DelviooHomePageState extends State<DelviooHomePage>
           value,
           style: TextStyle(
             color: Colors.white,
-            fontSize: 14,
+            fontSize: DesktopOptimizedWidgets.getFontSize(),
             fontWeight: FontWeight.w700,
           ),
         ),

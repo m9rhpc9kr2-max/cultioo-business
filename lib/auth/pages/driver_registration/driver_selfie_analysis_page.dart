@@ -11,6 +11,8 @@ import '../../../shared/services/app_settings.dart';
 import '../../../shared/services/app_localizations.dart';
 import '../../../config/api_config.dart';
 import '../../../shared/widgets/trade_republic_button.dart';
+import 'package:cultioo_business/shared/widgets/desktop_app_wrapper.dart';
+import 'package:cultioo_business/shared/widgets/desktop_optimized_widgets.dart';
 
 /// Full-screen analysis page shown after selfie capture.
 ///
@@ -314,13 +316,13 @@ class _DriverSelfieAnalysisPageState extends State<DriverSelfieAnalysisPage>
         Text(
           loc?.verifyingIdentity ?? AppLocalizations.of(context)!.tr('Verifying Identity…'),
           style: TextStyle(
-            fontSize: 24,
+            fontSize: DesktopOptimizedWidgets.getFontSize() + 10,
             fontWeight: FontWeight.w700,
             color: isLight ? Colors.black : Colors.white,
             letterSpacing: -0.4,
           ),
         ),
-        const SizedBox(height: 8),
+        const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
         Text(
           loc?.aiAnalyzingFace ?? AppLocalizations.of(context)!.tr('AI is analyzing your face and comparing with your ID'),
           textAlign: TextAlign.center,
@@ -359,19 +361,19 @@ class _DriverSelfieAnalysisPageState extends State<DriverSelfieAnalysisPage>
                 color: _allPassed ? Colors.green : Colors.red,
               ),
             ),
-            const SizedBox(height: 24),
+            const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
             Text(
               _allPassed
                   ? (loc?.verificationPassed ?? AppLocalizations.of(context)!.tr('Verification Passed'))
                   : (loc?.verificationFailed ?? AppLocalizations.of(context)!.tr('Verification Failed')),
               style: TextStyle(
-                fontSize: 24,
+                fontSize: DesktopOptimizedWidgets.getFontSize() + 10,
                 fontWeight: FontWeight.w700,
                 color: isLight ? Colors.black : Colors.white,
                 letterSpacing: -0.4,
               ),
             ),
-            const SizedBox(height: 8),
+            const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
             Text(
               _allPassed
                   ? (loc?.allChecksPassed ?? AppLocalizations.of(context)!.tr('All checks passed successfully.'))
@@ -470,7 +472,7 @@ class _DriverSelfieAnalysisPageState extends State<DriverSelfieAnalysisPage>
             Text(
               '${(confidence * 100).toInt()}%',
               style: TextStyle(
-                fontSize: 14,
+                fontSize: DesktopOptimizedWidgets.getFontSize(),
                 fontWeight: FontWeight.w600,
                 color: Colors.green.withOpacity(0.8),
               ),

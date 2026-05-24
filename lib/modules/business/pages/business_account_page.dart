@@ -37,6 +37,8 @@ import '../../../shared/widgets/cultioo_spinner.dart';
 import '../../../shared/widgets/trade_republic_tap.dart';
 import '../../../shared/widgets/payment_input_formatters.dart';
 import '../../../shared/widgets/credit_card_widget.dart';
+import 'package:cultioo_business/shared/widgets/desktop_app_wrapper.dart';
+import 'package:cultioo_business/shared/widgets/desktop_optimized_widgets.dart';
 
 class BusinessAccountPage extends StatefulWidget {
   const BusinessAccountPage({super.key});
@@ -255,7 +257,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
         mainAxisSize: MainAxisSize.min,
         children: [
           CultiooLoadingIndicator(),
-          const SizedBox(height: 16),
+          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
           Text(
             AppLocalizations.of(context)?.downloadingInvoice ?? AppLocalizations.of(context)!.tr('Downloading invoice...'),
             style: TextStyle(color: isLight ? Colors.black : Colors.white),
@@ -333,7 +335,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
         mainAxisSize: MainAxisSize.min,
         children: [
           CultiooLoadingIndicator(),
-          const SizedBox(height: 16),
+          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
           Text(
             AppLocalizations.of(context)?.downloadingInvoice ?? AppLocalizations.of(context)!.tr('Downloading document...'),
             style: TextStyle(color: isLight ? Colors.black : Colors.white),
@@ -436,10 +438,10 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
 
     return Container(
       margin: const EdgeInsets.only(bottom: 12),
-      padding: const EdgeInsets.all(20),
+      padding: DesktopAppWrapper.getPagePadding(),
       decoration: BoxDecoration(
         color: isLight ? Colors.white : Colors.black,
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -455,7 +457,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                     end: Alignment.bottomRight,
                     colors: statusGradient,
                   ),
-                  borderRadius: BorderRadius.circular(20),
+                  borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                 ),
                 child: Icon(
                   CupertinoIcons.money_dollar_circle,
@@ -471,7 +473,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                     Text(
                       _formatCurrency(netAmount),
                       style: TextStyle(
-                        fontSize: 24,
+                        fontSize: DesktopOptimizedWidgets.getFontSize() + 10,
                         fontWeight: FontWeight.w700,
                         fontFamily: 'Poppins',
                         color: isLight ? Colors.black : Colors.white,
@@ -511,7 +513,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                     end: Alignment.bottomRight,
                     colors: statusGradient,
                   ),
-                  borderRadius: BorderRadius.circular(20),
+                  borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                 ),
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
@@ -541,12 +543,12 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
               ),
             ],
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
           Container(
             padding: const EdgeInsets.all(14),
             decoration: BoxDecoration(
               color: isLight ? Colors.white : Colors.black,
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
             ),
             child: Column(
               children: [
@@ -620,12 +622,12 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
             ),
           ),
           if (errorMessage != null && errorMessage.isNotEmpty) ...[
-            const SizedBox(height: 12),
+            const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
             Container(
               padding: const EdgeInsets.all(12),
               decoration: BoxDecoration(
                 color: Colors.red.shade50,
-                borderRadius: BorderRadius.circular(20),
+                borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
               ),
               child: Row(
                 children: [
@@ -2288,7 +2290,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                 AppLocalizations.of(context)?.unableToLoadAccountData ?? AppLocalizations.of(context)!.tr('Unable to load account data'),
                 style: TextStyle(
                   color: isLight ? Colors.black : Colors.white,
-                  fontSize: 16,
+                  fontSize: DesktopOptimizedWidgets.getFontSize(),
                 ),
               ),
             )
@@ -2568,13 +2570,13 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                 color: (isLight ? Colors.black : Colors.white).withOpacity(0.4),
               ),
             ),
-          const SizedBox(height: 12),
+          const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
           // Active badge
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
             decoration: BoxDecoration(
               color: Colors.green.withOpacity(0.1),
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
             ),
             child: Row(
               mainAxisSize: MainAxisSize.min,
@@ -2649,7 +2651,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
               ],
             ),
 
-            const SizedBox(height: 24),
+            const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
             Expanded(
               child: SingleChildScrollView(
@@ -3241,7 +3243,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                 ),
               ],
             ),
-            const SizedBox(height: 24),
+            const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
             Expanded(
               child: SingleChildScrollView(
@@ -3334,7 +3336,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
               ),
             ),
 
-            const SizedBox(height: 8),
+            const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
             // Cancel Button
             TradeRepublicButton(
@@ -3345,7 +3347,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                 closeLanguageAndSettings();
               },
             ),
-            const SizedBox(height: 24),
+            const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
           ],
         ),
       ),
@@ -3387,11 +3389,11 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
           color: isSelected
               ? (isLight ? Colors.black : Colors.white)
               : (isLight ? Colors.black : Colors.white).withOpacity(0.04),
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
         ),
         child: Row(
           children: [
-            Text(flag, style: const TextStyle(fontSize: 24)),
+            Text(flag, style: const TextStyle(fontSize: DesktopOptimizedWidgets.getFontSize() + 10,),
             const SizedBox(width: 14),
             Expanded(
               child: Column(
@@ -3400,7 +3402,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                   Text(
                     displayName,
                     style: TextStyle(
-                      fontSize: 16,
+                      fontSize: DesktopOptimizedWidgets.getFontSize(),
                       fontWeight: FontWeight.w600,
                       color: isSelected
                           ? (isLight ? Colors.white : Colors.black)
@@ -3485,7 +3487,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
             ],
           ),
 
-          const SizedBox(height: 24),
+          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
           const SizedBox(height: 20),
 
@@ -3514,7 +3516,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                         : (isLight ? Colors.black : Colors.white).withOpacity(
                             0.04,
                           ),
-                    borderRadius: BorderRadius.circular(20),
+                    borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                   ),
                   child: Row(
                     children: [
@@ -3525,7 +3527,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                             Text(
                               displayName,
                               style: TextStyle(
-                                fontSize: 16,
+                                fontSize: DesktopOptimizedWidgets.getFontSize(),
                                 fontWeight: FontWeight.w600,
                                 color: isSelected
                                     ? (isLight ? Colors.white : Colors.black)
@@ -3570,7 +3572,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
             }).toList(),
           ),
 
-          const SizedBox(height: 8),
+          const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
           TradeRepublicButton(
             label: AppLocalizations.of(context)?.cancel ?? AppLocalizations.of(context)!.tr('Cancel'),
@@ -3581,7 +3583,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
               Navigator.pop(ctx);
             },
           ),
-          const SizedBox(height: 24),
+          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
         ],
       ),
     ).whenComplete(() {
@@ -3634,7 +3636,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
             ],
           ),
 
-          const SizedBox(height: 24),
+          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
           const SizedBox(height: 20),
 
@@ -3662,7 +3664,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                         : (isLight ? Colors.black : Colors.white).withOpacity(
                             0.04,
                           ),
-                    borderRadius: BorderRadius.circular(20),
+                    borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                   ),
                   child: Row(
                     children: [
@@ -3673,7 +3675,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                             Text(
                               opt,
                               style: TextStyle(
-                                fontSize: 16,
+                                fontSize: DesktopOptimizedWidgets.getFontSize(),
                                 fontWeight: FontWeight.w600,
                                 color: isSelected
                                     ? (isLight ? Colors.white : Colors.black)
@@ -3719,7 +3721,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
             }).toList(),
           ),
 
-          const SizedBox(height: 8),
+          const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
           // Cancel Button - Trade Republic Style
           TradeRepublicButton(
@@ -3731,7 +3733,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
               Navigator.pop(ctx); // Close app settings modal
             },
           ),
-          const SizedBox(height: 24),
+          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
         ],
       ),
     ).whenComplete(() {
@@ -3748,7 +3750,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       decoration: BoxDecoration(
         color: isLight ? Colors.black : Colors.white,
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
       ),
       child: Text(
         text.toUpperCase(),
@@ -3766,7 +3768,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
     final isInGroup = currentGroup != null;
 
     return ClipRRect(
-      borderRadius: BorderRadius.circular(20),
+      borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
       child: BackdropFilter(
         filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
         child: Container(
@@ -3775,7 +3777,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
           padding: const EdgeInsets.all(24),
           decoration: BoxDecoration(
             color: isLight ? Colors.white : Colors.black,
-            borderRadius: BorderRadius.circular(20),
+            borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -3821,7 +3823,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                     ),
                 ],
               ),
-              const SizedBox(height: 16),
+              const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
               // Current Group Status
               _buildCurrentGroupStatus(isLight),
@@ -3896,7 +3898,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                         ? Colors.transparent
                         : const Color(0xFF111111)))
             : (isLight ? Colors.white : Colors.black),
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -3921,7 +3923,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                           ? groupName
                           : (AppLocalizations.of(context)?.noGroup ?? AppLocalizations.of(context)!.tr('No Group')),
                       style: TextStyle(
-                        fontSize: 18,
+                        fontSize: DesktopOptimizedWidgets.getFontSize() + 4,
                         fontWeight: FontWeight.w800,
                         letterSpacing: -0.4,
                         color: (isInGroup && isAdmin)
@@ -3948,7 +3950,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                       overflow: TextOverflow.ellipsis,
                     ),
                     if (isInGroup) ...[
-                      const SizedBox(height: 12),
+                      const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                       Wrap(
                         spacing: 8,
                         runSpacing: 8,
@@ -4031,12 +4033,12 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
     // Minimalist Trade Republic style - solid black/white
     return TradeRepublicCard(
       onTap: onTap,
-      padding: const EdgeInsets.all(16),
+      padding: DesktopAppWrapper.getPagePadding(),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Icon(icon, color: isLight ? Colors.black : Colors.white, size: 22),
-          const SizedBox(height: 12),
+          const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
           Text(
             title.toUpperCase(),
             style: TextStyle(
@@ -4078,7 +4080,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
           padding: const EdgeInsets.only(bottom: 16, top: 8),
         ),
         TradeRepublicCard(
-          padding: const EdgeInsets.all(20),
+          padding: DesktopAppWrapper.getPagePadding(),
           child: Column(
             children: [
               _buildInfoRow(
@@ -4176,7 +4178,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
           padding: const EdgeInsets.only(bottom: 16, top: 8),
         ),
         TradeRepublicCard(
-          padding: const EdgeInsets.all(16),
+          padding: DesktopAppWrapper.getPagePadding(),
           child: Column(
             children: [
               _buildAccountOption(
@@ -4224,7 +4226,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
           padding: const EdgeInsets.only(bottom: 16, top: 8),
         ),
         TradeRepublicCard(
-          padding: const EdgeInsets.all(16),
+          padding: DesktopAppWrapper.getPagePadding(),
           child: Column(
             children: [
               _buildInfoRow(
@@ -4250,7 +4252,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
         // Interactive toggles for notifications
         TradeRepublicCard(
           margin: const EdgeInsets.only(top: 16),
-          padding: const EdgeInsets.all(16),
+          padding: DesktopAppWrapper.getPagePadding(),
           child: Column(
             children: [
               _buildNotificationToggle(
@@ -4296,7 +4298,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
           padding: const EdgeInsets.only(bottom: 16, top: 8),
         ),
         TradeRepublicCard(
-          padding: const EdgeInsets.all(16),
+          padding: DesktopAppWrapper.getPagePadding(),
           child: Column(
             children: [
               _buildInfoRow(
@@ -4317,23 +4319,23 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
 
         // Show recent followers if any
         if (followers.isNotEmpty) ...[
-          const SizedBox(height: 16),
+          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
           TradeRepublicCard(
-            padding: const EdgeInsets.all(16),
+            padding: DesktopAppWrapper.getPagePadding(),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   AppLocalizations.of(context)?.recentFollowers ?? AppLocalizations.of(context)!.tr('Recent Followers'),
                   style: TextStyle(
-                    fontSize: 14,
+                    fontSize: DesktopOptimizedWidgets.getFontSize(),
                     fontWeight: FontWeight.w600,
                     color: (isLight ? Colors.black : Colors.white).withOpacity(
                       0.7,
                     ),
                   ),
                 ),
-                const SizedBox(height: 12),
+                const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                 SizedBox(
                   height: 60,
                   child: ListView.builder(
@@ -4349,7 +4351,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                               width: 40,
                               height: 40,
                               decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(20),
+                                borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                                 color: (isLight ? Colors.black : Colors.white)
                                     .withOpacity(0.1),
                               ),
@@ -4360,7 +4362,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                                       .substring(0, 1)
                                       .toUpperCase(),
                                   style: TextStyle(
-                                    fontSize: 16,
+                                    fontSize: DesktopOptimizedWidgets.getFontSize(),
                                     fontWeight: FontWeight.w700,
                                     color: isLight
                                         ? Colors.black
@@ -4429,7 +4431,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
         _showVerificationCenterModal(context, isLight);
       },
       width: double.infinity,
-      padding: const EdgeInsets.all(20),
+      padding: DesktopAppWrapper.getPagePadding(),
       child: Row(
         children: [
           Container(
@@ -4441,7 +4443,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                   : isLight
                   ? Colors.white
                   : Colors.black,
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
             ),
             child: Icon(
               isFullyVerified
@@ -4461,7 +4463,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                 Text(
                   AppLocalizations.of(context)?.verificationCenter ?? AppLocalizations.of(context)!.tr('Verification Center'),
                   style: TextStyle(
-                    fontSize: 16,
+                    fontSize: DesktopOptimizedWidgets.getFontSize(),
                     fontWeight: FontWeight.w600,
                     color: isLight ? Colors.black : Colors.white,
                   ),
@@ -4476,7 +4478,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                     color: isFullyVerified
                         ? Colors.green.withOpacity(0.1)
                         : Colors.orange.withOpacity(0.1),
-                    borderRadius: BorderRadius.circular(20),
+                    borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                   ),
                   child: Text(
                     isFullyVerified
@@ -4542,7 +4544,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
       padding: const EdgeInsets.all(24),
       decoration: BoxDecoration(
         color: isLight ? Colors.white : Colors.black,
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -4561,19 +4563,19 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
           Text(
             AppLocalizations.of(context)?.taxFormDesc ?? AppLocalizations.of(context)!.tr('W-9 or W-8 form required for payouts (self-service via Stripe)'),
             style: TextStyle(
-              fontSize: 14,
+              fontSize: DesktopOptimizedWidgets.getFontSize(),
               color: (isLight ? Colors.black : Colors.white).withOpacity(0.5),
             ),
           ),
 
-          const SizedBox(height: 24),
+          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
           // Status Badge - Delvioo style
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
             decoration: BoxDecoration(
               color: badgeColor.withOpacity(0.1),
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
             ),
             child: Row(
               children: [
@@ -4586,7 +4588,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                       Text(
                         statusLabel,
                         style: TextStyle(
-                          fontSize: 14,
+                          fontSize: DesktopOptimizedWidgets.getFontSize(),
                           fontWeight: FontWeight.w600,
                           color: badgeColor,
                         ),
@@ -4607,14 +4609,14 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
             ),
           ),
 
-          const SizedBox(height: 16),
+          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
           // Information Box - Delvioo style
           Container(
-            padding: const EdgeInsets.all(16),
+            padding: DesktopAppWrapper.getPagePadding(),
             decoration: BoxDecoration(
               color: isLight ? Colors.white : Colors.black,
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
             ),
             child: Row(
               children: [
@@ -4625,7 +4627,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                     color: (isLight ? Colors.black : Colors.white).withOpacity(
                       0.1,
                     ),
-                    borderRadius: BorderRadius.circular(20),
+                    borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                   ),
                   child: Icon(
                     CupertinoIcons.info_circle,
@@ -4652,7 +4654,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
             ),
           ),
 
-          const SizedBox(height: 16),
+          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
           // Action Button - Delvioo style
           TradeRepublicButton(
@@ -4798,7 +4800,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
             ],
           ),
 
-          const SizedBox(height: 24),
+          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
           const SizedBox(height: 32),
 
@@ -4807,7 +4809,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
             width: 100,
             height: 100,
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
               color: isLight
                   ? const Color(0xFFF2F2F2)
                   : const Color(0xFF1F1F1F),
@@ -4838,13 +4840,13 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                   ),
           ),
 
-          const SizedBox(height: 24),
+          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
           // Description
           Text(
             AppLocalizations.of(context)?.imageFormats ?? AppLocalizations.of(context)!.tr('JPG, PNG or GIF • Max 5MB'),
             style: TextStyle(
-              fontSize: 14,
+              fontSize: DesktopOptimizedWidgets.getFontSize(),
               fontWeight: FontWeight.w500,
               color: isLight ? Colors.black : Colors.white,
             ),
@@ -4863,7 +4865,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
             },
           ),
 
-          const SizedBox(height: 12),
+          const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
           // Camera button - minimalist secondary
           TradeRepublicButton(
@@ -4878,7 +4880,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
 
           if (userData?['profilePic'] != null &&
               userData!['profilePic'].toString().trim().isNotEmpty) ...[
-            const SizedBox(height: 12),
+            const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
             // Remove button - minimalist red
             TradeRepublicButton(
@@ -5122,7 +5124,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                   ],
                 ),
 
-                const SizedBox(height: 24),
+                const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
                 const SizedBox(height: 32),
 
@@ -5141,12 +5143,12 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                                     context,
                                   )?.businessInformation ?? AppLocalizations.of(context)!.tr('Business Information'),
                               style: TextStyle(
-                                fontSize: 16,
+                                fontSize: DesktopOptimizedWidgets.getFontSize(),
                                 fontWeight: FontWeight.w700,
                                 color: isLight ? Colors.black : Colors.white,
                               ),
                             ),
-                            const SizedBox(height: 16),
+                            const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
                             _buildEditableBusinessField(
                               AppLocalizations.of(context)?.businessName ??
                                   AppLocalizations.of(context)?.businessName ?? AppLocalizations.of(context)!.tr('Business Name'),
@@ -5178,7 +5180,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                           ],
                         ),
 
-                        const SizedBox(height: 16),
+                        const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
                         // Business Address Section
                         Column(
@@ -5187,12 +5189,12 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                             Text(
                               AppLocalizations.of(context)?.businessAddress ?? AppLocalizations.of(context)!.tr('Business Address'),
                               style: TextStyle(
-                                fontSize: 16,
+                                fontSize: DesktopOptimizedWidgets.getFontSize(),
                                 fontWeight: FontWeight.w700,
                                 color: isLight ? Colors.black : Colors.white,
                               ),
                             ),
-                            const SizedBox(height: 16),
+                            const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
                             // Street and House Number
                             Row(
@@ -5267,7 +5269,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                                                 context,
                                               )?.country ?? AppLocalizations.of(context)!.tr('Country'),
                                           style: TextStyle(
-                                            fontSize: 14,
+                                            fontSize: DesktopOptimizedWidgets.getFontSize(),
                                             fontWeight: FontWeight.w600,
                                             color:
                                                 (isLight
@@ -5276,7 +5278,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                                                     .withOpacity(0.8),
                                           ),
                                         ),
-                                        const SizedBox(height: 8),
+                                        const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                                         TradeRepublicTap(
                                           onTap: () {
                                             _showCountrySelection(
@@ -5311,7 +5313,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                                                   child: Text(
                                                     selectedCountry,
                                                     style: TextStyle(
-                                                      fontSize: 16,
+                                                      fontSize: DesktopOptimizedWidgets.getFontSize(),
                                                       fontWeight:
                                                           FontWeight.w600,
                                                       color: isLight
@@ -5343,7 +5345,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                           ],
                         ),
 
-                        const SizedBox(height: 16),
+                        const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
                         // Business Size Section
                         Column(
@@ -5352,12 +5354,12 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                             Text(
                               AppLocalizations.of(context)?.businessSize ?? AppLocalizations.of(context)!.tr('Business Size'),
                               style: TextStyle(
-                                fontSize: 16,
+                                fontSize: DesktopOptimizedWidgets.getFontSize(),
                                 fontWeight: FontWeight.w700,
                                 color: isLight ? Colors.black : Colors.white,
                               ),
                             ),
-                            const SizedBox(height: 16),
+                            const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
                             TradeRepublicTap(
                               onTap: () {
                                 _showBusinessSizeSelection(
@@ -5385,7 +5387,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                                     child: Text(
                                       selectedSize,
                                       style: TextStyle(
-                                        fontSize: 16,
+                                        fontSize: DesktopOptimizedWidgets.getFontSize(),
                                         fontWeight: FontWeight.w600,
                                         color: isLight
                                             ? Colors.black
@@ -5406,7 +5408,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                           ],
                         ),
 
-                        const SizedBox(height: 16),
+                        const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
                         // Privacy & Visibility Settings Section - Header
                         Padding(
@@ -5419,13 +5421,13 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                                       context,
                                     )?.privacyVisibility ?? AppLocalizations.of(context)!.tr('Privacy & Visibility'),
                                 style: TextStyle(
-                                  fontSize: 16,
+                                  fontSize: DesktopOptimizedWidgets.getFontSize(),
                                   fontWeight: FontWeight.w700,
                                   color: isLight ? Colors.black : Colors.white,
                                 ),
                               ),
 
-                              const SizedBox(height: 8),
+                              const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
                               Text(
                                 AppLocalizations.of(
@@ -5595,10 +5597,10 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
   ) {
     return Container(
       margin: const EdgeInsets.only(bottom: 16),
-      padding: const EdgeInsets.all(16),
+      padding: DesktopAppWrapper.getPagePadding(),
       decoration: BoxDecoration(
         color: isLight ? Colors.white : Colors.black,
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
       ),
       child: Row(
         children: [
@@ -5622,7 +5624,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                   useFormField: true,
                   initialValue: value,
                   style: TextStyle(
-                    fontSize: 16,
+                    fontSize: DesktopOptimizedWidgets.getFontSize(),
                     fontWeight: FontWeight.w600,
                     color: isLight ? Colors.black : Colors.white,
                   ),
@@ -5933,7 +5935,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                           Text(
                             AppLocalizations.of(context)?.birthdate ?? AppLocalizations.of(context)!.tr('Birthdate'),
                             style: TextStyle(
-                              fontSize: 16,
+                              fontSize: DesktopOptimizedWidgets.getFontSize(),
                               fontWeight: FontWeight.w700,
                               color: isLight ? Colors.black : Colors.white,
                             ),
@@ -5950,7 +5952,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                           ),
                         ],
                       ),
-                      const SizedBox(height: 12),
+                      const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                       Expanded(
                         child: CupertinoTheme(
                           data: CupertinoThemeData(
@@ -6005,7 +6007,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                   ),
                 ],
               ),
-              const SizedBox(height: 12),
+              const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
               Text(
                 currentEditPage == 0
                     ? 'Personal details'
@@ -6020,7 +6022,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                   ),
                 ),
               ),
-              const SizedBox(height: 16),
+              const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: List.generate(3, (index) {
@@ -6061,14 +6063,14 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                             CupertinoIcons.person_fill,
                             isLight,
                           ),
-                          const SizedBox(height: 16),
+                          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
                           _buildEditableTextField(
                             AppLocalizations.of(context)?.lastName ?? AppLocalizations.of(context)!.tr('Last Name'),
                             lastNameController,
                             CupertinoIcons.person,
                             isLight,
                           ),
-                          const SizedBox(height: 16),
+                          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
                           _buildEditableTextField(
                             AppLocalizations.of(context)?.email ?? AppLocalizations.of(context)!.tr('Email'),
                             emailController,
@@ -6076,7 +6078,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                             isLight,
                             keyboardType: TextInputType.emailAddress,
                           ),
-                          const SizedBox(height: 16),
+                          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
                           TradeRepublicTap(
                             onTap: openBirthdatePicker,
                             child: AbsorbPointer(
@@ -6088,12 +6090,12 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                               ),
                             ),
                           ),
-                          const SizedBox(height: 16),
+                          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
                           Container(
-                            padding: const EdgeInsets.all(16),
+                            padding: DesktopAppWrapper.getPagePadding(),
                             decoration: BoxDecoration(
                               color: isLight ? Colors.white : Colors.black,
-                              borderRadius: BorderRadius.circular(20),
+                              borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                             ),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -6108,7 +6110,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                                             .withOpacity(0.5),
                                   ),
                                 ),
-                                const SizedBox(height: 12),
+                                const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                                 Row(
                                   children: [
                                     Flexible(
@@ -6152,7 +6154,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                                                       countryCodes.first,
                                                 )['flag']!,
                                                 style: const TextStyle(
-                                                  fontSize: 20,
+                                                  fontSize: DesktopOptimizedWidgets.getFontSize() + 6,
                                                 ),
                                               ),
                                               const SizedBox(width: 8),
@@ -6162,7 +6164,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                                                   overflow:
                                                       TextOverflow.ellipsis,
                                                   style: TextStyle(
-                                                    fontSize: 16,
+                                                    fontSize: DesktopOptimizedWidgets.getFontSize(),
                                                     fontWeight: FontWeight.w600,
                                                     color: isLight
                                                         ? Colors.black
@@ -6216,14 +6218,14 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                             CupertinoIcons.building_2_fill,
                             isLight,
                           ),
-                          const SizedBox(height: 16),
+                          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
                           _buildEditableTextField(
                             AppLocalizations.of(context)?.businessDescription ?? AppLocalizations.of(context)!.tr('Business Description'),
                             businessDescriptionController,
                             Icons.description,
                             isLight,
                           ),
-                          const SizedBox(height: 16),
+                          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
                           _buildEditableTextField(
                             AppLocalizations.of(context)?.businessWebsite ?? AppLocalizations.of(context)!.tr('Business Website'),
                             businessWebsiteController,
@@ -6231,7 +6233,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                             isLight,
                             keyboardType: TextInputType.url,
                           ),
-                          const SizedBox(height: 16),
+                          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
                           Row(
                             children: [
                               Expanded(
@@ -6255,7 +6257,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                               ),
                             ],
                           ),
-                          const SizedBox(height: 16),
+                          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
                           Row(
                             children: [
                               Expanded(
@@ -6277,14 +6279,14 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                               ),
                             ],
                           ),
-                          const SizedBox(height: 16),
+                          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
                           _buildEditableTextField(
                             AppLocalizations.of(context)?.state ?? AppLocalizations.of(context)!.tr('State / Region'),
                             stateController,
                             Icons.map_outlined,
                             isLight,
                           ),
-                          const SizedBox(height: 16),
+                          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
                           TradeRepublicTap(
                             onTap: () {
                               _showCountrySelection(
@@ -6336,7 +6338,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                                         Text(
                                           selectedCountry,
                                           style: TextStyle(
-                                            fontSize: 16,
+                                            fontSize: DesktopOptimizedWidgets.getFontSize(),
                                             fontWeight: FontWeight.w600,
                                             color: isLight
                                                 ? Colors.black
@@ -6357,7 +6359,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                               ),
                             ),
                           ),
-                          const SizedBox(height: 16),
+                          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
                           TradeRepublicTap(
                             onTap: () {
                               _showBusinessSizeSelection(
@@ -6409,7 +6411,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                                         Text(
                                           selectedSize,
                                           style: TextStyle(
-                                            fontSize: 16,
+                                            fontSize: DesktopOptimizedWidgets.getFontSize(),
                                             fontWeight: FontWeight.w600,
                                             color: isLight
                                                 ? Colors.black
@@ -6658,10 +6660,10 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
     TextInputType keyboardType = TextInputType.text,
   }) {
     return Container(
-      padding: const EdgeInsets.all(16),
+      padding: DesktopAppWrapper.getPagePadding(),
       decoration: BoxDecoration(
         color: isLight ? Colors.white : Colors.black,
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -6674,7 +6676,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
               color: (isLight ? Colors.black : Colors.white).withOpacity(0.5),
             ),
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
           TradeRepublicTextField(
             controller: controller,
             keyboardType: keyboardType,
@@ -6682,7 +6684,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
             filled: true,
             fillColor: isLight ? Colors.white : Colors.black,
             style: TextStyle(
-              fontSize: 16,
+              fontSize: DesktopOptimizedWidgets.getFontSize(),
               fontWeight: FontWeight.w500,
               color: isLight ? Colors.black : Colors.white,
             ),
@@ -6728,7 +6730,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
             ],
           ),
 
-          const SizedBox(height: 24),
+          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
           const SizedBox(height: 20),
 
@@ -6757,19 +6759,19 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                               0.1,
                             )
                           : Colors.transparent,
-                      borderRadius: BorderRadius.circular(20),
+                      borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                     ),
                     child: Row(
                       children: [
                         Text(
                           country['flag']!,
-                          style: const TextStyle(fontSize: 24),
+                          style: const TextStyle(fontSize: DesktopOptimizedWidgets.getFontSize() + 10,,
                         ),
                         const SizedBox(width: 16),
                         Text(
                           country['country']!,
                           style: TextStyle(
-                            fontSize: 16,
+                            fontSize: DesktopOptimizedWidgets.getFontSize(),
                             fontWeight: FontWeight.w600,
                             color: isLight ? Colors.black : Colors.white,
                           ),
@@ -6778,7 +6780,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                         Text(
                           country['code']!,
                           style: TextStyle(
-                            fontSize: 16,
+                            fontSize: DesktopOptimizedWidgets.getFontSize(),
                             fontWeight: FontWeight.w500,
                             color: (isLight ? Colors.black : Colors.white)
                                 .withOpacity(0.6),
@@ -6854,7 +6856,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                       ],
                     ),
 
-                    const SizedBox(height: 24),
+                    const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
                     const SizedBox(height: 20),
 
@@ -6862,13 +6864,13 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                     Text(
                       AppLocalizations.of(context)?.authentication ?? AppLocalizations.of(context)!.tr('Authentication'),
                       style: TextStyle(
-                        fontSize: 14,
+                        fontSize: DesktopOptimizedWidgets.getFontSize(),
                         fontWeight: FontWeight.w600,
                         color: (isLight ? Colors.black : Colors.white)
                             .withOpacity(0.5),
                       ),
                     ),
-                    const SizedBox(height: 16),
+                    const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
                     _buildSecurityToggle(
                       AppLocalizations.of(context)?.twoFactorAuthentication ??
@@ -6911,13 +6913,13 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                       AppLocalizations.of(context)?.accountSection ??
                           AppLocalizations.of(context)?.account ?? AppLocalizations.of(context)!.tr('Account'),
                       style: TextStyle(
-                        fontSize: 14,
+                        fontSize: DesktopOptimizedWidgets.getFontSize(),
                         fontWeight: FontWeight.w600,
                         color: (isLight ? Colors.black : Colors.white)
                             .withOpacity(0.5),
                       ),
                     ),
-                    const SizedBox(height: 16),
+                    const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
                     _buildSecurityActionItem(
                       AppLocalizations.of(context)?.activeSessions ?? AppLocalizations.of(context)!.tr('Active Sessions'),
@@ -6941,12 +6943,12 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                     Text(
                       AppLocalizations.of(context)?.dangerZone ?? AppLocalizations.of(context)!.tr('Danger Zone'),
                       style: TextStyle(
-                        fontSize: 14,
+                        fontSize: DesktopOptimizedWidgets.getFontSize(),
                         fontWeight: FontWeight.w600,
                         color: Colors.red.withOpacity(0.8),
                       ),
                     ),
-                    const SizedBox(height: 16),
+                    const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
                     _buildSecurityActionItem(
                       AppLocalizations.of(context)?.deleteAccount ?? AppLocalizations.of(context)!.tr('Delete Account'),
@@ -6957,7 +6959,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                       isDestructive: true,
                     ),
 
-                    const SizedBox(height: 24),
+                    const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
                   ],
                 ),
               ),
@@ -6998,7 +7000,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
             height: 24,
             child: CultiooLoadingIndicator(size: 20),
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
           Text(
             AppLocalizations.of(context)?.loading ?? AppLocalizations.of(context)!.tr('Loading...'),
             style: TextStyle(
@@ -7007,7 +7009,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
               fontWeight: FontWeight.w500,
             ),
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
         ],
       ),
     );
@@ -7057,7 +7059,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                         Text(
                           AppLocalizations.of(context)?.paymentSettings ?? AppLocalizations.of(context)!.tr('Payment Settings'),
                           style: TextStyle(
-                            fontSize: 24,
+                            fontSize: DesktopOptimizedWidgets.getFontSize() + 10,
                             fontWeight: FontWeight.w700,
                             color: isLight ? Colors.black : Colors.white,
                             letterSpacing: -0.6,
@@ -7065,7 +7067,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                         ),
                       ],
                     ),
-                    const SizedBox(height: 8),
+                    const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                     Container(
                       padding: const EdgeInsets.symmetric(
                         horizontal: 12,
@@ -7103,7 +7105,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                     Text(
                       AppLocalizations.of(context)?.available ?? AppLocalizations.of(context)!.tr('Available'),
                       style: TextStyle(
-                        fontSize: 16,
+                        fontSize: DesktopOptimizedWidgets.getFontSize(),
                         fontWeight: FontWeight.w500,
                         color: (isLight ? Colors.black : Colors.white)
                             .withOpacity(0.5),
@@ -7129,7 +7131,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                       ),
                     ),
 
-                    const SizedBox(height: 16),
+                    const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
                     // Stats Row - minimalist
                     Row(
@@ -7194,16 +7196,16 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                           letterSpacing: -0.2,
                         ),
                       ),
-                      const SizedBox(height: 8),
+                      const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
                       // Total deductions summary
                       Container(
-                        padding: const EdgeInsets.all(16),
+                        padding: DesktopAppWrapper.getPagePadding(),
                         decoration: BoxDecoration(
                           color: Colors.red.shade50.withOpacity(
                             isLight ? 1.0 : 0.1,
                           ),
-                          borderRadius: BorderRadius.circular(16),
+                          borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius()),
                         ),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -7211,7 +7213,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                             Text(
                               AppLocalizations.of(context)?.totalDeducted ?? AppLocalizations.of(context)!.tr('Total deducted'),
                               style: TextStyle(
-                                fontSize: 16,
+                                fontSize: DesktopOptimizedWidgets.getFontSize(),
                                 fontWeight: FontWeight.w500,
                                 color: isLight
                                     ? Colors.black87
@@ -7221,7 +7223,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                             Text(
                               '-${_formatCurrency((earningsData['totalWaitingCharges'] ?? 0.0).toDouble())}',
                               style: TextStyle(
-                                fontSize: 20,
+                                fontSize: DesktopOptimizedWidgets.getFontSize() + 6,
                                 fontWeight: FontWeight.w700,
                                 color: Colors.red.shade400,
                                 letterSpacing: -0.5,
@@ -7230,7 +7232,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                           ],
                         ),
                       ),
-                      const SizedBox(height: 12),
+                      const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
                       // Individual deduction entries
                       ...waitingChargeDeductions.map((charge) {
@@ -7260,10 +7262,10 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                           ),
                           child: Container(
                             margin: const EdgeInsets.only(bottom: 10),
-                            padding: const EdgeInsets.all(16),
+                            padding: DesktopAppWrapper.getPagePadding(),
                             decoration: BoxDecoration(
                               color: isLight ? Colors.white : Colors.black,
-                              borderRadius: BorderRadius.circular(16),
+                              borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius()),
                             ),
                             child: Row(
                               children: [
@@ -7294,7 +7296,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                                       Text(
                                         '${AppLocalizations.of(context)?.orderNumber ?? AppLocalizations.of(context)!.tr('Order #')}$orderId',
                                         style: TextStyle(
-                                          fontSize: 16,
+                                          fontSize: DesktopOptimizedWidgets.getFontSize(),
                                           fontWeight: FontWeight.w600,
                                           color: isLight
                                               ? Colors.black
@@ -7337,7 +7339,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                                 Text(
                                   '-${_formatCurrency(amount)}',
                                   style: TextStyle(
-                                    fontSize: 18,
+                                    fontSize: DesktopOptimizedWidgets.getFontSize() + 4,
                                     fontWeight: FontWeight.w700,
                                     color: Colors.red.shade400,
                                     letterSpacing: -0.3,
@@ -7384,17 +7386,17 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                           letterSpacing: -0.2,
                         ),
                       ),
-                      const SizedBox(height: 16),
+                      const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
                       FutureBuilder<List<Map<String, dynamic>>>(
                         future: _loadGroupMemberEarnings(),
                         builder: (context, snapshot) {
                           if (snapshot.connectionState ==
                               ConnectionState.waiting) {
                             return Container(
-                              padding: const EdgeInsets.all(20),
+                              padding: DesktopAppWrapper.getPagePadding(),
                               decoration: BoxDecoration(
                                 color: isLight ? Colors.white : Colors.black,
-                                borderRadius: BorderRadius.circular(20),
+                                borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                               ),
                               child: Center(
                                 child: SizedBox(
@@ -7409,10 +7411,10 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                           final members = snapshot.data ?? [];
                           if (members.isEmpty) {
                             return Container(
-                              padding: const EdgeInsets.all(20),
+                              padding: DesktopAppWrapper.getPagePadding(),
                               decoration: BoxDecoration(
                                 color: isLight ? Colors.white : Colors.black,
-                                borderRadius: BorderRadius.circular(20),
+                                borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                               ),
                               child: Center(
                                 child: Text(
@@ -7445,10 +7447,10 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
 
                               return Container(
                                 margin: const EdgeInsets.only(bottom: 12),
-                                padding: const EdgeInsets.all(16),
+                                padding: DesktopAppWrapper.getPagePadding(),
                                 decoration: BoxDecoration(
                                   color: isLight ? Colors.white : Colors.black,
-                                  borderRadius: BorderRadius.circular(20),
+                                  borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                                 ),
                                 child: Row(
                                   children: [
@@ -7470,7 +7472,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                                               ? memberName[0].toUpperCase()
                                               : '?',
                                           style: TextStyle(
-                                            fontSize: 18,
+                                            fontSize: DesktopOptimizedWidgets.getFontSize() + 4,
                                             fontWeight: FontWeight.w700,
                                             color: isLight
                                                 ? Colors.black
@@ -7488,7 +7490,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                                           Text(
                                             memberName,
                                             style: TextStyle(
-                                              fontSize: 16,
+                                              fontSize: DesktopOptimizedWidgets.getFontSize(),
                                               fontWeight: FontWeight.w600,
                                               color: isLight
                                                   ? Colors.black
@@ -7515,7 +7517,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                                     Text(
                                       _formatCurrency(memberEarnings),
                                       style: TextStyle(
-                                        fontSize: 18,
+                                        fontSize: DesktopOptimizedWidgets.getFontSize() + 4,
                                         fontWeight: FontWeight.w700,
                                         color: Colors.green,
                                         letterSpacing: -0.3,
@@ -7580,7 +7582,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                         letterSpacing: -0.2,
                       ),
                     ),
-                    const SizedBox(height: 16),
+                    const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
                     // Option 1: Saved Bank Account / Card
                     (() {
@@ -7647,7 +7649,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                             enabled: hasBankFallback,
                           ),
                           if (!hasBankFallback) ...[
-                            const SizedBox(height: 8),
+                            const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                             Padding(
                               padding: const EdgeInsets.symmetric(horizontal: 4),
                               child: Row(
@@ -7705,7 +7707,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                       ),
                     ),
 
-                    const SizedBox(height: 24),
+                    const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
                     // Payout Schedule - TradeRepublicSlider Style
                     TradeRepublicSliderExpanded(
@@ -7744,7 +7746,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                       horizontalPadding: 0,
                     ),
 
-                    const SizedBox(height: 12),
+                    const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
                     // Description for selected schedule
                     Padding(
@@ -7803,7 +7805,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                       ],
                     ),
 
-                    const SizedBox(height: 24),
+                    const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
                     // Animated content transition
                     AnimatedSwitcher(
@@ -7920,13 +7922,13 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                               letterSpacing: -0.2,
                             ),
                           ),
-                          const SizedBox(height: 16),
+                          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
                           if (shippingPayments.isEmpty)
                             Container(
-                              padding: const EdgeInsets.all(20),
+                              padding: DesktopAppWrapper.getPagePadding(),
                               decoration: BoxDecoration(
                                 color: isLight ? Colors.white : Colors.black,
-                                borderRadius: BorderRadius.circular(20),
+                                borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                               ),
                               child: Center(
                                 child: Text(
@@ -7959,10 +7961,10 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
 
                               return Container(
                                 margin: const EdgeInsets.only(bottom: 12),
-                                padding: const EdgeInsets.all(16),
+                                padding: DesktopAppWrapper.getPagePadding(),
                                 decoration: BoxDecoration(
                                   color: isLight ? Colors.white : Colors.black,
-                                  borderRadius: BorderRadius.circular(20),
+                                  borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                                 ),
                                 child: Row(
                                   children: [
@@ -7991,7 +7993,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                                           Text(
                                             '${AppLocalizations.of(context)!.tr('walletOrderPrefix')} #$orderId',
                                             style: TextStyle(
-                                              fontSize: 16,
+                                              fontSize: DesktopOptimizedWidgets.getFontSize(),
                                               fontWeight: FontWeight.w600,
                                               color: isLight ? Colors.black : Colors.white,
                                               letterSpacing: -0.3,
@@ -8031,7 +8033,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                                         Text(
                                           _formatCurrency(amount.abs()),
                                           style: TextStyle(
-                                            fontSize: 18,
+                                            fontSize: DesktopOptimizedWidgets.getFontSize() + 4,
                                             fontWeight: FontWeight.w700,
                                             color: Colors.orange.shade500,
                                             letterSpacing: -0.3,
@@ -8062,7 +8064,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                                 ),
                               );
                             }),
-                          const SizedBox(height: 24),
+                          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
                         ],
                       );
                     })(),
@@ -8107,7 +8109,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                       ),
                     ),
 
-                    const SizedBox(height: 16),
+                    const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
                     // Bank Account Card (max 1, for payouts)
                     FutureBuilder<List<Map<String, dynamic>>>(
@@ -8115,10 +8117,10 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                       builder: (context, snapshot) {
                         if (snapshot.connectionState == ConnectionState.waiting) {
                           return Container(
-                            padding: const EdgeInsets.all(20),
+                            padding: DesktopAppWrapper.getPagePadding(),
                             decoration: BoxDecoration(
                               color: isLight ? Colors.white : Colors.black,
-                              borderRadius: BorderRadius.circular(20),
+                              borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                             ),
                             child: Center(
                               child: SizedBox(
@@ -8144,10 +8146,10 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                               _checkAndShowAddPaymentMethod(context, isLight);
                             },
                             child: Container(
-                              padding: const EdgeInsets.all(20),
+                              padding: DesktopAppWrapper.getPagePadding(),
                               decoration: BoxDecoration(
                                 color: isLight ? Colors.white : Colors.black,
-                                borderRadius: BorderRadius.circular(20),
+                                borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                               ),
                               child: Row(
                                 children: [
@@ -8156,7 +8158,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                                     height: 44,
                                     decoration: BoxDecoration(
                                       color: Colors.orange.withOpacity(0.1),
-                                      borderRadius: BorderRadius.circular(20),
+                                      borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                                     ),
                                     child: Icon(
                                       CupertinoIcons.add,
@@ -8182,7 +8184,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                                         Text(
                                           AppLocalizations.of(context)?.connectBankForPayouts ?? AppLocalizations.of(context)!.tr('Connect your bank to receive payouts'),
                                           style: TextStyle(
-                                            fontSize: 14,
+                                            fontSize: DesktopOptimizedWidgets.getFontSize(),
                                             fontWeight: FontWeight.w400,
                                             color: (isLight ? Colors.black : Colors.white).withOpacity(0.5),
                                           ),
@@ -8246,7 +8248,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                                       : [Colors.white.withOpacity(0.15), Colors.white.withOpacity(0.25), Colors.white.withOpacity(0.1)],
                                   stops: const [0.0, 0.5, 1.0],
                                 ),
-                                borderRadius: BorderRadius.circular(20),
+                                borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                                 boxShadow: [
                                   BoxShadow(
                                     color: Colors.black.withOpacity(0.3),
@@ -8259,7 +8261,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                                 children: [
                                   Positioned.fill(
                                     child: ClipRRect(
-                                      borderRadius: BorderRadius.circular(20),
+                                      borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                                       child: CustomPaint(painter: _CardPatternPainter()),
                                     ),
                                   ),
@@ -8277,7 +8279,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                                               height: 48,
                                               decoration: BoxDecoration(
                                                 color: Colors.white.withOpacity(0.15),
-                                                borderRadius: BorderRadius.circular(20),
+                                                borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                                               ),
                                               child: const Icon(CupertinoIcons.building_2_fill, color: Colors.white, size: 24),
                                             ),
@@ -8285,7 +8287,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                                               padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
                                               decoration: BoxDecoration(
                                                 color: Colors.white.withOpacity(0.15),
-                                                borderRadius: BorderRadius.circular(20),
+                                                borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                                               ),
                                               child: Text(
                                                 isSepa ? 'SEPA' : 'ACH',
@@ -8301,7 +8303,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                                               maskedNumber,
                                               style: const TextStyle(fontSize: 22, fontWeight: FontWeight.w600, color: Colors.white, letterSpacing: 2.5),
                                             ),
-                                            const SizedBox(height: 8),
+                                            const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                                             Row(
                                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                               children: [
@@ -8315,7 +8317,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                                                     const SizedBox(height: 2),
                                                     Text(
                                                       bankName.toUpperCase(),
-                                                      style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: Colors.white, letterSpacing: 0.5),
+                                                      style: const TextStyle(fontSize: DesktopOptimizedWidgets.getFontSize(), fontWeight: FontWeight.w600, color: Colors.white, letterSpacing: 0.5),
                                                     ),
                                                   ],
                                                 ),
@@ -8424,7 +8426,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                       ),
                     ),
 
-                    const SizedBox(height: 16),
+                    const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
                     // Cards List
                     FutureBuilder<List<Map<String, dynamic>>>(
@@ -8432,10 +8434,10 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                       builder: (context, snapshot) {
                         if (snapshot.connectionState == ConnectionState.waiting) {
                           return Container(
-                            padding: const EdgeInsets.all(20),
+                            padding: DesktopAppWrapper.getPagePadding(),
                             decoration: BoxDecoration(
                               color: isLight ? Colors.white : Colors.black,
-                              borderRadius: BorderRadius.circular(20),
+                              borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                             ),
                             child: Center(
                               child: SizedBox(
@@ -8461,10 +8463,10 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                               _showAddPaymentMethodModal(context, isLight);
                             },
                             child: Container(
-                              padding: const EdgeInsets.all(20),
+                              padding: DesktopAppWrapper.getPagePadding(),
                               decoration: BoxDecoration(
                                 color: isLight ? Colors.white : Colors.black,
-                                borderRadius: BorderRadius.circular(20),
+                                borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                               ),
                               child: Row(
                                 children: [
@@ -8473,7 +8475,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                                     height: 44,
                                     decoration: BoxDecoration(
                                       color: (isLight ? Colors.black : Colors.white).withOpacity(0.08),
-                                      borderRadius: BorderRadius.circular(20),
+                                      borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                                     ),
                                     child: Icon(
                                       CupertinoIcons.creditcard,
@@ -8499,7 +8501,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                                         Text(
                                           'Use debit or credit cards for shipping payments',
                                           style: TextStyle(
-                                            fontSize: 14,
+                                            fontSize: DesktopOptimizedWidgets.getFontSize(),
                                             fontWeight: FontWeight.w400,
                                             color: (isLight ? Colors.black : Colors.white).withOpacity(0.5),
                                           ),
@@ -8595,7 +8597,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
           padding: EdgeInsets.only(bottom: 16),
         ),
         TradeRepublicCard(
-          padding: const EdgeInsets.all(20),
+          padding: DesktopAppWrapper.getPagePadding(),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -8646,7 +8648,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                         _showWalletTopUpSheet(isLight, setModalState),
                     backgroundColor: green,
                     height: 40,
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    padding: EdgeInsets.symmetric(horizontal: DesktopAppWrapper.getHorizontalPadding()),
                   ),
                 ],
               ),
@@ -8657,7 +8659,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                   color: textColor.withOpacity(0.07),
                   margin: EdgeInsets.zero,
                 ),
-                const SizedBox(height: 16),
+                const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
                 Text(
                   l10n.tr('walletRecentLabel'),
                   style: TextStyle(
@@ -8672,11 +8674,11 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                     .take(4)
                     .map((tx) => _buildWalletTxRow(tx, isLight)),
               ] else ...[
-                const SizedBox(height: 16),
+                const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
                 Center(
                   child: Text(
                     l10n.tr('walletNoTransactionsYet'),
-                    style: TextStyle(fontSize: 14, color: subtleColor),
+                    style: TextStyle(fontSize: DesktopOptimizedWidgets.getFontSize(), color: subtleColor),
                   ),
                 ),
               ],
@@ -8736,7 +8738,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                 Text(
                   tx['description'] ?? type.toUpperCase(),
                   style: TextStyle(
-                    fontSize: 14,
+                    fontSize: DesktopOptimizedWidgets.getFontSize(),
                     fontWeight: FontWeight.w500,
                     color: textColor,
                     letterSpacing: -0.2,
@@ -8846,7 +8848,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
 
     return TradeRepublicCard.outlined(
       margin: const EdgeInsets.only(bottom: 12),
-      padding: const EdgeInsets.all(16),
+      padding: DesktopAppWrapper.getPagePadding(),
       borderColor: Colors.orange.shade400.withOpacity(0.35),
       child: Row(
         children: [
@@ -8856,7 +8858,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
             height: 44,
             decoration: BoxDecoration(
               color: Colors.orange.shade50.withOpacity(isLight ? 1 : 0.12),
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius()),
             ),
             child: Icon(
               CupertinoIcons.cube_box_fill,
@@ -8934,7 +8936,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
               Text(
                 _formatCurrency(shippingCost),
                 style: TextStyle(
-                  fontSize: 16,
+                  fontSize: DesktopOptimizedWidgets.getFontSize(),
                   fontWeight: FontWeight.w700,
                   color: textColor,
                   letterSpacing: -0.3,
@@ -9106,7 +9108,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                       Text(
                         l10n.tr('walletCurrentBalanceLabel'),
                         style: TextStyle(
-                          fontSize: 14,
+                          fontSize: DesktopOptimizedWidgets.getFontSize(),
                           color: (isLight ? Colors.black : Colors.white)
                               .withOpacity(0.6),
                         ),
@@ -9114,7 +9116,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                       Text(
                         _formatCurrency(_walletBalance),
                         style: const TextStyle(
-                          fontSize: 20,
+                          fontSize: DesktopOptimizedWidgets.getFontSize() + 6,
                           fontWeight: FontWeight.w700,
                           color: Color(0xFF22C55E),
                           letterSpacing: -0.5,
@@ -9126,10 +9128,10 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
 
                 if (sheetState == 'browser_opened') ...[
                   // ── State: browser opened, waiting for payment ──────────
-                  const SizedBox(height: 24),
+                  const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
                   TradeRepublicCard(
                     backgroundColor: const Color(0xFF22C55E).withOpacity(0.06),
-                    padding: const EdgeInsets.all(20),
+                    padding: DesktopAppWrapper.getPagePadding(),
                     child: Column(
                       children: [
                         const Icon(
@@ -9137,7 +9139,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                           size: 40,
                           color: Color(0xFF22C55E),
                         ),
-                        const SizedBox(height: 12),
+                        const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                         Text(
                           l10n.tr('walletPaymentOpenedTitle'),
                           style: TextStyle(
@@ -9147,11 +9149,11 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                           ),
                           textAlign: TextAlign.center,
                         ),
-                        const SizedBox(height: 8),
+                        const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                         Text(
                           l10n.tr('walletPaymentOpenedSubtitle'),
                           style: TextStyle(
-                            fontSize: 14,
+                            fontSize: DesktopOptimizedWidgets.getFontSize(),
                             color: (isLight ? Colors.black : Colors.white)
                                 .withOpacity(0.5),
                           ),
@@ -9160,7 +9162,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                       ],
                     ),
                   ),
-                  const SizedBox(height: 16),
+                  const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
                   Row(
                     children: [
                       Expanded(
@@ -9237,7 +9239,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                       isFormattingAmount = false;
                     },
                   ),
-                  const SizedBox(height: 12),
+                  const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
                   // Quick amounts
                   Row(
@@ -9284,11 +9286,11 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                     )
                   else if (savedMethods.isEmpty)
                     Container(
-                      padding: const EdgeInsets.all(16),
+                      padding: DesktopAppWrapper.getPagePadding(),
                       decoration: BoxDecoration(
                         color: (isLight ? Colors.black : Colors.white)
                             .withOpacity(0.04),
-                        borderRadius: BorderRadius.circular(16),
+                        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius()),
                       ),
                       child: Row(
                         children: [
@@ -9383,7 +9385,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                                 color: isSelected
                                     ? null
                                     : (isLight ? Colors.white : Colors.black),
-                                borderRadius: BorderRadius.circular(16),
+                                borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius()),
                                 border: isSelected
                                     ? null
                                     : Border.all(
@@ -9429,11 +9431,11 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                                         ),
                                     ],
                                   ),
-                                  const SizedBox(height: 8),
+                                  const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                                   Text(
                                     label,
                                     style: TextStyle(
-                                      fontSize: 14,
+                                      fontSize: DesktopOptimizedWidgets.getFontSize(),
                                       fontWeight: FontWeight.w700,
                                       color: isSelected
                                           ? Colors.white
@@ -9580,7 +9582,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                     ),
                   ),
                 ],
-                const SizedBox(height: 8),
+                const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
               ],
             ),
           );
@@ -9612,7 +9614,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
               size: 44,
               color: Colors.orange.shade500,
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
             Text(
               l10n.tr('walletAuthorizeShippingTitle'),
               style: TextStyle(
@@ -9639,14 +9641,14 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
             Text(
               '${l10n.tr('walletCurrentBalancePrefix')}: ${_formatCurrency(_walletBalance)}',
               style: TextStyle(
-                fontSize: 14,
+                fontSize: DesktopOptimizedWidgets.getFontSize(),
                 fontWeight: FontWeight.w600,
                 color: _walletBalance >= shippingCost
                     ? const Color(0xFF22C55E)
                     : Colors.red.shade400,
               ),
             ),
-            const SizedBox(height: 24),
+            const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
             Row(
               children: [
                 Expanded(
@@ -9746,7 +9748,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
         decoration: BoxDecoration(
           color: selected ? mono : mono.withOpacity(0.06),
-          borderRadius: BorderRadius.circular(16),
+          borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius()),
         ),
         child: Row(
           children: [
@@ -9757,7 +9759,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                 color: selected
                     ? (isLight ? Colors.white : Colors.black).withOpacity(0.15)
                     : mono.withOpacity(0.08),
-                borderRadius: BorderRadius.circular(12),
+                borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius()),
               ),
               child: Icon(
                 icon,
@@ -9775,7 +9777,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                   Text(
                     title,
                     style: TextStyle(
-                      fontSize: 16,
+                      fontSize: DesktopOptimizedWidgets.getFontSize(),
                       fontWeight: FontWeight.w600,
                       color: selected
                           ? (isLight ? Colors.white : Colors.black)
@@ -9837,7 +9839,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
         Text(
           value,
           style: TextStyle(
-            fontSize: 24,
+            fontSize: DesktopOptimizedWidgets.getFontSize() + 10,
             fontWeight: FontWeight.w700,
             color: isLight ? Colors.black : Colors.white,
           ),
@@ -9862,7 +9864,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
           color: isSelected
               ? (isLight ? Colors.black : Colors.white)
               : (isLight ? Colors.black : Colors.white).withOpacity(0.04),
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
         ),
         child: Row(
           children: [
@@ -9873,7 +9875,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                   Text(
                     title,
                     style: TextStyle(
-                      fontSize: 16,
+                      fontSize: DesktopOptimizedWidgets.getFontSize(),
                       fontWeight: FontWeight.w600,
                       color: isSelected
                           ? (isLight ? Colors.white : Colors.black)
@@ -9928,7 +9930,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
           color: isSelected
               ? (isLight ? Colors.black : Colors.white)
               : Colors.transparent,
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
           boxShadow: isSelected
               ? [
                   BoxShadow(
@@ -9970,12 +9972,12 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
               size: 40,
               color: isLight ? Colors.black : Colors.white,
             ),
-            const SizedBox(height: 12),
+            const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
             Text(
               title,
               textAlign: TextAlign.center,
               style: TextStyle(
-                fontSize: 16,
+                fontSize: DesktopOptimizedWidgets.getFontSize(),
                 fontWeight: FontWeight.w600,
                 color: (isLight ? Colors.black : Colors.white).withOpacity(0.5),
                 letterSpacing: -0.3,
@@ -9986,7 +9988,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
               subtitle,
               textAlign: TextAlign.center,
               style: TextStyle(
-                fontSize: 14,
+                fontSize: DesktopOptimizedWidgets.getFontSize(),
                 fontWeight: FontWeight.w400,
                 color: (isLight ? Colors.black : Colors.white).withOpacity(
                   0.35,
@@ -10029,7 +10031,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
             height: 40,
             decoration: BoxDecoration(
               color: (isEarning ? Colors.green : Colors.blue).withOpacity(0.1),
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
             ),
             child: Icon(
               isEarning ? CupertinoIcons.arrow_down : CupertinoIcons.arrow_up,
@@ -10046,7 +10048,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                 Text(
                   title,
                   style: TextStyle(
-                    fontSize: 16,
+                    fontSize: DesktopOptimizedWidgets.getFontSize(),
                     fontWeight: FontWeight.w600,
                     color: isLight ? Colors.black : Colors.white,
                     letterSpacing: -0.3,
@@ -10071,7 +10073,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
           Text(
             '${isEarning ? '+' : '-'}$amount',
             style: TextStyle(
-              fontSize: 16,
+              fontSize: DesktopOptimizedWidgets.getFontSize(),
               fontWeight: FontWeight.w600,
               color: isEarning
                   ? Colors.green
@@ -10286,7 +10288,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                         ),
                       ],
                     ),
-                    const SizedBox(height: 8),
+                    const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                     Text(
                       AppLocalizations.of(context)?.confirmPayoutDetailsDesc ?? AppLocalizations.of(context)!.tr('Confirm your payout details'),
                       style: TextStyle(
@@ -10300,11 +10302,11 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
 
                     // Payout details
                     Container(
-                      padding: const EdgeInsets.all(20),
+                      padding: DesktopAppWrapper.getPagePadding(),
                       decoration: BoxDecoration(
                         color: (isLight ? Colors.black : Colors.white)
                             .withOpacity(0.04),
-                        borderRadius: BorderRadius.circular(20),
+                        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                       ),
                       child: Column(
                         children: [
@@ -10347,7 +10349,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                             context,
                           )?.fundsTransferredImmediately ?? AppLocalizations.of(context)!.tr('Funds will be transferred to your bank account immediately.'),
                       style: TextStyle(
-                        fontSize: 14,
+                        fontSize: DesktopOptimizedWidgets.getFontSize(),
                         color: (isLight ? Colors.black : Colors.white)
                             .withOpacity(0.5),
                       ),
@@ -10367,7 +10369,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                       },
                     ),
 
-                    const SizedBox(height: 12),
+                    const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
                     // Cancel button
                     TradeRepublicButton(
@@ -10419,7 +10421,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
               AppLocalizations.of(context)?.processingInstantPayoutMsg ?? AppLocalizations.of(context)!.tr('Processing instant payout...'),
               style: TextStyle(
                 color: isLightMode ? Colors.black : Colors.white,
-                fontSize: 16,
+                fontSize: DesktopOptimizedWidgets.getFontSize(),
                 fontWeight: FontWeight.w600,
               ),
             ),
@@ -10595,7 +10597,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                                   context,
                                 )?.deductionFromBalance ?? AppLocalizations.of(context)!.tr('Deduction from your balance'),
                             style: TextStyle(
-                              fontSize: 14,
+                              fontSize: DesktopOptimizedWidgets.getFontSize(),
                               color: (isLight ? Colors.black : Colors.white)
                                   .withOpacity(0.5),
                             ),
@@ -10615,7 +10617,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                     Text(
                       AppLocalizations.of(context)?.driverInformation ?? AppLocalizations.of(context)!.tr('Driver Information'),
                       style: TextStyle(
-                        fontSize: 18,
+                        fontSize: DesktopOptimizedWidgets.getFontSize() + 4,
                         fontWeight: FontWeight.w700,
                         color: isLight ? Colors.black : Colors.white,
                         letterSpacing: -0.3,
@@ -10634,13 +10636,13 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                         isLight,
                       ),
 
-                    const SizedBox(height: 24),
+                    const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
                     // Time Breakdown Section
                     Text(
                       AppLocalizations.of(context)?.timeBreakdown ?? AppLocalizations.of(context)!.tr('Time Breakdown'),
                       style: TextStyle(
-                        fontSize: 18,
+                        fontSize: DesktopOptimizedWidgets.getFontSize() + 4,
                         fontWeight: FontWeight.w700,
                         color: isLight ? Colors.black : Colors.white,
                         letterSpacing: -0.3,
@@ -10680,13 +10682,13 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                       _invoiceRow('Check-Out', fmtTime(checkOut), isLight),
                     ],
 
-                    const SizedBox(height: 24),
+                    const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
                     // Cost Calculation Section
                     Text(
                       AppLocalizations.of(context)?.costCalculation ?? AppLocalizations.of(context)!.tr('Cost Calculation'),
                       style: TextStyle(
-                        fontSize: 18,
+                        fontSize: DesktopOptimizedWidgets.getFontSize() + 4,
                         fontWeight: FontWeight.w700,
                         color: isLight ? Colors.black : Colors.white,
                         letterSpacing: -0.3,
@@ -10709,9 +10711,9 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                       isLight,
                     ),
 
-                    const SizedBox(height: 12),
+                    const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                     const TradeRepublicDivider(),
-                    const SizedBox(height: 12),
+                    const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
                     // Total
                     Row(
@@ -10720,7 +10722,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                         Text(
                           AppLocalizations.of(context)?.totalAmount ?? AppLocalizations.of(context)!.tr('Total Amount'),
                           style: TextStyle(
-                            fontSize: 18,
+                            fontSize: DesktopOptimizedWidgets.getFontSize() + 4,
                             fontWeight: FontWeight.w700,
                             color: isLight ? Colors.black : Colors.white,
                           ),
@@ -10737,7 +10739,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                       ],
                     ),
 
-                    const SizedBox(height: 24),
+                    const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
                     // Info note
                     Container(
@@ -10745,7 +10747,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                       decoration: BoxDecoration(
                         color: (isLight ? Colors.black : Colors.white)
                             .withOpacity(0.04),
-                        borderRadius: BorderRadius.circular(12),
+                        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius()),
                       ),
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -10867,8 +10869,8 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                   ],
                 ),
 
-                const SizedBox(height: 24),
-                const SizedBox(height: 8),
+                const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+                const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                 Text(
                   AppLocalizations.of(context)?.withdrawYourBalance ?? AppLocalizations.of(context)!.tr('Withdraw your available balance now'),
                   style: TextStyle(
@@ -10887,7 +10889,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                   padding: const EdgeInsets.all(24),
                   decoration: BoxDecoration(
                     color: isLight ? Colors.white : Colors.black,
-                    borderRadius: BorderRadius.circular(20),
+                    borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                   ),
                   child: Column(
                     children: [
@@ -10898,7 +10900,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                           Text(
                             AppLocalizations.of(context)?.availableBalance ?? AppLocalizations.of(context)!.tr('Available Balance'),
                             style: TextStyle(
-                              fontSize: 16,
+                              fontSize: DesktopOptimizedWidgets.getFontSize(),
                               fontWeight: FontWeight.w500,
                               color: (isLight ? Colors.black : Colors.white)
                                   .withOpacity(0.6),
@@ -10907,19 +10909,19 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                           Text(
                             _formatCurrency(availableBalance),
                             style: TextStyle(
-                              fontSize: 18,
+                              fontSize: DesktopOptimizedWidgets.getFontSize() + 4,
                               fontWeight: FontWeight.w700,
                               color: isLight ? Colors.black : Colors.white,
                             ),
                           ),
                         ],
                       ),
-                      const SizedBox(height: 16),
+                      const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
                       TradeRepublicDivider(
                         color: (isLight ? Colors.black : Colors.white)
                             .withOpacity(0.1),
                       ),
-                      const SizedBox(height: 16),
+                      const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
                       // Fee
                       Row(
@@ -10929,7 +10931,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                             AppLocalizations.of(context)?.processingFee ??
                                 'Platform service fee ($marginPctLabel)',
                             style: TextStyle(
-                              fontSize: 16,
+                              fontSize: DesktopOptimizedWidgets.getFontSize(),
                               fontWeight: FontWeight.w500,
                               color: (isLight ? Colors.black : Colors.white)
                                   .withOpacity(0.6),
@@ -10938,19 +10940,19 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                           Text(
                             '-${_formatCurrency(fee)}',
                             style: TextStyle(
-                              fontSize: 16,
+                              fontSize: DesktopOptimizedWidgets.getFontSize(),
                               fontWeight: FontWeight.w600,
                               color: Colors.red.withOpacity(0.8),
                             ),
                           ),
                         ],
                       ),
-                      const SizedBox(height: 16),
+                      const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
                       TradeRepublicDivider(
                         color: (isLight ? Colors.black : Colors.white)
                             .withOpacity(0.1),
                       ),
-                      const SizedBox(height: 16),
+                      const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
                       // Net Amount
                       Row(
@@ -10959,7 +10961,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                           Text(
                             AppLocalizations.of(context)?.youWillReceiveLabel ?? AppLocalizations.of(context)!.tr('You will receive'),
                             style: TextStyle(
-                              fontSize: 18,
+                              fontSize: DesktopOptimizedWidgets.getFontSize() + 4,
                               fontWeight: FontWeight.w700,
                               color: isLight ? Colors.black : Colors.white,
                             ),
@@ -10982,10 +10984,10 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
 
                 // Info Text
                 Container(
-                  padding: const EdgeInsets.all(16),
+                  padding: DesktopAppWrapper.getPagePadding(),
                   decoration: BoxDecoration(
                     color: Colors.blue.withOpacity(0.1),
-                    borderRadius: BorderRadius.circular(20),
+                    borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                   ),
                   child: Row(
                     children: [
@@ -11011,7 +11013,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                   ),
                 ),
 
-                const SizedBox(height: 16),
+                const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
                 // Payout Button
                 TradeRepublicButton(
@@ -11027,7 +11029,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                       : null,
                 ),
 
-                const SizedBox(height: 24),
+                const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
               ],
             ),
           ),
@@ -11086,14 +11088,14 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
       onTap: onTap,
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 200),
-        padding: const EdgeInsets.all(20),
+        padding: DesktopAppWrapper.getPagePadding(),
         decoration: BoxDecoration(
           color: isSelected
               ? color
               : isLight
               ? Colors.white
               : Colors.black,
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
         ),
         child: Row(
           children: [
@@ -11126,7 +11128,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                               : (fee == 'Free'
                                     ? Colors.green.withOpacity(0.15)
                                     : Colors.orange.withOpacity(0.15)),
-                          borderRadius: BorderRadius.circular(20),
+                          borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                         ),
                         child: Text(
                           fee,
@@ -11203,7 +11205,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                     color: (isLight ? Colors.black : Colors.white).withOpacity(
                       0.05,
                     ),
-                    borderRadius: BorderRadius.circular(20),
+                    borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                   ),
                   child: Icon(
                     CupertinoIcons.creditcard,
@@ -11213,21 +11215,21 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                     ),
                   ),
                 ),
-                const SizedBox(height: 24),
+                const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
                 Text(
                   AppLocalizations.of(context)?.noBankAccounts ?? AppLocalizations.of(context)!.tr('No Bank Accounts'),
                   style: TextStyle(
-                    fontSize: 20,
+                    fontSize: DesktopOptimizedWidgets.getFontSize() + 6,
                     fontWeight: FontWeight.w600,
                     color: isLight ? Colors.black : Colors.white,
                   ),
                 ),
-                const SizedBox(height: 8),
+                const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                 Text(
                   AppLocalizations.of(context)?.addBankAccountDesc ?? AppLocalizations.of(context)!.tr('Add a bank account to receive your earnings'),
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                    fontSize: 16,
+                    fontSize: DesktopOptimizedWidgets.getFontSize(),
                     color: (isLight ? Colors.black : Colors.white).withOpacity(
                       0.6,
                     ),
@@ -11587,7 +11589,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                       ],
                     ),
 
-                    const SizedBox(height: 24),
+                    const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
                     Text(
                       AppLocalizations.of(context)?.addBankAccountForPayouts ?? AppLocalizations.of(context)!.tr('Add or update your payout bank account'),
                       style: TextStyle(
@@ -11643,11 +11645,11 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                         // Section header: Bank Account (mandatory for payouts) - only if no bank exists yet
                         if (!hasBankMethod) ...[
                           Container(
-                            padding: const EdgeInsets.all(20),
+                            padding: DesktopAppWrapper.getPagePadding(),
                             decoration: BoxDecoration(
                               color: (isLight ? Colors.black : Colors.white)
                                   .withOpacity(0.04),
-                              borderRadius: BorderRadius.circular(20),
+                              borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                             ),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -11657,7 +11659,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                                     Text(
                                       AppLocalizations.of(context)?.bankingSystem ?? 'Banking System',
                                       style: TextStyle(
-                                        fontSize: 16,
+                                        fontSize: DesktopOptimizedWidgets.getFontSize(),
                                         fontWeight: FontWeight.w600,
                                         color: isLight ? Colors.black : Colors.white,
                                       ),
@@ -11680,7 +11682,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                                     ),
                                   ],
                                 ),
-                                const SizedBox(height: 16),
+                                const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
                                 // ACH/SEPA Toggle
                                 TradeRepublicSlider(
@@ -11702,11 +11704,11 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
 
                         // Bank Account Information (only shown if no bank exists - max 1 bank account)
                         Container(
-                            padding: const EdgeInsets.all(20),
+                            padding: DesktopAppWrapper.getPagePadding(),
                             decoration: BoxDecoration(
                               color: (isLight ? Colors.black : Colors.white)
                                   .withOpacity(0.04),
-                              borderRadius: BorderRadius.circular(20),
+                              borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                             ),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -11716,12 +11718,12 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                                         context,
                                       )?.bankAccountDetails ?? AppLocalizations.of(context)!.tr('Bank Account Details'),
                                   style: TextStyle(
-                                    fontSize: 16,
+                                    fontSize: DesktopOptimizedWidgets.getFontSize(),
                                     fontWeight: FontWeight.w600,
                                     color: isLight ? Colors.black : Colors.white,
                                   ),
                                 ),
-                                const SizedBox(height: 16),
+                                const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
                                 // USA System Fields
                                 if (isUSASystem) ...[
@@ -11833,11 +11835,11 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
 
                         // Card Information (also shown - for shipping payments)
                         Container(
-                            padding: const EdgeInsets.all(20),
+                            padding: DesktopAppWrapper.getPagePadding(),
                             decoration: BoxDecoration(
                               color: (isLight ? Colors.black : Colors.white)
                                   .withOpacity(0.04),
-                              borderRadius: BorderRadius.circular(20),
+                              borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                             ),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -11845,12 +11847,12 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                                 Text(
                                   'Card Details',
                                   style: TextStyle(
-                                    fontSize: 16,
+                                    fontSize: DesktopOptimizedWidgets.getFontSize(),
                                     fontWeight: FontWeight.w600,
                                     color: isLight ? Colors.black : Colors.white,
                                   ),
                                 ),
-                                const SizedBox(height: 16),
+                                const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
                                 _buildPaymentField(
                                   'Card Number',
                                   '1234 5678 9012 3456',
@@ -11907,7 +11909,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                               color: CupertinoColors.systemGreen.withValues(
                                 alpha: 0.1,
                               ),
-                              borderRadius: BorderRadius.circular(20),
+                              borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                             ),
                             child: Row(
                               children: [
@@ -11922,7 +11924,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                                         context,
                                       )?.connectedToStripe ?? AppLocalizations.of(context)!.tr('Connected to Stripe'),
                                   style: TextStyle(
-                                    fontSize: 14,
+                                    fontSize: DesktopOptimizedWidgets.getFontSize(),
                                     color: CupertinoColors.systemGreen,
                                     fontWeight: FontWeight.w600,
                                   ),
@@ -11930,7 +11932,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                               ],
                             ),
                           ),
-                          const SizedBox(height: 12),
+                          const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                         ],
 
                         // Security Notice
@@ -12036,18 +12038,18 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
           Text(
             label,
             style: TextStyle(
-              fontSize: 14,
+              fontSize: DesktopOptimizedWidgets.getFontSize(),
               fontWeight: FontWeight.w600,
               color: (isLight ? Colors.black : Colors.white).withOpacity(0.7),
             ),
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
           TradeRepublicTextField(
             controller: controller,
             keyboardType: keyboardType,
             inputFormatters: inputFormatters,
             style: TextStyle(
-              fontSize: 16,
+              fontSize: DesktopOptimizedWidgets.getFontSize(),
               color: isLight ? Colors.black : Colors.white,
             ),
             hintText: hint,
@@ -12644,11 +12646,11 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
               ],
             ),
 
-            const SizedBox(height: 16),
+            const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
             // Explanation
             Container(
-              padding: const EdgeInsets.all(16),
+              padding: DesktopAppWrapper.getPagePadding(),
               decoration: BoxDecoration(
                 color: (isLight ? Colors.black : Colors.white).withOpacity(0.05),
                 borderRadius: BorderRadius.circular(14),
@@ -12659,7 +12661,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                   Text(
                     AppLocalizations.of(context)!.tr('Was ist Business Verification?'),
                     style: TextStyle(
-                      fontSize: 14,
+                      fontSize: DesktopOptimizedWidgets.getFontSize(),
                       fontWeight: FontWeight.w700,
                       color: isLight ? Colors.black : Colors.white,
                     ),
@@ -12676,7 +12678,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                       height: 1.45,
                     ),
                   ),
-                  const SizedBox(height: 12),
+                  const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                   Text(
                     AppLocalizations.of(context)!.tr('Was wird benötigt:'),
                     style: TextStyle(
@@ -12767,10 +12769,10 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
   ) {
     return Container(
       margin: const EdgeInsets.only(bottom: 12),
-      padding: const EdgeInsets.all(20),
+      padding: DesktopAppWrapper.getPagePadding(),
       decoration: BoxDecoration(
         color: isLight ? Colors.white : Colors.black,
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
       ),
       child: Row(
         children: [
@@ -12788,7 +12790,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                 Text(
                   title,
                   style: TextStyle(
-                    fontSize: 16,
+                    fontSize: DesktopOptimizedWidgets.getFontSize(),
                     fontWeight: FontWeight.w600,
                     color: isLight ? Colors.black : Colors.white,
                   ),
@@ -12906,7 +12908,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
             ],
           ),
 
-          const SizedBox(height: 24),
+          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
           const SizedBox(height: 32),
 
@@ -12923,12 +12925,12 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                   // Current Status
                   if (taxFormStatus != 'not_started') ...[
                     Container(
-                      padding: const EdgeInsets.all(16),
+                      padding: DesktopAppWrapper.getPagePadding(),
                       decoration: BoxDecoration(
                         color: taxFormStatus == 'completed'
                             ? CupertinoColors.systemGreen.withValues(alpha: 0.1)
                             : const Color(0xFFFF9500).withOpacity(0.1),
-                        borderRadius: BorderRadius.circular(20),
+                        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                       ),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -12958,7 +12960,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                                                   context,
                                                 )?.taxFormPending ?? AppLocalizations.of(context)!.tr('Tax Form Pending'),
                                       style: TextStyle(
-                                        fontSize: 16,
+                                        fontSize: DesktopOptimizedWidgets.getFontSize(),
                                         fontWeight: FontWeight.w600,
                                         color: taxFormStatus == 'completed'
                                             ? CupertinoColors.systemGreen
@@ -13023,7 +13025,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                         _completeTaxFormViaStripe('w9', stripeAccountId),
                   ),
 
-                  const SizedBox(height: 12),
+                  const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
                   // W-8BEN Form
                   _buildTaxFormOption(
@@ -13042,7 +13044,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                         _completeTaxFormViaStripe('w8ben', stripeAccountId),
                   ),
 
-                  const SizedBox(height: 12),
+                  const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
                   // W-8BEN-E Form
                   _buildTaxFormOption(
@@ -13067,23 +13069,23 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                   Text(
                     AppLocalizations.of(context)?.whyDoINeedThis ?? AppLocalizations.of(context)!.tr('Why do I need this?'),
                     style: TextStyle(
-                      fontSize: 16,
+                      fontSize: DesktopOptimizedWidgets.getFontSize(),
                       fontWeight: FontWeight.w600,
                       color: isLight ? Colors.black : Colors.white,
                     ),
                   ),
-                  const SizedBox(height: 8),
+                  const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                   Text(
                     AppLocalizations.of(context)?.irsRequiresTaxInfo ?? AppLocalizations.of(context)!.tr('The IRS requires tax information for all businesses receiving payments. This form helps determine your tax obligations and ensures compliance with U.S. tax laws.\\\\n\\\\n• W-9: For U.S. taxpayers (SSN or EIN)\\\\n• W-8BEN: For foreign individuals\\\\n• W-8BEN-E: For foreign companies'),
                     style: TextStyle(
-                      fontSize: 14,
+                      fontSize: DesktopOptimizedWidgets.getFontSize(),
                       height: 1.5,
                       color: (isLight ? Colors.black : Colors.white)
                           .withOpacity(0.5),
                     ),
                   ),
 
-                  const SizedBox(height: 24),
+                  const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
                   // Powered by Stripe
                   Center(
@@ -13120,12 +13122,12 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
         onTap();
       },
       child: Container(
-        padding: const EdgeInsets.all(16),
+        padding: DesktopAppWrapper.getPagePadding(),
         decoration: BoxDecoration(
           color: isSelected
               ? (isLight ? Colors.black : Colors.white)
               : (isLight ? Colors.black : Colors.white).withOpacity(0.04),
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
         ),
         child: Row(
           children: [
@@ -13144,7 +13146,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                   Text(
                     title,
                     style: TextStyle(
-                      fontSize: 16,
+                      fontSize: DesktopOptimizedWidgets.getFontSize(),
                       fontWeight: FontWeight.w600,
                       color: isSelected
                           ? (isLight ? Colors.white : Colors.black)
@@ -13155,7 +13157,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                   Text(
                     subtitle,
                     style: TextStyle(
-                      fontSize: 14,
+                      fontSize: DesktopOptimizedWidgets.getFontSize(),
                       color: isSelected
                           ? (isLight ? Colors.white : Colors.black).withOpacity(
                               0.7,
@@ -13316,26 +13318,26 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
             ],
           ),
 
-          const SizedBox(height: 12),
+          const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
           // Description
           Text(
             AppLocalizations.of(context)?.redirectedToStripe ?? AppLocalizations.of(context)!.tr('You will be redirected to Stripe\'s secure platform to complete your tax form. This link will open in your browser.'),
             style: TextStyle(
-              fontSize: 14,
+              fontSize: DesktopOptimizedWidgets.getFontSize(),
               color: (isLight ? Colors.black : Colors.white).withOpacity(0.6),
             ),
             textAlign: TextAlign.center,
           ),
 
-          const SizedBox(height: 24),
+          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
           // URL Container
           Container(
-            padding: const EdgeInsets.all(16),
+            padding: DesktopAppWrapper.getPagePadding(),
             decoration: BoxDecoration(
               color: (isLight ? Colors.black : Colors.white).withOpacity(0.05),
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
             ),
             child: Row(
               children: [
@@ -13357,7 +13359,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
             ),
           ),
 
-          const SizedBox(height: 24),
+          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
           // Action Button - minimalist
           TradeRepublicButton(
@@ -13398,7 +13400,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
             },
           ),
 
-          const SizedBox(height: 12),
+          const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
           // Cancel Button - minimalist
           TradeRepublicButton(
@@ -13411,7 +13413,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
             },
           ),
 
-          const SizedBox(height: 24),
+          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
         ],
       ),
     ).whenComplete(() => NavigationVisibility.show());
@@ -13539,7 +13541,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                         : (isLight ? Colors.black : Colors.white).withOpacity(
                             0.06,
                           ),
-                    borderRadius: BorderRadius.circular(20),
+                    borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                   ),
                   child: state == 'loading'
                       ? const Center(child: CultiooLoadingIndicator(size: 28))
@@ -13575,7 +13577,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                   ),
                   textAlign: TextAlign.center,
                 ),
-                const SizedBox(height: 8),
+                const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
                 Text(
                   state == 'success'
@@ -13588,7 +13590,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                       ? (loc?.stripeCheckingSub ?? AppLocalizations.of(context)!.tr('We are checking your status with Stripe…'))
                       : (loc?.stripeWaitingSub ?? AppLocalizations.of(context)!.tr('Tap "Check now" once you have completed the form.')),
                   style: TextStyle(
-                    fontSize: 14,
+                    fontSize: DesktopOptimizedWidgets.getFontSize(),
                     color: (isLight ? Colors.black : Colors.white).withOpacity(
                       0.5,
                     ),
@@ -13599,13 +13601,13 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
 
                 // ── Issues list ──────────────────────────────────────────
                 if (state == 'incomplete' && issues.isNotEmpty) ...[
-                  const SizedBox(height: 16),
+                  const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
                   Container(
                     width: double.infinity,
-                    padding: const EdgeInsets.all(16),
+                    padding: DesktopAppWrapper.getPagePadding(),
                     decoration: BoxDecoration(
                       color: const Color(0xFFFF3B30).withOpacity(0.07),
-                      borderRadius: BorderRadius.circular(16),
+                      borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius()),
                     ),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -13648,7 +13650,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                                   child: Text(
                                     issue,
                                     style: TextStyle(
-                                      fontSize: 14,
+                                      fontSize: DesktopOptimizedWidgets.getFontSize(),
                                       color:
                                           (isLight
                                                   ? Colors.black
@@ -13664,7 +13666,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                       ],
                     ),
                   ),
-                  const SizedBox(height: 8),
+                  const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                   Text(
                     loc?.stripeEmailSentHint ?? AppLocalizations.of(context)!.tr('An email with these details was sent to your address.'),
                     style: TextStyle(
@@ -13676,7 +13678,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                   ),
                 ],
 
-                const SizedBox(height: 24),
+                const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
                 // ── Buttons ──────────────────────────────────────────────
                 if (state == 'success') ...[
@@ -13821,9 +13823,9 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                   ],
                 ),
 
-                const SizedBox(height: 24),
+                const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
-                const SizedBox(height: 16),
+                const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
                 // Stats Row
                 Row(
@@ -13833,7 +13835,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                         padding: const EdgeInsets.symmetric(vertical: 20),
                         decoration: BoxDecoration(
                           color: isLight ? Colors.white : Colors.black,
-                          borderRadius: BorderRadius.circular(20),
+                          borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                         ),
                         child: Column(
                           children: [
@@ -13865,7 +13867,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                         padding: const EdgeInsets.symmetric(vertical: 20),
                         decoration: BoxDecoration(
                           color: isLight ? Colors.white : Colors.black,
-                          borderRadius: BorderRadius.circular(20),
+                          borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                         ),
                         child: Column(
                           children: [
@@ -13894,7 +13896,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                   ],
                 ),
 
-                const SizedBox(height: 24),
+                const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
                 // Followers List with swipe-to-remove
                 Expanded(
@@ -13909,7 +13911,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                                 color: (isLight ? Colors.black : Colors.white)
                                     .withOpacity(0.2),
                               ),
-                              const SizedBox(height: 16),
+                              const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
                               Text(
                                 AppLocalizations.of(context)?.noFollowersYet ?? AppLocalizations.of(context)!.tr('No followers yet'),
                                 style: TextStyle(
@@ -13919,13 +13921,13 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                                       .withOpacity(0.5),
                                 ),
                               ),
-                              const SizedBox(height: 8),
+                              const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                               Text(
                                 AppLocalizations.of(
                                       context,
                                     )?.shareProfileToGetFollowers ?? AppLocalizations.of(context)!.tr('Share your profile to get followers'),
                                 style: TextStyle(
-                                  fontSize: 14,
+                                  fontSize: DesktopOptimizedWidgets.getFontSize(),
                                   fontWeight: FontWeight.w500,
                                   color: (isLight ? Colors.black : Colors.white)
                                       .withOpacity(0.4),
@@ -14036,13 +14038,13 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
           ),
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
         ),
         child: Center(
           child: Text(
             initial,
             style: const TextStyle(
-              fontSize: 20,
+              fontSize: DesktopOptimizedWidgets.getFontSize() + 6,
               fontWeight: FontWeight.w700,
               color: Colors.white,
             ),
@@ -14053,7 +14055,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
 
     // Load network image
     return ClipRRect(
-      borderRadius: BorderRadius.circular(20),
+      borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
       child: Image.network(
         _buildImageUrl(profilePic),
         fit: BoxFit.cover,
@@ -14078,13 +14080,13 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
               ),
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
             ),
             child: Center(
               child: Text(
                 initial,
                 style: const TextStyle(
-                  fontSize: 20,
+                  fontSize: DesktopOptimizedWidgets.getFontSize() + 6,
                   fontWeight: FontWeight.w700,
                   color: Colors.white,
                 ),
@@ -14099,11 +14101,11 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
   Widget _buildFollowerItem(Map<String, dynamic> follower, bool isLight) {
     return Container(
       margin: const EdgeInsets.only(bottom: 12),
-      padding: const EdgeInsets.all(16),
+      padding: DesktopAppWrapper.getPagePadding(),
       decoration: BoxDecoration(
         // Use solid color to prevent red swipe background from showing through
         color: isLight ? Colors.white : Colors.black,
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
       ),
       child: Row(
         children: [
@@ -14112,7 +14114,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
             width: 50,
             height: 50,
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
               color: isLight ? Colors.white : Colors.black,
             ),
             child: _buildFollowerAvatar(follower, isLight),
@@ -14133,7 +14135,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                             follower['username'] ??
                             (AppLocalizations.of(context)?.unknownUser ?? AppLocalizations.of(context)!.tr('Unknown User')),
                         style: TextStyle(
-                          fontSize: 16,
+                          fontSize: DesktopOptimizedWidgets.getFontSize(),
                           fontWeight: FontWeight.w600,
                           color: isLight ? Colors.black : Colors.white,
                         ),
@@ -14149,7 +14151,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                         ),
                         decoration: BoxDecoration(
                           color: Colors.blue.withOpacity(0.1),
-                          borderRadius: BorderRadius.circular(20),
+                          borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                         ),
                         child: Text(
                           AppLocalizations.of(context)?.business ?? AppLocalizations.of(context)!.tr('Business'),
@@ -14168,7 +14170,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                 Text(
                   '@${follower['username']}',
                   style: TextStyle(
-                    fontSize: 14,
+                    fontSize: DesktopOptimizedWidgets.getFontSize(),
                     color: (isLight ? Colors.black : Colors.white).withOpacity(
                       0.6,
                     ),
@@ -14207,7 +14209,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
               Text(
                 '${follower['stats']['followers']}',
                 style: TextStyle(
-                  fontSize: 16,
+                  fontSize: DesktopOptimizedWidgets.getFontSize(),
                   fontWeight: FontWeight.w600,
                   color: Colors.green,
                 ),
@@ -14264,7 +14266,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                   ],
                 ),
 
-                const SizedBox(height: 24),
+                const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
                 const SizedBox(height: 32),
 
@@ -14277,7 +14279,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                   size: 64,
                 ),
 
-                const SizedBox(height: 24),
+                const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
                 // Description
                 Text(
@@ -14306,7 +14308,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                   },
                 ),
 
-                const SizedBox(height: 12),
+                const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
                 // Cancel button - minimalist
                 TradeRepublicButton(
@@ -14444,17 +14446,17 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
           Text(
             label,
             style: TextStyle(
-              fontSize: 14,
+              fontSize: DesktopOptimizedWidgets.getFontSize(),
               fontWeight: FontWeight.w600,
               color: (isLight ? Colors.black : Colors.white).withOpacity(0.8),
             ),
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
           TradeRepublicTextField(
             controller: controller,
             maxLines: maxLines,
             style: TextStyle(
-              fontSize: 16,
+              fontSize: DesktopOptimizedWidgets.getFontSize(),
               fontWeight: FontWeight.w600,
               color: isLight ? Colors.black : Colors.white,
             ),
@@ -14483,10 +14485,10 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
       child: Material(
         color: Colors.transparent,
         child: Container(
-          padding: const EdgeInsets.all(16),
+          padding: DesktopAppWrapper.getPagePadding(),
           decoration: BoxDecoration(
             color: isLight ? Colors.white : Colors.black,
-            borderRadius: BorderRadius.circular(20),
+            borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
           ),
           child: Row(
             children: [
@@ -14498,7 +14500,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                       : (isLight ? Colors.black : Colors.white).withOpacity(
                           0.1,
                         ),
-                  borderRadius: BorderRadius.circular(20),
+                  borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                 ),
                 child: Icon(
                   icon,
@@ -14518,7 +14520,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                     Text(
                       title,
                       style: TextStyle(
-                        fontSize: 16,
+                        fontSize: DesktopOptimizedWidgets.getFontSize(),
                         fontWeight: FontWeight.w600,
                         color: isLight ? Colors.black : Colors.white,
                       ),
@@ -14527,7 +14529,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                     Text(
                       subtitle,
                       style: TextStyle(
-                        fontSize: 14,
+                        fontSize: DesktopOptimizedWidgets.getFontSize(),
                         color: (isLight ? Colors.black : Colors.white)
                             .withOpacity(0.6),
                       ),
@@ -14618,7 +14620,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
             ],
           ),
 
-          const SizedBox(height: 24),
+          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
           const SizedBox(height: 4),
           Expanded(
@@ -14636,14 +14638,14 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                   },
                   child: Container(
                     margin: const EdgeInsets.only(bottom: 12),
-                    padding: const EdgeInsets.all(16),
+                    padding: DesktopAppWrapper.getPagePadding(),
                     decoration: BoxDecoration(
                       color: isSelected
                           ? (isLight ? Colors.black : Colors.white)
                           : isLight
                           ? Colors.white
                           : Colors.black,
-                      borderRadius: BorderRadius.circular(20),
+                      borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                     ),
                     child: Row(
                       children: [
@@ -14655,7 +14657,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                         Text(
                           country['name']!,
                           style: TextStyle(
-                            fontSize: 16,
+                            fontSize: DesktopOptimizedWidgets.getFontSize(),
                             fontWeight: isSelected
                                 ? FontWeight.w600
                                 : FontWeight.w500,
@@ -14726,9 +14728,9 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
             ],
           ),
 
-          const SizedBox(height: 24),
+          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
-          const SizedBox(height: 16),
+          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
           Expanded(
             child: ListView.builder(
               itemCount: sizeOptions.length,
@@ -14744,14 +14746,14 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                   },
                   child: Container(
                     margin: const EdgeInsets.only(bottom: 12),
-                    padding: const EdgeInsets.all(16),
+                    padding: DesktopAppWrapper.getPagePadding(),
                     decoration: BoxDecoration(
                       color: isSelected
                           ? (isLight ? Colors.black : Colors.white)
                           : isLight
                           ? Colors.white
                           : Colors.black,
-                      borderRadius: BorderRadius.circular(20),
+                      borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                     ),
                     child: Row(
                       children: [
@@ -14767,7 +14769,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                         Text(
                           option['size'] as String,
                           style: TextStyle(
-                            fontSize: 16,
+                            fontSize: DesktopOptimizedWidgets.getFontSize(),
                             fontWeight: isSelected
                                 ? FontWeight.w600
                                 : FontWeight.w500,
@@ -14808,7 +14810,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
       decoration: BoxDecoration(
         color: (isLight ? Colors.black : Colors.white).withOpacity(0.04),
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
       ),
       child: Row(
         children: [
@@ -14827,7 +14829,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                 Text(
                   title,
                   style: TextStyle(
-                    fontSize: 16,
+                    fontSize: DesktopOptimizedWidgets.getFontSize(),
                     fontWeight: FontWeight.w600,
                     color: isLight ? Colors.black : Colors.white,
                   ),
@@ -14894,7 +14896,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
           color: isDestructive
               ? Colors.red.withOpacity(0.08)
               : (isLight ? Colors.black : Colors.white).withOpacity(0.04),
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
         ),
         child: Row(
           children: [
@@ -14913,7 +14915,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                   Text(
                     title,
                     style: TextStyle(
-                      fontSize: 16,
+                      fontSize: DesktopOptimizedWidgets.getFontSize(),
                       fontWeight: FontWeight.w600,
                       color: isDestructive
                           ? Colors.red
@@ -15304,7 +15306,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                 ],
               ),
 
-              const SizedBox(height: 24),
+              const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
               Flexible(
                 child: SingleChildScrollView(
@@ -15325,7 +15327,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                         ),
                       ),
 
-                      const SizedBox(height: 16),
+                      const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
                       // New Password
                       _buildPasswordField(
@@ -15339,7 +15341,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                         ),
                       ),
 
-                      const SizedBox(height: 16),
+                      const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
                       // Confirm Password
                       _buildPasswordField(
@@ -15354,7 +15356,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                         ),
                       ),
 
-                      const SizedBox(height: 24),
+                      const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
                       // Requirements - minimalist
                       Text(
@@ -15371,7 +15373,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                 ),
               ),
 
-              const SizedBox(height: 24),
+              const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
               // Change button - minimalist
               TradeRepublicButton(
@@ -15388,7 +15390,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                 },
               ),
 
-              const SizedBox(height: 12),
+              const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
               // Cancel button - minimalist
               TradeRepublicButton(
@@ -15423,17 +15425,17 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
         Text(
           label,
           style: TextStyle(
-            fontSize: 14,
+            fontSize: DesktopOptimizedWidgets.getFontSize(),
             fontWeight: FontWeight.w600,
             color: (isLight ? Colors.black : Colors.white).withOpacity(0.5),
           ),
         ),
-        const SizedBox(height: 8),
+        const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
         TradeRepublicTextField(
           controller: controller,
           obscureText: obscureText,
           style: TextStyle(
-            fontSize: 16,
+            fontSize: DesktopOptimizedWidgets.getFontSize(),
             fontWeight: FontWeight.w500,
             color: isLight ? Colors.black : Colors.white,
           ),
@@ -15629,7 +15631,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                 ],
               ),
 
-              const SizedBox(height: 24),
+              const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
               const SizedBox(height: 6),
 
@@ -15667,14 +15669,14 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                                 size: 40,
                                 color: Colors.red,
                               ),
-                              const SizedBox(height: 16),
+                              const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
                               Text(
                                 AppLocalizations.of(
                                       context,
                                     )?.failedToLoadSessions ?? AppLocalizations.of(context)!.tr('Failed to load sessions'),
                                 style: TextStyle(
                                   color: isLight ? Colors.black : Colors.white,
-                                  fontSize: 16,
+                                  fontSize: DesktopOptimizedWidgets.getFontSize(),
                                   fontWeight: FontWeight.w600,
                                 ),
                               ),
@@ -15695,14 +15697,14 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                                 color: (isLight ? Colors.black : Colors.white)
                                     .withOpacity(0.3),
                               ),
-                              const SizedBox(height: 16),
+                              const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
                               Text(
                                 AppLocalizations.of(
                                       context,
                                     )?.noActiveSessions ?? AppLocalizations.of(context)!.tr('No active sessions'),
                                 style: TextStyle(
                                   color: isLight ? Colors.black : Colors.white,
-                                  fontSize: 16,
+                                  fontSize: DesktopOptimizedWidgets.getFontSize(),
                                   fontWeight: FontWeight.w600,
                                 ),
                               ),
@@ -15714,7 +15716,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                                 style: TextStyle(
                                   color: (isLight ? Colors.black : Colors.white)
                                       .withOpacity(0.5),
-                                  fontSize: 14,
+                                  fontSize: DesktopOptimizedWidgets.getFontSize(),
                                 ),
                               ),
                             ],
@@ -16127,7 +16129,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
         color: isCurrent
             ? CupertinoColors.systemGreen.withValues(alpha: 0.1)
             : (isLight ? Colors.black : Colors.white).withOpacity(0.04),
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
       ),
       child: Row(
         children: [
@@ -16152,7 +16154,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                         session['device'] ??
                             (AppLocalizations.of(context)?.unknownDevice ?? AppLocalizations.of(context)!.tr('Unknown Device')),
                         style: TextStyle(
-                          fontSize: 16,
+                          fontSize: DesktopOptimizedWidgets.getFontSize(),
                           fontWeight: FontWeight.w600,
                           color: isLight ? Colors.black : Colors.white,
                         ),
@@ -16293,7 +16295,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
             ],
           ),
 
-          const SizedBox(height: 24),
+          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
           const SizedBox(height: 6),
 
@@ -16362,7 +16364,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                             ? (isLight ? Colors.black : Colors.white)
                                   .withOpacity(0.04)
                             : Colors.red.withOpacity(0.08),
-                        borderRadius: BorderRadius.circular(20),
+                        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                       ),
                       child: Row(
                         children: [
@@ -16468,9 +16470,9 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                 ],
               ),
 
-              const SizedBox(height: 24),
+              const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
-              const SizedBox(height: 16),
+              const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
               // Subtitle
               Text(
@@ -16512,20 +16514,20 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                               context,
                             )?.confirmPasswordHintDelete ?? AppLocalizations.of(context)!.tr('Confirm password'),
                         style: TextStyle(
-                          fontSize: 14,
+                          fontSize: DesktopOptimizedWidgets.getFontSize(),
                           fontWeight: FontWeight.w600,
                           color: (isLight ? Colors.black : Colors.white)
                               .withOpacity(0.5),
                         ),
                       ),
 
-                      const SizedBox(height: 12),
+                      const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
                       TradeRepublicTextField(
                         controller: passwordController,
                         obscureText: obscurePassword,
                         style: TextStyle(
-                          fontSize: 16,
+                          fontSize: DesktopOptimizedWidgets.getFontSize(),
                           fontWeight: FontWeight.w500,
                           color: isLight ? Colors.black : Colors.white,
                         ),
@@ -16554,7 +16556,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                 ),
               ),
 
-              const SizedBox(height: 24),
+              const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
               // Delete button - minimalist red
               TradeRepublicButton(
@@ -16568,7 +16570,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                 },
               ),
 
-              const SizedBox(height: 12),
+              const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
               // Cancel button - minimalist
               TradeRepublicButton(
@@ -16735,7 +16737,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                     ],
                   ),
 
-                  const SizedBox(height: 8),
+                  const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
                   Text(
                     AppLocalizations.of(context)?.addExtraLayerSecurity ?? AppLocalizations.of(context)!.tr('Add an extra layer of security to your account.'),
@@ -16752,19 +16754,19 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                   Text(
                     AppLocalizations.of(context)?.twoFACode ?? AppLocalizations.of(context)!.tr('2FA Code (8 digits)'),
                     style: TextStyle(
-                      fontSize: 14,
+                      fontSize: DesktopOptimizedWidgets.getFontSize(),
                       fontWeight: FontWeight.w600,
                       color: (isLight ? Colors.black : Colors.white)
                           .withOpacity(0.7),
                     ),
                   ),
-                  const SizedBox(height: 8),
+                  const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                   TradeRepublicTextField(
                     controller: twoFACodeController,
                     keyboardType: TextInputType.number,
                     maxLength: 8,
                     style: TextStyle(
-                      fontSize: 18,
+                      fontSize: DesktopOptimizedWidgets.getFontSize() + 4,
                       color: isLight ? Colors.black : Colors.white,
                       letterSpacing: 4,
                       fontWeight: FontWeight.w600,
@@ -16782,18 +16784,18 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                   Text(
                     AppLocalizations.of(context)?.confirmPassword ?? AppLocalizations.of(context)!.tr('Confirm Password'),
                     style: TextStyle(
-                      fontSize: 14,
+                      fontSize: DesktopOptimizedWidgets.getFontSize(),
                       fontWeight: FontWeight.w600,
                       color: (isLight ? Colors.black : Colors.white)
                           .withOpacity(0.7),
                     ),
                   ),
-                  const SizedBox(height: 8),
+                  const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                   TradeRepublicTextField(
                     controller: passwordController,
                     obscureText: obscurePassword,
                     style: TextStyle(
-                      fontSize: 16,
+                      fontSize: DesktopOptimizedWidgets.getFontSize(),
                       color: isLight ? Colors.black : Colors.white,
                     ),
                     hintText:
@@ -16838,7 +16840,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                     },
                   ),
 
-                  const SizedBox(height: 12),
+                  const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
                   // Cancel button
                   TradeRepublicButton(
@@ -17308,7 +17310,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
             ],
           ),
 
-          const SizedBox(height: 24),
+          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
           const SizedBox(height: 20),
 
@@ -17446,7 +17448,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                       isLight,
                     ),
 
-                    const SizedBox(height: 12),
+                    const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                   ],
 
                   // Cancel button (like in settings)
@@ -17478,10 +17480,10 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
     final profileImage = currentGroup?['profileImage']?.toString();
 
     return Container(
-      padding: const EdgeInsets.all(20),
+      padding: DesktopAppWrapper.getPagePadding(),
       decoration: BoxDecoration(
         color: isLight ? Colors.white : Colors.black,
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
       ),
       child: Column(
         children: [
@@ -17494,7 +17496,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
             highlight: isOwner,
           ),
 
-          const SizedBox(height: 12),
+          const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
           // Group Name with Role
           Row(
@@ -17504,7 +17506,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                 child: Text(
                   groupName,
                   style: TextStyle(
-                    fontSize: 18,
+                    fontSize: DesktopOptimizedWidgets.getFontSize() + 4,
                     fontWeight: FontWeight.w700,
                     color: isLight ? Colors.black : Colors.white,
                   ),
@@ -17520,7 +17522,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                   ),
                   decoration: BoxDecoration(
                     color: Colors.orange.withOpacity(0.1),
-                    borderRadius: BorderRadius.circular(20),
+                    borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                   ),
                   child: Text(
                     _groupRoleBadge(userRole),
@@ -17536,7 +17538,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
             ],
           ),
 
-          const SizedBox(height: 8),
+          const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
           // Group Code and Member Count
           Row(
@@ -17591,7 +17593,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
           child: Text(
             title,
             style: TextStyle(
-              fontSize: 16,
+              fontSize: DesktopOptimizedWidgets.getFontSize(),
               fontWeight: FontWeight.w600,
               color: (isLight ? Colors.black : Colors.white).withOpacity(0.7),
             ),
@@ -17620,10 +17622,10 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
           onTap();
         },
         child: Container(
-          padding: const EdgeInsets.all(16),
+          padding: DesktopAppWrapper.getPagePadding(),
           decoration: BoxDecoration(
             color: isLight ? Colors.white : Colors.black,
-            borderRadius: BorderRadius.circular(20),
+            borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
           ),
           child: Row(
             children: [
@@ -17633,7 +17635,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                   color: (isLight ? Colors.black : Colors.white).withOpacity(
                     0.05,
                   ),
-                  borderRadius: BorderRadius.circular(20),
+                  borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                 ),
                 child: Icon(
                   icon,
@@ -17649,7 +17651,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                     Text(
                       title,
                       style: TextStyle(
-                        fontSize: 16,
+                        fontSize: DesktopOptimizedWidgets.getFontSize(),
                         fontWeight: FontWeight.w600,
                         color: color ?? (isLight ? Colors.black : Colors.white),
                         letterSpacing: -0.2,
@@ -17762,7 +17764,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
             ],
           ),
 
-          const SizedBox(height: 24),
+          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
           const SizedBox(height: 20),
 
@@ -17816,10 +17818,10 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
 
     return Container(
       margin: const EdgeInsets.only(bottom: 8),
-      padding: const EdgeInsets.all(16),
+      padding: DesktopAppWrapper.getPagePadding(),
       decoration: BoxDecoration(
         color: isLight ? Colors.white : Colors.black,
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
       ),
       child: Row(
         children: [
@@ -17848,7 +17850,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
-                          fontSize: 16,
+                          fontSize: DesktopOptimizedWidgets.getFontSize(),
                           fontWeight: FontWeight.w600,
                           color: isLight ? Colors.black : Colors.white,
                           letterSpacing: -0.2,
@@ -17882,7 +17884,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                           ),
                           decoration: BoxDecoration(
                             color: Colors.orange.withOpacity(0.1),
-                            borderRadius: BorderRadius.circular(20),
+                            borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                           ),
                           child: Text(
                             _groupRoleBadge(member['role']),
@@ -17966,7 +17968,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
             ],
           ),
 
-          const SizedBox(height: 24),
+          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
           const SizedBox(height: 20),
 
@@ -18047,7 +18049,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
               ],
             ),
 
-            const SizedBox(height: 24),
+            const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
             const SizedBox(height: 32),
 
@@ -18064,7 +18066,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                             .withOpacity(0.7),
                       ),
                     ),
-                    const SizedBox(height: 16),
+                    const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
                     ...eligibleMembers.map((member) {
                       final usernameHandle = _formatUsernameHandle(
                         member['username'] ?? member['userId'],
@@ -18078,10 +18080,10 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                             _transferOwnership(member['userId']);
                           },
                           child: Container(
-                            padding: const EdgeInsets.all(16),
+                            padding: DesktopAppWrapper.getPagePadding(),
                             decoration: BoxDecoration(
                               color: isLight ? Colors.white : Colors.black,
-                              borderRadius: BorderRadius.circular(20),
+                              borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                             ),
                             child: Row(
                               children: [
@@ -18142,7 +18144,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
               ),
             ),
 
-            const SizedBox(height: 12),
+            const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
             // Cancel button
             TradeRepublicButton(
@@ -18193,9 +18195,9 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
               ],
             ),
 
-            const SizedBox(height: 24),
+            const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
-            const SizedBox(height: 16),
+            const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
             // Subtitle
             Text(
@@ -18216,7 +18218,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
               size: 64,
             ),
 
-            const SizedBox(height: 24),
+            const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
             // Description
             Text(
@@ -18244,7 +18246,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
               },
             ),
 
-            const SizedBox(height: 12),
+            const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
             // Cancel button - minimalist
             TradeRepublicButton(
@@ -18393,7 +18395,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                 ],
               ),
 
-              const SizedBox(height: 24),
+              const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
               const SizedBox(height: 32),
 
@@ -18429,7 +18431,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                             : null,
                       ),
 
-                      const SizedBox(height: 16),
+                      const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
                       _buildGroupInputField(
                         controller: groupNameController,
@@ -18506,7 +18508,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                         },
                       ),
 
-                      const SizedBox(height: 12),
+                      const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
                       // Cancel button - minimalist
                       TradeRepublicButton(
@@ -18562,7 +18564,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
               ],
             ),
 
-            const SizedBox(height: 24),
+            const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
             const SizedBox(height: 20),
 
@@ -18588,7 +18590,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
               },
             ),
 
-            const SizedBox(height: 12),
+            const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
             // Cancel button - minimalist
             TradeRepublicButton(
@@ -18635,7 +18637,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
             ],
           ),
 
-          const SizedBox(height: 24),
+          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
           const SizedBox(height: 20),
 
@@ -18651,21 +18653,21 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                       0.3,
                     ),
                   ),
-                  const SizedBox(height: 16),
+                  const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
                   Text(
                     AppLocalizations.of(context)?.comingSoon ?? AppLocalizations.of(context)!.tr('Coming Soon!'),
                     style: TextStyle(
-                      fontSize: 18,
+                      fontSize: DesktopOptimizedWidgets.getFontSize() + 4,
                       fontWeight: FontWeight.w600,
                       color: isLight ? Colors.black : Colors.white,
                     ),
                   ),
-                  const SizedBox(height: 8),
+                  const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                   Text(
                     AppLocalizations.of(context)?.groupDiscoveryComingSoon ?? AppLocalizations.of(context)!.tr('Group discovery feature will be available soon.'),
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                      fontSize: 14,
+                      fontSize: DesktopOptimizedWidgets.getFontSize(),
                       color: (isLight ? Colors.black : Colors.white)
                           .withOpacity(0.6),
                     ),
@@ -18721,9 +18723,9 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
               ],
             ),
 
-            const SizedBox(height: 24),
+            const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
-            const SizedBox(height: 16),
+            const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
             // Group name
             Text(
@@ -18744,7 +18746,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
               size: 64,
             ),
 
-            const SizedBox(height: 24),
+            const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
             // Description
             Text(
@@ -18771,7 +18773,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
               },
             ),
 
-            const SizedBox(height: 12),
+            const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
             // Cancel button - minimalist
             TradeRepublicButton(
@@ -18825,7 +18827,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
               ],
             ),
 
-            const SizedBox(height: 24),
+            const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
             const SizedBox(height: 32),
 
@@ -18843,7 +18845,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
               },
             ),
 
-            const SizedBox(height: 8),
+            const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
             // Gallery Option
             _buildGroupModalOption(
@@ -18860,7 +18862,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
               },
             ),
 
-            const SizedBox(height: 12),
+            const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
             // Cancel button
             TradeRepublicButton(
@@ -18961,9 +18963,9 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                 ],
               ),
 
-              const SizedBox(height: 24),
+              const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
-              const SizedBox(height: 16),
+              const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
               // Content
               Text(
@@ -19176,9 +19178,9 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                 ],
               ),
 
-              const SizedBox(height: 24),
+              const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
-              const SizedBox(height: 16),
+              const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
               // Content
               Text(
@@ -19443,7 +19445,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                   ),
                 ),
 
-                const SizedBox(height: 16),
+                const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
                 // Group Code Display
                 Column(
@@ -19480,7 +19482,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                   ],
                 ),
 
-                const SizedBox(height: 24),
+                const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
                 // Action Button - minimalist
                 TradeRepublicButton(
@@ -19492,7 +19494,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                   },
                 ),
 
-                const SizedBox(height: 16),
+                const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
               ],
             ),
           ),
@@ -19515,10 +19517,10 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
         onTap();
       },
       child: Container(
-        padding: const EdgeInsets.all(20),
+        padding: DesktopAppWrapper.getPagePadding(),
         decoration: BoxDecoration(
           color: isLight ? Colors.white : Colors.black,
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
         ),
         child: Row(
           children: [
@@ -19535,7 +19537,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                   Text(
                     title,
                     style: TextStyle(
-                      fontSize: 16,
+                      fontSize: DesktopOptimizedWidgets.getFontSize(),
                       fontWeight: FontWeight.w600,
                       color: isLight ? Colors.black : Colors.white,
                     ),
@@ -19584,20 +19586,20 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
           Text(
             title,
             style: TextStyle(
-              fontSize: 14,
+              fontSize: DesktopOptimizedWidgets.getFontSize(),
               fontWeight: FontWeight.w600,
               color: hasError
                   ? Colors.red
                   : (isLight ? Colors.black : Colors.white).withOpacity(0.5),
             ),
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
           TradeRepublicTextField(
             controller: controller,
             maxLines: maxLines,
             style: TextStyle(
               color: isLight ? Colors.black : Colors.white,
-              fontSize: 16,
+              fontSize: DesktopOptimizedWidgets.getFontSize(),
               fontWeight: FontWeight.w500,
             ),
             hintText: subtitle,
@@ -19666,7 +19668,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
               ],
             ),
 
-            const SizedBox(height: 24),
+            const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
             const SizedBox(height: 32),
 
@@ -19677,7 +19679,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
               color: Colors.red.withOpacity(0.8),
             ),
 
-            const SizedBox(height: 24),
+            const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
             Text(
               AppLocalizations.of(context)?.deleteBankAccountConfirm ?? AppLocalizations.of(context)!.tr('Are you sure you want to delete this bank account?\\\\nThis action cannot be undone.'),
@@ -19705,7 +19707,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
               },
             ),
 
-            const SizedBox(height: 12),
+            const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
             // Cancel button - minimalist
             TradeRepublicButton(
@@ -19755,7 +19757,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
               ],
             ),
 
-            const SizedBox(height: 12),
+            const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
             // Description
             Text(
@@ -19919,7 +19921,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
       padding: const EdgeInsets.all(18),
       decoration: BoxDecoration(
         color: isLight ? Colors.white : Colors.black,
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
       ),
       child: Row(
         children: [
@@ -19932,7 +19934,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                 end: Alignment.bottomRight,
                 colors: gradientColors,
               ),
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
             ),
             child: Icon(sourceIcon, size: 24, color: Colors.white),
           ),
@@ -19947,7 +19949,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                     Text(
                       sourceLabel,
                       style: TextStyle(
-                        fontSize: 16,
+                        fontSize: DesktopOptimizedWidgets.getFontSize(),
                         fontWeight: FontWeight.w700,
                         color: isLight ? Colors.black : Colors.white,
                         letterSpacing: -0.3,
@@ -19968,12 +19970,12 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                             Colors.green.shade600,
                           ],
                         ),
-                        borderRadius: BorderRadius.circular(20),
+                        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                       ),
                       child: Text(
                         '+${_formatCurrency(amount)}',
                         style: const TextStyle(
-                          fontSize: 14,
+                          fontSize: DesktopOptimizedWidgets.getFontSize(),
                           fontWeight: FontWeight.w800,
                           color: Colors.white,
                           letterSpacing: -0.3,
@@ -19982,7 +19984,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                     ),
                   ],
                 ),
-                const SizedBox(height: 8),
+                const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                 Text(
                   description,
                   style: TextStyle(
@@ -20099,10 +20101,10 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
 
           // Total earnings summary - minimalist
           Container(
-            padding: const EdgeInsets.all(20),
+            padding: DesktopAppWrapper.getPagePadding(),
             decoration: BoxDecoration(
               color: isLight ? Colors.black : Colors.white,
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
             ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -20113,13 +20115,13 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                     Text(
                       AppLocalizations.of(context)?.totalEarningsLabel ?? AppLocalizations.of(context)!.tr('Total Earnings'),
                       style: TextStyle(
-                        fontSize: 14,
+                        fontSize: DesktopOptimizedWidgets.getFontSize(),
                         fontWeight: FontWeight.w500,
                         color: (isLight ? Colors.white : Colors.black)
                             .withOpacity(0.7),
                       ),
                     ),
-                    const SizedBox(height: 8),
+                    const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                     Text(
                       _formatCurrency(
                         earningsData['totalEarnings'] is String
@@ -20144,7 +20146,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
             ),
           ),
 
-          const SizedBox(height: 24),
+          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
           // Earnings list
           Expanded(
@@ -20159,22 +20161,22 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                           color: (isLight ? Colors.black : Colors.white)
                               .withOpacity(0.3),
                         ),
-                        const SizedBox(height: 16),
+                        const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
                         Text(
                           AppLocalizations.of(context)?.noEarningsYet ?? AppLocalizations.of(context)!.tr('No earnings yet'),
                           style: TextStyle(
-                            fontSize: 20,
+                            fontSize: DesktopOptimizedWidgets.getFontSize() + 6,
                             fontWeight: FontWeight.w600,
                             color: (isLight ? Colors.black : Colors.white)
                                 .withOpacity(0.5),
                           ),
                         ),
-                        const SizedBox(height: 8),
+                        const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                         Text(
                           '${AppLocalizations.of(context)?.earningsWillAppearHere ?? AppLocalizations.of(context)!.tr('Your earnings will appear here')}\n${AppLocalizations.of(context)?.onceYouStartDeliveries ?? AppLocalizations.of(context)!.tr('once you start making deliveries')}',
                           textAlign: TextAlign.center,
                           style: TextStyle(
-                            fontSize: 16,
+                            fontSize: DesktopOptimizedWidgets.getFontSize(),
                             color: (isLight ? Colors.black : Colors.white)
                                 .withOpacity(0.4),
                           ),
@@ -20192,7 +20194,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                   ),
           ),
 
-          const SizedBox(height: 24),
+          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
         ],
       ),
     ).whenComplete(() => NavigationVisibility.show());
@@ -20213,10 +20215,10 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
         mainAxisSize: MainAxisSize.min,
         children: [
           Container(
-            padding: const EdgeInsets.all(16),
+            padding: DesktopAppWrapper.getPagePadding(),
             decoration: BoxDecoration(
               color: Colors.orange.withOpacity(0.1),
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
             ),
             child: Icon(CupertinoIcons.lock, size: 48, color: Colors.orange),
           ),
@@ -20224,21 +20226,21 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
           Text(
             AppLocalizations.of(context)?.sessionExpired ?? AppLocalizations.of(context)!.tr('Session Expired'),
             style: TextStyle(
-              fontSize: 20,
+              fontSize: DesktopOptimizedWidgets.getFontSize() + 6,
               fontWeight: FontWeight.w700,
               color: isLight ? Colors.black : Colors.white,
             ),
           ),
-          const SizedBox(height: 12),
+          const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
           Text(
             AppLocalizations.of(context)?.sessionExpiredDesc ?? AppLocalizations.of(context)!.tr('Your session has expired for security reasons. Please log in again to continue.'),
             textAlign: TextAlign.center,
             style: TextStyle(
-              fontSize: 14,
+              fontSize: DesktopOptimizedWidgets.getFontSize(),
               color: (isLight ? Colors.black : Colors.white).withOpacity(0.6),
             ),
           ),
-          const SizedBox(height: 24),
+          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
           SizedBox(
             width: double.infinity,
             child: TradeRepublicButton(

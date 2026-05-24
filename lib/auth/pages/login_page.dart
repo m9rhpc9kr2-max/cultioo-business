@@ -28,6 +28,8 @@ import '../../shared/services/app_localizations.dart';
 import '../../shared/widgets/trade_republic_tap.dart';
 import '../../app_router.dart';
 import '../../modules/delvioo/pages/delvioo_main_page.dart';
+import 'package:cultioo_business/shared/widgets/desktop_app_wrapper.dart';
+import 'package:cultioo_business/shared/widgets/desktop_optimized_widgets.dart';
 
 /// Web client ID (must match backend `GOOGLE_CLIENT_ID`) so ID tokens verify on the server.
 // Web/Server client ID for backend verification (must match backend GOOGLE_CLIENT_ID)
@@ -1225,16 +1227,16 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
               ),
             ],
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
           Text(
             message,
             textAlign: TextAlign.center,
             style: TextStyle(
-              fontSize: 14,
+              fontSize: DesktopOptimizedWidgets.getFontSize(),
               color: (isLight ? Colors.black : Colors.white).withOpacity(0.7),
             ),
           ),
-          const SizedBox(height: 24),
+          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
           SizedBox(
             width: double.infinity,
             child: TradeRepublicButton(
@@ -1289,18 +1291,18 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                 ),
               ],
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
             Text(
               AppLocalizations.of(context)?.pleaseEnter2faCodeToContinue ??
                   'Please enter your 2FA code to continue',
               textAlign: TextAlign.center,
               style: TextStyle(
-                fontSize: 14,
+                fontSize: DesktopOptimizedWidgets.getFontSize(),
                 color: (isLight ? Colors.black : Colors.white).withOpacity(0.7),
               ),
             ),
-            const SizedBox(height: 24),
+            const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
             // 2FA Code Input
             TradeRepublicTextField(
@@ -1310,7 +1312,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
               textAlign: TextAlign.center,
               hintText: '00000000',
             ),
-            const SizedBox(height: 24),
+            const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
             // Verify Button
             SizedBox(
@@ -1524,7 +1526,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                     ),
             ),
 
-            const SizedBox(height: 12),
+            const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
             // Cancel Button
             Platform.isIOS
@@ -1542,7 +1544,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                     },
                   ),
 
-            const SizedBox(height: 16),
+            const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
           ],
         ),
       ),
@@ -1592,7 +1594,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                 ),
               ],
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
             Text(
               isStaticStep
@@ -1602,11 +1604,11 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                         'An 8-digit verification code has been sent to your email',
               textAlign: TextAlign.center,
               style: TextStyle(
-                fontSize: 14,
+                fontSize: DesktopOptimizedWidgets.getFontSize(),
                 color: (isLight ? Colors.black : Colors.white).withOpacity(0.7),
               ),
             ),
-            const SizedBox(height: 24),
+            const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
             // 2FA Code Input - Trade Republic Style
             TradeRepublicTextField(
@@ -1617,7 +1619,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
               textAlign: TextAlign.center,
               hintText: '00000000',
             ),
-            const SizedBox(height: 24),
+            const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
             // Verify Button
             TradeRepublicButton(
@@ -1784,7 +1786,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                     },
             ),
 
-            const SizedBox(height: 12),
+            const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
             // Resend Email Button (only for email step)
             if (!isStaticStep) ...[
@@ -1882,7 +1884,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                         }
                       },
                     ),
-              const SizedBox(height: 12),
+              const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
             ],
 
             // Cancel Button
@@ -1903,7 +1905,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                     },
                   ),
 
-            const SizedBox(height: 16),
+            const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
           ],
         ),
       ),
@@ -1915,7 +1917,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
     if (_isMacOS) {
       return Container(
         width: 300,
-        padding: const EdgeInsets.symmetric(horizontal: 20),
+        padding: EdgeInsets.symmetric(horizontal: DesktopAppWrapper.getHorizontalPadding()),
         child: TradeRepublicSliderExpanded(
           labels: [
             AppLocalizations.of(context)?.businessLabel ?? 'Business',
@@ -1941,7 +1943,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
     // On iOS: Use TradeRepublicSlider (same as macOS/Android)
     if (_isIOS) {
       return Container(
-        padding: const EdgeInsets.symmetric(horizontal: 20),
+        padding: EdgeInsets.symmetric(horizontal: DesktopAppWrapper.getHorizontalPadding()),
         child: TradeRepublicSliderExpanded(
           labels: [
             AppLocalizations.of(context)?.businessLabel ?? 'Business',
@@ -1966,7 +1968,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
 
     // On Android: Use TradeRepublicSlider
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 20),
+      padding: EdgeInsets.symmetric(horizontal: DesktopAppWrapper.getHorizontalPadding()),
       child: TradeRepublicSliderExpanded(
         labels: [
           AppLocalizations.of(context)?.businessLabel ?? 'Business',
@@ -1996,7 +1998,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
       const double buttonHeight = 48.0;
 
       return ClipRRect(
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
         child: BackdropFilter(
           filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
           child: Container(
@@ -2005,7 +2007,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
             padding: const EdgeInsets.all(6),
             decoration: BoxDecoration(
               color: (isLight ? Colors.white : Colors.black).withOpacity(0.3),
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
             ),
 
             child: LayoutBuilder(
@@ -2024,7 +2026,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                       child: Container(
                         decoration: BoxDecoration(
                           color: isLight ? Colors.black : Colors.white,
-                          borderRadius: BorderRadius.circular(20),
+                          borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                           boxShadow: [
                             BoxShadow(
                               color: (isLight ? Colors.black : Colors.white)
@@ -2165,7 +2167,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
     // On iOS: Use TradeRepublicSlider (same as macOS/Android)
     if (_isIOS) {
       return Container(
-        padding: const EdgeInsets.symmetric(horizontal: 20),
+        padding: EdgeInsets.symmetric(horizontal: DesktopAppWrapper.getHorizontalPadding()),
         child: TradeRepublicSliderExpanded(
           labels: [
             AppLocalizations.of(context)?.businessLabel ?? 'Business',
@@ -2190,7 +2192,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
 
     // On Android: Use custom glass morphism switch
     return ClipRRect(
-      borderRadius: BorderRadius.circular(20),
+      borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
       child: BackdropFilter(
         filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
         child: Container(
@@ -2199,7 +2201,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
             color: isLight
                 ? Colors.white.withOpacity(0.15)
                 : Colors.black.withOpacity(0.25),
-            borderRadius: BorderRadius.circular(20),
+            borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
             boxShadow: [
               BoxShadow(
                 color: isLight
@@ -2231,7 +2233,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                       color: isLight
                           ? Colors.black.withOpacity(0.8)
                           : Colors.white.withOpacity(0.9),
-                      borderRadius: BorderRadius.circular(20),
+                      borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                       boxShadow: [
                         BoxShadow(
                           color: (isLight ? Colors.black : Colors.white)
@@ -2271,7 +2273,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                                     : isLight
                                     ? Colors.black.withOpacity(0.6)
                                     : Colors.white.withOpacity(0.6),
-                                fontSize: 16,
+                                fontSize: DesktopOptimizedWidgets.getFontSize(),
                                 fontWeight: FontWeight.w700,
                               ),
                               child: Text(
@@ -2308,7 +2310,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                                     : isLight
                                     ? Colors.black.withOpacity(0.6)
                                     : Colors.white.withOpacity(0.6),
-                                fontSize: 16,
+                                fontSize: DesktopOptimizedWidgets.getFontSize(),
                                 fontWeight: FontWeight.w700,
                               ),
                               child: Text(
@@ -2348,7 +2350,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
           color: isSelected
               ? (isLight ? Colors.black : Colors.white)
               : Colors.transparent,
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
         ),
         child: Row(
           mainAxisSize: MainAxisSize.min,
@@ -2364,7 +2366,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
             Text(
               label,
               style: TextStyle(
-                fontSize: 16,
+                fontSize: DesktopOptimizedWidgets.getFontSize(),
                 fontWeight: FontWeight.w600,
                 color: isSelected
                     ? (isLight ? Colors.white : Colors.black)
@@ -2485,7 +2487,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                                       color:
                                           (isLight ? Colors.black : Colors.white)
                                               .withOpacity(0.05),
-                                      borderRadius: BorderRadius.circular(20),
+                                      borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                                     ),
                                     child: Icon(
                                       CupertinoIcons.back,
@@ -2503,7 +2505,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
 
                           // App Logo — uses actual logo images
                           ClipRRect(
-                            borderRadius: BorderRadius.circular(20),
+                            borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                             child: Image.asset(
                               isLight
                                   ? 'logo/cultioo_word_transparent_lightmode.png'
@@ -2515,7 +2517,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                                 height: logoSize,
                                 decoration: BoxDecoration(
                                   color: isLight ? Colors.black : Colors.white,
-                                  borderRadius: BorderRadius.circular(20),
+                                  borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                                 ),
                                 child: Icon(
                                   _isDelviooMode
@@ -2528,7 +2530,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                             ),
                           ),
 
-                          const SizedBox(height: 24),
+                          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
                           // Title
                           Text(
@@ -2580,7 +2582,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                             forceLowercase: true,
                           ),
 
-                          const SizedBox(height: 12),
+                          const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
                           // Password Input
                           _buildInputField(
@@ -2621,7 +2623,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                             ),
                           ),
 
-                          const SizedBox(height: 24),
+                          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
                           // Sign In Button
                           _buildPrimaryButton(
@@ -2739,7 +2741,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                                       .withOpacity(0.45),
                                 ),
                               ),
-                              const SizedBox(height: 8),
+                              const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                               _buildSecondaryButton(
                                 label: _isDelviooMode
                                     ? AppLocalizations.of(
@@ -2849,7 +2851,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                       onTap: () => _selectMode(0),
                     ),
 
-                    const SizedBox(height: 16),
+                    const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
                     // Delvioo Card
                     _buildModeCard(
@@ -2914,7 +2916,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                 color: (isLight ? Colors.black : Colors.white).withOpacity(
                   0.04,
                 ),
-                borderRadius: BorderRadius.circular(20),
+                borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
               ),
               child: Row(
                 children: [
@@ -2924,7 +2926,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                     height: 52,
                     decoration: BoxDecoration(
                       color: isLight ? Colors.black : Colors.white,
-                      borderRadius: BorderRadius.circular(16),
+                      borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius()),
                     ),
                     child: Icon(
                       icon,
@@ -2941,7 +2943,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                         Text(
                           title,
                           style: TextStyle(
-                            fontSize: 18,
+                            fontSize: DesktopOptimizedWidgets.getFontSize() + 4,
                             fontWeight: FontWeight.w600,
                             color: isLight ? Colors.black : Colors.white,
                           ),
@@ -3005,7 +3007,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
         if (lowered == newValue.text) return newValue;
         return TextEditingValue(text: lowered, selection: newValue.selection, composing: TextRange.empty);
       })] : null,
-      style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500, color: inputTextColor, height: 1.0),
+      style: TextStyle(fontSize: DesktopOptimizedWidgets.getFontSize(), fontWeight: FontWeight.w500, color: inputTextColor, height: 1.0),
       hintStyle: TextStyle(fontSize: 15, fontWeight: FontWeight.w400, color: inputTextColor.withOpacity(0.4), height: 1.0),
       fillColor: isLight ? Colors.black.withOpacity(0.05) : const Color(0xFF111111),
     );
@@ -3065,7 +3067,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
           height: height,
           decoration: BoxDecoration(
             color: (isLight ? Colors.black : Colors.white).withOpacity(0.04),
-            borderRadius: BorderRadius.circular(20),
+            borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
           ),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -3076,7 +3078,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                 Text(
                   label,
                   style: TextStyle(
-                    fontSize: 14,
+                    fontSize: DesktopOptimizedWidgets.getFontSize(),
                     fontWeight: FontWeight.w500,
                     color: isLight ? Colors.black : Colors.white,
                   ),
@@ -3114,12 +3116,12 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
         Text(
           label,
           style: TextStyle(
-            fontSize: 16,
+            fontSize: DesktopOptimizedWidgets.getFontSize(),
             fontWeight: FontWeight.w600,
             color: isLight ? Colors.black : Colors.white,
           ),
         ),
-        const SizedBox(height: 8),
+        const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
         TradeRepublicTextField(
           controller: controller,
           hintText: hint,
@@ -3243,7 +3245,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                           ),
                         ],
                       ),
-                      const SizedBox(height: 16),
+                      const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
                       Text(
                         AppLocalizations.of(
@@ -3252,12 +3254,12 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                             'Your business upgrade request has been submitted. You can now login with your business account.',
                         textAlign: TextAlign.center,
                         style: TextStyle(
-                          fontSize: 14,
+                          fontSize: DesktopOptimizedWidgets.getFontSize(),
                           color: (isLight ? Colors.black : Colors.white)
                               .withOpacity(0.7),
                         ),
                       ),
-                      const SizedBox(height: 24),
+                      const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
                       SizedBox(
                         width: double.infinity,
@@ -3284,7 +3286,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                                 },
                               ),
                       ),
-                      const SizedBox(height: 16),
+                      const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
                     ],
                   );
                 },
@@ -3353,11 +3355,11 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                         );
                       },
                       child: Container(
-                        padding: const EdgeInsets.all(20),
+                        padding: DesktopAppWrapper.getPagePadding(),
                         decoration: BoxDecoration(
                           color: (isLight ? Colors.black : Colors.white)
                               .withOpacity(0.1),
-                          borderRadius: BorderRadius.circular(20),
+                          borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                         ),
                         child: Column(
                           children: [
@@ -3366,7 +3368,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                               size: 40,
                               color: isLight ? Colors.black : Colors.white,
                             ),
-                            const SizedBox(height: 8),
+                            const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                             Text(
                               AppLocalizations.of(context)?.camera ?? 'Camera',
                               style: TextStyle(
@@ -3390,11 +3392,11 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                         );
                       },
                       child: Container(
-                        padding: const EdgeInsets.all(20),
+                        padding: DesktopAppWrapper.getPagePadding(),
                         decoration: BoxDecoration(
                           color: (isLight ? Colors.black : Colors.white)
                               .withOpacity(0.1),
-                          borderRadius: BorderRadius.circular(20),
+                          borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                         ),
                         child: Column(
                           children: [
@@ -3403,7 +3405,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                               size: 40,
                               color: isLight ? Colors.black : Colors.white,
                             ),
-                            const SizedBox(height: 8),
+                            const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                             Text(
                               AppLocalizations.of(context)?.gallery ??
                                   'Gallery',
@@ -3511,7 +3513,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                 ),
               ],
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
             Expanded(
               child: ListView.builder(
@@ -3527,14 +3529,14 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                     },
                     child: Container(
                       margin: const EdgeInsets.only(bottom: 12),
-                      padding: const EdgeInsets.all(16),
+                      padding: DesktopAppWrapper.getPagePadding(),
                       decoration: BoxDecoration(
                         color: isSelected
                             ? (isLight ? Colors.black : Colors.white)
                                   .withOpacity(0.15)
                             : (isLight ? Colors.black : Colors.white)
                                   .withOpacity(0.04),
-                        borderRadius: BorderRadius.circular(20),
+                        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                       ),
                       child: Row(
                         children: [
@@ -3548,7 +3550,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                             child: Text(
                               country['name']!,
                               style: TextStyle(
-                                fontSize: 16,
+                                fontSize: DesktopOptimizedWidgets.getFontSize(),
                                 fontWeight: isSelected
                                     ? FontWeight.w700
                                     : FontWeight.normal,
@@ -3621,7 +3623,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                 ),
               ],
             ),
-            const SizedBox(height: 24),
+            const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
             Expanded(
               child: ListView.builder(
@@ -3637,14 +3639,14 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                     },
                     child: Container(
                       margin: const EdgeInsets.only(bottom: 12),
-                      padding: const EdgeInsets.all(16),
+                      padding: DesktopAppWrapper.getPagePadding(),
                       decoration: BoxDecoration(
                         color: isSelected
                             ? (isLight ? Colors.black : Colors.white)
                                   .withOpacity(0.15)
                             : (isLight ? Colors.black : Colors.white)
                                   .withOpacity(0.04),
-                        borderRadius: BorderRadius.circular(20),
+                        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                       ),
                       child: Row(
                         children: [
@@ -3658,7 +3660,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                             child: Text(
                               option['size'] as String,
                               style: TextStyle(
-                                fontSize: 16,
+                                fontSize: DesktopOptimizedWidgets.getFontSize(),
                                 fontWeight: isSelected
                                     ? FontWeight.w700
                                     : FontWeight.normal,
@@ -3713,11 +3715,11 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                       children: [
                         // Header Icon
                         Container(
-                          padding: const EdgeInsets.all(16),
+                          padding: DesktopAppWrapper.getPagePadding(),
                           decoration: BoxDecoration(
                             color: (isLight ? Colors.black : Colors.white)
                                 .withOpacity(0.1),
-                            borderRadius: BorderRadius.circular(20),
+                            borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                           ),
                           child: Icon(
                             CupertinoIcons.mail,
@@ -3725,18 +3727,18 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                             color: isLight ? Colors.black : Colors.white,
                           ),
                         ),
-                        const SizedBox(height: 16),
+                        const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
                         Text(
                           AppLocalizations.of(context)?.emailVerification ??
                               'Email Verification',
                           style: TextStyle(
-                            fontSize: 24,
+                            fontSize: DesktopOptimizedWidgets.getFontSize() + 10,
                             fontWeight: FontWeight.w700,
                             color: isLight ? Colors.black : Colors.white,
                           ),
                         ),
-                        const SizedBox(height: 8),
+                        const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
                         Text(
                           AppLocalizations.of(
@@ -3745,12 +3747,12 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                               'We need to verify your email address before upgrading to a business account',
                           textAlign: TextAlign.center,
                           style: TextStyle(
-                            fontSize: 14,
+                            fontSize: DesktopOptimizedWidgets.getFontSize(),
                             color: (isLight ? Colors.black : Colors.white)
                                 .withOpacity(0.7),
                           ),
                         ),
-                        const SizedBox(height: 24),
+                        const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
                         // Email Input Field
                         Column(
@@ -3760,12 +3762,12 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                               AppLocalizations.of(context)?.emailAddress ??
                                   'Email Address',
                               style: TextStyle(
-                                fontSize: 16,
+                                fontSize: DesktopOptimizedWidgets.getFontSize(),
                                 fontWeight: FontWeight.w600,
                                 color: isLight ? Colors.black : Colors.white,
                               ),
                             ),
-                            const SizedBox(height: 8),
+                            const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                             TradeRepublicTextField(
                               controller: _emailVerificationController,
                               hintText:
@@ -3825,7 +3827,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                               }
                             },
                     ),
-                    const SizedBox(height: 12),
+                    const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
                     // Cancel Button
                     Platform.isIOS
@@ -3842,7 +3844,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                             isSecondary: true,
                             onPressed: () => Navigator.of(context).pop(),
                           ),
-                    const SizedBox(height: 8),
+                    const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                   ],
                 ),
               ],
@@ -3922,14 +3924,14 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                 child: SingleChildScrollView(
                   child: Column(
                     children: [
-                      const SizedBox(height: 8),
+                      const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
                       Text(
                         AppLocalizations.of(context)?.weSentVerificationCode ??
                             'We sent an 8-digit verification code to',
                         textAlign: TextAlign.center,
                         style: TextStyle(
-                          fontSize: 14,
+                          fontSize: DesktopOptimizedWidgets.getFontSize(),
                           color: (isLight ? Colors.black : Colors.white)
                               .withOpacity(0.6),
                         ),
@@ -3980,7 +3982,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                             AppLocalizations.of(context)?.didntReceiveCode ??
                                 "Didn't receive the code?",
                             style: TextStyle(
-                              fontSize: 14,
+                              fontSize: DesktopOptimizedWidgets.getFontSize(),
                               color: (isLight ? Colors.black : Colors.white)
                                   .withOpacity(0.5),
                             ),
@@ -3990,7 +3992,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                             Text(
                               '${countdownSeconds}s',
                               style: TextStyle(
-                                fontSize: 14,
+                                fontSize: DesktopOptimizedWidgets.getFontSize(),
                                 fontWeight: FontWeight.w600,
                                 color: (isLight ? Colors.black : Colors.white)
                                     .withOpacity(0.35),
@@ -4010,7 +4012,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                                 AppLocalizations.of(context)?.sendNewCode ??
                                     'Resend',
                                 style: const TextStyle(
-                                  fontSize: 14,
+                                  fontSize: DesktopOptimizedWidgets.getFontSize(),
                                   fontWeight: FontWeight.w600,
                                   color: Colors.green,
                                 ),
@@ -4055,7 +4057,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                         }
                       },
               ),
-              const SizedBox(height: 12),
+              const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
               TradeRepublicButton(
                 label:
@@ -4066,7 +4068,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                   _showUpgradeModal();
                 },
               ),
-              const SizedBox(height: 8),
+              const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
             ],
           ),
         );
@@ -4185,7 +4187,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                           AppLocalizations.of(context)?.taxInformation ??
                               'Tax Information',
                           style: TextStyle(
-                            fontSize: 18,
+                            fontSize: DesktopOptimizedWidgets.getFontSize() + 4,
                             fontWeight: FontWeight.w600,
                             color: isLight ? Colors.black : Colors.white,
                           ),
@@ -4245,7 +4247,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                           AppLocalizations.of(context)?.businessAddressLabel ??
                               'Business Address',
                           style: TextStyle(
-                            fontSize: 18,
+                            fontSize: DesktopOptimizedWidgets.getFontSize() + 4,
                             fontWeight: FontWeight.w600,
                             color: isLight ? Colors.black : Colors.white,
                           ),
@@ -4383,7 +4385,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
               ),
             ],
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
         ],
       ),
     );
@@ -4506,15 +4508,15 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                 color: isLight
                     ? Colors.black.withOpacity(0.04)
                     : const Color(0xFF111111),
-                borderRadius: BorderRadius.circular(20),
+                borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
               ),
               child: Row(
                 children: [
                   ClipRRect(
-                    borderRadius: BorderRadius.circular(20),
+                    borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                     child: Text(
                       _countryToFlag(_selectedCountry),
-                      style: const TextStyle(fontSize: 20),
+                      style: const TextStyle(fontSize: DesktopOptimizedWidgets.getFontSize() + 6,,
                     ),
                   ),
                   const SizedBox(width: 12),
@@ -4577,7 +4579,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                 color: isLight
                     ? Colors.black.withOpacity(0.04)
                     : const Color(0xFF111111),
-                borderRadius: BorderRadius.circular(20),
+                borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
               ),
               child: Row(
                 children: [
@@ -4627,11 +4629,11 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
               color: isLight
                   ? Colors.black.withOpacity(0.05)
                   : const Color(0xFF121212),
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
             ),
             child: _selectedBusinessImage != null
                 ? ClipRRect(
-                    borderRadius: BorderRadius.circular(20),
+                    borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                     child: Image.file(
                       _selectedBusinessImage!,
                       fit: BoxFit.cover,
@@ -4646,7 +4648,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                   ),
           ),
         ),
-        const SizedBox(height: 8),
+        const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
         Text(
           AppLocalizations.of(context)?.businessLogoOptional ??
               'Business Logo (Optional)',
@@ -4796,19 +4798,19 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                     ),
                   ],
                 ),
-                const SizedBox(height: 16),
+                const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
                 Text(
                   '${AppLocalizations.of(context)?.verificationCodeSent ?? "Verification code sent"}: $email',
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                    fontSize: 14,
+                    fontSize: DesktopOptimizedWidgets.getFontSize(),
                     color: (isLight ? Colors.black : Colors.white).withOpacity(
                       0.7,
                     ),
                   ),
                 ),
-                const SizedBox(height: 24),
+                const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
                 // Email Code Input
                 TradeRepublicTextField(
@@ -4818,7 +4820,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                   textAlign: TextAlign.center,
                   hintText: '••••••••',
                 ),
-                const SizedBox(height: 24),
+                const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
                 // Verify Button
                 SizedBox(
@@ -4881,7 +4883,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                   ),
                 ),
 
-                const SizedBox(height: 12),
+                const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
                 // Resend Code Button
                 TradeRepublicButton(
@@ -4922,7 +4924,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                         },
                 ),
 
-                const SizedBox(height: 16),
+                const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
               ],
             ),
           );
@@ -5046,14 +5048,14 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                       ),
                     ],
                   ),
-                const SizedBox(height: 8),
+                const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
                 // Subtitle
                 Text(
                   AppLocalizations.of(context)?.enter8DigitCodeFromEmail ??
                       'Enter the 8-digit code from your email',
                   style: TextStyle(
-                    fontSize: 16,
+                    fontSize: DesktopOptimizedWidgets.getFontSize(),
                     color: (isLight ? Colors.black : Colors.white).withOpacity(
                       0.5,
                     ),
@@ -5061,7 +5063,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                   textAlign: TextAlign.center,
                 ),
 
-                const SizedBox(height: 24),
+                const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
                 // Email Code Input
                 TradeRepublicTextField.code(
@@ -5075,7 +5077,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                   },
                 ),
 
-                const SizedBox(height: 24),
+                const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
                 // Verify Button
                 TradeRepublicButton(
@@ -5179,7 +5181,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                         },
                 ),
 
-                const SizedBox(height: 12),
+                const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
                 // Resend Email Button
                 TradeRepublicButton(
@@ -5277,7 +5279,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                       ),
                     ],
                   ),
-                  const SizedBox(height: 16),
+                  const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
                   // Subtitle
                   Text(
@@ -5285,13 +5287,13 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                         'Enter your email address and we\'ll send you a code to reset your password',
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                      fontSize: 14,
+                      fontSize: DesktopOptimizedWidgets.getFontSize(),
                       color: (isLight ? Colors.black : Colors.white).withOpacity(
                         0.7,
                       ),
                     ),
                   ),
-                  const SizedBox(height: 24),
+                  const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
                   // Email Input
                   TradeRepublicTextField(
@@ -5302,7 +5304,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                     keyboardType: TextInputType.emailAddress,
                     prefixIcon: const Icon(Icons.email),
                   ),
-                  const SizedBox(height: 24),
+                  const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
                   // Send Button
                   TradeRepublicButton(
@@ -5375,7 +5377,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                           },
                   ),
 
-                  const SizedBox(height: 12),
+                  const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
                   // Cancel Button
                   TradeRepublicButton(
@@ -5383,7 +5385,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                     isSecondary: true,
                     onPressed: () => Navigator.of(context).pop(),
                   ),
-                  const SizedBox(height: 16),
+                  const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
                 ],
               ),
             ),
@@ -5435,19 +5437,19 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                       ),
                     ],
                   ),
-                  const SizedBox(height: 16),
+                  const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
                   // Subtitle
                   Text(
                     '${AppLocalizations.of(context)?.enter8DigitCodeSentTo ?? "Enter the 8-digit code sent to"} $email',
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                      fontSize: 14,
+                      fontSize: DesktopOptimizedWidgets.getFontSize(),
                       color: (isLight ? Colors.black : Colors.white)
                           .withOpacity(0.6),
                     ),
                   ),
-                  const SizedBox(height: 24),
+                  const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
                   // Code Input
                   TradeRepublicTextField.code(
@@ -5455,7 +5457,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                     hintText: '12345678',
                     maxLength: 8,
                   ),
-                  const SizedBox(height: 24),
+                  const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
                   // Verify Button
                   TradeRepublicButton(
@@ -5543,7 +5545,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                           },
                   ),
 
-                  const SizedBox(height: 12),
+                  const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
                   // Cancel Button
                   TradeRepublicButton(
@@ -5551,7 +5553,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                     isSecondary: true,
                     onPressed: () => Navigator.of(context).pop(),
                   ),
-                  const SizedBox(height: 16),
+                  const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
                 ],
               ),
             ),
@@ -5606,7 +5608,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                       ),
                     ],
                   ),
-                  const SizedBox(height: 16),
+                  const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
                   // Subtitle
                   Text(
@@ -5614,12 +5616,12 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                         'Enter your new password',
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                      fontSize: 14,
+                      fontSize: DesktopOptimizedWidgets.getFontSize(),
                       color: (isLight ? Colors.black : Colors.white)
                           .withOpacity(0.7),
                     ),
                   ),
-                  const SizedBox(height: 24),
+                  const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
                   // New Password Input
                   TradeRepublicTextField.password(
@@ -5629,7 +5631,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                         'New Password',
                     prefixIcon: const Icon(Icons.lock_outline),
                   ),
-                  const SizedBox(height: 16),
+                  const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
                   // Confirm Password Input
                   TradeRepublicTextField.password(
@@ -5639,7 +5641,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                         'Confirm New Password',
                     prefixIcon: const Icon(Icons.lock_outline),
                   ),
-                  const SizedBox(height: 24),
+                  const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
                   // Reset Button
                   TradeRepublicButton(
@@ -5741,7 +5743,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                           },
                   ),
 
-                  const SizedBox(height: 12),
+                  const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
                   // Cancel Button
                   TradeRepublicButton(
@@ -5749,7 +5751,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                     isSecondary: true,
                     onPressed: () => Navigator.of(context).pop(),
                   ),
-                  const SizedBox(height: 16),
+                  const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
                 ],
               ),
             ),

@@ -8,6 +8,8 @@ import '../../shared/widgets/trade_republic_button.dart';
 import '../../shared/widgets/trade_republic_text_field.dart';
 import '../../shared/widgets/trade_republic_bottom_sheet.dart';
 import '../../shared/services/app_localizations.dart';
+import 'package:cultioo_business/shared/widgets/desktop_app_wrapper.dart';
+import 'package:cultioo_business/shared/widgets/desktop_optimized_widgets.dart';
 
 class TwoFactorPage extends StatefulWidget {
   final String userId;
@@ -97,16 +99,16 @@ class _TwoFactorPageState extends State<TwoFactorPage> {
         mainAxisSize: MainAxisSize.min,
         children: [
           const Icon(CupertinoIcons.exclamationmark_circle, size: 48, color: Colors.red),
-          const SizedBox(height: 16),
+          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
           Text(
             title,
             style: TextStyle(
               color: isLight ? Colors.black : Colors.white,
-              fontSize: 18,
+              fontSize: DesktopOptimizedWidgets.getFontSize() + 4,
               fontWeight: FontWeight.w700,
             ),
           ),
-          const SizedBox(height: 12),
+          const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
           Text(
             message,
             style: TextStyle(
@@ -114,7 +116,7 @@ class _TwoFactorPageState extends State<TwoFactorPage> {
             ),
             textAlign: TextAlign.center,
           ),
-          const SizedBox(height: 24),
+          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
           SizedBox(
             width: double.infinity,
             child: TradeRepublicButton(
@@ -160,7 +162,7 @@ class _TwoFactorPageState extends State<TwoFactorPage> {
                     height: 64,
                     decoration: BoxDecoration(
                       color: isLight ? Colors.black : Colors.white,
-                      borderRadius: BorderRadius.circular(20),
+                      borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                     ),
                     child: Icon(
                       CupertinoIcons.lock_shield_fill,
@@ -169,7 +171,7 @@ class _TwoFactorPageState extends State<TwoFactorPage> {
                     ),
                   ),
 
-                  const SizedBox(height: 24),
+                  const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
                   // Title
                   Text(
@@ -183,7 +185,7 @@ class _TwoFactorPageState extends State<TwoFactorPage> {
                     textAlign: TextAlign.center,
                   ),
 
-                  const SizedBox(height: 8),
+                  const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
                   // Subtitle
                   Text(
@@ -205,7 +207,7 @@ class _TwoFactorPageState extends State<TwoFactorPage> {
                     decoration: BoxDecoration(
                       color: (isLight ? Colors.black : Colors.white)
                           .withOpacity(0.04),
-                      borderRadius: BorderRadius.circular(20),
+                      borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                     ),
                     child: TradeRepublicTextField(
                       controller: _codeController,
@@ -230,7 +232,7 @@ class _TwoFactorPageState extends State<TwoFactorPage> {
                     ),
                   ),
 
-                  const SizedBox(height: 16),
+                  const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
                   // Back Button
                   SizedBox(

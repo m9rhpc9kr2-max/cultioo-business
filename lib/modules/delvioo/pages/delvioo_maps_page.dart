@@ -26,6 +26,8 @@ import '../../../utils/wagon_catalog.dart';
 import 'delvioo_main_page.dart'; // For activeOrderNotifier and clearRouteNotifier
 import '../../../shared/widgets/cultioo_spinner.dart';
 import '../../../shared/widgets/trade_republic_tap.dart';
+import 'package:cultioo_business/shared/widgets/desktop_app_wrapper.dart';
+import 'package:cultioo_business/shared/widgets/desktop_optimized_widgets.dart';
 // macOS Liquid Glass Support
 
 // Debug mode - set to false to reduce console output
@@ -1785,7 +1787,7 @@ class _DelviooMapsPageState extends State<DelviooMapsPage>
             color: hasBid
                 ? const Color(0xFFE6F9ED)
                 : Colors.white,
-            borderRadius: BorderRadius.circular(20),
+            borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
             border: hasBid
                 ? Border.all(color: const Color(0xFF34C759), width: 1.5)
                 : null,
@@ -2128,7 +2130,7 @@ class _DelviooMapsPageState extends State<DelviooMapsPage>
                               ],
                             ),
                           if (isRealAuction && !currentIsExpired)
-                            const SizedBox(height: 8),
+                            const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                           Text(
                             currentIsExpired
                                 ? (AppLocalizations.of(context)?.ended ?? AppLocalizations.of(context)!.tr('Ended'))
@@ -2141,7 +2143,7 @@ class _DelviooMapsPageState extends State<DelviooMapsPage>
                               letterSpacing: -0.5,
                             ),
                           ),
-                          const SizedBox(height: 16),
+                          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
                           // Countdown - minimal pill (only show for real auctions)
                           if (isRealAuction)
                             Container(
@@ -2155,14 +2157,14 @@ class _DelviooMapsPageState extends State<DelviooMapsPage>
                                     : (isLight
                                           ? const Color(0xFFF2F2F7)
                                           : const Color(0xFF1C1C1E)),
-                                borderRadius: BorderRadius.circular(20),
+                                borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                               ),
                               child: Text(
                                 currentIsExpired
                                     ? (AppLocalizations.of(context)?.expired ?? AppLocalizations.of(context)!.tr('Expired'))
                                     : _formatCountdown(currentRemainingTime!),
                                 style: TextStyle(
-                                  fontSize: 18,
+                                  fontSize: DesktopOptimizedWidgets.getFontSize() + 4,
                                   fontWeight: FontWeight.w600,
                                   color: currentIsExpired
                                       ? Colors.red
@@ -2174,14 +2176,14 @@ class _DelviooMapsPageState extends State<DelviooMapsPage>
                                 ),
                               ),
                             ),
-                          if (isRealAuction) const SizedBox(height: 12),
+                          if (isRealAuction) const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                           if ((auction['total_bids'] ?? 0) > 0)
                             Container(
                               margin: const EdgeInsets.only(top: 8),
                               padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
                               decoration: BoxDecoration(
                                 color: (isLight ? Colors.black : Colors.white).withValues(alpha: 0.08),
-                                borderRadius: BorderRadius.circular(20),
+                                borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                               ),
                               child: Text(
                                 '${auction['total_bids']} bids',
@@ -2201,10 +2203,10 @@ class _DelviooMapsPageState extends State<DelviooMapsPage>
                     Padding(
                       padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
                       child: Container(
-                        padding: const EdgeInsets.all(20),
+                        padding: DesktopAppWrapper.getPagePadding(),
                         decoration: BoxDecoration(
                           color: isLight ? const Color(0xFFF2F2F7) : const Color(0xFF1C1C1E),
-                          borderRadius: BorderRadius.circular(20),
+                          borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                         ),
                         child: Column(
                           children: [
@@ -2266,12 +2268,12 @@ class _DelviooMapsPageState extends State<DelviooMapsPage>
                                 ),
                               ],
                             ),
-                            const SizedBox(height: 16),
+                            const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
                             Divider(
                               height: 1,
                               color: isLight ? const Color(0xFFE0E0E0) : const Color(0xFF3A3A3A),
                             ),
-                            const SizedBox(height: 16),
+                            const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
                             // Row 2: Distance + Cleaning
                             Row(
                               children: [
@@ -2341,7 +2343,7 @@ class _DelviooMapsPageState extends State<DelviooMapsPage>
                       ),
                     ),
 
-                    const SizedBox(height: 16),
+                    const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
                     Expanded(
                       child: ListView(
@@ -2388,7 +2390,7 @@ class _DelviooMapsPageState extends State<DelviooMapsPage>
                                                 0.1,
                                               ),
                                               borderRadius:
-                                                  BorderRadius.circular(20),
+                                                  BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                                             ),
                                             child: Text(
                                               '✓ Match',
@@ -2410,7 +2412,7 @@ class _DelviooMapsPageState extends State<DelviooMapsPage>
                                                 0.1,
                                               ),
                                               borderRadius:
-                                                  BorderRadius.circular(20),
+                                                  BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                                             ),
                                             child: Text(
                                               AppLocalizations.of(context)?.noMatch ?? AppLocalizations.of(context)!.tr('No Match'),
@@ -2424,16 +2426,16 @@ class _DelviooMapsPageState extends State<DelviooMapsPage>
                                           ),
                                   // Show matching vehicles if any
                                   if (matchingVehicles.isNotEmpty) ...[
-                                    const SizedBox(height: 12),
+                                    const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                                     Container(
                                       width: double.infinity,
                                       margin: const EdgeInsets.only(left: 58),
-                                      padding: const EdgeInsets.all(16),
+                                      padding: DesktopAppWrapper.getPagePadding(),
                                       decoration: BoxDecoration(
                                         color: isLight
                                             ? Colors.white
                                             : const Color(0xFF111111),
-                                        borderRadius: BorderRadius.circular(20),
+                                        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                                       ),
                                       child: Column(
                                         crossAxisAlignment:
@@ -2462,7 +2464,7 @@ class _DelviooMapsPageState extends State<DelviooMapsPage>
                                               ),
                                             ],
                                           ),
-                                          const SizedBox(height: 12),
+                                          const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                                           ...matchingVehicles.map(
                                             (vehicle) => Padding(
                                               padding: const EdgeInsets.only(
@@ -2543,16 +2545,16 @@ class _DelviooMapsPageState extends State<DelviooMapsPage>
                                   // Show message if no matching vehicles
                                   if (!hasMatchingVehicle &&
                                       _driverVehicles.isNotEmpty) ...[
-                                    const SizedBox(height: 12),
+                                    const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                                     Container(
                                       width: double.infinity,
                                       margin: const EdgeInsets.only(left: 58),
-                                      padding: const EdgeInsets.all(16),
+                                      padding: DesktopAppWrapper.getPagePadding(),
                                       decoration: BoxDecoration(
                                         color: isLight
                                             ? Colors.white
                                             : const Color(0xFF111111),
-                                        borderRadius: BorderRadius.circular(20),
+                                        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                                       ),
                                       child: Row(
                                         children: [
@@ -2568,7 +2570,7 @@ class _DelviooMapsPageState extends State<DelviooMapsPage>
                                               '${AppLocalizations.of(context)?.noneOfYourVehiclesMatch ?? AppLocalizations.of(context)!.tr('None of your vehicles match')} (${_driverVehicles.length})',
                                               style: TextStyle(
                                                 fontFamily: 'Poppins',
-                                                fontSize: 14,
+                                                fontSize: DesktopOptimizedWidgets.getFontSize(),
                                                 fontWeight: FontWeight.w600,
                                                 color: isLight
                                                     ? Colors.black87
@@ -2584,7 +2586,7 @@ class _DelviooMapsPageState extends State<DelviooMapsPage>
                               );
                             },
                           ),
-                          const SizedBox(height: 12),
+                          const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
                           // Pickup Address Row
                           _buildAuctionDetailRow(
@@ -2593,7 +2595,7 @@ class _DelviooMapsPageState extends State<DelviooMapsPage>
                             label: AppLocalizations.of(context)?.pickup ?? AppLocalizations.of(context)!.tr('Pickup'),
                             value: pickupAddress,
                           ),
-                          const SizedBox(height: 12),
+                          const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
                           // Delivery Address Row
                           if (deliveryAddress != null)
@@ -2608,7 +2610,7 @@ class _DelviooMapsPageState extends State<DelviooMapsPage>
                                       .replaceAll(RegExp(r'\s+'), ' '),
                             ),
                           if (deliveryAddress != null)
-                            const SizedBox(height: 12),
+                            const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
                           // Items Row
                           if (cartItems.isNotEmpty)
@@ -2675,7 +2677,7 @@ class _DelviooMapsPageState extends State<DelviooMapsPage>
                                     color: isLight
                                         ? Colors.white
                                         : const Color(0xFF111111),
-                                    borderRadius: BorderRadius.circular(20),
+                                    borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                                   ),
                                   child: Column(
                                     crossAxisAlignment:
@@ -2709,7 +2711,7 @@ class _DelviooMapsPageState extends State<DelviooMapsPage>
                                               AppLocalizations.of(context)?.yourBid ?? AppLocalizations.of(context)!.tr('Your Bid'),
                                               style: TextStyle(
                                                 fontFamily: 'Poppins',
-                                                fontSize: 20,
+                                                fontSize: DesktopOptimizedWidgets.getFontSize() + 6,
                                                 fontWeight: FontWeight.w700,
                                                 color: isLight
                                                     ? Colors.white
@@ -2730,7 +2732,7 @@ class _DelviooMapsPageState extends State<DelviooMapsPage>
                                                             : Colors.black)
                                                         .withOpacity(0.2),
                                                 borderRadius:
-                                                    BorderRadius.circular(20),
+                                                    BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                                               ),
                                               child: Text(
                                                 bidStatus
@@ -2765,7 +2767,7 @@ class _DelviooMapsPageState extends State<DelviooMapsPage>
                                                 bidAmount,
                                               ),
                                             ),
-                                            const SizedBox(height: 12),
+                                            const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                                             // Cleaning Certificate Row (if applicable)
                                             if (cleaningPrice > 0) ...[
                                               _buildBidDetailRow(
@@ -2778,7 +2780,7 @@ class _DelviooMapsPageState extends State<DelviooMapsPage>
                                                       cleaningPrice,
                                                     ),
                                               ),
-                                              const SizedBox(height: 12),
+                                              const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                                             ],
                                             // Section Row (if applicable)
                                             if (sectionName != null) ...[
@@ -2789,7 +2791,7 @@ class _DelviooMapsPageState extends State<DelviooMapsPage>
                                                 label: AppLocalizations.of(context)?.section ?? AppLocalizations.of(context)!.tr('Section'),
                                                 value: sectionName.toString(),
                                               ),
-                                              const SizedBox(height: 12),
+                                              const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                                             ],
                                             // Vehicle Row (if applicable)
                                             if (selectedVehicle != null &&
@@ -2802,7 +2804,7 @@ class _DelviooMapsPageState extends State<DelviooMapsPage>
                                                     '${selectedVehicle['vehicle_make'] ?? AppLocalizations.of(context)!.tr('')} ${selectedVehicle['vehicle_model'] ?? AppLocalizations.of(context)!.tr('')}'
                                                         .trim(),
                                               ),
-                                              const SizedBox(height: 12),
+                                              const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                                             ],
                                             // Estimated Time Row (if applicable)
                                             if (estimatedTime != null) ...[
@@ -2812,7 +2814,7 @@ class _DelviooMapsPageState extends State<DelviooMapsPage>
                                                 label: AppLocalizations.of(context)?.estDelivery ?? AppLocalizations.of(context)!.tr('Est. Delivery'),
                                                 value: estimatedTime.toString(),
                                               ),
-                                              const SizedBox(height: 12),
+                                              const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                                             ],
                                             // Submission Date Row
                                             if (formattedDate.isNotEmpty)
@@ -2834,7 +2836,7 @@ class _DelviooMapsPageState extends State<DelviooMapsPage>
                           if (auction['my_bid'] != null)
                             const SizedBox(height: 20),
 
-                          const SizedBox(height: 24),
+                          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
                           // Hide route action once driver already has a bid on this auction.
                           if (auction['my_bid'] == null) ...[
@@ -2960,7 +2962,7 @@ class _DelviooMapsPageState extends State<DelviooMapsPage>
                 padding: const EdgeInsets.all(12),
                 decoration: BoxDecoration(
                   color: Colors.white.withOpacity(0.1),
-                  borderRadius: BorderRadius.circular(20),
+                  borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                 ),
                 child: Row(
                   children: [
@@ -2973,7 +2975,7 @@ class _DelviooMapsPageState extends State<DelviooMapsPage>
                     Text(
                       '${AppLocalizations.of(context)?.lowestBid ?? AppLocalizations.of(context)!.tr('Lowest bid')}: \$${auction['lowest_bid']}',
                       style: const TextStyle(
-                        fontSize: 14,
+                        fontSize: DesktopOptimizedWidgets.getFontSize(),
                         fontWeight: FontWeight.w600,
                         color: Colors.white,
                       ),
@@ -2981,7 +2983,7 @@ class _DelviooMapsPageState extends State<DelviooMapsPage>
                   ],
                 ),
               ),
-              const SizedBox(height: 12),
+              const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
             ],
 
             // Bid amount input
@@ -2994,7 +2996,7 @@ class _DelviooMapsPageState extends State<DelviooMapsPage>
               textInputAction: TextInputAction.done,
               inputFormatters: [_CentsInputFormatter()],
               style: const TextStyle(
-                fontSize: 18,
+                fontSize: DesktopOptimizedWidgets.getFontSize() + 4,
                 fontWeight: FontWeight.w700,
                 color: Colors.white,
               ),
@@ -3008,13 +3010,13 @@ class _DelviooMapsPageState extends State<DelviooMapsPage>
               fillColor: Colors.white.withOpacity(0.15),
             ),
 
-            const SizedBox(height: 12),
+            const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
             // Optional message input
             TradeRepublicTextField(
               controller: messageController,
               maxLines: 2,
-              style: const TextStyle(fontSize: 14, color: Colors.white),
+              style: const TextStyle(fontSize: DesktopOptimizedWidgets.getFontSize(), color: Colors.white),
               hintText: AppLocalizations.of(context)?.addAMessageOptional ?? AppLocalizations.of(context)!.tr('Add a message (optional)'),
               prefixIcon: const Icon(
                 CupertinoIcons.chat_bubble,
@@ -3024,7 +3026,7 @@ class _DelviooMapsPageState extends State<DelviooMapsPage>
               fillColor: Colors.white.withOpacity(0.1),
             ),
 
-            const SizedBox(height: 16),
+            const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
             // Submit bid button
             TradeRepublicButton(
@@ -3745,10 +3747,10 @@ class _DelviooMapsPageState extends State<DelviooMapsPage>
           );
         },
         child: Container(
-          padding: const EdgeInsets.all(16),
+          padding: DesktopAppWrapper.getPagePadding(),
           decoration: BoxDecoration(
             color: isLight ? Colors.white : Colors.black,
-            borderRadius: BorderRadius.circular(20),
+            borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
             boxShadow: [
               BoxShadow(
                 color: Colors.black.withOpacity(0.08),
@@ -3776,7 +3778,7 @@ class _DelviooMapsPageState extends State<DelviooMapsPage>
                       Text(
                         AppLocalizations.of(context)?.route ?? AppLocalizations.of(context)!.tr('Route'),
                         style: TextStyle(
-                          fontSize: 24,
+                          fontSize: DesktopOptimizedWidgets.getFontSize() + 10,
                           fontWeight: FontWeight.w600,
                           color: isLight ? Colors.black : Colors.white,
                           fontFamily: 'Poppins',
@@ -3805,7 +3807,7 @@ class _DelviooMapsPageState extends State<DelviooMapsPage>
                 ],
               ),
 
-              const SizedBox(height: 16),
+              const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
               // Minimal Timeline
               Row(
@@ -3865,7 +3867,7 @@ class _DelviooMapsPageState extends State<DelviooMapsPage>
                             Text(
                               AppLocalizations.of(context)?.you ?? AppLocalizations.of(context)!.tr('You'),
                               style: const TextStyle(
-                                fontSize: 16,
+                                fontSize: DesktopOptimizedWidgets.getFontSize(),
                                 fontWeight: FontWeight.w600,
                                 color: Color(0xFF007AFF),
                               ),
@@ -3880,7 +3882,7 @@ class _DelviooMapsPageState extends State<DelviooMapsPage>
                             Text(
                               '${appSettings.formatDistance(currentToPickupDist)} • ${_formatRouteDuration(currentToPickupDur)}',
                               style: TextStyle(
-                                fontSize: 14,
+                                fontSize: DesktopOptimizedWidgets.getFontSize(),
                                 color: isLight ? Colors.black54 : Colors.white70,
                               ),
                             ),
@@ -3893,7 +3895,7 @@ class _DelviooMapsPageState extends State<DelviooMapsPage>
                               ? '${pickupAddress.toString().substring(0, 35)}...'
                               : pickupAddress.toString(),
                           style: const TextStyle(
-                            fontSize: 16,
+                            fontSize: DesktopOptimizedWidgets.getFontSize(),
                             fontWeight: FontWeight.w600,
                             color: Color(0xFFFFC107),
                           ),
@@ -3913,7 +3915,7 @@ class _DelviooMapsPageState extends State<DelviooMapsPage>
                             Text(
                               '${appSettings.formatDistance(pickupToDeliveryDist)} • ${_formatRouteDuration(pickupToDeliveryDur)}',
                               style: TextStyle(
-                                fontSize: 14,
+                                fontSize: DesktopOptimizedWidgets.getFontSize(),
                                 fontWeight: FontWeight.w500,
                                 color: isLight ? Colors.black54 : Colors.white70,
                               ),
@@ -3929,7 +3931,7 @@ class _DelviooMapsPageState extends State<DelviooMapsPage>
                                     : deliveryAddress)
                               : AppLocalizations.of(context)?.deliveryAddressNotAvailable ?? AppLocalizations.of(context)!.tr('Delivery address not available'),
                           style: TextStyle(
-                            fontSize: 16,
+                            fontSize: DesktopOptimizedWidgets.getFontSize(),
                             fontWeight: FontWeight.w600,
                             color: hasValidDeliveryAddress
                                 ? const Color(0xFF4CAF50)
@@ -4004,7 +4006,7 @@ class _DelviooMapsPageState extends State<DelviooMapsPage>
                 ? [const Color(0xFF007AFF), const Color(0xFF0051D5)]
                 : [const Color(0xFF0A84FF), const Color(0xFF0066CC)],
           ),
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
           boxShadow: [
             BoxShadow(
               color:
@@ -4350,7 +4352,7 @@ class _DelviooMapsPageState extends State<DelviooMapsPage>
                   ),
                 ],
               ),
-              const SizedBox(height: 8),
+              const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
               Text(
                 '$sectionName ($sectionPercentage%)',
                 style: TextStyle(
@@ -4371,12 +4373,12 @@ class _DelviooMapsPageState extends State<DelviooMapsPage>
                       // Order card
                       Expanded(
                         child: Container(
-                          padding: const EdgeInsets.all(16),
+                          padding: DesktopAppWrapper.getPagePadding(),
                           decoration: BoxDecoration(
                             color: isLight
                                 ? Colors.white
                                 : const Color(0xFF1A1A1A),
-                            borderRadius: BorderRadius.circular(20),
+                            borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                           ),
                           child: Column(
                             children: [
@@ -4385,7 +4387,7 @@ class _DelviooMapsPageState extends State<DelviooMapsPage>
                                 color: isLight ? Colors.black : Colors.white,
                                 size: 28,
                               ),
-                              const SizedBox(height: 8),
+                              const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                               Text(
                                 AppLocalizations.of(context)?.order ?? AppLocalizations.of(context)!.tr('Order'),
                                 style: TextStyle(
@@ -4399,7 +4401,7 @@ class _DelviooMapsPageState extends State<DelviooMapsPage>
                               Text(
                                 _formatQuantity(displayOrderQty),
                                 style: TextStyle(
-                                  fontSize: 24,
+                                  fontSize: DesktopOptimizedWidgets.getFontSize() + 10,
                                   fontWeight: FontWeight.w700,
                                   color: isLight ? Colors.black : Colors.white,
                                   fontFamily: 'Poppins',
@@ -4408,7 +4410,7 @@ class _DelviooMapsPageState extends State<DelviooMapsPage>
                               Text(
                                 displayOrderUnit,
                                 style: TextStyle(
-                                  fontSize: 14,
+                                  fontSize: DesktopOptimizedWidgets.getFontSize(),
                                   fontWeight: FontWeight.w500,
                                   color: (isLight ? Colors.black : Colors.white).withOpacity(0.7),
                                   fontFamily: 'Poppins',
@@ -4422,12 +4424,12 @@ class _DelviooMapsPageState extends State<DelviooMapsPage>
                       // Section card
                       Expanded(
                         child: Container(
-                          padding: const EdgeInsets.all(16),
+                          padding: DesktopAppWrapper.getPagePadding(),
                           decoration: BoxDecoration(
                             color: isLight
                                 ? Colors.white
                                 : const Color(0xFF1A1A1A),
-                            borderRadius: BorderRadius.circular(20),
+                            borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                           ),
                           child: Column(
                             children: [
@@ -4436,7 +4438,7 @@ class _DelviooMapsPageState extends State<DelviooMapsPage>
                                 color: isLight ? Colors.black : Colors.white,
                                 size: 28,
                               ),
-                              const SizedBox(height: 8),
+                              const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                               Text(
                                 AppLocalizations.of(context)?.section ?? AppLocalizations.of(context)!.tr('Section'),
                                 style: TextStyle(
@@ -4450,7 +4452,7 @@ class _DelviooMapsPageState extends State<DelviooMapsPage>
                               Text(
                                 _formatQuantity(displaySectionCap),
                                 style: TextStyle(
-                                  fontSize: 24,
+                                  fontSize: DesktopOptimizedWidgets.getFontSize() + 10,
                                   fontWeight: FontWeight.w700,
                                   color: isLight ? Colors.black : Colors.white,
                                   fontFamily: 'Poppins',
@@ -4459,7 +4461,7 @@ class _DelviooMapsPageState extends State<DelviooMapsPage>
                               Text(
                                 displaySectionUnit,
                                 style: TextStyle(
-                                  fontSize: 14,
+                                  fontSize: DesktopOptimizedWidgets.getFontSize(),
                                   fontWeight: FontWeight.w500,
                                   color: (isLight ? Colors.black : Colors.white).withOpacity(0.7),
                                   fontFamily: 'Poppins',
@@ -4471,16 +4473,16 @@ class _DelviooMapsPageState extends State<DelviooMapsPage>
                       ),
                     ],
                   ),
-                const SizedBox(height: 16),
+                const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
                 // ── CullyAI Analysis Result ──
                 Container(
                   width: double.infinity,
-                  padding: const EdgeInsets.all(16),
+                  padding: DesktopAppWrapper.getPagePadding(),
                   decoration: BoxDecoration(
                     color: orderFits
                         ? Colors.green.withOpacity(isLight ? 0.08 : 0.15)
                         : Colors.red.withOpacity(isLight ? 0.08 : 0.15),
-                    borderRadius: BorderRadius.circular(16),
+                    borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius()),
                   ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -4505,7 +4507,7 @@ class _DelviooMapsPageState extends State<DelviooMapsPage>
                           Text(
                             'CullyAI',
                             style: TextStyle(
-                              fontSize: 14,
+                              fontSize: DesktopOptimizedWidgets.getFontSize(),
                               fontWeight: FontWeight.w700,
                               color: isLight ? Colors.black : Colors.white,
                               fontFamily: 'Poppins',
@@ -4519,7 +4521,7 @@ class _DelviooMapsPageState extends State<DelviooMapsPage>
                               color: orderFits
                                   ? Colors.green.withOpacity(0.15)
                                   : Colors.red.withOpacity(0.15),
-                              borderRadius: BorderRadius.circular(20),
+                              borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                             ),
                             child: Text(
                               '${fillPercent.toStringAsFixed(0)}%',
@@ -4533,7 +4535,7 @@ class _DelviooMapsPageState extends State<DelviooMapsPage>
                           ),
                         ],
                       ),
-                      const SizedBox(height: 12),
+                      const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                       // Fill bar — custom, no raw LinearProgressIndicator
                       LayoutBuilder(
                         builder: (ctx, constraints) {
@@ -4558,7 +4560,7 @@ class _DelviooMapsPageState extends State<DelviooMapsPage>
                           );
                         },
                       ),
-                      const SizedBox(height: 12),
+                      const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                       // Result text
                       Text(
                         orderFits
@@ -4586,7 +4588,7 @@ class _DelviooMapsPageState extends State<DelviooMapsPage>
                       ),
                       // Unit conversion info if units were different
                       if (unitsConverted) ...[
-                        const SizedBox(height: 8),
+                        const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                         Row(
                           children: [
                             Icon(
@@ -4614,7 +4616,7 @@ class _DelviooMapsPageState extends State<DelviooMapsPage>
                 ),
                 // ── Secondary dimension info (the other capacity) ──
                 if (hasSecondaryCapacity) ...[                
-                  const SizedBox(height: 12),
+                  const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                   Container(
                     width: double.infinity,
                     padding: const EdgeInsets.all(14),
@@ -4723,7 +4725,7 @@ class _DelviooMapsPageState extends State<DelviooMapsPage>
                         },
                       ),
                       if (!orderFits) ...[
-                        const SizedBox(height: 12),
+                        const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                         Text(
                           AppLocalizations.of(context)?.tr('Split orders are now handled in Orders') ??
                               'Split orders are now handled in Orders',
@@ -4735,7 +4737,7 @@ class _DelviooMapsPageState extends State<DelviooMapsPage>
                           ),
                         ),
                       ],
-                      const SizedBox(height: 12),
+                      const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                       // Select different section button - Trade Republic style
                       TradeRepublicButton(
                         label: AppLocalizations.of(context)?.selectDifferentSection ?? AppLocalizations.of(context)!.tr('Select Different Section'),
@@ -4823,14 +4825,14 @@ class _DelviooMapsPageState extends State<DelviooMapsPage>
                 ),
               ],
             ),
-            const SizedBox(height: 24),
+            const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
             // Split diagram
             Row(
               children: [
                 // This driver's part
                 Expanded(
                   child: Container(
-                    padding: const EdgeInsets.all(16),
+                    padding: DesktopAppWrapper.getPagePadding(),
                     decoration: BoxDecoration(
                       color: Colors.green.withOpacity(isLight ? 0.08 : 0.15),
                       borderRadius: BorderRadius.circular(18),
@@ -4841,11 +4843,11 @@ class _DelviooMapsPageState extends State<DelviooMapsPage>
                           width: 40, height: 40,
                           decoration: BoxDecoration(
                             color: Colors.green.withOpacity(0.15),
-                            borderRadius: BorderRadius.circular(12),
+                            borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius()),
                           ),
                           child: const Icon(CupertinoIcons.person_fill, size: 20, color: Color(0xFF34C759)),
                         ),
-                        const SizedBox(height: 8),
+                        const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                         Text(
                           AppLocalizations.of(context)?.splitOrderYouLabel ?? AppLocalizations.of(context)!.tr('You'),
                           style: TextStyle(
@@ -4922,7 +4924,7 @@ class _DelviooMapsPageState extends State<DelviooMapsPage>
                 // Other driver's part
                 Expanded(
                   child: Container(
-                    padding: const EdgeInsets.all(16),
+                    padding: DesktopAppWrapper.getPagePadding(),
                     decoration: BoxDecoration(
                       color: const Color(0xFF007AFF).withOpacity(isLight ? 0.07 : 0.14),
                       borderRadius: BorderRadius.circular(18),
@@ -4933,11 +4935,11 @@ class _DelviooMapsPageState extends State<DelviooMapsPage>
                           width: 40, height: 40,
                           decoration: BoxDecoration(
                             color: const Color(0xFF007AFF).withOpacity(0.15),
-                            borderRadius: BorderRadius.circular(12),
+                            borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius()),
                           ),
                           child: const Icon(CupertinoIcons.person_2_fill, size: 20, color: Color(0xFF007AFF)),
                         ),
-                        const SizedBox(height: 8),
+                        const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                         Text(
                           AppLocalizations.of(context)?.otherDriver ?? AppLocalizations.of(context)!.tr('Other Driver'),
                           style: TextStyle(
@@ -4995,7 +4997,7 @@ class _DelviooMapsPageState extends State<DelviooMapsPage>
               padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
               decoration: BoxDecoration(
                 color: (isLight ? Colors.black : Colors.white).withOpacity(0.04),
-                borderRadius: BorderRadius.circular(12),
+                borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius()),
               ),
               child: Row(
                 children: [
@@ -5046,7 +5048,7 @@ class _DelviooMapsPageState extends State<DelviooMapsPage>
                       _showPriceInputModal(isLight);
                     },
                   ),
-                  const SizedBox(height: 12),
+                  const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                   TradeRepublicButton(
                     label: AppLocalizations.of(context)?.cancel ?? AppLocalizations.of(context)!.tr('Cancel'),
                     isSecondary: true,
@@ -5144,7 +5146,7 @@ class _DelviooMapsPageState extends State<DelviooMapsPage>
                           .withOpacity(0.4),
                     ),
                   ),
-                  const SizedBox(height: 8),
+                  const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                   // Min Price - Large
                   AnimatedDefaultTextStyle(
                     duration: const Duration(milliseconds: 150),
@@ -5166,7 +5168,7 @@ class _DelviooMapsPageState extends State<DelviooMapsPage>
                     decoration: BoxDecoration(
                       color: (isLight ? Colors.black : Colors.white)
                           .withOpacity(0.2),
-                      borderRadius: BorderRadius.circular(20),
+                      borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                     ),
                   ),
                   const SizedBox(height: 4),
@@ -5234,10 +5236,10 @@ class _DelviooMapsPageState extends State<DelviooMapsPage>
     required Function(double) onChanged,
   }) {
     return Container(
-      padding: const EdgeInsets.all(16),
+      padding: DesktopAppWrapper.getPagePadding(),
       decoration: BoxDecoration(
         color: (isLight ? Colors.black : Colors.white).withOpacity(0.04),
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -5251,7 +5253,7 @@ class _DelviooMapsPageState extends State<DelviooMapsPage>
               color: (isLight ? Colors.black : Colors.white).withOpacity(0.4),
             ),
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
           Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
@@ -5331,12 +5333,12 @@ class _DelviooMapsPageState extends State<DelviooMapsPage>
           color: isSelected
               ? (isLight ? Colors.black : Colors.white)
               : (isLight ? Colors.black : Colors.white).withOpacity(0.05),
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
         ),
         child: Text(
           label,
           style: TextStyle(
-            fontSize: 14,
+            fontSize: DesktopOptimizedWidgets.getFontSize(),
             fontWeight: FontWeight.w500,
             color: isSelected
                 ? (isLight ? Colors.white : Colors.black)
@@ -5368,7 +5370,7 @@ class _DelviooMapsPageState extends State<DelviooMapsPage>
                 color: textColor,
               ),
             ),
-            const SizedBox(height: 12),
+            const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
             Container(
               height: 48,
               decoration: BoxDecoration(
@@ -5401,7 +5403,7 @@ class _DelviooMapsPageState extends State<DelviooMapsPage>
                 color: textColor,
               ),
             ),
-            const SizedBox(height: 12),
+            const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
             Container(
               height: 48,
               decoration: BoxDecoration(
@@ -5421,13 +5423,13 @@ class _DelviooMapsPageState extends State<DelviooMapsPage>
             ),
           ],
         ),
-        const SizedBox(height: 24),
+        const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
         // Price Range Display
         Container(
-          padding: const EdgeInsets.all(20),
+          padding: DesktopAppWrapper.getPagePadding(),
           decoration: BoxDecoration(
             color: bgColor.withOpacity(0.05),
-            borderRadius: BorderRadius.circular(16),
+            borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius()),
           ),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -5447,7 +5449,7 @@ class _DelviooMapsPageState extends State<DelviooMapsPage>
                   Text(
                     appSettings.formatCurrency(_minPriceFilter).replaceAll('.00', ''),
                     style: TextStyle(
-                      fontSize: 24,
+                      fontSize: DesktopOptimizedWidgets.getFontSize() + 10,
                       fontWeight: FontWeight.w700,
                       color: textColor,
                     ),
@@ -5476,7 +5478,7 @@ class _DelviooMapsPageState extends State<DelviooMapsPage>
                   Text(
                     appSettings.formatCurrency(_maxPriceFilter).replaceAll('.00', ''),
                     style: TextStyle(
-                      fontSize: 24,
+                      fontSize: DesktopOptimizedWidgets.getFontSize() + 10,
                       fontWeight: FontWeight.w700,
                       color: textColor,
                     ),
@@ -5533,7 +5535,7 @@ class _DelviooMapsPageState extends State<DelviooMapsPage>
                 padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
                 decoration: BoxDecoration(
                   color: isSelected ? fg : fg.withValues(alpha: 0.07),
-                  borderRadius: BorderRadius.circular(20),
+                  borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                 ),
                 child: Text(
                   filters[i]['label'] as String,
@@ -5578,12 +5580,12 @@ class _DelviooMapsPageState extends State<DelviooMapsPage>
           color: isSelected
               ? (isLight ? Colors.black : Colors.white)
               : Colors.transparent,
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
         ),
         child: Text(
           label,
           style: TextStyle(
-            fontSize: 14,
+            fontSize: DesktopOptimizedWidgets.getFontSize(),
             fontWeight: FontWeight.w500,
             color: isSelected
                 ? (isLight ? Colors.white : Colors.black)
@@ -5658,7 +5660,7 @@ class _DelviooMapsPageState extends State<DelviooMapsPage>
                   color: isInRange
                       ? (isLight ? Colors.black : Colors.white)
                       : (isLight ? Colors.white : Colors.black),
-                  borderRadius: BorderRadius.circular(20),
+                  borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                 ),
               ),
             ),
@@ -5726,7 +5728,7 @@ class _DelviooMapsPageState extends State<DelviooMapsPage>
                     color: isLight ? Colors.black54 : Colors.white54,
                   ),
                 ),
-                const SizedBox(height: 8),
+                const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                 TradeRepublicTextField(
                   controller: minController,
                   keyboardType: TextInputType.number,
@@ -5744,7 +5746,7 @@ class _DelviooMapsPageState extends State<DelviooMapsPage>
                       : Colors.transparent,
                 ),
 
-                const SizedBox(height: 16),
+                const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
                 // Max Price Input - Trade Republic Style
                 Text(
@@ -5755,7 +5757,7 @@ class _DelviooMapsPageState extends State<DelviooMapsPage>
                     color: isLight ? Colors.black54 : Colors.white54,
                   ),
                 ),
-                const SizedBox(height: 8),
+                const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                 TradeRepublicTextField(
                   controller: maxController,
                   keyboardType: TextInputType.number,
@@ -5773,7 +5775,7 @@ class _DelviooMapsPageState extends State<DelviooMapsPage>
                       : Colors.transparent,
                 ),
 
-                const SizedBox(height: 24),
+                const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
                 // Action Buttons - Trade Republic Style
                 Row(
@@ -5851,7 +5853,7 @@ class _DelviooMapsPageState extends State<DelviooMapsPage>
           // Order Badge - nur Text
           Container(
             height: 48,
-            padding: const EdgeInsets.symmetric(horizontal: 16),
+            padding: EdgeInsets.symmetric(horizontal: DesktopAppWrapper.getHorizontalPadding()),
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
@@ -5865,7 +5867,7 @@ class _DelviooMapsPageState extends State<DelviooMapsPage>
                   '$totalActiveOrders',
                   style: TextStyle(
                     fontFamily: 'Poppins',
-                    fontSize: 16,
+                    fontSize: DesktopOptimizedWidgets.getFontSize(),
                     fontWeight: FontWeight.w600,
                     color: isLight ? Colors.black87 : Colors.white,
                   ),
@@ -5927,7 +5929,7 @@ class _DelviooMapsPageState extends State<DelviooMapsPage>
       decoration: BoxDecoration(
         // Uber Style: Clean White/Black without Border
         color: isLight ? Colors.white : Colors.transparent,
-        borderRadius: BorderRadius.circular(20), // Uniform 25px radius
+        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8), // Uniform 25px radius
         // Uber: Subtle shadows for elevation
         boxShadow: [
           BoxShadow(
@@ -5952,7 +5954,7 @@ class _DelviooMapsPageState extends State<DelviooMapsPage>
             '$totalActiveOrders',
             style: TextStyle(
               fontFamily: 'Poppins',
-              fontSize: 16,
+              fontSize: DesktopOptimizedWidgets.getFontSize(),
               fontWeight: FontWeight.w600,
               color: isLight ? Colors.black87 : Colors.white,
             ),
@@ -6004,7 +6006,7 @@ class _DelviooMapsPageState extends State<DelviooMapsPage>
       padding: const EdgeInsets.all(3),
       decoration: BoxDecoration(
         color: (isLight ? Colors.black12 : Colors.white12),
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
@@ -6025,7 +6027,7 @@ class _DelviooMapsPageState extends State<DelviooMapsPage>
               decoration: isSelected
                   ? BoxDecoration(
                       color: isLight ? Colors.black : Colors.white,
-                      borderRadius: BorderRadius.circular(20),
+                      borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                     )
                   : null,
               child: Text(
@@ -6096,7 +6098,7 @@ class _DelviooMapsPageState extends State<DelviooMapsPage>
                       color: isSelected
                           ? (isLight ? Colors.black : Colors.white)
                           : Colors.transparent,
-                      borderRadius: BorderRadius.circular(20),
+                      borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                     ),
                     child: Text(
                       label,
@@ -6124,7 +6126,7 @@ class _DelviooMapsPageState extends State<DelviooMapsPage>
   Widget _buildOldIOSBadge(bool isLight, int totalActiveOrders) {
     return ClipRRect(
       // iOS: Glassmorphism
-      borderRadius: BorderRadius.circular(20),
+      borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
       child: BackdropFilter(
         filter: ui.ImageFilter.blur(sigmaX: 40, sigmaY: 40),
         child: Container(
@@ -6133,7 +6135,7 @@ class _DelviooMapsPageState extends State<DelviooMapsPage>
             color: isLight
                 ? Colors.white.withOpacity(0.3)
                 : Colors.black.withOpacity(0.3),
-            borderRadius: BorderRadius.circular(20),
+            borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
             boxShadow: [
               BoxShadow(
                 color: isLight
@@ -6157,7 +6159,7 @@ class _DelviooMapsPageState extends State<DelviooMapsPage>
               Text(
                 '$totalActiveOrders',
                 style: TextStyle(
-                  fontSize: 16,
+                  fontSize: DesktopOptimizedWidgets.getFontSize(),
                   fontWeight: FontWeight.w600,
                   color: isLight ? Colors.black87 : Colors.white,
                 ),
@@ -6208,7 +6210,7 @@ class _DelviooMapsPageState extends State<DelviooMapsPage>
       height: 60, // Fixed height for consistency
       decoration: BoxDecoration(
         color: Colors.transparent,
-        borderRadius: BorderRadius.circular(20), // 25px border radius
+        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8), // 25px border radius
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(isLight ? 0.04 : 0.6),
@@ -6219,7 +6221,7 @@ class _DelviooMapsPageState extends State<DelviooMapsPage>
         ],
       ),
       child: ClipRRect(
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
         child: BackdropFilter(
           filter: ui.ImageFilter.blur(sigmaX: 50, sigmaY: 50),
           child: Container(
@@ -6240,7 +6242,7 @@ class _DelviooMapsPageState extends State<DelviooMapsPage>
                         Colors.black.withOpacity(0.05),
                       ],
               ),
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
             ),
             child: Row(
               mainAxisSize: MainAxisSize.min,
@@ -6254,7 +6256,7 @@ class _DelviooMapsPageState extends State<DelviooMapsPage>
                 Text(
                   '$totalActiveOrders',
                   style: TextStyle(
-                    fontSize: 14,
+                    fontSize: DesktopOptimizedWidgets.getFontSize(),
                     fontWeight: FontWeight.w600,
                     color: isLight ? Colors.black87 : Colors.white,
                     fontFamily: 'Poppins',
@@ -6301,7 +6303,7 @@ class _DelviooMapsPageState extends State<DelviooMapsPage>
       height: 60, // Fixed height for consistency
       decoration: BoxDecoration(
         color: Colors.transparent,
-        borderRadius: BorderRadius.circular(20), // 25px border radius
+        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8), // 25px border radius
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(isLight ? 0.04 : 0.6),
@@ -6312,7 +6314,7 @@ class _DelviooMapsPageState extends State<DelviooMapsPage>
         ],
       ),
       child: ClipRRect(
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
         child: BackdropFilter(
           filter: ui.ImageFilter.blur(sigmaX: 50, sigmaY: 50),
           child: TradeRepublicTap(
@@ -6337,7 +6339,7 @@ class _DelviooMapsPageState extends State<DelviooMapsPage>
                           Colors.black.withOpacity(0.05),
                         ],
                 ),
-                borderRadius: BorderRadius.circular(20),
+                borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
               ),
               child: Icon(icon, color: iconColor, size: 24),
             ),
@@ -6354,12 +6356,12 @@ class _DelviooMapsPageState extends State<DelviooMapsPage>
 
   Widget _buildHeader(bool isLight) {
     return Container(
-      padding: const EdgeInsets.all(16),
+      padding: DesktopAppWrapper.getPagePadding(),
       decoration: BoxDecoration(
         color: isLight
             ? Colors.white.withOpacity(0.8)
             : Colors.black.withOpacity(0.3),
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
         boxShadow: [
           BoxShadow(
             color: isLight
@@ -6373,12 +6375,12 @@ class _DelviooMapsPageState extends State<DelviooMapsPage>
       child: Row(
         children: [
           Container(
-            padding: const EdgeInsets.all(16),
+            padding: DesktopAppWrapper.getPagePadding(),
             decoration: BoxDecoration(
               color: isLight
                   ? Colors.black.withOpacity(0.05)
                   : Colors.white.withOpacity(0.1),
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
             ),
             child: Icon(
               CupertinoIcons.map,
@@ -6421,7 +6423,7 @@ class _DelviooMapsPageState extends State<DelviooMapsPage>
           // Reload Button
           Container(
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
               boxShadow: [
                 BoxShadow(
                   color: isLight
@@ -6433,7 +6435,7 @@ class _DelviooMapsPageState extends State<DelviooMapsPage>
               ],
             ),
             child: ClipRRect(
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
               child: TradeRepublicButton.icon(
                 icon: Icon(
                   CupertinoIcons.refresh,
@@ -6455,12 +6457,12 @@ class _DelviooMapsPageState extends State<DelviooMapsPage>
 
   Widget _buildBottomActions(bool isLight) {
     return Container(
-      padding: const EdgeInsets.all(16),
+      padding: DesktopAppWrapper.getPagePadding(),
       decoration: BoxDecoration(
         color: isLight
             ? Colors.white.withOpacity(0.9)
             : Colors.black.withOpacity(0.8),
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
         boxShadow: [
           BoxShadow(
             color: isLight
@@ -6484,7 +6486,7 @@ class _DelviooMapsPageState extends State<DelviooMapsPage>
                     color: isLight ? Colors.black : Colors.white,
                     size: 24,
                   ),
-                  const SizedBox(height: 8),
+                  const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                   Text(
                     AppLocalizations.of(context)?.myLocation ?? AppLocalizations.of(context)!.tr('My Location'),
                     style: TextStyle(
@@ -6509,7 +6511,7 @@ class _DelviooMapsPageState extends State<DelviooMapsPage>
                     color: isLight ? Colors.black : Colors.white,
                     size: 24,
                   ),
-                  const SizedBox(height: 8),
+                  const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                   Text(
                     AppLocalizations.of(context)?.settings ?? AppLocalizations.of(context)!.tr('Settings'),
                     style: TextStyle(
@@ -6673,7 +6675,7 @@ class _DelviooMapsPageState extends State<DelviooMapsPage>
                                     Text(
                                       '${AppLocalizations.of(context)?.order ?? AppLocalizations.of(context)!.tr('Orders')} (${_filteredOrders.length})',
                                       style: TextStyle(
-                                        fontSize: 16,
+                                        fontSize: DesktopOptimizedWidgets.getFontSize(),
                                         fontWeight: FontWeight.w700,
                                         color: isLight
                                             ? Colors.black
@@ -6814,7 +6816,7 @@ class _DelviooMapsPageState extends State<DelviooMapsPage>
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
       decoration: BoxDecoration(
         color: statusColor.withOpacity(0.1),
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
       ),
       child: Row(
         children: [
@@ -6896,7 +6898,7 @@ class _DelviooMapsPageState extends State<DelviooMapsPage>
         decoration: BoxDecoration(
           // Apple-style liquid glass effect with transparency
           color: Colors.white.withOpacity(0.1),
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
           boxShadow: [
             // Liquid glass shadow
             BoxShadow(
@@ -6908,12 +6910,12 @@ class _DelviooMapsPageState extends State<DelviooMapsPage>
           ],
         ),
         child: ClipRRect(
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
           child: BackdropFilter(
             filter: ui.ImageFilter.blur(sigmaX: 10, sigmaY: 10),
             child: Container(
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(20),
+                borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                 gradient: LinearGradient(
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
@@ -6988,7 +6990,7 @@ class _DelviooMapsPageState extends State<DelviooMapsPage>
                                   Text(
                                     '${_filteredOrders.length}',
                                     style: TextStyle(
-                                      fontSize: 14, // Kleiner: 16 -> 14
+                                      fontSize: DesktopOptimizedWidgets.getFontSize(), // Kleiner: 16 -> 14
                                       fontWeight: FontWeight.w600,
                                       color: Colors.white.withOpacity(0.9),
                                       letterSpacing: -0.3,
@@ -7040,25 +7042,25 @@ class _DelviooMapsPageState extends State<DelviooMapsPage>
           size: 80,
           color: Colors.red.withOpacity(0.7),
         ),
-        const SizedBox(height: 16),
+        const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
         Text(
           AppLocalizations.of(context)?.errorLoadingOrders ?? AppLocalizations.of(context)!.tr('Error Loading Orders'),
           style: TextStyle(
-            fontSize: 20,
+            fontSize: DesktopOptimizedWidgets.getFontSize() + 6,
             fontWeight: FontWeight.w700,
             color: Colors.red,
           ),
         ),
-        const SizedBox(height: 8),
+        const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
         Text(
           error!,
           textAlign: TextAlign.center,
           style: TextStyle(
-            fontSize: 14,
+            fontSize: DesktopOptimizedWidgets.getFontSize(),
             color: (isLight ? Colors.black : Colors.white).withOpacity(0.7),
           ),
         ),
-        const SizedBox(height: 16),
+        const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
         TradeRepublicButton(
           label: AppLocalizations.of(context)?.retry ?? AppLocalizations.of(context)!.tr('Retry'),
           onPressed: _initializeMapsAccess,
@@ -7089,7 +7091,7 @@ class _DelviooMapsPageState extends State<DelviooMapsPage>
                 iconColor: isLight ? Colors.black87 : Colors.white,
                 onTap: () => _zoomMap(1.0),
               ),
-              const SizedBox(height: 8),
+              const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
               // Zoom out
               _buildGlassButton(
@@ -7318,7 +7320,7 @@ class _DelviooMapsPageState extends State<DelviooMapsPage>
                     '1',
                     style: TextStyle(
                       color: Colors.white,
-                      fontSize: 14,
+                      fontSize: DesktopOptimizedWidgets.getFontSize(),
                       fontWeight: FontWeight.w700,
                     ),
                   ),
@@ -7335,7 +7337,7 @@ class _DelviooMapsPageState extends State<DelviooMapsPage>
     return _isMapExpanded
         ? _buildFullScreenMap(isLight) // Full screen without any wrappers
         : ClipRRect(
-            borderRadius: BorderRadius.circular(20),
+            borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
             child: Stack(
               children: [
                 // Background
@@ -7354,11 +7356,11 @@ class _DelviooMapsPageState extends State<DelviooMapsPage>
                               ? Colors.black.withOpacity(0.3)
                               : Colors.white.withOpacity(0.3),
                         ),
-                        const SizedBox(height: 16),
+                        const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
                         Text(
                           AppLocalizations.of(context)?.interactiveMap ?? AppLocalizations.of(context)!.tr('Interactive Map'),
                           style: TextStyle(
-                            fontSize: 18,
+                            fontSize: DesktopOptimizedWidgets.getFontSize() + 4,
                             color: isLight ? Colors.black : Colors.white,
                             fontFamily: 'Poppins',
                           ),
@@ -7366,7 +7368,7 @@ class _DelviooMapsPageState extends State<DelviooMapsPage>
                         Text(
                           AppLocalizations.of(context)?.loadingMapTiles ?? AppLocalizations.of(context)!.tr('Loading map tiles...'),
                           style: TextStyle(
-                            fontSize: 14,
+                            fontSize: DesktopOptimizedWidgets.getFontSize(),
                             color: isLight ? Colors.black : Colors.white,
                             fontFamily: 'Poppins',
                           ),
@@ -7563,7 +7565,7 @@ class _DelviooMapsPageState extends State<DelviooMapsPage>
                         // Modern Apple-style map with glass effect when expanded
                         tileBuilder: (context, tileWidget, tile) {
                           return ClipRRect(
-                            borderRadius: BorderRadius.circular(20),
+                            borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                             child: _isMapExpanded
                                 ? Opacity(
                                     // Reduced opacity for glass effect when expanded
@@ -7749,7 +7751,7 @@ class _DelviooMapsPageState extends State<DelviooMapsPage>
                       child: Center(
                         child: Container(
                           margin: const EdgeInsets.all(20),
-                          padding: const EdgeInsets.all(16),
+                          padding: DesktopAppWrapper.getPagePadding(),
                           decoration: BoxDecoration(
                             // Enhanced glass effect for the container when map expanded
                             color: _isMapExpanded
@@ -7757,7 +7759,7 @@ class _DelviooMapsPageState extends State<DelviooMapsPage>
                                       .withOpacity(0.35)
                                 : (isLight ? Colors.white : Colors.black)
                                       .withOpacity(0.95),
-                            borderRadius: BorderRadius.circular(20),
+                            borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                             boxShadow: [
                               BoxShadow(
                                 color: Colors.black.withOpacity(
@@ -7778,24 +7780,24 @@ class _DelviooMapsPageState extends State<DelviooMapsPage>
                                 color: (isLight ? Colors.black : Colors.white)
                                     .withOpacity(0.5),
                               ),
-                              const SizedBox(height: 16),
+                              const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
                               Text(
                                 AppLocalizations.of(context)?.noPickupOrders ?? AppLocalizations.of(context)!.tr('No Pickup Orders'),
                                 style: TextStyle(
-                                  fontSize: 18,
+                                  fontSize: DesktopOptimizedWidgets.getFontSize() + 4,
                                   fontWeight: FontWeight.w700,
                                   color: isLight ? Colors.black : Colors.white,
                                   fontFamily: 'Poppins',
                                 ),
                               ),
-                              const SizedBox(height: 8),
+                              const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                               Text(
                                 _searchRadius.isInfinite
                                     ? (AppLocalizations.of(context)?.noDelviooOrdersForPickup('All') ?? AppLocalizations.of(context)!.tr('No delvioo orders available for pickup'))
                                     : (AppLocalizations.of(context)?.noDelviooOrdersForPickup(Provider.of<AppSettings>(context).formatDistance(_searchRadius.toDouble())) ?? 'No delvioo orders available for pickup\nwithin ${Provider.of<AppSettings>(context).formatDistance(_searchRadius.toDouble())} of your location'),
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
-                                  fontSize: 14,
+                                  fontSize: DesktopOptimizedWidgets.getFontSize(),
                                   color: (isLight ? Colors.black : Colors.white)
                                       .withOpacity(0.7),
                                   fontFamily: 'Poppins',
@@ -8023,7 +8025,7 @@ class _DelviooMapsPageState extends State<DelviooMapsPage>
                 // Modern Apple-style map with glass effect when expanded
                 tileBuilder: (context, tileWidget, tile) {
                   return ClipRRect(
-                    borderRadius: BorderRadius.circular(20),
+                    borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                     child: Opacity(
                       // Reduced opacity for glass effect when expanded
                       opacity: 0.85,
@@ -8224,25 +8226,25 @@ class _DelviooMapsPageState extends State<DelviooMapsPage>
               size: 60,
               color: Colors.red.withOpacity(0.7),
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
             Text(
               AppLocalizations.of(context)?.orderDataIncomplete ?? AppLocalizations.of(context)!.tr('Order Data Incomplete'),
               style: TextStyle(
-                fontSize: 18,
+                fontSize: DesktopOptimizedWidgets.getFontSize() + 4,
                 fontWeight: FontWeight.w700,
                 color: isLight ? Colors.black : Colors.white,
               ),
             ),
-            const SizedBox(height: 8),
+            const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
             Text(
               AppLocalizations.of(context)?.missingLocationInfo ?? AppLocalizations.of(context)!.tr('Missing location information for this order.'),
               textAlign: TextAlign.center,
               style: TextStyle(
-                fontSize: 14,
+                fontSize: DesktopOptimizedWidgets.getFontSize(),
                 color: (isLight ? Colors.black : Colors.white).withOpacity(0.7),
               ),
             ),
-            const SizedBox(height: 24),
+            const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
             TradeRepublicButton(
               label: AppLocalizations.of(context)?.backToMap ?? AppLocalizations.of(context)!.tr('Back to Map'),
               onPressed: () {
@@ -8311,7 +8313,7 @@ class _DelviooMapsPageState extends State<DelviooMapsPage>
                       child: Text(
                         '${AppLocalizations.of(context)?.orderNumber ?? AppLocalizations.of(context)!.tr('Order #')}${order["order_id"]}',
                         style: TextStyle(
-                          fontSize: 20,
+                          fontSize: DesktopOptimizedWidgets.getFontSize() + 6,
                           fontWeight: FontWeight.w700,
                           color: isLight ? Colors.black : Colors.white,
                           fontFamily: 'Poppins',
@@ -8320,11 +8322,11 @@ class _DelviooMapsPageState extends State<DelviooMapsPage>
                     ),
                   ],
                 ),
-                const SizedBox(height: 24),
+                const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
                 // Driver Earning Card - Prominent Display
                 Container(
-                  padding: const EdgeInsets.all(16),
+                  padding: DesktopAppWrapper.getPagePadding(),
                   decoration: BoxDecoration(
                     gradient: LinearGradient(
                       begin: Alignment.topLeft,
@@ -8333,7 +8335,7 @@ class _DelviooMapsPageState extends State<DelviooMapsPage>
                           ? [const Color(0xFF4CAF50), const Color(0xFF66BB6A)]
                           : [const Color(0xFF388E3C), const Color(0xFF4CAF50)],
                     ),
-                    borderRadius: BorderRadius.circular(20),
+                    borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                     boxShadow: [
                       BoxShadow(
                         color: const Color(0xFF4CAF50).withOpacity(0.3),
@@ -8399,12 +8401,12 @@ class _DelviooMapsPageState extends State<DelviooMapsPage>
 
                 // Customer info
                 Container(
-                  padding: const EdgeInsets.all(16),
+                  padding: DesktopAppWrapper.getPagePadding(),
                   decoration: BoxDecoration(
                     color:
                         (isLight ? Colors.blue.shade50 : Colors.blue.shade900)
                             .withOpacity(0.3),
-                    borderRadius: BorderRadius.circular(20),
+                    borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                   ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -8412,7 +8414,7 @@ class _DelviooMapsPageState extends State<DelviooMapsPage>
                       Text(
                         '${AppLocalizations.of(context)?.customerLabel ?? AppLocalizations.of(context)!.tr('Customer')}: ${customer?['name'] ?? order['username'] ?? AppLocalizations.of(context)!.tr('Unknown')}',
                         style: TextStyle(
-                          fontSize: 16,
+                          fontSize: DesktopOptimizedWidgets.getFontSize(),
                           fontWeight: FontWeight.w700,
                           color: isLight ? Colors.black : Colors.white,
                         ),
@@ -8421,7 +8423,7 @@ class _DelviooMapsPageState extends State<DelviooMapsPage>
                       Text(
                         '${AppLocalizations.of(context)?.orderDate ?? AppLocalizations.of(context)!.tr('Order Date')}: ${order['date']?.toString().split('T')[0] ?? AppLocalizations.of(context)!.tr('Unknown')}',
                         style: TextStyle(
-                          fontSize: 14,
+                          fontSize: DesktopOptimizedWidgets.getFontSize(),
                           color: (isLight ? Colors.black : Colors.white)
                               .withOpacity(0.7),
                         ),
@@ -8429,16 +8431,16 @@ class _DelviooMapsPageState extends State<DelviooMapsPage>
                     ],
                   ),
                 ),
-                const SizedBox(height: 16),
+                const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
                 // Shipping Type Info - Important for drivers!
                 Container(
-                  padding: const EdgeInsets.all(16),
+                  padding: DesktopAppWrapper.getPagePadding(),
                   decoration: BoxDecoration(
                     color: _getShippingTypeColor(
                       order['shipping_type'],
                     ).withOpacity(0.15),
-                    borderRadius: BorderRadius.circular(20),
+                    borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                   ),
                   child: Row(
                     children: [
@@ -8473,7 +8475,7 @@ class _DelviooMapsPageState extends State<DelviooMapsPage>
                             Text(
                               _getShippingTypeName(order['shipping_type']),
                               style: TextStyle(
-                                fontSize: 16,
+                                fontSize: DesktopOptimizedWidgets.getFontSize(),
                                 fontWeight: FontWeight.w700,
                                 color: isLight ? Colors.black : Colors.white,
                               ),
@@ -8495,13 +8497,13 @@ class _DelviooMapsPageState extends State<DelviooMapsPage>
                     ],
                   ),
                 ),
-                const SizedBox(height: 16),
+                const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
                 // Locations info
                 Text(
                   AppLocalizations.of(context)?.pickupLocation ?? AppLocalizations.of(context)!.tr('Pickup Location:'),
                   style: TextStyle(
-                    fontSize: 16,
+                    fontSize: DesktopOptimizedWidgets.getFontSize(),
                     fontWeight: FontWeight.w700,
                     color: isLight ? Colors.black : Colors.white,
                   ),
@@ -8509,19 +8511,19 @@ class _DelviooMapsPageState extends State<DelviooMapsPage>
                 Text(
                   pickupAddress,
                   style: TextStyle(
-                    fontSize: 14,
+                    fontSize: DesktopOptimizedWidgets.getFontSize(),
                     color: (isLight ? Colors.black : Colors.white).withOpacity(
                       0.7,
                     ),
                   ),
                 ),
-                const SizedBox(height: 12),
+                const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
                 // Delivery location
                 Text(
                   AppLocalizations.of(context)?.deliveryLocation ?? AppLocalizations.of(context)!.tr('Delivery Location:'),
                   style: TextStyle(
-                    fontSize: 16,
+                    fontSize: DesktopOptimizedWidgets.getFontSize(),
                     fontWeight: FontWeight.w700,
                     color: isLight ? Colors.black : Colors.white,
                   ),
@@ -8529,35 +8531,35 @@ class _DelviooMapsPageState extends State<DelviooMapsPage>
                 Text(
                   deliveryAddress,
                   style: TextStyle(
-                    fontSize: 14,
+                    fontSize: DesktopOptimizedWidgets.getFontSize(),
                     color: (isLight ? Colors.black : Colors.white).withOpacity(
                       0.7,
                     ),
                   ),
                 ),
-                const SizedBox(height: 16),
+                const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
                 // Items list
                 Text(
                   '${AppLocalizations.of(context)?.items ?? AppLocalizations.of(context)!.tr('Items')} (${items.length}):',
                   style: TextStyle(
-                    fontSize: 16,
+                    fontSize: DesktopOptimizedWidgets.getFontSize(),
                     fontWeight: FontWeight.w700,
                     color: isLight ? Colors.black : Colors.white,
                   ),
                 ),
-                const SizedBox(height: 12),
+                const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
                 // Build each item container
                 ...List.generate(items.length, (index) {
                   final item = items[index];
                   return Container(
                     margin: const EdgeInsets.only(bottom: 12),
-                    padding: const EdgeInsets.all(16),
+                    padding: DesktopAppWrapper.getPagePadding(),
                     decoration: BoxDecoration(
                       color: (isLight ? Colors.white : Colors.black)
                           .withOpacity(0.5),
-                      borderRadius: BorderRadius.circular(20),
+                      borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                     ),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -8597,7 +8599,7 @@ class _DelviooMapsPageState extends State<DelviooMapsPage>
                             ),
                           ],
                         ),
-                        const SizedBox(height: 8),
+                        const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
                         // Quantity
                         Text(
@@ -8639,7 +8641,7 @@ class _DelviooMapsPageState extends State<DelviooMapsPage>
                   );
                 }),
 
-                const SizedBox(height: 12),
+                const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
                 // Order-level metadata (batch, production, best before, seller notes)
                 if (order['batch_number'] != null &&
@@ -8651,7 +8653,7 @@ class _DelviooMapsPageState extends State<DelviooMapsPage>
                       color:
                           (isLight ? Colors.blue.shade50 : Colors.blue.shade900)
                               .withOpacity(0.3),
-                      borderRadius: BorderRadius.circular(20),
+                      borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                     ),
                     child: Row(
                       children: [
@@ -8666,7 +8668,7 @@ class _DelviooMapsPageState extends State<DelviooMapsPage>
                         Text(
                           '${AppLocalizations.of(context)?.batch ?? AppLocalizations.of(context)!.tr('Batch')}: ${order['batch_number']}',
                           style: TextStyle(
-                            fontSize: 14,
+                            fontSize: DesktopOptimizedWidgets.getFontSize(),
                             fontWeight: FontWeight.w600,
                             color: isLight ? Colors.black : Colors.white,
                           ),
@@ -8686,7 +8688,7 @@ class _DelviooMapsPageState extends State<DelviooMapsPage>
                                   ? Colors.purple.shade50
                                   : Colors.purple.shade900)
                               .withOpacity(0.3),
-                      borderRadius: BorderRadius.circular(20),
+                      borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                     ),
                     child: Row(
                       children: [
@@ -8701,7 +8703,7 @@ class _DelviooMapsPageState extends State<DelviooMapsPage>
                         Text(
                           '${AppLocalizations.of(context)?.production ?? AppLocalizations.of(context)!.tr('Production')}: ${_formatDate(order['production_date'])}',
                           style: TextStyle(
-                            fontSize: 14,
+                            fontSize: DesktopOptimizedWidgets.getFontSize(),
                             fontWeight: FontWeight.w600,
                             color: isLight ? Colors.black : Colors.white,
                           ),
@@ -8721,7 +8723,7 @@ class _DelviooMapsPageState extends State<DelviooMapsPage>
                                   ? Colors.orange.shade50
                                   : Colors.orange.shade900)
                               .withOpacity(0.3),
-                      borderRadius: BorderRadius.circular(20),
+                      borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                     ),
                     child: Row(
                       children: [
@@ -8734,7 +8736,7 @@ class _DelviooMapsPageState extends State<DelviooMapsPage>
                         Text(
                           '${AppLocalizations.of(context)?.bestBefore ?? AppLocalizations.of(context)!.tr('Best Before')}: ${_formatDate(order['best_before_date'])}',
                           style: TextStyle(
-                            fontSize: 14,
+                            fontSize: DesktopOptimizedWidgets.getFontSize(),
                             fontWeight: FontWeight.w600,
                             color: _getExpiryColor(order['best_before_date']),
                           ),
@@ -8754,7 +8756,7 @@ class _DelviooMapsPageState extends State<DelviooMapsPage>
                                   ? Colors.amber.shade50
                                   : Colors.amber.shade900)
                               .withOpacity(0.3),
-                      borderRadius: BorderRadius.circular(20),
+                      borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                     ),
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -8771,7 +8773,7 @@ class _DelviooMapsPageState extends State<DelviooMapsPage>
                           child: Text(
                             '${AppLocalizations.of(context)?.sellerNotes ?? AppLocalizations.of(context)!.tr('Seller Notes')}: ${order['seller_notes']}',
                             style: TextStyle(
-                              fontSize: 14,
+                              fontSize: DesktopOptimizedWidgets.getFontSize(),
                               fontWeight: FontWeight.w600,
                               color: isLight ? Colors.black : Colors.white,
                             ),
@@ -8781,14 +8783,14 @@ class _DelviooMapsPageState extends State<DelviooMapsPage>
                     ),
                   ),
 
-                const SizedBox(height: 12),
+                const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
                 // Shipping price
                 Container(
                   padding: const EdgeInsets.all(12),
                   decoration: BoxDecoration(
                     color: Colors.green.withOpacity(0.1),
-                    borderRadius: BorderRadius.circular(20),
+                    borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                   ),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -8796,7 +8798,7 @@ class _DelviooMapsPageState extends State<DelviooMapsPage>
                       Text(
                         AppLocalizations.of(context)?.shippingPrice ?? AppLocalizations.of(context)!.tr('Shipping Price:'),
                         style: TextStyle(
-                          fontSize: 14,
+                          fontSize: DesktopOptimizedWidgets.getFontSize(),
                           fontWeight: FontWeight.w600,
                           color: isLight ? Colors.black : Colors.white,
                         ),
@@ -8809,7 +8811,7 @@ class _DelviooMapsPageState extends State<DelviooMapsPage>
                             ),
                           ),
                           style: TextStyle(
-                            fontSize: 16,
+                            fontSize: DesktopOptimizedWidgets.getFontSize(),
                             fontWeight: FontWeight.w700,
                             color: Colors.green,
                           ),
@@ -8818,7 +8820,7 @@ class _DelviooMapsPageState extends State<DelviooMapsPage>
                     ],
                   ),
                 ),
-                const SizedBox(height: 16),
+                const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
                 // Delivery details
                 Row(
@@ -8831,7 +8833,7 @@ class _DelviooMapsPageState extends State<DelviooMapsPage>
                             builder: (context, appSettings, _) => Text(
                               '${AppLocalizations.of(context)?.feeLabel ?? AppLocalizations.of(context)!.tr('Fee')}: ${appSettings.formatCurrency(appSettings.convertCurrency(double.tryParse(order['fee']?.toString() ?? AppLocalizations.of(context)!.tr('0.0')) ?? 0.0))}',
                               style: TextStyle(
-                                fontSize: 16,
+                                fontSize: DesktopOptimizedWidgets.getFontSize(),
                                 fontWeight: FontWeight.w700,
                                 color: Colors.green,
                               ),
@@ -8840,7 +8842,7 @@ class _DelviooMapsPageState extends State<DelviooMapsPage>
                           Text(
                             '${AppLocalizations.of(context)?.distanceLabel ?? AppLocalizations.of(context)!.tr('Distance')}: ${Provider.of<AppSettings>(context).formatDistance(order['distance']?.toDouble() ?? 0.0)}',
                             style: TextStyle(
-                              fontSize: 14,
+                              fontSize: DesktopOptimizedWidgets.getFontSize(),
                               color: (isLight ? Colors.black : Colors.white)
                                   .withOpacity(0.7),
                             ),
@@ -8857,7 +8859,7 @@ class _DelviooMapsPageState extends State<DelviooMapsPage>
                         color: (order['priority'] ?? AppLocalizations.of(context)!.tr('normal')) == 'high'
                             ? Colors.orange.withOpacity(0.2)
                             : Colors.blue.withOpacity(0.2),
-                        borderRadius: BorderRadius.circular(20),
+                        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                       ),
                       child: Text(
                         (order['priority'] ?? AppLocalizations.of(context)!.tr('normal'))
@@ -8874,7 +8876,7 @@ class _DelviooMapsPageState extends State<DelviooMapsPage>
                     ),
                   ],
                 ),
-                const SizedBox(height: 24),
+                const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
                 // Action button - Trade Republic style
                 TradeRepublicButton(
@@ -9192,7 +9194,7 @@ class _DelviooMapsPageState extends State<DelviooMapsPage>
                 width: 68,
                 height: 48,
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20),
+                  borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                   boxShadow: [
                     BoxShadow(
                       color: shadowColor.withOpacity(0.4),
@@ -9208,7 +9210,7 @@ class _DelviooMapsPageState extends State<DelviooMapsPage>
                 height: 40,
                 decoration: BoxDecoration(
                   color: ovalColor,
-                  borderRadius: BorderRadius.circular(20),
+                  borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                   boxShadow: [
                     BoxShadow(
                       color: Colors.black.withOpacity(0.2),
@@ -9244,7 +9246,7 @@ class _DelviooMapsPageState extends State<DelviooMapsPage>
                       gradient: LinearGradient(
                         colors: [Colors.white, Colors.white],
                       ),
-                      borderRadius: BorderRadius.circular(20),
+                      borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                       boxShadow: [
                         BoxShadow(
                           color: Colors.black.withOpacity(0.3),
@@ -9274,7 +9276,7 @@ class _DelviooMapsPageState extends State<DelviooMapsPage>
                     height: 4, // Thick, bold Uber-style line
                     decoration: BoxDecoration(
                       color: Colors.red.shade700, // Bold Uber red
-                      borderRadius: BorderRadius.circular(20),
+                      borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                       boxShadow: [
                         BoxShadow(
                           color: Colors.black.withOpacity(0.5),
@@ -9485,7 +9487,7 @@ class _DelviooMapsPageState extends State<DelviooMapsPage>
                     height: 4,
                     decoration: BoxDecoration(
                       color: Colors.red.shade700,
-                      borderRadius: BorderRadius.circular(20),
+                      borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                       boxShadow: [
                         BoxShadow(
                           color: Colors.black.withOpacity(0.4),
@@ -9593,7 +9595,7 @@ class _DelviooMapsPageState extends State<DelviooMapsPage>
             style: TextStyle(
               color: Colors.green.shade700,
               fontWeight: FontWeight.w600,
-              fontSize: 16,
+              fontSize: DesktopOptimizedWidgets.getFontSize(),
             ),
           ),
         ],
@@ -11230,7 +11232,7 @@ class _DelviooMapsPageState extends State<DelviooMapsPage>
                 ),
               ],
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
             // Orders List
             Expanded(
@@ -11329,14 +11331,14 @@ class _DelviooMapsPageState extends State<DelviooMapsPage>
                       child: Container(
                         key: Key('cluster_order_${order['id']}_$index'),
                         margin: const EdgeInsets.only(bottom: 12),
-                        padding: const EdgeInsets.all(16),
+                        padding: DesktopAppWrapper.getPagePadding(),
                         decoration: BoxDecoration(
                           color: isEmergency
                               ? const Color(0xFFFF3B30).withOpacity(0.08)
                               : (isLight
                                   ? Colors.white.withOpacity(0.8)
                                   : Colors.black.withOpacity(0.8)),
-                          borderRadius: BorderRadius.circular(20),
+                          borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                           boxShadow: [
                             BoxShadow(
                               color: isEmergency
@@ -11372,7 +11374,7 @@ class _DelviooMapsPageState extends State<DelviooMapsPage>
                                               Colors.green.shade600,
                                             ],
                                     ),
-                                    borderRadius: BorderRadius.circular(20),
+                                    borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                                     boxShadow: [
                                       BoxShadow(
                                         color:
@@ -11404,7 +11406,7 @@ class _DelviooMapsPageState extends State<DelviooMapsPage>
                                       Text(
                                         '${AppLocalizations.of(context)?.orderNumber ?? AppLocalizations.of(context)!.tr('Order #')}${order['order_id'] ?? order['id']}',
                                         style: TextStyle(
-                                          fontSize: 16,
+                                          fontSize: DesktopOptimizedWidgets.getFontSize(),
                                           fontWeight: FontWeight.w700,
                                           // NO strikethrough for emergency orders
                                           decoration:
@@ -11466,7 +11468,7 @@ class _DelviooMapsPageState extends State<DelviooMapsPage>
                                 ),
                               ],
                             ),
-                            const SizedBox(height: 12),
+                            const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
                             // Items preview
                             if (items.isNotEmpty) ...[
@@ -11480,7 +11482,7 @@ class _DelviooMapsPageState extends State<DelviooMapsPage>
                                 maxLines: 2,
                                 overflow: TextOverflow.ellipsis,
                               ),
-                              const SizedBox(height: 8),
+                              const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                             ],
 
                             // Delivery address
@@ -11553,7 +11555,7 @@ class _DelviooMapsPageState extends State<DelviooMapsPage>
               ),
             ],
           ),
-          const SizedBox(height: 24),
+          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
           // Content
           Text(
             '${AppLocalizations.of(context)?.doYouWantToAccept ?? AppLocalizations.of(context)!.tr('Do you want to accept order')} ${order['order_id'] ?? order['id']}?',
@@ -11564,7 +11566,7 @@ class _DelviooMapsPageState extends State<DelviooMapsPage>
             ),
             textAlign: TextAlign.center,
           ),
-          const SizedBox(height: 24),
+          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
           // Action buttons
           Row(
             children: [
@@ -11816,7 +11818,7 @@ class _DelviooMapsPageState extends State<DelviooMapsPage>
                   color: isSelected 
                       ? (isLight ? Colors.black : Colors.white)
                       : (isLight ? Colors.black : Colors.white).withOpacity(0.08),
-                  borderRadius: BorderRadius.circular(20),
+                  borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                 ),
                 child: Text(
                   label,
@@ -11853,7 +11855,7 @@ class _DelviooMapsPageState extends State<DelviooMapsPage>
                   ),
                 ],
               ),
-              const SizedBox(height: 24),
+              const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
               // Search Radius Section
               Column(
@@ -11865,7 +11867,7 @@ class _DelviooMapsPageState extends State<DelviooMapsPage>
                       Text(
                         AppLocalizations.of(context)?.searchRadius ?? AppLocalizations.of(context)!.tr('Search Radius'),
                         style: TextStyle(
-                          fontSize: 16,
+                          fontSize: DesktopOptimizedWidgets.getFontSize(),
                           fontWeight: FontWeight.w600,
                           color: isLight ? Colors.black : Colors.white,
                         ),
@@ -11875,14 +11877,14 @@ class _DelviooMapsPageState extends State<DelviooMapsPage>
                             ? 'All'
                             : appSettings.formatDistance(tempSearchRadius),
                         style: TextStyle(
-                          fontSize: 16,
+                          fontSize: DesktopOptimizedWidgets.getFontSize(),
                           fontWeight: FontWeight.w700,
                           color: isLight ? Colors.black : Colors.white,
                         ),
                       ),
                     ],
                   ),
-                  const SizedBox(height: 8),
+                  const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                   Text(
                     AppLocalizations.of(context)?.onlyOrdersWithinRadius ?? AppLocalizations.of(context)!.tr('Only orders within this radius will be shown'),
                     style: TextStyle(
@@ -11892,7 +11894,7 @@ class _DelviooMapsPageState extends State<DelviooMapsPage>
                           .withOpacity(0.5),
                     ),
                   ),
-                  const SizedBox(height: 16),
+                  const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
                   // ── Quick preset chips ──
                   Wrap(
@@ -11921,7 +11923,7 @@ class _DelviooMapsPageState extends State<DelviooMapsPage>
                       ),
                     ],
                   ),
-                  const SizedBox(height: 16),
+                  const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
                   // ── Continuous slider (disabled when "All" is active) ──
                   Opacity(
@@ -11949,7 +11951,7 @@ class _DelviooMapsPageState extends State<DelviooMapsPage>
                         Text(
                           appSettings.formatDistance(1.0),
                           style: TextStyle(
-                            fontSize: 14,
+                            fontSize: DesktopOptimizedWidgets.getFontSize(),
                             fontWeight: FontWeight.w700,
                             color: (isLight ? Colors.black : Colors.white)
                                 .withOpacity(tempIsAll ? 0.25 : 0.6),
@@ -11958,7 +11960,7 @@ class _DelviooMapsPageState extends State<DelviooMapsPage>
                         Text(
                           appSettings.formatDistance(200.0),
                           style: TextStyle(
-                            fontSize: 14,
+                            fontSize: DesktopOptimizedWidgets.getFontSize(),
                             fontWeight: FontWeight.w700,
                             color: (isLight ? Colors.black : Colors.white)
                                 .withOpacity(tempIsAll ? 0.25 : 0.6),
@@ -12000,7 +12002,7 @@ class _DelviooMapsPageState extends State<DelviooMapsPage>
                 },
               ),
 
-              const SizedBox(height: 12),
+              const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
               // Cancel button
               TradeRepublicButton(
@@ -12439,7 +12441,7 @@ class _DelviooMapsPageState extends State<DelviooMapsPage>
                                 child: SafeArea(
                                   bottom: false,
                                   child: Container(
-                                    padding: const EdgeInsets.all(16),
+                                    padding: DesktopAppWrapper.getPagePadding(),
                                     decoration: BoxDecoration(
                                       gradient: LinearGradient(
                                         begin: Alignment.topLeft,
@@ -12454,7 +12456,7 @@ class _DelviooMapsPageState extends State<DelviooMapsPage>
                                                 Colors.black.withOpacity(0.9),
                                               ],
                                       ),
-                                      borderRadius: BorderRadius.circular(20),
+                                      borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                                       boxShadow: [
                                         BoxShadow(
                                           color: isLight
@@ -12511,7 +12513,7 @@ class _DelviooMapsPageState extends State<DelviooMapsPage>
                                               Text(
                                                 customerName,
                                                 style: TextStyle(
-                                                  fontSize: 18,
+                                                  fontSize: DesktopOptimizedWidgets.getFontSize() + 4,
                                                   fontWeight: FontWeight.w700,
                                                   color: isLight
                                                       ? Colors.black
@@ -12521,7 +12523,7 @@ class _DelviooMapsPageState extends State<DelviooMapsPage>
                                               Text(
                                                 '${AppLocalizations.of(context)?.orderNumber ?? AppLocalizations.of(context)!.tr('Order #')}$orderId',
                                                 style: TextStyle(
-                                                  fontSize: 14,
+                                                  fontSize: DesktopOptimizedWidgets.getFontSize(),
                                                   fontWeight: FontWeight.w500,
                                                   color:
                                                       (isLight
@@ -12542,7 +12544,7 @@ class _DelviooMapsPageState extends State<DelviooMapsPage>
                               // Messages Area
                               Expanded(
                                 child: ListView(
-                                  padding: const EdgeInsets.all(16),
+                                  padding: DesktopAppWrapper.getPagePadding(),
                                   children: [
                                     Center(
                                       child: Text(
@@ -12553,7 +12555,7 @@ class _DelviooMapsPageState extends State<DelviooMapsPage>
                                                       ? Colors.black
                                                       : Colors.white)
                                                   .withOpacity(0.5),
-                                          fontSize: 14,
+                                          fontSize: DesktopOptimizedWidgets.getFontSize(),
                                         ),
                                       ),
                                     ),
@@ -12572,7 +12574,7 @@ class _DelviooMapsPageState extends State<DelviooMapsPage>
                                 child: SafeArea(
                                   top: false,
                                   child: Container(
-                                    padding: const EdgeInsets.all(16),
+                                    padding: DesktopAppWrapper.getPagePadding(),
                                     decoration: BoxDecoration(
                                       gradient: LinearGradient(
                                         colors: isLight
@@ -12585,7 +12587,7 @@ class _DelviooMapsPageState extends State<DelviooMapsPage>
                                                 Colors.black.withOpacity(0.9),
                                               ],
                                       ),
-                                      borderRadius: BorderRadius.circular(20),
+                                      borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                                       boxShadow: [
                                         BoxShadow(
                                           color: isLight
@@ -12618,7 +12620,7 @@ class _DelviooMapsPageState extends State<DelviooMapsPage>
                                                       ],
                                               ),
                                               borderRadius:
-                                                  BorderRadius.circular(20),
+                                                  BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                                             ),
                                             child: TradeRepublicTextField(
                                               controller: messageController,
@@ -12628,7 +12630,7 @@ class _DelviooMapsPageState extends State<DelviooMapsPage>
                                                 color: isLight
                                                     ? Colors.black
                                                     : Colors.white,
-                                                fontSize: 16,
+                                                fontSize: DesktopOptimizedWidgets.getFontSize(),
                                               ),
                                             ),
                                           ),
@@ -13453,7 +13455,7 @@ class _DelviooMapsPageState extends State<DelviooMapsPage>
       final ep = TextPainter(
         text: const TextSpan(
           text: '!',
-          style: TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.w900),
+          style: TextStyle(color: Colors.white, fontSize: DesktopOptimizedWidgets.getFontSize(), fontWeight: FontWeight.w900),
         ),
         textDirection: ui.TextDirection.ltr,
       )..layout();
@@ -13624,7 +13626,7 @@ class _DelviooMapsPageState extends State<DelviooMapsPage>
           Text(
             label,
             style: TextStyle(
-              fontSize: 14,
+              fontSize: DesktopOptimizedWidgets.getFontSize(),
               color: (isLight ? Colors.black : Colors.white).withOpacity(0.6),
               fontFamily: 'Poppins',
             ),
@@ -13636,7 +13638,7 @@ class _DelviooMapsPageState extends State<DelviooMapsPage>
               textAlign: TextAlign.end,
               overflow: TextOverflow.ellipsis,
               style: TextStyle(
-                fontSize: 14,
+                fontSize: DesktopOptimizedWidgets.getFontSize(),
                 fontWeight: FontWeight.w600,
                 color: isLight ? Colors.black : Colors.white,
                 fontFamily: 'Poppins',
@@ -13875,7 +13877,7 @@ class _DelviooMapsPageState extends State<DelviooMapsPage>
                         color: _isBottomSheetExpanded
                             ? fg
                             : fg.withValues(alpha: 0.07),
-                        borderRadius: BorderRadius.circular(20),
+                        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                       ),
                       child: Row(
                         mainAxisSize: MainAxisSize.min,
@@ -13963,7 +13965,7 @@ class _DelviooMapsPageState extends State<DelviooMapsPage>
                         ),
                       ),
 
-                      const SizedBox(height: 24),
+                      const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
                       // Vehicle type section
                       Text(
@@ -13978,7 +13980,7 @@ class _DelviooMapsPageState extends State<DelviooMapsPage>
                       const SizedBox(height: 10),
                       _buildWagonTypeChips(isLight),
 
-                      const SizedBox(height: 24),
+                      const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
                       // Incoterm section
                       Text(
@@ -14008,7 +14010,7 @@ class _DelviooMapsPageState extends State<DelviooMapsPage>
                             .toList(),
                       ),
 
-                      const SizedBox(height: 8),
+                      const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                     ],
                   ),
                 ),
@@ -14065,7 +14067,7 @@ class _DelviooMapsPageState extends State<DelviooMapsPage>
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 9),
         decoration: BoxDecoration(
           color: isSelected ? fg : fg.withValues(alpha: 0.07),
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
         ),
         child: Text(
           label,
@@ -14266,7 +14268,7 @@ class _DelviooMapsPageState extends State<DelviooMapsPage>
                       height: 40,
                       decoration: BoxDecoration(
                         color: const Color(0xFF007AFF).withOpacity(0.15),
-                        borderRadius: BorderRadius.circular(12),
+                        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius()),
                       ),
                       child: const Icon(CupertinoIcons.arrow_branch, size: 20, color: Color(0xFF007AFF)),
                     ),
@@ -14280,7 +14282,7 @@ class _DelviooMapsPageState extends State<DelviooMapsPage>
                                 ? 'New split order #$overflowOrderId · Auction #$overflowAuctionId'
                                 : 'New auction #$overflowAuctionId',
                             style: TextStyle(
-                              fontSize: 14,
+                              fontSize: DesktopOptimizedWidgets.getFontSize(),
                               fontWeight: FontWeight.w700,
                               color: isLight ? Colors.black : Colors.white,
                               fontFamily: 'Poppins',
@@ -14344,7 +14346,7 @@ class _DelviooMapsPageState extends State<DelviooMapsPage>
                 ),
               ],
             ),
-            const SizedBox(height: 24),
+            const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
             // Section list
             Expanded(
               child: _selectedVehicleSections.isEmpty
@@ -14357,7 +14359,7 @@ class _DelviooMapsPageState extends State<DelviooMapsPage>
                             size: 48,
                             color: (isLight ? Colors.black : Colors.white).withOpacity(0.3),
                           ),
-                          const SizedBox(height: 16),
+                          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
                           Text(
                             AppLocalizations.of(context)?.noVehicleSectionsConfigured ?? AppLocalizations.of(context)!.tr('No vehicle sections configured'),
                             style: TextStyle(
@@ -14390,12 +14392,12 @@ class _DelviooMapsPageState extends State<DelviooMapsPage>
                             _showVehicleCapacityConfirmation(isLight);
                           },
                           child: Container(
-                            padding: const EdgeInsets.all(16),
+                            padding: DesktopAppWrapper.getPagePadding(),
                             decoration: BoxDecoration(
                               color: isSelected
                                   ? (isLight ? const Color(0xFF007AFF).withOpacity(0.1) : const Color(0xFF0A84FF).withOpacity(0.15))
                                   : (isLight ? Colors.white : const Color(0xFF1A1A1A)),
-                              borderRadius: BorderRadius.circular(16),
+                              borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius()),
                             ),
                             child: Row(
                               children: [
@@ -14406,13 +14408,13 @@ class _DelviooMapsPageState extends State<DelviooMapsPage>
                                     color: isSelected
                                         ? (isLight ? const Color(0xFF007AFF) : const Color(0xFF0A84FF))
                                         : (isLight ? Colors.black.withOpacity(0.05) : Colors.white.withOpacity(0.08)),
-                                    borderRadius: BorderRadius.circular(12),
+                                    borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius()),
                                   ),
                                   child: Center(
                                     child: Text(
                                       '${index + 1}',
                                       style: TextStyle(
-                                        fontSize: 18,
+                                        fontSize: DesktopOptimizedWidgets.getFontSize() + 4,
                                         fontWeight: FontWeight.w700,
                                         color: isSelected
                                             ? Colors.white
@@ -14429,7 +14431,7 @@ class _DelviooMapsPageState extends State<DelviooMapsPage>
                                       Text(
                                         sectionName,
                                         style: TextStyle(
-                                          fontSize: 16,
+                                          fontSize: DesktopOptimizedWidgets.getFontSize(),
                                           fontWeight: FontWeight.w600,
                                           color: isLight ? Colors.black : Colors.white,
                                         ),
@@ -14966,7 +14968,7 @@ class _AcceptedOrderMarkerWithDenialState
                 width: 68,
                 height: 48,
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20),
+                  borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                   boxShadow: [
                     BoxShadow(
                       color: shadowColor.withOpacity(0.4),
@@ -14982,7 +14984,7 @@ class _AcceptedOrderMarkerWithDenialState
                 height: 40,
                 decoration: BoxDecoration(
                   color: ovalColor,
-                  borderRadius: BorderRadius.circular(20),
+                  borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                   boxShadow: [
                     BoxShadow(
                       color: Colors.black.withOpacity(0.2),
@@ -15043,7 +15045,7 @@ class _AcceptedOrderMarkerWithDenialState
                           height: 4, // Thick, bold Uber-style line
                           decoration: BoxDecoration(
                             color: Colors.red.shade700, // Bold Uber red
-                            borderRadius: BorderRadius.circular(20),
+                            borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                             boxShadow: [
                               BoxShadow(
                                 color: Colors.black.withOpacity(0.5),
@@ -15221,20 +15223,20 @@ class _SuccessAnimationWidgetState extends State<_SuccessAnimationWidget>
                               .shade600, // Green icon on white glass background
                           size: 64,
                         ),
-                        const SizedBox(height: 8),
+                        const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                         Text(
                           AppLocalizations.of(context)?.success ?? AppLocalizations.of(context)!.tr('SUCCESS!'),
                           style: TextStyle(
                             color: Colors
                                 .green
                                 .shade700, // Green text on white glass background
-                            fontSize: 18,
+                            fontSize: DesktopOptimizedWidgets.getFontSize() + 4,
                             fontWeight: FontWeight.w700,
                           ),
                         ),
                         const Text(
                           '🎉',
-                          style: TextStyle(fontSize: 24, fontFamily: 'Poppins'),
+                          style: TextStyle(fontSize: DesktopOptimizedWidgets.getFontSize() + 10, fontFamily: 'Poppins'),
                         ),
                       ],
                     ),
@@ -15460,22 +15462,22 @@ class _MessageModalWidgetState extends State<_MessageModalWidget> {
                                   ? Colors.black.withOpacity(0.3)
                                   : Colors.white.withOpacity(0.3),
                             ),
-                            const SizedBox(height: 16),
+                            const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
                             Text(
                               AppLocalizations.of(context)?.noMessagesYet ?? AppLocalizations.of(context)!.tr('No messages yet'),
                               style: TextStyle(
-                                fontSize: 18,
+                                fontSize: DesktopOptimizedWidgets.getFontSize() + 4,
                                 fontWeight: FontWeight.w500,
                                 color: widget.isLight
                                     ? Colors.black.withOpacity(0.6)
                                     : Colors.white.withOpacity(0.6),
                               ),
                             ),
-                            const SizedBox(height: 8),
+                            const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                             Text(
                               AppLocalizations.of(context)?.sendMessageToStart ?? AppLocalizations.of(context)!.tr('Send a message to start the conversation'),
                               style: TextStyle(
-                                fontSize: 14,
+                                fontSize: DesktopOptimizedWidgets.getFontSize(),
                                 color: widget.isLight
                                     ? Colors.black.withOpacity(0.5)
                                     : Colors.white.withOpacity(0.5),
@@ -15506,7 +15508,7 @@ class _MessageModalWidgetState extends State<_MessageModalWidget> {
                                     height: 32,
                                     decoration: BoxDecoration(
                                       color: Colors.green.withOpacity(0.2),
-                                      borderRadius: BorderRadius.circular(20),
+                                      borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                                     ),
                                     child: const Icon(
                                       CupertinoIcons.bag,
@@ -15528,7 +15530,7 @@ class _MessageModalWidgetState extends State<_MessageModalWidget> {
                                           : widget.isLight
                                           ? Colors.white
                                           : Colors.black,
-                                      borderRadius: BorderRadius.circular(20),
+                                      borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                                     ),
                                     child: Column(
                                       crossAxisAlignment:
@@ -15568,7 +15570,7 @@ class _MessageModalWidgetState extends State<_MessageModalWidget> {
                                     height: 32,
                                     decoration: BoxDecoration(
                                       color: Colors.blue.withOpacity(0.2),
-                                      borderRadius: BorderRadius.circular(20),
+                                      borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                                     ),
                                     child: const Icon(
                                       CupertinoIcons.cube_box,
@@ -15604,7 +15606,7 @@ class _MessageModalWidgetState extends State<_MessageModalWidget> {
                         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
                         decoration: BoxDecoration(
                           color: widget.isLight ? Colors.white : Colors.black,
-                          borderRadius: BorderRadius.circular(20),
+                          borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                         ),
                         child: TradeRepublicTextField(
                           controller: _messageController,
@@ -15612,7 +15614,7 @@ class _MessageModalWidgetState extends State<_MessageModalWidget> {
                           hintText: AppLocalizations.of(context)?.typeAMessage ?? AppLocalizations.of(context)!.tr('Type a message...'),
                           style: TextStyle(
                             color: widget.isLight ? Colors.black : Colors.white,
-                            fontSize: 16,
+                            fontSize: DesktopOptimizedWidgets.getFontSize(),
                           ),
                           maxLines: 3,
                           minLines: 1,
@@ -15735,10 +15737,10 @@ class _PriceInputModalState extends State<_PriceInputModal> {
           // Distance info at top
           Container(
             margin: const EdgeInsets.fromLTRB(0, 12, 0, 0),
-            padding: const EdgeInsets.all(16),
+            padding: DesktopAppWrapper.getPagePadding(),
             decoration: BoxDecoration(
               color: widget.isLight ? Colors.white : Colors.black,
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
             ),
             child: Column(
               children: [
@@ -15756,7 +15758,7 @@ class _PriceInputModalState extends State<_PriceInputModal> {
                     Text(
                       AppLocalizations.of(context)?.myLocationToPickup ?? AppLocalizations.of(context)!.tr('My Location → Pickup'),
                       style: TextStyle(
-                        fontSize: 14,
+                        fontSize: DesktopOptimizedWidgets.getFontSize(),
                         fontWeight: FontWeight.w500,
                         color: widget.isLight ? Colors.black : Colors.white,
                         fontFamily: 'Poppins',
@@ -15768,7 +15770,7 @@ class _PriceInputModalState extends State<_PriceInputModal> {
                         widget.currentToPickupDist,
                       ),
                       style: TextStyle(
-                        fontSize: 14,
+                        fontSize: DesktopOptimizedWidgets.getFontSize(),
                         fontWeight: FontWeight.w600,
                         color: widget.isLight ? Colors.black : Colors.white,
                         fontFamily: 'Poppins',
@@ -15791,7 +15793,7 @@ class _PriceInputModalState extends State<_PriceInputModal> {
                     Text(
                       AppLocalizations.of(context)?.pickupToDelivery ?? AppLocalizations.of(context)!.tr('Pickup → Delivery'),
                       style: TextStyle(
-                        fontSize: 14,
+                        fontSize: DesktopOptimizedWidgets.getFontSize(),
                         fontWeight: FontWeight.w500,
                         color: widget.isLight ? Colors.black : Colors.white,
                         fontFamily: 'Poppins',
@@ -15803,7 +15805,7 @@ class _PriceInputModalState extends State<_PriceInputModal> {
                         widget.pickupToDeliveryDist,
                       ),
                       style: TextStyle(
-                        fontSize: 14,
+                        fontSize: DesktopOptimizedWidgets.getFontSize(),
                         fontWeight: FontWeight.w600,
                         color: const Color(0xFF6366F1),
                         fontFamily: 'Poppins',
@@ -15820,7 +15822,7 @@ class _PriceInputModalState extends State<_PriceInputModal> {
             child: Text(
               AppLocalizations.of(context)?.setYourPrice ?? AppLocalizations.of(context)!.tr('Set Your Price'),
               style: TextStyle(
-                fontSize: 24,
+                fontSize: DesktopOptimizedWidgets.getFontSize() + 10,
                 fontWeight: FontWeight.w700,
                 color: widget.isLight ? Colors.black : Colors.white,
                 fontFamily: 'Poppins',
@@ -15876,7 +15878,7 @@ class _PriceInputModalState extends State<_PriceInputModal> {
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
               decoration: BoxDecoration(
                 color: widget.isLight ? Colors.white : Colors.black,
-                borderRadius: BorderRadius.circular(20),
+                borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
               ),
               child: Row(
                 children: [
@@ -15904,7 +15906,7 @@ class _PriceInputModalState extends State<_PriceInputModal> {
                     Text(
                       _priceMode == 'per_km' ? '/km' : '/mi',
                       style: TextStyle(
-                        fontSize: 20,
+                        fontSize: DesktopOptimizedWidgets.getFontSize() + 6,
                         fontWeight: FontWeight.w600,
                         color: (widget.isLight ? Colors.black : Colors.white).withOpacity(0.5),
                         fontFamily: 'Poppins',
@@ -15914,7 +15916,7 @@ class _PriceInputModalState extends State<_PriceInputModal> {
               ),
             ),
           // Price slider
-          const SizedBox(height: 16),
+          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 4),
             child: TradeRepublicValueSlider(
@@ -15963,12 +15965,12 @@ class _PriceInputModalState extends State<_PriceInputModal> {
           ),
           // Calculated total when per km/mile
           if (_priceMode != 'total' && _priceCents > 0) ...[
-            const SizedBox(height: 16),
+            const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
             Container(
-                padding: const EdgeInsets.all(16),
+                padding: DesktopAppWrapper.getPagePadding(),
                 decoration: BoxDecoration(
                   color: const Color(0xFF6366F1).withOpacity(0.1),
-                  borderRadius: BorderRadius.circular(20),
+                  borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                 ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -15976,7 +15978,7 @@ class _PriceInputModalState extends State<_PriceInputModal> {
                     Text(
                       '${AppLocalizations.of(context)?.total ?? AppLocalizations.of(context)!.tr('Total')}: ',
                       style: TextStyle(
-                        fontSize: 16,
+                        fontSize: DesktopOptimizedWidgets.getFontSize(),
                         fontWeight: FontWeight.w500,
                         color: widget.isLight ? Colors.black : Colors.white,
                         fontFamily: 'Poppins',
@@ -15990,7 +15992,7 @@ class _PriceInputModalState extends State<_PriceInputModal> {
                         return widget.appSettings.formatCurrency((_priceCents / 100.0) * dist);
                       }(),
                       style: const TextStyle(
-                        fontSize: 20,
+                        fontSize: DesktopOptimizedWidgets.getFontSize() + 6,
                         fontWeight: FontWeight.w700,
                         color: Color(0xFF6366F1),
                         fontFamily: 'Poppins',
@@ -16002,14 +16004,14 @@ class _PriceInputModalState extends State<_PriceInputModal> {
           ],
           // Cleaning Certificate section
           if (widget.requiresCleaningCertificate) ...[
-            const SizedBox(height: 24),
+            const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
             Row(
                 children: [
                   Container(
                     padding: const EdgeInsets.all(8),
                     decoration: BoxDecoration(
                       color: const Color(0xFFFF9500).withOpacity(0.15),
-                      borderRadius: BorderRadius.circular(20),
+                      borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                     ),
                     child: const Icon(
                       CupertinoIcons.checkmark_shield,
@@ -16025,7 +16027,7 @@ class _PriceInputModalState extends State<_PriceInputModal> {
                         Text(
                           AppLocalizations.of(context)?.cleaningCertificateRequired ?? AppLocalizations.of(context)!.tr('Cleaning Certificate Required'),
                           style: TextStyle(
-                            fontSize: 16,
+                            fontSize: DesktopOptimizedWidgets.getFontSize(),
                             fontWeight: FontWeight.w600,
                             color: widget.isLight ? Colors.black : Colors.white,
                             fontFamily: 'Poppins',
@@ -16045,7 +16047,7 @@ class _PriceInputModalState extends State<_PriceInputModal> {
                   ),
                 ],
               ),
-            const SizedBox(height: 12),
+            const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
             Container(
                 padding: const EdgeInsets.symmetric(
                   horizontal: 20,
@@ -16053,14 +16055,14 @@ class _PriceInputModalState extends State<_PriceInputModal> {
                 ),
                 decoration: BoxDecoration(
                   color: widget.isLight ? Colors.white : Colors.black,
-                  borderRadius: BorderRadius.circular(20),
+                  borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                 ),
                 child: Row(
                   children: [
                     Text(
                       widget.appSettings.currencySymbol,
                       style: TextStyle(
-                        fontSize: 24,
+                        fontSize: DesktopOptimizedWidgets.getFontSize() + 10,
                         fontWeight: FontWeight.w700,
                         color: widget.isLight ? Colors.black : Colors.white,
                         fontFamily: 'Poppins',
@@ -16080,7 +16082,7 @@ class _PriceInputModalState extends State<_PriceInputModal> {
                     Text(
                       AppLocalizations.of(context)?.certificate ?? AppLocalizations.of(context)!.tr('Certificate'),
                       style: TextStyle(
-                        fontSize: 14,
+                        fontSize: DesktopOptimizedWidgets.getFontSize(),
                         fontWeight: FontWeight.w500,
                         color: Color(0xFFFF9500),
                         fontFamily: 'Poppins',
@@ -16090,7 +16092,7 @@ class _PriceInputModalState extends State<_PriceInputModal> {
                 ),
               ),
           ],
-          const SizedBox(height: 16),
+          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
                 ],
               ),
             ),
@@ -16267,7 +16269,7 @@ class _PriceRangeBottomSheetState extends State<_PriceRangeBottomSheet> {
                 decoration: BoxDecoration(
                   color: (isDark ? Colors.white : Colors.black)
                       .withOpacity(0.07),
-                  borderRadius: BorderRadius.circular(20),
+                  borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                 ),
                 child: Text(
                   loc?.reset ?? AppLocalizations.of(context)!.tr('Reset'),
@@ -16326,7 +16328,7 @@ class _PriceRangeBottomSheetState extends State<_PriceRangeBottomSheet> {
 
                 const SizedBox(height: 20),
                 const TradeRepublicDivider(),
-                const SizedBox(height: 8),
+                const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
                 TradeRepublicSectionHeader(
                   title: loc?.quickSelect ?? AppLocalizations.of(context)!.tr('Quick Select'),
@@ -16376,7 +16378,7 @@ class _PriceRangeBottomSheetState extends State<_PriceRangeBottomSheet> {
                   ],
                 ),
 
-                const SizedBox(height: 24),
+                const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
               ],
             ),
           ),

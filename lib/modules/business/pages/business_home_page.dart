@@ -20,6 +20,8 @@ import '../../../shared/services/app_localizations.dart';
 import '../../../shared/widgets/top_notification.dart';
 import '../../../shared/widgets/cultioo_spinner.dart';
 import '../../../shared/widgets/trade_republic_tap.dart';
+import 'package:cultioo_business/shared/widgets/desktop_app_wrapper.dart';
+import 'package:cultioo_business/shared/widgets/desktop_optimized_widgets.dart';
 
 class BusinessHomePage extends StatefulWidget {
   const BusinessHomePage({super.key});
@@ -364,7 +366,7 @@ class _BusinessHomePageState extends State<BusinessHomePage>
             isLight,
           ),
 
-          const SizedBox(height: 16),
+          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
         ],
       ),
     );
@@ -563,7 +565,7 @@ class _BusinessHomePageState extends State<BusinessHomePage>
               fontWeight: FontWeight.w400,
             ),
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
           // Period selector row
           TradeRepublicCard(
             onTap: () => _showPeriodSelectionModal(isLight),
@@ -582,7 +584,7 @@ class _BusinessHomePageState extends State<BusinessHomePage>
                   _getPeriodLabel(selectedPeriod),
                   style: TextStyle(
                     color: isLight ? Colors.black : Colors.white,
-                    fontSize: 14,
+                    fontSize: DesktopOptimizedWidgets.getFontSize(),
                     fontWeight: FontWeight.w500,
                   ),
                 ),
@@ -646,7 +648,7 @@ class _BusinessHomePageState extends State<BusinessHomePage>
   Widget _buildFloatingAppBar(bool isLight) {
     // BackdropFilter blur app bar
     return ClipRRect(
-      borderRadius: BorderRadius.circular(20),
+      borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
       child: BackdropFilter(
         filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
         child: Container(
@@ -655,7 +657,7 @@ class _BusinessHomePageState extends State<BusinessHomePage>
             color: isLight
                 ? Colors.white.withOpacity(0.3)
                 : Colors.black.withOpacity(0.3),
-            borderRadius: BorderRadius.circular(20),
+            borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
           ),
           child: Row(
             children: [
@@ -695,12 +697,12 @@ class _BusinessHomePageState extends State<BusinessHomePage>
           loc?.welcomeBack ?? AppLocalizations.of(context)!.tr('Welcome back,'),
           style: TextStyle(
             color: (isLight ? Colors.black : Colors.white).withOpacity(0.5),
-            fontSize: 18,
+            fontSize: DesktopOptimizedWidgets.getFontSize() + 4,
             fontWeight: FontWeight.w600,
             fontFamily: 'Poppins',
           ),
         ),
-        const SizedBox(height: 8),
+        const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
         Text(
           username,
           style: TextStyle(
@@ -730,7 +732,7 @@ class _BusinessHomePageState extends State<BusinessHomePage>
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
           ),
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -741,7 +743,7 @@ class _BusinessHomePageState extends State<BusinessHomePage>
                   padding: const EdgeInsets.all(14),
                   decoration: BoxDecoration(
                     color: Colors.white.withOpacity(0.2),
-                    borderRadius: BorderRadius.circular(20),
+                    borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                   ),
                   child: const Icon(
                     CupertinoIcons.money_dollar_circle,
@@ -757,7 +759,7 @@ class _BusinessHomePageState extends State<BusinessHomePage>
                   ),
                   decoration: BoxDecoration(
                     color: Colors.white.withOpacity(0.2),
-                    borderRadius: BorderRadius.circular(20),
+                    borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                   ),
                   child: Row(
                     children: [
@@ -781,7 +783,7 @@ class _BusinessHomePageState extends State<BusinessHomePage>
                 ),
               ],
             ),
-            const SizedBox(height: 24),
+            const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
             Text(
               AppLocalizations.of(context)?.totalRevenue ?? AppLocalizations.of(context)!.tr('Total Revenue'),
               style: const TextStyle(
@@ -825,7 +827,7 @@ class _BusinessHomePageState extends State<BusinessHomePage>
         // Stats in outlined card
         TradeRepublicCard(
           boxShadow: const [],
-          padding: const EdgeInsets.symmetric(horizontal: 16),
+          padding: EdgeInsets.symmetric(horizontal: DesktopAppWrapper.getHorizontalPadding()),
           child: Column(
             children: [
               _buildStatRow(
@@ -895,7 +897,7 @@ class _BusinessHomePageState extends State<BusinessHomePage>
         children: [
           Text(
             value,
-            style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+            style: const TextStyle(fontSize: DesktopOptimizedWidgets.getFontSize() + 4, fontWeight: FontWeight.w600),
           ),
           if (onTap != null) ...[
             const SizedBox(width: 8),
@@ -983,7 +985,7 @@ class _BusinessHomePageState extends State<BusinessHomePage>
     required bool isLight,
   }) {
     return TradeRepublicCard(
-      padding: const EdgeInsets.all(16),
+      padding: DesktopAppWrapper.getPagePadding(),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -997,7 +999,7 @@ class _BusinessHomePageState extends State<BusinessHomePage>
               letterSpacing: -1,
             ),
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
           Text(
             title,
             style: TextStyle(
@@ -1040,7 +1042,7 @@ class _BusinessHomePageState extends State<BusinessHomePage>
                     letterSpacing: -1,
                   ),
                 ),
-                const SizedBox(height: 8),
+                const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                 Text(
                   title,
                   style: TextStyle(
@@ -1073,7 +1075,7 @@ class _BusinessHomePageState extends State<BusinessHomePage>
               color: isLight
                   ? Colors.black.withOpacity(0.4)
                   : Colors.white.withOpacity(0.4),
-              fontSize: 14,
+              fontSize: DesktopOptimizedWidgets.getFontSize(),
               fontWeight: FontWeight.w400,
             ),
           ),
@@ -1115,23 +1117,23 @@ class _BusinessHomePageState extends State<BusinessHomePage>
                 : Colors.white.withOpacity(0.15),
             size: 48,
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
           Text(
             AppLocalizations.of(context)?.noProductsYet ?? AppLocalizations.of(context)!.tr('No Products Yet'),
             style: TextStyle(
               color: isLight ? Colors.black : Colors.white,
-              fontSize: 18,
+              fontSize: DesktopOptimizedWidgets.getFontSize() + 4,
               fontWeight: FontWeight.w600,
             ),
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
           Text(
             AppLocalizations.of(context)?.addFirstProductToGetStarted ?? AppLocalizations.of(context)!.tr('Add your first product to get started'),
             style: TextStyle(
               color: isLight
                   ? Colors.black.withOpacity(0.5)
                   : Colors.white.withOpacity(0.5),
-              fontSize: 14,
+              fontSize: DesktopOptimizedWidgets.getFontSize(),
               fontWeight: FontWeight.w400,
             ),
           ),
@@ -1178,7 +1180,7 @@ class _BusinessHomePageState extends State<BusinessHomePage>
                     color: isLight
                         ? Colors.black.withOpacity(0.4)
                         : Colors.white.withOpacity(0.4),
-                    fontSize: 14,
+                    fontSize: DesktopOptimizedWidgets.getFontSize(),
                     fontWeight: FontWeight.w500,
                   ),
                 ),
@@ -1191,10 +1193,10 @@ class _BusinessHomePageState extends State<BusinessHomePage>
                   color: isLight
                       ? Colors.black.withOpacity(0.04)
                       : Colors.white.withOpacity(0.04),
-                  borderRadius: BorderRadius.circular(20),
+                  borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                 ),
                 child: ClipRRect(
-                  borderRadius: BorderRadius.circular(20),
+                  borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                   child: () {
                     final bytes = _safeBase64Decode(imageUrl?.toString());
                     if (bytes != null) {
@@ -1253,7 +1255,7 @@ class _BusinessHomePageState extends State<BusinessHomePage>
                       color: isLight
                           ? Colors.black.withOpacity(0.6)
                           : Colors.white.withOpacity(0.6),
-                      fontSize: 14,
+                      fontSize: DesktopOptimizedWidgets.getFontSize(),
                       fontWeight: FontWeight.w500,
                     ),
                   ),
@@ -1319,7 +1321,7 @@ class _BusinessHomePageState extends State<BusinessHomePage>
                 '#$rank',
                 style: TextStyle(
                   color: rankColor ?? (isLight ? Colors.black : Colors.white),
-                  fontSize: 16,
+                  fontSize: DesktopOptimizedWidgets.getFontSize(),
                   fontWeight: FontWeight.w700,
                   fontFamily: 'Poppins',
                 ),
@@ -1333,7 +1335,7 @@ class _BusinessHomePageState extends State<BusinessHomePage>
             final bytes = _safeBase64Decode(imageUrl?.toString());
             if (bytes != null) {
               return ClipRRect(
-                borderRadius: BorderRadius.circular(20),
+                borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                 child: Image.memory(
                   bytes,
                   width: 50,
@@ -1344,7 +1346,7 @@ class _BusinessHomePageState extends State<BusinessHomePage>
                     height: 50,
                     decoration: BoxDecoration(
                       color: (isLight ? Colors.black : Colors.white).withOpacity(0.05),
-                      borderRadius: BorderRadius.circular(20),
+                      borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                     ),
                     child: Icon(
                       CupertinoIcons.photo_fill,
@@ -1359,7 +1361,7 @@ class _BusinessHomePageState extends State<BusinessHomePage>
               height: 50,
               decoration: BoxDecoration(
                 color: (isLight ? Colors.black : Colors.white).withOpacity(0.05),
-                borderRadius: BorderRadius.circular(20),
+                borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
               ),
               child: Icon(
                 CupertinoIcons.photo_fill,
@@ -1378,7 +1380,7 @@ class _BusinessHomePageState extends State<BusinessHomePage>
                   title,
                   style: TextStyle(
                     color: isLight ? Colors.black : Colors.white,
-                    fontSize: 16,
+                    fontSize: DesktopOptimizedWidgets.getFontSize(),
                     fontWeight: FontWeight.w600,
                     fontFamily: 'Poppins',
                   ),
@@ -1421,7 +1423,7 @@ class _BusinessHomePageState extends State<BusinessHomePage>
                     '$views',
                     style: TextStyle(
                       color: isLight ? Colors.black : Colors.white,
-                      fontSize: 20,
+                      fontSize: DesktopOptimizedWidgets.getFontSize() + 6,
                       fontWeight: FontWeight.w700,
                       fontFamily: 'Poppins',
                     ),
@@ -1519,7 +1521,7 @@ class _ChartModalContentState extends State<_ChartModalContent> {
             widget.title.toUpperCase(),
             style: TextStyle(fontSize: 11, fontWeight: FontWeight.w600, letterSpacing: 1.4, color: dim),
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
           Row(
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [

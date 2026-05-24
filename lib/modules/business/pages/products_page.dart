@@ -26,6 +26,8 @@ import '../../../shared/services/app_localizations.dart';
 import '../../../shared/widgets/cultioo_spinner.dart';
 import '../../../shared/widgets/trade_republic_tap.dart';
 import '../../../utils/number_formatters.dart';
+import 'package:cultioo_business/shared/widgets/desktop_app_wrapper.dart';
+import 'package:cultioo_business/shared/widgets/desktop_optimized_widgets.dart';
 
 // Currency Input Formatter - Input from right to left like a calculator
 // Example: "12300" → "123.00", "500" → "5.00", "12" → "0.12"
@@ -488,7 +490,7 @@ class _ProductsPageState extends State<ProductsPage>
                                   ? _buildEmptyState(isLight)
                                   : TradeRepublicCard(
                                       backgroundColor: Colors.transparent,
-                                      borderRadius: BorderRadius.circular(20),
+                                      borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                                       boxShadow: const [],
                                       padding: EdgeInsets.zero,
                                       child: Column(
@@ -607,7 +609,7 @@ class _ProductsPageState extends State<ProductsPage>
           // Status row with dots
           TradeRepublicCard(
             backgroundColor: Colors.transparent,
-            borderRadius: BorderRadius.circular(20),
+            borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
             boxShadow: const [],
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
             child: Row(
@@ -618,7 +620,7 @@ class _ProductsPageState extends State<ProductsPage>
                   height: 10,
                   decoration: BoxDecoration(
                     color: const Color(0xFF34C759),
-                    borderRadius: BorderRadius.circular(20),
+                    borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                   ),
                 ),
                 const SizedBox(width: 8),
@@ -626,7 +628,7 @@ class _ProductsPageState extends State<ProductsPage>
                   '$activeProducts ${_localized('active')}',
                   style: TextStyle(
                     color: isLight ? Colors.black : Colors.white,
-                    fontSize: 14,
+                    fontSize: DesktopOptimizedWidgets.getFontSize(),
                     fontWeight: FontWeight.w500,
                   ),
                 ),
@@ -637,7 +639,7 @@ class _ProductsPageState extends State<ProductsPage>
                   height: 10,
                   decoration: BoxDecoration(
                     color: const Color(0xFFFF9500),
-                    borderRadius: BorderRadius.circular(20),
+                    borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                   ),
                 ),
                 const SizedBox(width: 8),
@@ -645,7 +647,7 @@ class _ProductsPageState extends State<ProductsPage>
                   '$draftProducts ${_localized('draftLabel')}',
                   style: TextStyle(
                     color: isLight ? Colors.black : Colors.white,
-                    fontSize: 14,
+                    fontSize: DesktopOptimizedWidgets.getFontSize(),
                     fontWeight: FontWeight.w500,
                   ),
                 ),
@@ -673,7 +675,7 @@ class _ProductsPageState extends State<ProductsPage>
       padding: const EdgeInsets.only(bottom: 16),
       child: TradeRepublicCard(
         backgroundColor: Colors.transparent,
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
         boxShadow: const [],
         padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
         child: Column(
@@ -691,7 +693,7 @@ class _ProductsPageState extends State<ProductsPage>
                     '$selectedCount ${_localized('selected')}',
                     style: TextStyle(
                       color: isLight ? Colors.black : Colors.white,
-                      fontSize: 14,
+                      fontSize: DesktopOptimizedWidgets.getFontSize(),
                       fontWeight: FontWeight.w600,
                     ),
                   ),
@@ -791,7 +793,7 @@ class _ProductsPageState extends State<ProductsPage>
               '$selectedCount ${_localized('selected')}',
               style: TextStyle(
                 color: isLight ? Colors.black : Colors.white,
-                fontSize: 16,
+                fontSize: DesktopOptimizedWidgets.getFontSize(),
                 fontWeight: FontWeight.w600,
               ),
             ),
@@ -800,11 +802,11 @@ class _ProductsPageState extends State<ProductsPage>
               _localized('deleteProductWarning'),
               style: TextStyle(
                 color: (isLight ? Colors.black : Colors.white).withOpacity(0.5),
-                fontSize: 14,
+                fontSize: DesktopOptimizedWidgets.getFontSize(),
               ),
               textAlign: TextAlign.center,
             ),
-            const SizedBox(height: 24),
+            const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
             Row(
               children: [
                 Expanded(
@@ -908,10 +910,10 @@ class _ProductsPageState extends State<ProductsPage>
                     color: isLight
                         ? Colors.black.withOpacity(0.04)
                         : Colors.white.withOpacity(0.04),
-                    borderRadius: BorderRadius.circular(20),
+                    borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                   ),
                   child: ClipRRect(
-                    borderRadius: BorderRadius.circular(20),
+                    borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                     child: imageUrl != null && imageUrl.toString().isNotEmpty
                         ? _buildProductImage(imageUrl, isLight)
                         : Icon(
@@ -939,7 +941,7 @@ class _ProductsPageState extends State<ProductsPage>
                               color: isActive
                                   ? const Color(0xFF34C759)
                                   : const Color(0xFFFF9500),
-                              borderRadius: BorderRadius.circular(20),
+                              borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                             ),
                           ),
                           const SizedBox(width: 8),
@@ -951,7 +953,7 @@ class _ProductsPageState extends State<ProductsPage>
                                       )?.unnamedProduct ?? AppLocalizations.of(context)!.tr('Unnamed Product')),
                               style: TextStyle(
                                 color: isLight ? Colors.black : Colors.white,
-                                fontSize: 16,
+                                fontSize: DesktopOptimizedWidgets.getFontSize(),
                                 fontWeight: FontWeight.w600,
                               ),
                               maxLines: 1,
@@ -986,7 +988,7 @@ class _ProductsPageState extends State<ProductsPage>
                       appSettings.formatCurrency(minPrice),
                       style: TextStyle(
                         color: isLight ? Colors.black : Colors.white,
-                        fontSize: 16,
+                        fontSize: DesktopOptimizedWidgets.getFontSize(),
                         fontWeight: FontWeight.w600,
                       ),
                     ),
@@ -1174,7 +1176,7 @@ class _ProductsPageState extends State<ProductsPage>
 
   Widget _buildFloatingAppBar(bool isLight) {
     return ClipRRect(
-      borderRadius: BorderRadius.circular(20),
+      borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
       child: BackdropFilter(
         filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
         child: Container(
@@ -1183,7 +1185,7 @@ class _ProductsPageState extends State<ProductsPage>
             color: isLight
                 ? Colors.white.withOpacity(0.3)
                 : Colors.black.withOpacity(0.3),
-            borderRadius: BorderRadius.circular(20),
+            borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
           ),
           child: Row(
             children: [
@@ -1292,7 +1294,7 @@ class _ProductsPageState extends State<ProductsPage>
               height: 1.1,
             ),
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
           // Title - bold
           Text(
             title,
@@ -1319,7 +1321,7 @@ class _ProductsPageState extends State<ProductsPage>
           AppLocalizations.of(context)?.quickActions ?? AppLocalizations.of(context)!.tr('Quick Actions'),
           style: TextStyle(
             color: isLight ? Colors.black : Colors.white,
-            fontSize: 18,
+            fontSize: DesktopOptimizedWidgets.getFontSize() + 4,
             fontWeight: FontWeight.w700,
           ),
         ),
@@ -1360,14 +1362,14 @@ class _ProductsPageState extends State<ProductsPage>
   ) {
     return TradeRepublicCard(
       onTap: onTap,
-      padding: const EdgeInsets.all(16),
+      padding: DesktopAppWrapper.getPagePadding(),
       child: Column(
         children: [
           Container(
-            padding: const EdgeInsets.all(16),
+            padding: DesktopAppWrapper.getPagePadding(),
             decoration: BoxDecoration(
               color: isLight ? Colors.black : Colors.white,
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
             ),
             child: Icon(
               icon,
@@ -1375,12 +1377,12 @@ class _ProductsPageState extends State<ProductsPage>
               size: 32,
             ),
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
           Text(
             title,
             style: TextStyle(
               color: isLight ? Colors.black : Colors.white,
-              fontSize: 16,
+              fontSize: DesktopOptimizedWidgets.getFontSize(),
               fontWeight: FontWeight.w700,
               fontFamily: 'Poppins',
             ),
@@ -1450,10 +1452,10 @@ class _ProductsPageState extends State<ProductsPage>
     return TradeRepublicTap(
       onTap: () => _showProductDetailsModal(context, product, isLight),
       child: Container(
-        padding: const EdgeInsets.all(16),
+        padding: DesktopAppWrapper.getPagePadding(),
         decoration: BoxDecoration(
           color: isLight ? Colors.white : Colors.black,
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
           boxShadow:
               (Platform.isMacOS || Platform.isWindows || Platform.isLinux)
               ? [
@@ -1548,7 +1550,7 @@ class _ProductsPageState extends State<ProductsPage>
                         (AppLocalizations.of(context)?.unnamedProduct ?? AppLocalizations.of(context)!.tr('Unnamed Product')),
                     style: TextStyle(
                       color: isLight ? Colors.black : Colors.white,
-                      fontSize: 16,
+                      fontSize: DesktopOptimizedWidgets.getFontSize(),
                       fontWeight: FontWeight.w700,
                       fontFamily: 'Poppins',
                       letterSpacing: 0,
@@ -1564,7 +1566,7 @@ class _ProductsPageState extends State<ProductsPage>
                     priceDisplay,
                     style: TextStyle(
                       color: isLight ? Colors.black : Colors.white,
-                      fontSize: 20,
+                      fontSize: DesktopOptimizedWidgets.getFontSize() + 6,
                       fontWeight: FontWeight.w700,
                       fontFamily: 'Poppins',
                       letterSpacing: 0,
@@ -1611,7 +1613,7 @@ class _ProductsPageState extends State<ProductsPage>
     return Container(
       decoration: BoxDecoration(
         color: isLight ? Colors.white : Colors.black,
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
       ),
       child: Center(
         child: Icon(
@@ -1672,11 +1674,11 @@ class _ProductsPageState extends State<ProductsPage>
             AppLocalizations.of(context)?.noProducts ?? AppLocalizations.of(context)!.tr('No Products'),
             style: TextStyle(
               color: isLight ? Colors.black : Colors.white,
-              fontSize: 20,
+              fontSize: DesktopOptimizedWidgets.getFontSize() + 6,
               fontWeight: FontWeight.w600,
             ),
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
           Text(
             AppLocalizations.of(context)?.addFirstProductToGetStarted ?? AppLocalizations.of(context)!.tr('Add your first product to get started'),
             textAlign: TextAlign.center,
@@ -1733,36 +1735,36 @@ class _ProductsPageState extends State<ProductsPage>
                 ),
               ],
             ),
-            const SizedBox(height: 24),
+            const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
             // Product Name
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
               decoration: BoxDecoration(
                 color: isLight ? Colors.white : Colors.black,
-                borderRadius: BorderRadius.circular(20),
+                borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
               ),
               child: Text(
                 product['title'] ??
                     (AppLocalizations.of(context)?.thisProduct ?? AppLocalizations.of(context)!.tr('this product')),
                 style: TextStyle(
                   color: isLight ? Colors.black : Colors.white,
-                  fontSize: 16,
+                  fontSize: DesktopOptimizedWidgets.getFontSize(),
                   fontWeight: FontWeight.w600,
                 ),
                 textAlign: TextAlign.center,
               ),
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
             // Warning Message
             Text(
               AppLocalizations.of(context)?.deleteProductWarning ?? AppLocalizations.of(context)!.tr('This action cannot be undone. All product data, variants, and images will be permanently deleted.'),
               style: TextStyle(
                 color: (isLight ? Colors.black : Colors.white).withOpacity(0.5),
-                fontSize: 14,
+                fontSize: DesktopOptimizedWidgets.getFontSize(),
               ),
               textAlign: TextAlign.center,
             ),
-            const SizedBox(height: 24),
+            const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
             // Action Buttons
             Row(
               children: [
@@ -1887,7 +1889,7 @@ class _ProductsPageState extends State<ProductsPage>
               ],
             ),
 
-            const SizedBox(height: 16),
+            const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
             Expanded(
               child: SingleChildScrollView(
@@ -1896,7 +1898,7 @@ class _ProductsPageState extends State<ProductsPage>
                   children: [
                     // Explanation box
                     Container(
-                      padding: const EdgeInsets.all(16),
+                      padding: DesktopAppWrapper.getPagePadding(),
                       decoration: BoxDecoration(
                         color: (isLight ? Colors.black : Colors.white).withOpacity(0.05),
                         borderRadius: BorderRadius.circular(14),
@@ -1907,7 +1909,7 @@ class _ProductsPageState extends State<ProductsPage>
                           Text(
                             AppLocalizations.of(context)!.tr('What is Business Verification?'),
                             style: TextStyle(
-                              fontSize: 14,
+                              fontSize: DesktopOptimizedWidgets.getFontSize(),
                               fontWeight: FontWeight.w700,
                               color: isLight ? Colors.black : Colors.white,
                             ),
@@ -1924,7 +1926,7 @@ class _ProductsPageState extends State<ProductsPage>
                               height: 1.45,
                             ),
                           ),
-                          const SizedBox(height: 12),
+                          const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                           Text(
                             AppLocalizations.of(context)!.tr('What is required:'),
                             style: TextStyle(
@@ -1989,24 +1991,24 @@ class _ProductsPageState extends State<ProductsPage>
                       isLight,
                     ),
 
-                    const SizedBox(height: 24),
+                    const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
                     // Status box
                     Container(
                       width: double.infinity,
-                      padding: const EdgeInsets.all(20),
+                      padding: DesktopAppWrapper.getPagePadding(),
                       decoration: BoxDecoration(
                         color: verificationScore >= 100
                             ? Colors.green.withOpacity(0.08)
                             : Colors.orange.withOpacity(0.08),
-                        borderRadius: BorderRadius.circular(16),
+                        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius()),
                       ),
                       child: Text(
                         verificationScore >= 100
                             ? AppLocalizations.of(context)!.tr('Your business is fully verified! You can now create products.')
                             : AppLocalizations.of(context)!.tr('Complete the requirements above to unlock product creation.'),
                         style: TextStyle(
-                          fontSize: 14,
+                          fontSize: DesktopOptimizedWidgets.getFontSize(),
                           fontWeight: FontWeight.w500,
                           color: verificationScore >= 100
                               ? Colors.green
@@ -2016,7 +2018,7 @@ class _ProductsPageState extends State<ProductsPage>
                       ),
                     ),
 
-                    const SizedBox(height: 24),
+                    const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
                     // Action Button
                     TradeRepublicButton(
@@ -2055,10 +2057,10 @@ class _ProductsPageState extends State<ProductsPage>
   ) {
     return Container(
       margin: const EdgeInsets.only(bottom: 12),
-      padding: const EdgeInsets.all(16),
+      padding: DesktopAppWrapper.getPagePadding(),
       decoration: BoxDecoration(
         color: isLight ? Colors.white : Colors.black,
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
       ),
       child: Row(
         children: [
@@ -2068,7 +2070,7 @@ class _ProductsPageState extends State<ProductsPage>
               color: isCompleted
                   ? Colors.green
                   : (isLight ? Colors.black : Colors.white),
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
             ),
             child: Icon(
               icon,
@@ -2086,7 +2088,7 @@ class _ProductsPageState extends State<ProductsPage>
                 Text(
                   title,
                   style: TextStyle(
-                    fontSize: 16,
+                    fontSize: DesktopOptimizedWidgets.getFontSize(),
                     fontWeight: FontWeight.w600,
                     color: isLight ? Colors.black : Colors.white,
                     letterSpacing: -0.2,
@@ -2173,7 +2175,7 @@ class _ProductsPageState extends State<ProductsPage>
         text,
         style: TextStyle(
           color: (isLight ? Colors.black : Colors.white).withOpacity(0.7),
-          fontSize: 14,
+          fontSize: DesktopOptimizedWidgets.getFontSize(),
         ),
       ),
     );
@@ -2198,14 +2200,14 @@ class _ProductsPageState extends State<ProductsPage>
             label,
             style: TextStyle(
               color: (isLight ? Colors.black : Colors.white).withOpacity(0.5),
-              fontSize: 16,
+              fontSize: DesktopOptimizedWidgets.getFontSize(),
             ),
           ),
           Text(
             value,
             style: TextStyle(
               color: isLight ? Colors.black : Colors.white,
-              fontSize: 16,
+              fontSize: DesktopOptimizedWidgets.getFontSize(),
               fontWeight: FontWeight.w600,
             ),
           ),
@@ -2306,7 +2308,7 @@ class _ProductsPageState extends State<ProductsPage>
               }
             },
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
           _buildFilterOption(
             AppLocalizations.of(context)?.publishedLabel ?? AppLocalizations.of(context)!.tr('Published'),
             CupertinoIcons.checkmark_circle_fill,
@@ -2327,7 +2329,7 @@ class _ProductsPageState extends State<ProductsPage>
               }
             },
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
           _buildFilterOption(
             AppLocalizations.of(context)?.draftLabel ?? AppLocalizations.of(context)!.tr('Draft'),
             Icons.drafts,
@@ -2345,7 +2347,7 @@ class _ProductsPageState extends State<ProductsPage>
               }
             },
           ),
-          const SizedBox(height: 12),
+          const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
           // Cancel Button
           TradeRepublicButton(
             label: AppLocalizations.of(context)?.cancel ?? AppLocalizations.of(context)!.tr('Cancel'),
@@ -2409,7 +2411,7 @@ class _ProductsPageState extends State<ProductsPage>
               ),
             ],
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
           // Sort Options
           _buildSortOption(
             AppLocalizations.of(context)?.nameAZ ?? AppLocalizations.of(context)!.tr('Name (A-Z)'),
@@ -2857,7 +2859,7 @@ class _MultiStepProductModalState extends State<MultiStepProductModal> {
                 l10n?.savingProduct ?? AppLocalizations.of(context)!.tr('Saving Product...'),
                 style: TextStyle(
                   color: isLight ? Colors.black : Colors.white,
-                  fontSize: 16,
+                  fontSize: DesktopOptimizedWidgets.getFontSize(),
                   fontWeight: FontWeight.w600,
                 ),
               ),
@@ -3032,13 +3034,13 @@ class _MultiStepProductModalState extends State<MultiStepProductModal> {
                   : (AppLocalizations.of(context)?.addNewProduct ?? AppLocalizations.of(context)!.tr('Add New Product')),
               style: TextStyle(
                 color: widget.isLight ? Colors.black : Colors.white,
-                fontSize: 24,
+                fontSize: DesktopOptimizedWidgets.getFontSize() + 10,
                 fontWeight: FontWeight.w700,
               ),
             ),
           ),
 
-          const SizedBox(height: 16),
+          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
           // Progress Bar
           Column(
@@ -3051,7 +3053,7 @@ class _MultiStepProductModalState extends State<MultiStepProductModal> {
                     _getStepTitle(),
                     style: TextStyle(
                       color: widget.isLight ? Colors.black54 : Colors.white54,
-                      fontSize: 14,
+                      fontSize: DesktopOptimizedWidgets.getFontSize(),
                       fontWeight: FontWeight.w500,
                     ),
                   ),
@@ -3059,15 +3061,15 @@ class _MultiStepProductModalState extends State<MultiStepProductModal> {
                     '${(progress * 100).round()}%',
                     style: TextStyle(
                       color: widget.isLight ? Colors.black : Colors.white,
-                      fontSize: 14,
+                      fontSize: DesktopOptimizedWidgets.getFontSize(),
                       fontWeight: FontWeight.w700,
                     ),
                   ),
                 ],
               ),
-              const SizedBox(height: 8),
+              const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
               ClipRRect(
-                borderRadius: BorderRadius.circular(20),
+                borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                 child: LinearProgressIndicator(
                   value: progress,
                   backgroundColor: widget.isLight
@@ -3119,7 +3121,7 @@ class _MultiStepProductModalState extends State<MultiStepProductModal> {
 
   Widget _buildVariantsSection() {
     return Padding(
-      padding: const EdgeInsets.all(16),
+      padding: DesktopAppWrapper.getPagePadding(),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -3132,7 +3134,7 @@ class _MultiStepProductModalState extends State<MultiStepProductModal> {
                   color: widget.isLight
                       ? Colors.white
                       : Colors.transparent,
-                  borderRadius: BorderRadius.circular(20),
+                  borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                 ),
                 child: Icon(
                   CupertinoIcons.cube_box,
@@ -3149,7 +3151,7 @@ class _MultiStepProductModalState extends State<MultiStepProductModal> {
                       AppLocalizations.of(context)?.productVariants ?? AppLocalizations.of(context)!.tr('Product Variants'),
                       style: TextStyle(
                         color: widget.isLight ? Colors.black : Colors.white,
-                        fontSize: 18,
+                        fontSize: DesktopOptimizedWidgets.getFontSize() + 4,
                         fontWeight: FontWeight.w700,
                       ),
                     ),
@@ -3157,7 +3159,7 @@ class _MultiStepProductModalState extends State<MultiStepProductModal> {
                       AppLocalizations.of(context)?.createDifferentVersions ?? AppLocalizations.of(context)!.tr('Create different versions of your product'),
                       style: TextStyle(
                         color: widget.isLight ? Colors.black54 : Colors.white54,
-                        fontSize: 14,
+                        fontSize: DesktopOptimizedWidgets.getFontSize(),
                       ),
                     ),
                   ],
@@ -3166,20 +3168,20 @@ class _MultiStepProductModalState extends State<MultiStepProductModal> {
             ],
           ),
 
-          const SizedBox(height: 24),
+          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
           // Variant 1 is always shown (automatically created in initState)
           _buildVariantCard(variants[0], 0),
 
           // Weitere Varianten anzeigen (falls vorhanden)
           if (variants.length > 1) ...[
-            const SizedBox(height: 16),
+            const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
             _buildVariantCard(variants[1], 1),
           ],
 
           // Add Variant 2 Button (only if we don't have a second variant yet)
           if (variants.length == 1) ...[
-            const SizedBox(height: 16),
+            const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
             TradeRepublicTap(
               onTap: () {
                 setState(() {
@@ -3197,10 +3199,10 @@ class _MultiStepProductModalState extends State<MultiStepProductModal> {
                 });
               },
               child: Container(
-                padding: const EdgeInsets.all(16),
+                padding: DesktopAppWrapper.getPagePadding(),
                 decoration: BoxDecoration(
                   color: widget.isLight ? Colors.white : Colors.black,
-                  borderRadius: BorderRadius.circular(20),
+                  borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                 ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -3215,7 +3217,7 @@ class _MultiStepProductModalState extends State<MultiStepProductModal> {
                       AppLocalizations.of(context)?.addVariant ?? AppLocalizations.of(context)!.tr('Add Variant 2'),
                       style: TextStyle(
                         color: widget.isLight ? Colors.black : Colors.white,
-                        fontSize: 16,
+                        fontSize: DesktopOptimizedWidgets.getFontSize(),
                         fontWeight: FontWeight.w700,
                       ),
                     ),
@@ -3227,7 +3229,7 @@ class _MultiStepProductModalState extends State<MultiStepProductModal> {
 
           // Add More Variants Button (ab der 3. Variante)
           if (variants.length >= 2) ...[
-            const SizedBox(height: 16),
+            const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
             TradeRepublicTap(
               onTap: () {
                 setState(() {
@@ -3244,10 +3246,10 @@ class _MultiStepProductModalState extends State<MultiStepProductModal> {
                 });
               },
               child: Container(
-                padding: const EdgeInsets.all(16),
+                padding: DesktopAppWrapper.getPagePadding(),
                 decoration: BoxDecoration(
                   color: widget.isLight ? Colors.white : Colors.black,
-                  borderRadius: BorderRadius.circular(20),
+                  borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                 ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -3262,7 +3264,7 @@ class _MultiStepProductModalState extends State<MultiStepProductModal> {
                       AppLocalizations.of(context)?.addAnotherVariant ?? AppLocalizations.of(context)!.tr('Add Another Variant'),
                       style: TextStyle(
                         color: widget.isLight ? Colors.black : Colors.white,
-                        fontSize: 16,
+                        fontSize: DesktopOptimizedWidgets.getFontSize(),
                         fontWeight: FontWeight.w700,
                       ),
                     ),
@@ -3317,10 +3319,10 @@ class _MultiStepProductModalState extends State<MultiStepProductModal> {
     ];
 
     return Container(
-      padding: const EdgeInsets.all(16),
+      padding: DesktopAppWrapper.getPagePadding(),
       decoration: BoxDecoration(
         color: widget.isLight ? Colors.white : Colors.transparent,
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -3335,7 +3337,7 @@ class _MultiStepProductModalState extends State<MultiStepProductModal> {
                       : variant['name'],
                   style: TextStyle(
                     color: widget.isLight ? Colors.black : Colors.white,
-                    fontSize: 18,
+                    fontSize: DesktopOptimizedWidgets.getFontSize() + 4,
                     fontWeight: FontWeight.w600,
                   ),
                 ),
@@ -3372,7 +3374,7 @@ class _MultiStepProductModalState extends State<MultiStepProductModal> {
                 variant['title'] ?? AppLocalizations.of(context)!.tr(''),
                 (value) => variant['title'] = value,
               ),
-              const SizedBox(height: 16),
+              const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
               // Subtitle
               _buildVariantFormField(
@@ -3381,11 +3383,11 @@ class _MultiStepProductModalState extends State<MultiStepProductModal> {
                 variant['subtitle'] ?? AppLocalizations.of(context)!.tr(''),
                 (value) => variant['subtitle'] = value,
               ),
-              const SizedBox(height: 16),
+              const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
               // Kategorie
               _buildVariantCategoryDropdown(variant, categories),
-              const SizedBox(height: 16),
+              const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
               // Beschreibung
               _buildVariantFormField(
@@ -3395,7 +3397,7 @@ class _MultiStepProductModalState extends State<MultiStepProductModal> {
                 (value) => variant['description'] = value,
                 maxLines: 3,
               ),
-              const SizedBox(height: 16),
+              const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
             ],
           ),
         ],
@@ -3442,18 +3444,18 @@ class _MultiStepProductModalState extends State<MultiStepProductModal> {
           AppLocalizations.of(context)?.categoryLabel ?? AppLocalizations.of(context)!.tr('Category'),
           style: TextStyle(
             color: widget.isLight ? Colors.black : Colors.white,
-            fontSize: 16,
+            fontSize: DesktopOptimizedWidgets.getFontSize(),
             fontWeight: FontWeight.w600,
           ),
         ),
-        const SizedBox(height: 8),
+        const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
         TradeRepublicTap(
           onTap: () => _showCategoryBottomSheet(variant, categories),
           child: Container(
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
             decoration: BoxDecoration(
               color: widget.isLight ? Colors.white : Colors.transparent,
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
             ),
             child: Row(
               children: [
@@ -3462,7 +3464,7 @@ class _MultiStepProductModalState extends State<MultiStepProductModal> {
                     _translateCategory(variant['category'] ?? selectedCategory),
                     style: TextStyle(
                       color: widget.isLight ? Colors.black : Colors.white,
-                      fontSize: 16,
+                      fontSize: DesktopOptimizedWidgets.getFontSize(),
                     ),
                   ),
                 ),
@@ -3510,7 +3512,7 @@ class _MultiStepProductModalState extends State<MultiStepProductModal> {
                       AppLocalizations.of(context)?.productImages ?? AppLocalizations.of(context)!.tr('Product Images'),
                       style: TextStyle(
                         color: widget.isLight ? Colors.black : Colors.white,
-                        fontSize: 18,
+                        fontSize: DesktopOptimizedWidgets.getFontSize() + 4,
                         fontWeight: FontWeight.w700,
                       ),
                     ),
@@ -3518,7 +3520,7 @@ class _MultiStepProductModalState extends State<MultiStepProductModal> {
                       AppLocalizations.of(context)?.uploadPhotosOfProduct ?? AppLocalizations.of(context)!.tr('Upload photos of your product'),
                       style: TextStyle(
                         color: widget.isLight ? Colors.black54 : Colors.white54,
-                        fontSize: 14,
+                        fontSize: DesktopOptimizedWidgets.getFontSize(),
                       ),
                     ),
                   ],
@@ -3527,7 +3529,7 @@ class _MultiStepProductModalState extends State<MultiStepProductModal> {
             ],
           ),
 
-          const SizedBox(height: 24),
+          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
           // Show images for each variant
           if (variants.isNotEmpty) ...[
@@ -3563,10 +3565,10 @@ class _MultiStepProductModalState extends State<MultiStepProductModal> {
     List<String> images = List<String>.from(variant['images'] ?? []);
 
     return Container(
-      padding: const EdgeInsets.all(16),
+      padding: DesktopAppWrapper.getPagePadding(),
       decoration: BoxDecoration(
         color: widget.isLight ? Colors.white : Colors.transparent,
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -3581,7 +3583,7 @@ class _MultiStepProductModalState extends State<MultiStepProductModal> {
                       : '${AppLocalizations.of(context)?.variantLabel ?? AppLocalizations.of(context)!.tr('Variant')} ${index + 1}',
                   style: TextStyle(
                     color: widget.isLight ? Colors.black : Colors.white,
-                    fontSize: 18,
+                    fontSize: DesktopOptimizedWidgets.getFontSize() + 4,
                     fontWeight: FontWeight.w600,
                   ),
                 ),
@@ -3591,13 +3593,13 @@ class _MultiStepProductModalState extends State<MultiStepProductModal> {
                 style: TextStyle(
                   color: (widget.isLight ? Colors.black : Colors.white)
                       .withOpacity(0.4),
-                  fontSize: 14,
+                  fontSize: DesktopOptimizedWidgets.getFontSize(),
                 ),
               ),
             ],
           ),
 
-          const SizedBox(height: 16),
+          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
           // Image Grid
           GridView.builder(
@@ -3693,13 +3695,13 @@ class _MultiStepProductModalState extends State<MultiStepProductModal> {
           ),
 
           if (images.isEmpty) ...[
-            const SizedBox(height: 12),
+            const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
             Container(
               width: double.infinity,
-              padding: const EdgeInsets.all(16),
+              padding: DesktopAppWrapper.getPagePadding(),
               decoration: BoxDecoration(
                 color: widget.isLight ? Colors.white : Colors.black,
-                borderRadius: BorderRadius.circular(20),
+                borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
               ),
               child: Column(
                 children: [
@@ -3708,12 +3710,12 @@ class _MultiStepProductModalState extends State<MultiStepProductModal> {
                     size: 32,
                     color: widget.isLight ? Colors.black54 : Colors.white54,
                   ),
-                  const SizedBox(height: 8),
+                  const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                   Text(
                     AppLocalizations.of(context)?.noImagesAddedYet ?? AppLocalizations.of(context)!.tr('No images added yet'),
                     style: TextStyle(
                       color: widget.isLight ? Colors.black54 : Colors.white54,
-                      fontSize: 14,
+                      fontSize: DesktopOptimizedWidgets.getFontSize(),
                     ),
                   ),
                 ],
@@ -3739,16 +3741,16 @@ class _MultiStepProductModalState extends State<MultiStepProductModal> {
       padding: const EdgeInsets.all(4),
       decoration: BoxDecoration(
         color: widget.isLight ? Colors.white : Colors.black,
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
       ),
       child: Stack(
         children: [
           Container(
             width: double.infinity,
             height: double.infinity,
-            decoration: BoxDecoration(borderRadius: BorderRadius.circular(16)),
+            decoration: BoxDecoration(borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius())),
             child: ClipRRect(
-              borderRadius: BorderRadius.circular(16),
+              borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius()),
               child: isPlaceholder
                   ? Icon(
                       CupertinoIcons.photo_fill,
@@ -3795,7 +3797,7 @@ class _MultiStepProductModalState extends State<MultiStepProductModal> {
                   padding: const EdgeInsets.all(4),
                   decoration: BoxDecoration(
                     color: Colors.red,
-                    borderRadius: BorderRadius.circular(20),
+                    borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                   ),
                   child: Icon(
                     CupertinoIcons.xmark,
@@ -3847,10 +3849,10 @@ class _MultiStepProductModalState extends State<MultiStepProductModal> {
     return TradeRepublicTap(
       onTap: onTap,
       child: Container(
-        padding: const EdgeInsets.all(16),
+        padding: DesktopAppWrapper.getPagePadding(),
         decoration: BoxDecoration(
           color: widget.isLight ? Colors.white : Colors.black,
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
         ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -3909,7 +3911,7 @@ class _MultiStepProductModalState extends State<MultiStepProductModal> {
                 ),
               ],
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
             Row(
               children: [
                 Expanded(
@@ -3944,10 +3946,10 @@ class _MultiStepProductModalState extends State<MultiStepProductModal> {
     return TradeRepublicTap(
       onTap: onTap, // Execute callback directly without closing modal
       child: Container(
-        padding: const EdgeInsets.all(16),
+        padding: DesktopAppWrapper.getPagePadding(),
         decoration: BoxDecoration(
           color: widget.isLight ? Colors.white : Colors.black,
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
         ),
         child: Row(
           children: [
@@ -3961,7 +3963,7 @@ class _MultiStepProductModalState extends State<MultiStepProductModal> {
               title,
               style: TextStyle(
                 color: widget.isLight ? Colors.black : Colors.white,
-                fontSize: 16,
+                fontSize: DesktopOptimizedWidgets.getFontSize(),
                 fontWeight: FontWeight.w500,
               ),
             ),
@@ -4132,7 +4134,7 @@ class _MultiStepProductModalState extends State<MultiStepProductModal> {
     return Container(
       decoration: BoxDecoration(
         color: widget.isLight ? Colors.white : Colors.transparent,
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -4146,7 +4148,7 @@ class _MultiStepProductModalState extends State<MultiStepProductModal> {
                   color: widget.isLight
                       ? Colors.white
                       : Colors.transparent,
-                  borderRadius: BorderRadius.circular(20),
+                  borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                 ),
                 child: Icon(
                   CupertinoIcons.lab_flask,
@@ -4163,7 +4165,7 @@ class _MultiStepProductModalState extends State<MultiStepProductModal> {
                       AppLocalizations.of(context)?.nutritionAndDetails ?? AppLocalizations.of(context)!.tr('Nutrition & Details'),
                       style: TextStyle(
                         color: widget.isLight ? Colors.black : Colors.white,
-                        fontSize: 18,
+                        fontSize: DesktopOptimizedWidgets.getFontSize() + 4,
                         fontWeight: FontWeight.w700,
                       ),
                     ),
@@ -4171,7 +4173,7 @@ class _MultiStepProductModalState extends State<MultiStepProductModal> {
                       AppLocalizations.of(context)?.additionalProductInfo ?? AppLocalizations.of(context)!.tr('Additional product information'),
                       style: TextStyle(
                         color: widget.isLight ? Colors.black54 : Colors.white54,
-                        fontSize: 14,
+                        fontSize: DesktopOptimizedWidgets.getFontSize(),
                       ),
                     ),
                   ],
@@ -4180,15 +4182,15 @@ class _MultiStepProductModalState extends State<MultiStepProductModal> {
             ],
           ),
 
-          const SizedBox(height: 24),
+          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
           // Variant Header
           if (variants.length > 1) ...[
             Container(
-              padding: const EdgeInsets.all(16),
+              padding: DesktopAppWrapper.getPagePadding(),
               decoration: BoxDecoration(
                 color: widget.isLight ? Colors.white : Colors.transparent,
-                borderRadius: BorderRadius.circular(20),
+                borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
               ),
               child: Row(
                 children: [
@@ -4199,7 +4201,7 @@ class _MultiStepProductModalState extends State<MultiStepProductModal> {
                           : '${AppLocalizations.of(context)?.variantLabel ?? AppLocalizations.of(context)!.tr('Variant')} ${index + 1}',
                       style: TextStyle(
                         color: widget.isLight ? Colors.black : Colors.white,
-                        fontSize: 18,
+                        fontSize: DesktopOptimizedWidgets.getFontSize() + 4,
                         fontWeight: FontWeight.w600,
                       ),
                     ),
@@ -4236,7 +4238,7 @@ class _MultiStepProductModalState extends State<MultiStepProductModal> {
                   color: widget.isLight
                       ? Colors.white
                       : Colors.transparent,
-                  borderRadius: BorderRadius.circular(20),
+                  borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                 ),
                 child: Icon(
                   CupertinoIcons.money_dollar,
@@ -4253,7 +4255,7 @@ class _MultiStepProductModalState extends State<MultiStepProductModal> {
                       AppLocalizations.of(context)?.pricingAndStock ?? AppLocalizations.of(context)!.tr('Pricing & Stock'),
                       style: TextStyle(
                         color: widget.isLight ? Colors.black : Colors.white,
-                        fontSize: 18,
+                        fontSize: DesktopOptimizedWidgets.getFontSize() + 4,
                         fontWeight: FontWeight.w700,
                       ),
                     ),
@@ -4261,7 +4263,7 @@ class _MultiStepProductModalState extends State<MultiStepProductModal> {
                       AppLocalizations.of(context)?.setPricesAndInventory ?? AppLocalizations.of(context)!.tr('Set prices and inventory levels'),
                       style: TextStyle(
                         color: widget.isLight ? Colors.black54 : Colors.white54,
-                        fontSize: 14,
+                        fontSize: DesktopOptimizedWidgets.getFontSize(),
                       ),
                     ),
                   ],
@@ -4270,7 +4272,7 @@ class _MultiStepProductModalState extends State<MultiStepProductModal> {
             ],
           ),
 
-          const SizedBox(height: 24),
+          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
           // Show pricing for each variant
           if (variants.isNotEmpty) ...[
@@ -4318,10 +4320,10 @@ class _MultiStepProductModalState extends State<MultiStepProductModal> {
     final units = ['g', 'kg', 't', 'oz', 'lb', 'pc', 'L', 'mL', 'pk'];
 
     return Container(
-      padding: const EdgeInsets.all(16),
+      padding: DesktopAppWrapper.getPagePadding(),
       decoration: BoxDecoration(
         color: widget.isLight ? Colors.white : Colors.transparent,
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -4336,7 +4338,7 @@ class _MultiStepProductModalState extends State<MultiStepProductModal> {
                       : '${AppLocalizations.of(context)?.variantLabel ?? AppLocalizations.of(context)!.tr('Variant')} ${index + 1}',
                   style: TextStyle(
                     color: widget.isLight ? Colors.black : Colors.white,
-                    fontSize: 18,
+                    fontSize: DesktopOptimizedWidgets.getFontSize() + 4,
                     fontWeight: FontWeight.w600,
                   ),
                 ),
@@ -4368,11 +4370,11 @@ class _MultiStepProductModalState extends State<MultiStepProductModal> {
                   Expanded(child: _buildUnitDropdown(variant, units)),
                 ],
               ),
-              const SizedBox(height: 16),
+              const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
               // Always Available Toggle
               _buildAlwaysAvailableToggle(variant),
-              const SizedBox(height: 16),
+              const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
               // Stock Row (Stock = 0 if always available, disabled if always available)
               Column(
@@ -4382,11 +4384,11 @@ class _MultiStepProductModalState extends State<MultiStepProductModal> {
                     AppLocalizations.of(context)?.stockQuantity ?? AppLocalizations.of(context)!.tr('Stock Quantity'),
                     style: TextStyle(
                       color: widget.isLight ? Colors.black : Colors.white,
-                      fontSize: 14,
+                      fontSize: DesktopOptimizedWidgets.getFontSize(),
                       fontWeight: FontWeight.w600,
                     ),
                   ),
-                  const SizedBox(height: 8),
+                  const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                   Container(
                     padding: const EdgeInsets.symmetric(
                       horizontal: 12,
@@ -4394,7 +4396,7 @@ class _MultiStepProductModalState extends State<MultiStepProductModal> {
                     ),
                     decoration: BoxDecoration(
                       color: widget.isLight ? Colors.white : Colors.black,
-                      borderRadius: BorderRadius.circular(20),
+                      borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                     ),
                     child: TradeRepublicTextField(
                       useFormField: true,
@@ -4406,7 +4408,7 @@ class _MultiStepProductModalState extends State<MultiStepProductModal> {
                       inputFormatters: [IntegerInputFormatter()],
                       style: TextStyle(
                         color: widget.isLight ? Colors.black : Colors.white,
-                        fontSize: 14,
+                        fontSize: DesktopOptimizedWidgets.getFontSize(),
                       ),
                       hintText: AppLocalizations.of(context)!.tr('0') ?? AppLocalizations.of(context)!.tr('0'),
                       onChanged: (value) {
@@ -4421,7 +4423,7 @@ class _MultiStepProductModalState extends State<MultiStepProductModal> {
                   ),
                 ],
               ),
-              const SizedBox(height: 16),
+              const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
               // Daily Production (only shown if Always Available is enabled)
               if (variant['alwaysAvailable'] ?? false) ...[
@@ -4445,7 +4447,7 @@ class _MultiStepProductModalState extends State<MultiStepProductModal> {
                               color: widget.isLight
                                   ? Colors.black
                                   : Colors.white,
-                              fontSize: 14,
+                              fontSize: DesktopOptimizedWidgets.getFontSize(),
                               fontWeight: FontWeight.w600,
                             ),
                           ),
@@ -4461,7 +4463,7 @@ class _MultiStepProductModalState extends State<MultiStepProductModal> {
                         ),
                       ],
                     ),
-                    const SizedBox(height: 8),
+                    const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                     _buildPricingFormField(
                       AppLocalizations.of(context)?.dailyProduction ?? AppLocalizations.of(context)!.tr('Daily Production'),
                       '0.00',
@@ -4489,7 +4491,7 @@ class _MultiStepProductModalState extends State<MultiStepProductModal> {
                     ),
                   ],
                 ),
-                const SizedBox(height: 16),
+                const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
               ],
 
               // Minimum Order Quantity
@@ -4506,10 +4508,10 @@ class _MultiStepProductModalState extends State<MultiStepProductModal> {
               if ((variant['price'] ?? 0.0) > 0) ...[
                 Container(
                   width: double.infinity,
-                  padding: const EdgeInsets.all(16),
+                  padding: DesktopAppWrapper.getPagePadding(),
                   decoration: BoxDecoration(
                     color: widget.isLight ? Colors.white : Colors.black,
-                    borderRadius: BorderRadius.circular(20),
+                    borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                   ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -4518,11 +4520,11 @@ class _MultiStepProductModalState extends State<MultiStepProductModal> {
                         AppLocalizations.of(context)?.calculatedValues ?? AppLocalizations.of(context)!.tr('Calculated Values'),
                         style: TextStyle(
                           color: widget.isLight ? Colors.black : Colors.white,
-                          fontSize: 14,
+                          fontSize: DesktopOptimizedWidgets.getFontSize(),
                           fontWeight: FontWeight.w600,
                         ),
                       ),
-                      const SizedBox(height: 8),
+                      const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -4577,7 +4579,7 @@ class _MultiStepProductModalState extends State<MultiStepProductModal> {
                           ),
                         ),
                         if ((variant['dailyProduction'] ?? 0.0) > 0) ...[
-                          const SizedBox(height: 8),
+                          const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
@@ -4720,18 +4722,18 @@ class _MultiStepProductModalState extends State<MultiStepProductModal> {
           AppLocalizations.of(context)?.unitLabel ?? AppLocalizations.of(context)!.tr('Unit'),
           style: TextStyle(
             color: widget.isLight ? Colors.black : Colors.white,
-            fontSize: 14,
+            fontSize: DesktopOptimizedWidgets.getFontSize(),
             fontWeight: FontWeight.w600,
           ),
         ),
-        const SizedBox(height: 8),
+        const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
         TradeRepublicTap(
           onTap: () => _showUnitBottomSheet(variant, units),
           child: Container(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
             decoration: BoxDecoration(
               color: widget.isLight ? Colors.white : Colors.black,
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
             ),
             child: Row(
               children: [
@@ -4740,7 +4742,7 @@ class _MultiStepProductModalState extends State<MultiStepProductModal> {
                     variant['unit'] ?? AppLocalizations.of(context)!.tr('piece'),
                     style: TextStyle(
                       color: widget.isLight ? Colors.black : Colors.white,
-                      fontSize: 14,
+                      fontSize: DesktopOptimizedWidgets.getFontSize(),
                     ),
                   ),
                 ),
@@ -4757,10 +4759,10 @@ class _MultiStepProductModalState extends State<MultiStepProductModal> {
     final isAlwaysAvailable = variant['alwaysAvailable'] ?? false;
 
     return Container(
-      padding: const EdgeInsets.all(16),
+      padding: DesktopAppWrapper.getPagePadding(),
       decoration: BoxDecoration(
         color: widget.isLight ? Colors.white : Colors.black,
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
       ),
       child: Row(
         children: [
@@ -4778,7 +4780,7 @@ class _MultiStepProductModalState extends State<MultiStepProductModal> {
                   AppLocalizations.of(context)?.alwaysAvailable ?? AppLocalizations.of(context)!.tr('Always Available'),
                   style: TextStyle(
                     color: widget.isLight ? Colors.black : Colors.white,
-                    fontSize: 14,
+                    fontSize: DesktopOptimizedWidgets.getFontSize(),
                     fontWeight: FontWeight.w600,
                   ),
                 ),
@@ -4854,17 +4856,17 @@ class _MultiStepProductModalState extends State<MultiStepProductModal> {
               ),
             ],
           ),
-          const SizedBox(height: 24),
+          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
           // Message
           Text(
             message,
             style: TextStyle(
               color: widget.isLight ? Colors.black54 : Colors.white70,
-              fontSize: 16,
+              fontSize: DesktopOptimizedWidgets.getFontSize(),
             ),
             textAlign: TextAlign.center,
           ),
-          const SizedBox(height: 24),
+          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
           // OK Button
           SizedBox(
             width: double.infinity,
@@ -4882,16 +4884,16 @@ class _MultiStepProductModalState extends State<MultiStepProductModal> {
 
   Widget _buildFloatingBottomNavigation() {
     return ClipRRect(
-      borderRadius: BorderRadius.circular(20),
+      borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
       child: BackdropFilter(
         filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
         child: Container(
-          padding: const EdgeInsets.all(16),
+          padding: DesktopAppWrapper.getPagePadding(),
           decoration: BoxDecoration(
             color: (widget.isLight ? Colors.white : Colors.black).withOpacity(
               0.85,
             ),
-            borderRadius: BorderRadius.circular(20),
+            borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
             boxShadow: [
               BoxShadow(
                 color: Colors.black.withOpacity(widget.isLight ? 0.1 : 0.3),
@@ -5047,10 +5049,10 @@ class _MultiStepProductModalState extends State<MultiStepProductModal> {
     return Container(
       key: ValueKey('nutrition_section_$nutritionKey'),
 
-      padding: const EdgeInsets.all(16),
+      padding: DesktopAppWrapper.getPagePadding(),
       decoration: BoxDecoration(
         color: widget.isLight ? Colors.white : Colors.black,
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -5068,7 +5070,7 @@ class _MultiStepProductModalState extends State<MultiStepProductModal> {
                   AppLocalizations.of(context)?.nutritionInformation ?? AppLocalizations.of(context)!.tr('Nutrition Information'),
                   style: TextStyle(
                     color: widget.isLight ? Colors.black : Colors.white,
-                    fontSize: 16,
+                    fontSize: DesktopOptimizedWidgets.getFontSize(),
                     fontWeight: FontWeight.w700,
                   ),
                 ),
@@ -5083,7 +5085,7 @@ class _MultiStepProductModalState extends State<MultiStepProductModal> {
                   ),
                   decoration: BoxDecoration(
                     color: widget.isLight ? Colors.white : Colors.black,
-                    borderRadius: BorderRadius.circular(20),
+                    borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                   ),
                   child: Row(
                     children: [
@@ -5103,16 +5105,16 @@ class _MultiStepProductModalState extends State<MultiStepProductModal> {
               ),
             ],
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
           // Show message if nutrition is disabled
           if (isNutritionDisabled) ...[
             Container(
-              padding: const EdgeInsets.all(16),
+              padding: DesktopAppWrapper.getPagePadding(),
               decoration: BoxDecoration(
                 color: (widget.isLight ? Colors.black : Colors.white)
                     .withOpacity(0.1),
-                borderRadius: BorderRadius.circular(20),
+                borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
               ),
               child: Row(
                 children: [
@@ -5127,7 +5129,7 @@ class _MultiStepProductModalState extends State<MultiStepProductModal> {
                       AppLocalizations.of(context)?.nutritionInfoDisabled ?? AppLocalizations.of(context)!.tr('Nutrition information is disabled. Select a format above to add nutrition values.'),
                       style: TextStyle(
                         color: widget.isLight ? Colors.black54 : Colors.white54,
-                        fontSize: 14,
+                        fontSize: DesktopOptimizedWidgets.getFontSize(),
                       ),
                     ),
                   ),
@@ -5160,7 +5162,7 @@ class _MultiStepProductModalState extends State<MultiStepProductModal> {
                 ),
               ],
             ),
-            const SizedBox(height: 12),
+            const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
             // Fat and Saturated Fat
             Row(
@@ -5185,7 +5187,7 @@ class _MultiStepProductModalState extends State<MultiStepProductModal> {
                 ),
               ],
             ),
-            const SizedBox(height: 12),
+            const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
             // Carbs and Sugar
             Row(
@@ -5209,7 +5211,7 @@ class _MultiStepProductModalState extends State<MultiStepProductModal> {
                 ),
               ],
             ),
-            const SizedBox(height: 12),
+            const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
             // Protein and Salt
             Row(
@@ -5261,10 +5263,10 @@ class _MultiStepProductModalState extends State<MultiStepProductModal> {
 
   Widget _buildAdditionalDetailsSection(Map<String, dynamic> variant) {
     return Container(
-      padding: const EdgeInsets.all(16),
+      padding: DesktopAppWrapper.getPagePadding(),
       decoration: BoxDecoration(
         color: widget.isLight ? Colors.white : Colors.black,
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -5281,13 +5283,13 @@ class _MultiStepProductModalState extends State<MultiStepProductModal> {
                 AppLocalizations.of(context)?.additionalDetails ?? AppLocalizations.of(context)!.tr('Additional Details'),
                 style: TextStyle(
                   color: widget.isLight ? Colors.black : Colors.white,
-                  fontSize: 16,
+                  fontSize: DesktopOptimizedWidgets.getFontSize(),
                   fontWeight: FontWeight.w700,
                 ),
               ),
             ],
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
           // Origin and Bio Control Number
           Row(
@@ -5313,7 +5315,7 @@ class _MultiStepProductModalState extends State<MultiStepProductModal> {
               ),
             ],
           ),
-          const SizedBox(height: 12),
+          const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
           // Features
           _buildAdditionalField(
@@ -5323,7 +5325,7 @@ class _MultiStepProductModalState extends State<MultiStepProductModal> {
             (value) => variant['additionalDetails']['features'] = value,
             maxLines: 3,
           ),
-          const SizedBox(height: 12),
+          const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
           // Ingredients
           _buildAdditionalField(
@@ -5333,7 +5335,7 @@ class _MultiStepProductModalState extends State<MultiStepProductModal> {
             (value) => variant['additionalDetails']['ingredients'] = value,
             maxLines: 3,
           ),
-          const SizedBox(height: 12),
+          const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
           // Allergens
           _buildAdditionalField(
@@ -5343,7 +5345,7 @@ class _MultiStepProductModalState extends State<MultiStepProductModal> {
             (value) => variant['additionalDetails']['allergens'] = value,
             maxLines: 2,
           ),
-          const SizedBox(height: 12),
+          const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
           _buildAdditionalField(
             AppLocalizations.of(context)?.terpenesLabel ?? AppLocalizations.of(context)!.tr('Terpenes'),
@@ -5351,7 +5353,7 @@ class _MultiStepProductModalState extends State<MultiStepProductModal> {
             variant['additionalDetails']['terpenes'] ?? AppLocalizations.of(context)!.tr(''),
             (value) => variant['additionalDetails']['terpenes'] = value,
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
           // Quality Toggle - Only Organic
           _buildQualityToggle(
@@ -5394,7 +5396,7 @@ class _MultiStepProductModalState extends State<MultiStepProductModal> {
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
         color: widget.isLight ? Colors.white : Colors.black,
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
       ),
       child: Row(
         children: [
@@ -5481,7 +5483,7 @@ class _MultiStepProductModalState extends State<MultiStepProductModal> {
                           },
                           child: Container(
                             width: double.infinity,
-                            padding: const EdgeInsets.all(16),
+                            padding: DesktopAppWrapper.getPagePadding(),
                             margin: const EdgeInsets.only(bottom: 8),
                             decoration: BoxDecoration(
                               color: isSelected
@@ -5491,7 +5493,7 @@ class _MultiStepProductModalState extends State<MultiStepProductModal> {
                                   : (widget.isLight
                                         ? Colors.white
                                         : Colors.black),
-                              borderRadius: BorderRadius.circular(20),
+                              borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                             ),
                             child: Row(
                               children: [
@@ -5607,12 +5609,12 @@ class _MultiStepProductModalState extends State<MultiStepProductModal> {
                     horizontal: 24,
                     vertical: 4,
                   ),
-                  padding: const EdgeInsets.all(16),
+                  padding: DesktopAppWrapper.getPagePadding(),
                   decoration: BoxDecoration(
                     color: isSelected
                         ? (widget.isLight ? Colors.black : Colors.white)
                         : (widget.isLight ? Colors.white : Colors.black),
-                    borderRadius: BorderRadius.circular(20),
+                    borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                   ),
                   child: Row(
                     children: [
@@ -5745,7 +5747,7 @@ class _MultiStepProductModalState extends State<MultiStepProductModal> {
                 ),
               ],
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
             // Options
             Flexible(
               child: SingleChildScrollView(
@@ -5770,20 +5772,20 @@ class _MultiStepProductModalState extends State<MultiStepProductModal> {
                             horizontal: 24,
                             vertical: 4,
                           ),
-                          padding: const EdgeInsets.all(16),
+                          padding: DesktopAppWrapper.getPagePadding(),
                           decoration: BoxDecoration(
                             color: isSelected
                                 ? Colors.green.withOpacity(0.1)
                                 : (widget.isLight
                                       ? Colors.white
                                       : Colors.black),
-                            borderRadius: BorderRadius.circular(20),
+                            borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                           ),
                           child: Row(
                             children: [
                               Text(
                                 country['flag']!,
-                                style: const TextStyle(fontSize: 24),
+                                style: const TextStyle(fontSize: DesktopOptimizedWidgets.getFontSize() + 10,,
                               ),
                               const SizedBox(width: 12),
                               Expanded(
@@ -5889,7 +5891,7 @@ class _MultiStepProductModalState extends State<MultiStepProductModal> {
                 ),
               ],
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
             // Options
             Flexible(
               child: SingleChildScrollView(
@@ -5907,7 +5909,7 @@ class _MultiStepProductModalState extends State<MultiStepProductModal> {
                         },
                         child: Container(
                           width: double.infinity,
-                          padding: const EdgeInsets.all(16),
+                          padding: DesktopAppWrapper.getPagePadding(),
                           margin: const EdgeInsets.only(bottom: 8),
                           decoration: BoxDecoration(
                             color: isSelected
@@ -5915,7 +5917,7 @@ class _MultiStepProductModalState extends State<MultiStepProductModal> {
                                 : (widget.isLight
                                       ? Colors.white
                                       : Colors.black),
-                            borderRadius: BorderRadius.circular(20),
+                            borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                           ),
                           child: Row(
                             children: [
@@ -6038,7 +6040,7 @@ class _MultiStepProductModalState extends State<MultiStepProductModal> {
                         },
                         child: Container(
                           width: double.infinity,
-                          padding: const EdgeInsets.all(16),
+                          padding: DesktopAppWrapper.getPagePadding(),
                           margin: const EdgeInsets.only(bottom: 8),
                           decoration: BoxDecoration(
                             color: isSelected
@@ -6046,7 +6048,7 @@ class _MultiStepProductModalState extends State<MultiStepProductModal> {
                                 : (widget.isLight
                                       ? Colors.white
                                       : Colors.black),
-                            borderRadius: BorderRadius.circular(20),
+                            borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                           ),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -6143,16 +6145,16 @@ class _MultiStepProductModalState extends State<MultiStepProductModal> {
               ),
             ],
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
           Text(
             AppLocalizations.of(context)?.fillAmountHelp ?? AppLocalizations.of(context)!.tr('How much product is in one package. For example:\\\\n\\\\n• 100 (for 100g bag)\\\\n• 1000 (for 1kg bag)\\\\n• 500 (for a 500ml bottle)\\\\n• 24 (for 24 pieces in a box)\\\\n• 50 (for 50 units on a pallet)'),
             style: TextStyle(
               color: widget.isLight ? Colors.black87 : Colors.white70,
-              fontSize: 14,
+              fontSize: DesktopOptimizedWidgets.getFontSize(),
               height: 1.5,
             ),
           ),
-          const SizedBox(height: 24),
+          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
           SizedBox(
             width: double.infinity,
             child: TradeRepublicButton(
@@ -6200,16 +6202,16 @@ class _MultiStepProductModalState extends State<MultiStepProductModal> {
               ),
             ],
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
           Text(
             AppLocalizations.of(context)?.fillUnitHelp ?? AppLocalizations.of(context)!.tr('The unit of measurement for the fill amount. For example:\\\\n\\\\n• g (grams)\\\\n• kg (kilograms)\\\\n• ml (milliliters)\\\\n• L (liters)\\\\n• pcs (pieces)\\\\n• bags\\\\n• boxes\\\\n• pallets'),
             style: TextStyle(
               color: widget.isLight ? Colors.black87 : Colors.white70,
-              fontSize: 14,
+              fontSize: DesktopOptimizedWidgets.getFontSize(),
               height: 1.5,
             ),
           ),
-          const SizedBox(height: 24),
+          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
           SizedBox(
             width: double.infinity,
             child: TradeRepublicButton(
@@ -6352,7 +6354,7 @@ class _MultiStepProductModalState extends State<MultiStepProductModal> {
                         },
                         child: Container(
                           width: double.infinity,
-                          padding: const EdgeInsets.all(16),
+                          padding: DesktopAppWrapper.getPagePadding(),
                           margin: const EdgeInsets.only(bottom: 8),
                           decoration: BoxDecoration(
                             color: isSelected
@@ -6360,7 +6362,7 @@ class _MultiStepProductModalState extends State<MultiStepProductModal> {
                                 : (widget.isLight
                                       ? Colors.white
                                       : Colors.black),
-                            borderRadius: BorderRadius.circular(20),
+                            borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                           ),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -6458,10 +6460,10 @@ class _MultiStepProductModalState extends State<MultiStepProductModal> {
         children: [
           // Header
           Container(
-            padding: const EdgeInsets.all(20),
+            padding: DesktopAppWrapper.getPagePadding(),
             decoration: BoxDecoration(
               color: widget.isLight ? Colors.white : Colors.black,
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -6472,7 +6474,7 @@ class _MultiStepProductModalState extends State<MultiStepProductModal> {
                       padding: const EdgeInsets.all(12),
                       decoration: BoxDecoration(
                         color: widget.isLight ? Colors.white : Colors.black,
-                        borderRadius: BorderRadius.circular(20),
+                        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                       ),
                       child: Icon(
                         CupertinoIcons.checkmark_circle,
@@ -6488,21 +6490,21 @@ class _MultiStepProductModalState extends State<MultiStepProductModal> {
                             : 'Review & Publish',
                         style: TextStyle(
                           color: widget.isLight ? Colors.black : Colors.white,
-                          fontSize: 20,
+                          fontSize: DesktopOptimizedWidgets.getFontSize() + 6,
                           fontWeight: FontWeight.w700,
                         ),
                       ),
                     ),
                   ],
                 ),
-                const SizedBox(height: 12),
+                const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                 Text(
                   widget.isEditMode
                       ? AppLocalizations.of(context)?.chooseHowToSave ?? AppLocalizations.of(context)!.tr('Choose how to save your changes')
                       : AppLocalizations.of(context)?.chooseHowToSaveProduct ?? AppLocalizations.of(context)!.tr('Choose how to save your product'),
                   style: TextStyle(
                     color: widget.isLight ? Colors.black54 : Colors.white54,
-                    fontSize: 14,
+                    fontSize: DesktopOptimizedWidgets.getFontSize(),
                   ),
                 ),
               ],
@@ -6513,10 +6515,10 @@ class _MultiStepProductModalState extends State<MultiStepProductModal> {
 
           // Publish Status Selection
           Container(
-            padding: const EdgeInsets.all(20),
+            padding: DesktopAppWrapper.getPagePadding(),
             decoration: BoxDecoration(
               color: widget.isLight ? Colors.white : Colors.black,
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -6525,11 +6527,11 @@ class _MultiStepProductModalState extends State<MultiStepProductModal> {
                   AppLocalizations.of(context)?.publicationStatus ?? AppLocalizations.of(context)!.tr('Publication Status'),
                   style: TextStyle(
                     color: widget.isLight ? Colors.black : Colors.white,
-                    fontSize: 16,
+                    fontSize: DesktopOptimizedWidgets.getFontSize(),
                     fontWeight: FontWeight.w600,
                   ),
                 ),
-                const SizedBox(height: 16),
+                const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
                 // Publish Option
                 TradeRepublicTap(
@@ -6539,14 +6541,14 @@ class _MultiStepProductModalState extends State<MultiStepProductModal> {
                     });
                   },
                   child: Container(
-                    padding: const EdgeInsets.all(16),
+                    padding: DesktopAppWrapper.getPagePadding(),
                     decoration: BoxDecoration(
                       color: publishStatus == 'publish'
                           ? Colors.green.withOpacity(0.1)
                           : (widget.isLight
                                 ? Colors.white.withOpacity(0.3)
                                 : Colors.black),
-                      borderRadius: BorderRadius.circular(20),
+                      borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                     ),
                     child: Row(
                       children: [
@@ -6558,7 +6560,7 @@ class _MultiStepProductModalState extends State<MultiStepProductModal> {
                                 : (widget.isLight
                                       ? Colors.white
                                       : Colors.white.withOpacity(0.1)),
-                            borderRadius: BorderRadius.circular(20),
+                            borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                           ),
                           child: Icon(
                             CupertinoIcons.globe,
@@ -6587,7 +6589,7 @@ class _MultiStepProductModalState extends State<MultiStepProductModal> {
                                   color: widget.isLight
                                       ? Colors.black
                                       : Colors.white,
-                                  fontSize: 16,
+                                  fontSize: DesktopOptimizedWidgets.getFontSize(),
                                   fontWeight: FontWeight.w600,
                                 ),
                               ),
@@ -6621,7 +6623,7 @@ class _MultiStepProductModalState extends State<MultiStepProductModal> {
                   ),
                 ),
 
-                const SizedBox(height: 16),
+                const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
                 // Draft Option
                 TradeRepublicTap(
@@ -6631,14 +6633,14 @@ class _MultiStepProductModalState extends State<MultiStepProductModal> {
                     });
                   },
                   child: Container(
-                    padding: const EdgeInsets.all(16),
+                    padding: DesktopAppWrapper.getPagePadding(),
                     decoration: BoxDecoration(
                       color: publishStatus == 'draft'
                           ? Colors.orange.withOpacity(0.1)
                           : (widget.isLight
                                 ? Colors.white.withOpacity(0.3)
                                 : Colors.black),
-                      borderRadius: BorderRadius.circular(20),
+                      borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                     ),
                     child: Row(
                       children: [
@@ -6650,7 +6652,7 @@ class _MultiStepProductModalState extends State<MultiStepProductModal> {
                                 : (widget.isLight
                                       ? Colors.white
                                       : Colors.white.withOpacity(0.1)),
-                            borderRadius: BorderRadius.circular(20),
+                            borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                           ),
                           child: Icon(
                             Icons.drafts,
@@ -6673,7 +6675,7 @@ class _MultiStepProductModalState extends State<MultiStepProductModal> {
                                   color: widget.isLight
                                       ? Colors.black
                                       : Colors.white,
-                                  fontSize: 16,
+                                  fontSize: DesktopOptimizedWidgets.getFontSize(),
                                   fontWeight: FontWeight.w600,
                                 ),
                               ),
@@ -6714,12 +6716,12 @@ class _MultiStepProductModalState extends State<MultiStepProductModal> {
 
           // Summary Info
           Container(
-            padding: const EdgeInsets.all(16),
+            padding: DesktopAppWrapper.getPagePadding(),
             decoration: BoxDecoration(
               color: widget.isLight
                   ? Colors.white.withOpacity(0.3)
                   : Colors.black,
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
             ),
             child: Row(
               children: [
@@ -6788,7 +6790,7 @@ class _MultiStepProductModalState extends State<MultiStepProductModal> {
                 padding: const EdgeInsets.all(12),
                 decoration: BoxDecoration(
                   color: widget.isLight ? Colors.white : Colors.black,
-                  borderRadius: BorderRadius.circular(20),
+                  borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                 ),
                 child: Icon(
                   CupertinoIcons.cube_box,
@@ -6805,7 +6807,7 @@ class _MultiStepProductModalState extends State<MultiStepProductModal> {
                       AppLocalizations.of(context)?.shippingInformation ?? AppLocalizations.of(context)!.tr('Shipping Information'),
                       style: TextStyle(
                         color: widget.isLight ? Colors.black : Colors.white,
-                        fontSize: 18,
+                        fontSize: DesktopOptimizedWidgets.getFontSize() + 4,
                         fontWeight: FontWeight.w700,
                       ),
                     ),
@@ -6813,7 +6815,7 @@ class _MultiStepProductModalState extends State<MultiStepProductModal> {
                       AppLocalizations.of(context)?.configureDeliveryOptions ?? AppLocalizations.of(context)!.tr('Configure delivery options'),
                       style: TextStyle(
                         color: widget.isLight ? Colors.black54 : Colors.white54,
-                        fontSize: 14,
+                        fontSize: DesktopOptimizedWidgets.getFontSize(),
                       ),
                     ),
                   ],
@@ -6821,11 +6823,11 @@ class _MultiStepProductModalState extends State<MultiStepProductModal> {
               ),
             ],
           ),
-          const SizedBox(height: 24),
+          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
           // Incoterm Selector
           _buildIncotermSelector(shipping),
-          const SizedBox(height: 24),
+          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
           // Delivery Time with info button
           Column(
@@ -6836,7 +6838,7 @@ class _MultiStepProductModalState extends State<MultiStepProductModal> {
                   Text(
                     AppLocalizations.of(context)?.deliveryTime ?? AppLocalizations.of(context)!.tr('Delivery Time'),
                     style: TextStyle(
-                      fontSize: 14,
+                      fontSize: DesktopOptimizedWidgets.getFontSize(),
                       fontWeight: FontWeight.w600,
                       color: widget.isLight ? Colors.black : Colors.white,
                     ),
@@ -6858,7 +6860,7 @@ class _MultiStepProductModalState extends State<MultiStepProductModal> {
                   ),
                 ],
               ),
-              const SizedBox(height: 8),
+              const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
               Row(
                 children: [
                   Expanded(
@@ -6871,14 +6873,14 @@ class _MultiStepProductModalState extends State<MultiStepProductModal> {
                         color: validationErrors.contains('deliveryTime')
                             ? Colors.red.withOpacity(0.08)
                             : (widget.isLight ? Colors.white : Colors.black),
-                        borderRadius: BorderRadius.circular(20),
+                        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                       ),
                       child: TradeRepublicTextField(
                         useFormField: true,
                         initialValue: shipping['deliveryTime'] ?? AppLocalizations.of(context)!.tr(''),
                         style: TextStyle(
                           color: widget.isLight ? Colors.black : Colors.white,
-                          fontSize: 14,
+                          fontSize: DesktopOptimizedWidgets.getFontSize(),
                         ),
                         hintText:
                             AppLocalizations.of(context)?.egTwoToThree ?? AppLocalizations.of(context)!.tr('e.g. 2-3'),
@@ -6898,12 +6900,12 @@ class _MultiStepProductModalState extends State<MultiStepProductModal> {
                     ),
                     decoration: BoxDecoration(
                       color: widget.isLight ? Colors.white : Colors.black,
-                      borderRadius: BorderRadius.circular(20),
+                      borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                     ),
                     child: Text(
                       AppLocalizations.of(context)?.days ?? AppLocalizations.of(context)!.tr('days'),
                       style: TextStyle(
-                        fontSize: 14,
+                        fontSize: DesktopOptimizedWidgets.getFontSize(),
                         fontWeight: FontWeight.w600,
                         color: widget.isLight ? Colors.black : Colors.white,
                       ),
@@ -6913,19 +6915,19 @@ class _MultiStepProductModalState extends State<MultiStepProductModal> {
               ),
             ],
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
           // Wagon Type Selector
           // TODO: Implement _buildWagonTypeSelector
-          const SizedBox(height: 16),
+          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
           // Cleaning Certificate Toggle
           // TODO: Implement _buildCleaningCertificateToggle
-          const SizedBox(height: 16),
+          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
           // Tracking Toggle + Warning
           // TODO: Implement _buildTrackingAvailabilityToggle
-          const SizedBox(height: 16),
+          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
           // Delivery Instructions
           TradeRepublicTextField(
@@ -6935,11 +6937,11 @@ class _MultiStepProductModalState extends State<MultiStepProductModal> {
             maxLines: 3,
             onChanged: (value) => shipping['delivery_instructions'] = value,
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
           // Special Handling Requirements Selector
           // TODO: Implement _buildSpecialHandlingSelector
-          const SizedBox(height: 16),
+          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
           // Temperature Requirements with Min/Max Sliders
           Column(
@@ -6952,7 +6954,7 @@ class _MultiStepProductModalState extends State<MultiStepProductModal> {
                   Text(
                     AppLocalizations.of(context)?.temperatureRequirements ?? AppLocalizations.of(context)!.tr('Temperature Requirements'),
                     style: TextStyle(
-                      fontSize: 14,
+                      fontSize: DesktopOptimizedWidgets.getFontSize(),
                       fontWeight: FontWeight.w600,
                       color: widget.isLight ? Colors.black : Colors.white,
                     ),
@@ -6966,7 +6968,7 @@ class _MultiStepProductModalState extends State<MultiStepProductModal> {
                       ),
                       decoration: BoxDecoration(
                         color: widget.isLight ? Colors.white : Colors.black,
-                        borderRadius: BorderRadius.circular(20),
+                        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                       ),
                       child: Row(
                         mainAxisSize: MainAxisSize.min,
@@ -6977,7 +6979,7 @@ class _MultiStepProductModalState extends State<MultiStepProductModal> {
                                 ? '°C'
                                 : '°F',
                             style: TextStyle(
-                              fontSize: 14,
+                              fontSize: DesktopOptimizedWidgets.getFontSize(),
                               fontWeight: FontWeight.w600,
                               color: widget.isLight
                                   ? Colors.black
@@ -6992,13 +6994,13 @@ class _MultiStepProductModalState extends State<MultiStepProductModal> {
                   ),
                 ],
               ),
-              const SizedBox(height: 12),
+              const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
               // Slider container
               Container(
-                padding: const EdgeInsets.all(16),
+                padding: DesktopAppWrapper.getPagePadding(),
                 decoration: BoxDecoration(
                   color: widget.isLight ? Colors.white : Colors.black,
-                  borderRadius: BorderRadius.circular(20),
+                  borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                 ),
                 child: Builder(
                   builder: (context) {
@@ -7147,12 +7149,12 @@ class _MultiStepProductModalState extends State<MultiStepProductModal> {
         Text(
           AppLocalizations.of(context)?.pickupLocation ?? AppLocalizations.of(context)!.tr('Pickup Location'),
           style: TextStyle(
-            fontSize: 16,
+            fontSize: DesktopOptimizedWidgets.getFontSize(),
             fontWeight: FontWeight.w700,
             color: widget.isLight ? Colors.black : Colors.white,
           ),
         ),
-        const SizedBox(height: 12),
+        const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
         TradeRepublicTextField(
           useFormField: true,
           initialValue: location['city'] ?? '',
@@ -7162,7 +7164,7 @@ class _MultiStepProductModalState extends State<MultiStepProductModal> {
             variants.first['location'] = location;
           },
         ),
-        const SizedBox(height: 12),
+        const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
         TradeRepublicTextField(
           useFormField: true,
           initialValue: location['address'] ?? '',
@@ -7197,12 +7199,12 @@ class _MultiStepProductModalState extends State<MultiStepProductModal> {
         Text(
           AppLocalizations.of(context)!.tr('Incoterm'),
           style: TextStyle(
-            fontSize: 14,
+            fontSize: DesktopOptimizedWidgets.getFontSize(),
             fontWeight: FontWeight.w600,
             color: widget.isLight ? Colors.black : Colors.white,
           ),
         ),
-        const SizedBox(height: 8),
+        const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
         TradeRepublicTap(
           onTap: () {
             TradeRepublicBottomSheet.show(
@@ -7227,7 +7229,7 @@ class _MultiStepProductModalState extends State<MultiStepProductModal> {
                               child: Text(
                                 term,
                                 style: TextStyle(
-                                  fontSize: 16,
+                                  fontSize: DesktopOptimizedWidgets.getFontSize(),
                                   fontWeight: term == selectedIncoterm ? FontWeight.w700 : FontWeight.w400,
                                   color: widget.isLight ? Colors.black : Colors.white,
                                 ),
@@ -7239,7 +7241,7 @@ class _MultiStepProductModalState extends State<MultiStepProductModal> {
                         ),
                       ),
                     )),
-                    const SizedBox(height: 16),
+                    const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
                   ],
                 ),
               ),
@@ -7249,7 +7251,7 @@ class _MultiStepProductModalState extends State<MultiStepProductModal> {
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
             decoration: BoxDecoration(
               color: widget.isLight ? Colors.white : Colors.black,
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
             ),
             child: Row(
               children: [
@@ -7257,7 +7259,7 @@ class _MultiStepProductModalState extends State<MultiStepProductModal> {
                   child: Text(
                     selectedIncoterm,
                     style: TextStyle(
-                      fontSize: 14,
+                      fontSize: DesktopOptimizedWidgets.getFontSize(),
                       fontWeight: FontWeight.w600,
                       color: widget.isLight ? Colors.black : Colors.white,
                     ),

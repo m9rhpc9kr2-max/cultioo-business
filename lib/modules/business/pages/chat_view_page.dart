@@ -14,6 +14,8 @@ import '../../../shared/widgets/trade_republic_button.dart';
 import '../../../shared/widgets/trade_republic_card.dart';
 import '../../../shared/widgets/cultioo_spinner.dart';
 import '../../../shared/widgets/trade_republic_tap.dart';
+import 'package:cultioo_business/shared/widgets/desktop_app_wrapper.dart';
+import 'package:cultioo_business/shared/widgets/desktop_optimized_widgets.dart';
 
 class ChatViewPage extends StatefulWidget {
   final String otherPerson;
@@ -130,7 +132,7 @@ class _ChatViewPageState extends State<ChatViewPage> {
               width: isDesktop ? 44 : 40,
               height: isDesktop ? 44 : 40,
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(20),
+                borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                 gradient: LinearGradient(
                   colors: [
                     Colors.orange.withOpacity(0.8),
@@ -249,7 +251,7 @@ class _ChatViewPageState extends State<ChatViewPage> {
     }
 
     return ClipRRect(
-      borderRadius: BorderRadius.circular(12),
+      borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius()),
       child: buildAt(0),
     );
   }
@@ -280,7 +282,7 @@ class _ChatViewPageState extends State<ChatViewPage> {
               width: 32,
               height: 32,
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(20),
+                borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                 gradient: LinearGradient(
                   colors: [
                     Colors.orange.withOpacity(0.8),
@@ -334,7 +336,7 @@ class _ChatViewPageState extends State<ChatViewPage> {
                       ),
                       if (content.toString().trim().isNotEmpty &&
                           !content.toString().contains('uploads/')) ...[
-                        const SizedBox(height: 8),
+                        const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                         Text(
                           content.toString(),
                           style: TextStyle(
@@ -350,7 +352,7 @@ class _ChatViewPageState extends State<ChatViewPage> {
                     ] else if (messageType == 'pdf' && candidates.isNotEmpty) ...[
                       TradeRepublicCard.transparent(
                         padding: const EdgeInsets.symmetric(vertical: 8),
-                        borderRadius: BorderRadius.circular(12),
+                        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius()),
                         onTap: () {
                           unawaited(() async {
                             final u = Uri.tryParse(candidates.first);
@@ -435,7 +437,7 @@ class _ChatViewPageState extends State<ChatViewPage> {
               height: 32,
               decoration: BoxDecoration(
                 color: Colors.blue,
-                borderRadius: BorderRadius.circular(20),
+                borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
               ),
               child: const Center(
                 child: Text(

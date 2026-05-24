@@ -30,6 +30,8 @@ import '../../../shared/widgets/trade_republic_theme.dart';
 import '../../../shared/services/app_localizations.dart';
 import '../../../shared/widgets/cultioo_spinner.dart';
 import '../../../shared/widgets/trade_republic_tap.dart';
+import 'package:cultioo_business/shared/widgets/desktop_app_wrapper.dart';
+import 'package:cultioo_business/shared/widgets/desktop_optimized_widgets.dart';
 
 class DelviooMessagesPage extends StatefulWidget {
   const DelviooMessagesPage({super.key});
@@ -545,7 +547,7 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
                 ],
               ),
 
-              const SizedBox(height: 8),
+              const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
               // Subtitle
               Text(
@@ -1373,7 +1375,7 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
             ),
           ),
 
-          const SizedBox(height: 12),
+          const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
           TradeRepublicButton(
             label: AppLocalizations.of(context)?.cancel ?? 'Cancel',
@@ -1425,11 +1427,11 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
                 color: Colors.white,
                 size: 64,
               ),
-              const SizedBox(height: 16),
+              const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
               Text(
                 AppLocalizations.of(context)?.imageNotAvailable ??
                     'Image not available',
-                style: const TextStyle(color: Colors.white, fontSize: 16),
+                style: const TextStyle(color: Colors.white, fontSize: DesktopOptimizedWidgets.getFontSize(),,
               ),
             ],
           ),
@@ -1460,11 +1462,11 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
                   color: Colors.white,
                   size: 64,
                 ),
-                const SizedBox(height: 16),
+                const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
                 Text(
                   AppLocalizations.of(context)?.imageNotAvailable ??
                       'Image not available',
-                  style: const TextStyle(color: Colors.white, fontSize: 16),
+                  style: const TextStyle(color: Colors.white, fontSize: DesktopOptimizedWidgets.getFontSize(),,
                 ),
               ],
             ),
@@ -1819,7 +1821,7 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
                               ),
                               decoration: BoxDecoration(
                                 color: const Color(0xFFFF3B30),
-                                borderRadius: BorderRadius.circular(20),
+                                borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                               ),
                               child: Text(
                                 '$unreadMessagesCount',
@@ -1917,7 +1919,7 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
                 ),
                 decoration: BoxDecoration(
                   color: const Color(0xFFFF3B30),
-                  borderRadius: BorderRadius.circular(20),
+                  borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                 ),
                 child: Text(
                   '$unreadCount',
@@ -1978,19 +1980,19 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
             Text(
               AppLocalizations.of(context)?.noMessagesYet ?? 'No Messages Yet',
               style: TextStyle(
-                fontSize: 20,
+                fontSize: DesktopOptimizedWidgets.getFontSize() + 6,
                 fontWeight: FontWeight.w700,
                 color: isLight ? Colors.black : Colors.white,
                 letterSpacing: -0.3,
               ),
               textAlign: TextAlign.center,
             ),
-            const SizedBox(height: 8),
+            const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
             Text(
               AppLocalizations.of(context)?.startConversation ??
                   'Start a conversation with customers and group members',
               style: TextStyle(
-                fontSize: 14,
+                fontSize: DesktopOptimizedWidgets.getFontSize(),
                 color: (isLight ? Colors.black : Colors.white).withOpacity(
                   0.45,
                 ),
@@ -2128,7 +2130,7 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
                       Text(
                         'CullyAI',
                         style: TextStyle(
-                          fontSize: 16,
+                          fontSize: DesktopOptimizedWidgets.getFontSize(),
                           fontWeight: FontWeight.w700,
                           color: isLight ? Colors.black : Colors.white,
                           letterSpacing: -0.3,
@@ -2161,7 +2163,7 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
                   Text(
                     'Your intelligent assistant — tap to chat',
                     style: TextStyle(
-                      fontSize: 14,
+                      fontSize: DesktopOptimizedWidgets.getFontSize(),
                       fontWeight: FontWeight.w400,
                       color: (isLight ? Colors.black : Colors.white)
                           .withOpacity(0.5),
@@ -2275,7 +2277,7 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
               height: 52,
               decoration: BoxDecoration(
                 color: isLight ? Colors.black : Colors.white,
-                borderRadius: BorderRadius.circular(20),
+                borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
               ),
               child: Stack(
                 children: [
@@ -2295,7 +2297,7 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
                         height: 18,
                         decoration: BoxDecoration(
                           color: isLight ? Colors.black : Colors.white,
-                          borderRadius: BorderRadius.circular(20),
+                          borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                         ),
                         child: Icon(
                           CupertinoIcons.pin_fill,
@@ -2323,7 +2325,7 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
                               AppLocalizations.of(context)?.groupChat ??
                               'Group Chat',
                           style: TextStyle(
-                            fontSize: 16,
+                            fontSize: DesktopOptimizedWidgets.getFontSize(),
                             fontWeight: FontWeight.w600,
                             color: isLight ? Colors.black : Colors.white,
                             letterSpacing: -0.3,
@@ -2358,7 +2360,7 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
                           decoration: BoxDecoration(
                             color: (isLight ? Colors.black : Colors.white)
                                 .withOpacity(0.1),
-                            borderRadius: BorderRadius.circular(20),
+                            borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                           ),
                           child: Text(
                             AppLocalizations.of(context)?.host ?? 'Host',
@@ -2373,7 +2375,7 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
                         child: Text(
                           '$memberCount members • $lastMessage',
                           style: TextStyle(
-                            fontSize: 14,
+                            fontSize: DesktopOptimizedWidgets.getFontSize(),
                             color: (isLight ? Colors.black : Colors.white)
                                 .withOpacity(0.5),
                           ),
@@ -2501,14 +2503,14 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
                       height: 52,
                       decoration: BoxDecoration(
                         color: isLight ? Colors.black : Colors.white,
-                        borderRadius: BorderRadius.circular(20),
+                        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                       ),
                       child: _buildAvatarImage(profilePicture, 52, 20) ??
                           Center(
                             child: Text(
                               initials,
                               style: TextStyle(
-                                fontSize: 18,
+                                fontSize: DesktopOptimizedWidgets.getFontSize() + 4,
                                 fontWeight: FontWeight.w600,
                                 color: isLight ? Colors.white : Colors.black,
                               ),
@@ -2525,7 +2527,7 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
                           height: 18,
                           decoration: BoxDecoration(
                             color: isLight ? Colors.black : Colors.white,
-                            borderRadius: BorderRadius.circular(20),
+                            borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                           ),
                           child: Icon(
                             CupertinoIcons.pin_fill,
@@ -2544,7 +2546,7 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
                           height: 16,
                           decoration: BoxDecoration(
                             color: badgeColor,
-                            borderRadius: BorderRadius.circular(20),
+                            borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                           ),
                           child: Center(
                             child: Icon(
@@ -2636,7 +2638,7 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
                                   child: Text(
                                     displayName,
                                     style: TextStyle(
-                                      fontSize: 16,
+                                      fontSize: DesktopOptimizedWidgets.getFontSize(),
                                       fontWeight: messageCount > 0
                                           ? FontWeight.w600
                                           : FontWeight.w500,
@@ -2658,7 +2660,7 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
                                     ),
                                     decoration: BoxDecoration(
                                       color: roleColor.withOpacity(0.1),
-                                      borderRadius: BorderRadius.circular(20),
+                                      borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                                     ),
                                     child: Text(
                                       roleLabel,
@@ -2698,7 +2700,7 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
                             child: Text(
                               lastMessage,
                               style: TextStyle(
-                                fontSize: 14,
+                                fontSize: DesktopOptimizedWidgets.getFontSize(),
                                 fontWeight: messageCount > 0
                                     ? FontWeight.w500
                                     : FontWeight.w400,
@@ -2722,7 +2724,7 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
                               ),
                               decoration: BoxDecoration(
                                 color: const Color(0xFF007AFF),
-                                borderRadius: BorderRadius.circular(20),
+                                borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                                 boxShadow: [], // Kein Schatten
                               ),
                               child: Text(
@@ -2840,7 +2842,7 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
                         height: 48,
                         decoration: BoxDecoration(
                           color: isLight ? Colors.black : Colors.white,
-                          borderRadius: BorderRadius.circular(20),
+                          borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                         ),
                         child: Icon(
                           CupertinoIcons.person_2,
@@ -2856,7 +2858,7 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
                             Text(
                               groupName,
                               style: TextStyle(
-                                fontSize: 18,
+                                fontSize: DesktopOptimizedWidgets.getFontSize() + 4,
                                 fontWeight: FontWeight.w600,
                                 color: isLight ? Colors.black : Colors.white,
                                 letterSpacing: -0.3,
@@ -2867,7 +2869,7 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
                               AppLocalizations.of(context)?.groupChat ??
                                   'Group Chat',
                               style: TextStyle(
-                                fontSize: 14,
+                                fontSize: DesktopOptimizedWidgets.getFontSize(),
                                 color: (isLight ? Colors.black : Colors.white)
                                     .withOpacity(0.5),
                               ),
@@ -2928,7 +2930,7 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
                                   color: isLight ? Colors.white : Colors.black,
                                 ),
                               ),
-                              const SizedBox(height: 24),
+                              const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
                               Text(
                                 AppLocalizations.of(context)?.groupChat ??
                                     'Group Chat',
@@ -2939,7 +2941,7 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
                                   letterSpacing: -0.5,
                                 ),
                               ),
-                              const SizedBox(height: 8),
+                              const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                               Text(
                                 AppLocalizations.of(
                                       context,
@@ -2958,7 +2960,7 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
                       }
 
                       return ListView.builder(
-                        padding: const EdgeInsets.all(16),
+                        padding: DesktopAppWrapper.getPagePadding(),
                         reverse: true,
                         itemCount: messages.length,
                         itemBuilder: (context, index) {
@@ -3026,7 +3028,7 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
                               'Message',
                           style: TextStyle(
                             color: isLight ? Colors.black : Colors.white,
-                            fontSize: 16,
+                            fontSize: DesktopOptimizedWidgets.getFontSize(),
                           ),
                           maxLines: null,
                           textCapitalization: TextCapitalization.sentences,
@@ -3229,7 +3231,7 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
                             height: 40,
                             decoration: BoxDecoration(
                               color: isLight ? Colors.black : Colors.white,
-                              borderRadius: BorderRadius.circular(20),
+                              borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                             ),
                             child: _buildAvatarImage(profilePicture, 40, 20) ??
                                 Center(
@@ -3242,7 +3244,7 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
                                       color: isLight
                                           ? Colors.white
                                           : Colors.black,
-                                      fontSize: 16,
+                                      fontSize: DesktopOptimizedWidgets.getFontSize(),
                                       fontWeight: FontWeight.w600,
                                     ),
                                   ),
@@ -3294,7 +3296,7 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
                                       child: Text(
                                         displayName,
                                         style: TextStyle(
-                                          fontSize: 16,
+                                          fontSize: DesktopOptimizedWidgets.getFontSize(),
                                           fontWeight: FontWeight.w600,
                                           color: isLight
                                               ? Colors.black
@@ -3446,7 +3448,7 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
                                                     : Colors.white)
                                                 .withOpacity(0.15),
                                       ),
-                                      const SizedBox(height: 16),
+                                      const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
                                       Text(
                                         AppLocalizations.of(
                                               context,
@@ -3543,7 +3545,7 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
                           constraints: const BoxConstraints(maxHeight: 150),
                           decoration: BoxDecoration(
                             color: isLight ? Colors.white : Colors.transparent,
-                            borderRadius: BorderRadius.circular(20),
+                            borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                           ),
                           child: ListView.builder(
                             shrinkWrap: true,
@@ -3582,7 +3584,7 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
                                       Text(
                                         '${AppLocalizations.of(context)?.order ?? 'Order'} #$orderNum',
                                         style: TextStyle(
-                                          fontSize: 14,
+                                          fontSize: DesktopOptimizedWidgets.getFontSize(),
                                           fontWeight: FontWeight.w500,
                                           color: isLight
                                               ? Colors.black
@@ -3607,7 +3609,7 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
                           ),
                           decoration: BoxDecoration(
                             color: const Color(0xFF007AFF).withOpacity(0.1),
-                            borderRadius: BorderRadius.circular(20),
+                            borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                           ),
                           child: Row(
                             mainAxisSize: MainAxisSize.min,
@@ -3656,14 +3658,14 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
                             color: isLight
                                 ? Colors.black.withOpacity(0.05)
                                 : Colors.transparent,
-                            borderRadius: BorderRadius.circular(20),
+                            borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                           ),
                           child: Row(
                             children: [
                               // Preview thumbnail
                               if (_chatSelectedFileType == 'image')
                                 ClipRRect(
-                                  borderRadius: BorderRadius.circular(20),
+                                  borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                                   child: Image.file(
                                     _chatSelectedFile!,
                                     width: 60,
@@ -3679,7 +3681,7 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
                                     color: const Color(
                                       0xFF007AFF,
                                     ).withOpacity(0.1),
-                                    borderRadius: BorderRadius.circular(20),
+                                    borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                                   ),
                                   child: Icon(
                                     CupertinoIcons.doc_fill,
@@ -3926,7 +3928,7 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
             ],
           ),
 
-          const SizedBox(height: 8),
+          const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
           Text(
             AppLocalizations.of(context)?.theyWontBeAbleToSend ??
@@ -4016,7 +4018,7 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
             ),
           ),
 
-          const SizedBox(height: 12),
+          const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
           TradeRepublicButton(
             label: AppLocalizations.of(context)?.cancel ?? 'Cancel',
@@ -4412,7 +4414,7 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
                           vertical: 12,
                         )),
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
               color: isMe
                   ? (isLight ? Colors.black : Colors.white)
                   : Colors.transparent,
@@ -4434,7 +4436,7 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
                                 ? Colors.white.withOpacity(0.2)
                                 : Colors.black.withOpacity(0.1))
                           : Colors.black.withOpacity(0.2),
-                      borderRadius: BorderRadius.circular(20),
+                      borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                     ),
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
@@ -4479,7 +4481,7 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
                         child: Text(
                           message['message_text'] ?? '',
                           style: TextStyle(
-                            fontSize: 16,
+                            fontSize: DesktopOptimizedWidgets.getFontSize(),
                             // High contrast text
                             color: isMe
                                 ? (isLight ? Colors.white : Colors.black)
@@ -4718,7 +4720,7 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
                   color: isLight
                       ? Colors.black.withOpacity(0.05)
                       : Colors.white.withOpacity(0.05),
-                  borderRadius: BorderRadius.circular(20),
+                  borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                 ),
                 child: Center(
                   child: Column(
@@ -4729,7 +4731,7 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
                         height: 40,
                         child: CultiooLoadingIndicator(size: 24),
                       ),
-                      const SizedBox(height: 12),
+                      const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                       Text(
                         progress != null
                             ? '${(progress * 100).toStringAsFixed(0)}%'
@@ -4761,10 +4763,10 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
               return Container(
                 width: 240,
                 height: 240,
-                padding: const EdgeInsets.all(16),
+                padding: DesktopAppWrapper.getPagePadding(),
                 decoration: BoxDecoration(
                   color: Colors.red.withOpacity(0.1),
-                  borderRadius: BorderRadius.circular(20),
+                  borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                 ),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -4774,17 +4776,17 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
                       size: 48,
                       color: Colors.red.withOpacity(0.7),
                     ),
-                    const SizedBox(height: 12),
+                    const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                     Text(
                       AppLocalizations.of(context)?.imageUnavailable ??
                           'Image unavailable',
                       style: const TextStyle(
                         color: Colors.red,
-                        fontSize: 14,
+                        fontSize: DesktopOptimizedWidgets.getFontSize(),
                         fontWeight: FontWeight.w600,
                       ),
                     ),
-                    const SizedBox(height: 8),
+                    const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                     Text(
                       error.toString().contains('SocketException')
                           ? 'Network error'
@@ -4814,10 +4816,10 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
           buildImageCandidate(0)
         else
           Container(
-            padding: const EdgeInsets.all(16),
+            padding: DesktopAppWrapper.getPagePadding(),
             decoration: BoxDecoration(
               color: Colors.black.withOpacity(0.2),
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
             ),
             child: Row(
               mainAxisSize: MainAxisSize.min,
@@ -4837,7 +4839,7 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
                     color: isMe
                         ? Colors.white
                         : (isLight ? Colors.black : Colors.white),
-                    fontSize: 14,
+                    fontSize: DesktopOptimizedWidgets.getFontSize(),
                   ),
                 ),
               ],
@@ -4990,7 +4992,7 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
     return Text(
       message['message_text'] ?? '',
       style: TextStyle(
-        fontSize: 16,
+        fontSize: DesktopOptimizedWidgets.getFontSize(),
         color: isMe
             ? (isLight ? Colors.white : Colors.black)
             : (isLight ? Colors.black : Colors.white),
@@ -5053,7 +5055,7 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
                       margin: const EdgeInsets.only(right: 12, bottom: 4),
                       decoration: BoxDecoration(
                         color: isLight ? Colors.black : Colors.white,
-                        borderRadius: BorderRadius.circular(20),
+                        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                       ),
                       child: _buildAvatarImage(profilePicture, 40, 20) ??
                           Center(
@@ -5061,7 +5063,7 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
                               displayName[0].toUpperCase(),
                               style: TextStyle(
                                 color: isLight ? Colors.white : Colors.black,
-                                fontSize: 16,
+                                fontSize: DesktopOptimizedWidgets.getFontSize(),
                                 fontWeight: FontWeight.w600,
                               ),
                             ),
@@ -5079,7 +5081,7 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
                         ),
                         decoration: BoxDecoration(
                           color: isLight ? Colors.black : Colors.white,
-                          borderRadius: BorderRadius.circular(20),
+                          borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                         ),
                         child: Row(
                           mainAxisSize: MainAxisSize.min,
@@ -5141,7 +5143,7 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
                       decoration: isMe
                           ? BoxDecoration(
                               color: isLight ? Colors.black : Colors.white,
-                              borderRadius: BorderRadius.circular(20),
+                              borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                             )
                           : null,
                       child: Column(
@@ -5264,7 +5266,7 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
             ),
           ),
 
-          const SizedBox(height: 12),
+          const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
           TradeRepublicButton(
             label: AppLocalizations.of(context)?.cancel ?? 'Cancel',
@@ -5321,7 +5323,7 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
                 fontWeight: FontWeight.w400,
               ),
             ),
-            const SizedBox(height: 24),
+            const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
             // Tiles — no card wrapper, no extra background
             TradeRepublicListTile.navigation(
               title:
@@ -5455,7 +5457,7 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
             ),
           ),
 
-          const SizedBox(height: 12),
+          const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
           TradeRepublicButton(
             label: AppLocalizations.of(context)?.cancel ?? 'Cancel',
@@ -5614,7 +5616,7 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
                           size: 56,
                           color: TradeRepublicTheme.hintColor(context),
                         ),
-                        const SizedBox(height: 12),
+                        const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                         Text(
                           AppLocalizations.of(context)?.noPinnedChats ??
                               'No pinned chats',
@@ -5738,7 +5740,7 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
                             size: 56,
                             color: TradeRepublicTheme.hintColor(context),
                           ),
-                          const SizedBox(height: 12),
+                          const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                           Text(
                             AppLocalizations.of(context)?.noBlockedUsers ??
                                 'No blocked users',
@@ -5859,7 +5861,7 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
                             size: 56,
                             color: TradeRepublicTheme.hintColor(context),
                           ),
-                          const SizedBox(height: 12),
+                          const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                           Text(
                             AppLocalizations.of(context)?.noDeletedChats ??
                                 'No deleted chats',
@@ -6043,7 +6045,7 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
                         ),
                       ),
 
-                      const SizedBox(height: 16),
+                      const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
                       // Results
                       Expanded(
@@ -6330,7 +6332,7 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
                               child: Text(
                                 userName,
                                 style: TextStyle(
-                                  fontSize: 20,
+                                  fontSize: DesktopOptimizedWidgets.getFontSize() + 6,
                                   fontWeight: FontWeight.w700,
                                   letterSpacing: -0.5,
                                   color: isLight ? Colors.black : Colors.white,
@@ -6384,7 +6386,7 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
                                   ),
                                   decoration: BoxDecoration(
                                     color: roleColor.withOpacity(0.1),
-                                    borderRadius: BorderRadius.circular(20),
+                                    borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                                   ),
                                   child: Text(
                                     roleLabel,
@@ -6428,12 +6430,12 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
                                 color: (isLight ? Colors.black : Colors.white)
                                     .withOpacity(0.2),
                               ),
-                              const SizedBox(height: 16),
+                              const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
                               Text(
                                 AppLocalizations.of(context)?.noMessagesYet ??
                                     'No messages yet',
                                 style: TextStyle(
-                                  fontSize: 16,
+                                  fontSize: DesktopOptimizedWidgets.getFontSize(),
                                   fontWeight: FontWeight.w600,
                                   color: isLight ? Colors.black : Colors.white,
                                 ),
@@ -6445,7 +6447,7 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
                                     )?.startTheConversation ??
                                     'Start the conversation',
                                 style: TextStyle(
-                                  fontSize: 14,
+                                  fontSize: DesktopOptimizedWidgets.getFontSize(),
                                   color: (isLight ? Colors.black : Colors.white)
                                       .withOpacity(0.5),
                                 ),
@@ -6881,7 +6883,7 @@ class _CullyAiChatPageState extends State<_CullyAiChatPage>
                   ),
                 ],
               ),
-              const SizedBox(height: 8),
+              const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
               Text(
                 AppLocalizations.of(context)?.deleteCullyHistoryConfirm ??
                     'Delete all CullyAI conversation history? This cannot be undone.',
@@ -6902,7 +6904,7 @@ class _CullyAiChatPageState extends State<_CullyAiChatPage>
                 isSecondary: true,
                 width: double.infinity,
               ),
-              const SizedBox(height: 8),
+              const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
             ],
           ),
         ) ??
@@ -7087,7 +7089,7 @@ class _CullyAiChatPageState extends State<_CullyAiChatPage>
           ),
           const SizedBox(width: 12),
           ClipRRect(
-            borderRadius: BorderRadius.circular(20),
+            borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
             child: Image.asset(
               isLight ? 'logo/cully_light.png' : 'logo/cully_dark.png',
               width: 40,
@@ -7103,7 +7105,7 @@ class _CullyAiChatPageState extends State<_CullyAiChatPage>
                 Text(
                   'CullyAI',
                   style: TextStyle(
-                    fontSize: 16,
+                    fontSize: DesktopOptimizedWidgets.getFontSize(),
                     fontWeight: FontWeight.w700,
                     color: textColor,
                   ),
@@ -7493,7 +7495,7 @@ class _AnimatedWelcomeState extends State<_AnimatedWelcome>
                 ),
               ),
             ),
-            const SizedBox(height: 8),
+            const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
             FadeTransition(
               opacity: _fades[2],
               child: SlideTransition(
