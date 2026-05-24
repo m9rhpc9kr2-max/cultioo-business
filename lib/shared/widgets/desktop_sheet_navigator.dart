@@ -12,6 +12,5 @@ class CultiooDesktopSheetNavigator {
   }) =>
       TradeRepublicBottomSheet.buildDesktopPanelHost(
         width: width,
-        isDark: isDark,
-      );
+        isDark: isDark);
 }

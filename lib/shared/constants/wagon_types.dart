@@ -95,8 +95,7 @@ class WagonTypesCatalog {
     final list = localized(loc);
     return list.firstWhere(
       (e) => e['id'] == selectedId,
-      orElse: () => list.first,
-    );
+      orElse: () => list.first);
   }
 
   static String _name(AppLocalizations? loc, String id) {

@@ -37,8 +37,7 @@ class DriverApiService {
       final response = await http.put(
         Uri.parse('$baseUrl/driver/registration-step'),
         headers: headers,
-        body: jsonEncode({'step': step, 'data': data}),
-      );
+        body: jsonEncode({'step': step, 'data': data}));
 
       final responseData = jsonDecode(response.body);
 
@@ -70,8 +69,7 @@ class DriverApiService {
 
       final response = await http.get(
         Uri.parse('$baseUrl/driver/registration-data'),
-        headers: headers,
-      );
+        headers: headers);
 
       final responseData = jsonDecode(response.body);
 
@@ -111,8 +109,7 @@ class DriverApiService {
           'taxId': taxId,
           'taxIdType': taxIdType,
           'personalInfo': personalInfo ?? {},
-        }),
-      );
+        }));
 
       final responseData = jsonDecode(response.body);
 
@@ -146,8 +143,7 @@ class DriverApiService {
 
       final response = await http.get(
         Uri.parse('$baseUrl/driver/stripe-w9/status'),
-        headers: headers,
-      );
+        headers: headers);
 
       final responseData = jsonDecode(response.body);
 
@@ -185,8 +181,7 @@ class DriverApiService {
       final response = await http.post(
         Uri.parse('$baseUrl/driver/start-verification'),
         headers: headers,
-        body: jsonEncode({'personalData': personalData}),
-      );
+        body: jsonEncode({'personalData': personalData}));
 
       final responseData = jsonDecode(response.body);
 
@@ -228,8 +223,7 @@ class DriverApiService {
           'stepId': stepId,
           'status': status,
           'result': result,
-        }),
-      );
+        }));
 
       final responseData = jsonDecode(response.body);
 
@@ -261,8 +255,7 @@ class DriverApiService {
 
       final response = await http.get(
         Uri.parse('$baseUrl/driver/verification-status'),
-        headers: headers,
-      );
+        headers: headers);
 
       final responseData = jsonDecode(response.body);
 
@@ -302,8 +295,7 @@ class DriverApiService {
       final response = await http.post(
         Uri.parse('$baseUrl/driver/complete-registration'),
         headers: headers,
-        body: jsonEncode({'finalData': finalData}),
-      );
+        body: jsonEncode({'finalData': finalData}));
 
       final responseData = jsonDecode(response.body);
 
@@ -349,8 +341,7 @@ class DriverApiService {
             'completedAt': DateTime.now().toIso8601String(),
             'verified': true,
           },
-        }),
-      );
+        }));
 
       final responseData = jsonDecode(response.body);
 
@@ -415,16 +406,14 @@ class DriverApiService {
                 'vin': personalData['vin'],
                 'licensePlate': personalData['licensePlate'],
               },
-        }),
-      );
+        }));
 
       final responseData = jsonDecode(response.body);
 
       if (response.statusCode == 200) {
         print('✅ Successfully uploaded to delvioo_users!');
         print(
-          '📊 Verification Score: ${responseData['data']['verificationScore']}%',
-        );
+          '📊 Verification Score: ${responseData['data']['verificationScore']}%');
         print('🎯 Status: ${responseData['data']['status']}');
 
         return {

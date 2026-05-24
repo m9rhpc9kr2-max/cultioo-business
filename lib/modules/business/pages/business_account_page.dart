@@ -228,14 +228,12 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
   // Download payout invoice as PDF
   Future<void> _downloadPayoutInvoice(
     Map<String, dynamic> payout,
-    bool isLight,
-  ) async {
+    bool isLight) async {
     final payoutId = payout['id']?.toString();
     if (payoutId == null) {
       TopNotification.error(
         context,
-        AppLocalizations.of(context)?.payoutIdNotFound ?? AppLocalizations.of(context)!.tr('Payout ID not found'),
-      );
+        AppLocalizations.of(context)?.payoutIdNotFound ?? AppLocalizations.of(context)!.tr('Payout ID not found'));
       return;
     }
 
@@ -244,8 +242,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
     if (token == null) {
       TopNotification.error(
         context,
-        AppLocalizations.of(context)?.authenticationRequired ?? AppLocalizations.of(context)!.tr('Authentication required'),
-      );
+        AppLocalizations.of(context)?.authenticationRequired ?? AppLocalizations.of(context)!.tr('Authentication required'));
       return;
     }
 
@@ -260,18 +257,14 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
           SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
           Text(
             AppLocalizations.of(context)?.downloadingInvoice ?? AppLocalizations.of(context)!.tr('Downloading invoice...'),
-            style: TextStyle(color: isLight ? Colors.black : Colors.white),
-          ),
-        ],
-      ),
-    );
+            style: TextStyle(color: isLight ? Colors.black : Colors.white)),
+        ]));
 
     try {
       // Use Business invoice endpoint
       final response = await http.get(
         Uri.parse('${ApiConfig.baseUrl}/api/business/payout/$payoutId/invoice'),
-        headers: {'Authorization': 'Bearer $token'},
-      );
+        headers: {'Authorization': 'Bearer $token'});
 
       // Close loading dialog
       _safePopIfPossible(context);
@@ -292,8 +285,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
       } else {
         TopNotification.error(
           context,
-          '${AppLocalizations.of(context)?.failedToDownloadInvoice ?? AppLocalizations.of(context)!.tr('Failed to download invoice')}: ${response.statusCode}',
-        );
+          '${AppLocalizations.of(context)?.failedToDownloadInvoice ?? AppLocalizations.of(context)!.tr('Failed to download invoice')}: ${response.statusCode}');
       }
     } catch (e) {
       if (!mounted) return;
@@ -302,15 +294,13 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
 
       TopNotification.error(
         context,
-        '${AppLocalizations.of(context)?.errorDownloadingInvoice ?? AppLocalizations.of(context)!.tr('Error downloading invoice')}: $e',
-      );
+        '${AppLocalizations.of(context)?.errorDownloadingInvoice ?? AppLocalizations.of(context)!.tr('Error downloading invoice')}: $e');
     }
   }
 
   Future<void> _downloadWalletTransactionDocument(
     dynamic transactionId,
-    bool isLight,
-  ) async {
+    bool isLight) async {
     final txId = transactionId?.toString();
     if (txId == null || txId.isEmpty) {
       TopNotification.error(context, AppLocalizations.of(context)!.tr('Transaction ID not found'));
@@ -322,8 +312,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
       if (!mounted) return;
       TopNotification.error(
         context,
-        AppLocalizations.of(context)?.authenticationRequired ?? AppLocalizations.of(context)!.tr('Authentication required'),
-      );
+        AppLocalizations.of(context)?.authenticationRequired ?? AppLocalizations.of(context)!.tr('Authentication required'));
       return;
     }
 
@@ -338,17 +327,13 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
           SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
           Text(
             AppLocalizations.of(context)?.downloadingInvoice ?? AppLocalizations.of(context)!.tr('Downloading document...'),
-            style: TextStyle(color: isLight ? Colors.black : Colors.white),
-          ),
-        ],
-      ),
-    );
+            style: TextStyle(color: isLight ? Colors.black : Colors.white)),
+        ]));
 
     try {
       final response = await http.get(
         Uri.parse('${ApiConfig.baseUrl}/api/wallet/receipt/$txId'),
-        headers: {'Authorization': 'Bearer $token'},
-      );
+        headers: {'Authorization': 'Bearer $token'});
 
       if (!mounted) return;
       _safePopIfPossible(context);
@@ -363,15 +348,13 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
       } else {
         TopNotification.error(
           context,
-          'Failed to download document: ${response.statusCode}',
-        );
+          'Failed to download document: ${response.statusCode}');
       }
     } catch (e) {
       _safePopIfPossible(context);
       TopNotification.error(
         context,
-        '${AppLocalizations.of(context)!.tr('Error downloading document')}: $e',
-      );
+        '${AppLocalizations.of(context)!.tr('Error downloading document')}: $e');
     }
   }
 
@@ -437,12 +420,11 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
     }
 
     return Container(
-      margin: const EdgeInsets.only(bottom: 12),
+      margin: EdgeInsets.only(bottom: 12),
       padding: DesktopAppWrapper.getPagePadding(),
       decoration: BoxDecoration(
         color: isLight ? Colors.white : Colors.black,
-        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-      ),
+        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -450,22 +432,18 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
             children: [
               // Status icon - KEEP gradient for important visual indicator
               Container(
-                padding: const EdgeInsets.all(12),
+                padding: EdgeInsets.all(12),
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
-                    colors: statusGradient,
-                  ),
-                  borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-                ),
+                    colors: statusGradient),
+                  borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
                 child: Icon(
                   CupertinoIcons.money_dollar_circle,
                   color: Colors.white,
-                  size: 24,
-                ),
-              ),
-              const SizedBox(width: 16),
+                  size: 24)),
+              SizedBox(width: 16),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -476,80 +454,62 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                         fontSize: DesktopOptimizedWidgets.getFontSize() + 10,
                         fontWeight: FontWeight.w700,
                         fontFamily: 'Poppins',
-                        color: isLight ? Colors.black : Colors.white,
-                      ),
-                    ),
-                    const SizedBox(height: 4),
+                        color: isLight ? Colors.black : Colors.white)),
+                    SizedBox(height: 4),
                     if (deliveries.isNotEmpty)
                       Row(
                         children: [
                           Icon(
                             CupertinoIcons.cube_box_fill,
                             size: 14,
-                            color: isLight ? Colors.black : Colors.white,
-                          ),
-                          const SizedBox(width: 4),
+                            color: isLight ? Colors.black : Colors.white),
+                          SizedBox(width: 4),
                           Text(
                             '$deliveries ${AppLocalizations.of(context)?.deliveriesWord ?? AppLocalizations.of(context)!.tr('deliveries')}',
                             style: TextStyle(
                               fontSize: 12,
                               fontWeight: FontWeight.w500,
-                              color: isLight ? Colors.black : Colors.white,
-                            ),
-                          ),
-                        ],
-                      ),
-                  ],
-                ),
-              ),
+                              color: isLight ? Colors.black : Colors.white)),
+                        ]),
+                  ])),
               Container(
-                padding: const EdgeInsets.symmetric(
+                padding: EdgeInsets.symmetric(
                   horizontal: 12,
-                  vertical: 8,
-                ),
+                  vertical: 8),
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
-                    colors: statusGradient,
-                  ),
-                  borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-                ),
+                    colors: statusGradient),
+                  borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Icon(statusIcon, size: 16, color: Colors.white),
-                    const SizedBox(width: 6),
+                    SizedBox(width: 6),
                     Text(
                       status[0].toUpperCase() + status.substring(1),
-                      style: const TextStyle(
+                      style: TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.w700,
                         fontSize: 12,
-                        letterSpacing: 0.3,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+                        letterSpacing: 0.3)),
+                  ])),
               // Download Invoice Button
-              const SizedBox(width: 8),
+              SizedBox(width: 8),
               TradeRepublicButton.icon(
                 icon: Icon(CupertinoIcons.arrow_down_circle, size: 20),
                 onPressed: () => _downloadPayoutInvoice(payout, isLight),
                 backgroundColor: isLight ? Colors.black : Colors.white,
                 foregroundColor: isLight ? Colors.white : Colors.black,
-                size: 40,
-              ),
-            ],
-          ),
+                size: 40),
+            ]),
           SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
           Container(
-            padding: const EdgeInsets.all(14),
+            padding: EdgeInsets.all(14),
             decoration: BoxDecoration(
               color: isLight ? Colors.white : Colors.black,
-              borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-            ),
+              borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
             child: Column(
               children: [
                 Row(
@@ -557,51 +517,42 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                     Icon(
                       CupertinoIcons.calendar,
                       size: 16,
-                      color: isLight ? Colors.black : Colors.white,
-                    ),
-                    const SizedBox(width: 8),
+                      color: isLight ? Colors.black : Colors.white),
+                    SizedBox(width: 8),
                     Text(
                       dateString,
                       style: TextStyle(
                         fontSize: 13,
                         fontWeight: FontWeight.w600,
-                        color: isLight ? Colors.black : Colors.white,
-                      ),
-                    ),
+                        color: isLight ? Colors.black : Colors.white)),
                     if (timeString.isNotEmpty) ...[
-                      const SizedBox(width: 12),
+                      SizedBox(width: 12),
                       Icon(
                         CupertinoIcons.clock,
                         size: 16,
-                        color: isLight ? Colors.black : Colors.white,
-                      ),
-                      const SizedBox(width: 6),
+                        color: isLight ? Colors.black : Colors.white),
+                      SizedBox(width: 6),
                       Text(
                         timeString,
                         style: TextStyle(
                           fontSize: 13,
                           fontWeight: FontWeight.w600,
-                          color: isLight ? Colors.black : Colors.white,
-                        ),
-                      ),
+                          color: isLight ? Colors.black : Colors.white)),
                     ],
-                  ],
-                ),
+                  ]),
                 if (payoutId.isNotEmpty) ...[
-                  const SizedBox(height: 10),
+                  SizedBox(height: 10),
                   TradeRepublicDivider(
                     color: isLight ? Colors.black : Colors.white,
-                    height: 1,
-                  ),
-                  const SizedBox(height: 10),
+                    height: 1),
+                  SizedBox(height: 10),
                   Row(
                     children: [
                       Icon(
                         CupertinoIcons.tag_fill,
                         size: 14,
-                        color: isLight ? Colors.black : Colors.white,
-                      ),
-                      const SizedBox(width: 6),
+                        color: isLight ? Colors.black : Colors.white),
+                      SizedBox(width: 6),
                       Expanded(
                         child: Text(
                           'ID: $payoutId',
@@ -609,51 +560,36 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                             fontSize: 11,
                             fontWeight: FontWeight.w600,
                             color: isLight ? Colors.black : Colors.white,
-                            fontFamily: 'monospace',
-                          ),
+                            fontFamily: 'monospace'),
                           maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      ),
-                    ],
-                  ),
+                          overflow: TextOverflow.ellipsis)),
+                    ]),
                 ],
-              ],
-            ),
-          ),
+              ])),
           if (errorMessage != null && errorMessage.isNotEmpty) ...[
             SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
             Container(
-              padding: const EdgeInsets.all(12),
+              padding: EdgeInsets.all(12),
               decoration: BoxDecoration(
                 color: Colors.red.shade50,
-                borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-              ),
+                borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
               child: Row(
                 children: [
                   Icon(
                     CupertinoIcons.exclamationmark_circle,
                     color: Colors.red.shade700,
-                    size: 18,
-                  ),
-                  const SizedBox(width: 10),
+                    size: 18),
+                  SizedBox(width: 10),
                   Expanded(
                     child: Text(
                       errorMessage,
                       style: TextStyle(
                         color: Colors.red.shade900,
                         fontSize: 12,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
+                        fontWeight: FontWeight.w600))),
+                ])),
           ],
-        ],
-      ),
-    );
+        ]));
   }
 
   @override
@@ -663,22 +599,17 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
     // Initialize modern animation controllers - Delvioo Style
     _headerAnimController = AnimationController(
       duration: const Duration(milliseconds: 600),
-      vsync: this,
-    );
+      vsync: this);
     _headerSlideAnim = Tween<double>(begin: -30, end: 0).animate(
       CurvedAnimation(
         parent: _headerAnimController,
-        curve: Curves.easeOutCubic,
-      ),
-    );
+        curve: Curves.easeOutCubic));
     _headerFadeAnim = Tween<double>(begin: 0, end: 1).animate(
-      CurvedAnimation(parent: _headerAnimController, curve: Curves.easeOut),
-    );
+      CurvedAnimation(parent: _headerAnimController, curve: Curves.easeOut));
 
     _contentAnimController = AnimationController(
       duration: const Duration(milliseconds: 800),
-      vsync: this,
-    );
+      vsync: this);
 
     // Start header animation immediately
     _headerAnimController.forward();
@@ -720,8 +651,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
 
     if (token != null) {
       debugPrint(
-        '🔑 Token retrieved: ${token.substring(0, 20)}... (length: ${token.length})',
-      );
+        '🔑 Token retrieved: ${token.substring(0, 20)}... (length: ${token.length})');
     } else {
       debugPrint('⚠️ No token found in SharedPreferences');
     }
@@ -736,8 +666,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
         headers: {
           'Content-Type': 'application/json',
           'Authorization': 'Bearer $token',
-        },
-      );
+        });
 
       if (response.statusCode != 200) {
         return false;
@@ -785,8 +714,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
       });
 
       debugPrint(
-        '✅ Earnings fallback loaded from orders: ${AppSettings().currencySymbol}${totalEarnings.toStringAsFixed(2)}',
-      );
+        '✅ Earnings fallback loaded from orders: ${AppSettings().currencySymbol}${totalEarnings.toStringAsFixed(2)}');
       return true;
     } catch (e) {
       debugPrint('❌ Orders fallback failed: $e');
@@ -815,8 +743,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
           'Content-Type': 'application/json',
           if (oldToken != null) 'Authorization': 'Bearer $oldToken',
         },
-        body: json.encode({'userId': userId, 'email': userEmail}),
-      );
+        body: json.encode({'userId': userId, 'email': userEmail}));
 
       debugPrint('🔄 Token refresh response: ${response.statusCode}');
 
@@ -863,8 +790,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
 
   String _buildImageUrl(String imagePath) {
     debugPrint(
-      '🖼️ _buildImageUrl called with: ${imagePath.startsWith('data:') ? 'data:...[base64]' : imagePath}',
-    );
+      '🖼️ _buildImageUrl called with: ${imagePath.startsWith('data:') ? 'data:...[base64]' : imagePath}');
 
     // Return data: URLs (base64) as-is – they are handled by _buildProfileImage
     if (imagePath.startsWith('data:')) {
@@ -905,8 +831,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
     final fallbackIcon = Icon(
       CupertinoIcons.person_fill,
       size: size * 0.4,
-      color: isLight ? Colors.black : Colors.white,
-    );
+      color: isLight ? Colors.black : Colors.white);
 
     if (imagePath.isEmpty) return fallbackIcon;
 
@@ -920,8 +845,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
           width: size,
           height: size,
           fit: fit,
-          errorBuilder: (_, __, ___) => fallbackIcon,
-        );
+          errorBuilder: (_, __, ___) => fallbackIcon);
       } catch (_) {
         return fallbackIcon;
       }
@@ -936,8 +860,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
       height: size,
       fit: fit,
       fallback: fallbackIcon,
-      loading: const Center(child: CultiooLoadingIndicator(size: 20)),
-    );
+      loading: const Center(child: CultiooLoadingIndicator(size: 20)));
   }
 
   // Safe image widget that handles loading errors
@@ -965,9 +888,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
             color: isLight ? Colors.white : Colors.black,
             child: Icon(
               CupertinoIcons.photo,
-              color: isLight ? Colors.black : Colors.white,
-            ),
-          );
+              color: isLight ? Colors.black : Colors.white));
     }
 
     // Handle data: base64 URLs
@@ -982,8 +903,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
           fit: fit,
           errorBuilder: (ctx, err, st) =>
               fallback ??
-              Container(color: isLight ? Colors.white : Colors.black),
-        );
+              Container(color: isLight ? Colors.white : Colors.black));
       } catch (_) {
         return fallback ??
             Container(color: isLight ? Colors.white : Colors.black);
@@ -1002,16 +922,12 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
             color: isLight ? Colors.white : Colors.black,
             child: Icon(
               CupertinoIcons.exclamationmark_triangle,
-              color: isLight ? Colors.black : Colors.white,
-            ),
-          ),
+              color: isLight ? Colors.black : Colors.white)),
       loading: Container(
         width: width,
         height: height,
         color: isLight ? Colors.white : Colors.black,
-        child: Center(child: CultiooLoadingIndicator()),
-      ),
-    );
+        child: Center(child: CultiooLoadingIndicator())));
   }
 
   String _normalizeGroupRole(dynamic role) {
@@ -1123,8 +1039,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
         color: highlight
             ? const Color(0xFF111111)
             : (isLight ? const Color(0xFFF2F2F2) : const Color(0xFF1F1F1F)),
-        borderRadius: BorderRadius.circular(size * 0.34),
-      ),
+        borderRadius: BorderRadius.circular(size * 0.34)),
       alignment: Alignment.center,
       child: Text(
         initial,
@@ -1133,10 +1048,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
           fontWeight: FontWeight.w800,
           color: highlight
               ? Colors.white
-              : (isLight ? Colors.black : Colors.white),
-        ),
-      ),
-    );
+              : (isLight ? Colors.black : Colors.white))));
 
     if (cleanImage.isEmpty || cleanImage.startsWith('<svg')) {
       return fallback;
@@ -1151,10 +1063,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
           cleanImage,
           size: size,
           fit: BoxFit.cover,
-          isLight: isLight,
-        ),
-      ),
-    );
+          isLight: isLight)));
   }
 
   Future<void> _updateUserData(Map<String, dynamic> updatedData) async {
@@ -1182,8 +1091,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
           'Content-Type': 'application/json',
           if (token != null) 'Authorization': 'Bearer $token',
         },
-        body: json.encode(requestData),
-      );
+        body: json.encode(requestData));
 
       debugPrint('📡 Update profile response: ${response.statusCode}');
       debugPrint('📡 Update profile response body: ${response.body}');
@@ -1201,28 +1109,24 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
           debugPrint('✅ User data updated successfully in users table');
           TopNotification.success(
             context,
-            AppLocalizations.of(context)?.profileUpdatedSuccess ?? AppLocalizations.of(context)!.tr('Profile updated successfully!'),
-          );
+            AppLocalizations.of(context)?.profileUpdatedSuccess ?? AppLocalizations.of(context)!.tr('Profile updated successfully!'));
         } else {
           debugPrint('❌ Failed to update profile: ${responseData['message']}');
           TopNotification.error(
             context,
-            '${AppLocalizations.of(context)?.failedToUpdateProfile ?? AppLocalizations.of(context)!.tr('Failed to update profile')}: ${responseData['message']}',
-          );
+            '${AppLocalizations.of(context)?.failedToUpdateProfile ?? AppLocalizations.of(context)!.tr('Failed to update profile')}: ${responseData['message']}');
         }
       } else {
         debugPrint('❌ Update profile failed with status: ${response.statusCode}');
         TopNotification.error(
           context,
-          AppLocalizations.of(context)?.failedUpdateProfile ?? AppLocalizations.of(context)!.tr('Update failed. Please try again.'),
-        );
+          AppLocalizations.of(context)?.failedUpdateProfile ?? AppLocalizations.of(context)!.tr('Update failed. Please try again.'));
       }
     } catch (e) {
       debugPrint('❌ Error updating user data: $e');
       TopNotification.error(
         context,
-        '${AppLocalizations.of(context)?.errorUpdatingProfile ?? AppLocalizations.of(context)!.tr('Error updating profile')}: $e',
-      );
+        '${AppLocalizations.of(context)?.errorUpdatingProfile ?? AppLocalizations.of(context)!.tr('Error updating profile')}: $e');
     }
   }
 
@@ -1241,8 +1145,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
         headers: {
           'Content-Type': 'application/json',
           'Authorization': 'Bearer ${await _getStoredToken()}',
-        },
-      );
+        });
 
       debugPrint('📡 User profile response status: ${response.statusCode}');
       debugPrint('📡 User profile response body: ${response.body}');
@@ -1598,8 +1501,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
         headers: {
           'Content-Type': 'application/json',
           if (token != null) 'Authorization': 'Bearer $token',
-        },
-      );
+        });
 
       debugPrint('📡 Business stats response: ${response.statusCode}');
       debugPrint('📡 Business stats response body: ${response.body}');
@@ -1643,8 +1545,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
         headers: {
           'Content-Type': 'application/json',
           if (token != null) 'Authorization': 'Bearer $token',
-        },
-      );
+        });
 
       debugPrint('📡 Followers response: ${response.statusCode}');
       debugPrint('📡 Followers response body: ${response.body}');
@@ -1655,8 +1556,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
           if (mounted) {
             setState(() {
               followers = List<Map<String, dynamic>>.from(
-                responseData['followers'] ?? [],
-              );
+                responseData['followers'] ?? []);
               socialStats =
                   responseData['stats'] ??
                   {'followers_count': 0, 'following_count': 0};
@@ -1669,8 +1569,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
             });
           }
           debugPrint(
-            '✅ Followers loaded successfully: ${followers.length} followers',
-          );
+            '✅ Followers loaded successfully: ${followers.length} followers');
           return;
         }
       }
@@ -1691,8 +1590,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
         headers: {
           'Content-Type': 'application/json',
           if (token != null) 'Authorization': 'Bearer $token',
-        },
-      );
+        });
 
       debugPrint('📡 Current group response: ${response.statusCode}');
       debugPrint('📡 Current group response body: ${response.body}');
@@ -1702,16 +1600,14 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
         if (responseData['success'] == true &&
             responseData['currentGroup'] != null) {
           final normalizedGroup = _normalizeGroupPayload(
-            Map<String, dynamic>.from(responseData['currentGroup']),
-          );
+            Map<String, dynamic>.from(responseData['currentGroup']));
           if (mounted) {
             setState(() {
               currentGroup = normalizedGroup;
             });
           }
           debugPrint(
-            '✅ Current group loaded: ${currentGroup?['name']} (Role: ${currentGroup?['role']})',
-          );
+            '✅ Current group loaded: ${currentGroup?['name']} (Role: ${currentGroup?['role']})');
         } else {
           // User is not in any group
           if (mounted) {
@@ -1772,8 +1668,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
           headers: {
             'Content-Type': 'application/json',
             'Authorization': 'Bearer $token',
-          },
-        );
+          });
 
         debugPrint('📡 Earnings response ($endpoint): ${response.statusCode}');
 
@@ -1804,16 +1699,14 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                   0.0,
               'availableBalance':
                   double.tryParse(
-                    earnings['availableBalance']?.toString() ?? AppLocalizations.of(context)!.tr('0'),
-                  ) ??
+                    earnings['availableBalance']?.toString() ?? AppLocalizations.of(context)!.tr('0')) ??
                   0.0,
               'totalPayouts':
                   double.tryParse(earnings['totalPaidOut']?.toString() ?? AppLocalizations.of(context)!.tr('0')) ??
                   0.0,
               'totalWaitingCharges':
                   double.tryParse(
-                    earnings['totalWaitingCharges']?.toString() ?? AppLocalizations.of(context)!.tr('0'),
-                  ) ??
+                    earnings['totalWaitingCharges']?.toString() ?? AppLocalizations.of(context)!.tr('0')) ??
                   0.0,
               'lastUpdated': earnings['lastUpdated'],
             };
@@ -1824,15 +1717,13 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                 'groupName': groupEarnings['groupName'],
                 'totalEarnings':
                     double.tryParse(
-                      groupEarnings['totalEarnings']?.toString() ?? AppLocalizations.of(context)!.tr('0'),
-                    ) ??
+                      groupEarnings['totalEarnings']?.toString() ?? AppLocalizations.of(context)!.tr('0')) ??
                     0.0,
                 'totalMembers': groupEarnings['totalMembers'] ?? 0,
                 'totalDeliveries': groupEarnings['totalDeliveries'] ?? 0,
                 'averagePerDelivery':
                     double.tryParse(
-                      groupEarnings['averagePerDelivery']?.toString() ?? AppLocalizations.of(context)!.tr('0'),
-                    ) ??
+                      groupEarnings['averagePerDelivery']?.toString() ?? AppLocalizations.of(context)!.tr('0')) ??
                     0.0,
               };
             } else {
@@ -1851,9 +1742,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                   'status': payout['status'],
                   'stripe_transfer_id': payout['stripe_transfer_id'],
                   'notes': payout['notes'],
-                },
-              ),
-            );
+                }));
           });
         }
 
@@ -1871,8 +1760,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
         if (!fallbackLoaded && mounted) {
           TopNotification.error(
             _scaffoldKey.currentContext ?? context,
-            'Earnings could not be loaded. Please refresh.',
-          );
+            'Earnings could not be loaded. Please refresh.');
         }
       }
     } catch (e) {
@@ -1905,13 +1793,11 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
 
       final response = await http.get(
         Uri.parse(
-          '${ApiConfig.baseUrl}/api/business/group/$groupId/member-earnings',
-        ),
+          '${ApiConfig.baseUrl}/api/business/group/$groupId/member-earnings'),
         headers: {
           'Authorization': 'Bearer $token',
           'Content-Type': 'application/json',
-        },
-      );
+        });
 
       if (response.statusCode == 200) {
         final data = json.decode(response.body);
@@ -1949,12 +1835,10 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
           headers: {
             'Content-Type': 'application/json',
             if (token != null) 'Authorization': 'Bearer $token',
-          },
-        );
+          });
 
         debugPrint(
-          '📡 Earnings history response ($endpoint): ${response.statusCode}',
-        );
+          '📡 Earnings history response ($endpoint): ${response.statusCode}');
         debugPrint('📡 Earnings history response body: ${response.body}');
 
         if (response.statusCode == 401) {
@@ -1974,8 +1858,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                 (responseData['transactions'] ?? responseData['earnings'] ?? [])
                     as List;
             final normalized = rawItems.whereType<Map>().map<Map<String, dynamic>>((
-              row,
-            ) {
+              row) {
               final amountVal = row['amount'];
               final amount = amountVal is num
                   ? amountVal.toDouble()
@@ -2013,8 +1896,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
             }
 
             debugPrint(
-              '✅ Real earnings history loaded: ${earningsHistory.length} transactions',
-            );
+              '✅ Real earnings history loaded: ${earningsHistory.length} transactions');
             loaded = true;
             break;
           }
@@ -2064,12 +1946,10 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
           headers: {
             'Content-Type': 'application/json',
             'Authorization': 'Bearer $token',
-          },
-        );
+          });
 
         debugPrint(
-          '📡 Waiting charges response ($endpoint): ${response.statusCode}',
-        );
+          '📡 Waiting charges response ($endpoint): ${response.statusCode}');
 
         if (response.statusCode == 401) {
           await _refreshToken();
@@ -2086,13 +1966,11 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
             if (mounted) {
               setState(() {
                 waitingChargeDeductions = List<Map<String, dynamic>>.from(
-                  responseData['charges'] ?? [],
-                );
+                  responseData['charges'] ?? []);
               });
             }
             debugPrint(
-              '✅ Waiting charges loaded: ${waitingChargeDeductions.length} deductions',
-            );
+              '✅ Waiting charges loaded: ${waitingChargeDeductions.length} deductions');
             return;
           }
         }
@@ -2112,8 +1990,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
         headers: {
           'Content-Type': 'application/json',
           if (token != null) 'Authorization': 'Bearer $token',
-        },
-      );
+        });
 
       debugPrint('📡 Group members response: ${response.statusCode}');
       debugPrint('📡 Group members response body: ${response.body}');
@@ -2123,8 +2000,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
         if (responseData['success'] == true &&
             responseData['members'] != null) {
           return List<Map<String, dynamic>>.from(
-            responseData['members'],
-          ).map(_normalizeGroupMember).toList();
+            responseData['members']).map(_normalizeGroupMember).toList();
         }
       }
 
@@ -2147,8 +2023,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
         headers: {
           'Content-Type': 'application/json',
           'Authorization': 'Bearer $token',
-        },
-      );
+        });
 
       if (response.statusCode == 200) {
         final data = json.decode(response.body);
@@ -2156,8 +2031,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
           setState(() {
             _walletBalance = (data['wallet']?['balance'] ?? 0.0).toDouble();
             _walletTransactions = List<Map<String, dynamic>>.from(
-              data['transactions'] ?? [],
-            );
+              data['transactions'] ?? []);
             _walletLoaded = true;
           });
         }
@@ -2177,16 +2051,14 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
         headers: {
           'Content-Type': 'application/json',
           'Authorization': 'Bearer $token',
-        },
-      );
+        });
 
       if (response.statusCode == 200) {
         final data = json.decode(response.body);
         if (data['success'] == true && mounted) {
           setState(() {
             _pendingShippingPayments = List<Map<String, dynamic>>.from(
-              data['pending_payments'] ?? [],
-            );
+              data['pending_payments'] ?? []);
             _pendingShippingLoaded = true;
           });
         }
@@ -2207,8 +2079,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
           headers: {
             'Content-Type': 'application/json',
             'Authorization': 'Bearer $token',
-          },
-        ),
+          }),
         _loadSavedPaymentMethods(),
       ]);
       final defaultsResponse = results[0] as http.Response;
@@ -2230,8 +2101,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
 
   Future<void> _saveShippingPaymentDefault(
     String value,
-    StateSetter setModalState,
-  ) async {
+    StateSetter setModalState) async {
     setModalState(() => _defaultShippingPayment = value);
     setState(() => _defaultShippingPayment = value);
     try {
@@ -2243,8 +2113,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
           'Content-Type': 'application/json',
           'Authorization': 'Bearer $token',
         },
-        body: json.encode({'default_payment_shipping': value}),
-      );
+        body: json.encode({'default_payment_shipping': value}));
     } catch (e) {
       debugPrint('❌ Error saving shipping payment default: $e');
     }
@@ -2290,21 +2159,16 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                 AppLocalizations.of(context)?.unableToLoadAccountData ?? AppLocalizations.of(context)!.tr('Unable to load account data'),
                 style: TextStyle(
                   color: isLight ? Colors.black : Colors.white,
-                  fontSize: DesktopOptimizedWidgets.getFontSize(),
-                ),
-              ),
-            )
+                  fontSize: DesktopOptimizedWidgets.getFontSize())))
           : Align(
               alignment: Alignment.topCenter,
               child: ConstrainedBox(
                 constraints: BoxConstraints(
-                  maxWidth: isDesktop ? 1080 : double.infinity,
-                ),
+                  maxWidth: isDesktop ? 1080 : double.infinity),
                 child: CustomScrollView(
                   controller: _scrollController,
                   physics: const BouncingScrollPhysics(
-                    parent: AlwaysScrollableScrollPhysics(),
-                  ),
+                    parent: AlwaysScrollableScrollPhysics()),
                   slivers: [
                     CultiooSliverRefreshControl(onRefresh: _refreshData),
                     SliverPadding(
@@ -2315,8 +2179,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                             : MediaQuery.of(context).padding.top + 20.0,
                         horizontalPadding,
                         MediaQuery.of(context).padding.bottom +
-                            bottomScrollPadding,
-                      ),
+                            bottomScrollPadding),
                       sliver: SliverToBoxAdapter(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -2325,76 +2188,60 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                             _buildAnimatedSection(
                               delay: 0,
                               slideFromBottom: false,
-                              child: _buildTradeRepublicHeader(isLight),
-                            ),
+                              child: _buildTradeRepublicHeader(isLight)),
 
-                            const SizedBox(height: 32),
+                            SizedBox(height: 32),
 
                             // 1. Business Profile Summary Card - Animated
                             if (!_isAnyModalOpen)
                               _buildAnimatedSection(
                                 delay: 0,
                                 slideFromBottom: false,
-                                child: _buildBusinessProfileSummary(isLight),
-                              ),
+                                child: _buildBusinessProfileSummary(isLight)),
 
                             // 2. Business Statistics Dashboard - Animated
                             _buildAnimatedSection(
                               delay: 1,
                               slideFromBottom: true,
-                              child: _buildGroupOverviewDashboard(isLight),
-                            ),
+                              child: _buildGroupOverviewDashboard(isLight)),
 
                             // 3. Business Information Section - Animated
                             _buildAnimatedSection(
                               delay: 2,
                               slideFromBottom: false,
-                              child: _buildBusinessInfoSection(isLight),
-                            ),
+                              child: _buildBusinessInfoSection(isLight)),
 
                             // 4. Account Settings Section - Animated
                             _buildAnimatedSection(
                               delay: 3,
                               slideFromBottom: false,
-                              child: _buildAccountSettingsSection(isLight),
-                            ),
+                              child: _buildAccountSettingsSection(isLight)),
 
                             // 5. Verification Status - Animated
                             _buildAnimatedSection(
                               delay: 4,
                               slideFromBottom: true,
-                              child: _buildVerificationStatusButton(isLight),
-                            ),
+                              child: _buildVerificationStatusButton(isLight)),
 
                             // 6. Security & Privacy Section - Animated
                             _buildAnimatedSection(
                               delay: 6,
                               slideFromBottom: true,
-                              child: _buildSecurityPrivacySection(isLight),
-                            ),
+                              child: _buildSecurityPrivacySection(isLight)),
 
                             // 7. Social & Community Section - Animated
                             _buildAnimatedSection(
                               delay: 7,
                               slideFromBottom: false,
-                              child: _buildSocialCommunitySection(isLight),
-                            ),
+                              child: _buildSocialCommunitySection(isLight)),
 
                             // 10. Account Management - Animated
                             _buildAnimatedSection(
                               delay: 9,
                               slideFromBottom: true,
-                              child: _buildAccountManagementSection(isLight),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-    );
+                              child: _buildAccountManagementSection(isLight)),
+                          ]))),
+                  ]))));
   }
 
   // Trade Republic Style Header - Minimal & Clean
@@ -2408,10 +2255,8 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
             color: isLight ? Colors.black : Colors.white,
             fontSize: 34,
             fontWeight: FontWeight.w700,
-            letterSpacing: -0.5,
-          ),
-        ),
-        const SizedBox(height: 4),
+            letterSpacing: -0.5)),
+        SizedBox(height: 4),
         Text(
           AppLocalizations.of(context)?.manageBusinessProfile ?? AppLocalizations.of(context)!.tr('Manage your business profile'),
           style: TextStyle(
@@ -2419,11 +2264,8 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                 ? Colors.black.withOpacity(0.5)
                 : Colors.white.withOpacity(0.5),
             fontSize: 15,
-            fontWeight: FontWeight.w400,
-          ),
-        ),
-      ],
-    );
+            fontWeight: FontWeight.w400)),
+      ]);
   }
 
   // Modern Staggered Animation Widget - Delvioo Style
@@ -2439,21 +2281,18 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
         final delayFactor = delay * 0.08;
         final delayedValue = (_contentAnimController.value - delayFactor).clamp(
           0.0,
-          1.0,
-        );
+          1.0);
         final remainingRange = (1.0 - delayFactor).clamp(0.1, 1.0);
         final curvedValue = Curves.easeOutCubic.transform(
           delayedValue > 0
               ? (delayedValue / remainingRange).clamp(0.0, 1.0)
-              : 0.0,
-        );
+              : 0.0);
 
         return Transform.translate(
           offset: Offset(
             0, // No horizontal movement
             // slideFromBottom = true means from bottom, false = from top
-            slideFromBottom ? 30 * (1 - curvedValue) : -30 * (1 - curvedValue),
-          ),
+            slideFromBottom ? 30 * (1 - curvedValue) : -30 * (1 - curvedValue)),
           child: Opacity(
             opacity: curvedValue,
             child: Transform.scale(
@@ -2461,12 +2300,8 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
               alignment: slideFromBottom
                   ? Alignment.bottomCenter
                   : Alignment.topCenter,
-              child: child,
-            ),
-          ),
-        );
-      },
-    );
+              child: child)));
+      });
   }
 
   Widget _buildBusinessProfileSummary(bool isLight) {
@@ -2492,20 +2327,16 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                       shape: BoxShape.circle,
                       color: isLight
                           ? const Color(0xFFF2F2F2)
-                          : const Color(0xFF1F1F1F),
-                    ),
+                          : const Color(0xFF1F1F1F)),
                     clipBehavior: Clip.antiAlias,
                     child: hasProfilePic
                         ? _buildSmartProfileImage(
                             userData!['profilePic'],
-                            isLight: isLight,
-                          )
+                            isLight: isLight)
                         : Icon(
                             CupertinoIcons.person_fill,
                             size: 36,
-                            color: isLight ? Colors.black : Colors.white,
-                          ),
-                  ),
+                            color: isLight ? Colors.black : Colors.white)),
                   // Camera badge
                   Positioned(
                     bottom: 0,
@@ -2515,21 +2346,14 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                       height: 26,
                       decoration: BoxDecoration(
                         color: isLight ? Colors.white : Colors.black,
-                        shape: BoxShape.circle,
-                      ),
+                        shape: BoxShape.circle),
                       child: Icon(
                         CupertinoIcons.camera_fill,
                         size: 12,
-                        color: isLight ? Colors.black : Colors.white,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
+                        color: isLight ? Colors.black : Colors.white))),
+                ]))),
 
-          const SizedBox(height: 14),
+          SizedBox(height: 14),
 
           // Business Name (only shown when set)
           if ((userData?['businessName'] ?? AppLocalizations.of(context)!.tr('')).toString().trim().isNotEmpty)
@@ -2539,11 +2363,9 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                 fontSize: 22,
                 fontWeight: FontWeight.w700,
                 color: isLight ? Colors.black : Colors.white,
-                letterSpacing: -0.5,
-              ),
-              textAlign: TextAlign.center,
-            ),
-          const SizedBox(height: 3),
+                letterSpacing: -0.5),
+              textAlign: TextAlign.center),
+          SizedBox(height: 3),
           // Owner name
           if ((userData?['firstname'] ?? AppLocalizations.of(context)!.tr('')).toString().isNotEmpty ||
               (userData?['lastname'] ?? AppLocalizations.of(context)!.tr('')).toString().isNotEmpty)
@@ -2553,11 +2375,9 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
               style: TextStyle(
                 fontSize: 15,
                 fontWeight: FontWeight.w400,
-                color: (isLight ? Colors.black : Colors.white).withOpacity(0.5),
-              ),
-              textAlign: TextAlign.center,
-            ),
-          const SizedBox(height: 3),
+                color: (isLight ? Colors.black : Colors.white).withOpacity(0.5)),
+              textAlign: TextAlign.center),
+          SizedBox(height: 3),
           // Username / email
           if ((userData?['username'] ?? userData?['email']) != null)
             Text(
@@ -2567,45 +2387,34 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
               style: TextStyle(
                 fontSize: 13,
                 fontWeight: FontWeight.w500,
-                color: (isLight ? Colors.black : Colors.white).withOpacity(0.4),
-              ),
-            ),
+                color: (isLight ? Colors.black : Colors.white).withOpacity(0.4))),
           SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
           // Active badge
           Container(
-            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+            padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
             decoration: BoxDecoration(
               color: Colors.green.withOpacity(0.1),
-              borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-            ),
+              borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
                 Container(
                   width: 6,
                   height: 6,
-                  decoration: const BoxDecoration(
+                  decoration: BoxDecoration(
                     color: Colors.green,
-                    shape: BoxShape.circle,
-                  ),
-                ),
-                const SizedBox(width: 8),
+                    shape: BoxShape.circle)),
+                SizedBox(width: 8),
                 Text(
                   AppLocalizations.of(context)?.active ?? AppLocalizations.of(context)!.tr('Active'),
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 13,
                     fontWeight: FontWeight.w500,
-                    color: Colors.green,
-                  ),
-                ),
-              ],
-            ),
-          ),
+                    color: Colors.green)),
+              ])),
 
-          const SizedBox(height: 32),
-        ],
-      ),
-    );
+          SizedBox(height: 32),
+        ]));
   }
 
   // -------------------------------
@@ -2614,8 +2423,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
   void _showAppSettingsModal(BuildContext parentContext, bool isLight) {
     final AppSettings appSettings = Provider.of<AppSettings>(
       parentContext,
-      listen: false,
-    );
+      listen: false);
 
     setState(() => _isAppSettingsOpen = true);
     NavigationVisibility.hide();
@@ -2636,20 +2444,16 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                 Icon(
                   CupertinoIcons.settings,
                   size: 22,
-                  color: isLight ? Colors.black : Colors.white,
-                ),
-                const SizedBox(width: 12),
+                  color: isLight ? Colors.black : Colors.white),
+                SizedBox(width: 12),
                 Text(
                   AppLocalizations.of(context)?.appSettings ?? AppLocalizations.of(context)!.tr('App Settings'),
                   style: TextStyle(
                     fontSize: 22,
                     fontWeight: FontWeight.w700,
                     color: isLight ? Colors.black : Colors.white,
-                    letterSpacing: -0.4,
-                  ),
-                ),
-              ],
-            ),
+                    letterSpacing: -0.4)),
+              ]),
 
             SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
@@ -2678,14 +2482,8 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
 
                     // Legal & About
                     _settings_buildLegalAboutSection(appSettings, isLight),
-                  ],
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    ).whenComplete(() {
+                  ]))),
+          ]))).whenComplete(() {
       NavigationVisibility.show();
       if (mounted) setState(() => _isAppSettingsOpen = false);
     });
@@ -2694,8 +2492,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
   // --- Settings helpers (simplified versions of the original page) ---
   Widget _settings_buildAppearanceSection(
     AppSettings appSettings,
-    bool isLight,
-  ) {
+    bool isLight) {
     final themeOptions = {
       'System': AppLocalizations.of(context)?.system ?? AppLocalizations.of(context)!.tr('System'),
       'Light': AppLocalizations.of(context)?.light ?? AppLocalizations.of(context)!.tr('Light'),
@@ -2713,27 +2510,22 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
-          padding: const EdgeInsets.fromLTRB(0, 24, 0, 12),
+          padding: EdgeInsets.fromLTRB(0, 24, 0, 12),
           child: Row(
             children: [
               Icon(
                 CupertinoIcons.paintbrush,
                 size: 16,
-                color: isLight ? Colors.black : Colors.white,
-              ),
-              const SizedBox(width: 8),
+                color: isLight ? Colors.black : Colors.white),
+              SizedBox(width: 8),
               Text(
                 AppLocalizations.of(context)?.appearance ?? AppLocalizations.of(context)!.tr('Appearance'),
                 style: TextStyle(
                   fontSize: 13,
                   fontWeight: FontWeight.w700,
                   color: isLight ? Colors.black : Colors.white,
-                  letterSpacing: -0.2,
-                ),
-              ),
-            ],
-          ),
-        ),
+                  letterSpacing: -0.2)),
+            ])),
         TradeRepublicListTile.navigation(
           title: AppLocalizations.of(context)?.theme ?? AppLocalizations.of(context)!.tr('Theme'),
           subtitle:
@@ -2742,16 +2534,13 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
           leading: Icon(
             CupertinoIcons.paintbrush,
             size: 20,
-            color: isLight ? Colors.black : Colors.white,
-          ),
+            color: isLight ? Colors.black : Colors.white),
           onTap: () => _settings_showMappedOptions(
             title: AppLocalizations.of(context)?.theme ?? AppLocalizations.of(context)!.tr('Theme'),
             options: themeOptions,
             selectedKey: appSettings.selectedTheme,
             onSelect: (key) => appSettings.setSelectedTheme(key),
-            isLight: isLight,
-          ),
-        ),
+            isLight: isLight)),
         TradeRepublicListTile.navigation(
           title: AppLocalizations.of(context)?.textSize ?? AppLocalizations.of(context)!.tr('Text Size'),
           subtitle:
@@ -2760,49 +2549,39 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
           leading: Icon(
             CupertinoIcons.textformat_size,
             size: 20,
-            color: isLight ? Colors.black : Colors.white,
-          ),
+            color: isLight ? Colors.black : Colors.white),
           onTap: () => _settings_showMappedOptions(
             title: AppLocalizations.of(context)?.textSize ?? AppLocalizations.of(context)!.tr('Text Size'),
             options: textSizeOptions,
             selectedKey: appSettings.selectedTextSize,
             onSelect: (key) => appSettings.setSelectedTextSize(key),
-            isLight: isLight,
-          ),
-        ),
-      ],
-    );
+            isLight: isLight)),
+      ]);
   }
 
   Widget _settings_buildNavigationSection(
     AppSettings appSettings,
-    bool isLight,
-  ) {
+    bool isLight) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
-          padding: const EdgeInsets.fromLTRB(0, 24, 0, 12),
+          padding: EdgeInsets.fromLTRB(0, 24, 0, 12),
           child: Row(
             children: [
               Icon(
                 CupertinoIcons.square_grid_2x2,
                 size: 16,
-                color: isLight ? Colors.black : Colors.white,
-              ),
-              const SizedBox(width: 8),
+                color: isLight ? Colors.black : Colors.white),
+              SizedBox(width: 8),
               Text(
                 AppLocalizations.of(context)?.navigation ?? AppLocalizations.of(context)!.tr('Navigation'),
                 style: TextStyle(
                   fontSize: 13,
                   fontWeight: FontWeight.w700,
                   color: isLight ? Colors.black : Colors.white,
-                  letterSpacing: -0.2,
-                ),
-              ),
-            ],
-          ),
-        ),
+                  letterSpacing: -0.2)),
+            ])),
         TradeRepublicListTile.toggle(
           title: AppLocalizations.of(context)?.motionDock ?? AppLocalizations.of(context)!.tr('Motion Dock'),
           subtitle: appSettings.motionDockEnabled
@@ -2811,19 +2590,15 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
           leading: Icon(
             CupertinoIcons.square_grid_2x2,
             size: 20,
-            color: isLight ? Colors.black : Colors.white,
-          ),
+            color: isLight ? Colors.black : Colors.white),
           value: appSettings.motionDockEnabled,
-          onChanged: (v) => appSettings.setMotionDockEnabled(v),
-        ),
-      ],
-    );
+          onChanged: (v) => appSettings.setMotionDockEnabled(v)),
+      ]);
   }
 
   Widget _settings_buildLocalizationSection(
     AppSettings appSettings,
-    bool isLight,
-  ) {
+    bool isLight) {
     final numberFormatOptions = {
       'System': AppLocalizations.of(context)?.system ?? AppLocalizations.of(context)!.tr('System'),
       '1,234.56': '1,234.56 (US)',
@@ -2859,27 +2634,22 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
-          padding: const EdgeInsets.fromLTRB(0, 24, 0, 12),
+          padding: EdgeInsets.fromLTRB(0, 24, 0, 12),
           child: Row(
             children: [
               Icon(
                 CupertinoIcons.globe,
                 size: 16,
-                color: isLight ? Colors.black : Colors.white,
-              ),
-              const SizedBox(width: 8),
+                color: isLight ? Colors.black : Colors.white),
+              SizedBox(width: 8),
               Text(
                 AppLocalizations.of(context)?.localization ?? AppLocalizations.of(context)!.tr('Localization'),
                 style: TextStyle(
                   fontSize: 13,
                   fontWeight: FontWeight.w700,
                   color: isLight ? Colors.black : Colors.white,
-                  letterSpacing: -0.2,
-                ),
-              ),
-            ],
-          ),
-        ),
+                  letterSpacing: -0.2)),
+            ])),
         TradeRepublicListTile.navigation(
           title: AppLocalizations.of(context)?.language ?? AppLocalizations.of(context)!.tr('Language'),
           subtitle: appSettings.selectedLanguage == 'System'
@@ -2888,13 +2658,10 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
           leading: Icon(
             CupertinoIcons.globe,
             size: 20,
-            color: isLight ? Colors.black : Colors.white,
-          ),
+            color: isLight ? Colors.black : Colors.white),
           onTap: () => _settings_showLanguageOptions(
             appSettings: appSettings,
-            isLight: isLight,
-          ),
-        ),
+            isLight: isLight)),
         TradeRepublicListTile.navigation(
           title: AppLocalizations.of(context)?.numberFormat ?? AppLocalizations.of(context)!.tr('Number Format'),
           subtitle: appSettings.delviooNumberFormat == 'System'
@@ -2905,17 +2672,14 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
           leading: Icon(
             CupertinoIcons.tag,
             size: 20,
-            color: isLight ? Colors.black : Colors.white,
-          ),
+            color: isLight ? Colors.black : Colors.white),
           onTap: () => _settings_showMappedOptions(
             title:
                 AppLocalizations.of(context)?.numberFormat ?? AppLocalizations.of(context)!.tr('Number Format'),
             options: numberFormatOptions,
             selectedKey: appSettings.delviooNumberFormat,
             onSelect: (key) => appSettings.setDelviooNumberFormat(key),
-            isLight: isLight,
-          ),
-        ),
+            isLight: isLight)),
         TradeRepublicListTile.navigation(
           title: AppLocalizations.of(context)?.currency ?? AppLocalizations.of(context)!.tr('Currency'),
           subtitle: appSettings.delviooCurrency == 'System'
@@ -2925,16 +2689,13 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
           leading: Icon(
             CupertinoIcons.money_dollar,
             size: 20,
-            color: isLight ? Colors.black : Colors.white,
-          ),
+            color: isLight ? Colors.black : Colors.white),
           onTap: () => _settings_showMappedOptions(
             title: AppLocalizations.of(context)?.currency ?? AppLocalizations.of(context)!.tr('Currency'),
             options: currencyOptions,
             selectedKey: appSettings.delviooCurrency,
             onSelect: (key) => appSettings.setDelviooCurrency(key),
-            isLight: isLight,
-          ),
-        ),
+            isLight: isLight)),
         TradeRepublicListTile.navigation(
           title: AppLocalizations.of(context)?.dateFormat ?? AppLocalizations.of(context)!.tr('Date Format'),
           subtitle: appSettings.selectedDateFormat == 'System'
@@ -2943,18 +2704,14 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
           leading: Icon(
             CupertinoIcons.calendar,
             size: 20,
-            color: isLight ? Colors.black : Colors.white,
-          ),
+            color: isLight ? Colors.black : Colors.white),
           onTap: () => _settings_showMappedOptions(
             title: AppLocalizations.of(context)?.dateFormat ?? AppLocalizations.of(context)!.tr('Date Format'),
             options: dateFormatOptions,
             selectedKey: appSettings.selectedDateFormat,
             onSelect: (key) => appSettings.setSelectedDateFormat(key),
-            isLight: isLight,
-          ),
-        ),
-      ],
-    );
+            isLight: isLight)),
+      ]);
   }
 
   Widget _settings_buildUnitsSection(AppSettings appSettings, bool isLight) {
@@ -2979,27 +2736,22 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
-          padding: const EdgeInsets.fromLTRB(0, 24, 0, 12),
+          padding: EdgeInsets.fromLTRB(0, 24, 0, 12),
           child: Row(
             children: [
               Icon(
                 CupertinoIcons.thermometer,
                 size: 16,
-                color: isLight ? Colors.black : Colors.white,
-              ),
-              const SizedBox(width: 8),
+                color: isLight ? Colors.black : Colors.white),
+              SizedBox(width: 8),
               Text(
                 AppLocalizations.of(context)?.units ?? AppLocalizations.of(context)!.tr('Units'),
                 style: TextStyle(
                   fontSize: 13,
                   fontWeight: FontWeight.w700,
                   color: isLight ? Colors.black : Colors.white,
-                  letterSpacing: -0.2,
-                ),
-              ),
-            ],
-          ),
-        ),
+                  letterSpacing: -0.2)),
+            ])),
         TradeRepublicListTile.navigation(
           title: AppLocalizations.of(context)?.temperatureUnit ?? AppLocalizations.of(context)!.tr('Temperature'),
           subtitle: appSettings.delviooTemperatureUnit == 'System'
@@ -3009,17 +2761,14 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
           leading: Icon(
             CupertinoIcons.thermometer,
             size: 20,
-            color: isLight ? Colors.black : Colors.white,
-          ),
+            color: isLight ? Colors.black : Colors.white),
           onTap: () => _settings_showMappedOptions(
             title:
                 AppLocalizations.of(context)?.temperatureUnit ?? AppLocalizations.of(context)!.tr('Temperature'),
             options: tempOptions,
             selectedKey: appSettings.delviooTemperatureUnit,
             onSelect: (key) => appSettings.setDelviooTemperatureUnit(key),
-            isLight: isLight,
-          ),
-        ),
+            isLight: isLight)),
         TradeRepublicListTile.navigation(
           title: AppLocalizations.of(context)?.distanceUnit ?? AppLocalizations.of(context)!.tr('Distance'),
           subtitle: appSettings.delviooDistanceUnit == 'System'
@@ -3029,17 +2778,14 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
           leading: Icon(
             CupertinoIcons.map,
             size: 20,
-            color: isLight ? Colors.black : Colors.white,
-          ),
+            color: isLight ? Colors.black : Colors.white),
           onTap: () => _settings_showMappedOptions(
             title:
                 AppLocalizations.of(context)?.distanceUnit ?? AppLocalizations.of(context)!.tr('Distance Unit'),
             options: distOptions,
             selectedKey: appSettings.delviooDistanceUnit,
             onSelect: (key) => appSettings.setDelviooDistanceUnit(key),
-            isLight: isLight,
-          ),
-        ),
+            isLight: isLight)),
         TradeRepublicListTile.navigation(
           title: AppLocalizations.of(context)?.weightUnit ?? AppLocalizations.of(context)!.tr('Weight'),
           subtitle: appSettings.delviooWeightUnit == 'System'
@@ -3049,49 +2795,39 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
           leading: Icon(
             CupertinoIcons.speedometer,
             size: 20,
-            color: isLight ? Colors.black : Colors.white,
-          ),
+            color: isLight ? Colors.black : Colors.white),
           onTap: () => _settings_showMappedOptions(
             title: AppLocalizations.of(context)?.weightUnit ?? AppLocalizations.of(context)!.tr('Weight Unit'),
             options: weightOptions,
             selectedKey: appSettings.delviooWeightUnit,
             onSelect: (key) => appSettings.setDelviooWeightUnit(key),
-            isLight: isLight,
-          ),
-        ),
-      ],
-    );
+            isLight: isLight)),
+      ]);
   }
 
   Widget _settings_buildLegalAboutSection(
     AppSettings appSettings,
-    bool isLight,
-  ) {
+    bool isLight) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
-          padding: const EdgeInsets.fromLTRB(0, 24, 0, 12),
+          padding: EdgeInsets.fromLTRB(0, 24, 0, 12),
           child: Row(
             children: [
               Icon(
                 CupertinoIcons.info_circle,
                 size: 16,
-                color: isLight ? Colors.black : Colors.white,
-              ),
-              const SizedBox(width: 8),
+                color: isLight ? Colors.black : Colors.white),
+              SizedBox(width: 8),
               Text(
                 AppLocalizations.of(context)?.legalAbout ?? AppLocalizations.of(context)!.tr('Legal & About'),
                 style: TextStyle(
                   fontSize: 13,
                   fontWeight: FontWeight.w700,
                   color: isLight ? Colors.black : Colors.white,
-                  letterSpacing: -0.2,
-                ),
-              ),
-            ],
-          ),
-        ),
+                  letterSpacing: -0.2)),
+            ])),
         TradeRepublicListTile.navigation(
           title:
               AppLocalizations.of(context)?.privacyPolicy ?? AppLocalizations.of(context)!.tr('Privacy Policy'),
@@ -3101,17 +2837,14 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
           leading: Icon(
             CupertinoIcons.lock_shield,
             size: 20,
-            color: isLight ? Colors.black : Colors.white,
-          ),
+            color: isLight ? Colors.black : Colors.white),
           onTap: () async {
             final url = Uri.parse(
-              'https://cultioo.com/us/us_legal_app#business_privacy',
-            );
+              'https://cultioo.com/us/us_legal_app#business_privacy');
             if (await canLaunchUrl(url)) {
               await launchUrl(url, mode: LaunchMode.inAppBrowserView);
             }
-          },
-        ),
+          }),
         TradeRepublicListTile.navigation(
           title:
               AppLocalizations.of(context)?.termsConditions ?? AppLocalizations.of(context)!.tr('Terms & Conditions'),
@@ -3120,17 +2853,14 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
           leading: Icon(
             CupertinoIcons.doc_text,
             size: 20,
-            color: isLight ? Colors.black : Colors.white,
-          ),
+            color: isLight ? Colors.black : Colors.white),
           onTap: () async {
             final url = Uri.parse(
-              'https://cultioo.com/us/us_legal_app#business_terms',
-            );
+              'https://cultioo.com/us/us_legal_app#business_terms');
             if (await canLaunchUrl(url)) {
               await launchUrl(url, mode: LaunchMode.inAppBrowserView);
             }
-          },
-        ),
+          }),
         TradeRepublicListTile.navigation(
           title: AppLocalizations.of(context)?.generalHelp ?? AppLocalizations.of(context)!.tr('General Help'),
           subtitle:
@@ -3139,26 +2869,21 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
           leading: Icon(
             CupertinoIcons.question_circle,
             size: 20,
-            color: isLight ? Colors.black : Colors.white,
-          ),
+            color: isLight ? Colors.black : Colors.white),
           onTap: () async {
             final url = Uri.parse('https://cultioo.com/us/us_help');
             if (await canLaunchUrl(url)) {
               await launchUrl(url, mode: LaunchMode.inAppBrowserView);
             }
-          },
-        ),
+          }),
         TradeRepublicListTile(
           title: AppLocalizations.of(context)?.appVersion ?? AppLocalizations.of(context)!.tr('App Version'),
           subtitle: AppLocalizations.of(context)!.tr('1.0.0') ?? AppLocalizations.of(context)!.tr('1.0.0'),
           leading: Icon(
             CupertinoIcons.info_circle,
             size: 20,
-            color: isLight ? Colors.black : Colors.white,
-          ),
-        ),
-      ],
-    );
+            color: isLight ? Colors.black : Colors.white)),
+      ]);
   }
 
   // Helper for time formatting
@@ -3199,8 +2924,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
     final northAmerica = AppLocales.all
         .where(
           (l) =>
-              l.region == 'USA' || l.region == 'Canada' || l.region == 'México',
-        )
+              l.region == 'USA' || l.region == 'Canada' || l.region == 'México')
         .toList();
     final eu = AppLocales.all
         .where(
@@ -3208,8 +2932,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
               l.region != 'USA' &&
               l.region != 'Canada' &&
               l.region != 'México' &&
-              l.region != 'Россия',
-        )
+              l.region != 'Россия')
         .toList();
     final russia = AppLocales.all.where((l) => l.region == 'Россия').toList();
 
@@ -3229,20 +2952,16 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                 Icon(
                   CupertinoIcons.globe,
                   size: 22,
-                  color: isLight ? Colors.black : Colors.white,
-                ),
-                const SizedBox(width: 12),
+                  color: isLight ? Colors.black : Colors.white),
+                SizedBox(width: 12),
                 Text(
                   AppLocalizations.of(context)?.language ?? AppLocalizations.of(context)!.tr('Language'),
                   style: TextStyle(
                     fontSize: 22,
                     fontWeight: FontWeight.w700,
                     color: isLight ? Colors.black : Colors.white,
-                    letterSpacing: -0.4,
-                  ),
-                ),
-              ],
-            ),
+                    letterSpacing: -0.4)),
+              ]),
             SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
             Expanded(
@@ -3263,16 +2982,14 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                         HapticFeedback.lightImpact();
                         appSettings.setSelectedLanguage('System');
                         closeLanguageAndSettings();
-                      },
-                    ),
+                      }),
 
-                    const SizedBox(height: 20),
+                    SizedBox(height: 20),
 
                     // North America
                     _buildLanguageSectionHeader(
                       AppLocalizations.of(context)?.northAmerica ?? AppLocalizations.of(context)!.tr('NORTH AMERICA'),
-                      isLight,
-                    ),
+                      isLight),
                     ...northAmerica.map(
                       (locale) => _buildLanguageOptionTile(
                         flag: locale.flag,
@@ -3284,17 +3001,14 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                           HapticFeedback.lightImpact();
                           appSettings.setSelectedLanguage(locale.code);
                           closeLanguageAndSettings();
-                        },
-                      ),
-                    ),
+                        })),
 
-                    const SizedBox(height: 20),
+                    SizedBox(height: 20),
 
                     // Europe
                     _buildLanguageSectionHeader(
                       AppLocalizations.of(context)?.europeanUnion ?? AppLocalizations.of(context)!.tr('EUROPEAN UNION'),
-                      isLight,
-                    ),
+                      isLight),
                     ...eu.map(
                       (locale) => _buildLanguageOptionTile(
                         flag: locale.flag,
@@ -3306,17 +3020,14 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                           HapticFeedback.lightImpact();
                           appSettings.setSelectedLanguage(locale.code);
                           closeLanguageAndSettings();
-                        },
-                      ),
-                    ),
+                        })),
 
-                    const SizedBox(height: 20),
+                    SizedBox(height: 20),
 
                     // Russia
                     _buildLanguageSectionHeader(
                       AppLocalizations.of(context)?.russia ?? AppLocalizations.of(context)!.tr('RUSSIA'),
-                      isLight,
-                    ),
+                      isLight),
                     ...russia.map(
                       (locale) => _buildLanguageOptionTile(
                         flag: locale.flag,
@@ -3328,13 +3039,8 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                           HapticFeedback.lightImpact();
                           appSettings.setSelectedLanguage(locale.code);
                           closeLanguageAndSettings();
-                        },
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
+                        })),
+                  ]))),
 
             SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
@@ -3345,30 +3051,23 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
               height: 50,
               onPressed: () {
                 closeLanguageAndSettings();
-              },
-            ),
+              }),
             SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
-          ],
-        ),
-      ),
-    ).whenComplete(() {
+          ]))).whenComplete(() {
       NavigationVisibility.show();
     });
   }
 
   Widget _buildLanguageSectionHeader(String title, bool isLight) {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 10),
+      padding: EdgeInsets.only(bottom: 10),
       child: Text(
         title,
         style: TextStyle(
           fontSize: 11,
           fontWeight: FontWeight.w700,
           color: (isLight ? Colors.black : Colors.white).withOpacity(0.5),
-          letterSpacing: 1.2,
-        ),
-      ),
-    );
+          letterSpacing: 1.2)));
   }
 
   Widget _buildLanguageOptionTile({
@@ -3383,18 +3082,17 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
       onTap: onTap,
       child: Container(
         width: double.infinity,
-        margin: const EdgeInsets.only(bottom: 8),
-        padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 16),
+        margin: EdgeInsets.only(bottom: 8),
+        padding: EdgeInsets.symmetric(vertical: 14, horizontal: 16),
         decoration: BoxDecoration(
           color: isSelected
               ? (isLight ? Colors.black : Colors.white)
               : (isLight ? Colors.black : Colors.white).withOpacity(0.04),
-          borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-        ),
+          borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
         child: Row(
           children: [
-            Text(flag, style: TextStyle(fontSize: DesktopOptimizedWidgets.getFontSize() + 10,),
-            const SizedBox(width: 14),
+            Text(flag, style: TextStyle(fontSize: DesktopOptimizedWidgets.getFontSize() + 10),
+            SizedBox(width: 14),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -3406,42 +3104,29 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                       fontWeight: FontWeight.w600,
                       color: isSelected
                           ? (isLight ? Colors.white : Colors.black)
-                          : (isLight ? Colors.black : Colors.white),
-                    ),
-                  ),
-                  const SizedBox(height: 2),
+                          : (isLight ? Colors.black : Colors.white))),
+                  SizedBox(height: 2),
                   Text(
                     displayName ==
                             (AppLocalizations.of(context)?.system ?? AppLocalizations.of(context)!.tr('System'))
                         ? (AppLocalizations.of(
-                                context,
-                              )?.followsDeviceSettings ?? AppLocalizations.of(context)!.tr('Follows device settings'))
+                                context)?.followsDeviceSettings ?? AppLocalizations.of(context)!.tr('Follows device settings'))
                         : region,
                     style: TextStyle(
                       fontSize: 12,
                       fontWeight: FontWeight.w400,
                       color: isSelected
                           ? (isLight ? Colors.white : Colors.black).withOpacity(
-                              0.6,
-                            )
+                              0.6)
                           : (isLight ? Colors.black : Colors.white).withOpacity(
-                              0.5,
-                            ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
+                              0.5))),
+                ])),
             if (isSelected)
               Icon(
                 CupertinoIcons.checkmark_circle_fill,
                 color: isLight ? Colors.white : Colors.black,
-                size: 20,
-              ),
-          ],
-        ),
-      ),
-    );
+                size: 20),
+          ])));
   }
 
   // Small options modal used by settings rows
@@ -3470,9 +3155,8 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
               Icon(
                 CupertinoIcons.list_bullet,
                 size: 22,
-                color: isLight ? Colors.black : Colors.white,
-              ),
-              const SizedBox(width: 12),
+                color: isLight ? Colors.black : Colors.white),
+              SizedBox(width: 12),
               Expanded(
                 child: Text(
                   title,
@@ -3480,16 +3164,12 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                     fontSize: 22,
                     fontWeight: FontWeight.w700,
                     color: isLight ? Colors.black : Colors.white,
-                    letterSpacing: -0.4,
-                  ),
-                ),
-              ),
-            ],
-          ),
+                    letterSpacing: -0.4))),
+            ]),
 
           SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
-          const SizedBox(height: 20),
+          SizedBox(height: 20),
 
           Column(
             children: options.entries.map((entry) {
@@ -3505,19 +3185,16 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                 },
                 child: Container(
                   width: double.infinity,
-                  margin: const EdgeInsets.only(bottom: 10),
-                  padding: const EdgeInsets.symmetric(
+                  margin: EdgeInsets.only(bottom: 10),
+                  padding: EdgeInsets.symmetric(
                     vertical: 14,
-                    horizontal: 16,
-                  ),
+                    horizontal: 16),
                   decoration: BoxDecoration(
                     color: isSelected
                         ? (isLight ? Colors.black : Colors.white)
                         : (isLight ? Colors.black : Colors.white).withOpacity(
-                            0.04,
-                          ),
-                    borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-                  ),
+                            0.04),
+                    borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
                   child: Row(
                     children: [
                       Expanded(
@@ -3531,16 +3208,13 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                                 fontWeight: FontWeight.w600,
                                 color: isSelected
                                     ? (isLight ? Colors.white : Colors.black)
-                                    : (isLight ? Colors.black : Colors.white),
-                              ),
-                            ),
+                                    : (isLight ? Colors.black : Colors.white))),
                             if (key == 'System')
                               Padding(
-                                padding: const EdgeInsets.only(top: 3),
+                                padding: EdgeInsets.only(top: 3),
                                 child: Text(
                                   AppLocalizations.of(
-                                        context,
-                                      )?.followsDeviceSettings ?? AppLocalizations.of(context)!.tr('Follows device settings'),
+                                        context)?.followsDeviceSettings ?? AppLocalizations.of(context)!.tr('Follows device settings'),
                                   style: TextStyle(
                                     fontSize: 12,
                                     fontWeight: FontWeight.w400,
@@ -3552,25 +3226,15 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                                         : (isLight
                                                   ? Colors.black
                                                   : Colors.white)
-                                              .withOpacity(0.5),
-                                  ),
-                                ),
-                              ),
-                          ],
-                        ),
-                      ),
+                                              .withOpacity(0.5)))),
+                          ])),
                       if (isSelected)
                         Icon(
                           CupertinoIcons.checkmark_circle_fill,
                           color: isLight ? Colors.white : Colors.black,
-                          size: 20,
-                        ),
-                    ],
-                  ),
-                ),
-              );
-            }).toList(),
-          ),
+                          size: 20),
+                    ])));
+            }).toList()),
 
           SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
@@ -3581,12 +3245,9 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
             onPressed: () {
               Navigator.pop(context);
               Navigator.pop(ctx);
-            },
-          ),
+            }),
           SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
-        ],
-      ),
-    ).whenComplete(() {
+        ])).whenComplete(() {
       NavigationVisibility.show();
       if (Navigator.canPop(ctx)) {
         Navigator.pop(ctx);
@@ -3619,9 +3280,8 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
               Icon(
                 CupertinoIcons.list_bullet,
                 size: 22,
-                color: isLight ? Colors.black : Colors.white,
-              ),
-              const SizedBox(width: 12),
+                color: isLight ? Colors.black : Colors.white),
+              SizedBox(width: 12),
               Expanded(
                 child: Text(
                   title,
@@ -3629,16 +3289,12 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                     fontSize: 22,
                     fontWeight: FontWeight.w700,
                     color: isLight ? Colors.black : Colors.white,
-                    letterSpacing: -0.4,
-                  ),
-                ),
-              ),
-            ],
-          ),
+                    letterSpacing: -0.4))),
+            ]),
 
           SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
-          const SizedBox(height: 20),
+          SizedBox(height: 20),
 
           // Options List
           Column(
@@ -3653,19 +3309,16 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                 },
                 child: Container(
                   width: double.infinity,
-                  margin: const EdgeInsets.only(bottom: 10),
-                  padding: const EdgeInsets.symmetric(
+                  margin: EdgeInsets.only(bottom: 10),
+                  padding: EdgeInsets.symmetric(
                     vertical: 14,
-                    horizontal: 16,
-                  ),
+                    horizontal: 16),
                   decoration: BoxDecoration(
                     color: isSelected
                         ? (isLight ? Colors.black : Colors.white)
                         : (isLight ? Colors.black : Colors.white).withOpacity(
-                            0.04,
-                          ),
-                    borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-                  ),
+                            0.04),
+                    borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
                   child: Row(
                     children: [
                       Expanded(
@@ -3679,17 +3332,14 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                                 fontWeight: FontWeight.w600,
                                 color: isSelected
                                     ? (isLight ? Colors.white : Colors.black)
-                                    : (isLight ? Colors.black : Colors.white),
-                              ),
-                            ),
+                                    : (isLight ? Colors.black : Colors.white))),
                             if (opt ==
                                 (AppLocalizations.of(context)?.system ?? AppLocalizations.of(context)!.tr('System')))
                               Padding(
-                                padding: const EdgeInsets.only(top: 3),
+                                padding: EdgeInsets.only(top: 3),
                                 child: Text(
                                   AppLocalizations.of(
-                                        context,
-                                      )?.followsDeviceSettings ?? AppLocalizations.of(context)!.tr('Follows device settings'),
+                                        context)?.followsDeviceSettings ?? AppLocalizations.of(context)!.tr('Follows device settings'),
                                   style: TextStyle(
                                     fontSize: 12,
                                     fontWeight: FontWeight.w400,
@@ -3701,25 +3351,15 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                                         : (isLight
                                                   ? Colors.black
                                                   : Colors.white)
-                                              .withOpacity(0.5),
-                                  ),
-                                ),
-                              ),
-                          ],
-                        ),
-                      ),
+                                              .withOpacity(0.5)))),
+                          ])),
                       if (isSelected)
                         Icon(
                           CupertinoIcons.checkmark_circle_fill,
                           color: isLight ? Colors.white : Colors.black,
-                          size: 20,
-                        ),
-                    ],
-                  ),
-                ),
-              );
-            }).toList(),
-          ),
+                          size: 20),
+                    ])));
+            }).toList()),
 
           SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
@@ -3731,12 +3371,9 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
             onPressed: () {
               Navigator.pop(context); // Close options modal
               Navigator.pop(ctx); // Close app settings modal
-            },
-          ),
+            }),
           SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
-        ],
-      ),
-    ).whenComplete(() {
+        ])).whenComplete(() {
       NavigationVisibility.show();
       // Also close app settings modal when options modal is dismissed by swiping down
       if (Navigator.canPop(ctx)) {
@@ -3747,21 +3384,17 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
 
   Widget _buildStatusBadge(String text, bool isLight) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       decoration: BoxDecoration(
         color: isLight ? Colors.black : Colors.white,
-        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-      ),
+        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
       child: Text(
         text.toUpperCase(),
         style: TextStyle(
           color: isLight ? Colors.white : Colors.black,
           fontWeight: FontWeight.w700,
           fontSize: 11,
-          letterSpacing: 0.5,
-        ),
-      ),
-    );
+          letterSpacing: 0.5)));
   }
 
   Widget _buildGroupOverviewDashboard(bool isLight) {
@@ -3773,12 +3406,11 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
         filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
         child: Container(
           width: double.infinity,
-          margin: const EdgeInsets.only(bottom: 20),
-          padding: const EdgeInsets.all(24),
+          margin: EdgeInsets.only(bottom: 20),
+          padding: EdgeInsets.all(24),
           decoration: BoxDecoration(
             color: isLight ? Colors.white : Colors.black,
-            borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-          ),
+            borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -3790,45 +3422,36 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                       fontSize: 13,
                       fontWeight: FontWeight.w700,
                       letterSpacing: 1,
-                      color: isLight ? Colors.black : Colors.white,
-                    ),
-                  ),
+                      color: isLight ? Colors.black : Colors.white)),
                   const Spacer(),
                   if (isInGroup)
                     Container(
-                      padding: const EdgeInsets.symmetric(
+                      padding: EdgeInsets.symmetric(
                         horizontal: 12,
-                        vertical: 7,
-                      ),
+                        vertical: 7),
                       decoration: BoxDecoration(
                         color: (isLight ? Colors.black : Colors.white)
                             .withOpacity(0.06),
-                        borderRadius: BorderRadius.circular(999),
-                      ),
+                        borderRadius: BorderRadius.circular(999)),
                       child: Text(
                         _groupRoleBadge(currentGroup?['role']),
                         style: TextStyle(
                           fontSize: 11,
                           fontWeight: FontWeight.w800,
                           letterSpacing: 0.9,
-                          color: isLight ? Colors.black : Colors.white,
-                        ),
-                      ),
-                    )
+                          color: isLight ? Colors.black : Colors.white)))
                   else if (!_isBusinessEditOpen)
                     TradeRepublicButton.icon(
                       icon: Icon(CupertinoIcons.add, size: 16),
                       onPressed: () => _showCreateGroupModal(context, isLight),
-                      size: 32,
-                    ),
-                ],
-              ),
+                      size: 32),
+                ]),
               SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
               // Current Group Status
               _buildCurrentGroupStatus(isLight),
 
-              const SizedBox(height: 14),
+              SizedBox(height: 14),
 
               // Group Actions
               Row(
@@ -3848,10 +3471,8 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                       isLight,
                       () => isInGroup
                           ? _showGroupMembersModal(isLight)
-                          : _showJoinGroupModal(context, isLight),
-                    ),
-                  ),
-                  const SizedBox(width: 10),
+                          : _showJoinGroupModal(context, isLight))),
+                  SizedBox(width: 10),
                   Expanded(
                     child: _buildGroupActionCard(
                       isInGroup
@@ -3867,16 +3488,9 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                       isLight,
                       () => isInGroup
                           ? _showGroupSettingsModal(context, isLight)
-                          : _showExploreGroupsModal(context, isLight),
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
+                          : _showExploreGroupsModal(context, isLight))),
+                ]),
+            ]))));
   }
 
   Widget _buildCurrentGroupStatus(bool isLight) {
@@ -3889,7 +3503,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
 
     return Container(
       width: double.infinity,
-      padding: const EdgeInsets.all(18),
+      padding: EdgeInsets.all(18),
       decoration: BoxDecoration(
         color: isInGroup
             ? (isAdmin
@@ -3898,8 +3512,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                         ? Colors.transparent
                         : const Color(0xFF111111)))
             : (isLight ? Colors.white : Colors.black),
-        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-      ),
+        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -3911,9 +3524,8 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                 label: isInGroup ? groupName : 'Group',
                 isLight: isLight,
                 size: 56,
-                highlight: isInGroup && isAdmin,
-              ),
-              const SizedBox(width: 14),
+                highlight: isInGroup && isAdmin),
+              SizedBox(width: 14),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -3928,12 +3540,10 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                         letterSpacing: -0.4,
                         color: (isInGroup && isAdmin)
                             ? Colors.white
-                            : (isLight ? Colors.black : Colors.white),
-                      ),
+                            : (isLight ? Colors.black : Colors.white)),
                       maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                    const SizedBox(height: 4),
+                      overflow: TextOverflow.ellipsis),
+                    SizedBox(height: 4),
                     Text(
                       isInGroup
                           ? '$roleTitle • Code: $groupCode'
@@ -3944,11 +3554,9 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                         color: (isInGroup && isAdmin)
                             ? Colors.white.withOpacity(0.72)
                             : (isLight ? Colors.black : Colors.white)
-                                .withOpacity(0.6),
-                      ),
+                                .withOpacity(0.6)),
                       maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                    ),
+                      overflow: TextOverflow.ellipsis),
                     if (isInGroup) ...[
                       SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                       Wrap(
@@ -3956,17 +3564,15 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                         runSpacing: 8,
                         children: [
                           Container(
-                            padding: const EdgeInsets.symmetric(
+                            padding: EdgeInsets.symmetric(
                               horizontal: 12,
-                              vertical: 7,
-                            ),
+                              vertical: 7),
                             decoration: BoxDecoration(
                               color: isAdmin
                                   ? Colors.white.withOpacity(0.14)
                                   : (isLight ? Colors.black : Colors.white)
                                       .withOpacity(0.08),
-                              borderRadius: BorderRadius.circular(999),
-                            ),
+                              borderRadius: BorderRadius.circular(999)),
                             child: Text(
                               _groupRoleBadge(currentGroup?['role']),
                               style: TextStyle(
@@ -3975,22 +3581,17 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                                 letterSpacing: 0.7,
                                 color: isAdmin
                                     ? Colors.white
-                                    : (isLight ? Colors.black : Colors.white),
-                              ),
-                            ),
-                          ),
+                                    : (isLight ? Colors.black : Colors.white)))),
                           Container(
-                            padding: const EdgeInsets.symmetric(
+                            padding: EdgeInsets.symmetric(
                               horizontal: 12,
-                              vertical: 7,
-                            ),
+                              vertical: 7),
                             decoration: BoxDecoration(
                               color: isAdmin
                                   ? Colors.white.withOpacity(0.14)
                                   : (isLight ? Colors.black : Colors.white)
                                       .withOpacity(0.08),
-                              borderRadius: BorderRadius.circular(999),
-                            ),
+                              borderRadius: BorderRadius.circular(999)),
                             child: Text(
                               '${currentGroup?['memberCount'] ?? 0} members',
                               style: TextStyle(
@@ -3999,27 +3600,17 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                                 letterSpacing: 0.3,
                                 color: isAdmin
                                     ? Colors.white
-                                    : (isLight ? Colors.black : Colors.white),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
+                                    : (isLight ? Colors.black : Colors.white)))),
+                        ]),
                     ],
-                  ],
-                ),
-              ),
+                  ])),
               if (isInGroup && !_isBusinessEditOpen)
                 TradeRepublicButton.icon(
                   icon: Icon(CupertinoIcons.settings, size: 18),
                   onPressed: () => _showGroupSettingsModal(context, isLight),
-                  size: 36,
-                ),
-            ],
-          ),
-        ],
-      ),
-    );
+                  size: 36),
+            ]),
+        ]));
   }
 
   Widget _buildGroupActionCard(
@@ -4028,8 +3619,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
     IconData icon,
     Color color,
     bool isLight,
-    VoidCallback onTap,
-  ) {
+    VoidCallback onTap) {
     // Minimalist Trade Republic style - solid black/white
     return TradeRepublicCard(
       onTap: onTap,
@@ -4045,21 +3635,15 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
               fontSize: 13,
               fontWeight: FontWeight.w700,
               letterSpacing: 0.5,
-              color: isLight ? Colors.black : Colors.white,
-            ),
-          ),
-          const SizedBox(height: 4),
+              color: isLight ? Colors.black : Colors.white)),
+          SizedBox(height: 4),
           Text(
             subtitle,
             style: TextStyle(
               fontSize: 12,
               color: isLight ? Colors.black : Colors.white,
-              fontWeight: FontWeight.w500,
-            ),
-          ),
-        ],
-      ),
-    );
+              fontWeight: FontWeight.w500)),
+        ]));
   }
 
   Widget _buildBusinessInfoSection(bool isLight) {
@@ -4074,11 +3658,9 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                   icon: Icon(Icons.edit, size: 18),
                   onPressed: () => _showPersonalEditModal(context, isLight),
                   size: 36,
-                  isSecondary: true,
-                )
+                  isSecondary: true)
               : null,
-          padding: const EdgeInsets.only(bottom: 16, top: 8),
-        ),
+          padding: EdgeInsets.only(bottom: 16, top: 8)),
         TradeRepublicCard(
           padding: DesktopAppWrapper.getPagePadding(),
           child: Column(
@@ -4087,81 +3669,66 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                 AppLocalizations.of(context)?.username ?? AppLocalizations.of(context)!.tr('Username'),
                 userData?['username']?.toString() ?? AppLocalizations.of(context)!.tr('-'),
                 Icons.account_circle,
-                isLight,
-              ),
+                isLight),
               _buildInfoRow(
                 AppLocalizations.of(context)?.firstName ?? AppLocalizations.of(context)!.tr('First Name'),
                 userData?['firstname']?.toString() ?? AppLocalizations.of(context)!.tr('-'),
                 CupertinoIcons.person_fill,
-                isLight,
-              ),
+                isLight),
               _buildInfoRow(
                 AppLocalizations.of(context)?.lastName ?? AppLocalizations.of(context)!.tr('Last Name'),
                 userData?['lastname']?.toString() ?? AppLocalizations.of(context)!.tr('-'),
                 CupertinoIcons.person,
-                isLight,
-              ),
+                isLight),
               _buildInfoRow(
                 AppLocalizations.of(context)?.businessName ?? AppLocalizations.of(context)!.tr('Business Name'),
                 userData?['businessName'] ??
                     userData?['business_company'] ?? AppLocalizations.of(context)!.tr('-'),
                 CupertinoIcons.building_2_fill,
-                isLight,
-              ),
+                isLight),
               _buildInfoRow(
                 AppLocalizations.of(context)?.email ?? AppLocalizations.of(context)!.tr('Email'),
                 userData?['email'] ?? AppLocalizations.of(context)!.tr('-'),
                 CupertinoIcons.mail,
-                isLight,
-              ),
+                isLight),
               _buildInfoRow(
                 AppLocalizations.of(context)?.phone ?? AppLocalizations.of(context)!.tr('Phone'),
                 userData?['phone'] ?? AppLocalizations.of(context)!.tr('-'),
                 CupertinoIcons.phone,
-                isLight,
-              ),
+                isLight),
               _buildInfoRow(
                 AppLocalizations.of(context)?.birthdate ?? AppLocalizations.of(context)!.tr('Birthdate'),
                 userData?['birthdate']?.toString().substring(0, 10) ?? AppLocalizations.of(context)!.tr('-'),
                 Icons.cake,
-                isLight,
-              ),
+                isLight),
               _buildInfoRow(
                 AppLocalizations.of(context)?.businessAddress ?? AppLocalizations.of(context)!.tr('Business Address'),
                 userData?['businessAddress'] ?? userData?['street'] ?? AppLocalizations.of(context)!.tr('-'),
                 CupertinoIcons.location_solid,
-                isLight,
-              ),
+                isLight),
               _buildInfoRow(
                 AppLocalizations.of(context)?.businessWebsite ?? AppLocalizations.of(context)!.tr('Business Website'),
                 userData?['businessWebsite'] ?? AppLocalizations.of(context)!.tr('-'),
                 Icons.language,
-                isLight,
-              ),
+                isLight),
               _buildInfoRow(
                 AppLocalizations.of(context)?.businessDescription ?? AppLocalizations.of(context)!.tr('Business Description'),
                 userData?['businessDescription'] ?? AppLocalizations.of(context)!.tr('-'),
                 Icons.description,
-                isLight,
-              ),
+                isLight),
               _buildInfoRow(
                 AppLocalizations.of(context)?.businessSize ?? AppLocalizations.of(context)!.tr('Business Size'),
                 userData?['business_size'] ?? AppLocalizations.of(context)!.tr('-'),
                 CupertinoIcons.person_2_fill,
-                isLight,
-              ),
+                isLight),
               _buildInfoRow(
                 AppLocalizations.of(context)?.country ?? AppLocalizations.of(context)!.tr('Country'),
                 userData?['business_country'] ?? AppLocalizations.of(context)!.tr('-'),
                 CupertinoIcons.globe,
-                isLight,
-              ),
-            ],
-          ),
-        ),
-        const SizedBox(height: 20),
-      ],
-    );
+                isLight),
+            ])),
+        SizedBox(height: 20),
+      ]);
   }
 
   Widget _buildPersonalInfoSection(bool isLight) {
@@ -4175,8 +3742,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
         // Section Header - Trade Republic Style
         TradeRepublicSectionHeader(
           title: AppLocalizations.of(context)?.settings ?? AppLocalizations.of(context)!.tr('Settings'),
-          padding: const EdgeInsets.only(bottom: 16, top: 8),
-        ),
+          padding: EdgeInsets.only(bottom: 16, top: 8)),
         TradeRepublicCard(
           padding: DesktopAppWrapper.getPagePadding(),
           child: Column(
@@ -4188,8 +3754,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                 subtitle:
                     AppLocalizations.of(context)?.updateAccountPassword ?? AppLocalizations.of(context)!.tr('Update your account password'),
                 isLight: isLight,
-                onTap: () => _showChangePasswordModal(context, isLight),
-              ),
+                onTap: () => _showChangePasswordModal(context, isLight)),
               _buildAccountOption(
                 icon: Icons.security,
                 title:
@@ -4197,8 +3762,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                 subtitle:
                     AppLocalizations.of(context)?.twoFactorBiometrics ?? AppLocalizations.of(context)!.tr('Two-factor authentication, biometrics'),
                 isLight: isLight,
-                onTap: () => _showSecuritySettingsModal(context, isLight),
-              ),
+                onTap: () => _showSecuritySettingsModal(context, isLight)),
               _buildAccountOption(
                 icon: Icons.payment,
                 title:
@@ -4206,14 +3770,10 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                 subtitle:
                     AppLocalizations.of(context)?.bankDetailsPaymentMethods ?? AppLocalizations.of(context)!.tr('Bank details, payment methods'),
                 isLight: isLight,
-                onTap: () => _showPaymentSettingsModal(context, isLight),
-              ),
-            ],
-          ),
-        ),
-        const SizedBox(height: 20),
-      ],
-    );
+                onTap: () => _showPaymentSettingsModal(context, isLight)),
+            ])),
+        SizedBox(height: 20),
+      ]);
   }
 
   Widget _buildSecurityPrivacySection(bool isLight) {
@@ -4223,8 +3783,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
         // Section Header - Trade Republic Style
         TradeRepublicSectionHeader(
           title: AppLocalizations.of(context)?.privacy ?? AppLocalizations.of(context)!.tr('Privacy'),
-          padding: const EdgeInsets.only(bottom: 16, top: 8),
-        ),
+          padding: EdgeInsets.only(bottom: 16, top: 8)),
         TradeRepublicCard(
           padding: DesktopAppWrapper.getPagePadding(),
           child: Column(
@@ -4235,23 +3794,19 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                     ? (AppLocalizations.of(context)?.on_ ?? AppLocalizations.of(context)!.tr('On'))
                     : (AppLocalizations.of(context)?.off_ ?? AppLocalizations.of(context)!.tr('Off')),
                 Icons.security,
-                isLight,
-              ),
+                isLight),
               _buildInfoRow(
                 AppLocalizations.of(context)?.biometricLogin ?? AppLocalizations.of(context)!.tr('Biometric Login'),
                 (userData?['biometric_enabled'] == 1)
                     ? (AppLocalizations.of(context)?.enabled ?? AppLocalizations.of(context)!.tr('Enabled'))
                     : (AppLocalizations.of(context)?.disabled ?? AppLocalizations.of(context)!.tr('Disabled')),
                 Icons.fingerprint,
-                isLight,
-              ),
-            ],
-          ),
-        ),
+                isLight),
+            ])),
 
         // Interactive toggles for notifications
         TradeRepublicCard(
-          margin: const EdgeInsets.only(top: 16),
+          margin: EdgeInsets.only(top: 16),
           padding: DesktopAppWrapper.getPagePadding(),
           child: Column(
             children: [
@@ -4261,8 +3816,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                 userData?['notifications_login'] == 1,
                 Icons.login,
                 isLight,
-                (value) => _toggleLoginNotificationsInPrivacy(value),
-              ),
+                (value) => _toggleLoginNotificationsInPrivacy(value)),
               if (userData?['supportsNewsletterPrefs'] == true)
                 _buildNotificationToggle(
                   AppLocalizations.of(context)?.newsletterSubscription ?? AppLocalizations.of(context)!.tr('Newsletter Subscription'),
@@ -4270,14 +3824,10 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                   userData?['notifications_newsletter'] == 1,
                   Icons.mail_outline,
                   isLight,
-                  (value) => _toggleNewsletterSubscription(value),
-                ),
-            ],
-          ),
-        ),
-        const SizedBox(height: 20),
-      ],
-    );
+                  (value) => _toggleNewsletterSubscription(value)),
+            ])),
+        SizedBox(height: 20),
+      ]);
   }
 
   Widget _buildSocialCommunitySection(bool isLight) {
@@ -4292,11 +3842,9 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                   label: AppLocalizations.of(context)?.viewAll ?? AppLocalizations.of(context)!.tr('View All'),
                   isSecondary: true,
                   height: 50,
-                  onPressed: () => _showFollowersModal(context, isLight),
-                )
+                  onPressed: () => _showFollowersModal(context, isLight))
               : null,
-          padding: const EdgeInsets.only(bottom: 16, top: 8),
-        ),
+          padding: EdgeInsets.only(bottom: 16, top: 8)),
         TradeRepublicCard(
           padding: DesktopAppWrapper.getPagePadding(),
           child: Column(
@@ -4305,17 +3853,13 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                 AppLocalizations.of(context)?.followers ?? AppLocalizations.of(context)!.tr('Followers'),
                 '${socialStats['followers_count'] ?? userData?['followers_count'] ?? 0}',
                 CupertinoIcons.person_2_fill,
-                isLight,
-              ),
+                isLight),
               _buildInfoRow(
                 AppLocalizations.of(context)?.following ?? AppLocalizations.of(context)!.tr('Following'),
                 '${socialStats['following_count'] ?? userData?['following_count'] ?? 0}',
                 CupertinoIcons.person_add_solid,
-                isLight,
-              ),
-            ],
-          ),
-        ),
+                isLight),
+            ])),
 
         // Show recent followers if any
         if (followers.isNotEmpty) ...[
@@ -4331,10 +3875,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                     fontSize: DesktopOptimizedWidgets.getFontSize(),
                     fontWeight: FontWeight.w600,
                     color: (isLight ? Colors.black : Colors.white).withOpacity(
-                      0.7,
-                    ),
-                  ),
-                ),
+                      0.7))),
                 SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                 SizedBox(
                   height: 60,
@@ -4344,7 +3885,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                     itemBuilder: (context, index) {
                       final follower = followers[index];
                       return Container(
-                        margin: const EdgeInsets.only(right: 12),
+                        margin: EdgeInsets.only(right: 12),
                         child: Column(
                           children: [
                             Container(
@@ -4353,8 +3894,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                                 color: (isLight ? Colors.black : Colors.white)
-                                    .withOpacity(0.1),
-                              ),
+                                    .withOpacity(0.1)),
                               child: Center(
                                 child: Text(
                                   (follower['name'] ??
@@ -4366,12 +3906,8 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                                     fontWeight: FontWeight.w700,
                                     color: isLight
                                         ? Colors.black
-                                        : Colors.white,
-                                  ),
-                                ),
-                              ),
-                            ),
-                            const SizedBox(height: 4),
+                                        : Colors.white)))),
+                            SizedBox(height: 4),
                             Text(
                               (follower['name'] ??
                                       follower['username'] ?? AppLocalizations.of(context)!.tr('User'))
@@ -4380,24 +3916,15 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                               style: TextStyle(
                                 fontSize: 10,
                                 color: (isLight ? Colors.black : Colors.white)
-                                    .withOpacity(0.6),
-                              ),
+                                    .withOpacity(0.6)),
                               maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                          ],
-                        ),
-                      );
-                    },
-                  ),
-                ),
-              ],
-            ),
-          ),
+                              overflow: TextOverflow.ellipsis),
+                          ]));
+                    })),
+              ])),
         ],
-        const SizedBox(height: 20),
-      ],
-    );
+        SizedBox(height: 20),
+      ]);
   }
 
   Widget _buildVerificationStatusButton(bool isLight) {
@@ -4443,8 +3970,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                   : isLight
                   ? Colors.white
                   : Colors.black,
-              borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-            ),
+              borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
             child: Icon(
               isFullyVerified
                   ? Icons.verified
@@ -4452,10 +3978,8 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
               color: isFullyVerified
                   ? Colors.green
                   : (isLight ? Colors.black : Colors.white).withOpacity(0.5),
-              size: 22,
-            ),
-          ),
-          const SizedBox(width: 14),
+              size: 22)),
+          SizedBox(width: 14),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -4465,21 +3989,17 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                   style: TextStyle(
                     fontSize: DesktopOptimizedWidgets.getFontSize(),
                     fontWeight: FontWeight.w600,
-                    color: isLight ? Colors.black : Colors.white,
-                  ),
-                ),
-                const SizedBox(height: 4),
+                    color: isLight ? Colors.black : Colors.white)),
+                SizedBox(height: 4),
                 Container(
-                  padding: const EdgeInsets.symmetric(
+                  padding: EdgeInsets.symmetric(
                     horizontal: 10,
-                    vertical: 4,
-                  ),
+                    vertical: 4),
                   decoration: BoxDecoration(
                     color: isFullyVerified
                         ? Colors.green.withOpacity(0.1)
                         : Colors.orange.withOpacity(0.1),
-                    borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-                  ),
+                    borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
                   child: Text(
                     isFullyVerified
                         ? (AppLocalizations.of(context)?.fullyVerified ?? AppLocalizations.of(context)!.tr('Fully Verified'))
@@ -4487,28 +4007,19 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                     style: TextStyle(
                       fontSize: 12,
                       fontWeight: FontWeight.w500,
-                      color: isFullyVerified ? Colors.green : Colors.orange,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
+                      color: isFullyVerified ? Colors.green : Colors.orange))),
+              ])),
           Icon(
             CupertinoIcons.chevron_right,
             color: (isLight ? Colors.black : Colors.white).withOpacity(0.3),
-            size: 22,
-          ),
-        ],
-      ),
-    );
+            size: 22),
+        ]));
   }
 
   Widget _buildTaxFormsSection(bool isLight) {
     // Check if user has Stripe account and tax form status
     final hasStripeAccount = BusinessAccountPage.hasConnectedPaymentSetup(
-      userData,
-    );
+      userData);
     final taxFormStatus =
         userData?['tax_form_status'] ?? AppLocalizations.of(context)!.tr('not_started'); // not_started, pending, completed
     final taxFormType =
@@ -4541,11 +4052,10 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
 
     return Container(
       width: double.infinity,
-      padding: const EdgeInsets.all(24),
+      padding: EdgeInsets.all(24),
       decoration: BoxDecoration(
         color: isLight ? Colors.white : Colors.black,
-        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-      ),
+        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -4556,31 +4066,26 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
               fontSize: 28,
               fontWeight: FontWeight.w700,
               letterSpacing: -0.5,
-              color: isLight ? Colors.black : Colors.white,
-            ),
-          ),
-          const SizedBox(height: 4),
+              color: isLight ? Colors.black : Colors.white)),
+          SizedBox(height: 4),
           Text(
             AppLocalizations.of(context)?.taxFormDesc ?? AppLocalizations.of(context)!.tr('W-9 or W-8 form required for payouts (self-service via Stripe)'),
             style: TextStyle(
               fontSize: DesktopOptimizedWidgets.getFontSize(),
-              color: (isLight ? Colors.black : Colors.white).withOpacity(0.5),
-            ),
-          ),
+              color: (isLight ? Colors.black : Colors.white).withOpacity(0.5))),
 
           SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
           // Status Badge - Delvioo style
           Container(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+            padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
             decoration: BoxDecoration(
               color: badgeColor.withOpacity(0.1),
-              borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-            ),
+              borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
             child: Row(
               children: [
                 Icon(statusIcon, color: badgeColor, size: 20),
-                const SizedBox(width: 12),
+                SizedBox(width: 12),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -4590,24 +4095,16 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                         style: TextStyle(
                           fontSize: DesktopOptimizedWidgets.getFontSize(),
                           fontWeight: FontWeight.w600,
-                          color: badgeColor,
-                        ),
-                      ),
+                          color: badgeColor)),
                       if (taxFormStatus == 'completed' &&
                           taxFormType != 'unknown')
                         Text(
                           '${AppLocalizations.of(context)?.formType ?? AppLocalizations.of(context)!.tr('Form Type')}: ${taxFormType.toUpperCase()}',
                           style: TextStyle(
                             fontSize: 12,
-                            color: badgeColor.withOpacity(0.8),
-                          ),
-                        ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ),
+                            color: badgeColor.withOpacity(0.8))),
+                    ])),
+              ])),
 
           SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
@@ -4616,8 +4113,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
             padding: DesktopAppWrapper.getPagePadding(),
             decoration: BoxDecoration(
               color: isLight ? Colors.white : Colors.black,
-              borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-            ),
+              borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
             child: Row(
               children: [
                 Container(
@@ -4625,19 +4121,14 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                   height: 36,
                   decoration: BoxDecoration(
                     color: (isLight ? Colors.black : Colors.white).withOpacity(
-                      0.1,
-                    ),
-                    borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-                  ),
+                      0.1),
+                    borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
                   child: Icon(
                     CupertinoIcons.info_circle,
                     color: (isLight ? Colors.black : Colors.white).withOpacity(
-                      0.6,
-                    ),
-                    size: 18,
-                  ),
-                ),
-                const SizedBox(width: 12),
+                      0.6),
+                    size: 18)),
+                SizedBox(width: 12),
                 Expanded(
                   child: Text(
                     hasStripeAccount
@@ -4646,13 +4137,8 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                     style: TextStyle(
                       fontSize: 13,
                       color: (isLight ? Colors.black : Colors.white)
-                          .withOpacity(0.7),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
+                          .withOpacity(0.7)))),
+              ])),
 
           SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
@@ -4673,13 +4159,9 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                     HapticFeedback.lightImpact();
                     TopNotification.info(
                       context,
-                      AppLocalizations.of(context)?.connectBankFirst ?? AppLocalizations.of(context)!.tr('Please connect a bank account first'),
-                    );
-                  },
-          ),
-        ],
-      ),
-    );
+                      AppLocalizations.of(context)?.connectBankFirst ?? AppLocalizations.of(context)!.tr('Please connect a bank account first'));
+                  }),
+        ]));
   }
 
   Widget _buildAccountManagementSection(bool isLight) {
@@ -4688,10 +4170,9 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
       children: [
         TradeRepublicSectionHeader(
           title: AppLocalizations.of(context)?.account ?? AppLocalizations.of(context)!.tr('Account'),
-          padding: const EdgeInsets.only(bottom: 16, top: 8),
-        ),
+          padding: EdgeInsets.only(bottom: 16, top: 8)),
         TradeRepublicCard(
-          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+          padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
           child: Column(
             children: [
               // App Settings Button
@@ -4702,8 +4183,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                 subtitle:
                     AppLocalizations.of(context)?.customizeAppSettings ?? AppLocalizations.of(context)!.tr('Customize appearance, language, and preferences'),
                 isLight: isLight,
-                onTap: () => _showAppSettingsModal(context, isLight),
-              ),
+                onTap: () => _showAppSettingsModal(context, isLight)),
 
               TradeRepublicDivider(),
 
@@ -4715,28 +4195,22 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                     AppLocalizations.of(context)?.signOutDesc ?? AppLocalizations.of(context)!.tr('Sign out from your business account'),
                 isLight: isLight,
                 onTap: () => _showSignOutModal(context, isLight),
-                isDestructive: true,
-              ),
-            ],
-          ),
-        ),
-        const SizedBox(height: 20),
-      ],
-    );
+                isDestructive: true),
+            ])),
+        SizedBox(height: 20),
+      ]);
   }
 
   Widget _buildInfoRow(
     String label,
     String value,
     IconData icon,
-    bool isLight,
-  ) {
+    bool isLight) {
     return TradeRepublicListTile(
       title: label,
       subtitle: value,
       leading: Icon(icon, size: 18),
-      padding: const EdgeInsets.symmetric(vertical: 12),
-    );
+      padding: EdgeInsets.symmetric(vertical: 12));
   }
 
   Widget _buildAccountOption({
@@ -4755,16 +4229,14 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
         subtitle: subtitle,
         leading: Icon(icon, size: 20),
         onTap: onTap,
-        padding: tilePadding,
-      );
+        padding: tilePadding);
     }
     return TradeRepublicListTile.navigation(
       title: title,
       subtitle: subtitle,
       leading: Icon(icon, size: 20),
       onTap: onTap,
-      padding: tilePadding,
-    );
+      padding: tilePadding);
   }
 
   // Modal implementations
@@ -4785,24 +4257,20 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
               Icon(
                 CupertinoIcons.photo_fill,
                 size: 22,
-                color: isLight ? Colors.black : Colors.white,
-              ),
-              const SizedBox(width: 12),
+                color: isLight ? Colors.black : Colors.white),
+              SizedBox(width: 12),
               Text(
                 AppLocalizations.of(context)?.businessLogo ?? AppLocalizations.of(context)!.tr('Business Logo'),
                 style: TextStyle(
                   fontSize: 22,
                   fontWeight: FontWeight.w700,
                   color: isLight ? Colors.black : Colors.white,
-                  letterSpacing: -0.4,
-                ),
-              ),
-            ],
-          ),
+                  letterSpacing: -0.4)),
+            ]),
 
           SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
-          const SizedBox(height: 32),
+          SizedBox(height: 32),
 
           // Current Logo Display - minimalist
           Container(
@@ -4812,8 +4280,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
               borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
               color: isLight
                   ? const Color(0xFFF2F2F2)
-                  : const Color(0xFF1F1F1F),
-            ),
+                  : const Color(0xFF1F1F1F)),
             clipBehavior: Clip.antiAlias,
             child:
                 userData?['profilePic'] != null &&
@@ -4825,20 +4292,16 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                       return Icon(
                         CupertinoIcons.building_2_fill,
                         color: isLight ? Colors.black : Colors.white,
-                        size: 40,
-                      );
+                        size: 40);
                     },
                     loadingBuilder: (context, child, loadingProgress) {
                       if (loadingProgress == null) return child;
                       return Center(child: CultiooLoadingIndicator());
-                    },
-                  )
+                    })
                 : Icon(
                     CupertinoIcons.building_2_fill,
                     color: isLight ? Colors.black : Colors.white,
-                    size: 40,
-                  ),
-          ),
+                    size: 40)),
 
           SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
@@ -4848,11 +4311,9 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
             style: TextStyle(
               fontSize: DesktopOptimizedWidgets.getFontSize(),
               fontWeight: FontWeight.w500,
-              color: isLight ? Colors.black : Colors.white,
-            ),
-          ),
+              color: isLight ? Colors.black : Colors.white)),
 
-          const SizedBox(height: 32),
+          SizedBox(height: 32),
 
           // Gallery button - minimalist primary
           TradeRepublicButton(
@@ -4862,8 +4323,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
             onPressed: () {
               HapticFeedback.lightImpact();
               _uploadProfilePicture(context, ImageSource.gallery);
-            },
-          ),
+            }),
 
           SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
@@ -4875,8 +4335,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
             onPressed: () {
               HapticFeedback.lightImpact();
               _uploadProfilePicture(context, ImageSource.camera);
-            },
-          ),
+            }),
 
           if (userData?['profilePic'] != null &&
               userData!['profilePic'].toString().trim().isNotEmpty) ...[
@@ -4890,12 +4349,9 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
               onPressed: () {
                 HapticFeedback.lightImpact();
                 _removeProfilePicture(context);
-              },
-            ),
+              }),
           ],
-        ],
-      ),
-    ).whenComplete(() => NavigationVisibility.show());
+        ])).whenComplete(() => NavigationVisibility.show());
   }
 
   void _showBusinessEditModal(BuildContext context, bool isLight) {
@@ -4941,8 +4397,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
           } else {
             final anyWithDigit = streetTokens.firstWhere(
               (t) => containsDigit(t),
-              orElse: () => '',
-            );
+              orElse: () => '');
             if (anyWithDigit.isNotEmpty) {
               foundNumber = anyWithDigit;
               final idx = streetTokens.indexOf(anyWithDigit);
@@ -5057,14 +4512,11 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
 
     // Create controllers with current values
     final businessNameController = TextEditingController(
-      text: userData?['businessName'] ?? AppLocalizations.of(context)!.tr(''),
-    );
+      text: userData?['businessName'] ?? AppLocalizations.of(context)!.tr(''));
     final businessDescriptionController = TextEditingController(
-      text: userData?['businessDescription'] ?? AppLocalizations.of(context)!.tr(''),
-    );
+      text: userData?['businessDescription'] ?? AppLocalizations.of(context)!.tr(''));
     final businessWebsiteController = TextEditingController(
-      text: userData?['businessWebsite'] ?? AppLocalizations.of(context)!.tr(''),
-    );
+      text: userData?['businessWebsite'] ?? AppLocalizations.of(context)!.tr(''));
     final streetController = TextEditingController(text: street);
     final houseNumberController = TextEditingController(text: houseNumber);
     final cityController = TextEditingController(text: city);
@@ -5109,29 +4561,25 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                     Icon(
                       CupertinoIcons.briefcase_fill,
                       size: 22,
-                      color: isLight ? Colors.black : Colors.white,
-                    ),
-                    const SizedBox(width: 12),
+                      color: isLight ? Colors.black : Colors.white),
+                    SizedBox(width: 12),
                     Text(
                       AppLocalizations.of(context)?.editPersonalInfo ?? AppLocalizations.of(context)!.tr('Edit Personal Information'),
                       style: TextStyle(
                         fontSize: 22,
                         fontWeight: FontWeight.w700,
                         color: isLight ? Colors.black : Colors.white,
-                        letterSpacing: -0.4,
-                      ),
-                    ),
-                  ],
-                ),
+                        letterSpacing: -0.4)),
+                  ]),
 
                 SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
-                const SizedBox(height: 32),
+                SizedBox(height: 32),
 
                 Expanded(
                   child: SingleChildScrollView(
                     physics: const ClampingScrollPhysics(),
-                    padding: const EdgeInsets.only(bottom: 20),
+                    padding: EdgeInsets.only(bottom: 20),
                     child: Column(
                       children: [
                         // Business Information Section
@@ -5140,45 +4588,35 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                           children: [
                             Text(
                               AppLocalizations.of(
-                                    context,
-                                  )?.businessInformation ?? AppLocalizations.of(context)!.tr('Business Information'),
+                                    context)?.businessInformation ?? AppLocalizations.of(context)!.tr('Business Information'),
                               style: TextStyle(
                                 fontSize: DesktopOptimizedWidgets.getFontSize(),
                                 fontWeight: FontWeight.w700,
-                                color: isLight ? Colors.black : Colors.white,
-                              ),
-                            ),
+                                color: isLight ? Colors.black : Colors.white)),
                             SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
                             _buildEditableBusinessField(
                               AppLocalizations.of(context)?.businessName ??
                                   AppLocalizations.of(context)?.businessName ?? AppLocalizations.of(context)!.tr('Business Name'),
                               businessNameController,
                               CupertinoIcons.building_2_fill,
-                              isLight,
-                            ),
+                              isLight),
                             _buildEditableBusinessField(
                               AppLocalizations.of(
-                                    context,
-                                  )?.businessDescription ??
+                                    context)?.businessDescription ??
                                   AppLocalizations.of(
-                                    context,
-                                  )?.businessDescription ?? AppLocalizations.of(context)!.tr('Business Description'),
+                                    context)?.businessDescription ?? AppLocalizations.of(context)!.tr('Business Description'),
                               businessDescriptionController,
                               Icons.description,
                               isLight,
-                              maxLines: 3,
-                            ),
+                              maxLines: 3),
                             _buildEditableBusinessField(
                               AppLocalizations.of(context)?.businessWebsite ??
                                   AppLocalizations.of(
-                                    context,
-                                  )?.businessWebsite ?? AppLocalizations.of(context)!.tr('Business Website'),
+                                    context)?.businessWebsite ?? AppLocalizations.of(context)!.tr('Business Website'),
                               businessWebsiteController,
                               Icons.language,
-                              isLight,
-                            ),
-                          ],
-                        ),
+                              isLight),
+                          ]),
 
                         SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
@@ -5191,9 +4629,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                               style: TextStyle(
                                 fontSize: DesktopOptimizedWidgets.getFontSize(),
                                 fontWeight: FontWeight.w700,
-                                color: isLight ? Colors.black : Colors.white,
-                              ),
-                            ),
+                                color: isLight ? Colors.black : Colors.white)),
                             SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
                             // Street and House Number
@@ -5205,21 +4641,16 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                                     AppLocalizations.of(context)?.street ?? AppLocalizations.of(context)!.tr('Street'),
                                     streetController,
                                     CupertinoIcons.location_solid,
-                                    isLight,
-                                  ),
-                                ),
-                                const SizedBox(width: 12),
+                                    isLight)),
+                                SizedBox(width: 12),
                                 Expanded(
                                   flex: 2,
                                   child: _buildEditableBusinessField(
                                     AppLocalizations.of(context)?.numberLabel ?? AppLocalizations.of(context)!.tr('Number'),
                                     houseNumberController,
                                     Icons.home,
-                                    isLight,
-                                  ),
-                                ),
-                              ],
-                            ),
+                                    isLight)),
+                              ]),
 
                             // City and State
                             Row(
@@ -5229,20 +4660,15 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                                     AppLocalizations.of(context)?.city ?? AppLocalizations.of(context)!.tr('City'),
                                     cityController,
                                     Icons.location_city,
-                                    isLight,
-                                  ),
-                                ),
-                                const SizedBox(width: 12),
+                                    isLight)),
+                                SizedBox(width: 12),
                                 Expanded(
                                   child: _buildEditableBusinessField(
                                     AppLocalizations.of(context)?.state ?? AppLocalizations.of(context)!.tr('State'),
                                     stateController,
                                     Icons.map,
-                                    isLight,
-                                  ),
-                                ),
-                              ],
-                            ),
+                                    isLight)),
+                              ]),
 
                             // ZIP Code and Country
                             Row(
@@ -5253,21 +4679,18 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                                         AppLocalizations.of(context)?.zipCode ?? AppLocalizations.of(context)!.tr('ZIP Code'),
                                     zipCodeController,
                                     Icons.local_post_office,
-                                    isLight,
-                                  ),
-                                ),
-                                const SizedBox(width: 12),
+                                    isLight)),
+                                SizedBox(width: 12),
                                 Expanded(
                                   child: Padding(
-                                    padding: const EdgeInsets.only(bottom: 16),
+                                    padding: EdgeInsets.only(bottom: 16),
                                     child: Column(
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
                                         Text(
                                           AppLocalizations.of(
-                                                context,
-                                              )?.country ?? AppLocalizations.of(context)!.tr('Country'),
+                                                context)?.country ?? AppLocalizations.of(context)!.tr('Country'),
                                           style: TextStyle(
                                             fontSize: DesktopOptimizedWidgets.getFontSize(),
                                             fontWeight: FontWeight.w600,
@@ -5275,9 +4698,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                                                 (isLight
                                                         ? Colors.black
                                                         : Colors.white)
-                                                    .withOpacity(0.8),
-                                          ),
-                                        ),
+                                                    .withOpacity(0.8))),
                                         SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                                         TradeRepublicTap(
                                           onTap: () {
@@ -5289,14 +4710,12 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                                                 setModalState(() {
                                                   selectedCountry = newCountry;
                                                 });
-                                              },
-                                            );
+                                              });
                                           },
                                           child: TradeRepublicCard(
-                                            padding: const EdgeInsets.symmetric(
+                                            padding: EdgeInsets.symmetric(
                                               horizontal: 16,
-                                              vertical: 16,
-                                            ),
+                                              vertical: 16),
                                             child: Row(
                                               children: [
                                                 Icon(
@@ -5306,9 +4725,8 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                                                       (isLight
                                                               ? Colors.black
                                                               : Colors.white)
-                                                          .withOpacity(0.6),
-                                                ),
-                                                const SizedBox(width: 12),
+                                                          .withOpacity(0.6)),
+                                                SizedBox(width: 12),
                                                 Expanded(
                                                   child: Text(
                                                     selectedCountry,
@@ -5318,10 +4736,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                                                           FontWeight.w600,
                                                       color: isLight
                                                           ? Colors.black
-                                                          : Colors.white,
-                                                    ),
-                                                  ),
-                                                ),
+                                                          : Colors.white))),
                                                 Icon(
                                                   Icons
                                                       .arrow_forward_ios_rounded,
@@ -5330,20 +4745,11 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                                                       (isLight
                                                               ? Colors.black
                                                               : Colors.white)
-                                                          .withOpacity(0.3),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
+                                                          .withOpacity(0.3)),
+                                              ]))),
+                                      ]))),
+                              ]),
+                          ]),
 
                         SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
@@ -5356,9 +4762,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                               style: TextStyle(
                                 fontSize: DesktopOptimizedWidgets.getFontSize(),
                                 fontWeight: FontWeight.w700,
-                                color: isLight ? Colors.black : Colors.white,
-                              ),
-                            ),
+                                color: isLight ? Colors.black : Colors.white)),
                             SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
                             TradeRepublicTap(
                               onTap: () {
@@ -5370,8 +4774,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                                     setModalState(() {
                                       selectedSize = newSize;
                                     });
-                                  },
-                                );
+                                  });
                               },
                               child: Row(
                                 children: [
@@ -5380,9 +4783,8 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                                     size: 20,
                                     color:
                                         (isLight ? Colors.black : Colors.white)
-                                            .withOpacity(0.8),
-                                  ),
-                                  const SizedBox(width: 12),
+                                            .withOpacity(0.8)),
+                                  SizedBox(width: 12),
                                   Expanded(
                                     child: Text(
                                       selectedSize,
@@ -5391,60 +4793,45 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                                         fontWeight: FontWeight.w600,
                                         color: isLight
                                             ? Colors.black
-                                            : Colors.white,
-                                      ),
-                                    ),
-                                  ),
+                                            : Colors.white))),
                                   Icon(
                                     CupertinoIcons.forward,
                                     size: 16,
                                     color:
                                         (isLight ? Colors.black : Colors.white)
-                                            .withOpacity(0.3),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
+                                            .withOpacity(0.3)),
+                                ])),
+                          ]),
 
                         SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
                         // Privacy & Visibility Settings Section - Header
                         Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 4),
+                          padding: EdgeInsets.symmetric(horizontal: 4),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
                                 AppLocalizations.of(
-                                      context,
-                                    )?.privacyVisibility ?? AppLocalizations.of(context)!.tr('Privacy & Visibility'),
+                                      context)?.privacyVisibility ?? AppLocalizations.of(context)!.tr('Privacy & Visibility'),
                                 style: TextStyle(
                                   fontSize: DesktopOptimizedWidgets.getFontSize(),
                                   fontWeight: FontWeight.w700,
-                                  color: isLight ? Colors.black : Colors.white,
-                                ),
-                              ),
+                                  color: isLight ? Colors.black : Colors.white)),
 
                               SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
                               Text(
                                 AppLocalizations.of(
-                                      context,
-                                    )?.controlVisibleInfo ?? AppLocalizations.of(context)!.tr('Control which business information is publicly visible'),
+                                      context)?.controlVisibleInfo ?? AppLocalizations.of(context)!.tr('Control which business information is publicly visible'),
                                 style: TextStyle(
                                   fontSize: 13,
                                   fontWeight: FontWeight.w500,
                                   color: (isLight ? Colors.black : Colors.white)
-                                      .withOpacity(0.5),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
+                                      .withOpacity(0.5))),
+                            ])),
 
-                        const SizedBox(height: 20),
+                        SizedBox(height: 20),
 
                         RepaintBoundary(
                           child: _buildVisibilityToggle(
@@ -5457,9 +4844,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                               setModalState(() {
                                 showPhone = value;
                               });
-                            },
-                          ),
-                        ),
+                            })),
 
                         RepaintBoundary(
                           child: _buildVisibilityToggle(
@@ -5472,18 +4857,14 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                               setModalState(() {
                                 showBusinessEmail = value;
                               });
-                            },
-                          ),
-                        ),
+                            })),
 
                         RepaintBoundary(
                           child: _buildVisibilityToggle(
                             AppLocalizations.of(
-                                  context,
-                                )?.showBusinessCompanyInfo ?? AppLocalizations.of(context)!.tr('Show Business Company Info'),
+                                  context)?.showBusinessCompanyInfo ?? AppLocalizations.of(context)!.tr('Show Business Company Info'),
                             AppLocalizations.of(
-                                  context,
-                                )?.allowSeeCompanyDetails ?? AppLocalizations.of(context)!.tr('Allow others to see your company details'),
+                                  context)?.allowSeeCompanyDetails ?? AppLocalizations.of(context)!.tr('Allow others to see your company details'),
                             showBusinessCompany,
                             CupertinoIcons.building_2_fill,
                             isLight,
@@ -5491,16 +4872,13 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                               setModalState(() {
                                 showBusinessCompany = value;
                               });
-                            },
-                          ),
-                        ),
+                            })),
 
                         RepaintBoundary(
                           child: _buildVisibilityToggle(
                             AppLocalizations.of(context)?.showBusinessSize_ ?? AppLocalizations.of(context)!.tr('Show Business Size'),
                             AppLocalizations.of(
-                                  context,
-                                )?.allowSeeBusinessSize ?? AppLocalizations.of(context)!.tr('Allow others to see your business size'),
+                                  context)?.allowSeeBusinessSize ?? AppLocalizations.of(context)!.tr('Allow others to see your business size'),
                             showBusinessSize,
                             CupertinoIcons.person_2_fill,
                             isLight,
@@ -5508,16 +4886,13 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                               setModalState(() {
                                 showBusinessSize = value;
                               });
-                            },
-                          ),
-                        ),
+                            })),
 
                         RepaintBoundary(
                           child: _buildVisibilityToggle(
                             AppLocalizations.of(context)?.showBusinessCountry ?? AppLocalizations.of(context)!.tr('Show Business Country'),
                             AppLocalizations.of(
-                                  context,
-                                )?.allowSeeBusinessCountry ?? AppLocalizations.of(context)!.tr('Allow others to see your business country'),
+                                  context)?.allowSeeBusinessCountry ?? AppLocalizations.of(context)!.tr('Allow others to see your business country'),
                             showBusinessCountry,
                             CupertinoIcons.globe,
                             isLight,
@@ -5525,11 +4900,9 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                               setModalState(() {
                                 showBusinessCountry = value;
                               });
-                            },
-                          ),
-                        ),
+                            })),
 
-                        const SizedBox(height: 32),
+                        SizedBox(height: 32),
 
                         // Action Buttons - NOW INSIDE ScrollView
                         Row(
@@ -5540,11 +4913,9 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                                     AppLocalizations.of(context)?.cancel ?? AppLocalizations.of(context)!.tr('Cancel'),
                                 isSecondary: true,
                                 height: 50,
-                                onPressed: () => Navigator.pop(context),
-                              ),
-                            ),
+                                onPressed: () => Navigator.pop(context))),
 
-                            const SizedBox(width: 16),
+                            SizedBox(width: 16),
 
                             Expanded(
                               flex: 2,
@@ -5568,22 +4939,10 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                                   showBusinessEmail,
                                   showBusinessCompany,
                                   showBusinessSize,
-                                  showBusinessCountry,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-      ),
-    ).whenComplete(() {
+                                  showBusinessCountry))),
+                          ]),
+                      ]))),
+              ]))))).whenComplete(() {
       NavigationVisibility.show();
       if (mounted) setState(() => _isBusinessEditOpen = false);
     });
@@ -5593,19 +4952,17 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
     String label,
     String value,
     IconData icon,
-    bool isLight,
-  ) {
+    bool isLight) {
     return Container(
-      margin: const EdgeInsets.only(bottom: 16),
+      margin: EdgeInsets.only(bottom: 16),
       padding: DesktopAppWrapper.getPagePadding(),
       decoration: BoxDecoration(
         color: isLight ? Colors.white : Colors.black,
-        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-      ),
+        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
       child: Row(
         children: [
           Icon(icon, size: 20, color: isLight ? Colors.black : Colors.white),
-          const SizedBox(width: 16),
+          SizedBox(width: 16),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -5616,50 +4973,35 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                     fontSize: 11,
                     fontWeight: FontWeight.w700,
                     letterSpacing: 0.5,
-                    color: isLight ? Colors.black : Colors.white,
-                  ),
-                ),
-                const SizedBox(height: 4),
+                    color: isLight ? Colors.black : Colors.white)),
+                SizedBox(height: 4),
                 TradeRepublicTextField(
                   useFormField: true,
                   initialValue: value,
                   style: TextStyle(
                     fontSize: DesktopOptimizedWidgets.getFontSize(),
                     fontWeight: FontWeight.w600,
-                    color: isLight ? Colors.black : Colors.white,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
+                    color: isLight ? Colors.black : Colors.white)),
+              ])),
+        ]));
   }
 
   void _showPersonalEditModal(BuildContext context, bool isLight) {
     // Create controllers with current values
     final firstNameController = TextEditingController(
-      text: userData?['firstname'] ?? AppLocalizations.of(context)!.tr(''),
-    );
+      text: userData?['firstname'] ?? AppLocalizations.of(context)!.tr(''));
     final lastNameController = TextEditingController(
-      text: userData?['lastname'] ?? AppLocalizations.of(context)!.tr(''),
-    );
+      text: userData?['lastname'] ?? AppLocalizations.of(context)!.tr(''));
     final emailController = TextEditingController(
-      text: userData?['email'] ?? AppLocalizations.of(context)!.tr(''),
-    );
+      text: userData?['email'] ?? AppLocalizations.of(context)!.tr(''));
     final birthdateController = TextEditingController(
-      text: userData?['birthdate']?.toString().split('T').first ?? AppLocalizations.of(context)!.tr(''),
-    );
+      text: userData?['birthdate']?.toString().split('T').first ?? AppLocalizations.of(context)!.tr(''));
     final businessNameController = TextEditingController(
-      text: userData?['businessName'] ?? userData?['business_company'] ?? AppLocalizations.of(context)!.tr(''),
-    );
+      text: userData?['businessName'] ?? userData?['business_company'] ?? AppLocalizations.of(context)!.tr(''));
     final businessDescriptionController = TextEditingController(
-      text: userData?['businessDescription'] ?? AppLocalizations.of(context)!.tr(''),
-    );
+      text: userData?['businessDescription'] ?? AppLocalizations.of(context)!.tr(''));
     final businessWebsiteController = TextEditingController(
-      text: userData?['businessWebsite'] ?? AppLocalizations.of(context)!.tr(''),
-    );
+      text: userData?['businessWebsite'] ?? AppLocalizations.of(context)!.tr(''));
 
     String existingAddress = userData?['businessAddress'] ?? AppLocalizations.of(context)!.tr('');
     String street = '';
@@ -5697,8 +5039,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
           } else {
             final anyWithDigit = streetTokens.firstWhere(
               (t) => containsDigit(t),
-              orElse: () => '',
-            );
+              orElse: () => '');
             if (anyWithDigit.isNotEmpty) {
               foundNumber = anyWithDigit;
               final idx = streetTokens.indexOf(anyWithDigit);
@@ -5930,16 +5271,13 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                             label:
                                 AppLocalizations.of(context)?.cancel ?? AppLocalizations.of(context)!.tr('Cancel'),
                             isSecondary: true,
-                            onPressed: () => Navigator.pop(context),
-                          ),
+                            onPressed: () => Navigator.pop(context)),
                           Text(
                             AppLocalizations.of(context)?.birthdate ?? AppLocalizations.of(context)!.tr('Birthdate'),
                             style: TextStyle(
                               fontSize: DesktopOptimizedWidgets.getFontSize(),
                               fontWeight: FontWeight.w700,
-                              color: isLight ? Colors.black : Colors.white,
-                            ),
-                          ),
+                              color: isLight ? Colors.black : Colors.white)),
                           TradeRepublicButton(
                             label: AppLocalizations.of(context)!.tr('Done') ?? AppLocalizations.of(context)!.tr('Done'),
                             onPressed: () {
@@ -5948,18 +5286,15 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                                     '${selectedDate.year.toString().padLeft(4, '0')}-${selectedDate.month.toString().padLeft(2, '0')}-${selectedDate.day.toString().padLeft(2, '0')}';
                               });
                               Navigator.pop(context);
-                            },
-                          ),
-                        ],
-                      ),
+                            }),
+                        ]),
                       SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                       Expanded(
                         child: CupertinoTheme(
                           data: CupertinoThemeData(
                             brightness: isLight
                                 ? Brightness.light
-                                : Brightness.dark,
-                          ),
+                                : Brightness.dark),
                           child: CupertinoDatePicker(
                             mode: CupertinoDatePickerMode.date,
                             initialDateTime: selectedDate,
@@ -5969,15 +5304,8 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                               setDateState(() {
                                 selectedDate = date;
                               });
-                            },
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            );
+                            }))),
+                    ]))));
           }
 
           return Column(
@@ -5989,9 +5317,8 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                   Icon(
                     CupertinoIcons.person_fill,
                     size: 22,
-                    color: isLight ? Colors.black : Colors.white,
-                  ),
-                  const SizedBox(width: 12),
+                    color: isLight ? Colors.black : Colors.white),
+                  SizedBox(width: 12),
                   Expanded(
                     child: Text(
                       AppLocalizations.of(context)?.editPersonalInfo ?? AppLocalizations.of(context)!.tr('Edit Personal Information'),
@@ -6001,12 +5328,8 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                         fontSize: 22,
                         fontWeight: FontWeight.w700,
                         color: isLight ? Colors.black : Colors.white,
-                        letterSpacing: -0.4,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
+                        letterSpacing: -0.4))),
+                ]),
               SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
               Text(
                 currentEditPage == 0
@@ -6018,10 +5341,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                   fontSize: 13,
                   fontWeight: FontWeight.w500,
                   color: (isLight ? Colors.black : Colors.white).withOpacity(
-                    0.5,
-                  ),
-                ),
-              ),
+                    0.5))),
               SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -6031,19 +5351,15 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                     duration: const Duration(milliseconds: 180),
                     width: isActive ? 22 : 8,
                     height: 8,
-                    margin: const EdgeInsets.symmetric(horizontal: 4),
+                    margin: EdgeInsets.symmetric(horizontal: 4),
                     decoration: BoxDecoration(
                       color: isActive
                           ? (isLight ? Colors.black : Colors.white)
                           : (isLight ? Colors.black : Colors.white).withOpacity(
-                              0.15,
-                            ),
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                  );
-                }),
-              ),
-              const SizedBox(height: 20),
+                              0.15),
+                      borderRadius: BorderRadius.circular(10)));
+                })),
+              SizedBox(height: 20),
               Expanded(
                 child: PageView(
                   controller: editPageController,
@@ -6061,23 +5377,20 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                             AppLocalizations.of(context)?.firstName ?? AppLocalizations.of(context)!.tr('First Name'),
                             firstNameController,
                             CupertinoIcons.person_fill,
-                            isLight,
-                          ),
+                            isLight),
                           SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
                           _buildEditableTextField(
                             AppLocalizations.of(context)?.lastName ?? AppLocalizations.of(context)!.tr('Last Name'),
                             lastNameController,
                             CupertinoIcons.person,
-                            isLight,
-                          ),
+                            isLight),
                           SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
                           _buildEditableTextField(
                             AppLocalizations.of(context)?.email ?? AppLocalizations.of(context)!.tr('Email'),
                             emailController,
                             CupertinoIcons.mail,
                             isLight,
-                            keyboardType: TextInputType.emailAddress,
-                          ),
+                            keyboardType: TextInputType.emailAddress),
                           SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
                           TradeRepublicTap(
                             onTap: openBirthdatePicker,
@@ -6086,17 +5399,13 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                                 AppLocalizations.of(context)?.birthdate ?? AppLocalizations.of(context)!.tr('Birthdate'),
                                 birthdateController,
                                 CupertinoIcons.calendar,
-                                isLight,
-                              ),
-                            ),
-                          ),
+                                isLight))),
                           SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
                           Container(
                             padding: DesktopAppWrapper.getPagePadding(),
                             decoration: BoxDecoration(
                               color: isLight ? Colors.white : Colors.black,
-                              borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-                            ),
+                              borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
@@ -6107,9 +5416,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                                     fontWeight: FontWeight.w500,
                                     color:
                                         (isLight ? Colors.black : Colors.white)
-                                            .withOpacity(0.5),
-                                  ),
-                                ),
+                                            .withOpacity(0.5))),
                                 SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                                 Row(
                                   children: [
@@ -6126,22 +5433,18 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                                               setModalState(() {
                                                 selectedCountryCode = newCode;
                                               });
-                                            },
-                                          );
+                                            });
                                         },
                                         child: Container(
-                                          padding: const EdgeInsets.symmetric(
+                                          padding: EdgeInsets.symmetric(
                                             horizontal: 12,
-                                            vertical: 14,
-                                          ),
+                                            vertical: 14),
                                           decoration: BoxDecoration(
                                             color: isLight
                                                 ? Colors.white
                                                 : Colors.black,
                                             borderRadius: BorderRadius.circular(
-                                              20,
-                                            ),
-                                          ),
+                                              20)),
                                           child: Row(
                                             mainAxisSize: MainAxisSize.min,
                                             children: [
@@ -6151,12 +5454,9 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                                                       c['code'] ==
                                                       selectedCountryCode,
                                                   orElse: () =>
-                                                      countryCodes.first,
-                                                )['flag']!,
-                                                style: TextStyle(fontSize: DesktopOptimizedWidgets.getFontSize() + 6,
-                                                ),
-                                              ),
-                                              const SizedBox(width: 8),
+                                                      countryCodes.first)['flag']!,
+                                                style: TextStyle(fontSize: DesktopOptimizedWidgets.getFontSize() + 6)),
+                                              SizedBox(width: 8),
                                               Flexible(
                                                 child: Text(
                                                   selectedCountryCode,
@@ -6167,11 +5467,8 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                                                     fontWeight: FontWeight.w600,
                                                     color: isLight
                                                         ? Colors.black
-                                                        : Colors.white,
-                                                  ),
-                                                ),
-                                              ),
-                                              const SizedBox(width: 4),
+                                                        : Colors.white))),
+                                              SizedBox(width: 4),
                                               Icon(
                                                 CupertinoIcons.chevron_down,
                                                 size: 18,
@@ -6179,14 +5476,9 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                                                     (isLight
                                                             ? Colors.black
                                                             : Colors.white)
-                                                        .withOpacity(0.5),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    const SizedBox(width: 12),
+                                                        .withOpacity(0.5)),
+                                            ])))),
+                                    SizedBox(width: 12),
                                     Expanded(
                                       flex: 6,
                                       child: TradeRepublicTextField(
@@ -6196,17 +5488,10 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                                         filled: true,
                                         fillColor: isLight
                                             ? Colors.white
-                                            : Colors.black,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
+                                            : Colors.black)),
+                                  ]),
+                              ])),
+                        ])),
                     SingleChildScrollView(
                       physics: const ClampingScrollPhysics(),
                       child: Column(
@@ -6215,23 +5500,20 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                             AppLocalizations.of(context)?.businessName ?? AppLocalizations.of(context)!.tr('Business Name'),
                             businessNameController,
                             CupertinoIcons.building_2_fill,
-                            isLight,
-                          ),
+                            isLight),
                           SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
                           _buildEditableTextField(
                             AppLocalizations.of(context)?.businessDescription ?? AppLocalizations.of(context)!.tr('Business Description'),
                             businessDescriptionController,
                             Icons.description,
-                            isLight,
-                          ),
+                            isLight),
                           SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
                           _buildEditableTextField(
                             AppLocalizations.of(context)?.businessWebsite ?? AppLocalizations.of(context)!.tr('Business Website'),
                             businessWebsiteController,
                             Icons.language,
                             isLight,
-                            keyboardType: TextInputType.url,
-                          ),
+                            keyboardType: TextInputType.url),
                           SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
                           Row(
                             children: [
@@ -6241,21 +5523,16 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                                   AppLocalizations.of(context)?.street ?? AppLocalizations.of(context)!.tr('Street'),
                                   streetController,
                                   CupertinoIcons.location_solid,
-                                  isLight,
-                                ),
-                              ),
-                              const SizedBox(width: 12),
+                                  isLight)),
+                              SizedBox(width: 12),
                               Expanded(
                                 flex: 2,
                                 child: _buildEditableTextField(
                                   AppLocalizations.of(context)?.numberLabel ?? AppLocalizations.of(context)!.tr('Number'),
                                   houseNumberController,
                                   Icons.home_outlined,
-                                  isLight,
-                                ),
-                              ),
-                            ],
-                          ),
+                                  isLight)),
+                            ]),
                           SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
                           Row(
                             children: [
@@ -6264,27 +5541,21 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                                   AppLocalizations.of(context)?.zipCode ?? AppLocalizations.of(context)!.tr('ZIP Code'),
                                   zipCodeController,
                                   Icons.local_post_office,
-                                  isLight,
-                                ),
-                              ),
-                              const SizedBox(width: 12),
+                                  isLight)),
+                              SizedBox(width: 12),
                               Expanded(
                                 child: _buildEditableTextField(
                                   AppLocalizations.of(context)?.city ?? AppLocalizations.of(context)!.tr('City'),
                                   cityController,
                                   Icons.location_city,
-                                  isLight,
-                                ),
-                              ),
-                            ],
-                          ),
+                                  isLight)),
+                            ]),
                           SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
                           _buildEditableTextField(
                             AppLocalizations.of(context)?.state ?? AppLocalizations.of(context)!.tr('State / Region'),
                             stateController,
                             Icons.map_outlined,
-                            isLight,
-                          ),
+                            isLight),
                           SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
                           TradeRepublicTap(
                             onTap: () {
@@ -6296,14 +5567,12 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                                   setModalState(() {
                                     selectedCountry = newCountry;
                                   });
-                                },
-                              );
+                                });
                             },
                             child: TradeRepublicCard(
-                              padding: const EdgeInsets.symmetric(
+                              padding: EdgeInsets.symmetric(
                                 horizontal: 16,
-                                vertical: 16,
-                              ),
+                                vertical: 16),
                               child: Row(
                                 children: [
                                   Icon(
@@ -6311,9 +5580,8 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                                     size: 20,
                                     color:
                                         (isLight ? Colors.black : Colors.white)
-                                            .withOpacity(0.6),
-                                  ),
-                                  const SizedBox(width: 12),
+                                            .withOpacity(0.6)),
+                                  SizedBox(width: 12),
                                   Expanded(
                                     child: Column(
                                       crossAxisAlignment:
@@ -6321,8 +5589,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                                       children: [
                                         Text(
                                           AppLocalizations.of(
-                                                context,
-                                              )?.country ?? AppLocalizations.of(context)!.tr('Country'),
+                                                context)?.country ?? AppLocalizations.of(context)!.tr('Country'),
                                           style: TextStyle(
                                             fontSize: 12,
                                             fontWeight: FontWeight.w500,
@@ -6330,10 +5597,8 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                                                 (isLight
                                                         ? Colors.black
                                                         : Colors.white)
-                                                    .withOpacity(0.5),
-                                          ),
-                                        ),
-                                        const SizedBox(height: 4),
+                                                    .withOpacity(0.5))),
+                                        SizedBox(height: 4),
                                         Text(
                                           selectedCountry,
                                           style: TextStyle(
@@ -6341,23 +5606,15 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                                             fontWeight: FontWeight.w600,
                                             color: isLight
                                                 ? Colors.black
-                                                : Colors.white,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
+                                                : Colors.white)),
+                                      ])),
                                   Icon(
                                     CupertinoIcons.forward,
                                     size: 16,
                                     color:
                                         (isLight ? Colors.black : Colors.white)
-                                            .withOpacity(0.3),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
+                                            .withOpacity(0.3)),
+                                ]))),
                           SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
                           TradeRepublicTap(
                             onTap: () {
@@ -6369,14 +5626,12 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                                   setModalState(() {
                                     selectedSize = newSize;
                                   });
-                                },
-                              );
+                                });
                             },
                             child: TradeRepublicCard(
-                              padding: const EdgeInsets.symmetric(
+                              padding: EdgeInsets.symmetric(
                                 horizontal: 16,
-                                vertical: 16,
-                              ),
+                                vertical: 16),
                               child: Row(
                                 children: [
                                   Icon(
@@ -6384,9 +5639,8 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                                     size: 20,
                                     color:
                                         (isLight ? Colors.black : Colors.white)
-                                            .withOpacity(0.6),
-                                  ),
-                                  const SizedBox(width: 12),
+                                            .withOpacity(0.6)),
+                                  SizedBox(width: 12),
                                   Expanded(
                                     child: Column(
                                       crossAxisAlignment:
@@ -6394,8 +5648,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                                       children: [
                                         Text(
                                           AppLocalizations.of(
-                                                context,
-                                              )?.businessSize ?? AppLocalizations.of(context)!.tr('Business Size'),
+                                                context)?.businessSize ?? AppLocalizations.of(context)!.tr('Business Size'),
                                           style: TextStyle(
                                             fontSize: 12,
                                             fontWeight: FontWeight.w500,
@@ -6403,10 +5656,8 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                                                 (isLight
                                                         ? Colors.black
                                                         : Colors.white)
-                                                    .withOpacity(0.5),
-                                          ),
-                                        ),
-                                        const SizedBox(height: 4),
+                                                    .withOpacity(0.5))),
+                                        SizedBox(height: 4),
                                         Text(
                                           selectedSize,
                                           style: TextStyle(
@@ -6414,26 +5665,16 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                                             fontWeight: FontWeight.w600,
                                             color: isLight
                                                 ? Colors.black
-                                                : Colors.white,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
+                                                : Colors.white)),
+                                      ])),
                                   Icon(
                                     CupertinoIcons.forward,
                                     size: 16,
                                     color:
                                         (isLight ? Colors.black : Colors.white)
-                                            .withOpacity(0.3),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
+                                            .withOpacity(0.3)),
+                                ]))),
+                        ])),
                     SingleChildScrollView(
                       physics: const ClampingScrollPhysics(),
                       child: canEditVisibilityPrefs
@@ -6441,8 +5682,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                               children: [
                                 _buildVisibilityToggle(
                                   AppLocalizations.of(
-                                        context,
-                                      )?.showBusinessPhone ?? AppLocalizations.of(context)!.tr('Show Business Phone'),
+                                        context)?.showBusinessPhone ?? AppLocalizations.of(context)!.tr('Show Business Phone'),
                                   AppLocalizations.of(context)?.allowSeePhone ?? AppLocalizations.of(context)!.tr('Allow others to see your business phone number'),
                                   showPhone,
                                   CupertinoIcons.phone,
@@ -6451,12 +5691,10 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                                     setModalState(() {
                                       showPhone = value;
                                     });
-                                  },
-                                ),
+                                  }),
                                 _buildVisibilityToggle(
                                   AppLocalizations.of(
-                                        context,
-                                      )?.showBusinessEmail ?? AppLocalizations.of(context)!.tr('Show Business Email'),
+                                        context)?.showBusinessEmail ?? AppLocalizations.of(context)!.tr('Show Business Email'),
                                   AppLocalizations.of(context)?.allowSeeEmail ?? AppLocalizations.of(context)!.tr('Allow others to see your business email address'),
                                   showBusinessEmail,
                                   CupertinoIcons.mail,
@@ -6465,15 +5703,12 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                                     setModalState(() {
                                       showBusinessEmail = value;
                                     });
-                                  },
-                                ),
+                                  }),
                                 _buildVisibilityToggle(
                                   AppLocalizations.of(
-                                        context,
-                                      )?.showBusinessCompanyInfo ?? AppLocalizations.of(context)!.tr('Show Business Company Info'),
+                                        context)?.showBusinessCompanyInfo ?? AppLocalizations.of(context)!.tr('Show Business Company Info'),
                                   AppLocalizations.of(
-                                        context,
-                                      )?.allowSeeCompanyDetails ?? AppLocalizations.of(context)!.tr('Allow others to see your company details'),
+                                        context)?.allowSeeCompanyDetails ?? AppLocalizations.of(context)!.tr('Allow others to see your company details'),
                                   showBusinessCompany,
                                   CupertinoIcons.building_2_fill,
                                   isLight,
@@ -6481,15 +5716,12 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                                     setModalState(() {
                                       showBusinessCompany = value;
                                     });
-                                  },
-                                ),
+                                  }),
                                 _buildVisibilityToggle(
                                   AppLocalizations.of(
-                                        context,
-                                      )?.showBusinessSize_ ?? AppLocalizations.of(context)!.tr('Show Business Size'),
+                                        context)?.showBusinessSize_ ?? AppLocalizations.of(context)!.tr('Show Business Size'),
                                   AppLocalizations.of(
-                                        context,
-                                      )?.allowSeeBusinessSize ?? AppLocalizations.of(context)!.tr('Allow others to see your business size'),
+                                        context)?.allowSeeBusinessSize ?? AppLocalizations.of(context)!.tr('Allow others to see your business size'),
                                   showBusinessSize,
                                   CupertinoIcons.person_2_fill,
                                   isLight,
@@ -6497,15 +5729,12 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                                     setModalState(() {
                                       showBusinessSize = value;
                                     });
-                                  },
-                                ),
+                                  }),
                                 _buildVisibilityToggle(
                                   AppLocalizations.of(
-                                        context,
-                                      )?.showBusinessCountry ?? AppLocalizations.of(context)!.tr('Show Business Country'),
+                                        context)?.showBusinessCountry ?? AppLocalizations.of(context)!.tr('Show Business Country'),
                                   AppLocalizations.of(
-                                        context,
-                                      )?.allowSeeBusinessCountry ?? AppLocalizations.of(context)!.tr('Allow others to see your business country'),
+                                        context)?.allowSeeBusinessCountry ?? AppLocalizations.of(context)!.tr('Allow others to see your business country'),
                                   showBusinessCountry,
                                   CupertinoIcons.globe,
                                   isLight,
@@ -6513,16 +5742,11 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                                     setModalState(() {
                                       showBusinessCountry = value;
                                     });
-                                  },
-                                ),
-                              ],
-                            )
-                          : const SizedBox.shrink(),
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(height: 20),
+                                  }),
+                              ])
+                          : const SizedBox.shrink()),
+                  ])),
+              SizedBox(height: 20),
               Row(
                 children: [
                   if (currentEditPage > 0)
@@ -6534,12 +5758,9 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                         onPressed: () {
                           editPageController.previousPage(
                             duration: const Duration(milliseconds: 250),
-                            curve: Curves.easeInOut,
-                          );
-                        },
-                      ),
-                    ),
-                  if (currentEditPage > 0) const SizedBox(width: 12),
+                            curve: Curves.easeInOut);
+                        })),
+                  if (currentEditPage > 0) SizedBox(width: 12),
                   Expanded(
                     flex: currentEditPage > 0 ? 2 : 1,
                     child: TradeRepublicButton(
@@ -6551,8 +5772,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                         if (currentEditPage < 2) {
                           editPageController.nextPage(
                             duration: const Duration(milliseconds: 250),
-                            curve: Curves.easeInOut,
-                          );
+                            curve: Curves.easeInOut);
                           return;
                         }
 
@@ -6567,16 +5787,14 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                             [
                               street,
                               houseNumber,
-                            ].where((part) => part.isNotEmpty).join(' '),
-                          );
+                            ].where((part) => part.isNotEmpty).join(' '));
                         }
                         if (zipCode.isNotEmpty || city.isNotEmpty) {
                           addressParts.add(
                             [
                               zipCode,
                               city,
-                            ].where((part) => part.isNotEmpty).join(' '),
-                          );
+                            ].where((part) => part.isNotEmpty).join(' '));
                         }
                         if (state.isNotEmpty) addressParts.add(state);
                         if (selectedCountry.isNotEmpty) {
@@ -6619,18 +5837,11 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                         Navigator.pop(context);
                         TopNotification.success(
                           context,
-                          AppLocalizations.of(context)?.personalInfoUpdated ?? AppLocalizations.of(context)!.tr('Personal information updated!'),
-                        );
-                      },
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          );
-        },
-      ),
-    ).whenComplete(() {
+                          AppLocalizations.of(context)?.personalInfoUpdated ?? AppLocalizations.of(context)!.tr('Personal information updated!'));
+                      })),
+                ]),
+            ]);
+        })).whenComplete(() {
       editPageController.dispose();
       firstNameController.dispose();
       lastNameController.dispose();
@@ -6662,8 +5873,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
       padding: DesktopAppWrapper.getPagePadding(),
       decoration: BoxDecoration(
         color: isLight ? Colors.white : Colors.black,
-        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-      ),
+        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -6672,9 +5882,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
             style: TextStyle(
               fontSize: 12,
               fontWeight: FontWeight.w500,
-              color: (isLight ? Colors.black : Colors.white).withOpacity(0.5),
-            ),
-          ),
+              color: (isLight ? Colors.black : Colors.white).withOpacity(0.5))),
           SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
           TradeRepublicTextField(
             controller: controller,
@@ -6685,13 +5893,9 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
             style: TextStyle(
               fontSize: DesktopOptimizedWidgets.getFontSize(),
               fontWeight: FontWeight.w500,
-              color: isLight ? Colors.black : Colors.white,
-            ),
-            hintText: '${AppLocalizations.of(context)!.tr('Enter')} $label',
-          ),
-        ],
-      ),
-    );
+              color: isLight ? Colors.black : Colors.white),
+            hintText: '${AppLocalizations.of(context)!.tr('Enter')} $label'),
+        ]));
   }
 
   // Country code picker modal
@@ -6700,8 +5904,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
     bool isLight,
     List<Map<String, String>> countryCodes,
     String currentCode,
-    Function(String) onSelect,
-  ) {
+    Function(String) onSelect) {
     TradeRepublicBottomSheet.show(
       context: context,
       maxHeight: MediaQuery.of(context).size.height * 0.6,
@@ -6714,24 +5917,20 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
               Icon(
                 CupertinoIcons.phone_fill,
                 size: 22,
-                color: isLight ? Colors.black : Colors.white,
-              ),
-              const SizedBox(width: 12),
+                color: isLight ? Colors.black : Colors.white),
+              SizedBox(width: 12),
               Text(
                 AppLocalizations.of(context)?.selectCountryCode ?? AppLocalizations.of(context)!.tr('Select Country Code'),
                 style: TextStyle(
                   fontSize: 22,
                   fontWeight: FontWeight.w700,
                   color: isLight ? Colors.black : Colors.white,
-                  letterSpacing: -0.4,
-                ),
-              ),
-            ],
-          ),
+                  letterSpacing: -0.4)),
+            ]),
 
           SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
-          const SizedBox(height: 20),
+          SizedBox(height: 20),
 
           Expanded(
             child: ListView.builder(
@@ -6747,34 +5946,28 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                     Navigator.pop(context);
                   },
                   child: Container(
-                    padding: const EdgeInsets.symmetric(
+                    padding: EdgeInsets.symmetric(
                       horizontal: 16,
-                      vertical: 14,
-                    ),
-                    margin: const EdgeInsets.only(bottom: 8),
+                      vertical: 14),
+                    margin: EdgeInsets.only(bottom: 8),
                     decoration: BoxDecoration(
                       color: isSelected
                           ? (isLight ? Colors.black : Colors.white).withOpacity(
-                              0.1,
-                            )
+                              0.1)
                           : Colors.transparent,
-                      borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-                    ),
+                      borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
                     child: Row(
                       children: [
                         Text(
                           country['flag']!,
-                          style: TextStyle(fontSize: DesktopOptimizedWidgets.getFontSize() + 10,,
-                        ),
-                        const SizedBox(width: 16),
+                          style: TextStyle(fontSize: DesktopOptimizedWidgets.getFontSize() + 10),
+                        SizedBox(width: 16),
                         Text(
                           country['country']!,
                           style: TextStyle(
                             fontSize: DesktopOptimizedWidgets.getFontSize(),
                             fontWeight: FontWeight.w600,
-                            color: isLight ? Colors.black : Colors.white,
-                          ),
-                        ),
+                            color: isLight ? Colors.black : Colors.white)),
                         const Spacer(),
                         Text(
                           country['code']!,
@@ -6782,27 +5975,17 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                             fontSize: DesktopOptimizedWidgets.getFontSize(),
                             fontWeight: FontWeight.w500,
                             color: (isLight ? Colors.black : Colors.white)
-                                .withOpacity(0.6),
-                          ),
-                        ),
+                                .withOpacity(0.6))),
                         if (isSelected) ...[
-                          const SizedBox(width: 12),
+                          SizedBox(width: 12),
                           Icon(
                             CupertinoIcons.check_mark_circled_solid,
                             color: isLight ? Colors.black : Colors.white,
-                            size: 20,
-                          ),
+                            size: 20),
                         ],
-                      ],
-                    ),
-                  ),
-                );
-              },
-            ),
-          ),
-        ],
-      ),
-    );
+                      ])));
+              })),
+        ]));
   }
 
   void _showSecuritySettingsModal(BuildContext context, bool isLight) {
@@ -6840,24 +6023,20 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                         Icon(
                           CupertinoIcons.shield_fill,
                           size: 22,
-                          color: isLight ? Colors.black : Colors.white,
-                        ),
-                        const SizedBox(width: 12),
+                          color: isLight ? Colors.black : Colors.white),
+                        SizedBox(width: 12),
                         Text(
                           AppLocalizations.of(context)?.security ?? AppLocalizations.of(context)!.tr('Security'),
                           style: TextStyle(
                             fontSize: 22,
                             fontWeight: FontWeight.w700,
                             color: isLight ? Colors.black : Colors.white,
-                            letterSpacing: -0.4,
-                          ),
-                        ),
-                      ],
-                    ),
+                            letterSpacing: -0.4)),
+                      ]),
 
                     SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
-                    const SizedBox(height: 20),
+                    SizedBox(height: 20),
 
                     // Authentication Section
                     Text(
@@ -6866,34 +6045,28 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                         fontSize: DesktopOptimizedWidgets.getFontSize(),
                         fontWeight: FontWeight.w600,
                         color: (isLight ? Colors.black : Colors.white)
-                            .withOpacity(0.5),
-                      ),
-                    ),
+                            .withOpacity(0.5))),
                     SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
                     _buildSecurityToggle(
                       AppLocalizations.of(context)?.twoFactorAuthentication ??
                           AppLocalizations.of(
-                            context,
-                          )?.twoFactorAuthentication ?? AppLocalizations.of(context)!.tr('Two-Factor Authentication'),
+                            context)?.twoFactorAuthentication ?? AppLocalizations.of(context)!.tr('Two-Factor Authentication'),
                       AppLocalizations.of(context)?.extraLayerSecurity ?? AppLocalizations.of(context)!.tr('Extra layer of security'),
                       userData?['has_2fa_enabled'] == 1,
                       CupertinoIcons.lock_shield,
                       isLight,
-                      (value) => _toggle2FA(value, setModalState),
-                    ),
+                      (value) => _toggle2FA(value, setModalState)),
 
                     _buildSecurityToggle(
                       AppLocalizations.of(context)?.biometricAuthentication ??
                           AppLocalizations.of(
-                            context,
-                          )?.biometricAuthentication ?? AppLocalizations.of(context)!.tr('Biometric Authentication'),
+                            context)?.biometricAuthentication ?? AppLocalizations.of(context)!.tr('Biometric Authentication'),
                       AppLocalizations.of(context)?.fingerprintOrFace ?? AppLocalizations.of(context)!.tr('Fingerprint or face recognition'),
                       userData?['biometric_enabled'] == 1,
                       CupertinoIcons.hand_thumbsup,
                       isLight,
-                      (value) => _toggleBiometric(value, setModalState),
-                    ),
+                      (value) => _toggleBiometric(value, setModalState)),
 
                     _buildSecurityToggle(
                       AppLocalizations.of(context)?.loginNotifications ?? AppLocalizations.of(context)!.tr('Login Notifications'),
@@ -6902,10 +6075,9 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                       CupertinoIcons.bell_solid,
                       isLight,
                       (value) =>
-                          _toggleLoginNotifications(value, setModalState),
-                    ),
+                          _toggleLoginNotifications(value, setModalState)),
 
-                    const SizedBox(height: 32),
+                    SizedBox(height: 32),
 
                     // Account Security Section
                     Text(
@@ -6915,9 +6087,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                         fontSize: DesktopOptimizedWidgets.getFontSize(),
                         fontWeight: FontWeight.w600,
                         color: (isLight ? Colors.black : Colors.white)
-                            .withOpacity(0.5),
-                      ),
-                    ),
+                            .withOpacity(0.5))),
                     SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
                     _buildSecurityActionItem(
@@ -6925,18 +6095,16 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                       AppLocalizations.of(context)?.manageSignedIn ?? AppLocalizations.of(context)!.tr('Manage logged in devices'),
                       CupertinoIcons.device_laptop,
                       isLight,
-                      () => _showActiveSessionsModal(context, isLight),
-                    ),
+                      () => _showActiveSessionsModal(context, isLight)),
 
                     _buildSecurityActionItem(
                       AppLocalizations.of(context)?.loginHistory ?? AppLocalizations.of(context)!.tr('Login History'),
                       AppLocalizations.of(context)?.viewRecentActivity ?? AppLocalizations.of(context)!.tr('View recent activity'),
                       CupertinoIcons.clock,
                       isLight,
-                      () => _showLoginHistoryModal(context, isLight),
-                    ),
+                      () => _showLoginHistoryModal(context, isLight)),
 
-                    const SizedBox(height: 32),
+                    SizedBox(height: 32),
 
                     // Danger Zone
                     Text(
@@ -6944,9 +6112,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                       style: TextStyle(
                         fontSize: DesktopOptimizedWidgets.getFontSize(),
                         fontWeight: FontWeight.w600,
-                        color: Colors.red.withOpacity(0.8),
-                      ),
-                    ),
+                        color: Colors.red.withOpacity(0.8))),
                     SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
                     _buildSecurityActionItem(
@@ -6955,18 +6121,11 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                       CupertinoIcons.delete_solid,
                       isLight,
                       () => _showDeleteAccountModal(context, isLight),
-                      isDestructive: true,
-                    ),
+                      isDestructive: true),
 
                     SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
-                  ],
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    ).whenComplete(() {
+                  ]))),
+          ]))).whenComplete(() {
       if (mounted) setState(() => _isSecuritySettingsOpen = false);
       NavigationVisibility.show();
     });
@@ -6997,21 +6156,16 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
           SizedBox(
             width: 24,
             height: 24,
-            child: CultiooLoadingIndicator(size: 20),
-          ),
+            child: CultiooLoadingIndicator(size: 20)),
           SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
           Text(
             AppLocalizations.of(context)?.loading ?? AppLocalizations.of(context)!.tr('Loading...'),
             style: TextStyle(
               color: (isLight ? Colors.black : Colors.white).withOpacity(0.5),
               fontSize: 15,
-              fontWeight: FontWeight.w500,
-            ),
-          ),
+              fontWeight: FontWeight.w500)),
           SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
-        ],
-      ),
-    );
+        ]));
 
     // Earnings-Daten laden und warten
     await _loadEarningsData();
@@ -7052,31 +6206,25 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                         Icon(
                           CupertinoIcons.chart_bar_alt_fill,
                           size: 22,
-                          color: isLight ? Colors.black : Colors.white,
-                        ),
-                        const SizedBox(width: 10),
+                          color: isLight ? Colors.black : Colors.white),
+                        SizedBox(width: 10),
                         Text(
                           AppLocalizations.of(context)?.paymentSettings ?? AppLocalizations.of(context)!.tr('Payment Settings'),
                           style: TextStyle(
                             fontSize: DesktopOptimizedWidgets.getFontSize() + 10,
                             fontWeight: FontWeight.w700,
                             color: isLight ? Colors.black : Colors.white,
-                            letterSpacing: -0.6,
-                          ),
-                        ),
-                      ],
-                    ),
+                            letterSpacing: -0.6)),
+                      ]),
                     SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                     Container(
-                      padding: const EdgeInsets.symmetric(
+                      padding: EdgeInsets.symmetric(
                         horizontal: 12,
-                        vertical: 7,
-                      ),
+                        vertical: 7),
                       decoration: BoxDecoration(
                         color: (isLight ? Colors.black : Colors.white)
                             .withOpacity(0.06),
-                        borderRadius: BorderRadius.circular(999),
-                      ),
+                        borderRadius: BorderRadius.circular(999)),
                       child: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
@@ -7084,22 +6232,17 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                             CupertinoIcons.arrow_clockwise_circle_fill,
                             size: 14,
                             color: (isLight ? Colors.black : Colors.white)
-                                .withOpacity(0.75),
-                          ),
-                          const SizedBox(width: 8),
+                                .withOpacity(0.75)),
+                          SizedBox(width: 8),
                           Text(
                             'Live sync from backend',
                             style: TextStyle(
                               fontSize: 12.5,
                               fontWeight: FontWeight.w600,
                               color: (isLight ? Colors.black : Colors.white)
-                                  .withOpacity(0.78),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    const SizedBox(height: 18),
+                                  .withOpacity(0.78))),
+                        ])),
+                    SizedBox(height: 18),
 
                     Text(
                       AppLocalizations.of(context)?.available ?? AppLocalizations.of(context)!.tr('Available'),
@@ -7108,27 +6251,21 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                         fontWeight: FontWeight.w500,
                         color: (isLight ? Colors.black : Colors.white)
                             .withOpacity(0.5),
-                        letterSpacing: -0.3,
-                      ),
-                    ),
-                    const SizedBox(height: 4),
+                        letterSpacing: -0.3)),
+                    SizedBox(height: 4),
 
                     // Big Balance Number
                     Text(
                       _formatCurrency(
                         _getDisplayableBalance(
-                              earningsData['availableBalance'],
-                            ) +
-                            (groupEarningsData?['totalEarnings'] ?? 0.0),
-                      ),
+                              earningsData['availableBalance']) +
+                            (groupEarningsData?['totalEarnings'] ?? 0.0)),
                       style: TextStyle(
                         fontSize: 48,
                         fontWeight: FontWeight.w700,
                         color: isLight ? Colors.black : Colors.white,
                         letterSpacing: -2,
-                        height: 1.1,
-                      ),
-                    ),
+                        height: 1.1)),
 
                     SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
@@ -7138,53 +6275,43 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                         _buildMinimalStat(
                           AppLocalizations.of(context)?.totalEarningsLabel ?? AppLocalizations.of(context)!.tr('Total Earnings'),
                           _formatCurrency(
-                            (earningsData['totalEarnings'] ?? 0.0).toDouble(),
-                          ),
-                          isLight,
-                        ),
-                        const SizedBox(width: 32),
+                            (earningsData['totalEarnings'] ?? 0.0).toDouble()),
+                          isLight),
+                        SizedBox(width: 32),
                         _buildMinimalStat(
                           AppLocalizations.of(context)?.paidOut ?? AppLocalizations.of(context)!.tr('Paid Out'),
                           _formatCurrency(
                             earningsData['totalPayouts'] is String
                                 ? double.tryParse(
-                                        earningsData['totalPayouts'],
-                                      ) ??
+                                        earningsData['totalPayouts']) ??
                                       0.0
                                 : earningsData['totalPayouts']?.toDouble() ??
-                                      0.0,
-                          ),
-                          isLight,
-                        ),
-                      ],
-                    ),
+                                      0.0),
+                          isLight),
+                      ]),
 
                     // ═══════════════════════════════════════════
                     // WAITING CHARGE DEDUCTIONS
                     // ═══════════════════════════════════════════
                     if ((earningsData['totalWaitingCharges'] ?? 0.0) > 0 ||
                         waitingChargeDeductions.isNotEmpty) ...[
-                      const SizedBox(height: 40),
+                      SizedBox(height: 40),
                       Row(
                         children: [
                           Icon(
                             Icons.timer_outlined,
                             size: 22,
-                            color: Colors.red.shade400,
-                          ),
-                          const SizedBox(width: 8),
+                            color: Colors.red.shade400),
+                          SizedBox(width: 8),
                           Text(
                             'Waiting Costs',
                             style: TextStyle(
                               fontSize: 22,
                               fontWeight: FontWeight.w700,
                               color: isLight ? Colors.black : Colors.white,
-                              letterSpacing: -0.5,
-                            ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 6),
+                              letterSpacing: -0.5)),
+                        ]),
+                      SizedBox(height: 6),
                       Text(
                         'Deductions for waiting time at pickup',
                         style: TextStyle(
@@ -7192,9 +6319,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                           fontWeight: FontWeight.w400,
                           color: (isLight ? Colors.black : Colors.white)
                               .withOpacity(0.5),
-                          letterSpacing: -0.2,
-                        ),
-                      ),
+                          letterSpacing: -0.2)),
                       SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
                       // Total deductions summary
@@ -7202,10 +6327,8 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                         padding: DesktopAppWrapper.getPagePadding(),
                         decoration: BoxDecoration(
                           color: Colors.red.shade50.withOpacity(
-                            isLight ? 1.0 : 0.1,
-                          ),
-                          borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius()),
-                        ),
+                            isLight ? 1.0 : 0.1),
+                          borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius())),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
@@ -7216,21 +6339,15 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                                 fontWeight: FontWeight.w500,
                                 color: isLight
                                     ? Colors.black87
-                                    : Colors.white70,
-                              ),
-                            ),
+                                    : Colors.white70)),
                             Text(
                               '-${_formatCurrency((earningsData['totalWaitingCharges'] ?? 0.0).toDouble())}',
                               style: TextStyle(
                                 fontSize: DesktopOptimizedWidgets.getFontSize() + 6,
                                 fontWeight: FontWeight.w700,
                                 color: Colors.red.shade400,
-                                letterSpacing: -0.5,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
+                                letterSpacing: -0.5)),
+                          ])),
                       SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
                       // Individual deduction entries
@@ -7257,15 +6374,13 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                           onTap: () => _showWaitingChargeInvoice(
                             context,
                             isLight,
-                            charge,
-                          ),
+                            charge),
                           child: Container(
-                            margin: const EdgeInsets.only(bottom: 10),
+                            margin: EdgeInsets.only(bottom: 10),
                             padding: DesktopAppWrapper.getPagePadding(),
                             decoration: BoxDecoration(
                               color: isLight ? Colors.white : Colors.black,
-                              borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius()),
-                            ),
+                              borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius())),
                             child: Row(
                               children: [
                                 // Timer icon
@@ -7274,19 +6389,14 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                                   height: 44,
                                   decoration: BoxDecoration(
                                     color: Colors.red.shade50.withOpacity(
-                                      isLight ? 1.0 : 0.15,
-                                    ),
-                                    borderRadius: BorderRadius.circular(22),
-                                  ),
+                                      isLight ? 1.0 : 0.15),
+                                    borderRadius: BorderRadius.circular(22)),
                                   child: Center(
                                     child: Icon(
                                       Icons.timer,
                                       size: 22,
-                                      color: Colors.red.shade400,
-                                    ),
-                                  ),
-                                ),
-                                const SizedBox(width: 14),
+                                      color: Colors.red.shade400))),
+                                SizedBox(width: 14),
                                 Expanded(
                                   child: Column(
                                     crossAxisAlignment:
@@ -7300,10 +6410,8 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                                           color: isLight
                                               ? Colors.black
                                               : Colors.white,
-                                          letterSpacing: -0.3,
-                                        ),
-                                      ),
-                                      const SizedBox(height: 2),
+                                          letterSpacing: -0.3)),
+                                      SizedBox(height: 2),
                                       Text(
                                         '${AppLocalizations.of(context)?.driverLabel ?? AppLocalizations.of(context)!.tr('Driver')}: $driverName • $waitingMin Min ($freeMin Min)',
                                         style: TextStyle(
@@ -7313,11 +6421,9 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                                               (isLight
                                                       ? Colors.black
                                                       : Colors.white)
-                                                  .withOpacity(0.5),
-                                        ),
-                                      ),
+                                                  .withOpacity(0.5))),
                                       if (dateStr.isNotEmpty) ...[
-                                        const SizedBox(height: 1),
+                                        SizedBox(height: 1),
                                         Text(
                                           dateStr,
                                           style: TextStyle(
@@ -7327,13 +6433,9 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                                                 (isLight
                                                         ? Colors.black
                                                         : Colors.white)
-                                                    .withOpacity(0.35),
-                                          ),
-                                        ),
+                                                    .withOpacity(0.35))),
                                       ],
-                                    ],
-                                  ),
-                                ),
+                                    ])),
                                 // Amount + chevron
                                 Text(
                                   '-${_formatCurrency(amount)}',
@@ -7341,20 +6443,14 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                                     fontSize: DesktopOptimizedWidgets.getFontSize() + 4,
                                     fontWeight: FontWeight.w700,
                                     color: Colors.red.shade400,
-                                    letterSpacing: -0.3,
-                                  ),
-                                ),
-                                const SizedBox(width: 6),
+                                    letterSpacing: -0.3)),
+                                SizedBox(width: 6),
                                 Icon(
                                   Icons.chevron_right,
                                   size: 20,
                                   color: (isLight ? Colors.black : Colors.white)
-                                      .withOpacity(0.3),
-                                ),
-                              ],
-                            ),
-                          ),
-                        );
+                                      .withOpacity(0.3)),
+                              ])));
                       }),
                     ],
 
@@ -7362,29 +6458,24 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                     // GROUP MEMBER EARNINGS (for group owners)
                     // ═══════════════════════════════════════════
                     if (currentGroup != null && _isCurrentGroupAdmin) ...[
-                      const SizedBox(height: 40),
+                      SizedBox(height: 40),
                       Text(
                         AppLocalizations.of(context)?.groupMemberEarnings ?? AppLocalizations.of(context)!.tr('Group Member Earnings'),
                         style: TextStyle(
                           fontSize: 22,
                           fontWeight: FontWeight.w700,
                           color: isLight ? Colors.black : Colors.white,
-                          letterSpacing: -0.5,
-                        ),
-                      ),
-                      const SizedBox(height: 6),
+                          letterSpacing: -0.5)),
+                      SizedBox(height: 6),
                       Text(
                         AppLocalizations.of(
-                              context,
-                            )?.seeHowMuchEachMemberEarned ?? AppLocalizations.of(context)!.tr('See how much each member earned'),
+                              context)?.seeHowMuchEachMemberEarned ?? AppLocalizations.of(context)!.tr('See how much each member earned'),
                         style: TextStyle(
                           fontSize: 15,
                           fontWeight: FontWeight.w400,
                           color: (isLight ? Colors.black : Colors.white)
                               .withOpacity(0.5),
-                          letterSpacing: -0.2,
-                        ),
-                      ),
+                          letterSpacing: -0.2)),
                       SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
                       FutureBuilder<List<Map<String, dynamic>>>(
                         future: _loadGroupMemberEarnings(),
@@ -7395,16 +6486,12 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                               padding: DesktopAppWrapper.getPagePadding(),
                               decoration: BoxDecoration(
                                 color: isLight ? Colors.white : Colors.black,
-                                borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-                              ),
+                                borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
                               child: Center(
                                 child: SizedBox(
                                   width: 20,
                                   height: 20,
-                                  child: CultiooLoadingIndicator(size: 20),
-                                ),
-                              ),
-                            );
+                                  child: CultiooLoadingIndicator(size: 20))));
                           }
 
                           final members = snapshot.data ?? [];
@@ -7413,22 +6500,16 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                               padding: DesktopAppWrapper.getPagePadding(),
                               decoration: BoxDecoration(
                                 color: isLight ? Colors.white : Colors.black,
-                                borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-                              ),
+                                borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
                               child: Center(
                                 child: Text(
                                   AppLocalizations.of(
-                                        context,
-                                      )?.noMemberEarningsYet ?? AppLocalizations.of(context)!.tr('No member earnings yet'),
+                                        context)?.noMemberEarningsYet ?? AppLocalizations.of(context)!.tr('No member earnings yet'),
                                   style: TextStyle(
                                     fontSize: 15,
                                     color:
                                         (isLight ? Colors.black : Colors.white)
-                                            .withOpacity(0.5),
-                                  ),
-                                ),
-                              ),
-                            );
+                                            .withOpacity(0.5)))));
                           }
 
                           return Column(
@@ -7438,19 +6519,17 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                                   member['username'] ??
                                   (AppLocalizations.of(context)?.unknown ??
                                       AppLocalizations.of(
-                                        context,
-                                      )?.unknownLabel ?? AppLocalizations.of(context)!.tr('Unknown'));
+                                        context)?.unknownLabel ?? AppLocalizations.of(context)!.tr('Unknown'));
                               final memberEarnings =
                                   (member['totalEarnings'] ?? 0.0).toDouble();
                               final deliveries = member['deliveries'] ?? 0;
 
                               return Container(
-                                margin: const EdgeInsets.only(bottom: 12),
+                                margin: EdgeInsets.only(bottom: 12),
                                 padding: DesktopAppWrapper.getPagePadding(),
                                 decoration: BoxDecoration(
                                   color: isLight ? Colors.white : Colors.black,
-                                  borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-                                ),
+                                  borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
                                 child: Row(
                                   children: [
                                     // Avatar
@@ -7463,8 +6542,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                                                     ? Colors.black
                                                     : Colors.white)
                                                 .withOpacity(0.1),
-                                        borderRadius: BorderRadius.circular(25),
-                                      ),
+                                        borderRadius: BorderRadius.circular(25)),
                                       child: Center(
                                         child: Text(
                                           memberName.isNotEmpty
@@ -7475,12 +6553,8 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                                             fontWeight: FontWeight.w700,
                                             color: isLight
                                                 ? Colors.black
-                                                : Colors.white,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    const SizedBox(width: 14),
+                                                : Colors.white)))),
+                                    SizedBox(width: 14),
                                     Expanded(
                                       child: Column(
                                         crossAxisAlignment:
@@ -7494,10 +6568,8 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                                               color: isLight
                                                   ? Colors.black
                                                   : Colors.white,
-                                              letterSpacing: -0.3,
-                                            ),
-                                          ),
-                                          const SizedBox(height: 2),
+                                              letterSpacing: -0.3)),
+                                          SizedBox(height: 2),
                                           Text(
                                             '$deliveries ${AppLocalizations.of(context)?.deliveriesWord ?? AppLocalizations.of(context)!.tr('deliveries')}',
                                             style: TextStyle(
@@ -7507,31 +6579,21 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                                                   (isLight
                                                           ? Colors.black
                                                           : Colors.white)
-                                                      .withOpacity(0.5),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
+                                                      .withOpacity(0.5))),
+                                        ])),
                                     Text(
                                       _formatCurrency(memberEarnings),
                                       style: TextStyle(
                                         fontSize: DesktopOptimizedWidgets.getFontSize() + 4,
                                         fontWeight: FontWeight.w700,
                                         color: Colors.green,
-                                        letterSpacing: -0.3,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              );
-                            }).toList(),
-                          );
-                        },
-                      ),
+                                        letterSpacing: -0.3)),
+                                  ]));
+                            }).toList());
+                        }),
                     ],
 
-                    const SizedBox(height: 40),
+                    SizedBox(height: 40),
 
                     // ═══════════════════════════════════════════
                     // MONIOO WALLET SECTION
@@ -7542,11 +6604,11 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                     // PENDING SHIPPING PAYMENTS (Incoterms-based)
                     // ═══════════════════════════════════════════
                     if (_pendingShippingPayments.isNotEmpty) ...[
-                      const SizedBox(height: 40),
+                      SizedBox(height: 40),
                       _buildPendingShippingSection(isLight, setModalState),
                     ],
 
-                    const SizedBox(height: 40),
+                    SizedBox(height: 40),
 
                     // ═══════════════════════════════════════════
                     // DRIVER PAYMENT METHOD SECTION
@@ -7556,21 +6618,17 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                         Icon(
                           CupertinoIcons.car_fill,
                           size: 20,
-                          color: isLight ? Colors.black : Colors.white,
-                        ),
-                        const SizedBox(width: 10),
+                          color: isLight ? Colors.black : Colors.white),
+                        SizedBox(width: 10),
                         Text(
                           AppLocalizations.of(context)?.payDriverWith ?? AppLocalizations.of(context)!.tr('Pay Driver With'),
                           style: TextStyle(
                             fontSize: 22,
                             fontWeight: FontWeight.w700,
                             color: isLight ? Colors.black : Colors.white,
-                            letterSpacing: -0.5,
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 6),
+                            letterSpacing: -0.5)),
+                      ]),
+                    SizedBox(height: 6),
                     Text(
                       AppLocalizations.of(context)?.chooseDriverPaymentMethod ?? AppLocalizations.of(context)!.tr('Choose how the driver is paid for shipping'),
                       style: TextStyle(
@@ -7578,9 +6636,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                         fontWeight: FontWeight.w400,
                         color: (isLight ? Colors.black : Colors.white)
                             .withOpacity(0.5),
-                        letterSpacing: -0.2,
-                      ),
-                    ),
+                        letterSpacing: -0.2)),
                     SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
                     // Option 1: Saved Bank Account / Card
@@ -7617,10 +6673,9 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                         selected: _defaultShippingPayment == 'card',
                         isLight: isLight,
                         setModalState: setModalState,
-                        enabled: hasMethod,
-                      );
+                        enabled: hasMethod);
                     })(),
-                    const SizedBox(height: 10),
+                    SizedBox(height: 10),
 
                     // Option 2: Monioo Wallet (needs bank fallback)
                     (() {
@@ -7645,40 +6700,32 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                             selected: _defaultShippingPayment == 'wallet',
                             isLight: isLight,
                             setModalState: setModalState,
-                            enabled: hasBankFallback,
-                          ),
+                            enabled: hasBankFallback),
                           if (!hasBankFallback) ...[
                             SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                             Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 4),
+                              padding: EdgeInsets.symmetric(horizontal: 4),
                               child: Row(
                                 children: [
                                   Icon(
                                     CupertinoIcons.info_circle,
                                     size: 13,
                                     color: (isLight ? Colors.black : Colors.white)
-                                        .withOpacity(0.45),
-                                  ),
-                                  const SizedBox(width: 6),
+                                        .withOpacity(0.45)),
+                                  SizedBox(width: 6),
                                   Expanded(
                                     child: Text(
                                       AppLocalizations.of(context)?.addBankAccountForWalletHint ?? AppLocalizations.of(context)!.tr('Please add a bank account first. It will be used as fallback if your wallet balance is insufficient.'),
                                       style: TextStyle(
                                         fontSize: 12,
                                         color: (isLight ? Colors.black : Colors.white)
-                                            .withOpacity(0.45),
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
+                                            .withOpacity(0.45)))),
+                                ])),
                           ],
-                        ],
-                      );
+                        ]);
                     })(),
 
-                    const SizedBox(height: 40),
+                    SizedBox(height: 40),
 
                     // ═══════════════════════════════════════════
                     // SCHEDULE SECTION
@@ -7689,22 +6736,17 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                         fontSize: 22,
                         fontWeight: FontWeight.w700,
                         color: isLight ? Colors.black : Colors.white,
-                        letterSpacing: -0.5,
-                      ),
-                    ),
-                    const SizedBox(height: 6),
+                        letterSpacing: -0.5)),
+                    SizedBox(height: 6),
                     Text(
                       AppLocalizations.of(
-                            context,
-                          )?.chooseWhenToReceiveEarnings ?? AppLocalizations.of(context)!.tr('Choose when to receive your earnings'),
+                            context)?.chooseWhenToReceiveEarnings ?? AppLocalizations.of(context)!.tr('Choose when to receive your earnings'),
                       style: TextStyle(
                         fontSize: 15,
                         fontWeight: FontWeight.w400,
                         color: (isLight ? Colors.black : Colors.white)
                             .withOpacity(0.5),
-                        letterSpacing: -0.2,
-                      ),
-                    ),
+                        letterSpacing: -0.2)),
 
                     SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
@@ -7732,8 +6774,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                         ];
                         final newSchedule = schedules[index];
                         setModalState(
-                          () => selectedPayoutSchedule = newSchedule,
-                        );
+                          () => selectedPayoutSchedule = newSchedule);
                         _savePayoutSchedule(newSchedule);
 
                         // Show manual payout modal if Manual is selected
@@ -7742,37 +6783,31 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                           _showManualPayoutModal(context, isLight);
                         }
                       },
-                      horizontalPadding: 0,
-                    ),
+                      horizontalPadding: 0),
 
                     SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
                     // Description for selected schedule
                     Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 4),
+                      padding: EdgeInsets.symmetric(horizontal: 4),
                       child: Text(
                         selectedPayoutSchedule == 'daily'
                             ? (AppLocalizations.of(context)?.autoPayoutsDaily ?? AppLocalizations.of(context)!.tr('Automatic payouts every day at 9:00 AM'))
                             : selectedPayoutSchedule == 'weekly'
                             ? (AppLocalizations.of(
-                                    context,
-                                  )?.autoPayoutsWeekly ?? AppLocalizations.of(context)!.tr('Automatic payouts every Monday at 9:00 AM'))
+                                    context)?.autoPayoutsWeekly ?? AppLocalizations.of(context)!.tr('Automatic payouts every Monday at 9:00 AM'))
                             : selectedPayoutSchedule == 'monthly'
                             ? (AppLocalizations.of(
-                                    context,
-                                  )?.autoPayoutsMonthly ?? AppLocalizations.of(context)!.tr('Automatic payouts on the first Monday of each month'))
+                                    context)?.autoPayoutsMonthly ?? AppLocalizations.of(context)!.tr('Automatic payouts on the first Monday of each month'))
                             : (AppLocalizations.of(context)?.withdrawManually ?? AppLocalizations.of(context)!.tr('Withdraw manually anytime (tiered margin: 1.5% / 1.25% / 1% / 0.5% enterprise)')),  
                         style: TextStyle(
                           fontSize: 13,
                           fontWeight: FontWeight.w400,
                           color: (isLight ? Colors.black : Colors.white)
                               .withOpacity(0.5),
-                          letterSpacing: -0.2,
-                        ),
-                      ),
-                    ),
+                          letterSpacing: -0.2))),
 
-                    const SizedBox(height: 48),
+                    SizedBox(height: 48),
 
                     // ═══════════════════════════════════════════
                     // HISTORY SECTION
@@ -7786,9 +6821,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                             fontSize: 22,
                             fontWeight: FontWeight.w700,
                             color: isLight ? Colors.black : Colors.white,
-                            letterSpacing: -0.5,
-                          ),
-                        ),
+                            letterSpacing: -0.5)),
                         // Animated Tab Switcher - TradeRepublicSlider
                         TradeRepublicSlider(
                           labels: [
@@ -7799,10 +6832,8 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                           segmentWidth: 100,
                           onChanged: (index) {
                             setModalState(() => selectedTabIndex = index);
-                          },
-                        ),
-                      ],
-                    ),
+                          }),
+                      ]),
 
                     SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
@@ -7816,13 +6847,10 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                               child: earningsHistory.isEmpty
                                   ? _buildEmptyState(
                                       AppLocalizations.of(
-                                            context,
-                                          )?.noEarningsYet ?? AppLocalizations.of(context)!.tr('No earnings yet'),
+                                            context)?.noEarningsYet ?? AppLocalizations.of(context)!.tr('No earnings yet'),
                                       AppLocalizations.of(
-                                            context,
-                                          )?.earningsWillAppearHere ?? AppLocalizations.of(context)!.tr('Your earnings will appear here'),
-                                      isLight,
-                                    )
+                                            context)?.earningsWillAppearHere ?? AppLocalizations.of(context)!.tr('Your earnings will appear here'),
+                                      isLight)
                                   : Column(
                                       children: earningsHistory
                                           .take(5)
@@ -7830,59 +6858,43 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                                             (earning) => _buildHistoryItem(
                                               earning['description'] ??
                                                   AppLocalizations.of(
-                                                    context,
-                                                  )?.orderLabel ?? AppLocalizations.of(context)!.tr('Order'),
+                                                    context)?.orderLabel ?? AppLocalizations.of(context)!.tr('Order'),
                                               earning['created_at'] ?? AppLocalizations.of(context)!.tr(''),
                                               _formatCurrency(
                                                 earning['amount']?.toDouble() ??
-                                                    0.0,
-                                              ),
+                                                    0.0),
                                               true,
                                               isLight,
-                                              itemData: earning,
-                                            ),
-                                          )
-                                          .toList(),
-                                    ),
-                            )
+                                              itemData: earning))
+                                          .toList()))
                           : // Payouts
                             KeyedSubtree(
                               key: const ValueKey('payouts'),
                               child: recentPayouts.isEmpty
                                   ? _buildEmptyState(
                                       AppLocalizations.of(
-                                            context,
-                                          )?.noPayoutsYet ?? AppLocalizations.of(context)!.tr('No payouts yet'),
+                                            context)?.noPayoutsYet ?? AppLocalizations.of(context)!.tr('No payouts yet'),
                                       AppLocalizations.of(
-                                            context,
-                                          )?.payoutsWillAppearHere ?? AppLocalizations.of(context)!.tr('Your payouts will appear here'),
-                                      isLight,
-                                    )
+                                            context)?.payoutsWillAppearHere ?? AppLocalizations.of(context)!.tr('Your payouts will appear here'),
+                                      isLight)
                                   : Column(
                                       children: recentPayouts
                                           .take(5)
                                           .map(
                                             (payout) => _buildHistoryItem(
                                               AppLocalizations.of(
-                                                    context,
-                                                  )?.payoutLabel ?? AppLocalizations.of(context)!.tr('Payout'),
+                                                    context)?.payoutLabel ?? AppLocalizations.of(context)!.tr('Payout'),
                                               payout['payout_date'] ??
                                                   payout['created_at'] ?? AppLocalizations.of(context)!.tr(''),
                                               _formatCurrency(
                                                 payout['amount']?.toDouble() ??
-                                                    0.0,
-                                              ),
+                                                    0.0),
                                               false,
                                               isLight,
-                                              itemData: payout,
-                                            ),
-                                          )
-                                          .toList(),
-                                    ),
-                            ),
-                    ),
+                                              itemData: payout))
+                                          .toList()))),
 
-                    const SizedBox(height: 48),
+                    SizedBox(height: 48),
 
                     // ═══════════════════════════════════════════
                     // SHIPPING PAYMENT INVOICES
@@ -7905,12 +6917,9 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                                   fontSize: 22,
                                   fontWeight: FontWeight.w700,
                                   color: isLight ? Colors.black : Colors.white,
-                                  letterSpacing: -0.5,
-                                ),
-                              ),
-                            ],
-                          ),
-                          const SizedBox(height: 6),
+                                  letterSpacing: -0.5)),
+                            ]),
+                          SizedBox(height: 6),
                           Text(
                                 AppLocalizations.of(context)!.tr('walletShippingInvoicesSubtitle'),
                             style: TextStyle(
@@ -7918,28 +6927,21 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                               fontWeight: FontWeight.w400,
                               color: (isLight ? Colors.black : Colors.white)
                                   .withOpacity(0.5),
-                              letterSpacing: -0.2,
-                            ),
-                          ),
+                              letterSpacing: -0.2)),
                           SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
                           if (shippingPayments.isEmpty)
                             Container(
                               padding: DesktopAppWrapper.getPagePadding(),
                               decoration: BoxDecoration(
                                 color: isLight ? Colors.white : Colors.black,
-                                borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-                              ),
+                                borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
                               child: Center(
                                 child: Text(
                                   AppLocalizations.of(context)!.tr('walletNoShippingPaymentsYet'),
                                   style: TextStyle(
                                     fontSize: 15,
                                     color: (isLight ? Colors.black : Colors.white)
-                                        .withOpacity(0.5),
-                                  ),
-                                ),
-                              ),
-                            )
+                                        .withOpacity(0.5)))))
                           else
                             ...shippingPayments.map((tx) {
                               final txId = tx['id'];
@@ -7959,12 +6961,11 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                               }
 
                               return Container(
-                                margin: const EdgeInsets.only(bottom: 12),
+                                margin: EdgeInsets.only(bottom: 12),
                                 padding: DesktopAppWrapper.getPagePadding(),
                                 decoration: BoxDecoration(
                                   color: isLight ? Colors.white : Colors.black,
-                                  borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-                                ),
+                                  borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
                                 child: Row(
                                   children: [
                                     // Icon
@@ -7973,17 +6974,13 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                                       height: 44,
                                       decoration: BoxDecoration(
                                         color: Colors.orange.shade50.withOpacity(
-                                          isLight ? 1.0 : 0.15,
-                                        ),
-                                        borderRadius: BorderRadius.circular(22),
-                                      ),
+                                          isLight ? 1.0 : 0.15),
+                                        borderRadius: BorderRadius.circular(22)),
                                       child: Icon(
                                         CupertinoIcons.cube_box_fill,
                                         size: 22,
-                                        color: Colors.orange.shade500,
-                                      ),
-                                    ),
-                                    const SizedBox(width: 14),
+                                        color: Colors.orange.shade500)),
+                                    SizedBox(width: 14),
                                     // Info
                                     Expanded(
                                       child: Column(
@@ -7995,36 +6992,28 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                                               fontSize: DesktopOptimizedWidgets.getFontSize(),
                                               fontWeight: FontWeight.w600,
                                               color: isLight ? Colors.black : Colors.white,
-                                              letterSpacing: -0.3,
-                                            ),
-                                          ),
-                                          const SizedBox(height: 2),
+                                              letterSpacing: -0.3)),
+                                          SizedBox(height: 2),
                                           Text(
                                             description,
                                             style: TextStyle(
                                               fontSize: 13,
                                               fontWeight: FontWeight.w400,
                                               color: (isLight ? Colors.black : Colors.white)
-                                                  .withOpacity(0.5),
-                                            ),
+                                                  .withOpacity(0.5)),
                                             maxLines: 1,
-                                            overflow: TextOverflow.ellipsis,
-                                          ),
+                                            overflow: TextOverflow.ellipsis),
                                           if (dateStr.isNotEmpty) ...[
-                                            const SizedBox(height: 1),
+                                            SizedBox(height: 1),
                                             Text(
                                               dateStr,
                                               style: TextStyle(
                                                 fontSize: 12,
                                                 fontWeight: FontWeight.w400,
                                                 color: (isLight ? Colors.black : Colors.white)
-                                                    .withOpacity(0.35),
-                                              ),
-                                            ),
+                                                    .withOpacity(0.35))),
                                           ],
-                                        ],
-                                      ),
-                                    ),
+                                        ])),
                                     // Amount + download
                                     Column(
                                       crossAxisAlignment: CrossAxisAlignment.end,
@@ -8035,10 +7024,8 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                                             fontSize: DesktopOptimizedWidgets.getFontSize() + 4,
                                             fontWeight: FontWeight.w700,
                                             color: Colors.orange.shade500,
-                                            letterSpacing: -0.3,
-                                          ),
-                                        ),
-                                        const SizedBox(height: 6),
+                                            letterSpacing: -0.3)),
+                                        SizedBox(height: 6),
                                         TradeRepublicTap(
                                           onTap: () => _downloadWalletTransactionDocument(txId, isLight),
                                           child: Container(
@@ -8047,28 +7034,20 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                                             decoration: BoxDecoration(
                                               color: (isLight ? Colors.black : Colors.white)
                                                   .withOpacity(0.07),
-                                              borderRadius: BorderRadius.circular(10),
-                                            ),
+                                              borderRadius: BorderRadius.circular(10)),
                                             child: Icon(
                                               CupertinoIcons.arrow_down_circle,
                                               size: 18,
                                               color: (isLight ? Colors.black : Colors.white)
-                                                  .withOpacity(0.55),
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              );
+                                                  .withOpacity(0.55)))),
+                                      ]),
+                                  ]));
                             }),
                           SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
-                        ],
-                      );
+                        ]);
                     })(),
 
-                    const SizedBox(height: 48),
+                    SizedBox(height: 48),
 
                     // ═══════════════════════════════════════════
                     // BANK ACCOUNT SECTION (mandatory, max 1, for payouts)
@@ -8081,32 +7060,25 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                             Icon(
                               CupertinoIcons.building_2_fill,
                               size: 22,
-                              color: isLight ? Colors.black : Colors.white,
-                            ),
-                            const SizedBox(width: 10),
+                              color: isLight ? Colors.black : Colors.white),
+                            SizedBox(width: 10),
                             Text(
                               AppLocalizations.of(context)?.bankAccount ?? AppLocalizations.of(context)!.tr('Bank Account'),
                               style: TextStyle(
                                 fontSize: 22,
                                 fontWeight: FontWeight.w700,
                                 color: isLight ? Colors.black : Colors.white,
-                                letterSpacing: -0.5,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 4),
+                                letterSpacing: -0.5)),
+                          ]),
+                      ]),
+                    SizedBox(height: 4),
                     Text(
                       'Mandatory for payouts · Only one bank account allowed',
                       style: TextStyle(
                         fontSize: 13,
                         fontWeight: FontWeight.w400,
                         color: (isLight ? Colors.black : Colors.white).withOpacity(0.5),
-                        letterSpacing: -0.2,
-                      ),
-                    ),
+                        letterSpacing: -0.2)),
 
                     SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
@@ -8119,16 +7091,12 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                             padding: DesktopAppWrapper.getPagePadding(),
                             decoration: BoxDecoration(
                               color: isLight ? Colors.white : Colors.black,
-                              borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-                            ),
+                              borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
                             child: Center(
                               child: SizedBox(
                                 width: 20,
                                 height: 20,
-                                child: CultiooLoadingIndicator(size: 20),
-                              ),
-                            ),
-                          );
+                                child: CultiooLoadingIndicator(size: 20))));
                         }
 
                         final allMethods = snapshot.data ?? [];
@@ -8148,8 +7116,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                               padding: DesktopAppWrapper.getPagePadding(),
                               decoration: BoxDecoration(
                                 color: isLight ? Colors.white : Colors.black,
-                                borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-                              ),
+                                borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
                               child: Row(
                                 children: [
                                   Container(
@@ -8157,15 +7124,12 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                                     height: 44,
                                     decoration: BoxDecoration(
                                       color: Colors.orange.withOpacity(0.1),
-                                      borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-                                    ),
+                                      borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
                                     child: Icon(
                                       CupertinoIcons.add,
                                       color: Colors.orange,
-                                      size: 22,
-                                    ),
-                                  ),
-                                  const SizedBox(width: 16),
+                                      size: 22)),
+                                  SizedBox(width: 16),
                                   Expanded(
                                     child: Column(
                                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -8176,30 +7140,20 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                                             fontSize: 17,
                                             fontWeight: FontWeight.w600,
                                             color: isLight ? Colors.black : Colors.white,
-                                            letterSpacing: -0.3,
-                                          ),
-                                        ),
-                                        const SizedBox(height: 2),
+                                            letterSpacing: -0.3)),
+                                        SizedBox(height: 2),
                                         Text(
                                           AppLocalizations.of(context)?.connectBankForPayouts ?? AppLocalizations.of(context)!.tr('Connect your bank to receive payouts'),
                                           style: TextStyle(
                                             fontSize: DesktopOptimizedWidgets.getFontSize(),
                                             fontWeight: FontWeight.w400,
-                                            color: (isLight ? Colors.black : Colors.white).withOpacity(0.5),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
+                                            color: (isLight ? Colors.black : Colors.white).withOpacity(0.5))),
+                                      ])),
                                   Icon(
                                     CupertinoIcons.chevron_right,
                                     color: (isLight ? Colors.black : Colors.white).withOpacity(0.3),
-                                    size: 22,
-                                  ),
-                                ],
-                              ),
-                            ),
-                          );
+                                    size: 22),
+                                ])));
                         }
 
                         final method = bankMethods.first;
@@ -8217,7 +7171,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
 
                         return TradeRepublicSwipeAction(
                           key: ValueKey('bank_${method['id']?.toString() ?? ''}'),
-                          margin: const EdgeInsets.only(bottom: 12),
+                          margin: EdgeInsets.only(bottom: 12),
                           trailing: TradeRepublicSwipeSpec(
                             icon: CupertinoIcons.delete_solid,
                             label: AppLocalizations.of(context)?.delete ?? 'Delete',
@@ -8229,8 +7183,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                               if (mounted) {
                                 _showPaymentSettingsModal(this.context, isLight);
                               }
-                            },
-                          ),
+                            }),
                           child: TradeRepublicTap(
                             onTap: () {
                               Navigator.pop(context);
@@ -8245,27 +7198,22 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                                   colors: isLight
                                       ? [Colors.black, Colors.black.withOpacity(0.85), Colors.black]
                                       : [Colors.white.withOpacity(0.15), Colors.white.withOpacity(0.25), Colors.white.withOpacity(0.1)],
-                                  stops: const [0.0, 0.5, 1.0],
-                                ),
+                                  stops: const [0.0, 0.5, 1.0]),
                                 borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                                 boxShadow: [
                                   BoxShadow(
                                     color: Colors.black.withOpacity(0.3),
                                     blurRadius: 20,
-                                    offset: const Offset(0, 10),
-                                  ),
-                                ],
-                              ),
+                                    offset: const Offset(0, 10)),
+                                ]),
                               child: Stack(
                                 children: [
                                   Positioned.fill(
                                     child: ClipRRect(
                                       borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-                                      child: CustomPaint(painter: _CardPatternPainter()),
-                                    ),
-                                  ),
+                                      child: CustomPaint(painter: _CardPatternPainter()))),
                                   Padding(
-                                    padding: const EdgeInsets.all(24),
+                                    padding: EdgeInsets.all(24),
                                     child: Column(
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -8278,30 +7226,23 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                                               height: 48,
                                               decoration: BoxDecoration(
                                                 color: Colors.white.withOpacity(0.15),
-                                                borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-                                              ),
-                                              child: const Icon(CupertinoIcons.building_2_fill, color: Colors.white, size: 24),
-                                            ),
+                                                borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
+                                              child: Icon(CupertinoIcons.building_2_fill, color: Colors.white, size: 24)),
                                             Container(
-                                              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
+                                              padding: EdgeInsets.symmetric(horizontal: 14, vertical: 6),
                                               decoration: BoxDecoration(
                                                 color: Colors.white.withOpacity(0.15),
-                                                borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-                                              ),
+                                                borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
                                               child: Text(
                                                 isSepa ? 'SEPA' : 'ACH',
-                                                style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w700, color: Colors.white, letterSpacing: 1.5),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
+                                                style: TextStyle(fontSize: 13, fontWeight: FontWeight.w700, color: Colors.white, letterSpacing: 1.5))),
+                                          ]),
                                         Column(
                                           crossAxisAlignment: CrossAxisAlignment.start,
                                           children: [
                                             Text(
                                               maskedNumber,
-                                              style: const TextStyle(fontSize: 22, fontWeight: FontWeight.w600, color: Colors.white, letterSpacing: 2.5),
-                                            ),
+                                              style: TextStyle(fontSize: 22, fontWeight: FontWeight.w600, color: Colors.white, letterSpacing: 2.5)),
                                             SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                                             Row(
                                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -8311,15 +7252,12 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                                                   children: [
                                                     Text(
                                                       AppLocalizations.of(context)?.bank ?? 'BANK',
-                                                      style: TextStyle(fontSize: 10, fontWeight: FontWeight.w500, color: Colors.white.withOpacity(0.5), letterSpacing: 1.2),
-                                                    ),
-                                                    const SizedBox(height: 2),
+                                                      style: TextStyle(fontSize: 10, fontWeight: FontWeight.w500, color: Colors.white.withOpacity(0.5), letterSpacing: 1.2)),
+                                                    SizedBox(height: 2),
                                                     Text(
                                                       bankName.toUpperCase(),
-                                                      style: TextStyle(fontSize: DesktopOptimizedWidgets.getFontSize(), fontWeight: FontWeight.w600, color: Colors.white, letterSpacing: 0.5),
-                                                    ),
-                                                  ],
-                                                ),
+                                                      style: TextStyle(fontSize: DesktopOptimizedWidgets.getFontSize(), fontWeight: FontWeight.w600, color: Colors.white, letterSpacing: 0.5)),
+                                                  ]),
                                                 Row(
                                                   children: [
                                                     Container(
@@ -8328,32 +7266,19 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                                                       decoration: BoxDecoration(
                                                         color: Colors.greenAccent.shade400,
                                                         shape: BoxShape.circle,
-                                                        boxShadow: [BoxShadow(color: Colors.greenAccent.withOpacity(0.5), blurRadius: 8)],
-                                                      ),
-                                                    ),
-                                                    const SizedBox(width: 6),
+                                                        boxShadow: [BoxShadow(color: Colors.greenAccent.withOpacity(0.5), blurRadius: 8)])),
+                                                    SizedBox(width: 6),
                                                     Text(
                                                       AppLocalizations.of(context)?.connected ?? 'Connected',
-                                                      style: TextStyle(fontSize: 12, fontWeight: FontWeight.w500, color: Colors.white.withOpacity(0.7)),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ],
-                                            ),
-                                          ],
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        );
-                      },
-                    ),
+                                                      style: TextStyle(fontSize: 12, fontWeight: FontWeight.w500, color: Colors.white.withOpacity(0.7))),
+                                                  ]),
+                                              ]),
+                                          ]),
+                                      ])),
+                                ]))));
+                      }),
 
-                    const SizedBox(height: 40),
+                    SizedBox(height: 40),
 
                     // ═══════════════════════════════════════════
                     // CARDS SECTION (unlimited, for shipping payments)
@@ -8366,64 +7291,50 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                             Icon(
                               CupertinoIcons.creditcard_fill,
                               size: 22,
-                              color: isLight ? Colors.black : Colors.white,
-                            ),
-                            const SizedBox(width: 10),
+                              color: isLight ? Colors.black : Colors.white),
+                            SizedBox(width: 10),
                             Text(
                               'Cards',
                               style: TextStyle(
                                 fontSize: 22,
                                 fontWeight: FontWeight.w700,
                                 color: isLight ? Colors.black : Colors.white,
-                                letterSpacing: -0.5,
-                              ),
-                            ),
-                          ],
-                        ),
+                                letterSpacing: -0.5)),
+                          ]),
                         TradeRepublicTap(
                           onTap: () {
                             Navigator.pop(context);
                             _showAddPaymentMethodModal(context, isLight);
                           },
                           child: Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 7),
+                            padding: EdgeInsets.symmetric(horizontal: 14, vertical: 7),
                             decoration: BoxDecoration(
                               color: (isLight ? Colors.black : Colors.white).withOpacity(0.06),
-                              borderRadius: BorderRadius.circular(999),
-                            ),
+                              borderRadius: BorderRadius.circular(999)),
                             child: Row(
                               mainAxisSize: MainAxisSize.min,
                               children: [
                                 Icon(
                                   CupertinoIcons.add,
                                   size: 14,
-                                  color: isLight ? Colors.black : Colors.white,
-                                ),
-                                const SizedBox(width: 6),
+                                  color: isLight ? Colors.black : Colors.white),
+                                SizedBox(width: 6),
                                 Text(
                                   'Add Card',
                                   style: TextStyle(
                                     fontSize: 13,
                                     fontWeight: FontWeight.w600,
-                                    color: isLight ? Colors.black : Colors.white,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 4),
+                                    color: isLight ? Colors.black : Colors.white)),
+                              ]))),
+                      ]),
+                    SizedBox(height: 4),
                     Text(
                       'For shipping payments · Unlimited cards allowed',
                       style: TextStyle(
                         fontSize: 13,
                         fontWeight: FontWeight.w400,
                         color: (isLight ? Colors.black : Colors.white).withOpacity(0.5),
-                        letterSpacing: -0.2,
-                      ),
-                    ),
+                        letterSpacing: -0.2)),
 
                     SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
@@ -8436,16 +7347,12 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                             padding: DesktopAppWrapper.getPagePadding(),
                             decoration: BoxDecoration(
                               color: isLight ? Colors.white : Colors.black,
-                              borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-                            ),
+                              borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
                             child: Center(
                               child: SizedBox(
                                 width: 20,
                                 height: 20,
-                                child: CultiooLoadingIndicator(size: 20),
-                              ),
-                            ),
-                          );
+                                child: CultiooLoadingIndicator(size: 20))));
                         }
 
                         final allMethods = snapshot.data ?? [];
@@ -8465,8 +7372,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                               padding: DesktopAppWrapper.getPagePadding(),
                               decoration: BoxDecoration(
                                 color: isLight ? Colors.white : Colors.black,
-                                borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-                              ),
+                                borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
                               child: Row(
                                 children: [
                                   Container(
@@ -8474,15 +7380,12 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                                     height: 44,
                                     decoration: BoxDecoration(
                                       color: (isLight ? Colors.black : Colors.white).withOpacity(0.08),
-                                      borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-                                    ),
+                                      borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
                                     child: Icon(
                                       CupertinoIcons.creditcard,
                                       color: (isLight ? Colors.black : Colors.white).withOpacity(0.5),
-                                      size: 22,
-                                    ),
-                                  ),
-                                  const SizedBox(width: 16),
+                                      size: 22)),
+                                  SizedBox(width: 16),
                                   Expanded(
                                     child: Column(
                                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -8493,30 +7396,20 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                                             fontSize: 17,
                                             fontWeight: FontWeight.w600,
                                             color: isLight ? Colors.black : Colors.white,
-                                            letterSpacing: -0.3,
-                                          ),
-                                        ),
-                                        const SizedBox(height: 2),
+                                            letterSpacing: -0.3)),
+                                        SizedBox(height: 2),
                                         Text(
                                           'Use debit or credit cards for shipping payments',
                                           style: TextStyle(
                                             fontSize: DesktopOptimizedWidgets.getFontSize(),
                                             fontWeight: FontWeight.w400,
-                                            color: (isLight ? Colors.black : Colors.white).withOpacity(0.5),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
+                                            color: (isLight ? Colors.black : Colors.white).withOpacity(0.5))),
+                                      ])),
                                   Icon(
                                     CupertinoIcons.chevron_right,
                                     color: (isLight ? Colors.black : Colors.white).withOpacity(0.3),
-                                    size: 22,
-                                  ),
-                                ],
-                              ),
-                            ),
-                          );
+                                    size: 22),
+                                ])));
                         }
 
                         return Column(
@@ -8530,7 +7423,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
 
                             return TradeRepublicSwipeAction(
                               key: ValueKey('card_${method['id']?.toString() ?? ''}'),
-                              margin: const EdgeInsets.only(bottom: 12),
+                              margin: EdgeInsets.only(bottom: 12),
                               trailing: TradeRepublicSwipeSpec(
                                 icon: CupertinoIcons.delete_solid,
                                 label: AppLocalizations.of(context)?.delete ?? 'Delete',
@@ -8542,31 +7435,20 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                                   if (mounted) {
                                     _showPaymentSettingsModal(this.context, isLight);
                                   }
-                                },
-                              ),
+                                }),
                               child: CreditCardWidget(
                                 brand: brand,
                                 last4: last4,
                                 expMonth: expM,
                                 expYear: expY,
                                 cardholderName: holder,
-                                isDefault: isDefault,
-                              ),
-                            );
-                          }).toList(),
-                        );
-                      },
-                    ),
+                                isDefault: isDefault));
+                          }).toList());
+                      }),
 
-                    const SizedBox(height: 60),
-                  ],
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    ).whenComplete(() {
+                    SizedBox(height: 60),
+                  ]))),
+          ]))).whenComplete(() {
       if (mounted) setState(() => _isPaymentSettingsOpen = false);
       NavigationVisibility.show();
     });
@@ -8591,10 +7473,8 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
           titleStyle: TradeRepublicTheme.titleLarge(context).copyWith(
             fontSize: 28,
             fontWeight: FontWeight.w800,
-            letterSpacing: -0.8,
-          ),
-          padding: EdgeInsets.only(bottom: 16),
-        ),
+            letterSpacing: -0.8),
+          padding: EdgeInsets.only(bottom: 16)),
         TradeRepublicCard(
           padding: DesktopAppWrapper.getPagePadding(),
           child: Column(
@@ -8608,15 +7488,12 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                     height: 44,
                     decoration: BoxDecoration(
                       color: green.withOpacity(0.12),
-                      borderRadius: BorderRadius.circular(14),
-                    ),
-                    child: const Icon(
+                      borderRadius: BorderRadius.circular(14)),
+                    child: Icon(
                       CupertinoIcons.creditcard_fill,
                       color: green,
-                      size: 22,
-                    ),
-                  ),
-                  const SizedBox(width: 12),
+                      size: 22)),
+                  SizedBox(width: 12),
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -8626,38 +7503,29 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                           style: TextStyle(
                             fontSize: 13,
                             fontWeight: FontWeight.w500,
-                            color: subtleColor,
-                          ),
-                        ),
+                            color: subtleColor)),
                         Text(
                           _formatCurrency(_walletBalance),
                           style: TextStyle(
                             fontSize: 26,
                             fontWeight: FontWeight.w700,
                             color: textColor,
-                            letterSpacing: -1,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
+                            letterSpacing: -1)),
+                      ])),
                   TradeRepublicButton(
                     label: l10n.tr('walletTopUpAction'),
                     onPressed: () =>
                         _showWalletTopUpSheet(isLight, setModalState),
                     backgroundColor: green,
                     height: 40,
-                    padding: EdgeInsets.symmetric(horizontal: DesktopAppWrapper.getHorizontalPadding()),
-                  ),
-                ],
-              ),
+                    padding: EdgeInsets.symmetric(horizontal: DesktopAppWrapper.getHorizontalPadding())),
+                ]),
               // Recent transactions
               if (_walletTransactions.isNotEmpty) ...[
-                const SizedBox(height: 20),
+                SizedBox(height: 20),
                 TradeRepublicDivider(
                   color: textColor.withOpacity(0.07),
-                  margin: EdgeInsets.zero,
-                ),
+                  margin: EdgeInsets.zero),
                 SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
                 Text(
                   l10n.tr('walletRecentLabel'),
@@ -8665,10 +7533,8 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                     fontSize: 13,
                     fontWeight: FontWeight.w600,
                     color: subtleColor,
-                    letterSpacing: 0.4,
-                  ),
-                ),
-                const SizedBox(height: 10),
+                    letterSpacing: 0.4)),
+                SizedBox(height: 10),
                 ..._walletTransactions
                     .take(4)
                     .map((tx) => _buildWalletTxRow(tx, isLight)),
@@ -8677,15 +7543,10 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                 Center(
                   child: Text(
                     l10n.tr('walletNoTransactionsYet'),
-                    style: TextStyle(fontSize: DesktopOptimizedWidgets.getFontSize(), color: subtleColor),
-                  ),
-                ),
+                    style: TextStyle(fontSize: DesktopOptimizedWidgets.getFontSize(), color: subtleColor))),
               ],
-            ],
-          ),
-        ),
-      ],
-    );
+            ])),
+      ]);
   }
 
   Widget _buildWalletTxRow(Map<String, dynamic> tx, bool isLight) {
@@ -8725,11 +7586,11 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
     }
 
     return Padding(
-      padding: const EdgeInsets.only(bottom: 12),
+      padding: EdgeInsets.only(bottom: 12),
       child: Row(
         children: [
           Icon(icon, size: 20, color: amountColor),
-          const SizedBox(width: 12),
+          SizedBox(width: 12),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -8740,33 +7601,25 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                     fontSize: DesktopOptimizedWidgets.getFontSize(),
                     fontWeight: FontWeight.w500,
                     color: textColor,
-                    letterSpacing: -0.2,
-                  ),
+                    letterSpacing: -0.2),
                   maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                ),
+                  overflow: TextOverflow.ellipsis),
                 if (dateStr.isNotEmpty)
                   Text(
                     dateStr,
                     style: TextStyle(
                       fontSize: 12,
-                      color: textColor.withOpacity(0.35),
-                    ),
-                  ),
-              ],
-            ),
-          ),
+                      color: textColor.withOpacity(0.35))),
+              ])),
           Text(
             '${isPositive ? '+' : ''}${_formatCurrency(amount.abs())}',
             style: TextStyle(
               fontSize: 15,
               fontWeight: FontWeight.w700,
               color: amountColor,
-              letterSpacing: -0.3,
-            ),
-          ),
+              letterSpacing: -0.3)),
           if (txId != null) ...[
-            const SizedBox(width: 4),
+            SizedBox(width: 4),
             Tooltip(
               message: type == 'topup'
                   ? 'Download Invoice'
@@ -8778,26 +7631,17 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                   height: 32,
                   decoration: BoxDecoration(
                     color: (isLight ? Colors.black : Colors.white).withOpacity(
-                      0.07,
-                    ),
-                    borderRadius: BorderRadius.circular(8),
-                  ),
+                      0.07),
+                    borderRadius: BorderRadius.circular(8)),
                   child: Icon(
                     type == 'topup'
                         ? CupertinoIcons.doc_text_fill
                         : CupertinoIcons.doc_plaintext,
                     size: 15,
                     color: (isLight ? Colors.black : Colors.white).withOpacity(
-                      0.55,
-                    ),
-                  ),
-                ),
-              ),
-            ),
+                      0.55))))),
           ],
-        ],
-      ),
-    );
+        ]));
   }
 
   Widget _buildPendingShippingSection(bool isLight, StateSetter setModalState) {
@@ -8811,22 +7655,17 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
           leading: Icon(
             CupertinoIcons.exclamationmark_circle_fill,
             size: 22,
-            color: Colors.orange.shade500,
-          ),
-          padding: const EdgeInsets.only(bottom: 16),
-        ),
+            color: Colors.orange.shade500),
+          padding: EdgeInsets.only(bottom: 16)),
         ..._pendingShippingPayments.map(
-          (order) => _buildPendingShippingItem(order, isLight, setModalState),
-        ),
-      ],
-    );
+          (order) => _buildPendingShippingItem(order, isLight, setModalState)),
+      ]);
   }
 
   Widget _buildPendingShippingItem(
     Map<String, dynamic> order,
     bool isLight,
-    StateSetter setModalState,
-  ) {
+    StateSetter setModalState) {
     final textColor = isLight ? Colors.black : Colors.white;
     final orderId = order['order_id']?.toString() ?? AppLocalizations.of(context)!.tr('');
     final productName = order['product_name']?.toString() ?? 'Order #$orderId';
@@ -8846,7 +7685,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
     }
 
     return TradeRepublicCard.outlined(
-      margin: const EdgeInsets.only(bottom: 12),
+      margin: EdgeInsets.only(bottom: 12),
       padding: DesktopAppWrapper.getPagePadding(),
       borderColor: Colors.orange.shade400.withOpacity(0.35),
       child: Row(
@@ -8857,15 +7696,12 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
             height: 44,
             decoration: BoxDecoration(
               color: Colors.orange.shade50.withOpacity(isLight ? 1 : 0.12),
-              borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius()),
-            ),
+              borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius())),
             child: Icon(
               CupertinoIcons.cube_box_fill,
               size: 22,
-              color: Colors.orange.shade500,
-            ),
-          ),
-          const SizedBox(width: 14),
+              color: Colors.orange.shade500)),
+          SizedBox(width: 14),
           // Info
           Expanded(
             child: Column(
@@ -8877,57 +7713,42 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                     fontSize: 15,
                     fontWeight: FontWeight.w600,
                     color: textColor,
-                    letterSpacing: -0.2,
-                  ),
+                    letterSpacing: -0.2),
                   maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                ),
-                const SizedBox(height: 3),
+                  overflow: TextOverflow.ellipsis),
+                SizedBox(height: 3),
                 Row(
                   children: [
                     Container(
-                      padding: const EdgeInsets.symmetric(
+                      padding: EdgeInsets.symmetric(
                         horizontal: 6,
-                        vertical: 2,
-                      ),
+                        vertical: 2),
                       decoration: BoxDecoration(
                         color: Colors.orange.shade100.withOpacity(
-                          isLight ? 1 : 0.15,
-                        ),
-                        borderRadius: BorderRadius.circular(6),
-                      ),
+                          isLight ? 1 : 0.15),
+                        borderRadius: BorderRadius.circular(6)),
                       child: Text(
                         incoterm,
                         style: TextStyle(
                           fontSize: 11,
                           fontWeight: FontWeight.w700,
-                          color: Colors.orange.shade700,
-                        ),
-                      ),
-                    ),
-                    const SizedBox(width: 6),
+                          color: Colors.orange.shade700))),
+                    SizedBox(width: 6),
                     Text(
                       'Order #$orderId',
                       style: TextStyle(
                         fontSize: 12,
-                        color: textColor.withOpacity(0.4),
-                      ),
-                    ),
+                        color: textColor.withOpacity(0.4))),
                     if (dateStr.isNotEmpty) ...[
                       Text(
                         ' · $dateStr',
                         style: TextStyle(
                           fontSize: 12,
-                          color: textColor.withOpacity(0.4),
-                        ),
-                      ),
+                          color: textColor.withOpacity(0.4))),
                     ],
-                  ],
-                ),
-              ],
-            ),
-          ),
-          const SizedBox(width: 10),
+                  ]),
+              ])),
+          SizedBox(width: 10),
           // Amount + Pay button
           Column(
             crossAxisAlignment: CrossAxisAlignment.end,
@@ -8938,29 +7759,21 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                   fontSize: DesktopOptimizedWidgets.getFontSize(),
                   fontWeight: FontWeight.w700,
                   color: textColor,
-                  letterSpacing: -0.3,
-                ),
-              ),
-              const SizedBox(height: 6),
+                  letterSpacing: -0.3)),
+              SizedBox(height: 6),
               TradeRepublicButton(
                 label: AppLocalizations.of(
-                  context,
-                )!.tr('walletAuthorizeAction'),
+                  context)!.tr('walletAuthorizeAction'),
                 onPressed: () => _payShippingFromWallet(
                   orderId,
                   shippingCost,
                   isLight,
-                  setModalState,
-                ),
+                  setModalState),
                 backgroundColor: Colors.orange.shade500,
                 height: 36,
-                padding: const EdgeInsets.symmetric(horizontal: 12),
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
+                padding: EdgeInsets.symmetric(horizontal: 12)),
+            ]),
+        ]));
   }
 
   void _showWalletTopUpSheet(bool isLight, StateSetter setModalState) {
@@ -9010,10 +7823,8 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
               final token = await _getStoredToken();
               final resp = await http.get(
                 Uri.parse(
-                  '${ApiConfig.baseUrl}/api/wallet/topup-status?sessionId=$pendingSessionId',
-                ),
-                headers: {if (token != null) 'Authorization': 'Bearer $token'},
-              );
+                  '${ApiConfig.baseUrl}/api/wallet/topup-status?sessionId=$pendingSessionId'),
+                headers: {if (token != null) 'Authorization': 'Bearer $token'});
               final data = json.decode(resp.body);
               if (resp.statusCode == 200 && data['fulfilled'] == true) {
                 final newBal = (data['balance'] as num?)?.toDouble() ?? 0.0;
@@ -9025,8 +7836,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                 if (ctx.mounted) Navigator.of(ctx).pop();
                 TopNotification.success(
                   context,
-                  '${l10n.tr('walletTopupSuccessPrefix')} +${_formatCurrency(amt)} · ${l10n.tr('walletNewBalancePrefix')}: ${_formatCurrency(newBal)}',
-                );
+                  '${l10n.tr('walletTopupSuccessPrefix')} +${_formatCurrency(amt)} · ${l10n.tr('walletNewBalancePrefix')}: ${_formatCurrency(newBal)}');
               } else if (resp.statusCode == 200 && data['processing'] == true) {
                 if (ctx.mounted) {
                   TopNotification.info(ctx, processingMessage);
@@ -9043,8 +7853,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
               bottom: MediaQuery.of(ctx).viewInsets.bottom + 24,
               left: 20,
               right: 20,
-              top: 4,
-            ),
+              top: 4),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -9057,15 +7866,12 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                       height: 44,
                       decoration: BoxDecoration(
                         color: const Color(0xFF22C55E).withOpacity(0.12),
-                        borderRadius: BorderRadius.circular(14),
-                      ),
-                      child: const Icon(
+                        borderRadius: BorderRadius.circular(14)),
+                      child: Icon(
                         CupertinoIcons.creditcard_fill,
                         color: Color(0xFF22C55E),
-                        size: 22,
-                      ),
-                    ),
-                    const SizedBox(width: 14),
+                        size: 22)),
+                    SizedBox(width: 14),
                     Expanded(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -9076,31 +7882,23 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                               fontSize: 22,
                               fontWeight: FontWeight.w700,
                               color: isLight ? Colors.black : Colors.white,
-                              letterSpacing: -0.5,
-                            ),
-                          ),
+                              letterSpacing: -0.5)),
                           Text(
                             l10n.tr('walletTopupSubtitle'),
                             style: TextStyle(
                               fontSize: 13,
                               color: (isLight ? Colors.black : Colors.white)
-                                  .withOpacity(0.5),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 20),
+                                  .withOpacity(0.5))),
+                        ])),
+                  ]),
+                SizedBox(height: 20),
 
                 // ── Balance card ────────────────────────────────────────────
                 TradeRepublicCard(
                   backgroundColor: const Color(0xFF22C55E).withOpacity(0.08),
-                  padding: const EdgeInsets.symmetric(
+                  padding: EdgeInsets.symmetric(
                     horizontal: 16,
-                    vertical: 14,
-                  ),
+                    vertical: 14),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -9109,20 +7907,14 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                         style: TextStyle(
                           fontSize: DesktopOptimizedWidgets.getFontSize(),
                           color: (isLight ? Colors.black : Colors.white)
-                              .withOpacity(0.6),
-                        ),
-                      ),
+                              .withOpacity(0.6))),
                       Text(
                         _formatCurrency(_walletBalance),
                         style: TextStyle(fontSize: DesktopOptimizedWidgets.getFontSize() + 6,
                           fontWeight: FontWeight.w700,
                           color: Color(0xFF22C55E),
-                          letterSpacing: -0.5,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
+                          letterSpacing: -0.5)),
+                    ])),
 
                 if (sheetState == 'browser_opened') ...[
                   // ── State: browser opened, waiting for payment ──────────
@@ -9132,34 +7924,27 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                     padding: DesktopAppWrapper.getPagePadding(),
                     child: Column(
                       children: [
-                        const Icon(
+                        Icon(
                           CupertinoIcons.checkmark_seal_fill,
                           size: 40,
-                          color: Color(0xFF22C55E),
-                        ),
+                          color: Color(0xFF22C55E)),
                         SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                         Text(
                           l10n.tr('walletPaymentOpenedTitle'),
                           style: TextStyle(
                             fontSize: 17,
                             fontWeight: FontWeight.w700,
-                            color: Color(0xFF22C55E),
-                          ),
-                          textAlign: TextAlign.center,
-                        ),
+                            color: Color(0xFF22C55E)),
+                          textAlign: TextAlign.center),
                         SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                         Text(
                           l10n.tr('walletPaymentOpenedSubtitle'),
                           style: TextStyle(
                             fontSize: DesktopOptimizedWidgets.getFontSize(),
                             color: (isLight ? Colors.black : Colors.white)
-                                .withOpacity(0.5),
-                          ),
-                          textAlign: TextAlign.center,
-                        ),
-                      ],
-                    ),
-                  ),
+                                .withOpacity(0.5)),
+                          textAlign: TextAlign.center),
+                      ])),
                   SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
                   Row(
                     children: [
@@ -9174,38 +7959,30 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                               final token = await _getStoredToken();
                               final resp = await http.get(
                                 Uri.parse(
-                                  '${ApiConfig.baseUrl}/api/wallet/topup-status?sessionId=$pendingSessionId',
-                                ),
+                                  '${ApiConfig.baseUrl}/api/wallet/topup-status?sessionId=$pendingSessionId'),
                                 headers: {
                                   if (token != null)
                                     'Authorization': 'Bearer $token',
-                                },
-                              );
+                                });
                               final data = json.decode(resp.body);
                               if (data['sessionUrl'] != null) {
                                 launchUrl(
                                   Uri.parse(data['sessionUrl']),
-                                  mode: LaunchMode.inAppBrowserView,
-                                );
+                                  mode: LaunchMode.inAppBrowserView);
                               }
                             } catch (_) {}
-                          },
-                        ),
-                      ),
-                      const SizedBox(width: 12),
+                          })),
+                      SizedBox(width: 12),
                       Expanded(
                         child: TradeRepublicButton(
                           label: l10n.tr('walletDoneAction'),
                           backgroundColor: const Color(0xFF22C55E),
                           height: 50,
-                          onPressed: () => pollTopUpStatus(),
-                        ),
-                      ),
-                    ],
-                  ),
+                          onPressed: () => pollTopUpStatus())),
+                    ]),
                 ] else ...[
                   // ── State: input ─────────────────────────────────────────
-                  const SizedBox(height: 20),
+                  SizedBox(height: 20),
 
                   // Amount input
                   TradeRepublicTextField.currency(
@@ -9224,19 +8001,15 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                       final normalized = cents / 100.0;
                       final formatted = formatNumberUS(
                         normalized,
-                        fractionDigits: 2,
-                      );
+                        fractionDigits: 2);
                       if (formatted == amountController.text) return;
                       isFormattingAmount = true;
                       amountController.value = TextEditingValue(
                         text: formatted,
                         selection: TextSelection.collapsed(
-                          offset: formatted.length,
-                        ),
-                      );
+                          offset: formatted.length));
                       isFormattingAmount = false;
-                    },
-                  ),
+                    }),
                   SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
                   // Quick amounts
@@ -9244,19 +8017,15 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                     children: [50.0, 100.0, 250.0, 500.0].map((amt) {
                       return Expanded(
                         child: Padding(
-                          padding: const EdgeInsets.only(right: 8),
+                          padding: EdgeInsets.only(right: 8),
                           child: TradeRepublicButton(
                             label: '$amountPrefix${formatNumberUS(amt, fractionDigits: 0)}',
                             onPressed: () =>
                                 amountController.text = formatNumberUS(amt, fractionDigits: 0),
                             isSecondary: true,
-                            height: 40,
-                          ),
-                        ),
-                      );
-                    }).toList(),
-                  ),
-                  const SizedBox(height: 20),
+                            height: 40)));
+                    }).toList()),
+                  SizedBox(height: 20),
 
                   // ── Payment Method Selector ───────────────────────────────
                   Text(
@@ -9266,51 +8035,39 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                       fontWeight: FontWeight.w600,
                       color: (isLight ? Colors.black : Colors.white)
                           .withOpacity(0.5),
-                      letterSpacing: 0.3,
-                    ),
-                  ),
-                  const SizedBox(height: 10),
+                      letterSpacing: 0.3)),
+                  SizedBox(height: 10),
 
                   if (!methodsLoaded)
                     Container(
-                      padding: const EdgeInsets.symmetric(vertical: 16),
+                      padding: EdgeInsets.symmetric(vertical: 16),
                       child: Center(
                         child: SizedBox(
                           width: 20,
                           height: 20,
-                          child: CultiooLoadingIndicator(size: 20),
-                        ),
-                      ),
-                    )
+                          child: CultiooLoadingIndicator(size: 20))))
                   else if (savedMethods.isEmpty)
                     Container(
                       padding: DesktopAppWrapper.getPagePadding(),
                       decoration: BoxDecoration(
                         color: (isLight ? Colors.black : Colors.white)
                             .withOpacity(0.04),
-                        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius()),
-                      ),
+                        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius())),
                       child: Row(
                         children: [
                           Icon(
                             CupertinoIcons.exclamationmark_circle,
                             size: 18,
-                            color: Colors.orange,
-                          ),
-                          const SizedBox(width: 10),
+                            color: Colors.orange),
+                          SizedBox(width: 10),
                           Expanded(
                             child: Text(
                               'No payment methods saved. Add one in Payment Settings first.',
                               style: TextStyle(
                                 fontSize: 13,
                                 color: (isLight ? Colors.black : Colors.white)
-                                    .withOpacity(0.6),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    )
+                                    .withOpacity(0.6)))),
+                        ]))
                   else
                     SizedBox(
                       height: 100,
@@ -9318,7 +8075,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                         scrollDirection: Axis.horizontal,
                         itemCount: savedMethods.length,
                         separatorBuilder: (_, __) =>
-                            const SizedBox(width: 10),
+                            SizedBox(width: 10),
                         itemBuilder: (_, i) {
                           final method = savedMethods[i];
                           final mId = method['id']?.toString() ?? '';
@@ -9368,7 +8125,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                             child: AnimatedContainer(
                               duration: const Duration(milliseconds: 180),
                               width: 160,
-                              padding: const EdgeInsets.all(14),
+                              padding: EdgeInsets.all(14),
                               decoration: BoxDecoration(
                                 gradient: isSelected
                                     ? LinearGradient(
@@ -9377,8 +8134,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                                           cardColor.withOpacity(0.8),
                                         ],
                                         begin: Alignment.topLeft,
-                                        end: Alignment.bottomRight,
-                                      )
+                                        end: Alignment.bottomRight)
                                     : null,
                                 color: isSelected
                                     ? null
@@ -9390,18 +8146,15 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                                         color: (isLight
                                                 ? Colors.black
                                                 : Colors.white)
-                                            .withOpacity(0.1),
-                                      ),
+                                            .withOpacity(0.1)),
                                 boxShadow: isSelected
                                     ? [
                                         BoxShadow(
                                           color: cardColor.withOpacity(0.3),
                                           blurRadius: 12,
-                                          offset: const Offset(0, 4),
-                                        ),
+                                          offset: const Offset(0, 4)),
                                       ]
-                                    : [],
-                              ),
+                                    : []),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 mainAxisAlignment:
@@ -9417,18 +8170,15 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                                             : (isLight
                                                     ? Colors.black
                                                     : Colors.white)
-                                                .withOpacity(0.6),
-                                      ),
+                                                .withOpacity(0.6)),
                                       const Spacer(),
                                       if (isSelected)
-                                        const Icon(
+                                        Icon(
                                           CupertinoIcons
                                               .checkmark_circle_fill,
                                           size: 16,
-                                          color: Colors.white,
-                                        ),
-                                    ],
-                                  ),
+                                          color: Colors.white),
+                                    ]),
                                   SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                                   Text(
                                     label,
@@ -9440,11 +8190,9 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                                           : (isLight
                                                   ? Colors.black
                                                   : Colors.white),
-                                      letterSpacing: -0.2,
-                                    ),
+                                      letterSpacing: -0.2),
                                     maxLines: 1,
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
+                                    overflow: TextOverflow.ellipsis),
                                   Text(
                                     subtitle,
                                     style: TextStyle(
@@ -9455,42 +8203,32 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                                           : (isLight
                                                   ? Colors.black
                                                   : Colors.white)
-                                              .withOpacity(0.5),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          );
-                        },
-                      ),
-                    ),
+                                              .withOpacity(0.5))),
+                                ])));
+                        })),
 
-                  const SizedBox(height: 20),
+                  SizedBox(height: 20),
 
                   // ── Pay button ────────────────────────────────────────────
                   TradeRepublicButton(
                     label: l10n.tr('walletPayNowAction'),
                     isLoading: sheetState == 'loading',
                     backgroundColor: const Color(0xFF22C55E),
-                    icon: const Icon(
+                    icon: Icon(
                       CupertinoIcons.lock_shield_fill,
                       size: 16,
-                      color: Colors.white,
-                    ),
+                      color: Colors.white),
                     onPressed: sheetState == 'loading'
                         ? null
                         : () async {
                             final amt = double.tryParse(
                               amountController.text
                                   .replaceAll(',', '')
-                                  .replaceAll(' ', ''),
-                            );
+                                  .replaceAll(' ', ''));
                             if (amt == null || amt <= 0) {
                               TopNotification.error(
                                 ctx,
-                                l10n.tr('walletEnterValidAmount'),
-                              );
+                                l10n.tr('walletEnterValidAmount'));
                               return;
                             }
                             setSheetState(() => sheetState = 'loading');
@@ -9507,15 +8245,13 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                               }
                               final resp = await http.post(
                                 Uri.parse(
-                                  '${ApiConfig.baseUrl}/api/wallet/topup-checkout',
-                                ),
+                                  '${ApiConfig.baseUrl}/api/wallet/topup-checkout'),
                                 headers: {
                                   'Content-Type': 'application/json',
                                   if (token != null)
                                     'Authorization': 'Bearer $token',
                                 },
-                                body: json.encode(body),
-                              );
+                                body: json.encode(body));
                               final data = json.decode(resp.body);
                               if (resp.statusCode == 200 &&
                                   data['success'] == true) {
@@ -9536,16 +8272,14 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                                 if (ctx.mounted) Navigator.of(ctx).pop();
                                 TopNotification.success(
                                   context,
-                                  '+${_formatCurrency(paidAmount)} aufgeladen · Neuer Saldo: ${_formatCurrency(newBalance)}',
-                                );
+                                  '+${_formatCurrency(paidAmount)} aufgeladen · Neuer Saldo: ${_formatCurrency(newBalance)}');
                               } else if (resp.statusCode == 402 &&
                                   data['error'] == 'no_payment_method') {
                                 setSheetState(() => sheetState = 'input');
                                 if (ctx.mounted) {
                                   TopNotification.error(
                                     ctx,
-                                    'Please add a card first (Payment Settings → Cards → Add Card)',
-                                  );
+                                    'Please add a card first (Payment Settings → Cards → Add Card)');
                                 }
                               } else {
                                 setSheetState(() => sheetState = 'input');
@@ -9554,8 +8288,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                                     ctx,
                                     data['message'] ??
                                         data['error'] ??
-                                        l10n.tr('walletCreatePaymentError'),
-                                  );
+                                        l10n.tr('walletCreatePaymentError'));
                                 }
                               }
                             } catch (e) {
@@ -9565,36 +8298,27 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                                     ctx, '${l10n.error}: $e');
                               }
                             }
-                          },
-                  ),
-                  const SizedBox(height: 10),
+                          }),
+                  SizedBox(height: 10),
                   Center(
                     child: Text(
                       l10n.tr('walletStripeSecurityNote'),
                       style: TextStyle(
                         fontSize: 11,
                         color: (isLight ? Colors.black : Colors.white)
-                            .withOpacity(0.3),
-                      ),
-                      textAlign: TextAlign.center,
-                    ),
-                  ),
+                            .withOpacity(0.3)),
+                      textAlign: TextAlign.center)),
                 ],
                 SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
-              ],
-            ),
-          );
-        },
-      ),
-    );
+              ]));
+        }));
   }
 
   Future<void> _payShippingFromWallet(
     String orderId,
     double shippingCost,
     bool isLight,
-    StateSetter setModalState,
-  ) async {
+    StateSetter setModalState) async {
     final l10n = AppLocalizations.of(context)!;
     // Confirm dialog
     bool confirmed = false;
@@ -9603,15 +8327,14 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
       showDragHandle: true,
       useRootNavigator: true,
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 4),
+        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 4),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             Icon(
               CupertinoIcons.cube_box_fill,
               size: 44,
-              color: Colors.orange.shade500,
-            ),
+              color: Colors.orange.shade500),
             SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
             Text(
               l10n.tr('walletAuthorizeShippingTitle'),
@@ -9619,22 +8342,17 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                 fontSize: 22,
                 fontWeight: FontWeight.w700,
                 color: isLight ? Colors.black : Colors.white,
-                letterSpacing: -0.5,
-              ),
-              textAlign: TextAlign.center,
-            ),
-            const SizedBox(height: 10),
+                letterSpacing: -0.5),
+              textAlign: TextAlign.center),
+            SizedBox(height: 10),
             Text(
               '${l10n.tr('walletOrderPrefix')} #$orderId\n${l10n.tr('walletAuthorizeShippingBody')} ${_formatCurrency(shippingCost)}.',
               style: TextStyle(
                 fontSize: 15,
                 color: (isLight ? Colors.black : Colors.white).withOpacity(
-                  0.55,
-                ),
-              ),
-              textAlign: TextAlign.center,
-            ),
-            const SizedBox(height: 6),
+                  0.55)),
+              textAlign: TextAlign.center),
+            SizedBox(height: 6),
             // Balance info
             Text(
               '${l10n.tr('walletCurrentBalancePrefix')}: ${_formatCurrency(_walletBalance)}',
@@ -9643,9 +8361,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                 fontWeight: FontWeight.w600,
                 color: _walletBalance >= shippingCost
                     ? const Color(0xFF22C55E)
-                    : Colors.red.shade400,
-              ),
-            ),
+                    : Colors.red.shade400)),
             SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
             Row(
               children: [
@@ -9653,10 +8369,8 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                   child: TradeRepublicButton(
                     label: l10n.cancel,
                     isSecondary: true,
-                    onPressed: () => Navigator.of(context).pop(),
-                  ),
-                ),
-                const SizedBox(width: 12),
+                    onPressed: () => Navigator.of(context).pop())),
+                SizedBox(width: 12),
                 Expanded(
                   child: TradeRepublicButton(
                     label: l10n.tr('walletAuthorizeAction'),
@@ -9664,16 +8378,10 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                     onPressed: () {
                       confirmed = true;
                       Navigator.of(context).pop();
-                    },
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 20),
-          ],
-        ),
-      ),
-    );
+                    })),
+              ]),
+            SizedBox(height: 20),
+          ])));
 
     if (!confirmed) return;
 
@@ -9684,8 +8392,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
         headers: {
           'Content-Type': 'application/json',
           if (token != null) 'Authorization': 'Bearer $token',
-        },
-      );
+        });
       final data = json.decode(resp.body);
 
       if (resp.statusCode == 200 && data['success'] == true) {
@@ -9693,14 +8400,12 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
         setModalState(() {
           _walletBalance = newBalance;
           _pendingShippingPayments.removeWhere(
-            (o) => o['order_id']?.toString() == orderId,
-          );
+            (o) => o['order_id']?.toString() == orderId);
         });
         setState(() => _walletBalance = newBalance);
         TopNotification.success(
           context,
-          '${l10n.tr('walletShippingAuthorizedPrefix')} #$orderId · ${_formatCurrency(shippingCost)} ${l10n.tr('walletDeductedSuffix')}',
-        );
+          '${l10n.tr('walletShippingAuthorizedPrefix')} #$orderId · ${_formatCurrency(shippingCost)} ${l10n.tr('walletDeductedSuffix')}');
         // Refresh wallet transactions
         await _loadWalletData();
         setModalState(() {});
@@ -9708,14 +8413,12 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
         // Insufficient balance
         TopNotification.error(
           context,
-          l10n.tr('walletInsufficientBalanceTopup'),
-        );
+          l10n.tr('walletInsufficientBalanceTopup'));
         _showWalletTopUpSheet(isLight, setModalState);
       } else {
         TopNotification.error(
           context,
-          data['error'] ?? l10n.tr('walletPaymentFailed'),
-        );
+          data['error'] ?? l10n.tr('walletPaymentFailed'));
       }
     } catch (e) {
       TopNotification.error(context, '${l10n.error}: $e');
@@ -9743,11 +8446,10 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
         onTap: enabled ? () => _saveShippingPaymentDefault(value, setModalState) : null,
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 180),
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+        padding: EdgeInsets.symmetric(horizontal: 16, vertical: 14),
         decoration: BoxDecoration(
           color: selected ? mono : mono.withOpacity(0.06),
-          borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius()),
-        ),
+          borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius())),
         child: Row(
           children: [
             Container(
@@ -9757,17 +8459,14 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                 color: selected
                     ? (isLight ? Colors.white : Colors.black).withOpacity(0.15)
                     : mono.withOpacity(0.08),
-                borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius()),
-              ),
+                borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius())),
               child: Icon(
                 icon,
                 size: 20,
                 color: selected
                     ? (isLight ? Colors.white : Colors.black)
-                    : mono.withOpacity(0.6),
-              ),
-            ),
-            const SizedBox(width: 14),
+                    : mono.withOpacity(0.6))),
+            SizedBox(width: 14),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -9780,10 +8479,8 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                       color: selected
                           ? (isLight ? Colors.white : Colors.black)
                           : mono,
-                      letterSpacing: -0.3,
-                    ),
-                  ),
-                  const SizedBox(height: 2),
+                      letterSpacing: -0.3)),
+                  SizedBox(height: 2),
                   Text(
                     subtitle,
                     style: TextStyle(
@@ -9792,29 +8489,19 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                       color: selected
                           ? (isLight ? Colors.white : Colors.black)
                               .withOpacity(0.65)
-                          : mono.withOpacity(0.5),
-                    ),
-                  ),
-                ],
-              ),
-            ),
+                          : mono.withOpacity(0.5))),
+                ])),
             if (selected)
               Icon(
                 CupertinoIcons.checkmark_circle_fill,
                 size: 22,
-                color: isLight ? Colors.white : Colors.black,
-              )
+                color: isLight ? Colors.white : Colors.black)
             else
               Icon(
                 CupertinoIcons.circle,
                 size: 22,
-                color: mono.withOpacity(0.25),
-              ),
-          ],
-        ),
-      ),
-    ),
-  );
+                color: mono.withOpacity(0.25)),
+          ]))));
   }
 
   // ═══════════════════════════════════════════════════════════════════
@@ -9830,20 +8517,15 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
           style: TextStyle(
             fontSize: 13,
             color: (isLight ? Colors.black : Colors.white).withOpacity(0.5),
-            fontWeight: FontWeight.w500,
-          ),
-        ),
-        const SizedBox(height: 4),
+            fontWeight: FontWeight.w500)),
+        SizedBox(height: 4),
         Text(
           value,
           style: TextStyle(
             fontSize: DesktopOptimizedWidgets.getFontSize() + 10,
             fontWeight: FontWeight.w700,
-            color: isLight ? Colors.black : Colors.white,
-          ),
-        ),
-      ],
-    );
+            color: isLight ? Colors.black : Colors.white)),
+      ]);
   }
 
   Widget _buildScheduleOption(
@@ -9851,19 +8533,17 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
     String subtitle,
     bool isSelected,
     bool isLight,
-    VoidCallback onTap,
-  ) {
+    VoidCallback onTap) {
     return TradeRepublicTap(
       onTap: onTap,
       child: Container(
-        padding: const EdgeInsets.all(14),
-        margin: const EdgeInsets.only(bottom: 10),
+        padding: EdgeInsets.all(14),
+        margin: EdgeInsets.only(bottom: 10),
         decoration: BoxDecoration(
           color: isSelected
               ? (isLight ? Colors.black : Colors.white)
               : (isLight ? Colors.black : Colors.white).withOpacity(0.04),
-          borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-        ),
+          borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
         child: Row(
           children: [
             Expanded(
@@ -9877,44 +8557,31 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                       fontWeight: FontWeight.w600,
                       color: isSelected
                           ? (isLight ? Colors.white : Colors.black)
-                          : (isLight ? Colors.black : Colors.white),
-                    ),
-                  ),
-                  const SizedBox(height: 2),
+                          : (isLight ? Colors.black : Colors.white))),
+                  SizedBox(height: 2),
                   Text(
                     subtitle,
                     style: TextStyle(
                       fontSize: 13,
                       color: isSelected
                           ? (isLight ? Colors.white : Colors.black).withOpacity(
-                              0.7,
-                            )
+                              0.7)
                           : (isLight ? Colors.black : Colors.white).withOpacity(
-                              0.5,
-                            ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
+                              0.5))),
+                ])),
             if (isSelected)
               Icon(
                 CupertinoIcons.check_mark_circled_solid,
                 color: isLight ? Colors.white : Colors.black,
-                size: 22,
-              ),
-          ],
-        ),
-      ),
-    );
+                size: 22),
+          ])));
   }
 
   Widget _buildHistoryTab(
     String title,
     bool isSelected,
     bool isLight,
-    VoidCallback onTap,
-  ) {
+    VoidCallback onTap) {
     return TradeRepublicTap(
       onTap: () {
         HapticFeedback.lightImpact();
@@ -9923,7 +8590,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 250),
         curve: Curves.easeOutCubic,
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
         decoration: BoxDecoration(
           color: isSelected
               ? (isLight ? Colors.black : Colors.white)
@@ -9933,14 +8600,11 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
               ? [
                   BoxShadow(
                     color: (isLight ? Colors.black : Colors.white).withOpacity(
-                      0.15,
-                    ),
+                      0.15),
                     blurRadius: 12,
-                    offset: const Offset(0, 4),
-                  ),
+                    offset: const Offset(0, 4)),
                 ]
-              : [],
-        ),
+              : []),
         child: AnimatedDefaultTextStyle(
           duration: const Duration(milliseconds: 200),
           style: TextStyle(
@@ -9949,18 +8613,14 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
             color: isSelected
                 ? (isLight ? Colors.white : Colors.black)
                 : (isLight ? Colors.black : Colors.white).withOpacity(0.4),
-            letterSpacing: -0.3,
-          ),
-          child: Text(title),
-        ),
-      ),
-    );
+            letterSpacing: -0.3),
+          child: Text(title))));
   }
 
   Widget _buildEmptyState(String title, String subtitle, bool isLight) {
     return Center(
       child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 40),
+        padding: EdgeInsets.symmetric(vertical: 40),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -9968,8 +8628,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
             Icon(
               CupertinoIcons.tray,
               size: 40,
-              color: isLight ? Colors.black : Colors.white,
-            ),
+              color: isLight ? Colors.black : Colors.white),
             SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
             Text(
               title,
@@ -9978,10 +8637,8 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                 fontSize: DesktopOptimizedWidgets.getFontSize(),
                 fontWeight: FontWeight.w600,
                 color: (isLight ? Colors.black : Colors.white).withOpacity(0.5),
-                letterSpacing: -0.3,
-              ),
-            ),
-            const SizedBox(height: 4),
+                letterSpacing: -0.3)),
+            SizedBox(height: 4),
             Text(
               subtitle,
               textAlign: TextAlign.center,
@@ -9989,14 +8646,8 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                 fontSize: DesktopOptimizedWidgets.getFontSize(),
                 fontWeight: FontWeight.w400,
                 color: (isLight ? Colors.black : Colors.white).withOpacity(
-                  0.35,
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
+                  0.35))),
+          ])));
   }
 
   Widget _buildHistoryItem(
@@ -10020,7 +8671,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
     }
 
     final itemContent = Container(
-      padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 4),
+      padding: EdgeInsets.symmetric(vertical: 14, horizontal: 4),
       child: Row(
         children: [
           // Icon
@@ -10029,15 +8680,12 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
             height: 40,
             decoration: BoxDecoration(
               color: (isEarning ? Colors.green : Colors.blue).withOpacity(0.1),
-              borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-            ),
+              borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
             child: Icon(
               isEarning ? CupertinoIcons.arrow_down : CupertinoIcons.arrow_up,
               color: isEarning ? Colors.green : Colors.blue,
-              size: 18,
-            ),
-          ),
-          const SizedBox(width: 14),
+              size: 18)),
+          SizedBox(width: 14),
           // Text
           Expanded(
             child: Column(
@@ -10049,24 +8697,18 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                     fontSize: DesktopOptimizedWidgets.getFontSize(),
                     fontWeight: FontWeight.w600,
                     color: isLight ? Colors.black : Colors.white,
-                    letterSpacing: -0.3,
-                  ),
-                ),
+                    letterSpacing: -0.3)),
                 if (formattedDate.isNotEmpty) ...[
-                  const SizedBox(height: 2),
+                  SizedBox(height: 2),
                   Text(
                     formattedDate,
                     style: TextStyle(
                       fontSize: 13,
                       fontWeight: FontWeight.w400,
                       color: (isLight ? Colors.black : Colors.white)
-                          .withOpacity(0.4),
-                    ),
-                  ),
+                          .withOpacity(0.4))),
                 ],
-              ],
-            ),
-          ),
+              ])),
           // Amount
           Text(
             '${isEarning ? '+' : '-'}$amount',
@@ -10076,26 +8718,20 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
               color: isEarning
                   ? Colors.green
                   : (isLight ? Colors.black : Colors.white),
-              letterSpacing: -0.3,
-            ),
-          ),
-        ],
-      ),
-    );
+              letterSpacing: -0.3)),
+        ]));
 
     // Wrap with swipeable if we have item data
     if (itemData != null) {
       final itemId = itemData['id']?.toString() ?? AppLocalizations.of(context)!.tr('');
       return TradeRepublicSwipeAction(
         key: ValueKey('history_$itemId'),
-        margin: const EdgeInsets.only(bottom: 12),
+        margin: EdgeInsets.only(bottom: 12),
         trailing: TradeRepublicSwipeSpec(
           icon: CupertinoIcons.arrow_down_circle_fill,
           label: AppLocalizations.of(context)?.download ?? 'Download',
-          onActivate: () => _downloadPayoutInvoice(itemData, isLight),
-        ),
-        child: itemContent,
-      );
+          onActivate: () => _downloadPayoutInvoice(itemData, isLight)),
+        child: itemContent);
     }
 
     return itemContent;
@@ -10116,16 +8752,14 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
       if (token == null) {
         TopNotification.error(
           context,
-          AppLocalizations.of(context)?.authRequired ?? AppLocalizations.of(context)!.tr('Authentication required'),
-        );
+          AppLocalizations.of(context)?.authRequired ?? AppLocalizations.of(context)!.tr('Authentication required'));
         return;
       }
 
       // Verwende den neuen Payout-Scheduler Endpoint
       final response = await http.post(
         Uri.parse(
-          '${ApiConfig.baseUrl}/business_groups/update-payout-schedule',
-        ),
+          '${ApiConfig.baseUrl}/business_groups/update-payout-schedule'),
         headers: {
           'Content-Type': 'application/json',
           'Authorization': 'Bearer $token',
@@ -10133,8 +8767,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
         body: json.encode({
           'schedule': schedule,
           'minimumAmount': 10.00, // Minimum 10${AppSettings().currencySymbol} for payout
-        }),
-      );
+        }));
 
       debugPrint('📡 Payout schedule response: ${response.statusCode}');
       debugPrint('📡 Payout schedule response body: ${response.body}');
@@ -10156,8 +8789,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                   AppLocalizations.of(context)?.instantPayout ?? AppLocalizations.of(context)!.tr('Instant payout');
               scheduleDetail =
                   AppLocalizations.of(
-                    context,
-                  )?.fundsTransferredImmediatelyFee ?? AppLocalizations.of(context)!.tr('Funds will be transferred immediately (tiered seller margin)');
+                    context)?.fundsTransferredImmediatelyFee ?? AppLocalizations.of(context)!.tr('Funds will be transferred immediately (tiered seller margin)');
               break;
             case 'daily':
               scheduleText =
@@ -10180,27 +8812,23 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
 
           TopNotification.success(
             context,
-            '$scheduleText ${AppLocalizations.of(context)?.activated ?? AppLocalizations.of(context)!.tr('activated!')}',
-          );
+            '$scheduleText ${AppLocalizations.of(context)?.activated ?? AppLocalizations.of(context)!.tr('activated!')}');
         } else {
           TopNotification.error(
             context,
             responseData['error'] ??
-                (AppLocalizations.of(context)?.failedPayout ?? AppLocalizations.of(context)!.tr('Failed to update payout schedule')),
-          );
+                (AppLocalizations.of(context)?.failedPayout ?? AppLocalizations.of(context)!.tr('Failed to update payout schedule')));
         }
       } else {
         TopNotification.error(
           context,
-          AppLocalizations.of(context)?.failedPayout ?? AppLocalizations.of(context)!.tr('Failed to update payout schedule'),
-        );
+          AppLocalizations.of(context)?.failedPayout ?? AppLocalizations.of(context)!.tr('Failed to update payout schedule'));
       }
     } catch (e) {
       debugPrint('❌ Error saving payout schedule: $e');
       TopNotification.error(
         context,
-        '${AppLocalizations.of(context)?.failedToSavePayoutSchedule ?? AppLocalizations.of(context)!.tr('Failed to save payout schedule')}: $e',
-      );
+        '${AppLocalizations.of(context)?.failedToSavePayoutSchedule ?? AppLocalizations.of(context)!.tr('Failed to save payout schedule')}: $e');
     }
   }
 
@@ -10213,8 +8841,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
       if (token == null) {
         TopNotification.error(
           context,
-          AppLocalizations.of(context)?.authRequired ?? AppLocalizations.of(context)!.tr('Authentication required'),
-        );
+          AppLocalizations.of(context)?.authRequired ?? AppLocalizations.of(context)!.tr('Authentication required'));
         return;
       }
 
@@ -10222,8 +8849,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
       if (!BusinessAccountPage.hasConnectedPaymentSetup(userData)) {
         TopNotification.error(
           context,
-          AppLocalizations.of(context)?.addBankAccountFirst ?? AppLocalizations.of(context)!.tr('Please add a bank account first before requesting a payout'),
-        );
+          AppLocalizations.of(context)?.addBankAccountFirst ?? AppLocalizations.of(context)!.tr('Please add a bank account first before requesting a payout'));
         return;
       }
 
@@ -10233,8 +8859,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
       if (availableBalance <= 0) {
         TopNotification.error(
           context,
-          AppLocalizations.of(context)?.noBalanceAvailable ?? AppLocalizations.of(context)!.tr('No balance available for payout'),
-        );
+          AppLocalizations.of(context)?.noBalanceAvailable ?? AppLocalizations.of(context)!.tr('No balance available for payout'));
         return;
       }
 
@@ -10253,8 +8878,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
           builder: (context) {
             final AppSettings appSettings = Provider.of<AppSettings>(
               context,
-              listen: false,
-            );
+              listen: false);
             final isLight = appSettings.isLightMode(context);
 
             return Column(
@@ -10272,31 +8896,25 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                         Icon(
                           CupertinoIcons.money_dollar_circle_fill,
                           size: 22,
-                          color: isLight ? Colors.black : Colors.white,
-                        ),
-                        const SizedBox(width: 12),
+                          color: isLight ? Colors.black : Colors.white),
+                        SizedBox(width: 12),
                         Text(
                           AppLocalizations.of(context)?.instantPayout ?? AppLocalizations.of(context)!.tr('Instant Payout'),
                           style: TextStyle(
                             fontSize: 22,
                             fontWeight: FontWeight.w700,
                             color: isLight ? Colors.black : Colors.white,
-                            letterSpacing: -0.4,
-                          ),
-                        ),
-                      ],
-                    ),
+                            letterSpacing: -0.4)),
+                      ]),
                     SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                     Text(
                       AppLocalizations.of(context)?.confirmPayoutDetailsDesc ?? AppLocalizations.of(context)!.tr('Confirm your payout details'),
                       style: TextStyle(
                         fontSize: 15,
                         color: (isLight ? Colors.black : Colors.white)
-                            .withOpacity(0.5),
-                      ),
-                    ),
+                            .withOpacity(0.5))),
 
-                    const SizedBox(height: 32),
+                    SizedBox(height: 32),
 
                     // Payout details
                     Container(
@@ -10304,56 +8922,45 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                       decoration: BoxDecoration(
                         color: (isLight ? Colors.black : Colors.white)
                             .withOpacity(0.04),
-                        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-                      ),
+                        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
                       child: Column(
                         children: [
                           _buildPayoutDetailRow(
                             AppLocalizations.of(context)?.availableBalance ?? AppLocalizations.of(context)!.tr('Available Balance'),
                             _formatCurrency(availableBalance),
-                            isLight,
-                          ),
-                          const SizedBox(height: 14),
+                            isLight),
+                          SizedBox(height: 14),
                           _buildPayoutDetailRow(
                             AppLocalizations.of(context)?.instantFee ??
                                 'Platform service fee ($marginPctLabel)',
                             '-${_formatCurrency(instantFee)}',
                             isLight,
-                            isNegative: true,
-                          ),
+                            isNegative: true),
                           Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 14),
+                            padding: EdgeInsets.symmetric(vertical: 14),
                             child: TradeRepublicDivider(
                               color: (isLight ? Colors.black : Colors.white)
                                   .withOpacity(0.08),
-                              height: 1,
-                            ),
-                          ),
+                              height: 1)),
                           _buildPayoutDetailRow(
                             AppLocalizations.of(context)?.youWillReceiveLabel ?? AppLocalizations.of(context)!.tr('You will receive'),
                             _formatCurrency(netAmount),
                             isLight,
-                            isBold: true,
-                          ),
-                        ],
-                      ),
-                    ),
+                            isBold: true),
+                        ])),
 
-                    const SizedBox(height: 20),
+                    SizedBox(height: 20),
 
                     // Info text
                     Text(
                       AppLocalizations.of(
-                            context,
-                          )?.fundsTransferredImmediately ?? AppLocalizations.of(context)!.tr('Funds will be transferred to your bank account immediately.'),
+                            context)?.fundsTransferredImmediately ?? AppLocalizations.of(context)!.tr('Funds will be transferred to your bank account immediately.'),
                       style: TextStyle(
                         fontSize: DesktopOptimizedWidgets.getFontSize(),
                         color: (isLight ? Colors.black : Colors.white)
-                            .withOpacity(0.5),
-                      ),
-                    ),
+                            .withOpacity(0.5))),
 
-                    const SizedBox(height: 32),
+                    SizedBox(height: 32),
 
                     // Confirm button
                     TradeRepublicButton(
@@ -10364,8 +8971,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                       onPressed: () {
                         HapticFeedback.lightImpact();
                         Navigator.of(context).pop(true);
-                      },
-                    ),
+                      }),
 
                     SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
@@ -10377,19 +8983,13 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                       onPressed: () {
                         HapticFeedback.lightImpact();
                         Navigator.of(context).pop(false);
-                      },
-                    ),
+                      }),
 
                     SizedBox(
-                      height: MediaQuery.of(context).padding.bottom + 16,
-                    ),
-                  ],
-                ),
-              ],
-            );
-          },
-        ),
-      ).whenComplete(() => NavigationVisibility.show());
+                      height: MediaQuery.of(context).padding.bottom + 16),
+                  ]),
+              ]);
+          })).whenComplete(() => NavigationVisibility.show());
 
       if (confirmed != true) {
         debugPrint('❌ Instant payout cancelled by user');
@@ -10412,21 +9012,16 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
             SizedBox(
               width: 24,
               height: 24,
-              child: CultiooLoadingIndicator(size: 20),
-            ),
-            const SizedBox(height: 4),
+              child: CultiooLoadingIndicator(size: 20)),
+            SizedBox(height: 4),
             Text(
               AppLocalizations.of(context)?.processingInstantPayoutMsg ?? AppLocalizations.of(context)!.tr('Processing instant payout...'),
               style: TextStyle(
                 color: isLightMode ? Colors.black : Colors.white,
                 fontSize: DesktopOptimizedWidgets.getFontSize(),
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-            const SizedBox(height: 20),
-          ],
-        ),
-      );
+                fontWeight: FontWeight.w600)),
+            SizedBox(height: 20),
+          ]));
 
       // Call instant payout API
       final response = await http.post(
@@ -10434,8 +9029,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
         headers: {
           'Content-Type': 'application/json',
           'Authorization': 'Bearer $token',
-        },
-      );
+        });
 
       // Close loading dialog
       if (mounted) _safePopIfPossible(context);
@@ -10449,8 +9043,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
         if (responseData['success'] == true) {
           TopNotification.success(
             context,
-            '✅ ${AppLocalizations.of(context)?.instantPayoutCompleted ?? AppLocalizations.of(context)!.tr('Instant payout completed!')} ${_formatCurrency(netAmount)} ${AppLocalizations.of(context)?.transferred ?? AppLocalizations.of(context)!.tr('transferred')}.',
-          );
+            '✅ ${AppLocalizations.of(context)?.instantPayoutCompleted ?? AppLocalizations.of(context)!.tr('Instant payout completed!')} ${_formatCurrency(netAmount)} ${AppLocalizations.of(context)?.transferred ?? AppLocalizations.of(context)!.tr('transferred')}.');
 
           // Reload earnings data
           await _loadEarningsData();
@@ -10462,23 +9055,20 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
           TopNotification.error(
             context,
             responseData['message'] ??
-                (AppLocalizations.of(context)?.failedInstantPayout ?? AppLocalizations.of(context)!.tr('Failed to process instant payout')),
-          );
+                (AppLocalizations.of(context)?.failedInstantPayout ?? AppLocalizations.of(context)!.tr('Failed to process instant payout')));
         }
       } else {
         final responseData = json.decode(response.body);
         TopNotification.error(
           context,
           responseData['message'] ??
-              (AppLocalizations.of(context)?.failedInstantPayout ?? AppLocalizations.of(context)!.tr('Failed to process instant payout')),
-        );
+              (AppLocalizations.of(context)?.failedInstantPayout ?? AppLocalizations.of(context)!.tr('Failed to process instant payout')));
       }
     } catch (e) {
       debugPrint('❌ Error processing instant payout: $e');
       TopNotification.error(
         context,
-        '${AppLocalizations.of(context)?.failedToProcessInstantPayout ?? AppLocalizations.of(context)!.tr('Failed to process instant payout')}: $e',
-      );
+        '${AppLocalizations.of(context)?.failedToProcessInstantPayout ?? AppLocalizations.of(context)!.tr('Failed to process instant payout')}: $e');
     }
   }
 
@@ -10486,8 +9076,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
   void _showWaitingChargeInvoice(
     BuildContext context,
     bool isLight,
-    Map<String, dynamic> charge,
-  ) {
+    Map<String, dynamic> charge) {
     final orderId = charge['order_id'] ?? AppLocalizations.of(context)!.tr('');
     final driverName =
         charge['driver_name'] ??
@@ -10537,7 +9126,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
             Expanded(
               child: SingleChildScrollView(
                 physics: const ClampingScrollPhysics(),
-                padding: const EdgeInsets.symmetric(horizontal: 4),
+                padding: EdgeInsets.symmetric(horizontal: 4),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -10547,9 +9136,8 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                         Icon(
                           Icons.receipt_long,
                           size: 22,
-                          color: isLight ? Colors.black : Colors.white,
-                        ),
-                        const SizedBox(width: 12),
+                          color: isLight ? Colors.black : Colors.white),
+                        SizedBox(width: 12),
                         Expanded(
                           child: Text(
                             'Wartekosten-Rechnung',
@@ -10557,23 +9145,17 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                               fontSize: 22,
                               fontWeight: FontWeight.w700,
                               color: isLight ? Colors.black : Colors.white,
-                              letterSpacing: -0.4,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 6),
+                              letterSpacing: -0.4))),
+                      ]),
+                    SizedBox(height: 6),
                     Text(
                       '${AppLocalizations.of(context)?.orderNumber ?? AppLocalizations.of(context)!.tr('Order #')}$orderId • ${fmtDate(orderDate)}',
                       style: TextStyle(
                         fontSize: 15,
                         color: (isLight ? Colors.black : Colors.white)
-                            .withOpacity(0.5),
-                      ),
-                    ),
+                            .withOpacity(0.5))),
 
-                    const SizedBox(height: 28),
+                    SizedBox(height: 28),
 
                     // Big amount
                     Center(
@@ -10586,30 +9168,23 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                               fontWeight: FontWeight.w700,
                               color: Colors.red.shade400,
                               letterSpacing: -2,
-                              height: 1.1,
-                            ),
-                          ),
-                          const SizedBox(height: 4),
+                              height: 1.1)),
+                          SizedBox(height: 4),
                           Text(
                             AppLocalizations.of(
-                                  context,
-                                )?.deductionFromBalance ?? AppLocalizations.of(context)!.tr('Deduction from your balance'),
+                                  context)?.deductionFromBalance ?? AppLocalizations.of(context)!.tr('Deduction from your balance'),
                             style: TextStyle(
                               fontSize: DesktopOptimizedWidgets.getFontSize(),
                               color: (isLight ? Colors.black : Colors.white)
-                                  .withOpacity(0.5),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
+                                  .withOpacity(0.5))),
+                        ])),
 
-                    const SizedBox(height: 32),
+                    SizedBox(height: 32),
 
                     // Divider
                     const TradeRepublicDivider(),
 
-                    const SizedBox(height: 20),
+                    SizedBox(height: 20),
 
                     // Driver Info Section
                     Text(
@@ -10618,21 +9193,17 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                         fontSize: DesktopOptimizedWidgets.getFontSize() + 4,
                         fontWeight: FontWeight.w700,
                         color: isLight ? Colors.black : Colors.white,
-                        letterSpacing: -0.3,
-                      ),
-                    ),
-                    const SizedBox(height: 14),
+                        letterSpacing: -0.3)),
+                    SizedBox(height: 14),
                     _invoiceRow(
                       AppLocalizations.of(context)?.driverLabel ?? AppLocalizations.of(context)!.tr('Driver'),
                       driverName,
-                      isLight,
-                    ),
+                      isLight),
                     if (driverUsername.isNotEmpty)
                       _invoiceRow(
                         AppLocalizations.of(context)?.usernameLabel ?? AppLocalizations.of(context)!.tr('Username'),
                         '@$driverUsername',
-                        isLight,
-                      ),
+                        isLight),
 
                     SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
@@ -10643,39 +9214,32 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                         fontSize: DesktopOptimizedWidgets.getFontSize() + 4,
                         fontWeight: FontWeight.w700,
                         color: isLight ? Colors.black : Colors.white,
-                        letterSpacing: -0.3,
-                      ),
-                    ),
-                    const SizedBox(height: 14),
+                        letterSpacing: -0.3)),
+                    SizedBox(height: 14),
                     _invoiceRow(
                       AppLocalizations.of(context)?.waitingTimeStart ?? AppLocalizations.of(context)!.tr('Waiting Start'),
                       fmtTime(waitingStart),
-                      isLight,
-                    ),
+                      isLight),
                     _invoiceRow(
                       AppLocalizations.of(context)?.waitingTimeEnd ?? AppLocalizations.of(context)!.tr('Waiting End'),
                       fmtTime(waitingEnd),
-                      isLight,
-                    ),
+                      isLight),
                     _invoiceRow(
                       AppLocalizations.of(context)?.totalWaitingTime ?? AppLocalizations.of(context)!.tr('Total Waiting Time'),
                       '$totalMin Min',
-                      isLight,
-                    ),
+                      isLight),
                     _invoiceRow(
                       AppLocalizations.of(context)?.freeMinutes ?? AppLocalizations.of(context)!.tr('Free Minutes'),
                       '$freeMin Min',
-                      isLight,
-                    ),
+                      isLight),
                     _invoiceRow(
                       AppLocalizations.of(context)?.chargeableTime ?? AppLocalizations.of(context)!.tr('Chargeable Time'),
                       '$chargeableMin Min',
                       isLight,
-                      highlight: true,
-                    ),
+                      highlight: true),
 
                     if (checkIn != null || checkOut != null) ...[
-                      const SizedBox(height: 14),
+                      SizedBox(height: 14),
                       _invoiceRow('Check-In', fmtTime(checkIn), isLight),
                       _invoiceRow('Check-Out', fmtTime(checkOut), isLight),
                     ],
@@ -10689,25 +9253,20 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                         fontSize: DesktopOptimizedWidgets.getFontSize() + 4,
                         fontWeight: FontWeight.w700,
                         color: isLight ? Colors.black : Colors.white,
-                        letterSpacing: -0.3,
-                      ),
-                    ),
-                    const SizedBox(height: 14),
+                        letterSpacing: -0.3)),
+                    SizedBox(height: 14),
                     _invoiceRow(
                       AppLocalizations.of(context)?.hourlyRate ?? AppLocalizations.of(context)!.tr('Hourly Rate'),
                       '${_formatCurrency(ratePerHour)} ${AppLocalizations.of(context)?.perHourAbbr ?? AppLocalizations.of(context)!.tr('/ hr')}',
-                      isLight,
-                    ),
+                      isLight),
                     _invoiceRow(
                       AppLocalizations.of(context)?.freeMinutes ?? AppLocalizations.of(context)!.tr('Free Minutes'),
                       '$freeMin ${AppLocalizations.of(context)?.minutesFree ?? AppLocalizations.of(context)!.tr('Min (free)')}',
-                      isLight,
-                    ),
+                      isLight),
                     _invoiceRow(
                       AppLocalizations.of(context)?.calculatedTime ?? AppLocalizations.of(context)!.tr('Calculated Time'),
                       '$chargeableMin Min',
-                      isLight,
-                    ),
+                      isLight),
 
                     SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                     const TradeRepublicDivider(),
@@ -10722,31 +9281,25 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                           style: TextStyle(
                             fontSize: DesktopOptimizedWidgets.getFontSize() + 4,
                             fontWeight: FontWeight.w700,
-                            color: isLight ? Colors.black : Colors.white,
-                          ),
-                        ),
+                            color: isLight ? Colors.black : Colors.white)),
                         Text(
                           '-${_formatCurrency(amount)}',
                           style: TextStyle(
                             fontSize: 22,
                             fontWeight: FontWeight.w700,
                             color: Colors.red.shade400,
-                            letterSpacing: -0.5,
-                          ),
-                        ),
-                      ],
-                    ),
+                            letterSpacing: -0.5)),
+                      ]),
 
                     SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
                     // Info note
                     Container(
-                      padding: const EdgeInsets.all(14),
+                      padding: EdgeInsets.all(14),
                       decoration: BoxDecoration(
                         color: (isLight ? Colors.black : Colors.white)
                             .withOpacity(0.04),
-                        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius()),
-                      ),
+                        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius())),
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -10754,40 +9307,26 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                             Icons.info_outline,
                             size: 18,
                             color: (isLight ? Colors.black : Colors.white)
-                                .withOpacity(0.4),
-                          ),
-                          const SizedBox(width: 10),
+                                .withOpacity(0.4)),
+                          SizedBox(width: 10),
                           Expanded(
                             child: Text(
                               (AppLocalizations.of(
-                                        context,
-                                      )?.waitingCostInfoBusiness ?? AppLocalizations.of(context)!.tr('Waiting costs apply when the driver has to wait longer than {0} minutes at pickup. The hourly rate is {1}.'))
+                                        context)?.waitingCostInfoBusiness ?? AppLocalizations.of(context)!.tr('Waiting costs apply when the driver has to wait longer than {0} minutes at pickup. The hourly rate is {1}.'))
                                   .replaceAll('{0}', '$freeMin')
                                   .replaceAll(
                                     '{1}',
-                                    _formatCurrency(ratePerHour),
-                                  ),
+                                    _formatCurrency(ratePerHour)),
                               style: TextStyle(
                                 fontSize: 13,
                                 color: (isLight ? Colors.black : Colors.white)
                                     .withOpacity(0.5),
-                                height: 1.4,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
+                                height: 1.4))),
+                        ])),
 
-                    const SizedBox(height: 40),
-                  ],
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
+                    SizedBox(height: 40),
+                  ]))),
+          ])));
   }
 
   // Helper: Invoice row
@@ -10798,7 +9337,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
     bool highlight = false,
   }) {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 10),
+      padding: EdgeInsets.only(bottom: 10),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -10807,9 +9346,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
             style: TextStyle(
               fontSize: 15,
               fontWeight: FontWeight.w400,
-              color: (isLight ? Colors.black : Colors.white).withOpacity(0.6),
-            ),
-          ),
+              color: (isLight ? Colors.black : Colors.white).withOpacity(0.6))),
           Text(
             value,
             style: TextStyle(
@@ -10817,19 +9354,14 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
               fontWeight: highlight ? FontWeight.w700 : FontWeight.w500,
               color: highlight
                   ? Colors.red.shade400
-                  : (isLight ? Colors.black : Colors.white),
-            ),
-          ),
-        ],
-      ),
-    );
+                  : (isLight ? Colors.black : Colors.white))),
+        ]));
   }
 
   // Manual Payout Modal — tiered seller margin (same as instant payout)
   void _showManualPayoutModal(BuildContext context, bool isLight) {
     final availableBalance = _getDisplayableBalance(
-      earningsData['availableBalance'],
-    );
+      earningsData['availableBalance']);
     final marginPctLabel = _sellerPayoutMarginPercentLabel(availableBalance);
     final fee = availableBalance * _sellerPayoutMarginRate(availableBalance);
     final netAmount = availableBalance - fee;
@@ -10852,20 +9384,16 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                     Icon(
                       CupertinoIcons.money_dollar_circle_fill,
                       size: 22,
-                      color: isLight ? Colors.black : Colors.white,
-                    ),
-                    const SizedBox(width: 12),
+                      color: isLight ? Colors.black : Colors.white),
+                    SizedBox(width: 12),
                     Text(
                       AppLocalizations.of(context)?.manualPayout ?? AppLocalizations.of(context)!.tr('Manual Payout'),
                       style: TextStyle(
                         fontSize: 22,
                         fontWeight: FontWeight.w700,
                         color: isLight ? Colors.black : Colors.white,
-                        letterSpacing: -0.4,
-                      ),
-                    ),
-                  ],
-                ),
+                        letterSpacing: -0.4)),
+                  ]),
 
                 SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
                 SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
@@ -10875,20 +9403,16 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                     fontSize: 15,
                     fontWeight: FontWeight.w400,
                     color: (isLight ? Colors.black : Colors.white).withOpacity(
-                      0.5,
-                    ),
-                  ),
-                ),
+                      0.5))),
 
-                const SizedBox(height: 32),
+                SizedBox(height: 32),
 
                 // Amount Card
                 Container(
-                  padding: const EdgeInsets.all(24),
+                  padding: EdgeInsets.all(24),
                   decoration: BoxDecoration(
                     color: isLight ? Colors.white : Colors.black,
-                    borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-                  ),
+                    borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
                   child: Column(
                     children: [
                       // Available Balance
@@ -10901,24 +9425,18 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                               fontSize: DesktopOptimizedWidgets.getFontSize(),
                               fontWeight: FontWeight.w500,
                               color: (isLight ? Colors.black : Colors.white)
-                                  .withOpacity(0.6),
-                            ),
-                          ),
+                                  .withOpacity(0.6))),
                           Text(
                             _formatCurrency(availableBalance),
                             style: TextStyle(
                               fontSize: DesktopOptimizedWidgets.getFontSize() + 4,
                               fontWeight: FontWeight.w700,
-                              color: isLight ? Colors.black : Colors.white,
-                            ),
-                          ),
-                        ],
-                      ),
+                              color: isLight ? Colors.black : Colors.white)),
+                        ]),
                       SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
                       TradeRepublicDivider(
                         color: (isLight ? Colors.black : Colors.white)
-                            .withOpacity(0.1),
-                      ),
+                            .withOpacity(0.1)),
                       SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
                       // Fee
@@ -10932,24 +9450,18 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                               fontSize: DesktopOptimizedWidgets.getFontSize(),
                               fontWeight: FontWeight.w500,
                               color: (isLight ? Colors.black : Colors.white)
-                                  .withOpacity(0.6),
-                            ),
-                          ),
+                                  .withOpacity(0.6))),
                           Text(
                             '-${_formatCurrency(fee)}',
                             style: TextStyle(
                               fontSize: DesktopOptimizedWidgets.getFontSize(),
                               fontWeight: FontWeight.w600,
-                              color: Colors.red.withOpacity(0.8),
-                            ),
-                          ),
-                        ],
-                      ),
+                              color: Colors.red.withOpacity(0.8))),
+                        ]),
                       SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
                       TradeRepublicDivider(
                         color: (isLight ? Colors.black : Colors.white)
-                            .withOpacity(0.1),
-                      ),
+                            .withOpacity(0.1)),
                       SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
                       // Net Amount
@@ -10961,22 +9473,15 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                             style: TextStyle(
                               fontSize: DesktopOptimizedWidgets.getFontSize() + 4,
                               fontWeight: FontWeight.w700,
-                              color: isLight ? Colors.black : Colors.white,
-                            ),
-                          ),
+                              color: isLight ? Colors.black : Colors.white)),
                           Text(
                             _formatCurrency(netAmount),
                             style: TextStyle(
                               fontSize: 22,
                               fontWeight: FontWeight.w800,
-                              color: Colors.green,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
+                              color: Colors.green)),
+                        ]),
+                    ])),
 
                 const Spacer(),
 
@@ -10985,31 +9490,23 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                   padding: DesktopAppWrapper.getPagePadding(),
                   decoration: BoxDecoration(
                     color: Colors.blue.withOpacity(0.1),
-                    borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-                  ),
+                    borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
                   child: Row(
                     children: [
                       Icon(
                         CupertinoIcons.info_circle,
                         color: Colors.blue,
-                        size: 20,
-                      ),
-                      const SizedBox(width: 12),
+                        size: 20),
+                      SizedBox(width: 12),
                       Expanded(
                         child: Text(
                           AppLocalizations.of(
-                                context,
-                              )?.fundsTransferred1to3Days ?? AppLocalizations.of(context)!.tr('Funds will be transferred to your bank account within 1-3 business days.'),
+                                context)?.fundsTransferred1to3Days ?? AppLocalizations.of(context)!.tr('Funds will be transferred to your bank account within 1-3 business days.'),
                           style: TextStyle(
                             fontSize: 13,
                             fontWeight: FontWeight.w500,
-                            color: Colors.blue,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
+                            color: Colors.blue))),
+                    ])),
 
                 SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
@@ -11024,16 +9521,11 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                           Navigator.pop(context);
                           _processInstantPayout();
                         }
-                      : null,
-                ),
+                      : null),
 
                 SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
-              ],
-            ),
-          ),
-        ],
-      ),
-    ).whenComplete(() => NavigationVisibility.show());
+              ])),
+        ])).whenComplete(() => NavigationVisibility.show());
   }
 
   Widget _buildPayoutDetailRow(
@@ -11052,10 +9544,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
             fontSize: isBold ? 18 : 16,
             fontWeight: isBold ? FontWeight.w700 : FontWeight.w500,
             color: (isLight ? Colors.black : Colors.white).withOpacity(
-              isBold ? 1.0 : 0.7,
-            ),
-          ),
-        ),
+              isBold ? 1.0 : 0.7))),
         Text(
           value,
           style: TextStyle(
@@ -11065,11 +9554,8 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                 ? Colors.red
                 : (isBold
                       ? Colors.green
-                      : (isLight ? Colors.black : Colors.white)),
-          ),
-        ),
-      ],
-    );
+                      : (isLight ? Colors.black : Colors.white)))),
+      ]);
   }
 
   Widget _buildPayoutOption(
@@ -11080,8 +9566,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
     Color color,
     bool isSelected,
     bool isLight,
-    VoidCallback onTap,
-  ) {
+    VoidCallback onTap) {
     return TradeRepublicTap(
       onTap: onTap,
       child: AnimatedContainer(
@@ -11093,8 +9578,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
               : isLight
               ? Colors.white
               : Colors.black,
-          borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-        ),
+          borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
         child: Row(
           children: [
             Expanded(
@@ -11111,23 +9595,19 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                           color: isSelected
                               ? Colors.white
                               : (isLight ? Colors.black : Colors.white),
-                          letterSpacing: -0.3,
-                        ),
-                      ),
-                      const SizedBox(width: 8),
+                          letterSpacing: -0.3)),
+                      SizedBox(width: 8),
                       Container(
-                        padding: const EdgeInsets.symmetric(
+                        padding: EdgeInsets.symmetric(
                           horizontal: 8,
-                          vertical: 3,
-                        ),
+                          vertical: 3),
                         decoration: BoxDecoration(
                           color: isSelected
                               ? Colors.white.withOpacity(0.25)
                               : (fee == 'Free'
                                     ? Colors.green.withOpacity(0.15)
                                     : Colors.orange.withOpacity(0.15)),
-                          borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-                        ),
+                          borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
                         child: Text(
                           fee,
                           style: TextStyle(
@@ -11138,13 +9618,9 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                                 : (fee == 'Free'
                                       ? Colors.green.shade700
                                       : Colors.orange.shade700),
-                            letterSpacing: 0.3,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 6),
+                            letterSpacing: 0.3))),
+                    ]),
+                  SizedBox(height: 6),
                   Text(
                     subtitle,
                     style: TextStyle(
@@ -11153,14 +9629,9 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                       color: isSelected
                           ? Colors.white.withOpacity(0.9)
                           : (isLight ? Colors.black : Colors.white).withOpacity(
-                              0.6,
-                            ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            const SizedBox(width: 12),
+                              0.6))),
+                ])),
+            SizedBox(width: 12),
             AnimatedContainer(
               duration: const Duration(milliseconds: 200),
               width: 24,
@@ -11169,16 +9640,11 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                 shape: BoxShape.circle,
                 color: isSelected
                     ? Colors.white
-                    : (isLight ? Colors.black : Colors.white).withOpacity(0.1),
-              ),
+                    : (isLight ? Colors.black : Colors.white).withOpacity(0.1)),
               child: isSelected
                   ? Icon(CupertinoIcons.checkmark, size: 16, color: color)
-                  : null,
-            ),
-          ],
-        ),
-      ),
-    );
+                  : null),
+          ])));
   }
 
   Widget _buildPaymentMethodsList(bool isLight) {
@@ -11201,27 +9667,20 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                   height: 80,
                   decoration: BoxDecoration(
                     color: (isLight ? Colors.black : Colors.white).withOpacity(
-                      0.05,
-                    ),
-                    borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-                  ),
+                      0.05),
+                    borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
                   child: Icon(
                     CupertinoIcons.creditcard,
                     size: 40,
                     color: (isLight ? Colors.black : Colors.white).withOpacity(
-                      0.3,
-                    ),
-                  ),
-                ),
+                      0.3))),
                 SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
                 Text(
                   AppLocalizations.of(context)?.noBankAccounts ?? AppLocalizations.of(context)!.tr('No Bank Accounts'),
                   style: TextStyle(
                     fontSize: DesktopOptimizedWidgets.getFontSize() + 6,
                     fontWeight: FontWeight.w600,
-                    color: isLight ? Colors.black : Colors.white,
-                  ),
-                ),
+                    color: isLight ? Colors.black : Colors.white)),
                 SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                 Text(
                   AppLocalizations.of(context)?.addBankAccountDesc ?? AppLocalizations.of(context)!.tr('Add a bank account to receive your earnings'),
@@ -11229,11 +9688,8 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                   style: TextStyle(
                     fontSize: DesktopOptimizedWidgets.getFontSize(),
                     color: (isLight ? Colors.black : Colors.white).withOpacity(
-                      0.6,
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 32),
+                      0.6))),
+                SizedBox(height: 32),
                 TradeRepublicButton(
                   label:
                       AppLocalizations.of(context)?.addBankAccount ?? AppLocalizations.of(context)!.tr('Add Bank Account'),
@@ -11242,11 +9698,8 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                     HapticFeedback.lightImpact();
                     Navigator.pop(context);
                     _checkAndShowAddPaymentMethod(context, isLight);
-                  },
-                ),
-              ],
-            ),
-          );
+                  }),
+              ]));
         }
 
         return ListView.builder(
@@ -11255,20 +9708,16 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
             final method = paymentMethods[index];
             return TradeRepublicSwipeAction(
               key: ValueKey('paymethod_${method['id']}'),
-              margin: const EdgeInsets.only(bottom: 12),
+              margin: EdgeInsets.only(bottom: 12),
               trailing: TradeRepublicSwipeSpec(
                 icon: CupertinoIcons.delete_solid,
                 label: AppLocalizations.of(context)?.delete ?? 'Delete',
                 backgroundColor: const Color(0xFFFF3B30),
                 foregroundColor: Colors.white,
-                onActivate: () => _deletePaymentMethod(method['id'], isLight),
-              ),
-              child: _buildPaymentMethodCard(method, isLight),
-            );
-          },
-        );
-      },
-    );
+                onActivate: () => _deletePaymentMethod(method['id'], isLight)),
+              child: _buildPaymentMethodCard(method, isLight));
+          });
+      });
   }
 
   Widget _buildPaymentMethodCard(Map<String, dynamic> method, bool isLight) {
@@ -11285,16 +9734,14 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
       final expM = (method['exp_month'] ?? method['card']?['exp_month'] ?? '').toString();
       final expY = (method['exp_year'] ?? method['card']?['exp_year'] ?? '').toString();
       return Padding(
-        padding: const EdgeInsets.only(bottom: 16),
+        padding: EdgeInsets.only(bottom: 16),
         child: CreditCardWidget(
           brand: brand,
           last4: last4.isEmpty ? (method['card']?['last4'] ?? '????').toString() : last4,
           expMonth: expM,
           expYear: expY,
           cardholderName: holder,
-          isDefault: isDefault,
-        ),
-      );
+          isDefault: isDefault));
     }
 
     final bankLast4 = last4.isNotEmpty
@@ -11306,15 +9753,13 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
     final accountType = isSepa ? 'sepa' : isWire ? 'wire' : 'ach';
 
     return Padding(
-      padding: const EdgeInsets.only(bottom: 16),
+      padding: EdgeInsets.only(bottom: 16),
       child: BankAccountWidget(
         type: accountType,
         maskedNumber: bankLast4,
         accountHolderName: holder,
         routingOrSwift: routing,
-        isDefault: isDefault,
-      ),
-    );
+        isDefault: isDefault));
   }
 
   /// Detects the US bank name from a 9-digit ABA routing number.
@@ -11418,8 +9863,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
             headers: {
               'Content-Type': 'application/json',
               'Authorization': 'Bearer $token',
-            },
-          );
+            });
 
           if (response.statusCode != 200) continue;
 
@@ -11441,8 +9885,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                   'last4': (raw['last4'] ?? AppLocalizations.of(context)!.tr('')).toString(),
                   'label': (raw['label'] ?? AppLocalizations.of(context)!.tr('')).toString(),
                   'detail': (raw['detail'] ?? AppLocalizations.of(context)!.tr('')).toString(),
-                },
-              )
+                })
               .where((m) => m['id']!.toString().isNotEmpty)
               .toList();
 
@@ -11474,8 +9917,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
           'account_number': userData?['account_number'] ?? AppLocalizations.of(context)!.tr(''),
           'last4': (userData?['account_number'] ?? AppLocalizations.of(context)!.tr('')).toString().length > 4
               ? (userData?['account_number'] ?? AppLocalizations.of(context)!.tr('')).toString().substring(
-                  (userData?['account_number'] ?? AppLocalizations.of(context)!.tr('')).toString().length - 4,
-                )
+                  (userData?['account_number'] ?? AppLocalizations.of(context)!.tr('')).toString().length - 4)
               : '',
           'account_holder_name':
               userData?['account_holder_name'] ??
@@ -11493,8 +9935,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
           'bic': userData?['bic'] ?? AppLocalizations.of(context)!.tr(''),
           'last4': (userData?['iban'] ?? AppLocalizations.of(context)!.tr('')).toString().length > 4
               ? (userData?['iban'] ?? AppLocalizations.of(context)!.tr('')).toString().substring(
-                  (userData?['iban'] ?? AppLocalizations.of(context)!.tr('')).toString().length - 4,
-                )
+                  (userData?['iban'] ?? AppLocalizations.of(context)!.tr('')).toString().length - 4)
               : '',
           'account_holder_name':
               userData?['account_holder_name'] ??
@@ -11521,29 +9962,24 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
 
     // USA system controllers
     final accountHolderNameController = TextEditingController(
-      text: userData?['account_holder_name'] ?? AppLocalizations.of(context)!.tr(''),
-    );
+      text: userData?['account_holder_name'] ?? AppLocalizations.of(context)!.tr(''));
     final routingNumberController = TextEditingController(
-      text: userData?['routing_number'] ?? AppLocalizations.of(context)!.tr(''),
-    );
+      text: userData?['routing_number'] ?? AppLocalizations.of(context)!.tr(''));
     final accountNumberController = TextEditingController(
-      text: userData?['account_number'] ?? AppLocalizations.of(context)!.tr(''),
-    );
+      text: userData?['account_number'] ?? AppLocalizations.of(context)!.tr(''));
 
     // SEPA system controllers
     final ibanController = TextEditingController(text: userData?['iban'] ?? AppLocalizations.of(context)!.tr(''));
     final bicController = TextEditingController(text: userData?['bic'] ?? AppLocalizations.of(context)!.tr(''));
     final bankNameController = TextEditingController(
-      text: userData?['bank_name'] ?? AppLocalizations.of(context)!.tr(''),
-    );
+      text: userData?['bank_name'] ?? AppLocalizations.of(context)!.tr(''));
     
     // Card controllers
     final cardNumberController = TextEditingController();
     final cardExpiryController = TextEditingController();
     final cardCvcController = TextEditingController();
     final cardHolderNameController = TextEditingController(
-      text: userData?['account_holder_name'] ?? AppLocalizations.of(context)!.tr(''),
-    );
+      text: userData?['account_holder_name'] ?? AppLocalizations.of(context)!.tr(''));
     
     // Track values we autofilled so we don't overwrite manual edits.
     String lastAutofilledBankName = bankNameController.text;
@@ -11572,20 +10008,16 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                         Icon(
                           CupertinoIcons.creditcard_fill,
                           size: 22,
-                          color: isLight ? Colors.black : Colors.white,
-                        ),
-                        const SizedBox(width: 12),
+                          color: isLight ? Colors.black : Colors.white),
+                        SizedBox(width: 12),
                         Text(
                           AppLocalizations.of(context)?.paymentSettings ?? AppLocalizations.of(context)!.tr('Payment Settings'),
                           style: TextStyle(
                             fontSize: 22,
                             fontWeight: FontWeight.w700,
                             color: isLight ? Colors.black : Colors.white,
-                            letterSpacing: -0.4,
-                          ),
-                        ),
-                      ],
-                    ),
+                            letterSpacing: -0.4)),
+                      ]),
 
                     SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
                     Text(
@@ -11593,20 +10025,16 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                       style: TextStyle(
                         fontSize: 15,
                         color: (isLight ? Colors.black : Colors.white)
-                            .withOpacity(0.5),
-                      ),
-                    ),
-                    const SizedBox(height: 10),
+                            .withOpacity(0.5))),
+                    SizedBox(height: 10),
                     Container(
-                      padding: const EdgeInsets.symmetric(
+                      padding: EdgeInsets.symmetric(
                         horizontal: 12,
-                        vertical: 8,
-                      ),
+                        vertical: 8),
                       decoration: BoxDecoration(
                         color: (isLight ? Colors.black : Colors.white)
                             .withOpacity(0.06),
-                        borderRadius: BorderRadius.circular(999),
-                      ),
+                        borderRadius: BorderRadius.circular(999)),
                       child: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
@@ -11614,24 +10042,18 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                             CupertinoIcons.lock_shield,
                             size: 14,
                             color: (isLight ? Colors.black : Colors.white)
-                                .withOpacity(0.75),
-                          ),
-                          const SizedBox(width: 8),
+                                .withOpacity(0.75)),
+                          SizedBox(width: 8),
                           Text(
                             'Encrypted via Stripe',
                             style: TextStyle(
                               fontSize: 12.5,
                               fontWeight: FontWeight.w600,
                               color: (isLight ? Colors.black : Colors.white)
-                                  .withOpacity(0.78),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 32),
+                                  .withOpacity(0.78))),
+                        ])),
+                  ]),
+                SizedBox(height: 32),
 
                 Expanded(
                   child: SingleChildScrollView(
@@ -11647,8 +10069,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                             decoration: BoxDecoration(
                               color: (isLight ? Colors.black : Colors.white)
                                   .withOpacity(0.04),
-                              borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-                            ),
+                              borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
@@ -11659,27 +10080,20 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                                       style: TextStyle(
                                         fontSize: DesktopOptimizedWidgets.getFontSize(),
                                         fontWeight: FontWeight.w600,
-                                        color: isLight ? Colors.black : Colors.white,
-                                      ),
-                                    ),
-                                    const SizedBox(width: 8),
+                                        color: isLight ? Colors.black : Colors.white)),
+                                    SizedBox(width: 8),
                                     Container(
-                                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                                      padding: EdgeInsets.symmetric(horizontal: 8, vertical: 3),
                                       decoration: BoxDecoration(
                                         color: Colors.orange.withOpacity(0.15),
-                                        borderRadius: BorderRadius.circular(6),
-                                      ),
+                                        borderRadius: BorderRadius.circular(6)),
                                       child: Text(
                                         'Required for payouts',
                                         style: TextStyle(
                                           fontSize: 11,
                                           fontWeight: FontWeight.w600,
-                                          color: Colors.orange,
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
+                                          color: Colors.orange))),
+                                  ]),
                                 SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
                                 // ACH/SEPA Toggle
@@ -11691,14 +10105,11 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                                     setModalState(() {
                                       isUSASystem = (index == 0);
                                     });
-                                  },
-                                ),
-                              ],
-                            ),
-                          ),
+                                  }),
+                              ])),
                         ],
 
-                        const SizedBox(height: 20),
+                        SizedBox(height: 20),
 
                         // Bank Account Information (only shown if no bank exists - max 1 bank account)
                         Container(
@@ -11706,36 +10117,29 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                             decoration: BoxDecoration(
                               color: (isLight ? Colors.black : Colors.white)
                                   .withOpacity(0.04),
-                              borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-                            ),
+                              borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
                                   AppLocalizations.of(
-                                        context,
-                                      )?.bankAccountDetails ?? AppLocalizations.of(context)!.tr('Bank Account Details'),
+                                        context)?.bankAccountDetails ?? AppLocalizations.of(context)!.tr('Bank Account Details'),
                                   style: TextStyle(
                                     fontSize: DesktopOptimizedWidgets.getFontSize(),
                                     fontWeight: FontWeight.w600,
-                                    color: isLight ? Colors.black : Colors.white,
-                                  ),
-                                ),
+                                    color: isLight ? Colors.black : Colors.white)),
                                 SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
                                 // USA System Fields
                                 if (isUSASystem) ...[
                                   _buildPaymentField(
                                     AppLocalizations.of(
-                                          context,
-                                        )?.accountHolderName ?? AppLocalizations.of(context)!.tr('Account Holder Name'),
+                                          context)?.accountHolderName ?? AppLocalizations.of(context)!.tr('Account Holder Name'),
                                     AppLocalizations.of(
-                                          context,
-                                        )?.fullNameOnAccount ?? AppLocalizations.of(context)!.tr('Full name on the account'),
+                                          context)?.fullNameOnAccount ?? AppLocalizations.of(context)!.tr('Full name on the account'),
                                     accountHolderNameController,
                                     CupertinoIcons.person_fill,
-                                    isLight,
-                                  ),
+                                    isLight),
                                   _buildPaymentField(
                                     AppLocalizations.of(context)?.routingNumber ?? AppLocalizations.of(context)!.tr('Routing Number'),
                                     '9-digit routing number',
@@ -11752,31 +10156,26 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                                       });
                                       lastAutofilledBankName = bankName;
                                     }
-                                  },
-                                ),
+                                  }),
                                 _buildPaymentField(
                                   AppLocalizations.of(context)?.accountNumber ?? AppLocalizations.of(context)!.tr('Account Number'),
                                   AppLocalizations.of(context)?.accountNumber ?? AppLocalizations.of(context)!.tr('Bank account number'),
                                   accountNumberController,
                                   CupertinoIcons.creditcard,
                                   isLight,
-                                  keyboardType: TextInputType.number,
-                                ),
+                                  keyboardType: TextInputType.number),
                               ],
 
                               // SEPA System Fields
                               if (!isUSASystem) ...[
                                 _buildPaymentField(
                                   AppLocalizations.of(
-                                        context,
-                                      )?.accountHolderName ?? AppLocalizations.of(context)!.tr('Account Holder Name'),
+                                        context)?.accountHolderName ?? AppLocalizations.of(context)!.tr('Account Holder Name'),
                                   AppLocalizations.of(
-                                        context,
-                                      )?.fullNameOnAccount ?? AppLocalizations.of(context)!.tr('Full name on the account'),
+                                        context)?.fullNameOnAccount ?? AppLocalizations.of(context)!.tr('Full name on the account'),
                                   accountHolderNameController,
                                   CupertinoIcons.person_fill,
-                                  isLight,
-                                ),
+                                  isLight),
                                 _buildPaymentField(
                                   'IBAN',
                                   'DE89 3704 0044 0532 0130 00',
@@ -11805,31 +10204,25 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                                       });
                                       lastAutofilledBic = bic;
                                     }
-                                  },
-                                ),
+                                  }),
                                 _buildPaymentField(
                                   'BIC/SWIFT Code',
                                   'COBADEFFXXX (8-11 characters)',
                                   bicController,
                                   CupertinoIcons
                                       .chevron_left_slash_chevron_right,
-                                  isLight,
-                                ),
+                                  isLight),
                                 _buildPaymentField(
                                   AppLocalizations.of(context)?.bankName ?? AppLocalizations.of(context)!.tr('Bank Name'),
                                   AppLocalizations.of(
-                                        context,
-                                      )?.nameOfYourBank ?? AppLocalizations.of(context)!.tr('Name of your bank'),
+                                        context)?.nameOfYourBank ?? AppLocalizations.of(context)!.tr('Name of your bank'),
                                   bankNameController,
                                   CupertinoIcons.building_2_fill,
-                                  isLight,
-                                ),
+                                  isLight),
                               ],
-                            ],
-                          ),
-                        ),
+                            ])),
 
-                        const SizedBox(height: 20),
+                        SizedBox(height: 20),
 
                         // Card Information (also shown - for shipping payments)
                         Container(
@@ -11837,8 +10230,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                             decoration: BoxDecoration(
                               color: (isLight ? Colors.black : Colors.white)
                                   .withOpacity(0.04),
-                              borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-                            ),
+                              borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
@@ -11847,9 +10239,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                                   style: TextStyle(
                                     fontSize: DesktopOptimizedWidgets.getFontSize(),
                                     fontWeight: FontWeight.w600,
-                                    color: isLight ? Colors.black : Colors.white,
-                                  ),
-                                ),
+                                    color: isLight ? Colors.black : Colors.white)),
                                 SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
                                 _buildPaymentField(
                                   'Card Number',
@@ -11857,8 +10247,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                                   cardNumberController,
                                   CupertinoIcons.creditcard,
                                   isLight,
-                                  keyboardType: TextInputType.number,
-                                ),
+                                  keyboardType: TextInputType.number),
                                 Row(
                                   children: [
                                     Expanded(
@@ -11868,10 +10257,8 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                                         cardExpiryController,
                                         CupertinoIcons.calendar,
                                         isLight,
-                                        keyboardType: TextInputType.number,
-                                      ),
-                                    ),
-                                    const SizedBox(width: 12),
+                                        keyboardType: TextInputType.number)),
+                                    SizedBox(width: 12),
                                     Expanded(
                                       child: _buildPaymentField(
                                         'CVC',
@@ -11879,57 +10266,42 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                                         cardCvcController,
                                         CupertinoIcons.lock_fill,
                                         isLight,
-                                        keyboardType: TextInputType.number,
-                                      ),
-                                    ),
-                                  ],
-                                ),
+                                        keyboardType: TextInputType.number)),
+                                  ]),
                                 _buildPaymentField(
                                   'Cardholder Name',
                                   'Name on card',
                                   cardHolderNameController,
                                   CupertinoIcons.person_fill,
-                                  isLight,
-                                ),
-                              ],
-                            ),
-                          ),
+                                  isLight),
+                              ])),
 
-                        const SizedBox(height: 20),
+                        SizedBox(height: 20),
 
                         // Stripe Connection Status
                         if (BusinessAccountPage.hasConnectedPaymentSetup(
-                          userData,
-                        )) ...[
+                          userData)) ...[
                           Container(
-                            padding: const EdgeInsets.all(14),
+                            padding: EdgeInsets.all(14),
                             decoration: BoxDecoration(
                               color: CupertinoColors.systemGreen.withValues(
-                                alpha: 0.1,
-                              ),
-                              borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-                            ),
+                                alpha: 0.1),
+                              borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
                             child: Row(
                               children: [
                                 Icon(
                                   CupertinoIcons.checkmark_circle_fill,
                                   color: CupertinoColors.systemGreen,
-                                  size: 20,
-                                ),
-                                const SizedBox(width: 12),
+                                  size: 20),
+                                SizedBox(width: 12),
                                 Text(
                                   AppLocalizations.of(
-                                        context,
-                                      )?.connectedToStripe ?? AppLocalizations.of(context)!.tr('Connected to Stripe'),
+                                        context)?.connectedToStripe ?? AppLocalizations.of(context)!.tr('Connected to Stripe'),
                                   style: TextStyle(
                                     fontSize: DesktopOptimizedWidgets.getFontSize(),
                                     color: CupertinoColors.systemGreen,
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
+                                    fontWeight: FontWeight.w600)),
+                              ])),
                           SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                         ],
 
@@ -11939,17 +10311,11 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                           style: TextStyle(
                             fontSize: 13,
                             color: (isLight ? Colors.black : Colors.white)
-                                .withOpacity(0.4),
-                          ),
-                        ),
+                                .withOpacity(0.4))),
 
-                        const SizedBox(height: 120),
-                      ],
-                    ),
-                  ),
-                ),
-              ],
-            ),
+                        SizedBox(height: 120),
+                      ]))),
+              ]),
 
             // Save Button
             Positioned(
@@ -11975,15 +10341,9 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                     cardNumberController,
                     cardExpiryController,
                     cardCvcController,
-                    cardHolderNameController,
-                  );
-                },
-              ),
-            ),
-          ],
-        ),
-      ),
-    ).whenComplete(() => NavigationVisibility.show());
+                    cardHolderNameController);
+                })),
+          ]))).whenComplete(() => NavigationVisibility.show());
   }
 
   Widget _buildPaymentField(
@@ -12003,8 +10363,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
       inputFormatters = [
         IbanInputFormatter(
           onBankDetected: onBankDetected,
-          onBicDetected: onBicDetected,
-        ),
+          onBicDetected: onBicDetected),
       ];
     } else if (lowerLabel.contains('bic') ||
         lowerLabel.contains('swift')) {
@@ -12017,8 +10376,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                   final detected = _detectBankFromRoutingNumber(routing);
                   if (detected.isNotEmpty) onBankDetected(detected);
                 }
-              : null,
-        ),
+              : null),
       ];
     } else if (lowerLabel.contains('card number')) {
       inputFormatters = [CardNumberInputFormatter()];
@@ -12029,7 +10387,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
     }
 
     return Container(
-      margin: const EdgeInsets.only(bottom: 16),
+      margin: EdgeInsets.only(bottom: 16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -12038,9 +10396,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
             style: TextStyle(
               fontSize: DesktopOptimizedWidgets.getFontSize(),
               fontWeight: FontWeight.w600,
-              color: (isLight ? Colors.black : Colors.white).withOpacity(0.7),
-            ),
-          ),
+              color: (isLight ? Colors.black : Colors.white).withOpacity(0.7))),
           SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
           TradeRepublicTextField(
             controller: controller,
@@ -12048,17 +10404,12 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
             inputFormatters: inputFormatters,
             style: TextStyle(
               fontSize: DesktopOptimizedWidgets.getFontSize(),
-              color: isLight ? Colors.black : Colors.white,
-            ),
+              color: isLight ? Colors.black : Colors.white),
             hintText: hint,
             filled: true,
             fillColor: (isLight ? Colors.black : Colors.white).withOpacity(
-              0.04,
-            ),
-          ),
-        ],
-      ),
-    );
+              0.04)),
+        ]));
   }
 
   Future<void> _savePaymentSettings(
@@ -12074,8 +10425,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
     TextEditingController cardNumberController,
     TextEditingController cardExpiryController,
     TextEditingController cardCvcController,
-    TextEditingController cardHolderNameController,
-  ) async {
+    TextEditingController cardHolderNameController) async {
     final uiContext = _scaffoldKey.currentContext ?? context;
 
     // Load ALL localized strings at the very beginning, before ANY async operations
@@ -12183,8 +10533,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
         final stripeResult = await _createStripeCustomerAndPaymentMethod(
           paymentData,
           userData?['email'] ?? AppLocalizations.of(context)!.tr(''),
-          userData?['businessName'] ?? AppLocalizations.of(context)!.tr(''),
-        );
+          userData?['businessName'] ?? AppLocalizations.of(context)!.tr(''));
 
         if (stripeResult['success'] == true) {
           // Add Stripe customer ID to payment data
@@ -12307,8 +10656,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
       final stripeResult = await _createStripeCustomerAndPaymentMethod(
         paymentData,
         userData?['email'] ?? AppLocalizations.of(context)!.tr(''),
-        userData?['businessName'] ?? AppLocalizations.of(context)!.tr(''),
-      );
+        userData?['businessName'] ?? AppLocalizations.of(context)!.tr(''));
 
       if (stripeResult['success'] == true) {
         // Add Stripe customer ID to payment data
@@ -12340,16 +10688,14 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
         if (mounted) {
           TopNotification.success(
             uiContext,
-            paymentSavedMsg,
-          );
+            paymentSavedMsg);
         }
       } else {
         debugPrint('❌ $stripeFailedMsg: ${stripeResult['error']}');
         if (mounted) {
           TopNotification.error(
             uiContext,
-            '$stripeFailedMsg: ${stripeResult['error']}',
-          );
+            '$stripeFailedMsg: ${stripeResult['error']}');
         }
         return;
       }
@@ -12381,8 +10727,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
 
   Future<void> _updateVerificationStatus(
     String verificationType,
-    Map<String, dynamic> verificationData,
-  ) async {
+    Map<String, dynamic> verificationData) async {
     try {
       final token = await _getStoredToken();
 
@@ -12393,8 +10738,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
 
       final response = await http.post(
         Uri.parse(
-          '${ApiConfig.baseUrl}/api/business-groups/update-verification',
-        ),
+          '${ApiConfig.baseUrl}/api/business-groups/update-verification'),
         headers: {
           'Content-Type': 'application/json',
           'Authorization': 'Bearer $token',
@@ -12403,22 +10747,19 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
           'username': userData?['username'],
           'verificationType': verificationType,
           'verificationData': verificationData,
-        }),
-      );
+        }));
 
       if (response.statusCode == 200) {
         final data = json.decode(response.body);
         if (data['success'] == true) {
           debugPrint(
-            '✅ Verification updated: $verificationType - New score: ${data['verificationScore']}%',
-          );
+            '✅ Verification updated: $verificationType - New score: ${data['verificationScore']}%');
 
           // Show notification for verification update
           if (mounted) {
             TopNotification.success(
               context,
-              'Verification updated! New score: ${data['verificationScore']}%',
-            );
+              'Verification updated! New score: ${data['verificationScore']}%');
           }
         } else {
           debugPrint('❌ Verification update failed: ${data['error']}');
@@ -12434,8 +10775,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
   Future<Map<String, dynamic>> _createStripeCustomerAndPaymentMethod(
     Map<String, dynamic> paymentData,
     String customerEmail,
-    String businessName,
-  ) async {
+    String businessName) async {
     try {
       debugPrint('🔗 Creating Stripe customer and payment method...');
 
@@ -12509,19 +10849,16 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
 
       debugPrint('📡 Sending Stripe customer creation request...');
       debugPrint(
-        '📡 Stripe request payload summary: email=$resolvedCustomerEmail, business=$resolvedBusinessName, payment_system=${paymentDataMap['payment_system']}',
-      );
+        '📡 Stripe request payload summary: email=$resolvedCustomerEmail, business=$resolvedBusinessName, payment_system=${paymentDataMap['payment_system']}');
 
       final response = await http.post(
         Uri.parse(
-          '${ApiConfig.baseUrl}/api/stripe/create-customer-payment-method',
-        ),
+          '${ApiConfig.baseUrl}/api/stripe/create-customer-payment-method'),
         headers: {
           'Content-Type': 'application/json',
           'Authorization': 'Bearer $token',
         },
-        body: json.encode(stripeData),
-      );
+        body: json.encode(stripeData));
 
       debugPrint('📡 Stripe API response: ${response.statusCode}');
       debugPrint('📡 Stripe API response body: ${response.body}');
@@ -12556,8 +10893,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
         }
 
         debugPrint(
-          '❌ Stripe API request failed with status: ${response.statusCode}',
-        );
+          '❌ Stripe API request failed with status: ${response.statusCode}');
         debugPrint('❌ Stripe API request details: $backendError');
         return {
           'success': false,
@@ -12578,8 +10914,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
 
   Future<void> _showVerificationCenterModal(
     BuildContext context,
-    bool isLight,
-  ) async {
+    bool isLight) async {
     await _refreshPaymentSetupStatus();
     final hasConnectedBank =
         BusinessAccountPage.hasConnectedPaymentSetup(userData) ||
@@ -12604,12 +10939,10 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
     if (hasConnectedBank) {
       verificationScore += 50;
       verifiedItems.add(
-        AppLocalizations.of(context)?.bankAccount ?? AppLocalizations.of(context)!.tr('Bank Account'),
-      );
+        AppLocalizations.of(context)?.bankAccount ?? AppLocalizations.of(context)!.tr('Bank Account'));
     } else {
       pendingItems.add(
-        AppLocalizations.of(context)?.bankAccount ?? AppLocalizations.of(context)!.tr('Bank Account'),
-      );
+        AppLocalizations.of(context)?.bankAccount ?? AppLocalizations.of(context)!.tr('Bank Account'));
     }
 
     NavigationVisibility.hide();
@@ -12629,20 +10962,16 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                 Icon(
                   CupertinoIcons.checkmark_shield_fill,
                   size: 22,
-                  color: isLight ? Colors.black : Colors.white,
-                ),
-                const SizedBox(width: 12),
+                  color: isLight ? Colors.black : Colors.white),
+                SizedBox(width: 12),
                 Text(
                   AppLocalizations.of(context)?.verification ?? AppLocalizations.of(context)!.tr('Verification'),
                   style: TextStyle(
                     fontSize: 22,
                     fontWeight: FontWeight.w700,
                     color: isLight ? Colors.black : Colors.white,
-                    letterSpacing: -0.4,
-                  ),
-                ),
-              ],
-            ),
+                    letterSpacing: -0.4)),
+              ]),
 
             SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
@@ -12651,8 +10980,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
               padding: DesktopAppWrapper.getPagePadding(),
               decoration: BoxDecoration(
                 color: (isLight ? Colors.black : Colors.white).withOpacity(0.05),
-                borderRadius: BorderRadius.circular(14),
-              ),
+                borderRadius: BorderRadius.circular(14)),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -12661,49 +10989,38 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                     style: TextStyle(
                       fontSize: DesktopOptimizedWidgets.getFontSize(),
                       fontWeight: FontWeight.w700,
-                      color: isLight ? Colors.black : Colors.white,
-                    ),
-                  ),
-                  const SizedBox(height: 6),
+                      color: isLight ? Colors.black : Colors.white)),
+                  SizedBox(height: 6),
                   Text(
                     AppLocalizations.of(context)!.tr(
-                      'Verification confirms your business on Cultioo. Fully verified accounts receive a Verified badge, more trust from customers and access to all features.',
-                    ),
+                      'Verification confirms your business on Cultioo. Fully verified accounts receive a Verified badge, more trust from customers and access to all features.'),
                     style: TextStyle(
                       fontSize: 13,
                       fontWeight: FontWeight.w400,
                       color: (isLight ? Colors.black : Colors.white).withOpacity(0.6),
-                      height: 1.45,
-                    ),
-                  ),
+                      height: 1.45)),
                   SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                   Text(
                     AppLocalizations.of(context)!.tr('Was wird benötigt:'),
                     style: TextStyle(
                       fontSize: 13,
                       fontWeight: FontWeight.w600,
-                      color: isLight ? Colors.black : Colors.white,
-                    ),
-                  ),
-                  const SizedBox(height: 6),
+                      color: isLight ? Colors.black : Colors.white)),
+                  SizedBox(height: 6),
                   _buildVerificationRequirement(
                     '1.',
                     AppLocalizations.of(context)!.tr('Business-Profil vollständig'),
                     AppLocalizations.of(context)!.tr('Name, E-Mail, Telefon und Adresse deines Unternehmens müssen ausgefüllt sein.'),
-                    isLight,
-                  ),
-                  const SizedBox(height: 4),
+                    isLight),
+                  SizedBox(height: 4),
                   _buildVerificationRequirement(
                     '2.',
                     AppLocalizations.of(context)!.tr('Bankkonto / Zahlungsmethode'),
                     AppLocalizations.of(context)!.tr('Verbinde ein Bankkonto oder eine Zahlungsmethode in den Payment Settings.'),
-                    isLight,
-                  ),
-                ],
-              ),
-            ),
+                    isLight),
+                ])),
 
-            const SizedBox(height: 20),
+            SizedBox(height: 20),
 
             // Score - minimalist
             Text(
@@ -12713,11 +11030,9 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                 fontWeight: FontWeight.w500,
                 color: verificationScore >= 100
                     ? Colors.green
-                    : (isLight ? Colors.black : Colors.white).withOpacity(0.5),
-              ),
-            ),
+                    : (isLight ? Colors.black : Colors.white).withOpacity(0.5))),
 
-            const SizedBox(height: 32),
+            SizedBox(height: 32),
 
             Expanded(
               child: SingleChildScrollView(
@@ -12733,8 +11048,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                           ? AppLocalizations.of(context)?.verified ?? AppLocalizations.of(context)!.tr('Verified')
                           : AppLocalizations.of(context)!.tr('Name, E-Mail, Telefon & Adresse ausfüllen'),
                       CupertinoIcons.person_crop_square_fill,
-                      isLight,
-                    ),
+                      isLight),
 
                     // Bank Account
                     _buildVerificationItem(
@@ -12743,19 +11057,11 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                       hasConnectedBank
                           ? AppLocalizations.of(context)?.connected ?? AppLocalizations.of(context)!.tr('Connected')
                           : AppLocalizations.of(
-                                  context,
-                                )?.connectViaPaymentSettings ?? AppLocalizations.of(context)!.tr('Connect via Payment Settings'),
+                                  context)?.connectViaPaymentSettings ?? AppLocalizations.of(context)!.tr('Connect via Payment Settings'),
                       CupertinoIcons.creditcard_fill,
-                      isLight,
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    ).whenComplete(() => NavigationVisibility.show());
+                      isLight),
+                  ]))),
+          ]))).whenComplete(() => NavigationVisibility.show());
   }
 
   Widget _buildVerificationItem(
@@ -12763,24 +11069,21 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
     bool isVerified,
     String subtitle,
     IconData icon,
-    bool isLight,
-  ) {
+    bool isLight) {
     return Container(
-      margin: const EdgeInsets.only(bottom: 12),
+      margin: EdgeInsets.only(bottom: 12),
       padding: DesktopAppWrapper.getPagePadding(),
       decoration: BoxDecoration(
         color: isLight ? Colors.white : Colors.black,
-        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-      ),
+        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
       child: Row(
         children: [
           // Icon - minimalist
           Icon(
             icon,
             color: (isLight ? Colors.black : Colors.white).withOpacity(0.6),
-            size: 24,
-          ),
-          const SizedBox(width: 16),
+            size: 24),
+          SizedBox(width: 16),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -12790,10 +11093,8 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                   style: TextStyle(
                     fontSize: DesktopOptimizedWidgets.getFontSize(),
                     fontWeight: FontWeight.w600,
-                    color: isLight ? Colors.black : Colors.white,
-                  ),
-                ),
-                const SizedBox(height: 4),
+                    color: isLight ? Colors.black : Colors.white)),
+                SizedBox(height: 4),
                 Text(
                   subtitle,
                   style: TextStyle(
@@ -12802,13 +11103,8 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                     color: isVerified
                         ? Colors.green
                         : (isLight ? Colors.black : Colors.white).withOpacity(
-                            0.5,
-                          ),
-                  ),
-                ),
-              ],
-            ),
-          ),
+                            0.5))),
+              ])),
           // Status icon - minimalist
           Icon(
             isVerified
@@ -12817,19 +11113,15 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
             color: isVerified
                 ? Colors.green
                 : (isLight ? Colors.black : Colors.white).withOpacity(0.3),
-            size: 24,
-          ),
-        ],
-      ),
-    );
+            size: 24),
+        ]));
   }
 
   Widget _buildVerificationRequirement(
     String step,
     String title,
     String description,
-    bool isLight,
-  ) {
+    bool isLight) {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -12838,10 +11130,8 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
           style: TextStyle(
             fontSize: 13,
             fontWeight: FontWeight.w700,
-            color: (isLight ? Colors.black : Colors.white).withOpacity(0.4),
-          ),
-        ),
-        const SizedBox(width: 8),
+            color: (isLight ? Colors.black : Colors.white).withOpacity(0.4))),
+        SizedBox(width: 8),
         Expanded(
           child: RichText(
             text: TextSpan(
@@ -12851,23 +11141,15 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                   style: TextStyle(
                     fontSize: 13,
                     fontWeight: FontWeight.w600,
-                    color: isLight ? Colors.black : Colors.white,
-                  ),
-                ),
+                    color: isLight ? Colors.black : Colors.white)),
                 TextSpan(
                   text: description,
                   style: TextStyle(
                     fontSize: 13,
                     fontWeight: FontWeight.w400,
-                    color: (isLight ? Colors.black : Colors.white).withOpacity(0.55),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-      ],
-    );
+                    color: (isLight ? Colors.black : Colors.white).withOpacity(0.55))),
+              ]))),
+      ]);
   }
 
   void _showTaxFormsModal(BuildContext context, bool isLight) {
@@ -12891,24 +11173,20 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
               Icon(
                 CupertinoIcons.doc_text_fill,
                 size: 22,
-                color: isLight ? Colors.black : Colors.white,
-              ),
-              const SizedBox(width: 12),
+                color: isLight ? Colors.black : Colors.white),
+              SizedBox(width: 12),
               Text(
                 AppLocalizations.of(context)?.irsTaxForms ?? AppLocalizations.of(context)!.tr('IRS Tax Forms'),
                 style: TextStyle(
                   fontSize: 22,
                   fontWeight: FontWeight.w700,
                   color: isLight ? Colors.black : Colors.white,
-                  letterSpacing: -0.4,
-                ),
-              ),
-            ],
-          ),
+                  letterSpacing: -0.4)),
+            ]),
 
           SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
-          const SizedBox(height: 32),
+          SizedBox(height: 32),
 
           Expanded(
             child: SingleChildScrollView(
@@ -12928,8 +11206,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                         color: taxFormStatus == 'completed'
                             ? CupertinoColors.systemGreen.withValues(alpha: 0.1)
                             : const Color(0xFFFF9500).withOpacity(0.1),
-                        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-                      ),
+                        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -12942,9 +11219,8 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                                 color: taxFormStatus == 'completed'
                                     ? CupertinoColors.systemGreen
                                     : const Color(0xFFFF9500),
-                                size: 22,
-                              ),
-                              const SizedBox(width: 14),
+                                size: 22),
+                              SizedBox(width: 14),
                               Expanded(
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -12952,21 +11228,17 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                                     Text(
                                       taxFormStatus == 'completed'
                                           ? AppLocalizations.of(
-                                                  context,
-                                                )?.taxFormSubmitted ?? AppLocalizations.of(context)!.tr('Tax Form Submitted')
+                                                  context)?.taxFormSubmitted ?? AppLocalizations.of(context)!.tr('Tax Form Submitted')
                                           : AppLocalizations.of(
-                                                  context,
-                                                )?.taxFormPending ?? AppLocalizations.of(context)!.tr('Tax Form Pending'),
+                                                  context)?.taxFormPending ?? AppLocalizations.of(context)!.tr('Tax Form Pending'),
                                       style: TextStyle(
                                         fontSize: DesktopOptimizedWidgets.getFontSize(),
                                         fontWeight: FontWeight.w600,
                                         color: taxFormStatus == 'completed'
                                             ? CupertinoColors.systemGreen
-                                            : const Color(0xFFFF9500),
-                                      ),
-                                    ),
+                                            : const Color(0xFFFF9500))),
                                     if (taxFormType != 'unknown') ...[
-                                      const SizedBox(height: 2),
+                                      SizedBox(height: 2),
                                       Text(
                                         '${AppLocalizations.of(context)?.formType ?? AppLocalizations.of(context)!.tr('Form Type')}: ${taxFormType.toUpperCase()}',
                                         style: TextStyle(
@@ -12975,38 +11247,27 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                                               (isLight
                                                       ? Colors.black
                                                       : Colors.white)
-                                                  .withOpacity(0.5),
-                                        ),
-                                      ),
+                                                  .withOpacity(0.5))),
                                     ],
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
+                                  ])),
+                            ]),
                           // "Continue" button shown only when pending
                           if (taxFormStatus == 'pending') ...[
-                            const SizedBox(height: 14),
+                            SizedBox(height: 14),
                             TradeRepublicButton(
                               label:
                                   AppLocalizations.of(
-                                    context,
-                                  )?.continueFilling ?? AppLocalizations.of(context)!.tr('Continue filling out'),
-                              icon: const Icon(
+                                    context)?.continueFilling ?? AppLocalizations.of(context)!.tr('Continue filling out'),
+                              icon: Icon(
                                 CupertinoIcons.arrow_up_right_square,
-                                size: 18,
-                              ),
+                                size: 18),
                               height: 46,
                               onPressed: () => _completeTaxFormViaStripe(
                                 taxFormType != 'unknown' ? taxFormType : 'w9',
-                                stripeAccountId,
-                              ),
-                            ),
+                                stripeAccountId)),
                           ],
-                        ],
-                      ),
-                    ),
-                    const SizedBox(height: 20),
+                        ])),
+                    SizedBox(height: 20),
                   ],
 
                   // W-9 Form
@@ -13020,8 +11281,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                     isLight: isLight,
                     isSelected: taxFormType == 'w9',
                     onTap: () =>
-                        _completeTaxFormViaStripe('w9', stripeAccountId),
-                  ),
+                        _completeTaxFormViaStripe('w9', stripeAccountId)),
 
                   SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
@@ -13033,14 +11293,12 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                         AppLocalizations.of(context)?.forNonUSIndividuals ?? AppLocalizations.of(context)!.tr('For non-U.S. individuals'),
                     description:
                         AppLocalizations.of(
-                          context,
-                        )?.certificateOfForeignStatus ?? AppLocalizations.of(context)!.tr('Certificate of Foreign Status of Beneficial Owner'),
+                          context)?.certificateOfForeignStatus ?? AppLocalizations.of(context)!.tr('Certificate of Foreign Status of Beneficial Owner'),
                     icon: CupertinoIcons.globe,
                     isLight: isLight,
                     isSelected: taxFormType == 'w8ben',
                     onTap: () =>
-                        _completeTaxFormViaStripe('w8ben', stripeAccountId),
-                  ),
+                        _completeTaxFormViaStripe('w8ben', stripeAccountId)),
 
                   SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
@@ -13052,16 +11310,14 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                         AppLocalizations.of(context)?.forNonUSEntities ?? AppLocalizations.of(context)!.tr('For non-U.S. entities/businesses'),
                     description:
                         AppLocalizations.of(
-                          context,
-                        )?.certificateOfStatusForTaxWithholding ?? AppLocalizations.of(context)!.tr('Certificate of Status of Beneficial Owner for Tax Withholding'),
+                          context)?.certificateOfStatusForTaxWithholding ?? AppLocalizations.of(context)!.tr('Certificate of Status of Beneficial Owner for Tax Withholding'),
                     icon: CupertinoIcons.building_2_fill,
                     isLight: isLight,
                     isSelected: taxFormType == 'w8bene',
                     onTap: () =>
-                        _completeTaxFormViaStripe('w8bene', stripeAccountId),
-                  ),
+                        _completeTaxFormViaStripe('w8bene', stripeAccountId)),
 
-                  const SizedBox(height: 28),
+                  SizedBox(height: 28),
 
                   // Information text
                   Text(
@@ -13069,9 +11325,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                     style: TextStyle(
                       fontSize: DesktopOptimizedWidgets.getFontSize(),
                       fontWeight: FontWeight.w600,
-                      color: isLight ? Colors.black : Colors.white,
-                    ),
-                  ),
+                      color: isLight ? Colors.black : Colors.white)),
                   SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                   Text(
                     AppLocalizations.of(context)?.irsRequiresTaxInfo ?? AppLocalizations.of(context)!.tr('The IRS requires tax information for all businesses receiving payments. This form helps determine your tax obligations and ensures compliance with U.S. tax laws.\\\\n\\\\n• W-9: For U.S. taxpayers (SSN or EIN)\\\\n• W-8BEN: For foreign individuals\\\\n• W-8BEN-E: For foreign companies'),
@@ -13079,9 +11333,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                       fontSize: DesktopOptimizedWidgets.getFontSize(),
                       height: 1.5,
                       color: (isLight ? Colors.black : Colors.white)
-                          .withOpacity(0.5),
-                    ),
-                  ),
+                          .withOpacity(0.5))),
 
                   SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
@@ -13092,17 +11344,9 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                       style: TextStyle(
                         fontSize: 12,
                         color: (isLight ? Colors.black : Colors.white)
-                            .withOpacity(0.3),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ],
-      ),
-    ).whenComplete(() => NavigationVisibility.show());
+                            .withOpacity(0.3)))),
+                ]))),
+        ])).whenComplete(() => NavigationVisibility.show());
   }
 
   Widget _buildTaxFormOption({
@@ -13125,8 +11369,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
           color: isSelected
               ? (isLight ? Colors.black : Colors.white)
               : (isLight ? Colors.black : Colors.white).withOpacity(0.04),
-          borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-        ),
+          borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
         child: Row(
           children: [
             Icon(
@@ -13134,9 +11377,8 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
               size: 22,
               color: isSelected
                   ? (isLight ? Colors.white : Colors.black)
-                  : (isLight ? Colors.black : Colors.white).withOpacity(0.5),
-            ),
-            const SizedBox(width: 14),
+                  : (isLight ? Colors.black : Colors.white).withOpacity(0.5)),
+            SizedBox(width: 14),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -13148,53 +11390,38 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                       fontWeight: FontWeight.w600,
                       color: isSelected
                           ? (isLight ? Colors.white : Colors.black)
-                          : (isLight ? Colors.black : Colors.white),
-                    ),
-                  ),
-                  const SizedBox(height: 2),
+                          : (isLight ? Colors.black : Colors.white))),
+                  SizedBox(height: 2),
                   Text(
                     subtitle,
                     style: TextStyle(
                       fontSize: DesktopOptimizedWidgets.getFontSize(),
                       color: isSelected
                           ? (isLight ? Colors.white : Colors.black).withOpacity(
-                              0.7,
-                            )
+                              0.7)
                           : (isLight ? Colors.black : Colors.white).withOpacity(
-                              0.5,
-                            ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
+                              0.5))),
+                ])),
             if (isSelected)
               Icon(
                 CupertinoIcons.check_mark_circled_solid,
                 color: isLight ? Colors.white : Colors.black,
-                size: 22,
-              )
+                size: 22)
             else
               Icon(
                 CupertinoIcons.chevron_right,
                 color: (isLight ? Colors.black : Colors.white).withOpacity(0.3),
-                size: 20,
-              ),
-          ],
-        ),
-      ),
-    );
+                size: 20),
+          ])));
   }
 
   Future<void> _completeTaxFormViaStripe(
     String formType,
-    String? stripeAccountId,
-  ) async {
+    String? stripeAccountId) async {
     if (stripeAccountId == null || stripeAccountId.isEmpty) {
       TopNotification.error(
         context,
-        AppLocalizations.of(context)?.noStripeAccount ?? AppLocalizations.of(context)!.tr('No Stripe account found. Please connect a bank account first.'),
-      );
+        AppLocalizations.of(context)?.noStripeAccount ?? AppLocalizations.of(context)!.tr('No Stripe account found. Please connect a bank account first.'));
       return;
     }
 
@@ -13202,8 +11429,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
       Navigator.pop(context); // Close modal
       TopNotification.info(
         context,
-        AppLocalizations.of(context)?.openingStripeTaxForm ?? AppLocalizations.of(context)!.tr('Opening Stripe tax form...'),
-      );
+        AppLocalizations.of(context)?.openingStripeTaxForm ?? AppLocalizations.of(context)!.tr('Opening Stripe tax form...'));
 
       debugPrint('📋 Initiating tax form completion via Stripe: $formType');
       debugPrint('📋 Using Stripe Customer ID: $stripeAccountId');
@@ -13215,8 +11441,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
         body: json.encode({
           'stripeAccountId': stripeAccountId,
           'formType': formType,
-        }),
-      );
+        }));
 
       debugPrint('📡 Tax form link response: ${response.statusCode}');
       debugPrint('📡 Tax form link body: ${response.body}');
@@ -13241,13 +11466,11 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
           if (needsOnboarding) {
             TopNotification.info(
               context,
-              AppLocalizations.of(context)?.completeStripeSetupFirst ?? AppLocalizations.of(context)!.tr('Please complete Stripe account setup first'),
-            );
+              AppLocalizations.of(context)?.completeStripeSetupFirst ?? AppLocalizations.of(context)!.tr('Please complete Stripe account setup first'));
           } else {
             TopNotification.success(
               context,
-              AppLocalizations.of(context)?.taxFormUrlGenerated ?? AppLocalizations.of(context)!.tr('Tax form URL generated! Opening in browser...'),
-            );
+              AppLocalizations.of(context)?.taxFormUrlGenerated ?? AppLocalizations.of(context)!.tr('Tax form URL generated! Opening in browser...'));
           }
 
           // Show the URL dialog
@@ -13256,14 +11479,11 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
             formUrl,
             isLight: Provider.of<AppSettings>(
               context,
-              listen: false,
-            ).isLightMode(context),
-          );
+              listen: false).isLightMode(context));
         } else {
           TopNotification.error(
             context,
-            AppLocalizations.of(context)?.failedToGenerateTaxFormUrl ?? AppLocalizations.of(context)!.tr('Failed to generate tax form URL'),
-          );
+            AppLocalizations.of(context)?.failedToGenerateTaxFormUrl ?? AppLocalizations.of(context)!.tr('Failed to generate tax form URL'));
         }
       } else {
         final error =
@@ -13271,15 +11491,13 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
             (AppLocalizations.of(context)?.unknownError ?? AppLocalizations.of(context)!.tr('Unknown error'));
         TopNotification.error(
           context,
-          '${AppLocalizations.of(context)?.error ?? AppLocalizations.of(context)!.tr('Error')}: $error',
-        );
+          '${AppLocalizations.of(context)?.error ?? AppLocalizations.of(context)!.tr('Error')}: $error');
       }
     } catch (e) {
       debugPrint('❌ Error completing tax form: $e');
       TopNotification.error(
         context,
-        '${AppLocalizations.of(context)?.error ?? AppLocalizations.of(context)!.tr('Error')}: $e',
-      );
+        '${AppLocalizations.of(context)?.error ?? AppLocalizations.of(context)!.tr('Error')}: $e');
     }
   }
 
@@ -13299,9 +11517,8 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
               Icon(
                 CupertinoIcons.arrow_up_right_square,
                 size: 22,
-                color: isLight ? Colors.black : Colors.white,
-              ),
-              const SizedBox(width: 12),
+                color: isLight ? Colors.black : Colors.white),
+              SizedBox(width: 12),
               Expanded(
                 child: Text(
                   AppLocalizations.of(context)?.completeTaxFormViaStripe ?? AppLocalizations.of(context)!.tr('Complete Tax Form via Stripe'),
@@ -13309,12 +11526,8 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                     fontSize: 22,
                     fontWeight: FontWeight.w700,
                     color: isLight ? Colors.black : Colors.white,
-                    letterSpacing: -0.4,
-                  ),
-                ),
-              ),
-            ],
-          ),
+                    letterSpacing: -0.4))),
+            ]),
 
           SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
@@ -13323,10 +11536,8 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
             AppLocalizations.of(context)?.redirectedToStripe ?? AppLocalizations.of(context)!.tr('You will be redirected to Stripe\'s secure platform to complete your tax form. This link will open in your browser.'),
             style: TextStyle(
               fontSize: DesktopOptimizedWidgets.getFontSize(),
-              color: (isLight ? Colors.black : Colors.white).withOpacity(0.6),
-            ),
-            textAlign: TextAlign.center,
-          ),
+              color: (isLight ? Colors.black : Colors.white).withOpacity(0.6)),
+            textAlign: TextAlign.center),
 
           SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
@@ -13335,27 +11546,21 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
             padding: DesktopAppWrapper.getPagePadding(),
             decoration: BoxDecoration(
               color: (isLight ? Colors.black : Colors.white).withOpacity(0.05),
-              borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-            ),
+              borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
             child: Row(
               children: [
                 Icon(CupertinoIcons.link, color: Colors.blue, size: 20),
-                const SizedBox(width: 12),
+                SizedBox(width: 12),
                 Expanded(
                   child: Text(
                     url.length > 50 ? '${url.substring(0, 47)}...' : url,
                     style: TextStyle(
                       fontSize: 13,
                       color: Colors.blue,
-                      fontWeight: FontWeight.w500,
-                    ),
+                      fontWeight: FontWeight.w500),
                     maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                ),
-              ],
-            ),
-          ),
+                    overflow: TextOverflow.ellipsis)),
+              ])),
 
           SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
@@ -13377,26 +11582,22 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                   await launchUrl(uri, mode: LaunchMode.externalApplication);
                   TopNotification.success(
                     context,
-                    AppLocalizations.of(context)?.openingStripeBrowser ?? AppLocalizations.of(context)!.tr('Opening Stripe in browser...'),
-                  );
+                    AppLocalizations.of(context)?.openingStripeBrowser ?? AppLocalizations.of(context)!.tr('Opening Stripe in browser...'));
 
                   // Show dialog that user should return after completing
                   _showReturnAfterStripeDialog(isLight);
                 } else {
                   TopNotification.error(
                     context,
-                    AppLocalizations.of(context)?.couldNotOpenBrowser ?? AppLocalizations.of(context)!.tr('Could not open browser'),
-                  );
+                    AppLocalizations.of(context)?.couldNotOpenBrowser ?? AppLocalizations.of(context)!.tr('Could not open browser'));
                 }
               } catch (e) {
                 debugPrint('❌ Error launching URL: $e');
                 TopNotification.error(
                   context,
-                  '${AppLocalizations.of(context)?.errorOpeningBrowser ?? AppLocalizations.of(context)!.tr('Error opening browser')}: $e',
-                );
+                  '${AppLocalizations.of(context)?.errorOpeningBrowser ?? AppLocalizations.of(context)!.tr('Error opening browser')}: $e');
               }
-            },
-          ),
+            }),
 
           SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
@@ -13408,13 +11609,10 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
             onPressed: () {
               HapticFeedback.lightImpact();
               Navigator.pop(context);
-            },
-          ),
+            }),
 
           SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
-        ],
-      ),
-    ).whenComplete(() => NavigationVisibility.show());
+        ])).whenComplete(() => NavigationVisibility.show());
   }
 
   void _showReturnAfterStripeDialog(bool isLight) {
@@ -13487,11 +11685,9 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                 try {
                   final resp = await http.post(
                     Uri.parse(
-                      '${ApiConfig.baseUrl}/api/stripe/check-account-complete',
-                    ),
+                      '${ApiConfig.baseUrl}/api/stripe/check-account-complete'),
                     headers: {'Content-Type': 'application/json'},
-                    body: json.encode({'stripeAccountId': stripeAccountId}),
-                  );
+                    body: json.encode({'stripeAccountId': stripeAccountId}));
                   if (resp.statusCode == 200) {
                     final d = json.decode(resp.body);
                     confirmed = d['isComplete'] == true;
@@ -13537,10 +11733,8 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                         : state == 'incomplete'
                         ? const Color(0xFFFF3B30).withOpacity(0.10)
                         : (isLight ? Colors.black : Colors.white).withOpacity(
-                            0.06,
-                          ),
-                    borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-                  ),
+                            0.06),
+                    borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
                   child: state == 'loading'
                       ? const Center(child: CultiooLoadingIndicator(size: 28))
                       : Icon(
@@ -13554,10 +11748,8 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                               ? const Color(0xFF34C759)
                               : state == 'incomplete'
                               ? const Color(0xFFFF3B30)
-                              : (isLight ? Colors.black : Colors.white),
-                        ),
-                ),
-                const SizedBox(height: 20),
+                              : (isLight ? Colors.black : Colors.white))),
+                SizedBox(height: 20),
 
                 Text(
                   state == 'success'
@@ -13571,10 +11763,8 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                     fontSize: 22,
                     fontWeight: FontWeight.w700,
                     letterSpacing: -0.4,
-                    color: isLight ? Colors.black : Colors.white,
-                  ),
-                  textAlign: TextAlign.center,
-                ),
+                    color: isLight ? Colors.black : Colors.white),
+                  textAlign: TextAlign.center),
                 SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
                 Text(
@@ -13590,12 +11780,9 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                   style: TextStyle(
                     fontSize: DesktopOptimizedWidgets.getFontSize(),
                     color: (isLight ? Colors.black : Colors.white).withOpacity(
-                      0.5,
-                    ),
-                    height: 1.5,
-                  ),
-                  textAlign: TextAlign.center,
-                ),
+                      0.5),
+                    height: 1.5),
+                  textAlign: TextAlign.center),
 
                 // ── Issues list ──────────────────────────────────────────
                 if (state == 'incomplete' && issues.isNotEmpty) ...[
@@ -13605,45 +11792,38 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                     padding: DesktopAppWrapper.getPagePadding(),
                     decoration: BoxDecoration(
                       color: const Color(0xFFFF3B30).withOpacity(0.07),
-                      borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius()),
-                    ),
+                      borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius())),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Row(
                           children: [
-                            const Icon(
+                            Icon(
                               CupertinoIcons.exclamationmark_circle,
                               size: 15,
-                              color: Color(0xFFFF3B30),
-                            ),
-                            const SizedBox(width: 6),
+                              color: Color(0xFFFF3B30)),
+                            SizedBox(width: 6),
                             Text(
                               loc?.stripeMissingInvalidFields ?? AppLocalizations.of(context)!.tr('Missing / invalid details'),
-                              style: const TextStyle(
+                              style: TextStyle(
                                 fontSize: 13,
                                 fontWeight: FontWeight.w600,
-                                color: Color(0xFFFF3B30),
-                              ),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(height: 10),
+                                color: Color(0xFFFF3B30))),
+                          ]),
+                        SizedBox(height: 10),
                         ...issues.map(
                           (issue) => Padding(
-                            padding: const EdgeInsets.only(bottom: 6),
+                            padding: EdgeInsets.only(bottom: 6),
                             child: Row(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                const Padding(
+                                Padding(
                                   padding: EdgeInsets.only(top: 3),
                                   child: Icon(
                                     CupertinoIcons.circle_fill,
                                     size: 5,
-                                    color: Color(0xFFFF3B30),
-                                  ),
-                                ),
-                                const SizedBox(width: 8),
+                                    color: Color(0xFFFF3B30))),
+                                SizedBox(width: 8),
                                 Expanded(
                                   child: Text(
                                     issue,
@@ -13653,27 +11833,17 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                                           (isLight
                                                   ? Colors.black
                                                   : Colors.white)
-                                              .withOpacity(0.75),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
+                                              .withOpacity(0.75)))),
+                              ]))),
+                      ])),
                   SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                   Text(
                     loc?.stripeEmailSentHint ?? AppLocalizations.of(context)!.tr('An email with these details was sent to your address.'),
                     style: TextStyle(
                       fontSize: 12,
                       color: (isLight ? Colors.black : Colors.white)
-                          .withOpacity(0.35),
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
+                          .withOpacity(0.35)),
+                    textAlign: TextAlign.center),
                 ],
 
                 SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
@@ -13685,59 +11855,50 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                     onPressed: () {
                       HapticFeedback.lightImpact();
                       Navigator.pop(context);
-                    },
-                  ),
+                    }),
                 ] else if (state == 'incomplete') ...[
                   TradeRepublicButton(
                     label: loc?.stripeRetryFill ?? AppLocalizations.of(context)!.tr('Fill out again'),
-                    icon: const Icon(
+                    icon: Icon(
                       CupertinoIcons.arrow_up_right_square,
-                      size: 18,
-                    ),
+                      size: 18),
                     onPressed: () {
                       HapticFeedback.lightImpact();
                       Navigator.pop(context);
                       final formType = userData?['tax_form_type'] ?? AppLocalizations.of(context)!.tr('w9');
                       final acctId = userData?['stripeCustomerId'];
                       _completeTaxFormViaStripe(formType, acctId);
-                    },
-                  ),
-                  const SizedBox(height: 10),
+                    }),
+                  SizedBox(height: 10),
                   TradeRepublicButton(
                     label: loc?.close ?? AppLocalizations.of(context)!.tr('Close'),
                     isSecondary: true,
                     onPressed: () {
                       HapticFeedback.lightImpact();
                       Navigator.pop(context);
-                    },
-                  ),
+                    }),
                 ] else if (state != 'loading') ...[
                   TradeRepublicButton(
                     label: loc?.stripeVerifyNow ?? AppLocalizations.of(context)!.tr('Check now'),
-                    icon: const Icon(CupertinoIcons.checkmark_shield, size: 18),
+                    icon: Icon(CupertinoIcons.checkmark_shield, size: 18),
                     onPressed: () {
                       HapticFeedback.mediumImpact();
                       verify();
-                    },
-                  ),
-                  const SizedBox(height: 10),
+                    }),
+                  SizedBox(height: 10),
                   TradeRepublicButton(
                     label: loc?.stripeNotYetDone ?? AppLocalizations.of(context)!.tr('Not done yet'),
                     isSecondary: true,
                     onPressed: () {
                       HapticFeedback.lightImpact();
                       Navigator.pop(context);
-                    },
-                  ),
+                    }),
                 ] else ...[
                   // loading state – no buttons
-                  const SizedBox(height: 40),
+                  SizedBox(height: 40),
                 ],
-              ],
-            );
-          },
-        ),
-      ).whenComplete(() => NavigationVisibility.show());
+              ]);
+          })).whenComplete(() => NavigationVisibility.show());
     });
   }
 
@@ -13767,8 +11928,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
           'Content-Type': 'application/json',
           'Authorization': 'Bearer $token',
         },
-        body: json.encode({'userId': userId, 'tax_form_status': status}),
-      );
+        body: json.encode({'userId': userId, 'tax_form_status': status}));
 
       debugPrint('📡 Tax form status update response: ${response.statusCode}');
       debugPrint('📡 Response body: ${response.body}');
@@ -13806,20 +11966,16 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                     Icon(
                       CupertinoIcons.person_2_fill,
                       size: 22,
-                      color: isLight ? Colors.black : Colors.white,
-                    ),
-                    const SizedBox(width: 12),
+                      color: isLight ? Colors.black : Colors.white),
+                    SizedBox(width: 12),
                     Text(
                       AppLocalizations.of(context)?.followers ?? AppLocalizations.of(context)!.tr('Followers'),
                       style: TextStyle(
                         fontSize: 22,
                         fontWeight: FontWeight.w700,
                         color: isLight ? Colors.black : Colors.white,
-                        letterSpacing: -0.4,
-                      ),
-                    ),
-                  ],
-                ),
+                        letterSpacing: -0.4)),
+                  ]),
 
                 SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
@@ -13830,11 +11986,10 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                   children: [
                     Expanded(
                       child: Container(
-                        padding: const EdgeInsets.symmetric(vertical: 20),
+                        padding: EdgeInsets.symmetric(vertical: 20),
                         decoration: BoxDecoration(
                           color: isLight ? Colors.white : Colors.black,
-                          borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-                        ),
+                          borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
                         child: Column(
                           children: [
                             Text(
@@ -13842,31 +11997,23 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                               style: TextStyle(
                                 fontSize: 28,
                                 fontWeight: FontWeight.w800,
-                                color: isLight ? Colors.black : Colors.white,
-                              ),
-                            ),
-                            const SizedBox(height: 4),
+                                color: isLight ? Colors.black : Colors.white)),
+                            SizedBox(height: 4),
                             Text(
                               AppLocalizations.of(context)?.followers ?? AppLocalizations.of(context)!.tr('Followers'),
                               style: TextStyle(
                                 fontSize: 13,
                                 fontWeight: FontWeight.w500,
                                 color: (isLight ? Colors.black : Colors.white)
-                                    .withOpacity(0.5),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                    const SizedBox(width: 12),
+                                    .withOpacity(0.5))),
+                          ]))),
+                    SizedBox(width: 12),
                     Expanded(
                       child: Container(
-                        padding: const EdgeInsets.symmetric(vertical: 20),
+                        padding: EdgeInsets.symmetric(vertical: 20),
                         decoration: BoxDecoration(
                           color: isLight ? Colors.white : Colors.black,
-                          borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-                        ),
+                          borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
                         child: Column(
                           children: [
                             Text(
@@ -13874,25 +12021,17 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                               style: TextStyle(
                                 fontSize: 28,
                                 fontWeight: FontWeight.w800,
-                                color: isLight ? Colors.black : Colors.white,
-                              ),
-                            ),
-                            const SizedBox(height: 4),
+                                color: isLight ? Colors.black : Colors.white)),
+                            SizedBox(height: 4),
                             Text(
                               AppLocalizations.of(context)?.following ?? AppLocalizations.of(context)!.tr('Following'),
                               style: TextStyle(
                                 fontSize: 13,
                                 fontWeight: FontWeight.w500,
                                 color: (isLight ? Colors.black : Colors.white)
-                                    .withOpacity(0.5),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
+                                    .withOpacity(0.5))),
+                          ]))),
+                  ]),
 
                 SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
@@ -13907,8 +12046,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                                 CupertinoIcons.person_2_fill,
                                 size: 64,
                                 color: (isLight ? Colors.black : Colors.white)
-                                    .withOpacity(0.2),
-                              ),
+                                    .withOpacity(0.2)),
                               SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
                               Text(
                                 AppLocalizations.of(context)?.noFollowersYet ?? AppLocalizations.of(context)!.tr('No followers yet'),
@@ -13916,24 +12054,17 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                                   fontSize: 17,
                                   fontWeight: FontWeight.w600,
                                   color: (isLight ? Colors.black : Colors.white)
-                                      .withOpacity(0.5),
-                                ),
-                              ),
+                                      .withOpacity(0.5))),
                               SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                               Text(
                                 AppLocalizations.of(
-                                      context,
-                                    )?.shareProfileToGetFollowers ?? AppLocalizations.of(context)!.tr('Share your profile to get followers'),
+                                      context)?.shareProfileToGetFollowers ?? AppLocalizations.of(context)!.tr('Share your profile to get followers'),
                                 style: TextStyle(
                                   fontSize: DesktopOptimizedWidgets.getFontSize(),
                                   fontWeight: FontWeight.w500,
                                   color: (isLight ? Colors.black : Colors.white)
-                                      .withOpacity(0.4),
-                                ),
-                              ),
-                            ],
-                          ),
-                        )
+                                      .withOpacity(0.4))),
+                            ]))
                       : ListView.builder(
                           itemCount: modalFollowers.length,
                           itemBuilder: (context, index) {
@@ -13946,7 +12077,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
 
                             return TradeRepublicSwipeAction(
                               key: ValueKey('follower_$followerId'),
-                              margin: const EdgeInsets.only(bottom: 8),
+                              margin: EdgeInsets.only(bottom: 8),
                               trailing: TradeRepublicSwipeSpec(
                                 icon: CupertinoIcons.person_badge_minus,
                                 label: 'Remove',
@@ -13962,8 +12093,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                                           (f['id']?.toString() ??
                                               f['userId']?.toString() ??
                                               f['username']?.toString()) ==
-                                          followerId,
-                                    );
+                                          followerId);
                                     if (socialStats['followers_count'] != null) {
                                       socialStats['followers_count'] =
                                           (socialStats['followers_count']
@@ -13972,19 +12102,11 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                                     }
                                   });
                                   await _removeFollower(followerId);
-                                },
-                              ),
-                              child: _buildFollowerItem(follower, isLight),
-                            );
-                          },
-                        ),
-                ),
-              ],
-            ),
-          );
-        },
-      ),
-    ).whenComplete(() => NavigationVisibility.show());
+                                }),
+                              child: _buildFollowerItem(follower, isLight));
+                          })),
+              ]));
+        })).whenComplete(() => NavigationVisibility.show());
   }
 
   // Remove a follower (they will no longer follow you)
@@ -13998,21 +12120,18 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
         headers: {
           'Content-Type': 'application/json',
           'Authorization': 'Bearer $token',
-        },
-      );
+        });
 
       if (response.statusCode == 200) {
         debugPrint('✅ Follower removed successfully');
         TopNotification.success(
           context,
-          AppLocalizations.of(context)?.followerRemoved ?? AppLocalizations.of(context)!.tr('Follower removed'),
-        );
+          AppLocalizations.of(context)?.followerRemoved ?? AppLocalizations.of(context)!.tr('Follower removed'));
       } else {
         debugPrint('❌ Failed to remove follower: ${response.body}');
         TopNotification.error(
           context,
-          AppLocalizations.of(context)?.failedRemoveFollower ?? AppLocalizations.of(context)!.tr('Failed to remove follower'),
-        );
+          AppLocalizations.of(context)?.failedRemoveFollower ?? AppLocalizations.of(context)!.tr('Failed to remove follower'));
       }
     } catch (e) {
       debugPrint('❌ Error removing follower: $e');
@@ -14034,20 +12153,14 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
           gradient: LinearGradient(
             colors: [Colors.blue.shade400, Colors.purple.shade400],
             begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-          ),
-          borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-        ),
+            end: Alignment.bottomRight),
+          borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
         child: Center(
           child: Text(
             initial,
             style: TextStyle(fontSize: DesktopOptimizedWidgets.getFontSize() + 6,
               fontWeight: FontWeight.w700,
-              color: Colors.white,
-            ),
-          ),
-        ),
-      );
+              color: Colors.white))));
     }
 
     // Load network image
@@ -14064,9 +12177,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
             child: SizedBox(
               width: 20,
               height: 20,
-              child: CultiooLoadingIndicator(size: 20),
-            ),
-          );
+              child: CultiooLoadingIndicator(size: 20)));
         },
         errorBuilder: (context, error, stackTrace) {
           // Fallback to initial letter on error
@@ -14075,34 +12186,25 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
               gradient: LinearGradient(
                 colors: [Colors.blue.shade400, Colors.purple.shade400],
                 begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-              ),
-              borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-            ),
+                end: Alignment.bottomRight),
+              borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
             child: Center(
               child: Text(
                 initial,
                 style: TextStyle(fontSize: DesktopOptimizedWidgets.getFontSize() + 6,
                   fontWeight: FontWeight.w700,
-                  color: Colors.white,
-                ),
-              ),
-            ),
-          );
-        },
-      ),
-    );
+                  color: Colors.white))));
+        }));
   }
 
   Widget _buildFollowerItem(Map<String, dynamic> follower, bool isLight) {
     return Container(
-      margin: const EdgeInsets.only(bottom: 12),
+      margin: EdgeInsets.only(bottom: 12),
       padding: DesktopAppWrapper.getPagePadding(),
       decoration: BoxDecoration(
         // Use solid color to prevent red swipe background from showing through
         color: isLight ? Colors.white : Colors.black,
-        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-      ),
+        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
       child: Row(
         children: [
           // Profile Picture or Avatar - Modern style
@@ -14111,12 +12213,10 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
             height: 50,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-              color: isLight ? Colors.white : Colors.black,
-            ),
-            child: _buildFollowerAvatar(follower, isLight),
-          ),
+              color: isLight ? Colors.white : Colors.black),
+            child: _buildFollowerAvatar(follower, isLight)),
 
-          const SizedBox(width: 16),
+          SizedBox(width: 16),
 
           // User Info
           Expanded(
@@ -14133,47 +12233,35 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                         style: TextStyle(
                           fontSize: DesktopOptimizedWidgets.getFontSize(),
                           fontWeight: FontWeight.w600,
-                          color: isLight ? Colors.black : Colors.white,
-                        ),
+                          color: isLight ? Colors.black : Colors.white),
                         maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ),
+                        overflow: TextOverflow.ellipsis)),
                     if (follower['isBusiness'] == true)
                       Container(
-                        padding: const EdgeInsets.symmetric(
+                        padding: EdgeInsets.symmetric(
                           horizontal: 6,
-                          vertical: 2,
-                        ),
+                          vertical: 2),
                         decoration: BoxDecoration(
                           color: Colors.blue.withOpacity(0.1),
-                          borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-                        ),
+                          borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
                         child: Text(
                           AppLocalizations.of(context)?.business ?? AppLocalizations.of(context)!.tr('Business'),
-                          style: const TextStyle(
+                          style: TextStyle(
                             fontSize: 10,
                             fontWeight: FontWeight.w600,
-                            color: Colors.blue,
-                          ),
-                        ),
-                      ),
-                  ],
-                ),
+                            color: Colors.blue))),
+                  ]),
 
-                const SizedBox(height: 4),
+                SizedBox(height: 4),
 
                 Text(
                   '@${follower['username']}',
                   style: TextStyle(
                     fontSize: DesktopOptimizedWidgets.getFontSize(),
                     color: (isLight ? Colors.black : Colors.white).withOpacity(
-                      0.6,
-                    ),
-                  ),
-                ),
+                      0.6))),
 
-                const SizedBox(height: 4),
+                SizedBox(height: 4),
 
                 Row(
                   children: [
@@ -14181,22 +12269,16 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                       CupertinoIcons.calendar,
                       size: 12,
                       color: (isLight ? Colors.black : Colors.white)
-                          .withOpacity(0.4),
-                    ),
-                    const SizedBox(width: 4),
+                          .withOpacity(0.4)),
+                    SizedBox(width: 4),
                     Text(
                       '${AppLocalizations.of(context)?.followingSince ?? AppLocalizations.of(context)!.tr('Following since')} ${_formatDate(follower['followedDate'])}',
                       style: TextStyle(
                         fontSize: 12,
                         color: (isLight ? Colors.black : Colors.white)
-                            .withOpacity(0.4),
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
+                            .withOpacity(0.4))),
+                  ]),
+              ])),
 
           // Stats
           Column(
@@ -14207,24 +12289,16 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                 style: TextStyle(
                   fontSize: DesktopOptimizedWidgets.getFontSize(),
                   fontWeight: FontWeight.w600,
-                  color: Colors.green,
-                ),
-              ),
+                  color: Colors.green)),
               Text(
                 (AppLocalizations.of(context)?.followers ?? AppLocalizations.of(context)!.tr('followers'))
                     .toLowerCase(),
                 style: TextStyle(
                   fontSize: 10,
                   color: (isLight ? Colors.black : Colors.white).withOpacity(
-                    0.4,
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
+                    0.4))),
+            ]),
+        ]));
   }
 
   void _showSignOutModal(BuildContext context, bool isLight) {
@@ -14247,33 +12321,27 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                     Icon(
                       CupertinoIcons.power,
                       size: 22,
-                      color: isLight ? Colors.black : Colors.white,
-                    ),
-                    const SizedBox(width: 12),
+                      color: isLight ? Colors.black : Colors.white),
+                    SizedBox(width: 12),
                     Text(
                       AppLocalizations.of(context)?.signOut ?? AppLocalizations.of(context)!.tr('Sign Out'),
                       style: TextStyle(
                         fontSize: 22,
                         fontWeight: FontWeight.w700,
                         color: isLight ? Colors.black : Colors.white,
-                        letterSpacing: -0.4,
-                      ),
-                    ),
-                  ],
-                ),
+                        letterSpacing: -0.4)),
+                  ]),
 
                 SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
-                const SizedBox(height: 32),
+                SizedBox(height: 32),
 
                 // Icon - minimalist
                 Icon(
                   CupertinoIcons.square_arrow_right,
                   color: (isLight ? Colors.black : Colors.white).withOpacity(
-                    0.6,
-                  ),
-                  size: 64,
-                ),
+                    0.6),
+                  size: 64),
 
                 SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
@@ -14286,12 +12354,9 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                     fontWeight: FontWeight.w500,
                     height: 1.5,
                     color: (isLight ? Colors.black : Colors.white).withOpacity(
-                      0.6,
-                    ),
-                  ),
-                ),
+                      0.6))),
 
-                const SizedBox(height: 40),
+                SizedBox(height: 40),
 
                 // Sign Out button - minimalist red
                 TradeRepublicButton(
@@ -14301,8 +12366,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                   onPressed: () {
                     HapticFeedback.heavyImpact();
                     _performSignOut();
-                  },
-                ),
+                  }),
 
                 SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
@@ -14314,14 +12378,9 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                   onPressed: () {
                     HapticFeedback.lightImpact();
                     Navigator.pop(context);
-                  },
-                ),
-              ],
-            ),
-          );
-        },
-      ),
-    ).whenComplete(() => NavigationVisibility.show());
+                  }),
+              ]));
+        })).whenComplete(() => NavigationVisibility.show());
   }
 
   Future<void> _saveBusinessData(
@@ -14340,15 +12399,13 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
     bool showBusinessEmail,
     bool showBusinessCompany,
     bool showBusinessSize,
-    bool showBusinessCountry,
-  ) async {
+    bool showBusinessCountry) async {
     try {
       // Validate required fields
       if (businessNameController.text.trim().isEmpty) {
         TopNotification.error(
           context,
-          AppLocalizations.of(context)?.businessNameRequired ?? AppLocalizations.of(context)!.tr('Business name is required'),
-        );
+          AppLocalizations.of(context)?.businessNameRequired ?? AppLocalizations.of(context)!.tr('Business name is required'));
         return;
       }
 
@@ -14411,8 +12468,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
       // Show loading indicator
       TopNotification.info(
         context,
-        AppLocalizations.of(context)?.updatingBusinessInfo ?? AppLocalizations.of(context)!.tr('Updating business information...'),
-      );
+        AppLocalizations.of(context)?.updatingBusinessInfo ?? AppLocalizations.of(context)!.tr('Updating business information...'));
 
       // Update user data via API
       await _updateUserData(updatedData);
@@ -14422,8 +12478,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
     } catch (e) {
       TopNotification.error(
         context,
-        '${AppLocalizations.of(context)?.failedToUpdateBusinessInfo ?? AppLocalizations.of(context)!.tr('Failed to update business information')}: $e',
-      );
+        '${AppLocalizations.of(context)?.failedToUpdateBusinessInfo ?? AppLocalizations.of(context)!.tr('Failed to update business information')}: $e');
     }
   }
 
@@ -14435,7 +12490,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
     int maxLines = 1,
   }) {
     return Container(
-      margin: const EdgeInsets.only(bottom: 16),
+      margin: EdgeInsets.only(bottom: 16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -14444,9 +12499,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
             style: TextStyle(
               fontSize: DesktopOptimizedWidgets.getFontSize(),
               fontWeight: FontWeight.w600,
-              color: (isLight ? Colors.black : Colors.white).withOpacity(0.8),
-            ),
-          ),
+              color: (isLight ? Colors.black : Colors.white).withOpacity(0.8))),
           SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
           TradeRepublicTextField(
             controller: controller,
@@ -14454,18 +12507,13 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
             style: TextStyle(
               fontSize: DesktopOptimizedWidgets.getFontSize(),
               fontWeight: FontWeight.w600,
-              color: isLight ? Colors.black : Colors.white,
-            ),
+              color: isLight ? Colors.black : Colors.white),
             prefixIcon: Icon(
               icon,
               color: (isLight ? Colors.black : Colors.white).withOpacity(0.6),
-              size: 20,
-            ),
-            filled: false,
-          ),
-        ],
-      ),
-    );
+              size: 20),
+            filled: false),
+        ]));
   }
 
   Widget _buildVisibilityToggle(
@@ -14474,41 +12522,34 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
     bool currentValue,
     IconData icon,
     bool isLight,
-    Function(bool) onChanged,
-  ) {
+    Function(bool) onChanged) {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 16),
+      padding: EdgeInsets.only(bottom: 16),
       child: Material(
         color: Colors.transparent,
         child: Container(
           padding: DesktopAppWrapper.getPagePadding(),
           decoration: BoxDecoration(
             color: isLight ? Colors.white : Colors.black,
-            borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-          ),
+            borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
           child: Row(
             children: [
               Container(
-                padding: const EdgeInsets.all(8),
+                padding: EdgeInsets.all(8),
                 decoration: BoxDecoration(
                   color: currentValue
                       ? Colors.green.withOpacity(0.2)
                       : (isLight ? Colors.black : Colors.white).withOpacity(
-                          0.1,
-                        ),
-                  borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-                ),
+                          0.1),
+                  borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
                 child: Icon(
                   icon,
                   size: 20,
                   color: currentValue
                       ? Colors.green
                       : (isLight ? Colors.black : Colors.white).withOpacity(
-                          0.6,
-                        ),
-                ),
-              ),
-              const SizedBox(width: 16),
+                          0.6))),
+              SizedBox(width: 16),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -14518,38 +12559,27 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                       style: TextStyle(
                         fontSize: DesktopOptimizedWidgets.getFontSize(),
                         fontWeight: FontWeight.w600,
-                        color: isLight ? Colors.black : Colors.white,
-                      ),
-                    ),
-                    const SizedBox(height: 4),
+                        color: isLight ? Colors.black : Colors.white)),
+                    SizedBox(height: 4),
                     Text(
                       subtitle,
                       style: TextStyle(
                         fontSize: DesktopOptimizedWidgets.getFontSize(),
                         color: (isLight ? Colors.black : Colors.white)
-                            .withOpacity(0.6),
-                      ),
+                            .withOpacity(0.6)),
                       maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(width: 12),
+                      overflow: TextOverflow.ellipsis),
+                  ])),
+              SizedBox(width: 12),
               TradeRepublicSwitch(value: currentValue, onChanged: onChanged),
-            ],
-          ),
-        ),
-      ),
-    );
+            ]))));
   }
 
   void _showCountrySelection(
     StateSetter setModalState,
     String currentCountry,
     bool isLight,
-    Function(String) onCountrySelected,
-  ) {
+    Function(String) onCountrySelected) {
     final countries = [
       // North America
       {'name': 'United States', 'code': 'US', 'flag': '🇺🇸'},
@@ -14601,24 +12631,20 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
               Icon(
                 CupertinoIcons.globe,
                 size: 22,
-                color: isLight ? Colors.black : Colors.white,
-              ),
-              const SizedBox(width: 12),
+                color: isLight ? Colors.black : Colors.white),
+              SizedBox(width: 12),
               Text(
                 AppLocalizations.of(context)?.selectCountry ?? AppLocalizations.of(context)!.tr('Select Country'),
                 style: TextStyle(
                   fontSize: 22,
                   fontWeight: FontWeight.w700,
                   color: isLight ? Colors.black : Colors.white,
-                  letterSpacing: -0.4,
-                ),
-              ),
-            ],
-          ),
+                  letterSpacing: -0.4)),
+            ]),
 
           SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
-          const SizedBox(height: 4),
+          SizedBox(height: 4),
           Expanded(
             child: ListView.builder(
               itemCount: countries.length,
@@ -14633,7 +12659,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                     Navigator.pop(context);
                   },
                   child: Container(
-                    margin: const EdgeInsets.only(bottom: 12),
+                    margin: EdgeInsets.only(bottom: 12),
                     padding: DesktopAppWrapper.getPagePadding(),
                     decoration: BoxDecoration(
                       color: isSelected
@@ -14641,15 +12667,13 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                           : isLight
                           ? Colors.white
                           : Colors.black,
-                      borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-                    ),
+                      borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
                     child: Row(
                       children: [
                         Text(
                           country['flag']!,
-                          style: const TextStyle(fontSize: 28),
-                        ),
-                        const SizedBox(width: 16),
+                          style: TextStyle(fontSize: 28)),
+                        SizedBox(width: 16),
                         Text(
                           country['name']!,
                           style: TextStyle(
@@ -14659,34 +12683,23 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                                 : FontWeight.w500,
                             color: isSelected
                                 ? (isLight ? Colors.white : Colors.black)
-                                : (isLight ? Colors.black : Colors.white),
-                          ),
-                        ),
+                                : (isLight ? Colors.black : Colors.white))),
                         if (isSelected) ...[
                           const Spacer(),
                           Icon(
                             CupertinoIcons.check_mark_circled_solid,
-                            color: isLight ? Colors.white : Colors.black,
-                          ),
+                            color: isLight ? Colors.white : Colors.black),
                         ],
-                      ],
-                    ),
-                  ),
-                );
-              },
-            ),
-          ),
-        ],
-      ),
-    ).whenComplete(() => NavigationVisibility.show());
+                      ])));
+              })),
+        ])).whenComplete(() => NavigationVisibility.show());
   }
 
   void _showBusinessSizeSelection(
     StateSetter setModalState,
     String currentSize,
     bool isLight,
-    Function(String) onSizeSelected,
-  ) {
+    Function(String) onSizeSelected) {
     final sizeOptions = [
       {'size': '1-10 employees', 'icon': Icons.store},
       {'size': '11-50 employees', 'icon': CupertinoIcons.building_2_fill},
@@ -14709,20 +12722,16 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
               Icon(
                 CupertinoIcons.building_2_fill,
                 size: 22,
-                color: isLight ? Colors.black : Colors.white,
-              ),
-              const SizedBox(width: 12),
+                color: isLight ? Colors.black : Colors.white),
+              SizedBox(width: 12),
               Text(
                 AppLocalizations.of(context)?.selectBusinessSize ?? AppLocalizations.of(context)!.tr('Select Business Size'),
                 style: TextStyle(
                   fontSize: 22,
                   fontWeight: FontWeight.w700,
                   color: isLight ? Colors.black : Colors.white,
-                  letterSpacing: -0.4,
-                ),
-              ),
-            ],
-          ),
+                  letterSpacing: -0.4)),
+            ]),
 
           SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
@@ -14741,7 +12750,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                     Navigator.pop(context);
                   },
                   child: Container(
-                    margin: const EdgeInsets.only(bottom: 12),
+                    margin: EdgeInsets.only(bottom: 12),
                     padding: DesktopAppWrapper.getPagePadding(),
                     decoration: BoxDecoration(
                       color: isSelected
@@ -14749,8 +12758,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                           : isLight
                           ? Colors.white
                           : Colors.black,
-                      borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-                    ),
+                      borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
                     child: Row(
                       children: [
                         Icon(
@@ -14759,9 +12767,8 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                               ? (isLight ? Colors.white : Colors.black)
                                     .withOpacity(0.6)
                               : (isLight ? Colors.black : Colors.white)
-                                    .withOpacity(0.6),
-                        ),
-                        const SizedBox(width: 16),
+                                    .withOpacity(0.6)),
+                        SizedBox(width: 16),
                         Text(
                           option['size'] as String,
                           style: TextStyle(
@@ -14771,26 +12778,16 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                                 : FontWeight.w500,
                             color: isSelected
                                 ? (isLight ? Colors.white : Colors.black)
-                                : (isLight ? Colors.black : Colors.white),
-                          ),
-                        ),
+                                : (isLight ? Colors.black : Colors.white))),
                         if (isSelected) ...[
                           const Spacer(),
                           Icon(
                             CupertinoIcons.check_mark_circled_solid,
-                            color: isLight ? Colors.white : Colors.black,
-                          ),
+                            color: isLight ? Colors.white : Colors.black),
                         ],
-                      ],
-                    ),
-                  ),
-                );
-              },
-            ),
-          ),
-        ],
-      ),
-    ).whenComplete(() => NavigationVisibility.show());
+                      ])));
+              })),
+        ])).whenComplete(() => NavigationVisibility.show());
   }
 
   Widget _buildSecurityToggle(
@@ -14799,15 +12796,13 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
     bool currentValue,
     IconData icon,
     bool isLight,
-    Function(bool) onChanged,
-  ) {
+    Function(bool) onChanged) {
     return Container(
-      margin: const EdgeInsets.only(bottom: 12),
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+      margin: EdgeInsets.only(bottom: 12),
+      padding: EdgeInsets.symmetric(horizontal: 16, vertical: 14),
       decoration: BoxDecoration(
         color: (isLight ? Colors.black : Colors.white).withOpacity(0.04),
-        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-      ),
+        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
       child: Row(
         children: [
           Icon(
@@ -14815,9 +12810,8 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
             size: 22,
             color: currentValue
                 ? CupertinoColors.systemGreen
-                : (isLight ? Colors.black : Colors.white).withOpacity(0.5),
-          ),
-          const SizedBox(width: 14),
+                : (isLight ? Colors.black : Colors.white).withOpacity(0.5)),
+          SizedBox(width: 14),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -14827,22 +12821,15 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                   style: TextStyle(
                     fontSize: DesktopOptimizedWidgets.getFontSize(),
                     fontWeight: FontWeight.w600,
-                    color: isLight ? Colors.black : Colors.white,
-                  ),
-                ),
-                const SizedBox(height: 2),
+                    color: isLight ? Colors.black : Colors.white)),
+                SizedBox(height: 2),
                 Text(
                   subtitle,
                   style: TextStyle(
                     fontSize: 13,
                     color: (isLight ? Colors.black : Colors.white).withOpacity(
-                      0.5,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
+                      0.5))),
+              ])),
           Builder(
             builder: (ctx) {
               final isProcessing =
@@ -14855,21 +12842,14 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                     child: SizedBox(
                       width: 18,
                       height: 18,
-                      child: CultiooLoadingIndicator(size: 20),
-                    ),
-                  ),
-                );
+                      child: CultiooLoadingIndicator(size: 20))));
               }
 
               return TradeRepublicSwitch(
                 value: currentValue,
-                onChanged: onChanged,
-              );
-            },
-          ),
-        ],
-      ),
-    );
+                onChanged: onChanged);
+            }),
+        ]));
   }
 
   Widget _buildSecurityActionItem(
@@ -14886,14 +12866,13 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
         onTap();
       },
       child: Container(
-        margin: const EdgeInsets.only(bottom: 12),
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+        margin: EdgeInsets.only(bottom: 12),
+        padding: EdgeInsets.symmetric(horizontal: 16, vertical: 14),
         decoration: BoxDecoration(
           color: isDestructive
               ? Colors.red.withOpacity(0.08)
               : (isLight ? Colors.black : Colors.white).withOpacity(0.04),
-          borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-        ),
+          borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
         child: Row(
           children: [
             Icon(
@@ -14901,9 +12880,8 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
               size: 22,
               color: isDestructive
                   ? Colors.red
-                  : (isLight ? Colors.black : Colors.white).withOpacity(0.5),
-            ),
-            const SizedBox(width: 14),
+                  : (isLight ? Colors.black : Colors.white).withOpacity(0.5)),
+            SizedBox(width: 14),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -14915,30 +12893,20 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                       fontWeight: FontWeight.w600,
                       color: isDestructive
                           ? Colors.red
-                          : (isLight ? Colors.black : Colors.white),
-                    ),
-                  ),
-                  const SizedBox(height: 2),
+                          : (isLight ? Colors.black : Colors.white))),
+                  SizedBox(height: 2),
                   Text(
                     subtitle,
                     style: TextStyle(
                       fontSize: 13,
                       color: (isLight ? Colors.black : Colors.white)
-                          .withOpacity(0.5),
-                    ),
-                  ),
-                ],
-              ),
-            ),
+                          .withOpacity(0.5))),
+                ])),
             Icon(
               CupertinoIcons.chevron_right,
               size: 20,
-              color: (isLight ? Colors.black : Colors.white).withOpacity(0.3),
-            ),
-          ],
-        ),
-      ),
-    );
+              color: (isLight ? Colors.black : Colors.white).withOpacity(0.3)),
+          ])));
   }
 
   // Security Toggle Methods
@@ -14960,13 +12928,11 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
 
         TopNotification.success(
           context,
-          AppLocalizations.of(context)?.twoFADisabledSuccess ?? AppLocalizations.of(context)!.tr('2FA disabled successfully!'),
-        );
+          AppLocalizations.of(context)?.twoFADisabledSuccess ?? AppLocalizations.of(context)!.tr('2FA disabled successfully!'));
       } catch (e) {
         TopNotification.error(
           context,
-          AppLocalizations.of(context)?.failedDisable2FA ?? AppLocalizations.of(context)!.tr('Failed to disable 2FA settings'),
-        );
+          AppLocalizations.of(context)?.failedDisable2FA ?? AppLocalizations.of(context)!.tr('Failed to disable 2FA settings'));
       }
     }
   }
@@ -14980,16 +12946,14 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
         if (!isDeviceSupported) {
           TopNotification.error(
             context,
-            AppLocalizations.of(context)?.biometricNotSupported ?? AppLocalizations.of(context)!.tr('Biometric authentication not supported on this device'),
-          );
+            AppLocalizations.of(context)?.biometricNotSupported ?? AppLocalizations.of(context)!.tr('Biometric authentication not supported on this device'));
           return;
         }
 
         // Test biometric authentication to verify it works
         TopNotification.info(
           context,
-          AppLocalizations.of(context)?.authenticateBiometricEnable ?? AppLocalizations.of(context)!.tr('Please authenticate with your biometric to enable this feature'),
-        );
+          AppLocalizations.of(context)?.authenticateBiometricEnable ?? AppLocalizations.of(context)!.tr('Please authenticate with your biometric to enable this feature'));
 
         // mark processing to update UI (show spinner)
         setModalState(() {
@@ -15003,8 +12967,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
         try {
           try {
             biometricTest = await BiometricService.testBiometric().timeout(
-              const Duration(seconds: 12),
-            );
+              const Duration(seconds: 12));
           } catch (e) {
             debugPrint('⚠️ Biometric test timeout or error: $e');
             biometricTest = false;
@@ -15013,8 +12976,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
           if (!biometricTest) {
             TopNotification.error(
               context,
-              AppLocalizations.of(context)?.biometricAuthFailed ?? AppLocalizations.of(context)!.tr('Biometric authentication failed. Please try again.'),
-            );
+              AppLocalizations.of(context)?.biometricAuthFailed ?? AppLocalizations.of(context)!.tr('Biometric authentication failed. Please try again.'));
             return;
           }
 
@@ -15032,8 +12994,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
 
           TopNotification.success(
             context,
-            AppLocalizations.of(context)?.biometricEnabledSuccess ?? AppLocalizations.of(context)!.tr('Biometric authentication enabled and tested successfully!'),
-          );
+            AppLocalizations.of(context)?.biometricEnabledSuccess ?? AppLocalizations.of(context)!.tr('Biometric authentication enabled and tested successfully!'));
         } finally {
           if (processingSet) {
             setModalState(() {
@@ -15045,8 +13006,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
         // When disabling biometric, verify with biometric first
         TopNotification.info(
           context,
-          AppLocalizations.of(context)?.authenticateBiometricDisable ?? AppLocalizations.of(context)!.tr('Please authenticate with your biometric to disable this feature'),
-        );
+          AppLocalizations.of(context)?.authenticateBiometricDisable ?? AppLocalizations.of(context)!.tr('Please authenticate with your biometric to disable this feature'));
 
         // mark processing
         setModalState(() {
@@ -15058,8 +13018,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
         try {
           try {
             biometricTest = await BiometricService.testBiometric().timeout(
-              const Duration(seconds: 12),
-            );
+              const Duration(seconds: 12));
           } catch (e) {
             debugPrint('⚠️ Biometric test timeout or error: $e');
             biometricTest = false;
@@ -15068,8 +13027,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
           if (!biometricTest) {
             TopNotification.error(
               context,
-              AppLocalizations.of(context)?.biometricRequiredDisable ?? AppLocalizations.of(context)!.tr('Biometric authentication required to disable this feature'),
-            );
+              AppLocalizations.of(context)?.biometricRequiredDisable ?? AppLocalizations.of(context)!.tr('Biometric authentication required to disable this feature'));
             return;
           }
 
@@ -15087,8 +13045,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
 
           TopNotification.success(
             context,
-            AppLocalizations.of(context)?.biometricDisabledSuccess ?? AppLocalizations.of(context)!.tr('Biometric authentication disabled successfully!'),
-          );
+            AppLocalizations.of(context)?.biometricDisabledSuccess ?? AppLocalizations.of(context)!.tr('Biometric authentication disabled successfully!'));
         } finally {
           if (processingSet) {
             setModalState(() {
@@ -15100,8 +13057,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
     } catch (e) {
       TopNotification.error(
         context,
-        '${AppLocalizations.of(context)?.failedUpdateBiometric ?? AppLocalizations.of(context)!.tr('Failed to update biometric settings')}: $e',
-      );
+        '${AppLocalizations.of(context)?.failedUpdateBiometric ?? AppLocalizations.of(context)!.tr('Failed to update biometric settings')}: $e');
       debugPrint('❌ Error in _toggleBiometric: $e');
     }
   }
@@ -15114,14 +13070,12 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
       final dbBiometricEnabled = userData?['biometric_enabled'] == 1;
 
       debugPrint(
-        '🔄 Synchronizing biometric settings: local=$localBiometricEnabled, db=$dbBiometricEnabled',
-      );
+        '🔄 Synchronizing biometric settings: local=$localBiometricEnabled, db=$dbBiometricEnabled');
 
       // If settings don't match, prioritize database value (server as source of truth)
       if (localBiometricEnabled != dbBiometricEnabled) {
         debugPrint(
-          '⚠️ Biometric settings mismatch - updating local storage to match database',
-        );
+          '⚠️ Biometric settings mismatch - updating local storage to match database');
         await prefs.setBool('biometric_enabled', dbBiometricEnabled);
       }
     } catch (e) {
@@ -15131,8 +13085,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
 
   Future<void> _toggleLoginNotifications(
     bool enabled,
-    StateSetter setModalState,
-  ) async {
+    StateSetter setModalState) async {
     try {
       final updatedData = {'notifications_login': enabled ? 1 : 0};
 
@@ -15146,13 +13099,11 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
         context,
         enabled
             ? AppLocalizations.of(context)?.loginNotifEnabled ?? AppLocalizations.of(context)!.tr('Login notifications enabled!')
-            : AppLocalizations.of(context)?.loginNotifDisabled ?? AppLocalizations.of(context)!.tr('Login notifications disabled!'),
-      );
+            : AppLocalizations.of(context)?.loginNotifDisabled ?? AppLocalizations.of(context)!.tr('Login notifications disabled!'));
     } catch (e) {
       TopNotification.error(
         context,
-        AppLocalizations.of(context)?.failedUpdateNotifSettings ?? AppLocalizations.of(context)!.tr('Failed to update notification settings'),
-      );
+        AppLocalizations.of(context)?.failedUpdateNotifSettings ?? AppLocalizations.of(context)!.tr('Failed to update notification settings'));
     }
   }
 
@@ -15166,8 +13117,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
       if (token == null) {
         TopNotification.error(
           context,
-          AppLocalizations.of(context)?.authenticationRequired ?? AppLocalizations.of(context)!.tr('Authentication required'),
-        );
+          AppLocalizations.of(context)?.authenticationRequired ?? AppLocalizations.of(context)!.tr('Authentication required'));
         return;
       }
 
@@ -15184,20 +13134,17 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
       }
 
       debugPrint(
-        '✅ Newsletter subscription ${enabled ? 'enabled' : 'disabled'} successfully',
-      );
+        '✅ Newsletter subscription ${enabled ? 'enabled' : 'disabled'} successfully');
       TopNotification.success(
         context,
         enabled
             ? AppLocalizations.of(context)?.newsletterEnabled ?? AppLocalizations.of(context)!.tr('Newsletter subscription enabled and synced to Google Cloud!')
-            : AppLocalizations.of(context)?.newsletterDisabled ?? AppLocalizations.of(context)!.tr('Newsletter subscription disabled and synced to Google Cloud!'),
-      );
+            : AppLocalizations.of(context)?.newsletterDisabled ?? AppLocalizations.of(context)!.tr('Newsletter subscription disabled and synced to Google Cloud!'));
     } catch (e) {
       debugPrint('❌ Error updating newsletter subscription: $e');
       TopNotification.error(
         context,
-        AppLocalizations.of(context)?.failedSyncNewsletter ?? AppLocalizations.of(context)!.tr('Failed to sync newsletter subscription to Google Cloud'),
-      );
+        AppLocalizations.of(context)?.failedSyncNewsletter ?? AppLocalizations.of(context)!.tr('Failed to sync newsletter subscription to Google Cloud'));
     }
   }
 
@@ -15210,8 +13157,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
       if (token == null) {
         TopNotification.error(
           context,
-          AppLocalizations.of(context)?.authenticationRequired ?? AppLocalizations.of(context)!.tr('Authentication required'),
-        );
+          AppLocalizations.of(context)?.authenticationRequired ?? AppLocalizations.of(context)!.tr('Authentication required'));
         return;
       }
 
@@ -15228,20 +13174,17 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
       }
 
       debugPrint(
-        '✅ Login notifications ${enabled ? 'enabled' : 'disabled'} successfully',
-      );
+        '✅ Login notifications ${enabled ? 'enabled' : 'disabled'} successfully');
       TopNotification.success(
         context,
         enabled
             ? AppLocalizations.of(context)?.loginNotifEnabledSync ?? AppLocalizations.of(context)!.tr('Login notifications enabled')
-            : AppLocalizations.of(context)?.loginNotifDisabledSync ?? AppLocalizations.of(context)!.tr('Login notifications disabled'),
-      );
+            : AppLocalizations.of(context)?.loginNotifDisabledSync ?? AppLocalizations.of(context)!.tr('Login notifications disabled'));
     } catch (e) {
       debugPrint('❌ Error updating login notifications: $e');
       TopNotification.error(
         context,
-        AppLocalizations.of(context)?.failedSyncLoginNotif ?? AppLocalizations.of(context)!.tr('Failed to sync login notifications'),
-      );
+        AppLocalizations.of(context)?.failedSyncLoginNotif ?? AppLocalizations.of(context)!.tr('Failed to sync login notifications'));
     }
   }
 
@@ -15251,15 +13194,13 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
     bool currentValue,
     IconData icon,
     bool isLight,
-    Function(bool) onChanged,
-  ) {
+    Function(bool) onChanged) {
     return TradeRepublicListTile.toggle(
       title: title,
       subtitle: subtitle,
       leading: Icon(icon, size: 18),
       value: currentValue,
-      onChanged: (v) => onChanged(v),
-    );
+      onChanged: (v) => onChanged(v));
   }
 
   // Security Modal Methods
@@ -15287,20 +13228,16 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                   Icon(
                     CupertinoIcons.lock_fill,
                     size: 22,
-                    color: isLight ? Colors.black : Colors.white,
-                  ),
-                  const SizedBox(width: 12),
+                    color: isLight ? Colors.black : Colors.white),
+                  SizedBox(width: 12),
                   Text(
                     AppLocalizations.of(context)?.changePassword ?? AppLocalizations.of(context)!.tr('Change Password'),
                     style: TextStyle(
                       fontSize: 22,
                       fontWeight: FontWeight.w700,
                       color: isLight ? Colors.black : Colors.white,
-                      letterSpacing: -0.4,
-                    ),
-                  ),
-                ],
-              ),
+                      letterSpacing: -0.4)),
+                ]),
 
               SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
@@ -15319,9 +13256,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                         isLight,
                         () => setModalState(
                           () =>
-                              obscureCurrentPassword = !obscureCurrentPassword,
-                        ),
-                      ),
+                              obscureCurrentPassword = !obscureCurrentPassword)),
 
                       SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
@@ -15333,9 +13268,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                         obscureNewPassword,
                         isLight,
                         () => setModalState(
-                          () => obscureNewPassword = !obscureNewPassword,
-                        ),
-                      ),
+                          () => obscureNewPassword = !obscureNewPassword)),
 
                       SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
@@ -15348,9 +13281,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                         isLight,
                         () => setModalState(
                           () =>
-                              obscureConfirmPassword = !obscureConfirmPassword,
-                        ),
-                      ),
+                              obscureConfirmPassword = !obscureConfirmPassword)),
 
                       SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
@@ -15361,13 +13292,8 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                           fontSize: 13,
                           fontWeight: FontWeight.w500,
                           color: (isLight ? Colors.black : Colors.white)
-                              .withOpacity(0.4),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
+                              .withOpacity(0.4))),
+                    ]))),
 
               SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
@@ -15381,10 +13307,8 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                   _changePassword(
                     currentPasswordController.text,
                     newPasswordController.text,
-                    confirmPasswordController.text,
-                  );
-                },
-              ),
+                    confirmPasswordController.text);
+                }),
 
               SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
@@ -15399,12 +13323,8 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                   newPasswordController.dispose();
                   confirmPasswordController.dispose();
                   Navigator.pop(context);
-                },
-              ),
-            ],
-        ),
-      ),
-    ).whenComplete(() => NavigationVisibility.show());
+                }),
+            ]))).whenComplete(() => NavigationVisibility.show());
   }
 
   Widget _buildPasswordField(
@@ -15413,8 +13333,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
     TextEditingController controller,
     bool obscureText,
     bool isLight,
-    VoidCallback toggleVisibility,
-  ) {
+    VoidCallback toggleVisibility) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -15423,9 +13342,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
           style: TextStyle(
             fontSize: DesktopOptimizedWidgets.getFontSize(),
             fontWeight: FontWeight.w600,
-            color: (isLight ? Colors.black : Colors.white).withOpacity(0.5),
-          ),
-        ),
+            color: (isLight ? Colors.black : Colors.white).withOpacity(0.5))),
         SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
         TradeRepublicTextField(
           controller: controller,
@@ -15433,8 +13350,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
           style: TextStyle(
             fontSize: DesktopOptimizedWidgets.getFontSize(),
             fontWeight: FontWeight.w500,
-            color: isLight ? Colors.black : Colors.white,
-          ),
+            color: isLight ? Colors.black : Colors.white),
           hintText: hint,
           suffixIcon: TradeRepublicButton.icon(
             size: 36,
@@ -15443,22 +13359,17 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                 (isLight ? Colors.black : Colors.white).withOpacity(0.4),
             icon: Icon(
               obscureText ? CupertinoIcons.eye_slash : CupertinoIcons.eye_fill,
-              size: 20,
-            ),
-            onPressed: toggleVisibility,
-          ),
+              size: 20),
+            onPressed: toggleVisibility),
           filled: true,
-          fillColor: (isLight ? Colors.black : Colors.white).withOpacity(0.05),
-        ),
-      ],
-    );
+          fillColor: (isLight ? Colors.black : Colors.white).withOpacity(0.05)),
+      ]);
   }
 
   Future<void> _changePassword(
     String currentPassword,
     String newPassword,
-    String confirmPassword,
-  ) async {
+    String confirmPassword) async {
     debugPrint('🔐 _changePassword called');
 
     if (currentPassword.isEmpty ||
@@ -15466,16 +13377,14 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
         confirmPassword.isEmpty) {
       TopNotification.error(
         context,
-        AppLocalizations.of(context)?.fillAllFields ?? AppLocalizations.of(context)!.tr('Please fill in all fields'),
-      );
+        AppLocalizations.of(context)?.fillAllFields ?? AppLocalizations.of(context)!.tr('Please fill in all fields'));
       return;
     }
 
     if (newPassword != confirmPassword) {
       TopNotification.error(
         context,
-        AppLocalizations.of(context)?.passwordsDoNotMatch ?? AppLocalizations.of(context)!.tr('New passwords do not match'),
-      );
+        AppLocalizations.of(context)?.passwordsDoNotMatch ?? AppLocalizations.of(context)!.tr('New passwords do not match'));
       return;
     }
 
@@ -15483,8 +13392,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
       TopNotification.error(
         context,
         AppLocalizations.of(context)?.passwordMinLength ??
-            AppLocalizations.of(context)?.passwordAtLeast8Characters ?? AppLocalizations.of(context)!.tr('Password must be at least 8 characters'),
-      );
+            AppLocalizations.of(context)?.passwordAtLeast8Characters ?? AppLocalizations.of(context)!.tr('Password must be at least 8 characters'));
       return;
     }
 
@@ -15498,8 +13406,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
 
       debugPrint('📡 Debug info:');
       debugPrint(
-        '  - Token: ${token != null ? "Present (${token.length} chars)" : "NULL"}',
-      );
+        '  - Token: ${token != null ? "Present (${token.length} chars)" : "NULL"}');
       debugPrint('  - UserId: $userId');
       debugPrint('  - AppSettings userId: ${appSettings.userId}');
       debugPrint('  - UserData username: ${userData?['username']}');
@@ -15511,8 +13418,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
       if (token == null || token.isEmpty) {
         TopNotification.error(
           context,
-          AppLocalizations.of(context)?.authRequiredLogin ?? AppLocalizations.of(context)!.tr('Authentication required. Please logout and login again to change your password.'),
-        );
+          AppLocalizations.of(context)?.authRequiredLogin ?? AppLocalizations.of(context)!.tr('Authentication required. Please logout and login again to change your password.'));
         return;
       }
 
@@ -15523,8 +13429,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
       };
 
       debugPrint(
-        '📡 Sending password change request: ${json.encode({'userId': userId, 'currentPassword': '***', 'newPassword': '***'})}',
-      );
+        '📡 Sending password change request: ${json.encode({'userId': userId, 'currentPassword': '***', 'newPassword': '***'})}');
 
       final response = await http.put(
         Uri.parse('${ApiConfig.baseUrl}/api/auth/change-password'),
@@ -15532,8 +13437,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
           'Content-Type': 'application/json',
           'Authorization': 'Bearer $token',
         },
-        body: json.encode(requestData),
-      );
+        body: json.encode(requestData));
 
       debugPrint('📡 Password change response: ${response.statusCode}');
       debugPrint('📡 Password change response body: ${response.body}');
@@ -15545,30 +13449,26 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
           Navigator.pop(context);
           TopNotification.success(
             context,
-            AppLocalizations.of(context)?.passwordChangedSuccess ?? AppLocalizations.of(context)!.tr('Password changed successfully!'),
-          );
+            AppLocalizations.of(context)?.passwordChangedSuccess ?? AppLocalizations.of(context)!.tr('Password changed successfully!'));
           debugPrint('✅ Password changed successfully in database');
         } else {
           TopNotification.error(
             context,
             responseData['message'] ??
-                (AppLocalizations.of(context)?.failedToChangePassword ?? AppLocalizations.of(context)!.tr('Failed to change password')),
-          );
+                (AppLocalizations.of(context)?.failedToChangePassword ?? AppLocalizations.of(context)!.tr('Failed to change password')));
           debugPrint('❌ Password change failed: ${responseData['message']}');
         }
       } else {
         TopNotification.error(
           context,
-          AppLocalizations.of(context)?.failedToChangePasswordRetry ?? AppLocalizations.of(context)!.tr('Failed to change password. Please try again.'),
-        );
+          AppLocalizations.of(context)?.failedToChangePasswordRetry ?? AppLocalizations.of(context)!.tr('Failed to change password. Please try again.'));
         debugPrint('❌ Password change failed with status: ${response.statusCode}');
       }
     } catch (e) {
       debugPrint('❌ Error changing password: $e');
       TopNotification.error(
         context,
-        '${AppLocalizations.of(context)?.errorChangingPassword ?? AppLocalizations.of(context)!.tr('Error changing password')}: $e',
-      );
+        '${AppLocalizations.of(context)?.errorChangingPassword ?? AppLocalizations.of(context)!.tr('Error changing password')}: $e');
     }
   }
 
@@ -15612,24 +13512,20 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                   Icon(
                     CupertinoIcons.desktopcomputer,
                     size: 22,
-                    color: isLight ? Colors.black : Colors.white,
-                  ),
-                  const SizedBox(width: 12),
+                    color: isLight ? Colors.black : Colors.white),
+                  SizedBox(width: 12),
                   Text(
                     AppLocalizations.of(context)?.activeSessions ?? AppLocalizations.of(context)!.tr('Active Sessions'),
                     style: TextStyle(
                       fontSize: 22,
                       fontWeight: FontWeight.w700,
                       color: isLight ? Colors.black : Colors.white,
-                      letterSpacing: -0.4,
-                    ),
-                  ),
-                ],
-              ),
+                      letterSpacing: -0.4)),
+                ]),
 
               SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
-              const SizedBox(height: 6),
+              SizedBox(height: 6),
 
               Text(
                 AppLocalizations.of(context)?.manageSignedIn ??
@@ -15637,12 +13533,9 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                 style: TextStyle(
                   fontSize: 15,
                   color: (isLight ? Colors.black : Colors.white).withOpacity(
-                    0.5,
-                  ),
-                ),
-              ),
+                    0.5))),
 
-              const SizedBox(height: 32),
+              SizedBox(height: 32),
 
               Expanded(
                 child: isLoading
@@ -15650,40 +13543,31 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                         child: SizedBox(
                           width: 24,
                           height: 24,
-                          child: CultiooLoadingIndicator(size: 20),
-                        ),
-                      )
+                          child: CultiooLoadingIndicator(size: 20)))
                     : errorMessage != null
                     ? Center(
                         child: Padding(
-                          padding: const EdgeInsets.all(24),
+                          padding: EdgeInsets.all(24),
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Icon(
                                 CupertinoIcons.exclamationmark_circle,
                                 size: 40,
-                                color: Colors.red,
-                              ),
+                                color: Colors.red),
                               SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
                               Text(
                                 AppLocalizations.of(
-                                      context,
-                                    )?.failedToLoadSessions ?? AppLocalizations.of(context)!.tr('Failed to load sessions'),
+                                      context)?.failedToLoadSessions ?? AppLocalizations.of(context)!.tr('Failed to load sessions'),
                                 style: TextStyle(
                                   color: isLight ? Colors.black : Colors.white,
                                   fontSize: DesktopOptimizedWidgets.getFontSize(),
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      )
+                                  fontWeight: FontWeight.w600)),
+                            ])))
                     : sessions.isEmpty
                     ? Center(
                         child: Padding(
-                          padding: const EdgeInsets.all(24),
+                          padding: EdgeInsets.all(24),
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
@@ -15691,34 +13575,24 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                                 CupertinoIcons.device_laptop,
                                 size: 40,
                                 color: (isLight ? Colors.black : Colors.white)
-                                    .withOpacity(0.3),
-                              ),
+                                    .withOpacity(0.3)),
                               SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
                               Text(
                                 AppLocalizations.of(
-                                      context,
-                                    )?.noActiveSessions ?? AppLocalizations.of(context)!.tr('No active sessions'),
+                                      context)?.noActiveSessions ?? AppLocalizations.of(context)!.tr('No active sessions'),
                                 style: TextStyle(
                                   color: isLight ? Colors.black : Colors.white,
                                   fontSize: DesktopOptimizedWidgets.getFontSize(),
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              ),
-                              const SizedBox(height: 4),
+                                  fontWeight: FontWeight.w600)),
+                              SizedBox(height: 4),
                               Text(
                                 AppLocalizations.of(
-                                      context,
-                                    )?.noOtherActiveSessions ?? AppLocalizations.of(context)!.tr('You have no other active sessions'),
+                                      context)?.noOtherActiveSessions ?? AppLocalizations.of(context)!.tr('You have no other active sessions'),
                                 style: TextStyle(
                                   color: (isLight ? Colors.black : Colors.white)
                                       .withOpacity(0.5),
-                                  fontSize: DesktopOptimizedWidgets.getFontSize(),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      )
+                                  fontSize: DesktopOptimizedWidgets.getFontSize())),
+                            ])))
                     : ListView.builder(
                         padding: EdgeInsets.zero,
                         itemCount: sessions.length,
@@ -15727,16 +13601,10 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                           return _buildActiveSessionItem(
                             session,
                             isLight,
-                            setModalState,
-                          );
-                        },
-                      ),
-              ),
-            ],
-          );
-        },
-      ),
-    );
+                            setModalState);
+                        })),
+            ]);
+        }));
   }
 
   Future<List<Map<String, dynamic>>> _loadLoginHistory() async {
@@ -15755,8 +13623,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
         headers: {
           'Content-Type': 'application/json',
           'Authorization': 'Bearer $token',
-        },
-      );
+        });
 
       debugPrint('📡 Login history response: ${response.statusCode}');
       debugPrint('📡 Login history response body: ${response.body}');
@@ -15778,16 +13645,14 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                   'device': _extractDeviceFromUserAgent(
                     activity['userAgent'] ??
                         (AppLocalizations.of(context)?.unknown ??
-                            AppLocalizations.of(context)?.unknownLabel ?? AppLocalizations.of(context)!.tr('Unknown')),
-                  ),
+                            AppLocalizations.of(context)?.unknownLabel ?? AppLocalizations.of(context)!.tr('Unknown'))),
                   'location':
                       AppLocalizations.of(context)?.unknownLocation ??
                       AppLocalizations.of(context)?.unknownLabel ?? AppLocalizations.of(context)!.tr('Unknown'), // Default location since not in login_history table
                   'ip':
                       AppLocalizations.of(context)?.hidden ?? AppLocalizations.of(context)!.tr('Hidden'), // IP not stored in login_history table
                   'method': _extractLoginMethodFromUserAgent(
-                    activity['userAgent'] ?? AppLocalizations.of(context)!.tr(''),
-                  ),
+                    activity['userAgent'] ?? AppLocalizations.of(context)!.tr('')),
                   'status':
                       'success', // login_history only stores successful logins
                   'failureReason': null,
@@ -15966,8 +13831,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
         headers: {
           'Content-Type': 'application/json',
           'Authorization': 'Bearer $token',
-        },
-      );
+        });
 
       debugPrint('📡 Login history response: ${response.statusCode}');
       debugPrint('📡 Login history response body: ${response.body}');
@@ -15980,8 +13844,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
           final List<dynamic> loginHistory = responseData['loginHistory'];
 
           debugPrint(
-            '📊 Processing ${loginHistory.length} login entries as active sessions',
-          );
+            '📊 Processing ${loginHistory.length} login entries as active sessions');
 
           // Convert recent login history to session-like data
           return loginHistory.take(5).map<Map<String, dynamic>>((login) {
@@ -16114,19 +13977,17 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
   Widget _buildActiveSessionItem(
     Map<String, dynamic> session,
     bool isLight,
-    StateSetter setModalState,
-  ) {
+    StateSetter setModalState) {
     final isCurrent = session['current'] == true;
 
     return Container(
-      margin: const EdgeInsets.only(bottom: 12),
-      padding: const EdgeInsets.all(14),
+      margin: EdgeInsets.only(bottom: 12),
+      padding: EdgeInsets.all(14),
       decoration: BoxDecoration(
         color: isCurrent
             ? CupertinoColors.systemGreen.withValues(alpha: 0.1)
             : (isLight ? Colors.black : Colors.white).withOpacity(0.04),
-        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-      ),
+        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
       child: Row(
         children: [
           Icon(
@@ -16136,9 +13997,8 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
             color: isCurrent
                 ? CupertinoColors.systemGreen
                 : (isLight ? Colors.black : Colors.white).withOpacity(0.5),
-            size: 22,
-          ),
-          const SizedBox(width: 14),
+            size: 22),
+          SizedBox(width: 14),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -16152,43 +14012,29 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                         style: TextStyle(
                           fontSize: DesktopOptimizedWidgets.getFontSize(),
                           fontWeight: FontWeight.w600,
-                          color: isLight ? Colors.black : Colors.white,
-                        ),
-                      ),
-                    ),
+                          color: isLight ? Colors.black : Colors.white))),
                     if (isCurrent)
                       Text(
                         AppLocalizations.of(context)?.current ?? AppLocalizations.of(context)!.tr('Current'),
                         style: TextStyle(
                           fontSize: 12,
                           fontWeight: FontWeight.w600,
-                          color: CupertinoColors.systemGreen,
-                        ),
-                      ),
-                  ],
-                ),
-                const SizedBox(height: 2),
+                          color: CupertinoColors.systemGreen)),
+                  ]),
+                SizedBox(height: 2),
                 Text(
                   '${session['device']} • ${session['os']}',
                   style: TextStyle(
                     fontSize: 13,
                     color: (isLight ? Colors.black : Colors.white).withOpacity(
-                      0.6,
-                    ),
-                  ),
-                ),
+                      0.6))),
                 Text(
                   '${AppLocalizations.of(context)?.lastActive ?? AppLocalizations.of(context)!.tr('Last active')}: ${session['lastActive']}',
                   style: TextStyle(
                     fontSize: 12,
                     color: (isLight ? Colors.black : Colors.white).withOpacity(
-                      0.4,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
+                      0.4))),
+              ])),
           if (!isCurrent)
             TradeRepublicTap(
               onTap: () {
@@ -16198,26 +14044,20 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
               child: Icon(
                 CupertinoIcons.square_arrow_right,
                 color: Colors.red,
-                size: 20,
-              ),
-            ),
-        ],
-      ),
-    );
+                size: 20)),
+        ]));
   }
 
   Future<void> _terminateSession(
     int sessionId,
-    StateSetter setModalState,
-  ) async {
+    StateSetter setModalState) async {
     try {
       final token = await _getStoredToken();
 
       if (token == null) {
         TopNotification.error(
           context,
-          AppLocalizations.of(context)?.authRequired ?? AppLocalizations.of(context)!.tr('Authentication required'),
-        );
+          AppLocalizations.of(context)?.authRequired ?? AppLocalizations.of(context)!.tr('Authentication required'));
         return;
       }
 
@@ -16228,16 +14068,14 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
         headers: {
           'Content-Type': 'application/json',
           'Authorization': 'Bearer $token',
-        },
-      );
+        });
 
       debugPrint('📡 Terminate session response: ${response.statusCode}');
 
       if (response.statusCode == 200) {
         TopNotification.success(
           context,
-          AppLocalizations.of(context)?.sessionTerminated ?? AppLocalizations.of(context)!.tr('Session terminated successfully'),
-        );
+          AppLocalizations.of(context)?.sessionTerminated ?? AppLocalizations.of(context)!.tr('Session terminated successfully'));
 
         // Reload sessions
         _loadActiveSessions().then((loadedSessions) {
@@ -16248,15 +14086,13 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
       } else {
         TopNotification.error(
           context,
-          AppLocalizations.of(context)?.failedTerminateSession ?? AppLocalizations.of(context)!.tr('Failed to terminate session'),
-        );
+          AppLocalizations.of(context)?.failedTerminateSession ?? AppLocalizations.of(context)!.tr('Failed to terminate session'));
       }
     } catch (e) {
       debugPrint('❌ Error terminating session: $e');
       TopNotification.error(
         context,
-        '${AppLocalizations.of(context)?.errorTerminatingSession ?? AppLocalizations.of(context)!.tr('Error terminating session')}: $e',
-      );
+        '${AppLocalizations.of(context)?.errorTerminatingSession ?? AppLocalizations.of(context)!.tr('Error terminating session')}: $e');
     }
   }
 
@@ -16276,34 +14112,28 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
               Icon(
                 CupertinoIcons.clock_fill,
                 size: 22,
-                color: isLight ? Colors.black : Colors.white,
-              ),
-              const SizedBox(width: 12),
+                color: isLight ? Colors.black : Colors.white),
+              SizedBox(width: 12),
               Text(
                 AppLocalizations.of(context)?.loginHistory ?? AppLocalizations.of(context)!.tr('Login History'),
                 style: TextStyle(
                   fontSize: 22,
                   fontWeight: FontWeight.w700,
                   color: isLight ? Colors.black : Colors.white,
-                  letterSpacing: -0.4,
-                ),
-              ),
-            ],
-          ),
+                  letterSpacing: -0.4)),
+            ]),
 
           SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
-          const SizedBox(height: 6),
+          SizedBox(height: 6),
 
           Text(
             AppLocalizations.of(context)?.recentLoginActivity ?? AppLocalizations.of(context)!.tr('Recent login activity on your account'),
             style: TextStyle(
               fontSize: 15,
-              color: (isLight ? Colors.black : Colors.white).withOpacity(0.5),
-            ),
-          ),
+              color: (isLight ? Colors.black : Colors.white).withOpacity(0.5))),
 
-          const SizedBox(height: 32),
+          SizedBox(height: 32),
 
           Expanded(
             child: FutureBuilder<List<Map<String, dynamic>>>(
@@ -16314,9 +14144,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                     child: SizedBox(
                       width: 24,
                       height: 24,
-                      child: CultiooLoadingIndicator(size: 20),
-                    ),
-                  );
+                      child: CultiooLoadingIndicator(size: 20)));
                 }
 
                 if (snapshot.hasError) {
@@ -16325,10 +14153,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                       AppLocalizations.of(context)?.errorLoadingLoginHistory ?? AppLocalizations.of(context)!.tr('Error loading login history'),
                       style: TextStyle(
                         color: (isLight ? Colors.black : Colors.white)
-                            .withOpacity(0.5),
-                      ),
-                    ),
-                  );
+                            .withOpacity(0.5))));
                 }
 
                 final loginHistory = snapshot.data ?? [];
@@ -16339,10 +14164,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                       AppLocalizations.of(context)?.noLoginHistoryAvailable ?? AppLocalizations.of(context)!.tr('No login history available'),
                       style: TextStyle(
                         color: (isLight ? Colors.black : Colors.white)
-                            .withOpacity(0.5),
-                      ),
-                    ),
-                  );
+                            .withOpacity(0.5))));
                 }
 
                 return ListView.builder(
@@ -16353,23 +14175,21 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                     final isSuccess = login['status'] == 'success';
 
                     return Container(
-                      margin: const EdgeInsets.only(bottom: 12),
-                      padding: const EdgeInsets.all(14),
+                      margin: EdgeInsets.only(bottom: 12),
+                      padding: EdgeInsets.all(14),
                       decoration: BoxDecoration(
                         color: isSuccess
                             ? (isLight ? Colors.black : Colors.white)
                                   .withOpacity(0.04)
                             : Colors.red.withOpacity(0.08),
-                        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-                      ),
+                        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
                       child: Row(
                         children: [
                           Icon(
                             isSuccess ? Icons.check_circle : Icons.error,
                             size: 22,
-                            color: isSuccess ? Colors.green : Colors.red,
-                          ),
-                          const SizedBox(width: 14),
+                            color: isSuccess ? Colors.green : Colors.red),
+                          SizedBox(width: 14),
                           Expanded(
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -16384,12 +14204,9 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                                           fontWeight: FontWeight.w600,
                                           color: isLight
                                               ? Colors.black
-                                              : Colors.white,
-                                        ),
+                                              : Colors.white),
                                         maxLines: 1,
-                                        overflow: TextOverflow.ellipsis,
-                                      ),
-                                    ),
+                                        overflow: TextOverflow.ellipsis)),
                                     Text(
                                       '${login['date']} ${login['time']}',
                                       style: TextStyle(
@@ -16398,35 +14215,21 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                                             (isLight
                                                     ? Colors.black
                                                     : Colors.white)
-                                                .withOpacity(0.4),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                const SizedBox(height: 2),
+                                                .withOpacity(0.4))),
+                                  ]),
+                                SizedBox(height: 2),
                                 Text(
                                   '${login['location']} • ${isSuccess ? (AppLocalizations.of(context)?.successful ?? AppLocalizations.of(context)!.tr('Successful')) : (AppLocalizations.of(context)?.failed ?? AppLocalizations.of(context)!.tr('Failed'))}',
                                   style: TextStyle(
                                     fontSize: 13,
                                     color:
                                         (isLight ? Colors.black : Colors.white)
-                                            .withOpacity(0.5),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                    );
-                  },
-                );
-              },
-            ),
-          ),
-        ],
-      ),
-    ).whenComplete(() => NavigationVisibility.show());
+                                            .withOpacity(0.5))),
+                              ])),
+                        ]));
+                  });
+              })),
+        ])).whenComplete(() => NavigationVisibility.show());
   }
 
   void _showDeleteAccountModal(BuildContext context, bool isLight) {
@@ -16451,20 +14254,16 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                   Icon(
                     CupertinoIcons.trash_fill,
                     size: 22,
-                    color: isLight ? Colors.black : Colors.white,
-                  ),
-                  const SizedBox(width: 12),
+                    color: isLight ? Colors.black : Colors.white),
+                  SizedBox(width: 12),
                   Text(
                     AppLocalizations.of(context)?.deleteAccount ?? AppLocalizations.of(context)!.tr('Delete Account'),
                     style: TextStyle(
                       fontSize: 22,
                       fontWeight: FontWeight.w700,
                       color: isLight ? Colors.black : Colors.white,
-                      letterSpacing: -0.4,
-                    ),
-                  ),
-                ],
-              ),
+                      letterSpacing: -0.4)),
+                ]),
 
               SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
@@ -16477,12 +14276,9 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                   fontSize: 15,
                   fontWeight: FontWeight.w500,
                   color: (isLight ? Colors.black : Colors.white).withOpacity(
-                    0.5,
-                  ),
-                ),
-              ),
+                    0.5))),
 
-              const SizedBox(height: 32),
+              SizedBox(height: 32),
 
               Expanded(
                 child: SingleChildScrollView(
@@ -16498,24 +14294,19 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                           fontWeight: FontWeight.w500,
                           height: 1.5,
                           color: (isLight ? Colors.black : Colors.white)
-                              .withOpacity(0.6),
-                        ),
-                      ),
+                              .withOpacity(0.6))),
 
-                      const SizedBox(height: 32),
+                      SizedBox(height: 32),
 
                       // Password field - minimalist
                       Text(
                         AppLocalizations.of(
-                              context,
-                            )?.confirmPasswordHintDelete ?? AppLocalizations.of(context)!.tr('Confirm password'),
+                              context)?.confirmPasswordHintDelete ?? AppLocalizations.of(context)!.tr('Confirm password'),
                         style: TextStyle(
                           fontSize: DesktopOptimizedWidgets.getFontSize(),
                           fontWeight: FontWeight.w600,
                           color: (isLight ? Colors.black : Colors.white)
-                              .withOpacity(0.5),
-                        ),
-                      ),
+                              .withOpacity(0.5))),
 
                       SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
@@ -16525,8 +14316,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                         style: TextStyle(
                           fontSize: DesktopOptimizedWidgets.getFontSize(),
                           fontWeight: FontWeight.w500,
-                          color: isLight ? Colors.black : Colors.white,
-                        ),
+                          color: isLight ? Colors.black : Colors.white),
                         hintText:
                             AppLocalizations.of(context)?.password ?? AppLocalizations.of(context)!.tr('Password'),
                         suffixIcon: TradeRepublicButton.icon(
@@ -16538,19 +14328,12 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                             obscurePassword
                                 ? CupertinoIcons.eye_slash
                                 : CupertinoIcons.eye_fill,
-                            size: 20,
-                          ),
+                            size: 20),
                           onPressed: () => setModalState(
-                            () => obscurePassword = !obscurePassword,
-                          ),
-                        ),
+                            () => obscurePassword = !obscurePassword)),
                         filled: true,
-                        fillColor: isLight ? Colors.white : Colors.black,
-                      ),
-                    ],
-                  ),
-                ),
-              ),
+                        fillColor: isLight ? Colors.white : Colors.black),
+                    ]))),
 
               SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
@@ -16563,8 +14346,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                 onPressed: () {
                   HapticFeedback.heavyImpact();
                   _deleteAccount(passwordController.text);
-                },
-              ),
+                }),
 
               SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
@@ -16577,21 +14359,15 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                   HapticFeedback.lightImpact();
                   passwordController.dispose();
                   Navigator.pop(context);
-                },
-              ),
-            ],
-          ),
-        ),
-      ),
-    ).whenComplete(() => NavigationVisibility.show());
+                }),
+            ])))).whenComplete(() => NavigationVisibility.show());
   }
 
   Future<void> _deleteAccount(String password) async {
     if (password.isEmpty) {
       TopNotification.error(
         context,
-        AppLocalizations.of(context)?.enterPassword ?? AppLocalizations.of(context)!.tr('Please enter your password'),
-      );
+        AppLocalizations.of(context)?.enterPassword ?? AppLocalizations.of(context)!.tr('Please enter your password'));
       return;
     }
 
@@ -16603,8 +14379,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
       if (token == null || token.isEmpty) {
         TopNotification.error(
           context,
-          AppLocalizations.of(context)?.authRequiredLoginAgain ?? AppLocalizations.of(context)!.tr('Authentication required. Please login again.'),
-        );
+          AppLocalizations.of(context)?.authRequiredLoginAgain ?? AppLocalizations.of(context)!.tr('Authentication required. Please login again.'));
         return;
       }
 
@@ -16612,8 +14387,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
       Navigator.pop(context); // Close modal first
       TopNotification.info(
         context,
-        AppLocalizations.of(context)?.verifyingPassword ?? AppLocalizations.of(context)!.tr('Verifying password and deleting account...'),
-      );
+        AppLocalizations.of(context)?.verifyingPassword ?? AppLocalizations.of(context)!.tr('Verifying password and deleting account...'));
 
       final requestData = {'password': password};
 
@@ -16625,8 +14399,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
           'Content-Type': 'application/json',
           'Authorization': 'Bearer $token',
         },
-        body: json.encode(requestData),
-      );
+        body: json.encode(requestData));
 
       debugPrint('📡 Account deletion response: ${response.statusCode}');
       debugPrint('📡 Account deletion response body: ${response.body}');
@@ -16636,8 +14409,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
 
         if (responseData['success'] == true) {
           debugPrint(
-            '✅ Account deleted successfully: ${responseData['deletedUser']}',
-          );
+            '✅ Account deleted successfully: ${responseData['deletedUser']}');
 
           // Clear all stored data
           final prefs = await SharedPreferences.getInstance();
@@ -16647,8 +14419,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
 
           TopNotification.success(
             context,
-            AppLocalizations.of(context)?.accountDeletedSuccess ?? AppLocalizations.of(context)!.tr('Account deleted successfully. Goodbye!'),
-          );
+            AppLocalizations.of(context)?.accountDeletedSuccess ?? AppLocalizations.of(context)!.tr('Account deleted successfully. Goodbye!'));
 
           // Navigate to login or home screen
           Navigator.of(context).pushNamedAndRemoveUntil('/', (route) => false);
@@ -16657,39 +14428,33 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
           TopNotification.error(
             context,
             responseData['message'] ??
-                (AppLocalizations.of(context)?.failedToDeleteAccount ?? AppLocalizations.of(context)!.tr('Failed to delete account')),
-          );
+                (AppLocalizations.of(context)?.failedToDeleteAccount ?? AppLocalizations.of(context)!.tr('Failed to delete account')));
         }
       } else if (response.statusCode == 401) {
         TopNotification.error(
           context,
-          AppLocalizations.of(context)?.incorrectPassword ?? AppLocalizations.of(context)!.tr('Incorrect password. Please try again.'),
-        );
+          AppLocalizations.of(context)?.incorrectPassword ?? AppLocalizations.of(context)!.tr('Incorrect password. Please try again.'));
       } else if (response.statusCode == 404) {
         TopNotification.error(
           context,
-          AppLocalizations.of(context)?.userNotFound ?? AppLocalizations.of(context)!.tr('User not found. Please contact support.'),
-        );
+          AppLocalizations.of(context)?.userNotFound ?? AppLocalizations.of(context)!.tr('User not found. Please contact support.'));
       } else {
         TopNotification.error(
           context,
-          AppLocalizations.of(context)?.failedDeleteAccount ?? AppLocalizations.of(context)!.tr('Failed to delete account. Please try again.'),
-        );
+          AppLocalizations.of(context)?.failedDeleteAccount ?? AppLocalizations.of(context)!.tr('Failed to delete account. Please try again.'));
         debugPrint('❌ Account deletion failed with status: ${response.statusCode}');
       }
     } catch (e) {
       debugPrint('❌ Error during account deletion: $e');
       TopNotification.error(
         context,
-        '${AppLocalizations.of(context)?.errorDeletingAccount ?? AppLocalizations.of(context)!.tr('Error deleting account')}: $e',
-      );
+        '${AppLocalizations.of(context)?.errorDeletingAccount ?? AppLocalizations.of(context)!.tr('Error deleting account')}: $e');
     }
   }
 
   void _show2FASetupModal(
     BuildContext context,
-    StateSetter parentSetModalState,
-  ) {
+    StateSetter parentSetModalState) {
     final twoFACodeController = TextEditingController();
     final passwordController = TextEditingController();
     bool obscurePassword = true;
@@ -16718,20 +14483,16 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                       Icon(
                         CupertinoIcons.shield_fill,
                         size: 22,
-                        color: isLight ? Colors.black : Colors.white,
-                      ),
-                      const SizedBox(width: 12),
+                        color: isLight ? Colors.black : Colors.white),
+                      SizedBox(width: 12),
                       Text(
                         AppLocalizations.of(context)?.enable2FA ?? AppLocalizations.of(context)!.tr('Two-Factor Authentication'),
                         style: TextStyle(
                           fontSize: 22,
                           fontWeight: FontWeight.w700,
                           color: isLight ? Colors.black : Colors.white,
-                          letterSpacing: -0.4,
-                        ),
-                      ),
-                    ],
-                  ),
+                          letterSpacing: -0.4)),
+                    ]),
 
                   SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
@@ -16740,11 +14501,9 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                     style: TextStyle(
                       fontSize: 15,
                       color: (isLight ? Colors.black : Colors.white)
-                          .withOpacity(0.5),
-                    ),
-                  ),
+                          .withOpacity(0.5))),
 
-                  const SizedBox(height: 32),
+                  SizedBox(height: 32),
 
                   // 2FA Code Input
                   Text(
@@ -16753,9 +14512,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                       fontSize: DesktopOptimizedWidgets.getFontSize(),
                       fontWeight: FontWeight.w600,
                       color: (isLight ? Colors.black : Colors.white)
-                          .withOpacity(0.7),
-                    ),
-                  ),
+                          .withOpacity(0.7))),
                   SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                   TradeRepublicTextField(
                     controller: twoFACodeController,
@@ -16765,16 +14522,14 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                       fontSize: DesktopOptimizedWidgets.getFontSize() + 4,
                       color: isLight ? Colors.black : Colors.white,
                       letterSpacing: 4,
-                      fontWeight: FontWeight.w600,
-                    ),
+                      fontWeight: FontWeight.w600),
                     hintText: AppLocalizations.of(context)!.tr('12345678') ?? AppLocalizations.of(context)!.tr('12345678'),
                     filled: true,
                     fillColor: (isLight ? Colors.black : Colors.white)
                         .withOpacity(0.04),
-                    counterText: '',
-                  ),
+                    counterText: ''),
 
-                  const SizedBox(height: 20),
+                  SizedBox(height: 20),
 
                   // Password Confirmation
                   Text(
@@ -16783,17 +14538,14 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                       fontSize: DesktopOptimizedWidgets.getFontSize(),
                       fontWeight: FontWeight.w600,
                       color: (isLight ? Colors.black : Colors.white)
-                          .withOpacity(0.7),
-                    ),
-                  ),
+                          .withOpacity(0.7))),
                   SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                   TradeRepublicTextField(
                     controller: passwordController,
                     obscureText: obscurePassword,
                     style: TextStyle(
                       fontSize: DesktopOptimizedWidgets.getFontSize(),
-                      color: isLight ? Colors.black : Colors.white,
-                    ),
+                      color: isLight ? Colors.black : Colors.white),
                     hintText:
                         AppLocalizations.of(context)?.enterPassword ?? AppLocalizations.of(context)!.tr('Enter your password'),
                     suffixIcon: TradeRepublicButton.icon(
@@ -16810,13 +14562,10 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                         obscurePassword
                             ? CupertinoIcons.eye
                             : CupertinoIcons.eye_slash,
-                        size: 20,
-                      ),
-                    ),
+                        size: 20)),
                     filled: true,
                     fillColor: (isLight ? Colors.black : Colors.white)
-                        .withOpacity(0.04),
-                  ),
+                        .withOpacity(0.04)),
 
                   const Spacer(),
 
@@ -16831,10 +14580,8 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                         passwordController.text,
                         parentSetModalState,
                         twoFACodeController,
-                        passwordController,
-                      );
-                    },
-                  ),
+                        passwordController);
+                    }),
 
                   SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
@@ -16851,17 +14598,11 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                           passwordController.dispose();
                         } catch (e) {}
                       });
-                    },
-                  ),
+                    }),
 
                   SizedBox(height: MediaQuery.of(context).padding.bottom + 16),
-                ],
-              ),
-            ),
-          ],
-        ),
-      ),
-    ).whenComplete(() => NavigationVisibility.show());
+                ])),
+          ]))).whenComplete(() => NavigationVisibility.show());
   }
 
   Future<void> _enable2FA(
@@ -16869,19 +14610,16 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
     String password,
     StateSetter parentSetModalState,
     TextEditingController codeController,
-    TextEditingController passwordController,
-  ) async {
+    TextEditingController passwordController) async {
     debugPrint(
-      '🔐 _enable2FA called with code: "$code", password length: ${password.length}',
-    );
+      '🔐 _enable2FA called with code: "$code", password length: ${password.length}');
 
     // Validate inputs
     if (code.isEmpty || code.length != 8) {
       debugPrint('❌ Invalid code: empty=${code.isEmpty}, length=${code.length}');
       TopNotification.error(
         context,
-        AppLocalizations.of(context)?.enter2FACode ?? AppLocalizations.of(context)!.tr('Please enter a valid 8-digit 2FA code'),
-      );
+        AppLocalizations.of(context)?.enter2FACode ?? AppLocalizations.of(context)!.tr('Please enter a valid 8-digit 2FA code'));
       return;
     }
 
@@ -16889,8 +14627,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
       debugPrint('❌ Password is empty');
       TopNotification.error(
         context,
-        AppLocalizations.of(context)?.pleaseEnterYourPassword ?? AppLocalizations.of(context)!.tr('Please enter your password'),
-      );
+        AppLocalizations.of(context)?.pleaseEnterYourPassword ?? AppLocalizations.of(context)!.tr('Please enter your password'));
       return;
     }
 
@@ -16899,8 +14636,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
       debugPrint('❌ Code contains non-numeric characters: "$code"');
       TopNotification.error(
         context,
-        AppLocalizations.of(context)?.enter2FACodeNumbers ?? AppLocalizations.of(context)!.tr('2FA code must contain only numbers'),
-      );
+        AppLocalizations.of(context)?.enter2FACodeNumbers ?? AppLocalizations.of(context)!.tr('2FA code must contain only numbers'));
       return;
     }
 
@@ -16920,8 +14656,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
       });
 
       debugPrint(
-        '✅ Local userData updated: has_2fa_enabled=${userData!['has_2fa_enabled']}, twofa=${userData!['twofa']}',
-      );
+        '✅ Local userData updated: has_2fa_enabled=${userData!['has_2fa_enabled']}, twofa=${userData!['twofa']}');
 
       // Close modal first, then cleanup
       Navigator.pop(context);
@@ -16938,14 +14673,12 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
 
       TopNotification.success(
         context,
-        AppLocalizations.of(context)?.twoFAEnabledSuccess ?? AppLocalizations.of(context)!.tr('2FA enabled successfully!'),
-      );
+        AppLocalizations.of(context)?.twoFAEnabledSuccess ?? AppLocalizations.of(context)!.tr('2FA enabled successfully!'));
     } catch (e) {
       debugPrint('❌ Error in _enable2FA: $e');
       TopNotification.error(
         context,
-        '${AppLocalizations.of(context)?.failedEnable2FA ?? AppLocalizations.of(context)!.tr('Failed to enable 2FA settings')}: $e',
-      );
+        '${AppLocalizations.of(context)?.failedEnable2FA ?? AppLocalizations.of(context)!.tr('Failed to enable 2FA settings')}: $e');
     }
   }
 
@@ -16959,8 +14692,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
       // Show loading notification
       TopNotification.info(
         context,
-        AppLocalizations.of(context)?.signingOut ?? AppLocalizations.of(context)!.tr('Signing out...'),
-      );
+        AppLocalizations.of(context)?.signingOut ?? AppLocalizations.of(context)!.tr('Signing out...'));
 
       final token = await _getStoredToken();
 
@@ -16974,8 +14706,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
             headers: {
               'Content-Type': 'application/json',
               'Authorization': 'Bearer $token',
-            },
-          );
+            });
 
           debugPrint('📡 Logout API response: ${response.statusCode}');
           debugPrint('📡 Logout API response body: ${response.body}');
@@ -16989,13 +14720,11 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
             }
           } else {
             debugPrint(
-              '⚠️ Server logout failed with status: ${response.statusCode}',
-            );
+              '⚠️ Server logout failed with status: ${response.statusCode}');
           }
         } catch (e) {
           debugPrint(
-            '⚠️ Error calling logout API (continuing with local logout): $e',
-          );
+            '⚠️ Error calling logout API (continuing with local logout): $e');
         }
       }
 
@@ -17034,16 +14763,14 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
       debugPrint('❌ Error during sign out: $e');
       TopNotification.error(
         context,
-        '${AppLocalizations.of(context)?.errorSigningOut ?? AppLocalizations.of(context)!.tr('Error signing out')}: $e',
-      );
+        '${AppLocalizations.of(context)?.errorSigningOut ?? AppLocalizations.of(context)!.tr('Error signing out')}: $e');
     }
   }
 
   // Business Logo Upload Methods
   Future<void> _uploadProfilePicture(
     BuildContext context,
-    ImageSource source,
-  ) async {
+    ImageSource source) async {
     debugPrint('📸 Starting business logo upload from source: $source');
 
     // Close modal immediately and work with stored context
@@ -17057,8 +14784,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
         source: source,
         maxWidth: 800,
         maxHeight: 800,
-        imageQuality: 85,
-      );
+        imageQuality: 85);
 
       debugPrint('📸 Image picker result: ${image?.path ?? AppLocalizations.of(context)!.tr('null')}');
 
@@ -17078,8 +14804,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
         debugPrint('❌ Image file too large: ${fileSizeInMB.toStringAsFixed(2)} MB');
         _showSafeNotification(
           'Image size must be less than 5MB',
-          isError: true,
-        );
+          isError: true);
         return;
       }
 
@@ -17087,8 +14812,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
       debugPrint('📤 Starting image upload to server...');
       _showSafeNotification(
         AppLocalizations.of(context)?.uploadingLogo ?? AppLocalizations.of(context)!.tr('Uploading business logo...'),
-        isInfo: true,
-      );
+        isInfo: true);
 
       // Upload to server
       final uploadResult = await _uploadImageToServer(file);
@@ -17103,8 +14827,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
         await _loadUserData();
 
         _showSafeNotification(
-          AppLocalizations.of(context)?.logoUploadedSuccess ?? AppLocalizations.of(context)!.tr('Business logo uploaded successfully!'),
-        );
+          AppLocalizations.of(context)?.logoUploadedSuccess ?? AppLocalizations.of(context)!.tr('Business logo uploaded successfully!'));
       } else {
         final errorMsg =
             uploadResult['error'] ??
@@ -17125,16 +14848,14 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
         } else {
           _showSafeNotification(
             '${AppLocalizations.of(context)?.failedToUploadLogo ?? AppLocalizations.of(context)!.tr('Failed to upload logo')}: $errorMsg',
-            isError: true,
-          );
+            isError: true);
         }
       }
     } catch (e) {
       debugPrint('❌ Error uploading business logo: $e');
       _showSafeNotification(
         '${AppLocalizations.of(context)?.errorUploadingLogo ?? AppLocalizations.of(context)!.tr('Error uploading logo')}: $e',
-        isError: true,
-      );
+        isError: true);
     }
   }
 
@@ -17157,8 +14878,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
 
       final request = http.MultipartRequest(
         'POST',
-        Uri.parse('${ApiConfig.baseUrl}/api/business/upload-logo'),
-      );
+        Uri.parse('${ApiConfig.baseUrl}/api/business/upload-logo'));
 
       request.headers.addAll({'Authorization': 'Bearer $token'});
 
@@ -17169,9 +14889,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
           'businessLogo',
           imageBytes,
           filename: imageFile.path.split('/').last,
-          contentType: MediaType('image', _getImageExtension(imageFile.path)),
-        ),
-      );
+          contentType: MediaType('image', _getImageExtension(imageFile.path))));
 
       final streamedResponse = await request.send();
       final response = await http.Response.fromStream(streamedResponse);
@@ -17234,8 +14952,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
       debugPrint('📡 Updating user data to remove logo...');
       _showSafeNotification(
         AppLocalizations.of(context)?.removingLogo ?? AppLocalizations.of(context)!.tr('Removing business logo...'),
-        isInfo: true,
-      );
+        isInfo: true);
 
       await _updateUserData(updatedData);
 
@@ -17244,14 +14961,12 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
 
       debugPrint('✅ Business logo removed successfully');
       _showSafeNotification(
-        AppLocalizations.of(context)?.logoRemovedSuccess ?? AppLocalizations.of(context)!.tr('Business logo removed successfully!'),
-      );
+        AppLocalizations.of(context)?.logoRemovedSuccess ?? AppLocalizations.of(context)!.tr('Business logo removed successfully!'));
     } catch (e) {
       debugPrint('❌ Error removing business logo: $e');
       _showSafeNotification(
         '${AppLocalizations.of(context)?.errorRemovingLogo ?? AppLocalizations.of(context)!.tr('Error removing logo')}: $e',
-        isError: true,
-      );
+        isError: true);
     }
   }
 
@@ -17291,24 +15006,20 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
               Icon(
                 CupertinoIcons.gear,
                 size: 22,
-                color: isLight ? Colors.black : Colors.white,
-              ),
-              const SizedBox(width: 12),
+                color: isLight ? Colors.black : Colors.white),
+              SizedBox(width: 12),
               Text(
                 AppLocalizations.of(context)?.groupSettings ?? AppLocalizations.of(context)!.tr('Group Settings'),
                 style: TextStyle(
                   fontSize: 22,
                   fontWeight: FontWeight.w700,
                   color: isLight ? Colors.black : Colors.white,
-                  letterSpacing: -0.4,
-                ),
-              ),
-            ],
-          ),
+                  letterSpacing: -0.4)),
+            ]),
 
           SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
-          const SizedBox(height: 20),
+          SizedBox(height: 20),
 
           // Scrollable content
           Expanded(
@@ -17319,7 +15030,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                   // Group Header with info
                   _buildGroupSettingsHeader(isLight),
 
-                  const SizedBox(height: 20),
+                  SizedBox(height: 20),
 
                   // Group Details Section
                   _buildGroupSettingsSection(
@@ -17333,8 +15044,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                               AppLocalizations.of(context)?.description ?? AppLocalizations.of(context)!.tr('Description'),
                           subtitle: currentGroup!['description'].toString(),
                           isLight: isLight,
-                          onTap: () {},
-                        ),
+                          onTap: () {}),
                       if (currentGroup?['website'] != null &&
                           currentGroup!['website'].toString().isNotEmpty)
                         _buildGroupSettingsOption(
@@ -17343,34 +15053,29 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                               AppLocalizations.of(context)?.website ?? AppLocalizations.of(context)!.tr('Website'),
                           subtitle: currentGroup!['website'].toString(),
                           isLight: isLight,
-                          onTap: () {},
-                        ),
+                          onTap: () {}),
                       _buildGroupSettingsOption(
                         icon: CupertinoIcons.calendar,
                         title:
                             AppLocalizations.of(context)?.created ?? AppLocalizations.of(context)!.tr('Created'),
                         subtitle:
                             _formatDate(
-                              currentGroup?['createdAt']?.toString(),
-                            ) ??
+                              currentGroup?['createdAt']?.toString()) ??
                             AppLocalizations.of(context)?.unknownLabel ?? AppLocalizations.of(context)!.tr('Unknown'),
                         isLight: isLight,
-                        onTap: () {},
-                      ),
+                        onTap: () {}),
                     ],
-                    isLight,
-                  ),
+                    isLight),
 
-                  const SizedBox(height: 20),
+                  SizedBox(height: 20),
 
                   // Members Section
                   _buildGroupSettingsSection(
                     AppLocalizations.of(context)?.members ?? AppLocalizations.of(context)!.tr('Members'),
                     [_buildGroupMembersOption(isLight)],
-                    isLight,
-                  ),
+                    isLight),
 
-                  const SizedBox(height: 20),
+                  SizedBox(height: 20),
 
                   // Admin Actions
                   if (_isCurrentGroupAdmin) ...[
@@ -17390,22 +15095,18 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                               if (path != null && path.isNotEmpty) {
                                 _uploadGroupProfileImage(path);
                               }
-                            },
-                          ),
-                          color: Colors.blue,
-                        ),
+                            }),
+                          color: Colors.blue),
                         _buildGroupSettingsOption(
                           icon: CupertinoIcons.arrow_right_arrow_left,
                           title:
                               AppLocalizations.of(context)?.transferOwnership ?? AppLocalizations.of(context)!.tr('Transfer Admin Role'),
                           subtitle:
                               AppLocalizations.of(
-                                context,
-                              )?.transferOwnershipDesc ?? AppLocalizations.of(context)!.tr('Make another member the group admin'),
+                                context)?.transferOwnershipDesc ?? AppLocalizations.of(context)!.tr('Make another member the group admin'),
                           isLight: isLight,
                           onTap: () => _showTransferOwnershipDialog(isLight),
-                          color: Colors.orange,
-                        ),
+                          color: Colors.orange),
                         _buildGroupSettingsOption(
                           icon: CupertinoIcons.delete,
                           title:
@@ -17413,16 +15114,13 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                           subtitle:
                               AppLocalizations.of(context)?.deleteGroupDesc ??
                               AppLocalizations.of(
-                                context,
-                              )?.permanentlyDeleteThisGroup ?? AppLocalizations.of(context)!.tr('Permanently delete this group'),
+                                context)?.permanentlyDeleteThisGroup ?? AppLocalizations.of(context)!.tr('Permanently delete this group'),
                           isLight: isLight,
                           onTap: () => _showDeleteGroupDialog(isLight),
-                          color: Colors.red,
-                        ),
+                          color: Colors.red),
                       ],
-                      isLight,
-                    ),
-                    const SizedBox(height: 20),
+                      isLight),
+                    SizedBox(height: 20),
                   ],
 
                   if (!_isCurrentGroupAdmin) ...[
@@ -17438,11 +15136,9 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                               AppLocalizations.of(context)?.leaveThisGroup ?? AppLocalizations.of(context)!.tr('Leave this group'),
                           isLight: isLight,
                           onTap: () => _showLeaveGroupDialog(context, isLight),
-                          color: Colors.red,
-                        ),
+                          color: Colors.red),
                       ],
-                      isLight,
-                    ),
+                      isLight),
 
                     SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                   ],
@@ -17454,15 +15150,9 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                     onPressed: () {
                       HapticFeedback.lightImpact();
                       Navigator.pop(context);
-                    },
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ],
-      ),
-    ).whenComplete(() => NavigationVisibility.show());
+                    }),
+                ]))),
+        ])).whenComplete(() => NavigationVisibility.show());
   }
 
   Widget _buildGroupSettingsHeader(bool isLight) {
@@ -17479,8 +15169,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
       padding: DesktopAppWrapper.getPagePadding(),
       decoration: BoxDecoration(
         color: isLight ? Colors.white : Colors.black,
-        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-      ),
+        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
       child: Column(
         children: [
           // Group Profile Image or Icon
@@ -17489,8 +15178,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
             label: groupName,
             isLight: isLight,
             size: 70,
-            highlight: isOwner,
-          ),
+            highlight: isOwner),
 
           SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
@@ -17504,35 +15192,26 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                   style: TextStyle(
                     fontSize: DesktopOptimizedWidgets.getFontSize() + 4,
                     fontWeight: FontWeight.w700,
-                    color: isLight ? Colors.black : Colors.white,
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-              ),
+                    color: isLight ? Colors.black : Colors.white),
+                  textAlign: TextAlign.center)),
               if (isOwner) ...[
-                const SizedBox(width: 8),
+                SizedBox(width: 8),
                 Container(
-                  padding: const EdgeInsets.symmetric(
+                  padding: EdgeInsets.symmetric(
                     horizontal: 6,
-                    vertical: 2,
-                  ),
+                    vertical: 2),
                   decoration: BoxDecoration(
                     color: Colors.orange.withOpacity(0.1),
-                    borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-                  ),
+                    borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
                   child: Text(
                     _groupRoleBadge(userRole),
                     style: TextStyle(
                       fontSize: 9,
                       fontWeight: FontWeight.w700,
                       color: Colors.orange,
-                      letterSpacing: 0.5,
-                    ),
-                  ),
-                ),
+                      letterSpacing: 0.5))),
               ],
-            ],
-          ),
+            ]),
 
           SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
@@ -17546,58 +15225,41 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                   fontSize: 13,
                   fontWeight: FontWeight.w500,
                   color: (isLight ? Colors.black : Colors.white).withOpacity(
-                    0.6,
-                  ),
-                ),
-              ),
+                    0.6))),
               Text(
                 ' • ',
                 style: TextStyle(
                   fontSize: 13,
                   color: (isLight ? Colors.black : Colors.white).withOpacity(
-                    0.6,
-                  ),
-                ),
-              ),
+                    0.6))),
               Text(
                 '$memberCount ${memberCount == 1 ? AppLocalizations.of(context)?.memberWord ?? AppLocalizations.of(context)!.tr('Member') : AppLocalizations.of(context)?.membersWord ?? AppLocalizations.of(context)!.tr('Members')}',
                 style: TextStyle(
                   fontSize: 13,
                   fontWeight: FontWeight.w500,
                   color: (isLight ? Colors.black : Colors.white).withOpacity(
-                    0.6,
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
+                    0.6))),
+            ]),
+        ]));
   }
 
   Widget _buildGroupSettingsSection(
     String title,
     List<Widget> options,
-    bool isLight,
-  ) {
+    bool isLight) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
-          padding: const EdgeInsets.only(left: 4, bottom: 8),
+          padding: EdgeInsets.only(left: 4, bottom: 8),
           child: Text(
             title,
             style: TextStyle(
               fontSize: DesktopOptimizedWidgets.getFontSize(),
               fontWeight: FontWeight.w600,
-              color: (isLight ? Colors.black : Colors.white).withOpacity(0.7),
-            ),
-          ),
-        ),
+              color: (isLight ? Colors.black : Colors.white).withOpacity(0.7)))),
         ...options,
-      ],
-    );
+      ]);
   }
 
   Widget _buildGroupSettingsOption({
@@ -17611,7 +15273,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
     final optionColor = color ?? (isLight ? Colors.black : Colors.white);
 
     return Padding(
-      padding: const EdgeInsets.only(bottom: 8),
+      padding: EdgeInsets.only(bottom: 8),
       child: TradeRepublicTap(
         onTap: () {
           HapticFeedback.lightImpact();
@@ -17621,25 +15283,20 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
           padding: DesktopAppWrapper.getPagePadding(),
           decoration: BoxDecoration(
             color: isLight ? Colors.white : Colors.black,
-            borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-          ),
+            borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
           child: Row(
             children: [
               Container(
-                padding: const EdgeInsets.all(8),
+                padding: EdgeInsets.all(8),
                 decoration: BoxDecoration(
                   color: (isLight ? Colors.black : Colors.white).withOpacity(
-                    0.05,
-                  ),
-                  borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-                ),
+                    0.05),
+                  borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
                 child: Icon(
                   icon,
                   size: 20,
-                  color: optionColor.withOpacity(0.8),
-                ),
-              ),
-              const SizedBox(width: 16),
+                  color: optionColor.withOpacity(0.8))),
+              SizedBox(width: 16),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -17650,35 +15307,23 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                         fontSize: DesktopOptimizedWidgets.getFontSize(),
                         fontWeight: FontWeight.w600,
                         color: color ?? (isLight ? Colors.black : Colors.white),
-                        letterSpacing: -0.2,
-                      ),
-                    ),
-                    const SizedBox(height: 4),
+                        letterSpacing: -0.2)),
+                    SizedBox(height: 4),
                     Text(
                       subtitle,
                       style: TextStyle(
                         fontSize: 13,
                         fontWeight: FontWeight.w500,
                         color: (isLight ? Colors.black : Colors.white)
-                            .withOpacity(0.5),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+                            .withOpacity(0.5))),
+                  ])),
               if (color == null)
                 Icon(
                   CupertinoIcons.forward,
                   size: 16,
                   color: (isLight ? Colors.black : Colors.white).withOpacity(
-                    0.3,
-                  ),
-                ),
-            ],
-          ),
-        ),
-      ),
-    );
+                    0.3)),
+            ]))));
   }
 
   Widget _buildGroupMembersOption(bool isLight) {
@@ -17694,8 +15339,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
               .take(3)
               .map((m) {
                 final handle = _formatUsernameHandle(
-                  m['username'] ?? m['userId'],
-                );
+                  m['username'] ?? m['userId']);
                 if (handle.isNotEmpty) return handle;
                 return (m['name'] ?? m['userId'] ?? AppLocalizations.of(context)!.tr('')).toString().trim();
               })
@@ -17722,10 +15366,8 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
               AppLocalizations.of(context)?.viewAllMembers ?? AppLocalizations.of(context)!.tr('View All Members'),
           subtitle: subtitle,
           isLight: isLight,
-          onTap: () => _showGroupMembersModal(isLight),
-        );
-      },
-    );
+          onTap: () => _showGroupMembersModal(isLight));
+      });
   }
 
   void _showGroupMembersModal(bool isLight) {
@@ -17745,24 +15387,20 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
               Icon(
                 CupertinoIcons.person_2_fill,
                 size: 22,
-                color: isLight ? Colors.black : Colors.white,
-              ),
-              const SizedBox(width: 12),
+                color: isLight ? Colors.black : Colors.white),
+              SizedBox(width: 12),
               Text(
                 AppLocalizations.of(context)?.groupMembers ?? AppLocalizations.of(context)!.tr('Group Members'),
                 style: TextStyle(
                   fontSize: 22,
                   fontWeight: FontWeight.w700,
                   color: isLight ? Colors.black : Colors.white,
-                  letterSpacing: -0.4,
-                ),
-              ),
-            ],
-          ),
+                  letterSpacing: -0.4)),
+            ]),
 
           SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
-          const SizedBox(height: 20),
+          SizedBox(height: 20),
 
           // Members list
           Expanded(
@@ -17779,10 +15417,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                       AppLocalizations.of(context)?.failedToLoadMembers ?? AppLocalizations.of(context)!.tr('Failed to load members'),
                       style: TextStyle(
                         color: (isLight ? Colors.black : Colors.white)
-                            .withOpacity(0.6),
-                      ),
-                    ),
-                  );
+                            .withOpacity(0.6))));
                 }
 
                 final members = snapshot.data!;
@@ -17790,14 +15425,9 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                 return ListView(
                   children: members
                       .map((member) => _buildMemberListItem(member, isLight))
-                      .toList(),
-                );
-              },
-            ),
-          ),
-        ],
-      ),
-    ).whenComplete(() => NavigationVisibility.show());
+                      .toList());
+              })),
+        ])).whenComplete(() => NavigationVisibility.show());
   }
 
   Widget _buildMemberListItem(Map<String, dynamic> member, bool isLight) {
@@ -17808,17 +15438,15 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
     final canManage = _isCurrentGroupAdmin && !isCurrentUser;
     final displayName = (member['name'] ?? memberUserId).toString();
     final usernameHandle = _formatUsernameHandle(
-      member['username'] ?? memberUserId,
-    );
+      member['username'] ?? memberUserId);
     final profilePic = member['profilePic']?.toString();
 
     return Container(
-      margin: const EdgeInsets.only(bottom: 8),
+      margin: EdgeInsets.only(bottom: 8),
       padding: DesktopAppWrapper.getPagePadding(),
       decoration: BoxDecoration(
         color: isLight ? Colors.white : Colors.black,
-        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-      ),
+        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
       child: Row(
         children: [
           // Profile Icon
@@ -17827,10 +15455,9 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
             label: displayName,
             isLight: isLight,
             size: 44,
-            highlight: isOwner,
-          ),
+            highlight: isOwner),
 
-          const SizedBox(width: 12),
+          SizedBox(width: 12),
 
           // Member Info
           Expanded(
@@ -17849,12 +15476,9 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                           fontSize: DesktopOptimizedWidgets.getFontSize(),
                           fontWeight: FontWeight.w600,
                           color: isLight ? Colors.black : Colors.white,
-                          letterSpacing: -0.2,
-                        ),
-                      ),
-                    ),
+                          letterSpacing: -0.2))),
                     if (isCurrentUser) ...[
-                      const SizedBox(width: 8),
+                      SizedBox(width: 8),
                       Flexible(
                         fit: FlexFit.loose,
                         child: Text(
@@ -17864,24 +15488,19 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                           style: TextStyle(
                             fontSize: 12,
                             fontWeight: FontWeight.w500,
-                            color: Colors.blue,
-                          ),
-                        ),
-                      ),
+                            color: Colors.blue))),
                     ],
                     if (isOwner) ...[
-                      const SizedBox(width: 8),
+                      SizedBox(width: 8),
                       ConstrainedBox(
                         constraints: const BoxConstraints(maxWidth: 80),
                         child: Container(
-                          padding: const EdgeInsets.symmetric(
+                          padding: EdgeInsets.symmetric(
                             horizontal: 6,
-                            vertical: 2,
-                          ),
+                            vertical: 2),
                           decoration: BoxDecoration(
                             color: Colors.orange.withOpacity(0.1),
-                            borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-                          ),
+                            borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
                           child: Text(
                             _groupRoleBadge(member['role']),
                             maxLines: 1,
@@ -17889,16 +15508,11 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                             style: TextStyle(
                               fontSize: 9,
                               fontWeight: FontWeight.w700,
-                              color: Colors.orange,
-                            ),
-                          ),
-                        ),
-                      ),
+                              color: Colors.orange)))),
                     ],
-                  ],
-                ),
+                  ]),
                 if (usernameHandle.isNotEmpty || member['email'] != null) ...[
-                  const SizedBox(height: 4),
+                  SizedBox(height: 4),
                   Text(
                     [
                       if (usernameHandle.isNotEmpty) usernameHandle,
@@ -17911,13 +15525,9 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                       fontSize: 13,
                       fontWeight: FontWeight.w500,
                       color: (isLight ? Colors.black : Colors.white)
-                          .withOpacity(0.5),
-                    ),
-                  ),
+                          .withOpacity(0.5))),
                 ],
-              ],
-            ),
-          ),
+              ])),
 
           // Action Button (for owner only)
           if (canManage)
@@ -17926,12 +15536,8 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
               child: Icon(
                 CupertinoIcons.ellipsis_vertical,
                 size: 20,
-                color: (isLight ? Colors.black : Colors.white).withOpacity(0.5),
-              ),
-            ),
-        ],
-      ),
-    );
+                color: (isLight ? Colors.black : Colors.white).withOpacity(0.5))),
+        ]));
   }
 
   void _showMemberActionsDialog(Map<String, dynamic> member, bool isLight) {
@@ -17949,24 +15555,20 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
               Icon(
                 CupertinoIcons.ellipsis_circle_fill,
                 size: 22,
-                color: isLight ? Colors.black : Colors.white,
-              ),
-              const SizedBox(width: 12),
+                color: isLight ? Colors.black : Colors.white),
+              SizedBox(width: 12),
               Text(
                 AppLocalizations.of(context)?.memberActions ?? AppLocalizations.of(context)!.tr('Member Actions'),
                 style: TextStyle(
                   fontSize: 22,
                   fontWeight: FontWeight.w700,
                   color: isLight ? Colors.black : Colors.white,
-                  letterSpacing: -0.4,
-                ),
-              ),
-            ],
-          ),
+                  letterSpacing: -0.4)),
+            ]),
 
           SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
-          const SizedBox(height: 20),
+          SizedBox(height: 20),
 
           // Action options
           Column(
@@ -17976,18 +15578,13 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                     AppLocalizations.of(context)?.removeFromGroup ?? AppLocalizations.of(context)!.tr('Remove from Group'),
                 leading: Icon(
                   CupertinoIcons.person_badge_minus,
-                  color: Colors.red,
-                ),
+                  color: Colors.red),
                 onTap: () {
                   Navigator.pop(context);
                   // TODO: Implement remove member functionality
-                },
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
+                }),
+            ]),
+        ]));
   }
 
   void _showTransferOwnershipDialog(bool isLight) {
@@ -17998,8 +15595,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
       if (members.isEmpty) {
         TopNotification.error(
           context,
-          AppLocalizations.of(context)?.noMembersTransfer ?? AppLocalizations.of(context)!.tr('No members found to transfer ownership to'),
-        );
+          AppLocalizations.of(context)?.noMembersTransfer ?? AppLocalizations.of(context)!.tr('No members found to transfer ownership to'));
         return;
       }
 
@@ -18011,8 +15607,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
       if (eligibleMembers.isEmpty) {
         TopNotification.error(
           context,
-          AppLocalizations.of(context)?.noEligibleMembers ?? AppLocalizations.of(context)!.tr('No eligible members to transfer ownership to'),
-        );
+          AppLocalizations.of(context)?.noEligibleMembers ?? AppLocalizations.of(context)!.tr('No eligible members to transfer ownership to'));
         return;
       }
 
@@ -18030,24 +15625,20 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                 Icon(
                   CupertinoIcons.arrow_right_arrow_left_circle_fill,
                   size: 22,
-                  color: isLight ? Colors.black : Colors.white,
-                ),
-                const SizedBox(width: 12),
+                  color: isLight ? Colors.black : Colors.white),
+                SizedBox(width: 12),
                 Text(
                   AppLocalizations.of(context)?.transferOwnership ?? AppLocalizations.of(context)!.tr('Transfer Ownership'),
                   style: TextStyle(
                     fontSize: 22,
                     fontWeight: FontWeight.w700,
                     color: isLight ? Colors.black : Colors.white,
-                    letterSpacing: -0.4,
-                  ),
-                ),
-              ],
-            ),
+                    letterSpacing: -0.4)),
+              ]),
 
             SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
-            const SizedBox(height: 32),
+            SizedBox(height: 32),
 
             // Member list
             Expanded(
@@ -18059,17 +15650,14 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                       AppLocalizations.of(context)?.selectMemberToTransfer ?? AppLocalizations.of(context)!.tr('Select a member to transfer group ownership to:'),
                       style: TextStyle(
                         color: (isLight ? Colors.black : Colors.white)
-                            .withOpacity(0.7),
-                      ),
-                    ),
+                            .withOpacity(0.7))),
                     SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
                     ...eligibleMembers.map((member) {
                       final usernameHandle = _formatUsernameHandle(
-                        member['username'] ?? member['userId'],
-                      );
+                        member['username'] ?? member['userId']);
 
                       return Container(
-                        margin: const EdgeInsets.only(bottom: 12),
+                        margin: EdgeInsets.only(bottom: 12),
                         child: TradeRepublicTap(
                           onTap: () {
                             Navigator.pop(context);
@@ -18079,8 +15667,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                             padding: DesktopAppWrapper.getPagePadding(),
                             decoration: BoxDecoration(
                               color: isLight ? Colors.white : Colors.black,
-                              borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-                            ),
+                              borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
                             child: Row(
                               children: [
                                 _buildGroupAvatar(
@@ -18088,9 +15675,8 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                                   label: (member['name'] ?? member['userId'])
                                       .toString(),
                                   isLight: isLight,
-                                  size: 42,
-                                ),
-                                const SizedBox(width: 16),
+                                  size: 42),
+                                SizedBox(width: 16),
                                 Expanded(
                                   child: Column(
                                     crossAxisAlignment:
@@ -18102,11 +15688,9 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                                           color: isLight
                                               ? Colors.black
                                               : Colors.white,
-                                          fontWeight: FontWeight.w600,
-                                        ),
-                                      ),
+                                          fontWeight: FontWeight.w600)),
                                       if (usernameHandle.isNotEmpty) ...[
-                                        const SizedBox(height: 4),
+                                        SizedBox(height: 4),
                                         Text(
                                           usernameHandle,
                                           style: TextStyle(
@@ -18116,29 +15700,17 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                                                 (isLight
                                                         ? Colors.black
                                                         : Colors.white)
-                                                    .withOpacity(0.5),
-                                          ),
-                                        ),
+                                                    .withOpacity(0.5))),
                                       ],
-                                    ],
-                                  ),
-                                ),
+                                    ])),
                                 Icon(
                                   Icons.arrow_forward_ios,
                                   size: 16,
                                   color: (isLight ? Colors.black : Colors.white)
-                                      .withOpacity(0.3),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      );
+                                      .withOpacity(0.3)),
+                              ]))));
                     }),
-                  ],
-                ),
-              ),
-            ),
+                  ]))),
 
             SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
@@ -18149,11 +15721,8 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
               onPressed: () {
                 HapticFeedback.lightImpact();
                 Navigator.pop(context);
-              },
-            ),
-          ],
-        ),
-      ).whenComplete(() => NavigationVisibility.show());
+              }),
+          ])).whenComplete(() => NavigationVisibility.show());
     });
   }
 
@@ -18176,20 +15745,16 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                 Icon(
                   CupertinoIcons.trash_fill,
                   size: 22,
-                  color: isLight ? Colors.black : Colors.white,
-                ),
-                const SizedBox(width: 12),
+                  color: isLight ? Colors.black : Colors.white),
+                SizedBox(width: 12),
                 Text(
                   AppLocalizations.of(context)?.deleteGroup ?? AppLocalizations.of(context)!.tr('Delete Group'),
                   style: TextStyle(
                     fontSize: 22,
                     fontWeight: FontWeight.w700,
                     color: isLight ? Colors.black : Colors.white,
-                    letterSpacing: -0.4,
-                  ),
-                ),
-              ],
-            ),
+                    letterSpacing: -0.4)),
+              ]),
 
             SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
@@ -18201,18 +15766,15 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
               style: TextStyle(
                 fontSize: 15,
                 fontWeight: FontWeight.w500,
-                color: (isLight ? Colors.black : Colors.white).withOpacity(0.5),
-              ),
-            ),
+                color: (isLight ? Colors.black : Colors.white).withOpacity(0.5))),
 
-            const SizedBox(height: 32),
+            SizedBox(height: 32),
 
             // Warning icon - minimalist
             Icon(
               CupertinoIcons.delete_solid,
               color: Colors.red.withOpacity(0.8),
-              size: 64,
-            ),
+              size: 64),
 
             SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
@@ -18224,11 +15786,9 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                 fontSize: 15,
                 fontWeight: FontWeight.w500,
                 height: 1.5,
-                color: (isLight ? Colors.black : Colors.white).withOpacity(0.6),
-              ),
-            ),
+                color: (isLight ? Colors.black : Colors.white).withOpacity(0.6))),
 
-            const SizedBox(height: 40),
+            SizedBox(height: 40),
 
             // Delete button - minimalist
             TradeRepublicButton(
@@ -18239,8 +15799,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                 HapticFeedback.heavyImpact();
                 Navigator.pop(context);
                 _deleteGroup();
-              },
-            ),
+              }),
 
             SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
@@ -18251,12 +15810,8 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
               onPressed: () {
                 HapticFeedback.lightImpact();
                 Navigator.pop(context);
-              },
-            ),
-          ],
-        ),
-      ),
-    ).whenComplete(() => NavigationVisibility.show());
+              }),
+          ]))).whenComplete(() => NavigationVisibility.show());
   }
 
   Future<void> _transferOwnership(String newOwnerId) async {
@@ -18266,14 +15821,12 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
       final token = await _getStoredToken();
       final response = await http.post(
         Uri.parse(
-          '${ApiConfig.baseUrl}/business_groups/${currentGroup?['id']}/transfer-admin',
-        ),
+          '${ApiConfig.baseUrl}/business_groups/${currentGroup?['id']}/transfer-admin'),
         headers: {
           'Content-Type': 'application/json',
           'Authorization': 'Bearer $token',
         },
-        body: json.encode({'targetUserId': newOwnerId}),
-      );
+        body: json.encode({'targetUserId': newOwnerId}));
 
       debugPrint('📡 Transfer ownership response: ${response.statusCode}');
       debugPrint('📡 Transfer ownership response body: ${response.body}');
@@ -18281,8 +15834,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
       if (response.statusCode == 200) {
         TopNotification.success(
           context,
-          AppLocalizations.of(context)?.ownershipTransferredSuccessfully ?? AppLocalizations.of(context)!.tr('Admin role transferred successfully'),
-        );
+          AppLocalizations.of(context)?.ownershipTransferredSuccessfully ?? AppLocalizations.of(context)!.tr('Admin role transferred successfully'));
         // Reload group data
         await _loadCurrentGroup();
       } else {
@@ -18291,15 +15843,13 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
           context,
           errorData['error'] ??
               errorData['message'] ??
-              (AppLocalizations.of(context)?.failedToTransferOwnership ?? AppLocalizations.of(context)!.tr('Failed to transfer admin role')),
-        );
+              (AppLocalizations.of(context)?.failedToTransferOwnership ?? AppLocalizations.of(context)!.tr('Failed to transfer admin role')));
       }
     } catch (e) {
       debugPrint('❌ Error transferring ownership: $e');
       TopNotification.error(
         context,
-        '${AppLocalizations.of(context)?.errorTransferringOwnership ?? AppLocalizations.of(context)!.tr('Error transferring ownership')}: $e',
-      );
+        '${AppLocalizations.of(context)?.errorTransferringOwnership ?? AppLocalizations.of(context)!.tr('Error transferring ownership')}: $e');
     }
   }
 
@@ -18310,13 +15860,11 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
       final token = await _getStoredToken();
       final response = await http.post(
         Uri.parse(
-          '${ApiConfig.baseUrl}/business_groups/${currentGroup?['id']}/delete',
-        ),
+          '${ApiConfig.baseUrl}/business_groups/${currentGroup?['id']}/delete'),
         headers: {
           'Content-Type': 'application/json',
           'Authorization': 'Bearer $token',
-        },
-      );
+        });
 
       debugPrint('📡 Delete group response: ${response.statusCode}');
       debugPrint('📡 Delete group response body: ${response.body}');
@@ -18324,8 +15872,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
       if (response.statusCode == 200) {
         TopNotification.success(
           context,
-          AppLocalizations.of(context)?.groupDeletedSuccessfully ?? AppLocalizations.of(context)!.tr('Group deleted successfully'),
-        );
+          AppLocalizations.of(context)?.groupDeletedSuccessfully ?? AppLocalizations.of(context)!.tr('Group deleted successfully'));
         // Clear current group and reload
         setState(() {
           currentGroup = null;
@@ -18337,15 +15884,13 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
           context,
           errorData['error'] ??
               errorData['message'] ??
-              (AppLocalizations.of(context)?.failedToDeleteGroup ?? AppLocalizations.of(context)!.tr('Failed to delete group')),
-        );
+              (AppLocalizations.of(context)?.failedToDeleteGroup ?? AppLocalizations.of(context)!.tr('Failed to delete group')));
       }
     } catch (e) {
       debugPrint('❌ Error deleting group: $e');
       TopNotification.error(
         context,
-        '${AppLocalizations.of(context)?.errorDeletingGroup ?? AppLocalizations.of(context)!.tr('Error deleting group')}: $e',
-      );
+        '${AppLocalizations.of(context)?.errorDeletingGroup ?? AppLocalizations.of(context)!.tr('Error deleting group')}: $e');
     }
   }
 
@@ -18376,24 +15921,20 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                   Icon(
                     CupertinoIcons.person_badge_plus_fill,
                     size: 22,
-                    color: isLight ? Colors.black : Colors.white,
-                  ),
-                  const SizedBox(width: 12),
+                    color: isLight ? Colors.black : Colors.white),
+                  SizedBox(width: 12),
                   Text(
                     AppLocalizations.of(context)?.createGroup ?? AppLocalizations.of(context)!.tr('Create Group'),
                     style: TextStyle(
                       fontSize: 22,
                       fontWeight: FontWeight.w700,
                       color: isLight ? Colors.black : Colors.white,
-                      letterSpacing: -0.4,
-                    ),
-                  ),
-                ],
-              ),
+                      letterSpacing: -0.4)),
+                ]),
 
               SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
-              const SizedBox(height: 32),
+              SizedBox(height: 32),
 
               Expanded(
                 child: SingleChildScrollView(
@@ -18416,16 +15957,13 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                           (path) {
                             groupProfileImagePath = path;
                             setModalState(() {});
-                          },
-                        ),
+                          }),
                         trailing: groupProfileImagePath != null
                             ? Icon(
                                 CupertinoIcons.checkmark_circle_fill,
                                 color: Colors.green,
-                                size: 20,
-                              )
-                            : null,
-                      ),
+                                size: 20)
+                            : null),
 
                       SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
@@ -18437,8 +15975,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                             AppLocalizations.of(context)?.requiredField ?? AppLocalizations.of(context)!.tr('Required'),
                         icon: CupertinoIcons.person_2_fill,
                         isLight: isLight,
-                        hasError: groupNameError,
-                      ),
+                        hasError: groupNameError),
 
                       _buildGroupInputField(
                         controller: groupDescriptionController,
@@ -18449,8 +15986,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                         icon: CupertinoIcons.doc_text,
                         isLight: isLight,
                         maxLines: 3,
-                        hasError: groupDescriptionError,
-                      ),
+                        hasError: groupDescriptionError),
 
                       _buildGroupInputField(
                         controller: groupWebsiteController,
@@ -18459,10 +15995,9 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                         subtitle:
                             AppLocalizations.of(context)?.optional ?? AppLocalizations.of(context)!.tr('Optional'),
                         icon: CupertinoIcons.globe,
-                        isLight: isLight,
-                      ),
+                        isLight: isLight),
 
-                      const SizedBox(height: 32),
+                      SizedBox(height: 32),
 
                       // Create Button - minimalist
                       TradeRepublicButton(
@@ -18488,9 +16023,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                             TopNotification.error(
                               context,
                               AppLocalizations.of(
-                                    context,
-                                  )?.pleaseEnterGroupName ?? AppLocalizations.of(context)!.tr('Please enter a group name'),
-                            );
+                                    context)?.pleaseEnterGroupName ?? AppLocalizations.of(context)!.tr('Please enter a group name'));
                             return;
                           }
 
@@ -18499,10 +16032,8 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                             groupNameController.text.trim(),
                             groupDescriptionController.text.trim(),
                             groupWebsiteController.text.trim(),
-                            groupProfileImagePath,
-                          );
-                        },
-                      ),
+                            groupProfileImagePath);
+                        }),
 
                       SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
@@ -18513,17 +16044,9 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                         onPressed: () {
                           HapticFeedback.lightImpact();
                           Navigator.pop(context);
-                        },
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    ).whenComplete(() => NavigationVisibility.show());
+                        }),
+                    ]))),
+            ])))).whenComplete(() => NavigationVisibility.show());
   }
 
   void _showJoinGroupModal(BuildContext context, bool isLight) {
@@ -18545,24 +16068,20 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                 Icon(
                   CupertinoIcons.arrow_right_circle_fill,
                   size: 22,
-                  color: isLight ? Colors.black : Colors.white,
-                ),
-                const SizedBox(width: 12),
+                  color: isLight ? Colors.black : Colors.white),
+                SizedBox(width: 12),
                 Text(
                   AppLocalizations.of(context)?.joinGroup ?? AppLocalizations.of(context)!.tr('Join Group'),
                   style: TextStyle(
                     fontSize: 22,
                     fontWeight: FontWeight.w700,
                     color: isLight ? Colors.black : Colors.white,
-                    letterSpacing: -0.4,
-                  ),
-                ),
-              ],
-            ),
+                    letterSpacing: -0.4)),
+              ]),
 
             SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
-            const SizedBox(height: 20),
+            SizedBox(height: 20),
 
             // Group Code Input
             _buildGroupInputField(
@@ -18571,10 +16090,9 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
               subtitle:
                   AppLocalizations.of(context)?.eightDigitCode ?? AppLocalizations.of(context)!.tr('8-digit code'),
               icon: CupertinoIcons.tag_fill,
-              isLight: isLight,
-            ),
+              isLight: isLight),
 
-            const SizedBox(height: 32),
+            SizedBox(height: 32),
 
             // Join Button - minimalist
             TradeRepublicButton(
@@ -18583,8 +16101,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                 HapticFeedback.lightImpact();
                 Navigator.pop(context);
                 _joinGroup(groupCodeController.text.trim());
-              },
-            ),
+              }),
 
             SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
@@ -18595,12 +16112,8 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
               onPressed: () {
                 HapticFeedback.lightImpact();
                 Navigator.pop(context);
-              },
-            ),
-          ],
-        ),
-      ),
-    ).whenComplete(() => NavigationVisibility.show());
+              }),
+          ]))).whenComplete(() => NavigationVisibility.show());
   }
 
   void _showExploreGroupsModal(BuildContext context, bool isLight) {
@@ -18618,24 +16131,20 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
               Icon(
                 CupertinoIcons.search_circle_fill,
                 size: 22,
-                color: isLight ? Colors.black : Colors.white,
-              ),
-              const SizedBox(width: 12),
+                color: isLight ? Colors.black : Colors.white),
+              SizedBox(width: 12),
               Text(
                 AppLocalizations.of(context)?.exploreGroups ?? AppLocalizations.of(context)!.tr('Explore Groups'),
                 style: TextStyle(
                   fontSize: 22,
                   fontWeight: FontWeight.w700,
                   color: isLight ? Colors.black : Colors.white,
-                  letterSpacing: -0.4,
-                ),
-              ),
-            ],
-          ),
+                  letterSpacing: -0.4)),
+            ]),
 
           SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
-          const SizedBox(height: 20),
+          SizedBox(height: 20),
 
           Expanded(
             child: Center(
@@ -18646,18 +16155,14 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                     CupertinoIcons.compass,
                     size: 64,
                     color: (isLight ? Colors.black : Colors.white).withOpacity(
-                      0.3,
-                    ),
-                  ),
+                      0.3)),
                   SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
                   Text(
                     AppLocalizations.of(context)?.comingSoon ?? AppLocalizations.of(context)!.tr('Coming Soon!'),
                     style: TextStyle(
                       fontSize: DesktopOptimizedWidgets.getFontSize() + 4,
                       fontWeight: FontWeight.w600,
-                      color: isLight ? Colors.black : Colors.white,
-                    ),
-                  ),
+                      color: isLight ? Colors.black : Colors.white)),
                   SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                   Text(
                     AppLocalizations.of(context)?.groupDiscoveryComingSoon ?? AppLocalizations.of(context)!.tr('Group discovery feature will be available soon.'),
@@ -18665,13 +16170,8 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                     style: TextStyle(
                       fontSize: DesktopOptimizedWidgets.getFontSize(),
                       color: (isLight ? Colors.black : Colors.white)
-                          .withOpacity(0.6),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
+                          .withOpacity(0.6))),
+                ]))),
 
           // Cancel button
           TradeRepublicButton(
@@ -18680,11 +16180,8 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
             onPressed: () {
               HapticFeedback.lightImpact();
               Navigator.pop(context);
-            },
-          ),
-        ],
-      ),
-    ).whenComplete(() => NavigationVisibility.show());
+            }),
+        ])).whenComplete(() => NavigationVisibility.show());
   }
 
   void _showLeaveGroupDialog(BuildContext context, bool isLight) {
@@ -18704,20 +16201,16 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                 Icon(
                   CupertinoIcons.arrow_uturn_left_circle_fill,
                   size: 22,
-                  color: isLight ? Colors.black : Colors.white,
-                ),
-                const SizedBox(width: 12),
+                  color: isLight ? Colors.black : Colors.white),
+                SizedBox(width: 12),
                 Text(
                   AppLocalizations.of(context)?.leaveGroup ?? AppLocalizations.of(context)!.tr('Leave Group'),
                   style: TextStyle(
                     fontSize: 22,
                     fontWeight: FontWeight.w700,
                     color: isLight ? Colors.black : Colors.white,
-                    letterSpacing: -0.4,
-                  ),
-                ),
-              ],
-            ),
+                    letterSpacing: -0.4)),
+              ]),
 
             SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
@@ -18729,18 +16222,15 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
               style: TextStyle(
                 fontSize: 17,
                 fontWeight: FontWeight.w600,
-                color: isLight ? Colors.black : Colors.white,
-              ),
-            ),
+                color: isLight ? Colors.black : Colors.white)),
 
-            const SizedBox(height: 32),
+            SizedBox(height: 32),
 
             // Warning icon - minimalist
             Icon(
               CupertinoIcons.square_arrow_right,
               color: Colors.red.withOpacity(0.8),
-              size: 64,
-            ),
+              size: 64),
 
             SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
@@ -18752,11 +16242,9 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                 fontSize: 15,
                 fontWeight: FontWeight.w500,
                 height: 1.5,
-                color: (isLight ? Colors.black : Colors.white).withOpacity(0.6),
-              ),
-            ),
+                color: (isLight ? Colors.black : Colors.white).withOpacity(0.6))),
 
-            const SizedBox(height: 40),
+            SizedBox(height: 40),
 
             // Leave button - minimalist
             TradeRepublicButton(
@@ -18766,8 +16254,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                 HapticFeedback.heavyImpact();
                 Navigator.pop(context);
                 _leaveGroup();
-              },
-            ),
+              }),
 
             SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
@@ -18778,20 +16265,15 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
               onPressed: () {
                 HapticFeedback.lightImpact();
                 Navigator.pop(context);
-              },
-            ),
-          ],
-        ),
-      ),
-    ).whenComplete(() => NavigationVisibility.show());
+              }),
+          ]))).whenComplete(() => NavigationVisibility.show());
   }
 
   void _showGroupProfileImageOptions(
     BuildContext context,
     bool isLight,
     StateSetter setModalState,
-    Function(String?) onImageSelected,
-  ) {
+    Function(String?) onImageSelected) {
     NavigationVisibility.hide();
 
     TradeRepublicBottomSheet.show(
@@ -18808,24 +16290,20 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                 Icon(
                   CupertinoIcons.photo_fill_on_rectangle_fill,
                   size: 22,
-                  color: isLight ? Colors.black : Colors.white,
-                ),
-                const SizedBox(width: 12),
+                  color: isLight ? Colors.black : Colors.white),
+                SizedBox(width: 12),
                 Text(
                   AppLocalizations.of(context)?.groupProfileImage ?? AppLocalizations.of(context)!.tr('Group Profile Image'),
                   style: TextStyle(
                     fontSize: 22,
                     fontWeight: FontWeight.w700,
                     color: isLight ? Colors.black : Colors.white,
-                    letterSpacing: -0.4,
-                  ),
-                ),
-              ],
-            ),
+                    letterSpacing: -0.4)),
+              ]),
 
             SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
-            const SizedBox(height: 32),
+            SizedBox(height: 32),
 
             // Camera Option
             _buildGroupModalOption(
@@ -18838,8 +16316,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
               onTap: () {
                 Navigator.pop(context);
                 _selectGroupImage(ImageSource.camera, onImageSelected);
-              },
-            ),
+              }),
 
             SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
@@ -18855,8 +16332,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
               onTap: () {
                 Navigator.pop(context);
                 _selectGroupImage(ImageSource.gallery, onImageSelected);
-              },
-            ),
+              }),
 
             SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
@@ -18867,40 +16343,32 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
               onPressed: () {
                 HapticFeedback.lightImpact();
                 Navigator.pop(context);
-              },
-            ),
-          ],
-        ),
-      ),
-    ).whenComplete(() => NavigationVisibility.show());
+              }),
+          ]))).whenComplete(() => NavigationVisibility.show());
   }
 
   Future<void> _selectGroupImage(
     ImageSource source,
-    Function(String?) onImageSelected,
-  ) async {
+    Function(String?) onImageSelected) async {
     try {
       final ImagePicker picker = ImagePicker();
       final XFile? image = await picker.pickImage(
         source: source,
         maxWidth: 1024,
         maxHeight: 1024,
-        imageQuality: 85,
-      );
+        imageQuality: 85);
 
       if (image != null) {
         onImageSelected(image.path);
         TopNotification.success(
           context,
-          AppLocalizations.of(context)?.imageSelectedSuccess ?? AppLocalizations.of(context)!.tr('Image selected successfully'),
-        );
+          AppLocalizations.of(context)?.imageSelectedSuccess ?? AppLocalizations.of(context)!.tr('Image selected successfully'));
       }
     } catch (e) {
       debugPrint('❌ Error selecting group image: $e');
       TopNotification.error(
         context,
-        AppLocalizations.of(context)?.failedSelectImage ?? AppLocalizations.of(context)!.tr('Failed to select image'),
-      );
+        AppLocalizations.of(context)?.failedSelectImage ?? AppLocalizations.of(context)!.tr('Failed to select image'));
     }
   }
 
@@ -18908,8 +16376,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
     String groupName,
     String description,
     String website,
-    String? profileImagePath,
-  ) async {
+    String? profileImagePath) async {
     try {
       debugPrint('🎯 Creating new group: $groupName');
 
@@ -18918,19 +16385,16 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
         if (_isCurrentGroupAdmin) {
           TopNotification.error(
             context,
-            AppLocalizations.of(context)!.tr('Admins cannot leave the group. Transfer admin role first or delete the group.') ?? AppLocalizations.of(context)!.tr('Admins cannot leave the group. Transfer admin role first or delete the group.'),
-          );
+            AppLocalizations.of(context)!.tr('Admins cannot leave the group. Transfer admin role first or delete the group.') ?? AppLocalizations.of(context)!.tr('Admins cannot leave the group. Transfer admin role first or delete the group.'));
           return;
         }
         debugPrint(
-          '⚠️ User is already in a group, showing confirmation bottom sheet...',
-        );
+          '⚠️ User is already in a group, showing confirmation bottom sheet...');
 
         // Show confirmation bottom sheet
         final isLight = Provider.of<AppSettings>(
           context,
-          listen: false,
-        ).isLightMode(context);
+          listen: false).isLightMode(context);
         final shouldLeave = await TradeRepublicBottomSheet.show<bool>(
           context: context,
           child: Column(
@@ -18944,20 +16408,16 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                   Icon(
                     CupertinoIcons.exclamationmark_circle_fill,
                     size: 22,
-                    color: isLight ? Colors.black : Colors.white,
-                  ),
-                  const SizedBox(width: 12),
+                    color: isLight ? Colors.black : Colors.white),
+                  SizedBox(width: 12),
                   Text(
                     AppLocalizations.of(context)?.alreadyInGroupLeaveFirst ?? AppLocalizations.of(context)!.tr('Already in a Group'),
                     style: TextStyle(
                       fontSize: 22,
                       fontWeight: FontWeight.w700,
                       color: isLight ? Colors.black : Colors.white,
-                      letterSpacing: -0.4,
-                    ),
-                  ),
-                ],
-              ),
+                      letterSpacing: -0.4)),
+                ]),
 
               SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
@@ -18968,14 +16428,11 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                 AppLocalizations.of(context)?.leaveCurrentGroupAndCreate ?? AppLocalizations.of(context)!.tr('You are currently in a group. You can only be in one group at a time. Do you want to leave your current group and create a new one?'),
                 style: TextStyle(
                   color: Theme.of(
-                    context,
-                  ).textTheme.bodyLarge?.color?.withOpacity(0.7),
-                  fontSize: 15,
-                ),
-                textAlign: TextAlign.center,
-              ),
+                    context).textTheme.bodyLarge?.color?.withOpacity(0.7),
+                  fontSize: 15),
+                textAlign: TextAlign.center),
 
-              const SizedBox(height: 32),
+              SizedBox(height: 32),
 
               // Actions
               Row(
@@ -18984,22 +16441,15 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                     child: TradeRepublicButton(
                       label: AppLocalizations.of(context)?.cancel ?? AppLocalizations.of(context)!.tr('Cancel'),
                       isSecondary: true,
-                      onPressed: () => Navigator.of(context).pop(false),
-                    ),
-                  ),
-                  const SizedBox(width: 12),
+                      onPressed: () => Navigator.of(context).pop(false))),
+                  SizedBox(width: 12),
                   Expanded(
                     child: TradeRepublicButton(
                       label:
                           AppLocalizations.of(context)?.leaveAndCreate ?? AppLocalizations.of(context)!.tr('Leave & Create'),
-                      onPressed: () => Navigator.of(context).pop(true),
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ),
-        );
+                      onPressed: () => Navigator.of(context).pop(true))),
+                ]),
+            ]));
 
         if (shouldLeave != true) {
           debugPrint('🚫 User cancelled group creation');
@@ -19016,8 +16466,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
       final token = await _getStoredToken();
       final request = http.MultipartRequest(
         'POST',
-        Uri.parse('${ApiConfig.baseUrl}/business_groups/create'),
-      );
+        Uri.parse('${ApiConfig.baseUrl}/business_groups/create'));
 
       request.headers['Authorization'] = 'Bearer $token';
       request.fields['groupName'] = groupName;
@@ -19036,9 +16485,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
           await http.MultipartFile.fromPath(
             'profileImage',
             profileImagePath,
-            contentType: MediaType('image', extension),
-          ),
-        );
+            contentType: MediaType('image', extension)));
       }
 
       final response = await request.send();
@@ -19057,8 +16504,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
 
         TopNotification.success(
           context,
-          AppLocalizations.of(context)?.groupCreatedSuccessfully ?? AppLocalizations.of(context)!.tr('Group created successfully!'),
-        );
+          AppLocalizations.of(context)?.groupCreatedSuccessfully ?? AppLocalizations.of(context)!.tr('Group created successfully!'));
 
         // Show success modal with group code
         _showGroupCreatedSuccessModal(context, actualGroupName, groupCode);
@@ -19099,8 +16545,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
           // If JSON parsing fails (HTML error), show generic message
           TopNotification.error(
             context,
-            AppLocalizations.of(context)?.serverError ?? AppLocalizations.of(context)!.tr('Server error. Please try again later.'),
-          );
+            AppLocalizations.of(context)?.serverError ?? AppLocalizations.of(context)!.tr('Server error. Please try again later.'));
         }
       }
     } catch (e) {
@@ -19122,8 +16567,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
     if (groupCode.isEmpty) {
       TopNotification.error(
         context,
-        AppLocalizations.of(context)?.pleaseEnterGroupCode ?? AppLocalizations.of(context)!.tr('Please enter a group code'),
-      );
+        AppLocalizations.of(context)?.pleaseEnterGroupCode ?? AppLocalizations.of(context)!.tr('Please enter a group code'));
       return;
     }
 
@@ -19135,8 +16579,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
         if (_isCurrentGroupAdmin) {
           TopNotification.error(
             context,
-            AppLocalizations.of(context)!.tr('Admins cannot leave the group. Transfer admin role first or delete the group.') ?? AppLocalizations.of(context)!.tr('Admins cannot leave the group. Transfer admin role first or delete the group.'),
-          );
+            AppLocalizations.of(context)!.tr('Admins cannot leave the group. Transfer admin role first or delete the group.') ?? AppLocalizations.of(context)!.tr('Admins cannot leave the group. Transfer admin role first or delete the group.'));
           return;
         }
         debugPrint('⚠️ User is already in a group, leaving current group first...');
@@ -19144,8 +16587,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
         // Show confirmation dialog
         final isLight = Provider.of<AppSettings>(
           context,
-          listen: false,
-        ).isLightMode(context);
+          listen: false).isLightMode(context);
         final shouldLeave = await TradeRepublicBottomSheet.show<bool>(
           context: context,
           child: Column(
@@ -19159,20 +16601,16 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                   Icon(
                     CupertinoIcons.exclamationmark_circle_fill,
                     size: 22,
-                    color: isLight ? Colors.black : Colors.white,
-                  ),
-                  const SizedBox(width: 12),
+                    color: isLight ? Colors.black : Colors.white),
+                  SizedBox(width: 12),
                   Text(
                     AppLocalizations.of(context)?.alreadyInGroupLeaveFirst ?? AppLocalizations.of(context)!.tr('Already in a Group'),
                     style: TextStyle(
                       fontSize: 22,
                       fontWeight: FontWeight.w700,
                       color: isLight ? Colors.black : Colors.white,
-                      letterSpacing: -0.4,
-                    ),
-                  ),
-                ],
-              ),
+                      letterSpacing: -0.4)),
+                ]),
 
               SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
@@ -19183,14 +16621,11 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                 AppLocalizations.of(context)?.leaveCurrentGroupAndJoin ?? AppLocalizations.of(context)!.tr('You are currently in a group. You can only be in one group at a time. Do you want to leave your current group and join the new one?'),
                 style: TextStyle(
                   color: Theme.of(
-                    context,
-                  ).textTheme.bodyLarge?.color?.withOpacity(0.7),
-                  fontSize: 15,
-                ),
-                textAlign: TextAlign.center,
-              ),
+                    context).textTheme.bodyLarge?.color?.withOpacity(0.7),
+                  fontSize: 15),
+                textAlign: TextAlign.center),
 
-              const SizedBox(height: 32),
+              SizedBox(height: 32),
 
               // Actions
               Row(
@@ -19199,22 +16634,15 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                     child: TradeRepublicButton(
                       label: AppLocalizations.of(context)?.cancel ?? AppLocalizations.of(context)!.tr('Cancel'),
                       isSecondary: true,
-                      onPressed: () => Navigator.of(context).pop(false),
-                    ),
-                  ),
-                  const SizedBox(width: 12),
+                      onPressed: () => Navigator.of(context).pop(false))),
+                  SizedBox(width: 12),
                   Expanded(
                     child: TradeRepublicButton(
                       label:
                           AppLocalizations.of(context)?.leaveAndJoin ?? AppLocalizations.of(context)!.tr('Leave & Join'),
-                      onPressed: () => Navigator.of(context).pop(true),
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ),
-        );
+                      onPressed: () => Navigator.of(context).pop(true))),
+                ]),
+            ]));
 
         if (shouldLeave != true) {
           debugPrint('🚫 User cancelled group switch');
@@ -19235,8 +16663,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
           'Content-Type': 'application/json',
           'Authorization': 'Bearer $token',
         },
-        body: json.encode({'code': groupCode, 'forceLeave': false}),
-      );
+        body: json.encode({'code': groupCode, 'forceLeave': false}));
 
       debugPrint('📡 Join group response: ${response.statusCode}');
       debugPrint('📡 Join group response body: ${response.body}');
@@ -19245,8 +16672,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
         final responseData = json.decode(response.body);
         TopNotification.success(
           context,
-          'Successfully joined group "${responseData['groupName']}"!',
-        );
+          'Successfully joined group "${responseData['groupName']}"!');
 
         // Reload current group
         await _loadCurrentGroup();
@@ -19255,15 +16681,13 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
         TopNotification.error(
           context,
           errorData['error'] ??
-              (AppLocalizations.of(context)?.failedToJoinGroup ?? AppLocalizations.of(context)!.tr('Failed to join group')),
-        );
+              (AppLocalizations.of(context)?.failedToJoinGroup ?? AppLocalizations.of(context)!.tr('Failed to join group')));
       }
     } catch (e) {
       debugPrint('❌ Error joining group: $e');
       TopNotification.error(
         context,
-        '${AppLocalizations.of(context)?.errorJoiningGroup ?? AppLocalizations.of(context)!.tr('Error joining group')}: $e',
-      );
+        '${AppLocalizations.of(context)?.errorJoiningGroup ?? AppLocalizations.of(context)!.tr('Error joining group')}: $e');
     }
   }
 
@@ -19274,16 +16698,14 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
       if (_isCurrentGroupAdmin) {
         TopNotification.error(
           context,
-          AppLocalizations.of(context)!.tr('Admins cannot leave the group. Transfer admin role first or delete the group.') ?? AppLocalizations.of(context)!.tr('Admins cannot leave the group. Transfer admin role first or delete the group.'),
-        );
+          AppLocalizations.of(context)!.tr('Admins cannot leave the group. Transfer admin role first or delete the group.') ?? AppLocalizations.of(context)!.tr('Admins cannot leave the group. Transfer admin role first or delete the group.'));
         return false;
       }
 
       final token = await _getStoredToken();
       final response = await http.post(
         Uri.parse('${ApiConfig.baseUrl}/business_groups/leave'),
-        headers: {'Authorization': 'Bearer $token'},
-      );
+        headers: {'Authorization': 'Bearer $token'});
 
       debugPrint('📡 Leave group response: ${response.statusCode}');
       debugPrint('📡 Leave group response body: ${response.body}');
@@ -19291,8 +16713,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
       if (response.statusCode == 200) {
         TopNotification.success(
           context,
-          AppLocalizations.of(context)?.successfullyLeftGroup ?? AppLocalizations.of(context)!.tr('Successfully left the group'),
-        );
+          AppLocalizations.of(context)?.successfullyLeftGroup ?? AppLocalizations.of(context)!.tr('Successfully left the group'));
 
         // Clear current group and reload
         setState(() {
@@ -19306,16 +16727,14 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
           context,
           errorData['error'] ??
               errorData['message'] ??
-              (AppLocalizations.of(context)?.failedToLeaveGroup ?? AppLocalizations.of(context)!.tr('Failed to leave group')),
-        );
+              (AppLocalizations.of(context)?.failedToLeaveGroup ?? AppLocalizations.of(context)!.tr('Failed to leave group')));
         return false;
       }
     } catch (e) {
       debugPrint('❌ Error leaving group: $e');
       TopNotification.error(
         context,
-        '${AppLocalizations.of(context)?.errorLeavingGroup ?? AppLocalizations.of(context)!.tr('Error leaving group')}: $e',
-      );
+        '${AppLocalizations.of(context)?.errorLeavingGroup ?? AppLocalizations.of(context)!.tr('Error leaving group')}: $e');
       return false;
     }
   }
@@ -19325,8 +16744,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
       if (!_isCurrentGroupAdmin) {
         TopNotification.error(
           context,
-          AppLocalizations.of(context)!.tr('Only admins can update the group image.') ?? AppLocalizations.of(context)!.tr('Only admins can update the group image.'),
-        );
+          AppLocalizations.of(context)!.tr('Only admins can update the group image.') ?? AppLocalizations.of(context)!.tr('Only admins can update the group image.'));
         return;
       }
       if (currentGroup?['id'] == null || imagePath.isEmpty) {
@@ -19338,18 +16756,14 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
       final request = http.MultipartRequest(
         'POST',
         Uri.parse(
-          '${ApiConfig.baseUrl}/business_groups/${currentGroup?['id']}/profile-image',
-        ),
-      );
+          '${ApiConfig.baseUrl}/business_groups/${currentGroup?['id']}/profile-image'));
 
       request.headers['Authorization'] = 'Bearer $token';
       request.files.add(
         await http.MultipartFile.fromPath(
           'profileImage',
           imagePath,
-          contentType: MediaType('image', _getImageExtension(imagePath)),
-        ),
-      );
+          contentType: MediaType('image', _getImageExtension(imagePath))));
 
       final response = await request.send();
       final responseBody = await response.stream.bytesToString();
@@ -19364,27 +16778,23 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
         TopNotification.error(
           context,
           responseData['error'] ??
-              responseData['message'] ?? AppLocalizations.of(context)!.tr('Failed to update group image'),
-        );
+              responseData['message'] ?? AppLocalizations.of(context)!.tr('Failed to update group image'));
       }
     } catch (e) {
       debugPrint('❌ Error uploading group profile image: $e');
       TopNotification.error(
         context,
-        '${AppLocalizations.of(context)!.tr('Error updating group image')}: $e',
-      );
+        '${AppLocalizations.of(context)!.tr('Error updating group image')}: $e');
     }
   }
 
   void _showGroupCreatedSuccessModal(
     BuildContext context,
     String groupName,
-    String groupCode,
-  ) {
+    String groupCode) {
     final AppSettings appSettings = Provider.of<AppSettings>(
       context,
-      listen: false,
-    );
+      listen: false);
     final isLight = appSettings.isLightMode(context);
 
     NavigationVisibility.hide();
@@ -19398,10 +16808,9 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
         child: SingleChildScrollView(
           physics: const ClampingScrollPhysics(),
           padding: EdgeInsets.only(
-            bottom: MediaQuery.of(context).viewInsets.bottom,
-          ),
+            bottom: MediaQuery.of(context).viewInsets.bottom),
           child: Padding(
-            padding: const EdgeInsets.all(24),
+            padding: EdgeInsets.all(24),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
@@ -19413,22 +16822,18 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                     Icon(
                       CupertinoIcons.checkmark_circle_fill,
                       size: 22,
-                      color: isLight ? Colors.black : Colors.white,
-                    ),
-                    const SizedBox(width: 12),
+                      color: isLight ? Colors.black : Colors.white),
+                    SizedBox(width: 12),
                     Text(
                       AppLocalizations.of(context)?.groupCreatedMessage ?? AppLocalizations.of(context)!.tr('Group Created!'),
                       style: TextStyle(
                         fontSize: 22,
                         fontWeight: FontWeight.w700,
                         color: isLight ? Colors.black : Colors.white,
-                        letterSpacing: -0.4,
-                      ),
-                    ),
-                  ],
-                ),
+                        letterSpacing: -0.4)),
+                  ]),
 
-                const SizedBox(height: 10),
+                SizedBox(height: 10),
 
                 Text(
                   AppLocalizations.of(context)?.groupCreatedDesc ?? AppLocalizations.of(context)!.tr('Your group has been created successfully.'),
@@ -19436,10 +16841,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                   style: TextStyle(
                     fontSize: 13,
                     color: (isLight ? Colors.black : Colors.white).withOpacity(
-                      0.7,
-                    ),
-                  ),
-                ),
+                      0.7))),
 
                 SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
@@ -19452,31 +16854,24 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                         fontSize: 11,
                         fontWeight: FontWeight.w500,
                         color: (isLight ? Colors.black : Colors.white)
-                            .withOpacity(0.5),
-                      ),
-                    ),
-                    const SizedBox(height: 4),
+                            .withOpacity(0.5))),
+                    SizedBox(height: 4),
                     Text(
                       groupCode,
                       style: TextStyle(
                         fontSize: 22,
                         fontWeight: FontWeight.w700,
                         color: Colors.green,
-                        letterSpacing: 2,
-                      ),
-                    ),
-                    const SizedBox(height: 4),
+                        letterSpacing: 2)),
+                    SizedBox(height: 4),
                     Text(
                       AppLocalizations.of(context)?.shareCodeToInvite ?? AppLocalizations.of(context)!.tr('Share this code with others to invite them'),
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         fontSize: 10,
                         color: (isLight ? Colors.black : Colors.white)
-                            .withOpacity(0.5),
-                      ),
-                    ),
-                  ],
-                ),
+                            .withOpacity(0.5))),
+                  ]),
 
                 SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
@@ -19487,16 +16882,10 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                     HapticFeedback.lightImpact();
                     Navigator.pop(context);
                     NavigationVisibility.show();
-                  },
-                ),
+                  }),
 
                 SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
-              ],
-            ),
-          ),
-        ),
-      ),
-    ).whenComplete(() => NavigationVisibility.show());
+              ]))))).whenComplete(() => NavigationVisibility.show());
   }
 
   Widget _buildGroupModalOption({
@@ -19516,16 +16905,14 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
         padding: DesktopAppWrapper.getPagePadding(),
         decoration: BoxDecoration(
           color: isLight ? Colors.white : Colors.black,
-          borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-        ),
+          borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
         child: Row(
           children: [
             Icon(
               icon,
               size: 24,
-              color: (isLight ? Colors.black : Colors.white).withOpacity(0.6),
-            ),
-            const SizedBox(width: 16),
+              color: (isLight ? Colors.black : Colors.white).withOpacity(0.6)),
+            SizedBox(width: 16),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -19535,34 +16922,24 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                     style: TextStyle(
                       fontSize: DesktopOptimizedWidgets.getFontSize(),
                       fontWeight: FontWeight.w600,
-                      color: isLight ? Colors.black : Colors.white,
-                    ),
-                  ),
-                  const SizedBox(height: 4),
+                      color: isLight ? Colors.black : Colors.white)),
+                  SizedBox(height: 4),
                   Text(
                     subtitle,
                     style: TextStyle(
                       fontSize: 13,
                       fontWeight: FontWeight.w500,
                       color: (isLight ? Colors.black : Colors.white)
-                          .withOpacity(0.5),
-                    ),
-                  ),
-                ],
-              ),
-            ),
+                          .withOpacity(0.5))),
+                ])),
             if (trailing != null)
               trailing
             else
               Icon(
                 CupertinoIcons.chevron_right,
                 size: 24,
-                color: (isLight ? Colors.black : Colors.white).withOpacity(0.3),
-              ),
-          ],
-        ),
-      ),
-    );
+                color: (isLight ? Colors.black : Colors.white).withOpacity(0.3)),
+          ])));
   }
 
   Widget _buildGroupInputField({
@@ -19575,7 +16952,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
     bool hasError = false,
   }) {
     return Container(
-      margin: const EdgeInsets.only(bottom: 8),
+      margin: EdgeInsets.only(bottom: 8),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -19586,9 +16963,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
               fontWeight: FontWeight.w600,
               color: hasError
                   ? Colors.red
-                  : (isLight ? Colors.black : Colors.white).withOpacity(0.5),
-            ),
-          ),
+                  : (isLight ? Colors.black : Colors.white).withOpacity(0.5))),
           SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
           TradeRepublicTextField(
             controller: controller,
@@ -19596,19 +16971,15 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
             style: TextStyle(
               color: isLight ? Colors.black : Colors.white,
               fontSize: DesktopOptimizedWidgets.getFontSize(),
-              fontWeight: FontWeight.w500,
-            ),
+              fontWeight: FontWeight.w500),
             hintText: subtitle,
             filled: true,
             fillColor: hasError
                 ? Colors.red.withOpacity(0.1)
                 : isLight
                 ? Colors.white
-                : Colors.black,
-          ),
-        ],
-      ),
-    );
+                : Colors.black),
+        ]));
   }
 
   void _checkAndShowAddPaymentMethod(BuildContext context, bool isLight) {
@@ -19649,31 +17020,26 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                 Icon(
                   CupertinoIcons.creditcard_fill,
                   size: 22,
-                  color: isLight ? Colors.black : Colors.white,
-                ),
-                const SizedBox(width: 12),
+                  color: isLight ? Colors.black : Colors.white),
+                SizedBox(width: 12),
                 Text(
                   AppLocalizations.of(context)?.deleteBankAccount ?? AppLocalizations.of(context)!.tr('Delete Bank Account'),
                   style: TextStyle(
                     fontSize: 22,
                     fontWeight: FontWeight.w700,
                     color: isLight ? Colors.black : Colors.white,
-                    letterSpacing: -0.4,
-                  ),
-                ),
-              ],
-            ),
+                    letterSpacing: -0.4)),
+              ]),
 
             SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
-            const SizedBox(height: 32),
+            SizedBox(height: 32),
 
             // Warning icon - minimalist
             Icon(
               CupertinoIcons.delete_solid,
               size: 64,
-              color: Colors.red.withOpacity(0.8),
-            ),
+              color: Colors.red.withOpacity(0.8)),
 
             SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
@@ -19684,11 +17050,9 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                 fontSize: 15,
                 fontWeight: FontWeight.w500,
                 height: 1.5,
-                color: (isLight ? Colors.black : Colors.white).withOpacity(0.6),
-              ),
-            ),
+                color: (isLight ? Colors.black : Colors.white).withOpacity(0.6))),
 
-            const SizedBox(height: 40),
+            SizedBox(height: 40),
 
             // Delete button - minimalist red
             TradeRepublicButton(
@@ -19700,8 +17064,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                 HapticFeedback.heavyImpact();
                 Navigator.pop(context);
                 _deletePaymentMethodConfirmed(methodId);
-              },
-            ),
+              }),
 
             SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
@@ -19712,12 +17075,8 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
               onPressed: () {
                 HapticFeedback.lightImpact();
                 Navigator.pop(context);
-              },
-            ),
-          ],
-        ),
-      ),
-    ).whenComplete(() => NavigationVisibility.show());
+              }),
+          ]))).whenComplete(() => NavigationVisibility.show());
   }
 
   Future<void> _deletePaymentMethod(dynamic methodId, bool isLight) async {
@@ -19738,20 +17097,16 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                 Icon(
                   CupertinoIcons.delete,
                   size: 22,
-                  color: isLight ? Colors.black : Colors.white,
-                ),
-                const SizedBox(width: 12),
+                  color: isLight ? Colors.black : Colors.white),
+                SizedBox(width: 12),
                 Text(
                   AppLocalizations.of(context)?.deleteBankAccount ?? AppLocalizations.of(context)!.tr('Delete Bank Account'),
                   style: TextStyle(
                     fontSize: 22,
                     fontWeight: FontWeight.w700,
                     color: isLight ? Colors.black : Colors.white,
-                    letterSpacing: -0.4,
-                  ),
-                ),
-              ],
-            ),
+                    letterSpacing: -0.4)),
+              ]),
 
             SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
@@ -19763,13 +17118,10 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                 fontSize: 15,
                 fontWeight: FontWeight.w400,
                 color: Theme.of(
-                  context,
-                ).textTheme.bodyLarge?.color?.withOpacity(0.6),
-                height: 1.4,
-              ),
-            ),
+                  context).textTheme.bodyLarge?.color?.withOpacity(0.6),
+                height: 1.4)),
 
-            const SizedBox(height: 28),
+            SizedBox(height: 28),
 
             // Buttons
             Row(
@@ -19779,11 +17131,9 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                   child: TradeRepublicButton(
                     label: AppLocalizations.of(context)?.cancel ?? AppLocalizations.of(context)!.tr('Cancel'),
                     isSecondary: true,
-                    onPressed: () => Navigator.pop(context, false),
-                  ),
-                ),
+                    onPressed: () => Navigator.pop(context, false))),
 
-                const SizedBox(width: 12),
+                SizedBox(width: 12),
 
                 // Delete button
                 Expanded(
@@ -19792,15 +17142,9 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                         AppLocalizations.of(context)?.deleteAccount ??
                         AppLocalizations.of(context)?.delete ?? AppLocalizations.of(context)!.tr('Delete'),
                     isDestructive: true,
-                    onPressed: () => Navigator.pop(context, true),
-                  ),
-                ),
-              ],
-            ),
-          ],
-        ),
-      ),
-    );
+                    onPressed: () => Navigator.pop(context, true))),
+              ]),
+          ])));
 
     NavigationVisibility.show();
 
@@ -19813,8 +17157,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
         headers: {
           'Content-Type': 'application/json',
           'Authorization': 'Bearer ${await _getStoredToken()}',
-        },
-      );
+        });
 
       if (response.statusCode != 200 && response.statusCode != 204) {
         throw Exception('Failed to delete from Stripe: ${response.body}');
@@ -19825,14 +17168,12 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
 
       TopNotification.success(
         context,
-        AppLocalizations.of(context)?.bankAccountDeletedSuccessfully ?? AppLocalizations.of(context)!.tr('Bank account deleted successfully!'),
-      );
+        AppLocalizations.of(context)?.bankAccountDeletedSuccessfully ?? AppLocalizations.of(context)!.tr('Bank account deleted successfully!'));
     } catch (e) {
       debugPrint('❌ Error deleting payment method: $e');
       TopNotification.error(
         context,
-        '${AppLocalizations.of(context)?.errorDeletingBankAccount ?? AppLocalizations.of(context)!.tr('Error deleting bank account')}: $e',
-      );
+        '${AppLocalizations.of(context)?.errorDeletingBankAccount ?? AppLocalizations.of(context)!.tr('Error deleting bank account')}: $e');
     }
   }
 
@@ -19849,14 +17190,12 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
 
       TopNotification.success(
         context,
-        AppLocalizations.of(context)?.bankAccountDeletedSuccessfully ?? AppLocalizations.of(context)!.tr('Bank account deleted successfully!'),
-      );
+        AppLocalizations.of(context)?.bankAccountDeletedSuccessfully ?? AppLocalizations.of(context)!.tr('Bank account deleted successfully!'));
     } catch (e) {
       debugPrint('❌ Error deleting payment method: $e');
       TopNotification.error(
         context,
-        '${AppLocalizations.of(context)?.errorDeletingBankAccount ?? AppLocalizations.of(context)!.tr('Error deleting bank account')}: $e',
-      );
+        '${AppLocalizations.of(context)?.errorDeletingBankAccount ?? AppLocalizations.of(context)!.tr('Error deleting bank account')}: $e');
     }
   }
 
@@ -19913,28 +17252,24 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
     }
 
     return Container(
-      margin: const EdgeInsets.only(bottom: 12),
-      padding: const EdgeInsets.all(18),
+      margin: EdgeInsets.only(bottom: 12),
+      padding: EdgeInsets.all(18),
       decoration: BoxDecoration(
         color: isLight ? Colors.white : Colors.black,
-        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-      ),
+        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
       child: Row(
         children: [
           // Icon with gradient - KEEP for category indication
           Container(
-            padding: const EdgeInsets.all(12),
+            padding: EdgeInsets.all(12),
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
-                colors: gradientColors,
-              ),
-              borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-            ),
-            child: Icon(sourceIcon, size: 24, color: Colors.white),
-          ),
-          const SizedBox(width: 16),
+                colors: gradientColors),
+              borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
+            child: Icon(sourceIcon, size: 24, color: Colors.white)),
+          SizedBox(width: 16),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -19948,15 +17283,12 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                         fontSize: DesktopOptimizedWidgets.getFontSize(),
                         fontWeight: FontWeight.w700,
                         color: isLight ? Colors.black : Colors.white,
-                        letterSpacing: -0.3,
-                      ),
-                    ),
+                        letterSpacing: -0.3)),
                     // Amount badge - KEEP gradient for positive value
                     Container(
-                      padding: const EdgeInsets.symmetric(
+                      padding: EdgeInsets.symmetric(
                         horizontal: 12,
-                        vertical: 6,
-                      ),
+                        vertical: 6),
                       decoration: BoxDecoration(
                         gradient: LinearGradient(
                           begin: Alignment.topLeft,
@@ -19964,21 +17296,15 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                           colors: [
                             Colors.green.shade400,
                             Colors.green.shade600,
-                          ],
-                        ),
-                        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-                      ),
+                          ]),
+                        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
                       child: Text(
                         '+${_formatCurrency(amount)}',
                         style: TextStyle(fontSize: DesktopOptimizedWidgets.getFontSize(),
                           fontWeight: FontWeight.w800,
                           color: Colors.white,
-                          letterSpacing: -0.3,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
+                          letterSpacing: -0.3))),
+                  ]),
                 SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                 Text(
                   description,
@@ -19986,23 +17312,19 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                     fontSize: 13,
                     fontWeight: FontWeight.w500,
                     color: (isLight ? Colors.black : Colors.white).withOpacity(
-                      0.7,
-                    ),
-                  ),
+                      0.7)),
                   maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                ),
+                  overflow: TextOverflow.ellipsis),
                 if (customer != null && customer.isNotEmpty) ...[
-                  const SizedBox(height: 6),
+                  SizedBox(height: 6),
                   Row(
                     children: [
                       Icon(
                         CupertinoIcons.person,
                         size: 14,
                         color: (isLight ? Colors.black : Colors.white)
-                            .withOpacity(0.5),
-                      ),
-                      const SizedBox(width: 4),
+                            .withOpacity(0.5)),
+                      SizedBox(width: 4),
                       Expanded(
                         child: Text(
                           customer,
@@ -20010,42 +17332,30 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                             fontSize: 12,
                             fontWeight: FontWeight.w500,
                             color: (isLight ? Colors.black : Colors.white)
-                                .withOpacity(0.6),
-                          ),
+                                .withOpacity(0.6)),
                           maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      ),
-                    ],
-                  ),
+                          overflow: TextOverflow.ellipsis)),
+                    ]),
                 ],
-                const SizedBox(height: 6),
+                SizedBox(height: 6),
                 Row(
                   children: [
                     Icon(
                       CupertinoIcons.clock,
                       size: 13,
                       color: (isLight ? Colors.black : Colors.white)
-                          .withOpacity(0.4),
-                    ),
-                    const SizedBox(width: 4),
+                          .withOpacity(0.4)),
+                    SizedBox(width: 4),
                     Text(
                       '$dateString • $timeString',
                       style: TextStyle(
                         fontSize: 11,
                         fontWeight: FontWeight.w500,
                         color: (isLight ? Colors.black : Colors.white)
-                            .withOpacity(0.5),
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
+                            .withOpacity(0.5))),
+                  ]),
+              ])),
+        ]));
   }
 
   void _showFullEarningsHistoryModal(BuildContext context, bool isLight) {
@@ -20064,9 +17374,8 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
               Icon(
                 CupertinoIcons.chart_bar_fill,
                 size: 22,
-                color: isLight ? Colors.black : Colors.white,
-              ),
-              const SizedBox(width: 12),
+                color: isLight ? Colors.black : Colors.white),
+              SizedBox(width: 12),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -20076,31 +17385,24 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                       fontSize: 22,
                       fontWeight: FontWeight.w700,
                       color: isLight ? Colors.black : Colors.white,
-                      letterSpacing: -0.4,
-                    ),
-                  ),
+                      letterSpacing: -0.4)),
                   Text(
                     AppLocalizations.of(context)?.completeEarningsHistory ?? AppLocalizations.of(context)!.tr('Complete history of your earnings'),
                     style: TextStyle(
                       fontSize: 13,
                       color: (isLight ? Colors.black : Colors.white)
-                          .withOpacity(0.5),
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ),
+                          .withOpacity(0.5))),
+                ]),
+            ]),
 
-          const SizedBox(height: 32),
+          SizedBox(height: 32),
 
           // Total earnings summary - minimalist
           Container(
             padding: DesktopAppWrapper.getPagePadding(),
             decoration: BoxDecoration(
               color: isLight ? Colors.black : Colors.white,
-              borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-            ),
+              borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -20113,33 +17415,24 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                         fontSize: DesktopOptimizedWidgets.getFontSize(),
                         fontWeight: FontWeight.w500,
                         color: (isLight ? Colors.white : Colors.black)
-                            .withOpacity(0.7),
-                      ),
-                    ),
+                            .withOpacity(0.7))),
                     SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                     Text(
                       _formatCurrency(
                         earningsData['totalEarnings'] is String
                             ? double.tryParse(earningsData['totalEarnings']) ??
                                   0.0
-                            : earningsData['totalEarnings']?.toDouble() ?? 0.0,
-                      ),
+                            : earningsData['totalEarnings']?.toDouble() ?? 0.0),
                       style: TextStyle(
                         fontSize: 32,
                         fontWeight: FontWeight.w700,
-                        color: isLight ? Colors.white : Colors.black,
-                      ),
-                    ),
-                  ],
-                ),
+                        color: isLight ? Colors.white : Colors.black)),
+                  ]),
                 Icon(
                   Icons.trending_up,
                   color: isLight ? Colors.white : Colors.black,
-                  size: 32,
-                ),
-              ],
-            ),
-          ),
+                  size: 32),
+              ])),
 
           SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
@@ -20154,8 +17447,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                           Icons.history,
                           size: 64,
                           color: (isLight ? Colors.black : Colors.white)
-                              .withOpacity(0.3),
-                        ),
+                              .withOpacity(0.3)),
                         SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
                         Text(
                           AppLocalizations.of(context)?.noEarningsYet ?? AppLocalizations.of(context)!.tr('No earnings yet'),
@@ -20163,9 +17455,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                             fontSize: DesktopOptimizedWidgets.getFontSize() + 6,
                             fontWeight: FontWeight.w600,
                             color: (isLight ? Colors.black : Colors.white)
-                                .withOpacity(0.5),
-                          ),
-                        ),
+                                .withOpacity(0.5))),
                         SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                         Text(
                           '${AppLocalizations.of(context)?.earningsWillAppearHere ?? AppLocalizations.of(context)!.tr('Your earnings will appear here')}\n${AppLocalizations.of(context)?.onceYouStartDeliveries ?? AppLocalizations.of(context)!.tr('once you start making deliveries')}',
@@ -20173,34 +17463,25 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                           style: TextStyle(
                             fontSize: DesktopOptimizedWidgets.getFontSize(),
                             color: (isLight ? Colors.black : Colors.white)
-                                .withOpacity(0.4),
-                          ),
-                        ),
-                      ],
-                    ),
-                  )
+                                .withOpacity(0.4))),
+                      ]))
                 : ListView.builder(
                     padding: EdgeInsets.zero,
                     itemCount: earningsHistory.length,
                     itemBuilder: (context, index) {
                       final earning = earningsHistory[index];
                       return _buildEarningHistoryItem(earning, isLight);
-                    },
-                  ),
-          ),
+                    })),
 
           SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
-        ],
-      ),
-    ).whenComplete(() => NavigationVisibility.show());
+        ])).whenComplete(() => NavigationVisibility.show());
   }
 
   // Session Expired Dialog
   void _showSessionExpiredDialog() {
     final AppSettings appSettings = Provider.of<AppSettings>(
       context,
-      listen: false,
-    );
+      listen: false);
     final isLight = appSettings.isLightMode(context);
 
     TradeRepublicBottomSheet.show(
@@ -20213,28 +17494,22 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
             padding: DesktopAppWrapper.getPagePadding(),
             decoration: BoxDecoration(
               color: Colors.orange.withOpacity(0.1),
-              borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-            ),
-            child: Icon(CupertinoIcons.lock, size: 48, color: Colors.orange),
-          ),
-          const SizedBox(height: 20),
+              borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
+            child: Icon(CupertinoIcons.lock, size: 48, color: Colors.orange)),
+          SizedBox(height: 20),
           Text(
             AppLocalizations.of(context)?.sessionExpired ?? AppLocalizations.of(context)!.tr('Session Expired'),
             style: TextStyle(
               fontSize: DesktopOptimizedWidgets.getFontSize() + 6,
               fontWeight: FontWeight.w700,
-              color: isLight ? Colors.black : Colors.white,
-            ),
-          ),
+              color: isLight ? Colors.black : Colors.white)),
           SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
           Text(
             AppLocalizations.of(context)?.sessionExpiredDesc ?? AppLocalizations.of(context)!.tr('Your session has expired for security reasons. Please log in again to continue.'),
             textAlign: TextAlign.center,
             style: TextStyle(
               fontSize: DesktopOptimizedWidgets.getFontSize(),
-              color: (isLight ? Colors.black : Colors.white).withOpacity(0.6),
-            ),
-          ),
+              color: (isLight ? Colors.black : Colors.white).withOpacity(0.6))),
           SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
           SizedBox(
             width: double.infinity,
@@ -20243,14 +17518,9 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
               onPressed: () {
                 Navigator.of(context).pop();
                 Navigator.of(
-                  context,
-                ).pushNamedAndRemoveUntil('/login', (route) => false);
-              },
-            ),
-          ),
-        ],
-      ),
-    );
+                  context).pushNamedAndRemoveUntil('/login', (route) => false);
+              })),
+        ]));
   }
 }
 
@@ -20270,14 +17540,12 @@ class _CardPatternPainter extends CustomPainter {
       size.width * 0.5,
       size.height * 0.3,
       size.width * 0.8,
-      size.height * 0.5,
-    );
+      size.height * 0.5);
     path1.quadraticBezierTo(
       size.width * 1.1,
       size.height * 0.7,
       size.width * 0.9,
-      size.height,
-    );
+      size.height);
     canvas.drawPath(path1, paint);
 
     final path2 = Path();
@@ -20286,8 +17554,7 @@ class _CardPatternPainter extends CustomPainter {
       size.width * 0.7,
       size.height * 0.4,
       size.width,
-      size.height * 0.6,
-    );
+      size.height * 0.6);
     canvas.drawPath(path2, paint);
 
     // Draw subtle circles
@@ -20298,14 +17565,12 @@ class _CardPatternPainter extends CustomPainter {
     canvas.drawCircle(
       Offset(size.width * 0.85, size.height * 0.2),
       size.width * 0.15,
-      circlePaint,
-    );
+      circlePaint);
 
     canvas.drawCircle(
       Offset(size.width * 0.1, size.height * 0.8),
       size.width * 0.2,
-      circlePaint,
-    );
+      circlePaint);
   }
 
   @override
@@ -20358,7 +17623,6 @@ class _FallbackNetworkImageState extends State<_FallbackNetworkImage> {
           }
         });
         return widget.fallback ?? const SizedBox.shrink();
-      },
-    );
+      });
   }
 }

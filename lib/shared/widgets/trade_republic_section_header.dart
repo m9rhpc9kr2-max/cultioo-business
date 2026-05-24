@@ -30,7 +30,7 @@ class TradeRepublicSectionHeader extends StatelessWidget {
     this.subtitle,
     this.trailing,
     this.leading,
-    this.padding = const EdgeInsets.only(bottom: 12),
+    this.padding = EdgeInsets.only(bottom: 12),
     this.onTap,
     this.titleStyle,
     this.subtitleStyle,
@@ -44,7 +44,7 @@ class TradeRepublicSectionHeader extends StatelessWidget {
         children: [
           if (leading != null) ...[
             leading!,
-            const SizedBox(width: 12),
+            SizedBox(width: 12),
           ],
           Expanded(
             child: Column(
@@ -53,29 +53,22 @@ class TradeRepublicSectionHeader extends StatelessWidget {
               children: [
                 Text(
                   title.toUpperCase(),
-                  style: titleStyle ?? TradeRepublicTheme.titleMedium(context),
-                ),
+                  style: titleStyle ?? TradeRepublicTheme.titleMedium(context)),
                 if (subtitle != null) ...[
-                  const SizedBox(height: 2),
+                  SizedBox(height: 2),
                   Text(
                     subtitle!,
-                    style: subtitleStyle ?? TradeRepublicTheme.bodySmall(context),
-                  ),
+                    style: subtitleStyle ?? TradeRepublicTheme.bodySmall(context)),
                 ],
-              ],
-            ),
-          ),
+              ])),
           ?trailing,
-        ],
-      ),
-    );
+        ]));
 
     if (onTap != null) {
       header = GestureDetector(
         onTap: onTap,
         behavior: HitTestBehavior.opaque,
-        child: header,
-      );
+        child: header);
     }
 
     return header;

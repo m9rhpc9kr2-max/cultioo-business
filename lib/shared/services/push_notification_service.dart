@@ -31,12 +31,10 @@ class PushNotificationService {
             carPlay: false,
             criticalAlert: false,
             provisional: false,
-            sound: true,
-          );
+            sound: true);
 
       print(
-        '🔔 Push notification permission status: ${settings.authorizationStatus}',
-      );
+        '🔔 Push notification permission status: ${settings.authorizationStatus}');
 
       if (settings.authorizationStatus == AuthorizationStatus.authorized) {
         print('✅ User granted permission for notifications');
@@ -85,12 +83,10 @@ class PushNotificationService {
 
     // Check if app was opened from a terminated state by tapping notification
     FirebaseMessaging.instance.getInitialMessage().then((
-      RemoteMessage? message,
-    ) {
+      RemoteMessage? message) {
       if (message != null) {
         print(
-          '🚀 App opened from terminated state by notification: ${message.messageId}',
-        );
+          '🚀 App opened from terminated state by notification: ${message.messageId}');
         _handleNotificationTap(message);
       }
     });
@@ -111,8 +107,7 @@ class PushNotificationService {
           'Content-Type': 'application/json',
           'Authorization': 'Bearer $authToken',
         },
-        body: json.encode({'fcmToken': token}),
-      );
+        body: json.encode({'fcmToken': token}));
 
       if (response.statusCode == 200) {
         print('✅ FCM token sent to server successfully');
@@ -238,8 +233,7 @@ class PushNotificationService {
           'Content-Type': 'application/json',
           'Authorization': 'Bearer $authToken',
         },
-        body: json.encode({'fcmToken': fcmToken}),
-      );
+        body: json.encode({'fcmToken': fcmToken}));
 
       if (response.statusCode == 200) {
         print('✅ FCM token deleted from server');
@@ -336,8 +330,7 @@ class PushNotificationService {
             'type': 'test',
             'timestamp': DateTime.now().toIso8601String(),
           },
-        }),
-      );
+        }));
 
       if (response.statusCode == 200) {
         print('✅ Test notification sent successfully');

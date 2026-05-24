@@ -119,53 +119,46 @@ class TradeRepublicTheme {
       fontSize: 28,
       fontWeight: FontWeight.w800,
       letterSpacing: -0.8,
-      color: textColor(context),
-      );
+      color: textColor(context));
 
   /// Medium title style (e.g., section headers)
   static TextStyle titleMedium(BuildContext context) => TextStyle(
       fontSize: 22,
       fontWeight: FontWeight.w800,
       letterSpacing: -0.7,
-      color: textColor(context),
-      );
+      color: textColor(context));
 
   /// Small title / label style
   static TextStyle titleSmall(BuildContext context) => TextStyle(
       fontSize: 15,
       fontWeight: FontWeight.w700,
       letterSpacing: -0.2,
-      color: textColor(context),
-      );
+      color: textColor(context));
 
   /// Body text
   static TextStyle bodyMedium(BuildContext context) => TextStyle(
         fontSize: 16,
         fontWeight: FontWeight.w500,
-        color: textColor(context),
-      );
+        color: textColor(context));
 
   /// Small body / caption text
   static TextStyle bodySmall(BuildContext context) => TextStyle(
         fontSize: 13,
         fontWeight: FontWeight.w400,
-        color: hintColor(context, opacity: 0.6),
-      );
+        color: hintColor(context, opacity: 0.6));
 
   /// Input text style (inside text fields)
   static TextStyle inputStyle(BuildContext context) => TextStyle(
         fontSize: 16,
         fontWeight: FontWeight.w500,
         letterSpacing: -0.2,
-        color: textColor(context),
-      );
+        color: textColor(context));
 
   static TextStyle inputHintStyle(BuildContext context) => TextStyle(
         fontSize: 16,
         fontWeight: FontWeight.w500,
         letterSpacing: -0.2,
-        color: hintColor(context, opacity: 0.3),
-      );
+        color: hintColor(context, opacity: 0.3));
 
   static BorderRadius get inputSurfaceBorderRadius =>
       BorderRadius.circular(radiusLarge);

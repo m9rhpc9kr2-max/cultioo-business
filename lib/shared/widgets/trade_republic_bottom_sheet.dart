@@ -28,10 +28,7 @@ class DesktopSheetPlaceholder extends StatelessWidget {
         child: Icon(
           CupertinoIcons.sidebar_right,
           size: 44,
-          color: isDark ? Colors.white24 : Colors.black26,
-        ),
-      ),
-    );
+          color: isDark ? Colors.white24 : Colors.black26)));
   }
 }
 
@@ -113,8 +110,7 @@ class CultiooDesktopSheetStackController extends ChangeNotifier {
       backgroundColor: backgroundColor,
       persistenceKey: persistenceKey,
       completer: c,
-      screenWidth: MediaQuery.sizeOf(context).width,
-    );
+      screenWidth: MediaQuery.sizeOf(context).width);
     _entries.add(entry);
     _selectedIndex = _entries.length - 1;
     notifyListeners();
@@ -189,15 +185,10 @@ class _CultiooDesktopSheetPanelHostState extends State<CultiooDesktopSheetPanelH
                           _DesktopStackedSheetPage(
                             key: ValueKey<String>(e.id),
                             entry: e,
-                            isDark: widget.isDark,
-                          ),
-                      ],
-                    ),
-            ),
-          ],
-        );
-      },
-    );
+                            isDark: widget.isDark),
+                      ])),
+          ]);
+      });
   }
 }
 
@@ -211,19 +202,18 @@ class _DesktopSheetTabStrip extends StatelessWidget {
     final c = CultiooDesktopSheetStackController.instance;
 
     return Padding(
-      padding: const EdgeInsets.fromLTRB(
+      padding: EdgeInsets.fromLTRB(
         CultiooDesktopLayout.topBarHorizontal,
         CultiooDesktopLayout.topBarVertical,
         CultiooDesktopLayout.topBarHorizontal,
-        CultiooDesktopLayout.topBarVertical,
-      ),
+        CultiooDesktopLayout.topBarVertical),
       child: SingleChildScrollView(
         scrollDirection: Axis.horizontal,
         child: Row(
           children: [
             for (var i = 0; i < c.entries.length; i++)
               Padding(
-                padding: const EdgeInsets.only(right: 6),
+                padding: EdgeInsets.only(right: 6),
                 child: _DesktopSheetTabChip(
                   isDark: isDark,
                   label: c.entries[i].title,
@@ -231,13 +221,8 @@ class _DesktopSheetTabStrip extends StatelessWidget {
                   onTap: () => c.select(i),
                   onClose: c.entries[i].isDismissible
                       ? () => c.closeEntry(c.entries[i], null)
-                      : null,
-                ),
-              ),
-          ],
-        ),
-      ),
-    );
+                      : null)),
+          ])));
   }
 }
 
@@ -275,24 +260,21 @@ class _DesktopSheetTabChip extends StatelessWidget {
         child: AnimatedContainer(
           duration: const Duration(milliseconds: 180),
           curve: Curves.easeOut,
-          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+          padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
           decoration: BoxDecoration(
             color: isSelected ? selBg : ink.withValues(alpha: 0.04),
-            borderRadius: borderRadius,
-          ),
+            borderRadius: borderRadius),
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
               Icon(
                 CupertinoIcons.rectangle_stack_fill,
                 size: 15,
-                color: isSelected ? selFg : unselectedColor,
-              ),
-              const SizedBox(width: 6),
+                color: isSelected ? selFg : unselectedColor),
+              SizedBox(width: 6),
               ConstrainedBox(
                 constraints: BoxConstraints(
-                  maxWidth: onClose != null ? 152 : 176,
-                ),
+                  maxWidth: onClose != null ? 152 : 176),
                 child: Text(
                   label,
                   maxLines: 1,
@@ -300,27 +282,18 @@ class _DesktopSheetTabChip extends StatelessWidget {
                   style: TextStyle(
                     fontSize: 12.5,
                     fontWeight: isSelected ? FontWeight.w700 : FontWeight.w500,
-                    color: isSelected ? selFg : unselectedColor,
-                  ),
-                ),
-              ),
+                    color: isSelected ? selFg : unselectedColor))),
               if (onClose != null) ...[
-                const SizedBox(width: 6),
+                SizedBox(width: 6),
                 GestureDetector(
                   behavior: HitTestBehavior.opaque,
                   onTap: onClose,
                   child: Icon(
                     CupertinoIcons.xmark,
                     size: 12,
-                    color: isSelected ? selFg : unselectedColor,
-                  ),
-                ),
+                    color: isSelected ? selFg : unselectedColor)),
               ],
-            ],
-          ),
-        ),
-      ),
-    );
+            ]))));
   }
 }
 
@@ -347,8 +320,7 @@ class _DesktopStackedSheetPage extends StatelessWidget {
     final screenHeight = MediaQuery.sizeOf(context).height;
     final desktopMaxHeight = math.min(
       entry.maxHeight ?? double.infinity,
-      screenHeight,
-    );
+      screenHeight);
 
     final sheetBody = TradeRepublicBottomSheetScope(
       forceTransparentDarkSurfaces: isDark,
@@ -365,9 +337,7 @@ class _DesktopStackedSheetPage extends StatelessWidget {
         contentPadding: contentPadding,
         isLight: isLight,
         screenWidth: entry.screenWidth,
-        child: entry.child,
-      ),
-    );
+        child: entry.child));
 
     // One route per tab so `Navigator.pop` inside modal content still targets this sheet.
     return Navigator(
@@ -375,8 +345,7 @@ class _DesktopStackedSheetPage extends StatelessWidget {
         MaterialPage<void>(
           key: ValueKey<String>('${entry.id}_page'),
           name: entry.id,
-          child: sheetBody,
-        ),
+          child: sheetBody),
       ],
       // ignore: deprecated_member_use — single-page mini-nav; migrate to onDidRemovePage when stable in our SDK pin.
       onPopPage: (route, result) {
@@ -385,8 +354,7 @@ class _DesktopStackedSheetPage extends StatelessWidget {
           CultiooDesktopSheetStackController.instance.closeEntry(entry, result);
         }
         return didPop;
-      },
-    );
+      });
   }
 }
 
@@ -464,8 +432,7 @@ class TradeRepublicBottomSheet {
         maxHeight: maxHeight,
         isDismissible: isDismissible,
         backgroundColor: backgroundColor,
-        persistenceKey: persistenceKey,
-      );
+        persistenceKey: persistenceKey);
     }
     return Navigator.of(context, rootNavigator: useRootNavigator).push<T>(
       _BouncingBottomSheetRoute<T>(
@@ -482,9 +449,7 @@ class TradeRepublicBottomSheet {
         isIOS: _isIOS,
         isMacOS: _isMacOS,
         isWindows: _isWindows,
-        isDesktop: _isDesktop,
-      ),
-    );
+        isDesktop: _isDesktop));
   }
 
   /// Hides any open Trade Republic bottom sheet
@@ -515,10 +480,8 @@ class TradeRepublicBottomSheet {
           Text(
             title.toUpperCase(),
             style: TradeRepublicTheme.titleLarge(context).copyWith(
-              letterSpacing: 0.35,
-            ),
-            textAlign: TextAlign.center,
-          ),
+              letterSpacing: 0.35),
+            textAlign: TextAlign.center),
           SizedBox(height: _isDesktop ? 14 : 20),
           Flexible(child: SingleChildScrollView(child: content)),
           if (actions != null && actions.isNotEmpty) ...[
@@ -531,12 +494,9 @@ class TradeRepublicBottomSheet {
                   actions[i],
                   if (i < actions.length - 1) SizedBox(height: _isDesktop ? 8 : 12),
                 ],
-              ],
-            ),
+              ]),
           ],
-        ],
-      ),
-    );
+        ]));
   }
 
   /// Right-hand desktop column: stacked sheets + tab strip when several are open.
@@ -551,12 +511,8 @@ class TradeRepublicBottomSheet {
         builder: (context) => DecoratedBox(
           decoration: BoxDecoration(
             color: bg,
-            border: CultiooDesktopLayout.desktopSheetPanelLeftBorder(context),
-          ),
-          child: CultiooDesktopSheetPanelHost(isDark: isDark),
-        ),
-      ),
-    );
+            border: CultiooDesktopLayout.desktopSheetPanelLeftBorder(context)),
+          child: CultiooDesktopSheetPanelHost(isDark: isDark))));
   }
 }
 
@@ -601,8 +557,7 @@ class _BouncingBottomSheetRoute<T> extends PopupRoute<T> {
         ? 300
         : isIOS
         ? 500
-        : 750,
-  );
+        : 750);
 
   @override
   Duration get reverseTransitionDuration => Duration(
@@ -610,8 +565,7 @@ class _BouncingBottomSheetRoute<T> extends PopupRoute<T> {
         ? 200
         : isIOS
         ? 350
-        : 450,
-  );
+        : 450);
 
   @override
   bool get barrierDismissible => isDismissible;
@@ -627,8 +581,7 @@ class _BouncingBottomSheetRoute<T> extends PopupRoute<T> {
     BuildContext context,
     Animation<double> animation,
     Animation<double> secondaryAnimation,
-    Widget child,
-  ) {
+    Widget child) {
     final isForward =
         animation.status == AnimationStatus.forward ||
         animation.status == AnimationStatus.completed;
@@ -638,17 +591,14 @@ class _BouncingBottomSheetRoute<T> extends PopupRoute<T> {
       final curved = CurvedAnimation(
         parent: animation,
         curve: isForward ? Curves.easeOutCubic : Curves.easeInCubic,
-        reverseCurve: Curves.easeInCubic,
-      );
+        reverseCurve: Curves.easeInCubic);
       final slide = Tween<Offset>(
         begin: const Offset(1, 0),
-        end: Offset.zero,
-      ).animate(curved);
+        end: Offset.zero).animate(curved);
 
       return FadeTransition(
         opacity: curved,
-        child: SlideTransition(position: slide, child: child),
-      );
+        child: SlideTransition(position: slide, child: child));
     }
 
     if (isIOS) {
@@ -656,46 +606,38 @@ class _BouncingBottomSheetRoute<T> extends PopupRoute<T> {
       final curvedAnimation = CurvedAnimation(
         parent: animation,
         curve: isForward ? Curves.easeOutCubic : Curves.easeInCubic,
-        reverseCurve: Curves.easeInCubic,
-      );
+        reverseCurve: Curves.easeInCubic);
 
       final slideAnimation = Tween<Offset>(
         begin: const Offset(0, 1),
-        end: Offset.zero,
-      ).animate(curvedAnimation);
+        end: Offset.zero).animate(curvedAnimation);
 
       final fadeAnimation = CurvedAnimation(
         parent: animation,
-        curve: const Interval(0, 0.5, curve: Curves.easeOut),
-      );
+        curve: const Interval(0, 0.5, curve: Curves.easeOut));
 
       return FadeTransition(
         opacity: fadeAnimation,
-        child: SlideTransition(position: slideAnimation, child: child),
-      );
+        child: SlideTransition(position: slideAnimation, child: child));
     }
 
     // Android: Spring bounce (existing behavior)
     final curvedAnimation = CurvedAnimation(
       parent: animation,
       curve: isForward ? const _SpringCurve() : Curves.easeIn,
-      reverseCurve: Curves.easeIn,
-    );
+      reverseCurve: Curves.easeIn);
 
     final slideAnimation = Tween<Offset>(
       begin: const Offset(0, 1),
-      end: Offset.zero,
-    ).animate(curvedAnimation);
+      end: Offset.zero).animate(curvedAnimation);
 
     final scaleAnimation = Tween<double>(
       begin: 0.85,
-      end: 1.0,
-    ).animate(curvedAnimation);
+      end: 1.0).animate(curvedAnimation);
 
     final fadeAnimation = CurvedAnimation(
       parent: animation,
-      curve: const Interval(0, 0.4, curve: Curves.easeOut),
-    );
+      curve: const Interval(0, 0.4, curve: Curves.easeOut));
 
     return FadeTransition(
       opacity: fadeAnimation,
@@ -704,18 +646,14 @@ class _BouncingBottomSheetRoute<T> extends PopupRoute<T> {
         child: ScaleTransition(
           scale: scaleAnimation,
           alignment: Alignment.bottomCenter,
-          child: child,
-        ),
-      ),
-    );
+          child: child)));
   }
 
   @override
   Widget buildPage(
     BuildContext context,
     Animation<double> animation,
-    Animation<double> secondaryAnimation,
-  ) {
+    Animation<double> secondaryAnimation) {
     final brightness = Theme.of(context).brightness;
     final isLight = brightness == Brightness.light;
     final bottomSafePadding = MediaQuery.of(context).padding.bottom;
@@ -740,10 +678,10 @@ class _BouncingBottomSheetRoute<T> extends PopupRoute<T> {
         ? MediaQuery.of(context).padding.top + 20
         : MediaQuery.of(context).padding.top + 20;
     final contentPadding = isIPad
-      ? const EdgeInsets.fromLTRB(20, 6, 20, 20)
+      ? EdgeInsets.fromLTRB(20, 6, 20, 20)
       : isIOS
-        ? const EdgeInsets.fromLTRB(20, 6, 20, 20)
-        : const EdgeInsets.fromLTRB(20, 6, 20, 20);
+        ? EdgeInsets.fromLTRB(20, 6, 20, 20)
+        : EdgeInsets.fromLTRB(20, 6, 20, 20);
     // Background color — always use solid color, never transparent
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final bgColor = backgroundColor ??
@@ -755,15 +693,13 @@ class _BouncingBottomSheetRoute<T> extends PopupRoute<T> {
         : BoxShadow(
             color: Colors.black.withValues(alpha: isIOS ? 0.15 : 0.25),
             blurRadius: isIOS ? 20 : 30,
-            offset: const Offset(0, -5),
-          );
+            offset: const Offset(0, -5));
 
     if (isDesktop) {
       // On desktop, always cap maxHeight at 85% of screen height regardless of what callers pass
       final desktopMaxHeight = math.min(
         maxHeight ?? double.infinity,
-        screenHeight * 0.85,
-      );
+        screenHeight * 0.85);
       return TradeRepublicBottomSheetScope(
         forceTransparentDarkSurfaces: isDark,
         child: _DesktopSheetContent(
@@ -778,9 +714,7 @@ class _BouncingBottomSheetRoute<T> extends PopupRoute<T> {
           contentPadding: contentPadding,
           isLight: isLight,
           screenWidth: screenWidth,
-          child: child,
-        ),
-      );
+          child: child));
     }
 
     return GestureDetector(
@@ -800,20 +734,16 @@ class _BouncingBottomSheetRoute<T> extends PopupRoute<T> {
                   top: topPadding,
                   left: effectiveHorizontalPadding,
                   right: effectiveHorizontalPadding,
-                  bottom: effectiveBottomPadding,
-                ),
+                  bottom: effectiveBottomPadding),
                 child: Container(
                   constraints: BoxConstraints(
                     maxWidth: sheetMaxWidth,
-                    maxHeight: maxHeight ?? screenHeight * 0.85,
-                  ),
+                    maxHeight: maxHeight ?? screenHeight * 0.85),
                   decoration: BoxDecoration(
                     color: bgColor,
                     borderRadius: BorderRadius.all(
-                      Radius.circular(borderRadius),
-                    ),
-                    boxShadow: [shadow],
-                  ),
+                      Radius.circular(borderRadius)),
+                    boxShadow: [shadow]),
                   child: TradeRepublicBottomSheetScope(
                     forceTransparentDarkSurfaces: isDark,
                     child: Column(
@@ -824,19 +754,8 @@ class _BouncingBottomSheetRoute<T> extends PopupRoute<T> {
                         Flexible(
                           child: Padding(
                             padding: contentPadding,
-                            child: child,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
+                            child: child)),
+                      ])))))))));
   }
 }
 
@@ -868,8 +787,7 @@ class _DraggableSheetState extends State<_DraggableSheet>
     _snapBack =
         AnimationController(
           vsync: this,
-          duration: const Duration(milliseconds: 300),
-        )..addListener(() {
+          duration: const Duration(milliseconds: 300))..addListener(() {
           setState(() {
             _dragOffset = _dragOffset * (1 - _snapBack.value);
           });
@@ -909,9 +827,7 @@ class _DraggableSheetState extends State<_DraggableSheet>
       onVerticalDragEnd: widget.enableDrag ? _onVerticalDragEnd : null,
       child: Transform.translate(
         offset: Offset(0, _dragOffset),
-        child: widget.child,
-      ),
-    );
+        child: widget.child));
   }
 }
 
@@ -992,8 +908,7 @@ class _DesktopSheetContentState extends State<_DesktopSheetContent> {
       _globalMaximized = _isMaximized;
     });
     SharedPreferences.getInstance().then(
-      (prefs) => prefs.setBool('tr_sheet_maximized', _globalMaximized),
-    );
+      (prefs) => prefs.setBool('tr_sheet_maximized', _globalMaximized));
   }
 
   Widget _embeddedChrome(BuildContext context) {
@@ -1007,37 +922,28 @@ class _DesktopSheetContentState extends State<_DesktopSheetContent> {
 
     if (widget.isMacOS) {
       return Padding(
-        padding: const EdgeInsets.fromLTRB(6, 8, 8, 4),
+        padding: EdgeInsets.fromLTRB(6, 8, 8, 4),
         child: Align(
           alignment: Alignment.centerLeft,
           child: _MacOSCloseButton(
-            onTap: closeEmbedded,
-          ),
-        ),
-      );
+            onTap: closeEmbedded)));
     }
     if (widget.isWindows) {
       return Padding(
-        padding: const EdgeInsets.fromLTRB(6, 8, 8, 4),
+        padding: EdgeInsets.fromLTRB(6, 8, 8, 4),
         child: Align(
           alignment: Alignment.centerRight,
           child: _WindowsCloseButton(
             onTap: closeEmbedded,
-            isLight: widget.isLight,
-          ),
-        ),
-      );
+            isLight: widget.isLight)));
     }
     return Padding(
-      padding: const EdgeInsets.fromLTRB(6, 8, 8, 4),
+      padding: EdgeInsets.fromLTRB(6, 8, 8, 4),
       child: Align(
         alignment: Alignment.centerLeft,
         child: _DesktopGenericCloseButton(
           onTap: closeEmbedded,
-          isLight: widget.isLight,
-        ),
-      ),
-    );
+          isLight: widget.isLight)));
   }
 
   @override
@@ -1065,14 +971,8 @@ class _DesktopSheetContentState extends State<_DesktopSheetContent> {
                   padding: widget.contentPadding,
                   child: ScrollConfiguration(
                     behavior: const _DesktopScrollBehavior(),
-                    child: widget.child,
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-      );
+                    child: widget.child))),
+            ])));
     }
 
     return Focus(
@@ -1099,9 +999,7 @@ class _DesktopSheetContentState extends State<_DesktopSheetContent> {
                 top: 8,
                 bottom: math.max(
                   8,
-                  MediaQuery.of(context).padding.bottom,
-                ),
-              ),
+                  MediaQuery.of(context).padding.bottom)),
               child: GestureDetector(
                 onTap: () {},
                 child: AnimatedContainer(
@@ -1115,27 +1013,22 @@ class _DesktopSheetContentState extends State<_DesktopSheetContent> {
                     maxHeight: _isMaximized
                         ? MediaQuery.of(context).size.height - 24
                         : (widget.maxHeight ??
-                            MediaQuery.of(context).size.height * 0.78),
-                  ),
+                            MediaQuery.of(context).size.height * 0.78)),
                   decoration: BoxDecoration(
                     color: widget.bgColor,
                     borderRadius: BorderRadius.horizontal(
-                      left: Radius.circular(widget.borderRadius),
-                    ),
+                      left: Radius.circular(widget.borderRadius)),
                     border: CultiooDesktopLayout.isDesktopPlatform
                         ? null
                         : Border.all(
                             color: CultiooDesktopLayout.hairlineColor(context),
-                            width: CultiooDesktopLayout.hairlineWidth,
-                          ),
+                            width: CultiooDesktopLayout.hairlineWidth),
                     boxShadow: [
                       BoxShadow(
                         color: Colors.black.withValues(alpha: 0.12),
                         blurRadius: 24,
-                        offset: const Offset(-6, 0),
-                      ),
-                    ],
-                  ),
+                        offset: const Offset(-6, 0)),
+                    ]),
                   child: Padding(
                     padding: widget.contentPadding,
                     child: Column(
@@ -1143,27 +1036,22 @@ class _DesktopSheetContentState extends State<_DesktopSheetContent> {
                       children: [
                         if (widget.isMacOS)
                           Padding(
-                            padding: const EdgeInsets.only(top: 4, bottom: 8),
+                            padding: EdgeInsets.only(top: 4, bottom: 8),
                             child: Align(
                               alignment: Alignment.centerLeft,
                               child: Row(
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
                                   _MacOSCloseButton(
-                                    onTap: () => Navigator.of(context).pop(),
-                                  ),
-                                  const SizedBox(width: 8),
+                                    onTap: () => Navigator.of(context).pop()),
+                                  SizedBox(width: 8),
                                   _MacOSMaximizeButton(
                                     onTap: _toggleMaximize,
-                                    isMaximized: _isMaximized,
-                                  ),
-                                ],
-                              ),
-                            ),
-                          )
+                                    isMaximized: _isMaximized),
+                                ])))
                         else if (widget.isWindows)
                           Padding(
-                            padding: const EdgeInsets.only(top: 4, bottom: 8),
+                            padding: EdgeInsets.only(top: 4, bottom: 8),
                             child: Align(
                               alignment: Alignment.centerRight,
                               child: Row(
@@ -1172,20 +1060,15 @@ class _DesktopSheetContentState extends State<_DesktopSheetContent> {
                                   _WindowsMaximizeButton(
                                     onTap: _toggleMaximize,
                                     isLight: widget.isLight,
-                                    isMaximized: _isMaximized,
-                                  ),
-                                  const SizedBox(width: 2),
+                                    isMaximized: _isMaximized),
+                                  SizedBox(width: 2),
                                   _WindowsCloseButton(
                                     onTap: () => Navigator.of(context).pop(),
-                                    isLight: widget.isLight,
-                                  ),
-                                ],
-                              ),
-                            ),
-                          )
+                                    isLight: widget.isLight),
+                                ])))
                         else
                           Padding(
-                            padding: const EdgeInsets.only(top: 4, bottom: 8),
+                            padding: EdgeInsets.only(top: 4, bottom: 8),
                             child: Align(
                               alignment: Alignment.centerLeft,
                               child: Row(
@@ -1193,36 +1076,19 @@ class _DesktopSheetContentState extends State<_DesktopSheetContent> {
                                 children: [
                                   _DesktopGenericCloseButton(
                                     onTap: () => Navigator.of(context).pop(),
-                                    isLight: widget.isLight,
-                                  ),
-                                  const SizedBox(width: 8),
+                                    isLight: widget.isLight),
+                                  SizedBox(width: 8),
                                   _DesktopGenericMaximizeButton(
                                     onTap: _toggleMaximize,
                                     isLight: widget.isLight,
-                                    isMaximized: _isMaximized,
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
+                                    isMaximized: _isMaximized),
+                                ]))),
                         Flexible(
                           child: RepaintBoundary(
                             child: ScrollConfiguration(
                               behavior: const _DesktopScrollBehavior(),
-                              child: widget.child,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
+                              child: widget.child))),
+                      ])))))))));
   }
 }
 
@@ -1247,12 +1113,10 @@ class _MacOSCloseButtonState extends State<_MacOSCloseButton>
     super.initState();
     _controller = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 150),
-    );
+      duration: const Duration(milliseconds: 150));
     _scaleAnimation = Tween<double>(
       begin: 1.0,
-      end: 0.85,
-    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeInOut));
+      end: 0.85).animate(CurvedAnimation(parent: _controller, curve: Curves.easeInOut));
   }
 
   @override
@@ -1304,24 +1168,16 @@ class _MacOSCloseButtonState extends State<_MacOSCloseButton>
                       BoxShadow(
                         color: const Color(0xFFFF5F57).withValues(alpha: 0.4),
                         blurRadius: 6,
-                        spreadRadius: 1,
-                      ),
+                        spreadRadius: 1),
                     ]
-                  : null,
-            ),
+                  : null),
             child: _isHovered
                 ? const Center(
                     child: Icon(
                       CupertinoIcons.xmark,
                       size: 8,
-                      color: Color(0xFF4A0002),
-                    ),
-                  )
-                : null,
-          ),
-        ),
-      ),
-    );
+                      color: Color(0xFF4A0002)))
+                : null))));
   }
 }
 
@@ -1347,12 +1203,10 @@ class _MacOSMaximizeButtonState extends State<_MacOSMaximizeButton>
     super.initState();
     _controller = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 150),
-    );
+      duration: const Duration(milliseconds: 150));
     _scaleAnimation = Tween<double>(
       begin: 1.0,
-      end: 0.85,
-    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeInOut));
+      end: 0.85).animate(CurvedAnimation(parent: _controller, curve: Curves.easeInOut));
   }
 
   @override
@@ -1404,30 +1258,21 @@ class _MacOSMaximizeButtonState extends State<_MacOSMaximizeButton>
                       BoxShadow(
                         color: const Color(0xFF28C840).withValues(alpha: 0.4),
                         blurRadius: 6,
-                        spreadRadius: 1,
-                      ),
+                        spreadRadius: 1),
                     ]
-                  : null,
-            ),
+                  : null),
             child: _isHovered
                 ? Center(
                     child: widget.isMaximized
-                        ? const Icon(
+                        ? Icon(
                             CupertinoIcons.arrow_down_right_arrow_up_left,
                             size: 8,
-                            color: Color(0xFF004A00),
-                          )
-                        : const Icon(
+                            color: Color(0xFF004A00))
+                        : Icon(
                             CupertinoIcons.arrow_up_left_arrow_down_right,
                             size: 8,
-                            color: Color(0xFF004A00),
-                          ),
-                  )
-                : null,
-          ),
-        ),
-      ),
-    );
+                            color: Color(0xFF004A00)))
+                : null))));
   }
 }
 
@@ -1452,16 +1297,11 @@ class _DesktopGenericCloseButton extends StatelessWidget {
           onTap: onTap,
           borderRadius: BorderRadius.circular(6),
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+            padding: EdgeInsets.symmetric(horizontal: 10, vertical: 6),
             child: Icon(
               CupertinoIcons.xmark,
               size: 15,
-              color: isLight ? Colors.black54 : Colors.white70,
-            ),
-          ),
-        ),
-      ),
-    );
+              color: isLight ? Colors.black54 : Colors.white70)))));
   }
 }
 
@@ -1486,18 +1326,13 @@ class _DesktopGenericMaximizeButton extends StatelessWidget {
           onTap: onTap,
           borderRadius: BorderRadius.circular(6),
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+            padding: EdgeInsets.symmetric(horizontal: 10, vertical: 6),
             child: Icon(
               isMaximized
                   ? CupertinoIcons.arrow_down_right_arrow_up_left
                   : CupertinoIcons.arrow_up_left_arrow_down_right,
               size: 15,
-              color: isLight ? Colors.black54 : Colors.white70,
-            ),
-          ),
-        ),
-      ),
-    );
+              color: isLight ? Colors.black54 : Colors.white70)))));
   }
 }
 
@@ -1543,20 +1378,14 @@ class _WindowsCloseButtonState extends State<_WindowsCloseButton> {
                 ? (widget.isLight
                     ? Colors.black.withValues(alpha: 0.14)
                     : Colors.white.withValues(alpha: 0.18))
-                : Colors.transparent,
-          ),
+                : Colors.transparent),
           child: Center(
             child: Icon(
               CupertinoIcons.xmark,
               size: 12,
               color: Theme.of(context).colorScheme.onSurface.withValues(
                 alpha: _isHovered ? 0.87 : 0.54
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
+              ))))));
   }
 }
 
@@ -1607,20 +1436,14 @@ class _WindowsMaximizeButtonState extends State<_WindowsMaximizeButton> {
                 ? (widget.isLight
                     ? Colors.black.withValues(alpha: 0.14)
                     : Colors.white.withValues(alpha: 0.18))
-                : Colors.transparent,
-          ),
+                : Colors.transparent),
           child: Center(
             child: Icon(
               widget.isMaximized
                   ? CupertinoIcons.arrow_down_right_arrow_up_left
                   : CupertinoIcons.square,
               size: 14,
-              color: Theme.of(context).colorScheme.onSurface.withValues(alpha: _isHovered ? 0.87 : 0.54),
-            ),
-          ),
-        ),
-      ),
-    );
+              color: Theme.of(context).colorScheme.onSurface.withValues(alpha: _isHovered ? 0.87 : 0.54))))));
   }
 }
 
@@ -1653,8 +1476,7 @@ class _DesktopScrollBehavior extends ScrollBehavior {
   Widget buildScrollbar(
     BuildContext context,
     Widget child,
-    ScrollableDetails details,
-  ) =>
+    ScrollableDetails details) =>
       child; // suppress overlay scrollbar — repaints on every frame → jank
 }
 

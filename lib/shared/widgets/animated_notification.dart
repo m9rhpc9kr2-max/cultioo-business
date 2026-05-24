@@ -26,9 +26,7 @@ class AnimatedNotification {
         onTap: onTap,
         onDismiss: () {
           hide();
-        },
-      ),
-    );
+        }));
 
     Overlay.of(context).insert(_overlayEntry!);
   }
@@ -78,22 +76,18 @@ class _AnimatedNotificationWidgetState extends State<AnimatedNotificationWidget>
 
     _slideController = AnimationController(
       duration: const Duration(milliseconds: 400),
-      vsync: this,
-    );
+      vsync: this);
 
     _fadeController = AnimationController(
       duration: const Duration(milliseconds: 300),
-      vsync: this,
-    );
+      vsync: this);
 
     _slideAnimation =
         Tween<Offset>(begin: const Offset(0, -1), end: Offset.zero).animate(
-          CurvedAnimation(parent: _slideController, curve: Curves.easeOutBack),
-        );
+          CurvedAnimation(parent: _slideController, curve: Curves.easeOutBack));
 
     _fadeAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
-      CurvedAnimation(parent: _fadeController, curve: Curves.easeInOut),
-    );
+      CurvedAnimation(parent: _fadeController, curve: Curves.easeInOut));
 
     // Start animations
     _slideController.forward();
@@ -148,7 +142,7 @@ class _AnimatedNotificationWidgetState extends State<AnimatedNotificationWidget>
           opacity: _fadeAnimation,
           child: SafeArea(
             child: Container(
-              margin: const EdgeInsets.all(16),
+              margin: EdgeInsets.all(16),
               child: Material(
                 color: Colors.transparent,
                 child: TradeRepublicTap(
@@ -159,56 +153,37 @@ class _AnimatedNotificationWidgetState extends State<AnimatedNotificationWidget>
                     }
                   },
                   child: Container(
-                    padding: const EdgeInsets.all(16),
+                    padding: EdgeInsets.all(16),
                     decoration: BoxDecoration(
                       color: _getBackgroundColor(),
-                      borderRadius: BorderRadius.circular(20),
-                    ),
+                      borderRadius: BorderRadius.circular(20)),
                     child: Row(
                       children: [
                         Container(
-                          padding: const EdgeInsets.all(8),
+                          padding: EdgeInsets.all(8),
                           decoration: BoxDecoration(
                             color: Colors.white.withOpacity(0.2),
-                            borderRadius: BorderRadius.circular(20),
-                          ),
+                            borderRadius: BorderRadius.circular(20)),
                           child: Icon(
                             _getIcon(),
                             color: Colors.white,
-                            size: 24,
-                          ),
-                        ),
-                        const SizedBox(width: 12),
+                            size: 24)),
+                        SizedBox(width: 12),
                         Expanded(
                           child: Text(
                             widget.message,
-                            style: const TextStyle(
+                            style: TextStyle(
                               color: Colors.white,
                               fontSize: 16,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                        ),
+                              fontWeight: FontWeight.w500))),
                         TradeRepublicTap(
                           onTap: _dismiss,
                           child: Container(
-                            padding: const EdgeInsets.all(4),
-                            child: const Icon(
+                            padding: EdgeInsets.all(4),
+                            child: Icon(
                               Icons.close_rounded,
                               color: Colors.white,
-                              size: 18,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
+                              size: 18))),
+                      ])))))))));
   }
 }

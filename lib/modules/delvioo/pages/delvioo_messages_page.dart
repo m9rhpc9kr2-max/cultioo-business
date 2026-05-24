@@ -96,23 +96,19 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
     // Initialize animation controllers
     _headerAnimController = AnimationController(
       duration: const Duration(milliseconds: 600),
-      vsync: this,
-    );
+      vsync: this);
     _headerFadeAnim = Tween<double>(begin: 0, end: 1).animate(
-      CurvedAnimation(parent: _headerAnimController, curve: Curves.easeOut),
-    );
+      CurvedAnimation(parent: _headerAnimController, curve: Curves.easeOut));
 
     _contentAnimController = AnimationController(
       duration: const Duration(milliseconds: 800),
-      vsync: this,
-    );
+      vsync: this);
 
     // Initialize header visibility controller
     _headerVisibilityController = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 300),
-      value: 1.0,
-    );
+      value: 1.0);
 
     // Start header animation immediately
     _headerAnimController.forward();
@@ -127,8 +123,7 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
     // Initialize floating animation - only start when needed
     _floatingController = AnimationController(
       duration: const Duration(seconds: 3),
-      vsync: this,
-    );
+      vsync: this);
 
     _loadThemePreference();
     _loadPinnedChats();
@@ -186,8 +181,7 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
     print('  - username: ${prefs.getString('username')}');
     print('  - currentUserId: $currentUserId');
     print(
-      '  - Will use for messages: ${prefs.getString('username') ?? currentUserId}',
-    );
+      '  - Will use for messages: ${prefs.getString('username') ?? currentUserId}');
   }
 
   // Check if a new group was just created and open it automatically
@@ -206,8 +200,7 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
         // Find and open the group
         final group = userGroups.firstWhere(
           (g) => g['groupId'] == newGroupId,
-          orElse: () => {},
-        );
+          orElse: () => {});
 
         if (group.isNotEmpty && mounted) {
           final appSettings = Provider.of<AppSettings>(context, listen: false);
@@ -237,8 +230,7 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
       _headerVisibilityController!.animateTo(
         0.0,
         duration: const Duration(milliseconds: 150),
-        curve: Curves.easeOut,
-      );
+        curve: Curves.easeOut);
     }
   }
 
@@ -250,8 +242,7 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
       _headerVisibilityController!.animateTo(
         1.0,
         duration: const Duration(milliseconds: 150),
-        curve: Curves.easeOut,
-      );
+        curve: Curves.easeOut);
     }
   }
 
@@ -311,8 +302,7 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
       final prefs = await SharedPreferences.getInstance();
       await prefs.setStringList(
         'delvioo_deleted_chats',
-        _deletedChats.toList(),
-      );
+        _deletedChats.toList());
       print('💾 Saved deleted chats: $_deletedChats');
     } catch (e) {
       print('❌ Error saving deleted chats: $e');
@@ -326,8 +316,7 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
 
       final response = await http.get(
         Uri.parse('${ApiConfig.baseUrl}/api/blocked-users/$currentUserId'),
-        headers: {'Content-Type': 'application/json'},
-      );
+        headers: {'Content-Type': 'application/json'});
 
       print('📡 Blocked users response: ${response.statusCode}');
 
@@ -355,8 +344,7 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
       final response = await http.post(
         Uri.parse('${ApiConfig.baseUrl}/api/blocked-users/block'),
         headers: {'Content-Type': 'application/json'},
-        body: json.encode({'blocker_id': currentUserId, 'blocked_id': userId}),
-      );
+        body: json.encode({'blocker_id': currentUserId, 'blocked_id': userId}));
 
       print('📡 Block user response: ${response.statusCode}');
       print('📡 Block user body: ${response.body}');
@@ -370,8 +358,7 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
         if (mounted) {
           TopNotification.success(
             context,
-            '$userName ${AppLocalizations.of(context)?.userHasBeenBlocked ?? "has been blocked"}',
-          );
+            '$userName ${AppLocalizations.of(context)?.userHasBeenBlocked ?? "has been blocked"}');
         }
         HapticFeedback.mediumImpact();
       } else {
@@ -383,8 +370,7 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
         TopNotification.error(
           context,
           AppLocalizations.of(context)?.failedToBlockUser ??
-              'Failed to block user',
-        );
+              'Failed to block user');
       }
     }
   }
@@ -397,8 +383,7 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
       final response = await http.post(
         Uri.parse('${ApiConfig.baseUrl}/api/blocked-users/unblock'),
         headers: {'Content-Type': 'application/json'},
-        body: json.encode({'blocker_id': currentUserId, 'blocked_id': userId}),
-      );
+        body: json.encode({'blocker_id': currentUserId, 'blocked_id': userId}));
 
       print('📡 Unblock user response: ${response.statusCode}');
       print('📡 Unblock user body: ${response.body}');
@@ -412,8 +397,7 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
         if (mounted) {
           TopNotification.success(
             context,
-            '$userName ${AppLocalizations.of(context)?.userHasBeenUnblocked ?? "has been unblocked"}',
-          );
+            '$userName ${AppLocalizations.of(context)?.userHasBeenUnblocked ?? "has been unblocked"}');
         }
         HapticFeedback.mediumImpact();
       } else {
@@ -425,8 +409,7 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
         TopNotification.error(
           context,
           AppLocalizations.of(context)?.failedToUnblockUser ??
-              'Failed to unblock user',
-        );
+              'Failed to unblock user');
       }
     }
   }
@@ -443,14 +426,12 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
         _pinnedChats.remove(chatId);
         TopNotification.info(
           context,
-          AppLocalizations.of(context)?.chatUnpinned ?? 'Chat unpinned',
-        );
+          AppLocalizations.of(context)?.chatUnpinned ?? 'Chat unpinned');
       } else {
         _pinnedChats.add(chatId);
         TopNotification.success(
           context,
-          AppLocalizations.of(context)?.chatPinned ?? 'Chat pinned',
-        );
+          AppLocalizations.of(context)?.chatPinned ?? 'Chat pinned');
       }
     });
     _savePinnedChats();
@@ -495,28 +476,24 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
       // Show confirmation
       TopNotification.success(
         context,
-        AppLocalizations.of(context)?.chatDeleted ?? 'Chat deleted',
-      );
+        AppLocalizations.of(context)?.chatDeleted ?? 'Chat deleted');
       HapticFeedback.mediumImpact();
 
       print('✅ Chat deleted successfully and saved to storage: $chatId');
     } catch (e) {
       print(
-        '${AppLocalizations.of(context)?.errorDeletingChat ?? 'Error deleting chat'}: $e',
-      );
+        '${AppLocalizations.of(context)?.errorDeletingChat ?? 'Error deleting chat'}: $e');
       TopNotification.error(
         context,
         AppLocalizations.of(context)?.failedToDeleteChat ??
-            'Failed to delete chat',
-      );
+            'Failed to delete chat');
     }
   }
 
   // Show delete confirmation dialog
   Future<bool> _showDeleteConfirmation(
     BuildContext context,
-    bool isLight,
-  ) async {
+    bool isLight) async {
     return await TradeRepublicBottomSheet.show<bool>(
           context: context,
           showDragHandle: true,
@@ -530,9 +507,8 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
                   Icon(
                     CupertinoIcons.trash,
                     size: 22,
-                    color: isLight ? Colors.black : Colors.white,
-                  ),
-                  const SizedBox(width: 12),
+                    color: isLight ? Colors.black : Colors.white),
+                  SizedBox(width: 12),
                   Flexible(
                     child: Text(
                       AppLocalizations.of(context)?.deleteChat ?? 'Delete Chat',
@@ -540,12 +516,8 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
                         fontSize: 22,
                         fontWeight: FontWeight.w700,
                         color: isLight ? Colors.black : Colors.white,
-                        letterSpacing: -0.4,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
+                        letterSpacing: -0.4))),
+                ]),
 
               SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
@@ -554,30 +526,25 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
                 AppLocalizations.of(context)?.deleteConversationConfirm ??
                     'Are you sure you want to delete this conversation? This action cannot be undone.',
                 textAlign: TextAlign.start,
-                style: TradeRepublicTheme.bodySmall(context),
-              ),
+                style: TradeRepublicTheme.bodySmall(context)),
 
-              const SizedBox(height: 28),
+              SizedBox(height: 28),
 
               TradeRepublicButton(
                 label: AppLocalizations.of(context)?.delete ?? 'Delete',
                 onPressed: () => Navigator.pop(context, true),
                 backgroundColor: const Color(0xFFFF3B30),
                 foregroundColor: Colors.white,
-                width: double.infinity,
-              ),
+                width: double.infinity),
 
-              const SizedBox(height: 10),
+              SizedBox(height: 10),
 
               TradeRepublicButton(
                 label: AppLocalizations.of(context)?.cancel ?? 'Cancel',
                 onPressed: () => Navigator.pop(context, false),
                 isSecondary: true,
-                width: double.infinity,
-              ),
-            ],
-          ),
-        ) ??
+                width: double.infinity),
+            ])) ??
         false;
   }
 
@@ -591,8 +558,7 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
 
       if (loggedInUsername == null || loggedInUsername.isEmpty) {
         print(
-          '⚠️ No username found in SharedPreferences, cannot fetch messages',
-        );
+          '⚠️ No username found in SharedPreferences, cannot fetch messages');
         if (mounted) {
           setState(() {
             orders = [];
@@ -632,8 +598,7 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
         if (responseBody['success'] == true &&
             responseBody['messages'] != null) {
           final messagesList = List<Map<String, dynamic>>.from(
-            responseBody['messages'],
-          );
+            responseBody['messages']);
 
           // Filter out deleted chats
           final filteredMessages = messagesList.where((order) {
@@ -653,12 +618,10 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
             });
           }
           print(
-            '✅ Real messages loaded from database for $loggedInUsername: ${filteredMessages.length} (filtered ${messagesList.length - filteredMessages.length} deleted)',
-          );
+            '✅ Real messages loaded from database for $loggedInUsername: ${filteredMessages.length} (filtered ${messagesList.length - filteredMessages.length} deleted)');
         } else {
           throw Exception(
-            'Invalid API response structure: ${responseBody['error'] ?? 'Unknown error'}',
-          );
+            'Invalid API response structure: ${responseBody['error'] ?? 'Unknown error'}');
         }
       } else {
         throw Exception('Failed with status: ${response.statusCode}');
@@ -698,10 +661,8 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
 
       final response = await http.get(
         Uri.parse(
-          '${ApiConfig.baseUrl}/api/delvioo-groups/user/$currentUserId',
-        ),
-        headers: {'Content-Type': 'application/json'},
-      );
+          '${ApiConfig.baseUrl}/api/delvioo-groups/user/$currentUserId'),
+        headers: {'Content-Type': 'application/json'});
 
       print('📡 Groups response: ${response.statusCode}');
       print('📡 Groups body: ${response.body}');
@@ -710,8 +671,7 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
         final responseData = json.decode(response.body);
         if (responseData['success'] == true) {
           final groupsList = List<Map<String, dynamic>>.from(
-            responseData['groups'] ?? [],
-          );
+            responseData['groups'] ?? []);
 
           // Filter out deleted chats
           final filteredGroups = groupsList.where((group) {
@@ -729,8 +689,7 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
               _listAnimationKey++; // Trigger animation on groups load
             });
             print(
-              '✅ Loaded ${filteredGroups.length} groups for messenger (filtered ${groupsList.length - filteredGroups.length} deleted)',
-            );
+              '✅ Loaded ${filteredGroups.length} groups for messenger (filtered ${groupsList.length - filteredGroups.length} deleted)');
           }
         }
       }
@@ -750,8 +709,7 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
 
       final response = await http.get(
         Uri.parse('${ApiConfig.baseUrl}/api/groups/$groupId/messages'),
-        headers: {'Content-Type': 'application/json'},
-      );
+        headers: {'Content-Type': 'application/json'});
 
       print('📡 Group messages response: ${response.statusCode}');
       print('📡 Group messages body: ${response.body}');
@@ -804,8 +762,7 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
               'delvioo', // Changed from 'driver' to 'delvioo' for Delvioo drivers
           'sender_name': senderName,
           'message_text': messageText,
-        }),
-      );
+        }));
 
       print('📡 Send message response: ${response.statusCode}');
       print('📡 Send message body: ${response.body}');
@@ -823,8 +780,7 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
   // Load profile data for message sender - with proper caching to avoid duplicate requests
   Future<Map<String, dynamic>?> _loadProfileData(
     String senderId,
-    String senderType,
-  ) async {
+    String senderType) async {
     try {
       // Check cache first
       final cacheKey = '${senderType}_$senderId';
@@ -857,8 +813,7 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
   Future<Map<String, dynamic>?> _fetchProfileData(
     String senderId,
     String senderType,
-    String cacheKey,
-  ) async {
+    String cacheKey) async {
     try {
       // Check cache again (might have been populated while waiting)
       if (_profileCache.containsKey(cacheKey)) {
@@ -895,8 +850,7 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
 
       var response = await http.get(
         Uri.parse(endpoint),
-        headers: {'Content-Type': 'application/json'},
-      );
+        headers: {'Content-Type': 'application/json'});
 
       print('📡 Profile response for $senderId: ${response.statusCode}');
 
@@ -908,8 +862,7 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
         isDriverTable = true;
         response = await http.get(
           Uri.parse(endpoint),
-          headers: {'Content-Type': 'application/json'},
-        );
+          headers: {'Content-Type': 'application/json'});
         print('📡 Driver table response: ${response.statusCode}');
       }
 
@@ -920,8 +873,7 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
         isDriverTable = true;
         response = await http.get(
           Uri.parse(endpoint),
-          headers: {'Content-Type': 'application/json'},
-        );
+          headers: {'Content-Type': 'application/json'});
         print('📡 Driver table response: ${response.statusCode}');
       }
 
@@ -932,8 +884,7 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
         isDriverTable = false;
         response = await http.get(
           Uri.parse(endpoint),
-          headers: {'Content-Type': 'application/json'},
-        );
+          headers: {'Content-Type': 'application/json'});
         print('📡 Users table response: ${response.statusCode}');
       }
 
@@ -1014,8 +965,7 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
 
           print('🖼️ Profile picture URL: ${profile['profilePicture']}');
           print(
-            '👤 User type: ${profile['userType']}, Is Business: ${profile['isBusiness']}',
-          );
+            '👤 User type: ${profile['userType']}, Is Business: ${profile['isBusiness']}');
 
           // Cache the profile data
           if (mounted) {
@@ -1025,8 +975,7 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
           }
 
           print(
-            '✅ Profile loaded: ${profile['firstName']} ${profile['lastName']} (${profile['userType']})',
-          );
+            '✅ Profile loaded: ${profile['firstName']} ${profile['lastName']} (${profile['userType']})');
           return profile;
         }
       }
@@ -1061,8 +1010,7 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
           fit: BoxFit.cover,
           width: size,
           height: size,
-          errorBuilder: (_, __, ___) => const SizedBox.shrink(),
-        );
+          errorBuilder: (_, __, ___) => const SizedBox.shrink());
       } catch (_) {
         return null;
       }
@@ -1072,14 +1020,12 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
         fit: BoxFit.cover,
         width: size,
         height: size,
-        errorBuilder: (_, __, ___) => const SizedBox.shrink(),
-      );
+        errorBuilder: (_, __, ___) => const SizedBox.shrink());
     }
 
     return ClipRRect(
       borderRadius: BorderRadius.circular(borderRadius),
-      child: imageWidget,
-    );
+      child: imageWidget);
   }
 
   // Get a stable future for profile loading (prevents FutureBuilder from re-fetching)
@@ -1114,8 +1060,7 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
         maxWidth: 1920,
         maxHeight: 1080,
         imageQuality: 85,
-        preferredCameraDevice: CameraDevice.rear,
-      );
+        preferredCameraDevice: CameraDevice.rear);
 
       if (image != null) {
         print('📷 Image selected: ${image.path}');
@@ -1127,8 +1072,7 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
         if (fileSize > 10 * 1024 * 1024) {
           _showError(
             AppLocalizations.of(context)?.imageTooLargeMax10mb ??
-                'Image too large. Maximum size is 10MB.',
-          );
+                'Image too large. Maximum size is 10MB.');
           return null;
         }
 
@@ -1148,8 +1092,7 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
     } catch (e) {
       print('❌ Error selecting image: $e');
       _showError(
-        '${AppLocalizations.of(context)?.failedToSelectImage ?? "Failed to select image"}: ${e.toString()}',
-      );
+        '${AppLocalizations.of(context)?.failedToSelectImage ?? "Failed to select image"}: ${e.toString()}');
     }
     return null;
   }
@@ -1162,8 +1105,7 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
         allowedExtensions: ['pdf'],
         allowMultiple: false,
         withData: false, // Don't load file data into memory
-        withReadStream: false,
-      );
+        withReadStream: false);
 
       if (result != null && result.files.single.path != null) {
         File file = File(result.files.single.path!);
@@ -1178,8 +1120,7 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
         if (fileSize > 10 * 1024 * 1024) {
           _showError(
             AppLocalizations.of(context)?.pdfTooLargeMax10mb ??
-                'PDF too large. Maximum size is 10MB.',
-          );
+                'PDF too large. Maximum size is 10MB.');
           return null;
         }
 
@@ -1194,8 +1135,7 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
     } catch (e) {
       print('❌ Error selecting PDF: $e');
       _showError(
-        '${AppLocalizations.of(context)?.failedToSelectPdf ?? "Failed to select PDF"}: ${e.toString()}',
-      );
+        '${AppLocalizations.of(context)?.failedToSelectPdf ?? "Failed to select PDF"}: ${e.toString()}');
     }
     return null;
   }
@@ -1204,8 +1144,7 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
   Future<void> _uploadFileToServer(
     File file,
     int orderId,
-    String fileType,
-  ) async {
+    String fileType) async {
     try {
       print('📤 Uploading $fileType to server...');
       print('📁 File path: ${file.path}');
@@ -1260,8 +1199,7 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
 
       var request = http.MultipartRequest(
         'POST',
-        Uri.parse('${ApiConfig.baseUrl}/api/messages/orders/$orderId/upload'),
-      );
+        Uri.parse('${ApiConfig.baseUrl}/api/messages/orders/$orderId/upload'));
 
       request.fields['sender'] = sender;
       request.fields['receiver'] = receiver;
@@ -1276,15 +1214,13 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
       var multipartFile = await http.MultipartFile.fromPath(
         'file',
         file.path,
-        contentType: MediaType.parse(mimeType),
-      );
+        contentType: MediaType.parse(mimeType));
 
       request.files.add(multipartFile);
 
       print('📦 Request fields: ${request.fields}');
       print(
-        '📎 File info: ${multipartFile.filename}, ${multipartFile.contentType}',
-      );
+        '📎 File info: ${multipartFile.filename}, ${multipartFile.contentType}');
 
       final response = await request.send();
       final responseBody = await response.stream.bytesToString();
@@ -1296,12 +1232,10 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
         print('✅ File uploaded successfully');
         TopNotification.success(
           context,
-          '${fileType == 'image' ? AppLocalizations.of(context)?.image ?? 'Image' : 'PDF'} uploaded successfully',
-        );
+          '${fileType == 'image' ? AppLocalizations.of(context)?.image ?? 'Image' : 'PDF'} uploaded successfully');
       } else {
         throw Exception(
-          'Upload failed with status: ${response.statusCode}. Response: $responseBody',
-        );
+          'Upload failed with status: ${response.statusCode}. Response: $responseBody');
       }
     } catch (e) {
       print('❌ Error uploading file to server: $e');
@@ -1313,8 +1247,7 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
   Future<ImageSource?> _showImageSourceDialog() async {
     final AppSettings appSettings = Provider.of<AppSettings>(
       context,
-      listen: false,
-    );
+      listen: false);
     final isLight = appSettings.isLightMode(context);
 
     return TradeRepublicBottomSheet.show<ImageSource>(
@@ -1331,9 +1264,7 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
             leading: Icon(
               CupertinoIcons.photo_on_rectangle,
               size: 20,
-              color: TradeRepublicTheme.textColor(context),
-            ),
-          ),
+              color: TradeRepublicTheme.textColor(context))),
 
           TradeRepublicCard(
             backgroundColor: isLight ? null : Colors.transparent,
@@ -1348,13 +1279,11 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
                   leading: Icon(
                     CupertinoIcons.camera,
                     size: 20,
-                    color: TradeRepublicTheme.textColor(context),
-                  ),
+                    color: TradeRepublicTheme.textColor(context)),
                   onTap: () {
                     HapticFeedback.lightImpact();
                     Navigator.pop(context, ImageSource.camera);
-                  },
-                ),
+                  }),
                 const TradeRepublicDivider(),
                 TradeRepublicListTile.navigation(
                   title: AppLocalizations.of(context)?.gallery ?? 'Gallery',
@@ -1364,16 +1293,12 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
                   leading: Icon(
                     CupertinoIcons.photo,
                     size: 20,
-                    color: TradeRepublicTheme.textColor(context),
-                  ),
+                    color: TradeRepublicTheme.textColor(context)),
                   onTap: () {
                     HapticFeedback.lightImpact();
                     Navigator.pop(context, ImageSource.gallery);
-                  },
-                ),
-              ],
-            ),
-          ),
+                  }),
+              ])),
 
           SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
@@ -1384,11 +1309,8 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
               Navigator.pop(context);
             },
             isSecondary: true,
-            width: double.infinity,
-          ),
-        ],
-      ),
-    );
+            width: double.infinity),
+        ]));
   }
 
   // Show error message
@@ -1400,22 +1322,19 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
   void _showFullScreenImage(
     BuildContext context,
     List<String> imageCandidates,
-    bool isLight,
-  ) {
+    bool isLight) {
     if (imageCandidates.isEmpty) return;
     TradeRepublicBottomSheet.show(
       context: context,
       maxHeight: MediaQuery.of(context).size.height,
-      child: _buildFullScreenImageViewer(imageCandidates, isLight, context),
-    );
+      child: _buildFullScreenImageViewer(imageCandidates, isLight, context));
   }
 
   // Build full-screen image viewer widget
   Widget _buildFullScreenImageViewer(
     List<String> imageCandidates,
     bool isLight,
-    BuildContext context,
-  ) {
+    BuildContext context) {
     Widget buildFullscreenImage(int index) {
       if (index >= imageCandidates.length) {
         return Center(
@@ -1425,17 +1344,13 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
               Icon(
                 CupertinoIcons.photo_on_rectangle,
                 color: Colors.white,
-                size: 64,
-              ),
+                size: 64),
               SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
               Text(
                 AppLocalizations.of(context)?.imageNotAvailable ??
                     'Image not available',
-                style: const TextStyle(color: Colors.white, fontSize: DesktopOptimizedWidgets.getFontSize(),,
-              ),
-            ],
-          ),
-        );
+                style: TextStyle(color: Colors.white, fontSize: DesktopOptimizedWidgets.getFontSize()),
+            ]));
       }
       final url = imageCandidates[index];
       return Image.network(
@@ -1460,19 +1375,14 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
                 Icon(
                   CupertinoIcons.photo_on_rectangle,
                   color: Colors.white,
-                  size: 64,
-                ),
+                  size: 64),
                 SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
                 Text(
                   AppLocalizations.of(context)?.imageNotAvailable ??
                       'Image not available',
-                  style: const TextStyle(color: Colors.white, fontSize: DesktopOptimizedWidgets.getFontSize(),,
-                ),
-              ],
-            ),
-          );
-        },
-      );
+                  style: TextStyle(color: Colors.white, fontSize: DesktopOptimizedWidgets.getFontSize()),
+              ]));
+        });
     }
 
     return SizedBox(
@@ -1490,9 +1400,7 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
               scaleEnabled: true,
               minScale: 0.5,
               maxScale: 4.0,
-              child: buildFullscreenImage(0),
-            ),
-          ),
+              child: buildFullscreenImage(0))),
 
           // iOS-style Header with close and download buttons
           Positioned(
@@ -1501,56 +1409,43 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
             right: 0,
             child: SafeArea(
               child: Container(
-                padding: const EdgeInsets.symmetric(
+                padding: EdgeInsets.symmetric(
                   horizontal: 16,
-                  vertical: 12,
-                ),
+                  vertical: 12),
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
                     begin: Alignment.topCenter,
                     end: Alignment.bottomCenter,
-                    colors: [Colors.black.withOpacity(0.7), Colors.transparent],
-                  ),
-                ),
+                    colors: [Colors.black.withOpacity(0.7), Colors.transparent])),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     TradeRepublicButton.icon(
-                      icon: const Icon(
+                      icon: Icon(
                         CupertinoIcons.xmark,
                         color: Colors.white,
-                        size: 22,
-                      ),
+                        size: 22),
                       size: 44,
                       backgroundColor: Colors.black.withValues(alpha: 0.55),
                       foregroundColor: Colors.white,
                       onPressed: () {
                         HapticFeedback.lightImpact();
                         Navigator.pop(context);
-                      },
-                    ),
+                      }),
                     TradeRepublicButton.icon(
-                      icon: const Icon(
+                      icon: Icon(
                         CupertinoIcons.arrow_down_to_line,
                         color: Colors.white,
-                        size: 22,
-                      ),
+                        size: 22),
                       size: 44,
                       backgroundColor: Colors.black.withValues(alpha: 0.55),
                       foregroundColor: Colors.white,
                       onPressed: () {
                         HapticFeedback.lightImpact();
                         _downloadImage(imageCandidates);
-                      },
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
+                      }),
+                  ])))),
+        ]));
   }
 
   // Download image functionality with permission handling
@@ -1577,8 +1472,7 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
             TopNotification.warning(
               context,
               AppLocalizations.of(context)?.storagePermissionRequiredImages ??
-                  'Storage permission is required to download images',
-            );
+                  'Storage permission is required to download images');
             return;
           }
         }
@@ -1588,8 +1482,7 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
           TopNotification.warning(
             context,
             AppLocalizations.of(context)?.storagePermissionRequiredImages ??
-                'Storage permission is required to download images',
-          );
+                'Storage permission is required to download images');
           return;
         }
       }
@@ -1598,8 +1491,7 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
       TopNotification.info(
         context,
         AppLocalizations.of(context)?.downloadingImage ??
-            'Downloading image...',
-      );
+            'Downloading image...');
 
       // Download the image — try each URL until one succeeds
       http.Response? response;
@@ -1680,8 +1572,7 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
           TopNotification.success(
             context,
             AppLocalizations.of(context)?.imageSaved ??
-                'Image saved successfully',
-          );
+                'Image saved successfully');
         } else {
           throw Exception('Could not find suitable storage location');
         }
@@ -1689,8 +1580,7 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
         throw Exception(
           response == null
               ? 'Failed to download image from all URLs'
-              : 'Failed to download image: ${response.statusCode}',
-        );
+              : 'Failed to download image: ${response.statusCode}');
       }
     } catch (e) {
       print('❌ Error downloading image: $e');
@@ -1743,8 +1633,7 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
       body: Center(
         child: ConstrainedBox(
           constraints: BoxConstraints(
-            maxWidth: isDesktop ? 800 : double.infinity,
-          ),
+            maxWidth: isDesktop ? 800 : double.infinity),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -1761,16 +1650,14 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
                       _headerVisibilityController?.value ?? 1.0;
                   return Opacity(
                     opacity: _headerFadeAnim.value * visibilityValue,
-                    child: child,
-                  );
+                    child: child);
                 },
                 child: Padding(
                   padding: EdgeInsets.fromLTRB(
                     20,
                     isDesktop ? 32 : MediaQuery.of(context).padding.top + 20,
                     20,
-                    0,
-                  ),
+                    0),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -1791,103 +1678,78 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
                                         : Colors.white,
                                     fontSize: 34,
                                     fontWeight: FontWeight.w700,
-                                    letterSpacing: -0.5,
-                                  ),
-                                ),
-                                const SizedBox(height: 4),
+                                    letterSpacing: -0.5)),
+                                SizedBox(height: 4),
                                 Text(
                                   AppLocalizations.of(
-                                        context,
-                                      )?.chatWithCustomers ??
+                                        context)?.chatWithCustomers ??
                                       'Chat with customers',
                                   style: TextStyle(
                                     color: isLight
                                         ? Colors.black.withOpacity(0.5)
                                         : Colors.white.withOpacity(0.5),
                                     fontSize: 15,
-                                    fontWeight: FontWeight.w400,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
+                                    fontWeight: FontWeight.w400)),
+                              ])),
 
                           // Unread Badge
                           if (unreadMessagesCount > 0) ...[
                             Container(
-                              padding: const EdgeInsets.symmetric(
+                              padding: EdgeInsets.symmetric(
                                 horizontal: 12,
-                                vertical: 6,
-                              ),
+                                vertical: 6),
                               decoration: BoxDecoration(
                                 color: const Color(0xFFFF3B30),
-                                borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-                              ),
+                                borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
                               child: Text(
                                 '$unreadMessagesCount',
-                                style: const TextStyle(
+                                style: TextStyle(
                                   color: Colors.white,
                                   fontSize: 13,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              ),
-                            ),
-                            const SizedBox(width: 12),
+                                  fontWeight: FontWeight.w600))),
+                            SizedBox(width: 12),
                           ],
 
                           // Action Buttons (hide when chat is open)
                           if (!_isChatOpen) ...[
                             // New Chat Button
                             TradeRepublicButton.icon(
-                              icon: const Icon(CupertinoIcons.plus, size: 20),
+                              icon: Icon(CupertinoIcons.plus, size: 20),
                               size: 40,
                               onPressed: () {
                                 HapticFeedback.mediumImpact();
                                 _showNewChatModal(context, isLight);
-                              },
-                            ),
-                            const SizedBox(width: 8),
+                              }),
+                            SizedBox(width: 8),
                             // Settings Button
                             TradeRepublicButton.icon(
-                              icon: const Icon(
+                              icon: Icon(
                                 CupertinoIcons.ellipsis,
-                                size: 20,
-                              ),
+                                size: 20),
                               size: 40,
                               isSecondary: true,
                               onPressed: () {
                                 HapticFeedback.mediumImpact();
                                 _showSettingsBottomSheet(isLight);
-                              },
-                            ),
+                              }),
                           ],
-                        ],
-                      ),
-                      const SizedBox(height: 20),
-                    ],
-                  ),
-                ),
-              ),
+                        ]),
+                      SizedBox(height: 20),
+                    ]))),
 
               // Messages List - Expanded to fill remaining space
               // CullyAI always shown first regardless of orders/groups
               Expanded(
                 child: isLoading
                     ? const Center(child: CultiooLoadingIndicator())
-                    : _buildMessagesList(isLight),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
+                    : _buildMessagesList(isLight)),
+            ]))));
   }
 
   Widget _buildFloatingAppBar(
     bool isLight,
     int conversationsCount,
-    int unreadCount,
-  ) {
+    int unreadCount) {
     // Standard layout for all platforms
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -1898,95 +1760,79 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
             Icon(
               CupertinoIcons.chat_bubble,
               color: isLight ? Colors.black : Colors.white,
-              size: 24,
-            ),
-            const SizedBox(width: 16),
+              size: 24),
+            SizedBox(width: 16),
             Text(
               AppLocalizations.of(context)?.messages ?? 'Messages',
               style: TextStyle(
                 color: isLight ? Colors.black : Colors.white,
                 fontSize: 28,
                 fontWeight: FontWeight.w700,
-                letterSpacing: -0.5,
-              ),
-            ),
+                letterSpacing: -0.5)),
             if (unreadCount > 0) ...[
-              const SizedBox(width: 12),
+              SizedBox(width: 12),
               Container(
-                padding: const EdgeInsets.symmetric(
+                padding: EdgeInsets.symmetric(
                   horizontal: 10,
-                  vertical: 4,
-                ),
+                  vertical: 4),
                 decoration: BoxDecoration(
                   color: const Color(0xFFFF3B30),
-                  borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-                ),
+                  borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
                 child: Text(
                   '$unreadCount',
-                  style: const TextStyle(
+                  style: TextStyle(
                     color: Colors.white,
                     fontSize: 12,
-                    fontWeight: FontWeight.w700,
-                  ),
-                ),
-              ),
+                    fontWeight: FontWeight.w700))),
             ],
-          ],
-        ),
+          ]),
 
         // Right side buttons - Fallback for non-iOS
         if (!_isChatOpen)
           Row(
             children: [
               TradeRepublicButton.icon(
-                icon: const Icon(CupertinoIcons.plus_circle, size: 22),
+                icon: Icon(CupertinoIcons.plus_circle, size: 22),
                 size: 36,
                 isSecondary: true,
                 onPressed: () {
                   HapticFeedback.lightImpact();
                   _showNewChatModal(context, isLight);
-                },
-              ),
-              const SizedBox(width: 8),
+                }),
+              SizedBox(width: 8),
               TradeRepublicButton.icon(
-                icon: const Icon(CupertinoIcons.ellipsis_vertical, size: 22),
+                icon: Icon(CupertinoIcons.ellipsis_vertical, size: 22),
                 size: 36,
                 isSecondary: true,
                 onPressed: () {
                   HapticFeedback.lightImpact();
                   _showUserManagementModal(isLight);
-                },
-              ),
-            ],
-          ),
-      ],
-    );
+                }),
+            ]),
+      ]);
   }
 
   // Modern empty state with animation - Trade Republic Style
   Widget _buildEmptyState(bool isLight) {
     return Center(
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 40),
+        padding: EdgeInsets.symmetric(horizontal: 40),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Icon(
               CupertinoIcons.chat_bubble_2,
               size: 56,
-              color: (isLight ? Colors.black : Colors.white).withOpacity(0.2),
-            ),
-            const SizedBox(height: 20),
+              color: (isLight ? Colors.black : Colors.white).withOpacity(0.2)),
+            SizedBox(height: 20),
             Text(
               AppLocalizations.of(context)?.noMessagesYet ?? 'No Messages Yet',
               style: TextStyle(
                 fontSize: DesktopOptimizedWidgets.getFontSize() + 6,
                 fontWeight: FontWeight.w700,
                 color: isLight ? Colors.black : Colors.white,
-                letterSpacing: -0.3,
-              ),
-              textAlign: TextAlign.center,
-            ),
+                letterSpacing: -0.3),
+              textAlign: TextAlign.center),
             SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
             Text(
               AppLocalizations.of(context)?.startConversation ??
@@ -1994,16 +1840,10 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
               style: TextStyle(
                 fontSize: DesktopOptimizedWidgets.getFontSize(),
                 color: (isLight ? Colors.black : Colors.white).withOpacity(
-                  0.45,
-                ),
-                height: 1.5,
-              ),
-              textAlign: TextAlign.center,
-            ),
-          ],
-        ),
-      ),
-    );
+                  0.45),
+                height: 1.5),
+              textAlign: TextAlign.center),
+          ])));
   }
 
   // Messages list
@@ -2058,10 +1898,9 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
         CupertinoSliverRefreshControl(
           onRefresh: _refreshData,
           refreshTriggerPullDistance: 80,
-          refreshIndicatorExtent: 60,
-        ),
+          refreshIndicatorExtent: 60),
         SliverPadding(
-          padding: const EdgeInsets.fromLTRB(20, 0, 20, 16),
+          padding: EdgeInsets.fromLTRB(20, 0, 20, 16),
           sliver: SliverList(
             delegate: SliverChildBuilderDelegate(
               (context, index) {
@@ -2069,8 +1908,7 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
                 if (index == 0) {
                   return _buildAnimatedChatCard(
                     child: _buildCullyAiCard(isLight),
-                    index: 0,
-                  );
+                    index: 0);
                 }
 
                 final chat = allChats[index - 1];
@@ -2080,23 +1918,17 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
                   final group = chat['data'] as Map<String, dynamic>;
                   return _buildAnimatedChatCard(
                     child: _buildGroupChatCard(group, isLight),
-                    index: index,
-                  );
+                    index: index);
                 } else {
                   final order = chat['data'] as Map<String, dynamic>;
                   final orderId = order['order_id'] as int?;
                   return _buildAnimatedChatCard(
                     child: _buildOrderChatCard(order, orderId ?? 0, isLight),
-                    index: index,
-                  );
+                    index: index);
                 }
               },
-              childCount: allChats.length + 1,
-            ),
-          ),
-        ),
-      ],
-    );
+              childCount: allChats.length + 1))),
+      ]);
   }
 
   Widget _buildCullyAiCard(bool isLight) {
@@ -2107,7 +1939,7 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
       },
       child: TradeRepublicCard(
         backgroundColor: isLight ? null : Colors.transparent,
-        padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 16),
+        padding: EdgeInsets.symmetric(horizontal: 18, vertical: 16),
         child: Row(
           children: [
             // CullyAI Avatar
@@ -2117,10 +1949,8 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
                 isLight ? 'logo/cully_light.png' : 'logo/cully_dark.png',
                 width: 52,
                 height: 52,
-                fit: BoxFit.cover,
-              ),
-            ),
-            const SizedBox(width: 14),
+                fit: BoxFit.cover)),
+            SizedBox(width: 14),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -2133,56 +1963,39 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
                           fontSize: DesktopOptimizedWidgets.getFontSize(),
                           fontWeight: FontWeight.w700,
                           color: isLight ? Colors.black : Colors.white,
-                          letterSpacing: -0.3,
-                        ),
-                      ),
-                      const SizedBox(width: 6),
+                          letterSpacing: -0.3)),
+                      SizedBox(width: 6),
                       Container(
-                        padding: const EdgeInsets.symmetric(
+                        padding: EdgeInsets.symmetric(
                           horizontal: 7,
-                          vertical: 2,
-                        ),
+                          vertical: 2),
                         decoration: BoxDecoration(
                           gradient: const LinearGradient(
-                            colors: [Color(0xFF6C63FF), Color(0xFF3ECFCF)],
-                          ),
-                          borderRadius: BorderRadius.circular(6),
-                        ),
-                        child: const Text(
+                            colors: [Color(0xFF6C63FF), Color(0xFF3ECFCF)]),
+                          borderRadius: BorderRadius.circular(6)),
+                        child: Text(
                           'AI',
                           style: TextStyle(
                             fontSize: 10,
                             fontWeight: FontWeight.w700,
-                            color: Colors.white,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 4),
+                            color: Colors.white))),
+                    ]),
+                  SizedBox(height: 4),
                   Text(
                     'Your intelligent assistant — tap to chat',
                     style: TextStyle(
                       fontSize: DesktopOptimizedWidgets.getFontSize(),
                       fontWeight: FontWeight.w400,
                       color: (isLight ? Colors.black : Colors.white)
-                          .withOpacity(0.5),
-                    ),
+                          .withOpacity(0.5)),
                     maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                ],
-              ),
-            ),
+                    overflow: TextOverflow.ellipsis),
+                ])),
             Icon(
               CupertinoIcons.chevron_right,
               size: 16,
-              color: (isLight ? Colors.black : Colors.white).withOpacity(0.2),
-            ),
-          ],
-        ),
-      ),
-    );
+              color: (isLight ? Colors.black : Colors.white).withOpacity(0.2)),
+          ])));
   }
 
   void _openCullyAiChat(bool isLight) {
@@ -2193,9 +2006,7 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
     Navigator.of(context)
         .push(
           CupertinoPageRoute(
-            builder: (context) => _CullyAiChatPage(isLight: isLight),
-          ),
-        )
+            builder: (context) => _CullyAiChatPage(isLight: isLight)))
         .then((_) {
           setState(() {
             _isChatOpen = false;
@@ -2219,13 +2030,9 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
           child: Opacity(
             opacity: clampedValue,
             child: Padding(
-              padding: const EdgeInsets.only(bottom: 10),
-              child: child,
-            ),
-          ),
-        );
-      },
-    );
+              padding: EdgeInsets.only(bottom: 10),
+              child: child)));
+      });
   }
 
   Widget _buildGroupChatCard(Map<String, dynamic> group, bool isLight) {
@@ -2248,8 +2055,7 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
         activeLabel: AppLocalizations.of(context)?.unpin ?? 'Unpin',
         isActive: isPinned,
         iconRotation: -0.5,
-        onActivate: () => _togglePinChat(groupId),
-      ),
+        onActivate: () => _togglePinChat(groupId)),
       trailing: TradeRepublicSwipeSpec(
         icon: CupertinoIcons.delete_solid,
         label: AppLocalizations.of(context)?.delete ?? 'Delete',
@@ -2260,15 +2066,14 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
           if (confirmed) {
             await _deleteChat(groupId);
           }
-        },
-      ),
+        }),
       onTap: () {
         HapticFeedback.lightImpact();
         _showGroupChatBottomSheet(context, group, isLight);
       },
       child: TradeRepublicCard(
         backgroundColor: isLight ? null : Colors.transparent,
-        padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 14),
+        padding: EdgeInsets.symmetric(horizontal: 18, vertical: 14),
         child: Row(
           children: [
             // Group Avatar - Trade Republic style
@@ -2277,17 +2082,14 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
               height: 52,
               decoration: BoxDecoration(
                 color: isLight ? Colors.black : Colors.white,
-                borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-              ),
+                borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
               child: Stack(
                 children: [
                   Center(
                     child: Icon(
                       CupertinoIcons.person_2,
                       color: isLight ? Colors.white : Colors.black,
-                      size: 24,
-                    ),
-                  ),
+                      size: 24)),
                   if (isPinned)
                     Positioned(
                       right: -2,
@@ -2297,20 +2099,14 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
                         height: 18,
                         decoration: BoxDecoration(
                           color: isLight ? Colors.black : Colors.white,
-                          borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-                        ),
+                          borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
                         child: Icon(
                           CupertinoIcons.pin_fill,
                           size: 10,
-                          color: isLight ? Colors.white : Colors.black,
-                        ),
-                      ),
-                    ),
-                ],
-              ),
-            ),
+                          color: isLight ? Colors.white : Colors.black))),
+                ])),
 
-            const SizedBox(width: 14),
+            SizedBox(width: 14),
 
             // Group Info
             Expanded(
@@ -2328,86 +2124,64 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
                             fontSize: DesktopOptimizedWidgets.getFontSize(),
                             fontWeight: FontWeight.w600,
                             color: isLight ? Colors.black : Colors.white,
-                            letterSpacing: -0.3,
-                          ),
+                            letterSpacing: -0.3),
                           maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      ),
+                          overflow: TextOverflow.ellipsis)),
                       if (lastMessageTime != null) ...[
-                        const SizedBox(width: 8),
+                        SizedBox(width: 8),
                         Text(
                           _formatMessageTime(lastMessageTime),
                           style: TextStyle(
                             fontSize: 13,
                             color: (isLight ? Colors.black : Colors.white)
-                                .withOpacity(0.4),
-                          ),
-                        ),
+                                .withOpacity(0.4))),
                       ],
-                    ],
-                  ),
-                  const SizedBox(height: 4),
+                    ]),
+                  SizedBox(height: 4),
                   Row(
                     children: [
                       if (isHost)
                         Container(
-                          margin: const EdgeInsets.only(right: 6),
-                          padding: const EdgeInsets.symmetric(
+                          margin: EdgeInsets.only(right: 6),
+                          padding: EdgeInsets.symmetric(
                             horizontal: 6,
-                            vertical: 2,
-                          ),
+                            vertical: 2),
                           decoration: BoxDecoration(
                             color: (isLight ? Colors.black : Colors.white)
                                 .withOpacity(0.1),
-                            borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-                          ),
+                            borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
                           child: Text(
                             AppLocalizations.of(context)?.host ?? 'Host',
                             style: TextStyle(
                               fontSize: 10,
                               fontWeight: FontWeight.w600,
-                              color: isLight ? Colors.black : Colors.white,
-                            ),
-                          ),
-                        ),
+                              color: isLight ? Colors.black : Colors.white))),
                       Expanded(
                         child: Text(
                           '$memberCount members • $lastMessage',
                           style: TextStyle(
                             fontSize: DesktopOptimizedWidgets.getFontSize(),
                             color: (isLight ? Colors.black : Colors.white)
-                                .withOpacity(0.5),
-                          ),
+                                .withOpacity(0.5)),
                           maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
+                          overflow: TextOverflow.ellipsis)),
+                    ]),
+                ])),
 
-            const SizedBox(width: 8),
+            SizedBox(width: 8),
 
             // Chevron
             Icon(
               CupertinoIcons.chevron_right,
               color: (isLight ? Colors.black : Colors.white).withOpacity(0.2),
-              size: 16,
-            ),
-          ],
-        ),
-      ),
-    );
+              size: 16),
+          ])));
   }
 
   Widget _buildOrderChatCard(
     Map<String, dynamic> order,
     int orderId,
-    bool isLight,
-  ) {
+    bool isLight) {
     // Use 'direct_username' for null order_id (direct messages)
     final conversationId = orderId == 0
         ? 'direct_${order['other_username'] ?? 'unknown'}'
@@ -2429,8 +2203,7 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
         activeLabel: AppLocalizations.of(context)?.unpin ?? 'Unpin',
         isActive: isPinned,
         iconRotation: -0.5,
-        onActivate: () => _togglePinChat(conversationId),
-      ),
+        onActivate: () => _togglePinChat(conversationId)),
       trailing: TradeRepublicSwipeSpec(
         icon: CupertinoIcons.delete_solid,
         label: AppLocalizations.of(context)?.delete ?? 'Delete',
@@ -2441,23 +2214,21 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
           if (confirmed) {
             await _deleteChat(conversationId);
           }
-        },
-      ),
+        }),
       onTap: () {
         HapticFeedback.lightImpact();
         _showLiquidGlassBottomSheet(context, orderId, isLight);
       },
       child: TradeRepublicCard(
         backgroundColor: isLight ? null : Colors.transparent,
-        padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 14),
+        padding: EdgeInsets.symmetric(horizontal: 18, vertical: 14),
         child: Row(
           children: [
             // Avatar - Trade Republic style with profile picture
             FutureBuilder<Map<String, dynamic>?>(
               future: _getProfileFuture(
                 order['other_username']?.toString() ?? '',
-                order['other_user_type']?.toString() ?? 'customer',
-              ),
+                order['other_user_type']?.toString() ?? 'customer'),
               builder: (context, snapshot) {
                 final profileData = snapshot.data;
                 final profilePictureRaw = profileData?['profilePicture'];
@@ -2467,8 +2238,7 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
                 if (profilePictureRaw != null &&
                     profilePictureRaw.toString().isNotEmpty) {
                   profilePicture = ApiConfig.getImageUrl(
-                    profilePictureRaw.toString(),
-                  );
+                    profilePictureRaw.toString());
                 }
 
                 // Get other_user_type from order for accurate type determination
@@ -2503,8 +2273,7 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
                       height: 52,
                       decoration: BoxDecoration(
                         color: isLight ? Colors.black : Colors.white,
-                        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-                      ),
+                        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
                       child: _buildAvatarImage(profilePicture, 52, 20) ??
                           Center(
                             child: Text(
@@ -2512,11 +2281,7 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
                               style: TextStyle(
                                 fontSize: DesktopOptimizedWidgets.getFontSize() + 4,
                                 fontWeight: FontWeight.w600,
-                                color: isLight ? Colors.white : Colors.black,
-                              ),
-                            ),
-                          ),
-                    ),
+                                color: isLight ? Colors.white : Colors.black)))),
                     // Pin indicator
                     if (isPinned)
                       Positioned(
@@ -2527,15 +2292,11 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
                           height: 18,
                           decoration: BoxDecoration(
                             color: isLight ? Colors.black : Colors.white,
-                            borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-                          ),
+                            borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
                           child: Icon(
                             CupertinoIcons.pin_fill,
                             size: 10,
-                            color: isLight ? Colors.white : Colors.black,
-                          ),
-                        ),
-                      ),
+                            color: isLight ? Colors.white : Colors.black))),
                     // User type badge based on sender_type
                     if (!isPinned)
                       Positioned(
@@ -2546,23 +2307,16 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
                           height: 16,
                           decoration: BoxDecoration(
                             color: badgeColor,
-                            borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-                          ),
+                            borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
                           child: Center(
                             child: Icon(
                               badgeIcon,
                               size: 8,
-                              color: isLight ? Colors.white : Colors.black,
-                            ),
-                          ),
-                        ),
-                      ),
-                  ],
-                );
-              },
-            ),
+                              color: isLight ? Colors.white : Colors.black)))),
+                  ]);
+              }),
 
-            const SizedBox(width: 14),
+            SizedBox(width: 14),
 
             // Chat Info
             Expanded(
@@ -2571,8 +2325,7 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
                   order['other_username']?.toString() ??
                       order['sender_id']?.toString() ??
                       '',
-                  order['other_user_type']?.toString() ?? 'customer',
-                ),
+                  order['other_user_type']?.toString() ?? 'customer'),
                 builder: (context, snapshot) {
                     String displayName = order['other_username'] ??
                       (AppLocalizations.of(context)?.userFallback ?? '');
@@ -2645,38 +2398,28 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
                                       color: isLight
                                           ? Colors.black
                                           : Colors.white,
-                                      letterSpacing: -0.3,
-                                    ),
+                                      letterSpacing: -0.3),
                                     maxLines: 1,
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
-                                ),
+                                    overflow: TextOverflow.ellipsis)),
                                 if (roleLabel.isNotEmpty) ...[
-                                  const SizedBox(width: 6),
+                                  SizedBox(width: 6),
                                   Container(
-                                    padding: const EdgeInsets.symmetric(
+                                    padding: EdgeInsets.symmetric(
                                       horizontal: 6,
-                                      vertical: 2,
-                                    ),
+                                      vertical: 2),
                                     decoration: BoxDecoration(
                                       color: roleColor.withOpacity(0.1),
-                                      borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-                                    ),
+                                      borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
                                     child: Text(
                                       roleLabel,
                                       style: TextStyle(
                                         fontSize: 11,
                                         fontWeight: FontWeight.w600,
-                                        color: roleColor,
-                                      ),
-                                    ),
-                                  ),
+                                        color: roleColor))),
                                 ],
-                              ],
-                            ),
-                          ),
+                              ])),
                           if (lastMessageTime != null) ...[
-                            const SizedBox(width: 8),
+                            SizedBox(width: 8),
                             Text(
                               _formatMessageTime(lastMessageTime),
                               style: TextStyle(
@@ -2687,13 +2430,10 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
                                 color: messageCount > 0
                                     ? const Color(0xFF007AFF)
                                     : (isLight ? Colors.black : Colors.white)
-                                          .withOpacity(0.4),
-                              ),
-                            ),
+                                          .withOpacity(0.4))),
                           ],
-                        ],
-                      ),
-                      const SizedBox(height: 4),
+                        ]),
+                      SizedBox(height: 4),
                       Row(
                         children: [
                           Expanded(
@@ -2709,19 +2449,15 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
                                           ? Colors.black87
                                           : Colors.white70)
                                     : (isLight ? Colors.black : Colors.white)
-                                          .withOpacity(0.5),
-                              ),
+                                          .withOpacity(0.5)),
                               maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                          ),
+                              overflow: TextOverflow.ellipsis)),
                           if (messageCount > 0) ...[
-                            const SizedBox(width: 8),
+                            SizedBox(width: 8),
                             Container(
-                              padding: const EdgeInsets.symmetric(
+                              padding: EdgeInsets.symmetric(
                                 horizontal: 8,
-                                vertical: 3,
-                              ),
+                                vertical: 3),
                               decoration: BoxDecoration(
                                 color: const Color(0xFF007AFF),
                                 borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
@@ -2729,32 +2465,21 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
                               ),
                               child: Text(
                                 '$messageCount',
-                                style: const TextStyle(
+                                style: TextStyle(
                                   fontSize: 12,
                                   fontWeight: FontWeight.w600,
-                                  color: Colors.white,
-                                ),
-                              ),
-                            ),
+                                  color: Colors.white))),
                           ],
-                        ],
-                      ),
-                    ],
-                  );
-                },
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
+                        ]),
+                    ]);
+                })),
+          ])));
   }
 
   void _showGroupChatBottomSheet(
     BuildContext context,
     Map<String, dynamic> group,
-    bool isLight,
-  ) {
+    bool isLight) {
     print('🚀 Opening group chat for group: ${group['name']}');
 
     // Increment animation key to trigger fresh animations
@@ -2773,10 +2498,7 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
           CupertinoPageRoute(
             builder: (ctx) => Scaffold(
               backgroundColor: isLight ? Colors.white : Colors.black,
-              body: _buildIOSGroupChatModal(group, isLight, ctx),
-            ),
-          ),
-        )
+              body: _buildIOSGroupChatModal(group, isLight, ctx))))
         .then((_) {
           if (mounted) {
             setState(() {
@@ -2791,8 +2513,7 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
   Widget _buildIOSGroupChatModal(
     Map<String, dynamic> group,
     bool isLight,
-    BuildContext context,
-  ) {
+    BuildContext context) {
     final TextEditingController messageController = TextEditingController();
     final groupId = group['groupId'] ?? '';
     final groupName =
@@ -2806,8 +2527,7 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
       builder: (BuildContext context, StateSetter setModalState) {
         return Padding(
           padding: EdgeInsets.only(
-            bottom: MediaQuery.of(context).viewInsets.bottom,
-          ),
+            bottom: MediaQuery.of(context).viewInsets.bottom),
           child: SizedBox(
             height: MediaQuery.of(context).size.height,
             child: Column(
@@ -2818,11 +2538,9 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
                     20,
                     MediaQuery.of(context).padding.top + 16,
                     20,
-                    14,
-                  ),
+                    14),
                   decoration: BoxDecoration(
-                    color: isLight ? Colors.white : Colors.black,
-                  ),
+                    color: isLight ? Colors.white : Colors.black),
                   child: Row(
                     children: [
                       // Back button
@@ -2830,27 +2548,22 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
                         icon: Icon(
                           CupertinoIcons.back,
                           size: 20,
-                          color: isLight ? Colors.black : Colors.white,
-                        ),
+                          color: isLight ? Colors.black : Colors.white),
                         size: 36,
                         isSecondary: true,
-                        onPressed: () => Navigator.pop(context),
-                      ),
-                      const SizedBox(width: 14),
+                        onPressed: () => Navigator.pop(context)),
+                      SizedBox(width: 14),
                       Container(
                         width: 48,
                         height: 48,
                         decoration: BoxDecoration(
                           color: isLight ? Colors.black : Colors.white,
-                          borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-                        ),
+                          borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
                         child: Icon(
                           CupertinoIcons.person_2,
                           color: isLight ? Colors.white : Colors.black,
-                          size: 22,
-                        ),
-                      ),
-                      const SizedBox(width: 14),
+                          size: 22)),
+                      SizedBox(width: 14),
                       Expanded(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -2861,29 +2574,22 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
                                 fontSize: DesktopOptimizedWidgets.getFontSize() + 4,
                                 fontWeight: FontWeight.w600,
                                 color: isLight ? Colors.black : Colors.white,
-                                letterSpacing: -0.3,
-                              ),
-                            ),
-                            const SizedBox(height: 2),
+                                letterSpacing: -0.3)),
+                            SizedBox(height: 2),
                             Text(
                               AppLocalizations.of(context)?.groupChat ??
                                   'Group Chat',
                               style: TextStyle(
                                 fontSize: DesktopOptimizedWidgets.getFontSize(),
                                 color: (isLight ? Colors.black : Colors.white)
-                                    .withOpacity(0.5),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
+                                    .withOpacity(0.5))),
+                          ])),
                       // More options menu
                       TradeRepublicButton.icon(
                         icon: Icon(
                           CupertinoIcons.ellipsis,
                           size: 20,
-                          color: isLight ? Colors.black : Colors.white,
-                        ),
+                          color: isLight ? Colors.black : Colors.white),
                         size: 36,
                         isSecondary: true,
                         onPressed: () {
@@ -2892,13 +2598,9 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
                             context,
                             chatId,
                             groupName,
-                            isLight,
-                          );
-                        },
-                      ),
-                    ],
-                  ),
-                ),
+                            isLight);
+                        }),
+                    ])),
 
                 // Messages Area
                 Expanded(
@@ -2922,14 +2624,11 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
                                 height: 100,
                                 decoration: BoxDecoration(
                                   color: isLight ? Colors.black : Colors.white,
-                                  borderRadius: BorderRadius.circular(25),
-                                ),
+                                  borderRadius: BorderRadius.circular(25)),
                                 child: Icon(
                                   CupertinoIcons.chat_bubble,
                                   size: 40,
-                                  color: isLight ? Colors.white : Colors.black,
-                                ),
-                              ),
+                                  color: isLight ? Colors.white : Colors.black)),
                               SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
                               Text(
                                 AppLocalizations.of(context)?.groupChat ??
@@ -2938,25 +2637,18 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
                                   fontSize: 22,
                                   fontWeight: FontWeight.w700,
                                   color: isLight ? Colors.black : Colors.white,
-                                  letterSpacing: -0.5,
-                                ),
-                              ),
+                                  letterSpacing: -0.5)),
                               SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                               Text(
                                 AppLocalizations.of(
-                                      context,
-                                    )?.startChattingWithGroup ??
+                                      context)?.startChattingWithGroup ??
                                     'Start chatting with your group members',
                                 style: TextStyle(
                                   fontSize: 15,
                                   color: (isLight ? Colors.black : Colors.white)
-                                      .withOpacity(0.5),
-                                ),
-                                textAlign: TextAlign.center,
-                              ),
-                            ],
-                          ),
-                        );
+                                      .withOpacity(0.5)),
+                                textAlign: TextAlign.center),
+                            ]));
                       }
 
                       return ListView.builder(
@@ -2977,35 +2669,25 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
 
                           return TweenAnimationBuilder<double>(
                             key: ValueKey(
-                              'grp_msg_${_groupChatAnimationKey}_${message['id'] ?? index}',
-                            ),
+                              'grp_msg_${_groupChatAnimationKey}_${message['id'] ?? index}'),
                             tween: Tween(begin: 0.0, end: 1.0),
                             duration: Duration(
-                              milliseconds: 300 + (index * 50).clamp(0, 200),
-                            ),
+                              milliseconds: 300 + (index * 50).clamp(0, 200)),
                             curve: Curves.easeOutCubic,
                             builder: (context, value, child) {
                               return Transform.translate(
                                 offset: Offset(
                                   isMe ? 30 * (1 - value) : -30 * (1 - value),
-                                  0,
-                                ),
+                                  0),
                                 child: Opacity(
                                   opacity: value,
                                   child: _buildGroupMessageBubble(
                                     message,
                                     isMe,
-                                    isLight,
-                                  ),
-                                ),
-                              );
-                            },
-                          );
-                        },
-                      );
-                    },
-                  ),
-                ),
+                                    isLight)));
+                            });
+                        });
+                    })),
 
                 // Input Section - Trade Republic Style
                 Container(
@@ -3013,11 +2695,9 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
                     20,
                     12,
                     20,
-                    MediaQuery.of(context).padding.bottom + 12,
-                  ),
+                    MediaQuery.of(context).padding.bottom + 12),
                   decoration: BoxDecoration(
-                    color: isLight ? Colors.white : Colors.black,
-                  ),
+                    color: isLight ? Colors.white : Colors.black),
                   child: Row(
                     children: [
                       Expanded(
@@ -3028,16 +2708,13 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
                               'Message',
                           style: TextStyle(
                             color: isLight ? Colors.black : Colors.white,
-                            fontSize: DesktopOptimizedWidgets.getFontSize(),
-                          ),
+                            fontSize: DesktopOptimizedWidgets.getFontSize()),
                           maxLines: null,
-                          textCapitalization: TextCapitalization.sentences,
-                        ),
-                      ),
-                      const SizedBox(width: 10),
+                          textCapitalization: TextCapitalization.sentences)),
+                      SizedBox(width: 10),
                       // Send button - Group chat
                       TradeRepublicButton.icon(
-                        icon: const Icon(CupertinoIcons.arrow_up, size: 18),
+                        icon: Icon(CupertinoIcons.arrow_up, size: 18),
                         size: 40,
                         onPressed: () async {
                           final text = messageController.text.trim();
@@ -3048,24 +2725,16 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
                               refreshKey++;
                             });
                           }
-                        },
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ),
-        );
-      },
-    );
+                        }),
+                    ])),
+              ])));
+      });
   }
 
   void _showLiquidGlassBottomSheet(
     BuildContext context,
     int orderId,
-    bool isLight,
-  ) {
+    bool isLight) {
     print('🚀 Opening conversation for order $orderId');
 
     // Increment animation key to trigger fresh animations
@@ -3087,10 +2756,7 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
           CupertinoPageRoute(
             builder: (ctx) => Scaffold(
               backgroundColor: isLight ? Colors.white : Colors.black,
-              body: _buildIOSChatModal(orderId, isLight, ctx),
-            ),
-          ),
-        )
+              body: _buildIOSChatModal(orderId, isLight, ctx))))
         .then((_) {
           if (mounted) {
             setState(() {
@@ -3110,8 +2776,7 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
     if (orderId == 0) {
       try {
         final order = orders.firstWhere(
-          (order) => order['order_id'] == null || order['order_id'] == 0,
-        );
+          (order) => order['order_id'] == null || order['order_id'] == 0);
         customerName = order['customer_name'] ??
           order['other_username'] ??
           (AppLocalizations.of(context)?.userFallback ?? '');
@@ -3170,8 +2835,7 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
       builder: (BuildContext context, StateSetter setModalState) {
         return Padding(
           padding: EdgeInsets.only(
-            bottom: MediaQuery.of(context).viewInsets.bottom,
-          ),
+            bottom: MediaQuery.of(context).viewInsets.bottom),
           child: SizedBox(
             height: MediaQuery.of(context).size.height,
             child: Column(
@@ -3182,11 +2846,9 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
                     20,
                     MediaQuery.of(context).padding.top + 16,
                     20,
-                    14,
-                  ),
+                    14),
                   decoration: BoxDecoration(
-                    color: isLight ? Colors.white : Colors.black,
-                  ),
+                    color: isLight ? Colors.white : Colors.black),
                   child: Row(
                     children: [
                       // Back button
@@ -3194,13 +2856,11 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
                         icon: Icon(
                           CupertinoIcons.back,
                           size: 20,
-                          color: isLight ? Colors.black : Colors.white,
-                        ),
+                          color: isLight ? Colors.black : Colors.white),
                         size: 36,
                         isSecondary: true,
-                        onPressed: () => Navigator.pop(context),
-                      ),
-                      const SizedBox(width: 8),
+                        onPressed: () => Navigator.pop(context)),
+                      SizedBox(width: 8),
                       // Avatar
                       FutureBuilder<Map<String, dynamic>?>(
                         future: otherUserId != null
@@ -3216,8 +2876,7 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
                           if (profilePictureRaw != null &&
                               profilePictureRaw.toString().isNotEmpty) {
                             profilePicture = ApiConfig.getImageUrl(
-                              profilePictureRaw.toString(),
-                            );
+                              profilePictureRaw.toString());
                           }
 
                           final userType =
@@ -3231,8 +2890,7 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
                             height: 40,
                             decoration: BoxDecoration(
                               color: isLight ? Colors.black : Colors.white,
-                              borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-                            ),
+                              borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
                             child: _buildAvatarImage(profilePicture, 40, 20) ??
                                 Center(
                                   child: Text(
@@ -3245,14 +2903,9 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
                                           ? Colors.white
                                           : Colors.black,
                                       fontSize: DesktopOptimizedWidgets.getFontSize(),
-                                      fontWeight: FontWeight.w600,
-                                    ),
-                                  ),
-                                ),
-                          );
-                        },
-                      ),
-                      const SizedBox(width: 12),
+                                      fontWeight: FontWeight.w600))));
+                        }),
+                      SizedBox(width: 12),
 
                       // Customer info
                       Expanded(
@@ -3301,11 +2954,8 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
                                           color: isLight
                                               ? Colors.black
                                               : Colors.white,
-                                          letterSpacing: -0.3,
-                                        ),
-                                        overflow: TextOverflow.ellipsis,
-                                      ),
-                                    ),
+                                          letterSpacing: -0.3),
+                                        overflow: TextOverflow.ellipsis)),
                                     // Role badge
                                     Builder(
                                       builder: (context) {
@@ -3315,22 +2965,19 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
                                         if (otherUserType == 'business') {
                                           roleLabel =
                                               AppLocalizations.of(
-                                                context,
-                                              )?.sellerLabel ??
+                                                context)?.sellerLabel ??
                                               'Seller';
                                           roleColor = const Color(0xFF007AFF);
                                         } else if (otherUserType == 'delvioo') {
                                           roleLabel =
                                               AppLocalizations.of(
-                                                context,
-                                              )?.driverLabel ??
+                                                context)?.driverLabel ??
                                               'Driver';
                                           roleColor = Colors.green;
                                         } else {
                                           roleLabel =
                                               AppLocalizations.of(
-                                                context,
-                                              )?.buyerLabel ??
+                                                context)?.buyerLabel ??
                                               'Buyer';
                                           roleColor =
                                               (isLight
@@ -3340,38 +2987,28 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
                                         }
 
                                         return Container(
-                                          margin: const EdgeInsets.only(
-                                            left: 8,
-                                          ),
-                                          padding: const EdgeInsets.symmetric(
+                                          margin: EdgeInsets.only(
+                                            left: 8),
+                                          padding: EdgeInsets.symmetric(
                                             horizontal: 8,
-                                            vertical: 2,
-                                          ),
+                                            vertical: 2),
                                           decoration: BoxDecoration(
                                             color: roleColor.withOpacity(0.1),
                                             borderRadius: BorderRadius.circular(
-                                              20,
-                                            ),
-                                          ),
+                                              20)),
                                           child: Text(
                                             roleLabel,
                                             style: TextStyle(
                                               fontSize: 11,
                                               fontWeight: FontWeight.w600,
-                                              color: roleColor,
-                                            ),
-                                          ),
-                                        );
-                                      },
-                                    ),
-                                  ],
-                                ),
-                                const SizedBox(height: 2),
+                                              color: roleColor)));
+                                      }),
+                                  ]),
+                                SizedBox(height: 2),
                                 Text(
                                   orderId == 0
                                       ? (AppLocalizations.of(
-                                              context,
-                                            )?.directMessage ??
+                                              context)?.directMessage ??
                                             'Direct Message')
                                       : '${AppLocalizations.of(context)?.order ?? 'Order'} #$orderId',
                                   style: TextStyle(
@@ -3379,14 +3016,9 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
                                     fontWeight: FontWeight.w400,
                                     color:
                                         (isLight ? Colors.black : Colors.white)
-                                            .withOpacity(0.5),
-                                  ),
-                                ),
-                              ],
-                            );
-                          },
-                        ),
-                      ),
+                                            .withOpacity(0.5))),
+                              ]);
+                          })),
 
                       // Menu Button - macOS compatible
                       if (otherUserId != null && otherUserId.isNotEmpty)
@@ -3394,8 +3026,7 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
                           icon: Icon(
                             CupertinoIcons.ellipsis,
                             size: 20,
-                            color: isLight ? Colors.black : Colors.white,
-                          ),
+                            color: isLight ? Colors.black : Colors.white),
                           size: 36,
                           isSecondary: true,
                           onPressed: () {
@@ -3404,13 +3035,9 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
                               isLight,
                               otherUserId!,
                               customerName,
-                              chatId,
-                            );
-                          },
-                        ),
-                    ],
-                  ),
-                ),
+                              chatId);
+                          }),
+                    ])),
 
                 // Messages area - Telegram style
                 Expanded(
@@ -3446,13 +3073,11 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
                                             (isLight
                                                     ? Colors.black
                                                     : Colors.white)
-                                                .withOpacity(0.15),
-                                      ),
+                                                .withOpacity(0.15)),
                                       SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
                                       Text(
                                         AppLocalizations.of(
-                                              context,
-                                            )?.noMessagesYet ??
+                                              context)?.noMessagesYet ??
                                             'No messages yet',
                                         style: TextStyle(
                                           fontSize: 15,
@@ -3461,14 +3086,11 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
                                               (isLight
                                                       ? Colors.black
                                                       : Colors.white)
-                                                  .withOpacity(0.4),
-                                        ),
-                                      ),
-                                      const SizedBox(height: 4),
+                                                  .withOpacity(0.4))),
+                                      SizedBox(height: 4),
                                       Text(
                                         AppLocalizations.of(
-                                              context,
-                                            )?.startTheConversation ??
+                                              context)?.startTheConversation ??
                                             'Start the conversation',
                                         style: TextStyle(
                                           fontSize: 13,
@@ -3476,23 +3098,15 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
                                               (isLight
                                                       ? Colors.black
                                                       : Colors.white)
-                                                  .withOpacity(0.3),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              );
-                            },
-                          ),
-                        );
+                                                  .withOpacity(0.3))),
+                                    ])));
+                            }));
                       }
 
                       return ListView.builder(
-                        padding: const EdgeInsets.symmetric(
+                        padding: EdgeInsets.symmetric(
                           horizontal: 16,
-                          vertical: 12,
-                        ),
+                          vertical: 12),
                         itemCount: messages.length,
                         physics: const BouncingScrollPhysics(),
                         reverse: false,
@@ -3516,13 +3130,9 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
                             message,
                             isMe,
                             isLight,
-                            index,
-                          );
-                        },
-                      );
-                    },
-                  ),
-                ),
+                            index);
+                        });
+                    })),
 
                 // Input bar - Trade Republic Style
                 Container(
@@ -3530,26 +3140,23 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
                     20,
                     12,
                     20,
-                    MediaQuery.of(context).padding.bottom + 12,
-                  ),
+                    MediaQuery.of(context).padding.bottom + 12),
                   decoration: BoxDecoration(
-                    color: isLight ? Colors.white : Colors.black,
-                  ),
+                    color: isLight ? Colors.white : Colors.black),
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       // Order suggestions
                       if (showOrderSuggestions && sharedOrders.isNotEmpty)
                         Container(
-                          margin: const EdgeInsets.only(bottom: 8),
+                          margin: EdgeInsets.only(bottom: 8),
                           constraints: const BoxConstraints(maxHeight: 150),
                           decoration: BoxDecoration(
                             color: isLight ? Colors.white : Colors.transparent,
-                            borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-                          ),
+                            borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
                           child: ListView.builder(
                             shrinkWrap: true,
-                            padding: const EdgeInsets.symmetric(vertical: 4),
+                            padding: EdgeInsets.symmetric(vertical: 4),
                             itemCount: sharedOrders.length,
                             itemBuilder: (context, index) {
                               final order = sharedOrders[index];
@@ -3569,18 +3176,16 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
                                   HapticFeedback.lightImpact();
                                 },
                                 child: Container(
-                                  padding: const EdgeInsets.symmetric(
+                                  padding: EdgeInsets.symmetric(
                                     horizontal: 16,
-                                    vertical: 12,
-                                  ),
+                                    vertical: 12),
                                   child: Row(
                                     children: [
                                       Icon(
                                         CupertinoIcons.tag,
                                         size: 18,
-                                        color: const Color(0xFF007AFF),
-                                      ),
-                                      const SizedBox(width: 12),
+                                        color: const Color(0xFF007AFF)),
+                                      SizedBox(width: 12),
                                       Text(
                                         '${AppLocalizations.of(context)?.order ?? 'Order'} #$orderNum',
                                         style: TextStyle(
@@ -3588,78 +3193,60 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
                                           fontWeight: FontWeight.w500,
                                           color: isLight
                                               ? Colors.black
-                                              : Colors.white,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              );
-                            },
-                          ),
-                        ),
+                                              : Colors.white)),
+                                    ])));
+                            })),
 
                       // Selected order badge
                       if (selectedOrderId != null)
                         Container(
-                          margin: const EdgeInsets.only(bottom: 8),
-                          padding: const EdgeInsets.symmetric(
+                          margin: EdgeInsets.only(bottom: 8),
+                          padding: EdgeInsets.symmetric(
                             horizontal: 12,
-                            vertical: 6,
-                          ),
+                            vertical: 6),
                           decoration: BoxDecoration(
                             color: const Color(0xFF007AFF).withOpacity(0.1),
-                            borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-                          ),
+                            borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
                           child: Row(
                             mainAxisSize: MainAxisSize.min,
                             children: [
                               Icon(
                                 CupertinoIcons.tag,
                                 size: 14,
-                                color: const Color(0xFF007AFF),
-                              ),
-                              const SizedBox(width: 6),
+                                color: const Color(0xFF007AFF)),
+                              SizedBox(width: 6),
                               Text(
                                 '${AppLocalizations.of(context)?.orderNumber ?? "Order #"}$selectedOrderId',
-                                style: const TextStyle(
+                                style: TextStyle(
                                   fontSize: 13,
                                   fontWeight: FontWeight.w500,
-                                  color: Color(0xFF007AFF),
-                                ),
-                              ),
-                              const SizedBox(width: 8),
+                                  color: Color(0xFF007AFF))),
+                              SizedBox(width: 8),
                               TradeRepublicButton.icon(
-                                icon: const Icon(
+                                icon: Icon(
                                   CupertinoIcons.xmark,
                                   size: 14,
-                                  color: Color(0xFF007AFF),
-                                ),
+                                  color: Color(0xFF007AFF)),
                                 size: 26,
                                 backgroundColor: const Color(
-                                  0xFF007AFF,
-                                ).withOpacity(0.1),
+                                  0xFF007AFF).withOpacity(0.1),
                                 onPressed: () {
                                   setModalState(() {
                                     selectedOrderId = null;
                                   });
-                                },
-                              ),
-                            ],
-                          ),
-                        ),
+                                }),
+                            ])),
 
                       // File preview (Image or PDF)
                       if (_chatSelectedFile != null)
                         Container(
-                          margin: const EdgeInsets.only(bottom: 8),
-                          padding: const EdgeInsets.all(12),
+                          margin: EdgeInsets.only(bottom: 8),
+                          padding: EdgeInsets.all(12),
                           decoration: BoxDecoration(
                             color: isLight
                                 ? Colors.black.withOpacity(0.05)
                                 : Colors.transparent,
-                            borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-                          ),
+                            borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
                           child: Row(
                             children: [
                               // Preview thumbnail
@@ -3670,26 +3257,20 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
                                     _chatSelectedFile!,
                                     width: 60,
                                     height: 60,
-                                    fit: BoxFit.cover,
-                                  ),
-                                )
+                                    fit: BoxFit.cover))
                               else if (_chatSelectedFileType == 'pdf')
                                 Container(
                                   width: 60,
                                   height: 60,
                                   decoration: BoxDecoration(
                                     color: const Color(
-                                      0xFF007AFF,
-                                    ).withOpacity(0.1),
-                                    borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-                                  ),
+                                      0xFF007AFF).withOpacity(0.1),
+                                    borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
                                   child: Icon(
                                     CupertinoIcons.doc_fill,
                                     size: 32,
-                                    color: const Color(0xFF007AFF),
-                                  ),
-                                ),
-                              const SizedBox(width: 12),
+                                    color: const Color(0xFF007AFF))),
+                              SizedBox(width: 12),
 
                               // File info
                               Expanded(
@@ -3699,22 +3280,18 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
                                     Text(
                                       _chatSelectedFileType == 'image'
                                           ? (AppLocalizations.of(
-                                                  context,
-                                                )?.imageLabel ??
+                                                  context)?.imageLabel ??
                                                 'Image')
                                           : (AppLocalizations.of(
-                                                  context,
-                                                )?.pdfDocument ??
+                                                  context)?.pdfDocument ??
                                                 'PDF Document'),
                                       style: TextStyle(
                                         fontSize: 15,
                                         fontWeight: FontWeight.w600,
                                         color: isLight
                                             ? Colors.black
-                                            : Colors.white,
-                                      ),
-                                    ),
-                                    const SizedBox(height: 2),
+                                            : Colors.white)),
+                                    SizedBox(height: 2),
                                     Text(
                                       _chatSelectedFile!.path.split('/').last,
                                       style: TextStyle(
@@ -3723,22 +3300,17 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
                                             (isLight
                                                     ? Colors.black
                                                     : Colors.white)
-                                                .withOpacity(0.5),
-                                      ),
+                                                .withOpacity(0.5)),
                                       maxLines: 1,
-                                      overflow: TextOverflow.ellipsis,
-                                    ),
-                                  ],
-                                ),
-                              ),
+                                      overflow: TextOverflow.ellipsis),
+                                  ])),
 
                               // Remove button
                               TradeRepublicButton.icon(
-                                icon: const Icon(
+                                icon: Icon(
                                   CupertinoIcons.xmark,
                                   size: 16,
-                                  color: Colors.red,
-                                ),
+                                  color: Colors.red),
                                 size: 36,
                                 backgroundColor: Colors.red.withOpacity(0.1),
                                 onPressed: () {
@@ -3747,18 +3319,15 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
                                     _chatSelectedFileType = null;
                                   });
                                   HapticFeedback.lightImpact();
-                                },
-                              ),
-                            ],
-                          ),
-                        ),
+                                }),
+                            ])),
 
                       // Input row - matching business messenger style
                       Row(
                         children: [
                           // Attachment button
                           TradeRepublicButton.icon(
-                            icon: const Icon(CupertinoIcons.plus, size: 20),
+                            icon: Icon(CupertinoIcons.plus, size: 20),
                             size: 40,
                             isSecondary: true,
                             onPressed: () {
@@ -3772,11 +3341,9 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
                                     _chatSelectedFile = file;
                                     _chatSelectedFileType = fileType;
                                   });
-                                },
-                              );
-                            },
-                          ),
-                          const SizedBox(width: 10),
+                                });
+                            }),
+                          SizedBox(width: 10),
 
                           // Input field
                           Expanded(
@@ -3792,8 +3359,7 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
                                     !showOrderSuggestions) {
                                   try {
                                     final order = orders.firstWhere(
-                                      (o) => o['order_id'] == orderId,
-                                    );
+                                      (o) => o['order_id'] == orderId);
                                     final otherUsername =
                                         order['other_username'] ?? '';
 
@@ -3813,15 +3379,13 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
                                     showOrderSuggestions = false;
                                   });
                                 }
-                              },
-                            ),
-                          ),
+                              })),
 
-                          const SizedBox(width: 10),
+                          SizedBox(width: 10),
 
                           // Send button
                           TradeRepublicButton.icon(
-                            icon: const Icon(CupertinoIcons.arrow_up, size: 18),
+                            icon: Icon(CupertinoIcons.arrow_up, size: 18),
                             size: 40,
                             onPressed: () async {
                               final hasText = messageController.text
@@ -3839,11 +3403,9 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
                                   await _uploadFileToServer(
                                     _chatSelectedFile!,
                                     orderId,
-                                    _chatSelectedFileType!,
-                                  );
+                                    _chatSelectedFileType!);
                                   await Future.delayed(
-                                    const Duration(milliseconds: 500),
-                                  );
+                                    const Duration(milliseconds: 500));
                                 }
 
                                 // Send text message if present
@@ -3852,18 +3414,15 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
                                     await _sendDirectMessage(
                                       otherUserId,
                                       messageController.text.trim(),
-                                      otherUserType,
-                                    );
+                                      otherUserType);
                                   } else {
                                     await _sendMessage(
                                       orderId,
                                       messageController.text.trim(),
-                                      customOrderId: selectedOrderId,
-                                    );
+                                      customOrderId: selectedOrderId);
                                   }
                                   await Future.delayed(
-                                    const Duration(milliseconds: 500),
-                                  );
+                                    const Duration(milliseconds: 500));
                                 }
 
                                 messageController.clear();
@@ -3877,19 +3436,11 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
                                       _fetchMessagesForConversation(orderId);
                                 });
                               }
-                            },
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ),
-        );
-      },
-    );
+                            }),
+                        ]),
+                    ])),
+              ])));
+      });
   }
 
   // Helper method for block confirmation
@@ -3897,8 +3448,7 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
     BuildContext context,
     String userId,
     String userName,
-    bool isLight,
-  ) {
+    bool isLight) {
     TradeRepublicBottomSheet.show(
       context: context,
       showDragHandle: true,
@@ -3911,9 +3461,8 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
               Icon(
                 CupertinoIcons.nosign,
                 size: 22,
-                color: isLight ? Colors.black : Colors.white,
-              ),
-              const SizedBox(width: 12),
+                color: isLight ? Colors.black : Colors.white),
+              SizedBox(width: 12),
               Flexible(
                 child: Text(
                   '${AppLocalizations.of(context)?.blockUser ?? "Block"} $userName?',
@@ -3921,12 +3470,8 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
                     fontSize: 22,
                     fontWeight: FontWeight.w700,
                     color: isLight ? Colors.black : Colors.white,
-                    letterSpacing: -0.4,
-                  ),
-                ),
-              ),
-            ],
-          ),
+                    letterSpacing: -0.4))),
+            ]),
 
           SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
@@ -3934,10 +3479,9 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
             AppLocalizations.of(context)?.theyWontBeAbleToSend ??
                 'They won\'t be able to send you messages anymore.',
             textAlign: TextAlign.start,
-            style: TradeRepublicTheme.bodySmall(context),
-          ),
+            style: TradeRepublicTheme.bodySmall(context)),
 
-          const SizedBox(height: 28),
+          SizedBox(height: 28),
 
           TradeRepublicButton(
             label: AppLocalizations.of(context)?.block ?? 'Block',
@@ -3947,20 +3491,16 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
             },
             backgroundColor: const Color(0xFFFF3B30),
             foregroundColor: Colors.white,
-            width: double.infinity,
-          ),
+            width: double.infinity),
 
-          const SizedBox(height: 10),
+          SizedBox(height: 10),
 
           TradeRepublicButton(
             label: AppLocalizations.of(context)?.cancel ?? 'Cancel',
             onPressed: () => Navigator.pop(context),
             isSecondary: true,
-            width: double.infinity,
-          ),
-        ],
-      ),
-    );
+            width: double.infinity),
+        ]));
   }
 
   // Show chat options menu (Delete, etc.)
@@ -3968,8 +3508,7 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
     BuildContext context,
     String chatId,
     String chatName,
-    bool isLight,
-  ) {
+    bool isLight) {
     TradeRepublicBottomSheet.show(
       context: context,
       showDragHandle: true,
@@ -3984,9 +3523,7 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
             leading: Icon(
               CupertinoIcons.chat_bubble_2,
               size: 20,
-              color: TradeRepublicTheme.textColor(context),
-            ),
-          ),
+              color: TradeRepublicTheme.textColor(context))),
 
           TradeRepublicCard(
             backgroundColor: isLight ? null : Colors.transparent,
@@ -3998,25 +3535,21 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
               subtitle:
                   AppLocalizations.of(context)?.removeConversation ??
                   'Remove this conversation',
-              leading: const Icon(
+              leading: Icon(
                 CupertinoIcons.trash,
                 size: 20,
-                color: Color(0xFFFF3B30),
-              ),
+                color: Color(0xFFFF3B30)),
               onTap: () async {
                 Navigator.pop(context);
                 HapticFeedback.mediumImpact();
                 final confirmed = await _showDeleteConfirmation(
                   context,
-                  isLight,
-                );
+                  isLight);
                 if (confirmed == true) {
                   await _deleteChat(chatId);
                   if (mounted) Navigator.of(context).pop();
                 }
-              },
-            ),
-          ),
+              })),
 
           SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
@@ -4024,11 +3557,8 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
             label: AppLocalizations.of(context)?.cancel ?? 'Cancel',
             onPressed: () => Navigator.pop(context),
             isSecondary: true,
-            width: double.infinity,
-          ),
-        ],
-      ),
-    );
+            width: double.infinity),
+        ]));
   }
 
   void _markMessagesAsRead(int orderId) {
@@ -4060,8 +3590,7 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
         try {
           final order = orders.firstWhere(
             (o) => o['order_id'] == null || o['order_id'] == 0,
-            orElse: () => {},
-          );
+            orElse: () => {});
           otherUsername = order['other_username'];
         } catch (e) {
           print('⚠️ Could not find other_username for direct messages');
@@ -4082,8 +3611,7 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
             .timeout(const Duration(seconds: 5));
 
         print(
-          '📡 Mark direct messages as read response: ${response.statusCode}',
-        );
+          '📡 Mark direct messages as read response: ${response.statusCode}');
 
         if (response.statusCode == 200) {
           print('✅ Direct messages marked as read on server');
@@ -4103,8 +3631,7 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
             body: jsonEncode({
               'reader': 'driver_system',
               'read_at': DateTime.now().toIso8601String(),
-            }),
-          )
+            }))
           .timeout(const Duration(seconds: 5));
 
       print('📡 Mark as read response: ${response.statusCode}');
@@ -4146,8 +3673,7 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
 
   // Fetch messages for a specific conversation
   Future<List<Map<String, dynamic>>> _fetchMessagesForConversation(
-    int orderId,
-  ) async {
+    int orderId) async {
     try {
       print('📱 Fetching messages for order: $orderId');
 
@@ -4174,8 +3700,7 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
         print('📨 Fetched ${directMessages.length} direct messages');
         for (var msg in directMessages) {
           print(
-            '   - Message ${msg['id']}: type=${msg['message_type']}, text=${msg['message_text']}, fileUrl=${msg['fileUrl']}',
-          );
+            '   - Message ${msg['id']}: type=${msg['message_type']}, text=${msg['message_text']}, fileUrl=${msg['fileUrl']}');
         }
         return directMessages;
       }
@@ -4183,14 +3708,11 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
       // If we have other_username, fetch ALL messages with that user (including direct messages)
       if (otherUsername != null && otherUsername.isNotEmpty && orderId != 0) {
         print(
-          '🔄 Fetching ALL messages with user: $otherUsername (including order $orderId)',
-        );
+          '🔄 Fetching ALL messages with user: $otherUsername (including order $orderId)');
         final response = await http.get(
           Uri.parse(
-            '${ApiConfig.baseUrl}/api/messages/user/$currentUserId/$otherUsername?order_id=$orderId',
-          ),
-          headers: {'Content-Type': 'application/json'},
-        );
+            '${ApiConfig.baseUrl}/api/messages/user/$currentUserId/$otherUsername?order_id=$orderId'),
+          headers: {'Content-Type': 'application/json'});
 
         print('📡 User messages response: ${response.statusCode}');
         print('📡 User messages body: ${response.body}');
@@ -4199,11 +3721,9 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
           final data = json.decode(response.body);
           if (data['success'] == true) {
             final messages = List<Map<String, dynamic>>.from(
-              data['messages'] ?? [],
-            );
+              data['messages'] ?? []);
             print(
-              '✅ Loaded ${messages.length} total messages with $otherUsername (direct + order)',
-            );
+              '✅ Loaded ${messages.length} total messages with $otherUsername (direct + order)');
             return messages;
           }
         }
@@ -4214,10 +3734,8 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
         print('⚠️ Falling back to order-specific messages');
         final response = await http.get(
           Uri.parse(
-            '${ApiConfig.baseUrl}/api/messages/orders/$orderId/messages',
-          ),
-          headers: {'Content-Type': 'application/json'},
-        );
+            '${ApiConfig.baseUrl}/api/messages/orders/$orderId/messages'),
+          headers: {'Content-Type': 'application/json'});
 
         print('📡 Messages response: ${response.statusCode}');
         print('📡 Messages body: ${response.body}');
@@ -4274,24 +3792,21 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
 
       final response = await http.post(
         Uri.parse(
-          '${ApiConfig.baseUrl}/api/messages/orders/$actualOrderId/messages',
-        ),
+          '${ApiConfig.baseUrl}/api/messages/orders/$actualOrderId/messages'),
         headers: {'Content-Type': 'application/json'},
         body: json.encode({
           'sender': sender,
           'receiver': orders.isNotEmpty
               ? (orders.firstWhere(
                   (o) => (o['order_id'] ?? o['id']) == actualOrderId,
-                  orElse: () => orders.first,
-                )['other_username'] ?? '')
+                  orElse: () => orders.first)['other_username'] ?? '')
               : '',
           'message_text': messageText,
           'message_type': 'text',
           'sender_type': 'delvioo',
           'receiver_type': 'business',
           'order_id': actualOrderId,
-        }),
-      );
+        }));
 
       print('📡 Send message response: ${response.statusCode}');
       print('📡 Send message body: ${response.body}');
@@ -4308,17 +3823,14 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
 
   // Get shared orders between current user and another user
   Future<List<Map<String, dynamic>>> _getSharedOrders(
-    String otherUsername,
-  ) async {
+    String otherUsername) async {
     try {
       print('🔍 Fetching shared orders with: $otherUsername');
 
       final response = await http.get(
         Uri.parse(
-          '${ApiConfig.baseUrl}/api/messages/shared-orders/$currentUserId/$otherUsername',
-        ),
-        headers: {'Content-Type': 'application/json'},
-      );
+          '${ApiConfig.baseUrl}/api/messages/shared-orders/$currentUserId/$otherUsername'),
+        headers: {'Content-Type': 'application/json'});
 
       print('📡 Shared orders response: ${response.statusCode}');
 
@@ -4326,8 +3838,7 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
         final data = json.decode(response.body);
         if (data['success'] == true) {
           final sharedOrders = List<Map<String, dynamic>>.from(
-            data['orders'] ?? [],
-          );
+            data['orders'] ?? []);
           print('✅ Found ${sharedOrders.length} shared orders');
           return sharedOrders;
         }
@@ -4344,12 +3855,10 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
     Map<String, dynamic> message,
     bool isMe,
     bool isLight,
-    int index,
-  ) {
+    int index) {
     return TweenAnimationBuilder<double>(
       key: ValueKey(
-        'order_msg_${_orderChatAnimationKey}_${message['id'] ?? message['message_id'] ?? index}',
-      ),
+        'order_msg_${_orderChatAnimationKey}_${message['id'] ?? message['message_id'] ?? index}'),
       tween: Tween(begin: 0.0, end: 1.0),
       duration: Duration(milliseconds: 300 + (index * 50).clamp(0, 200)),
       curve: Curves.easeOutCubic,
@@ -4359,21 +3868,17 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
         return Transform.translate(
           offset: Offset(
             isMe ? 30 * (1 - clampedValue) : -30 * (1 - clampedValue),
-            0,
-          ),
-          child: Opacity(opacity: clampedValue, child: child),
-        );
+            0),
+          child: Opacity(opacity: clampedValue, child: child));
       },
-      child: _buildMessageBubble(message, isMe, isLight),
-    );
+      child: _buildMessageBubble(message, isMe, isLight));
   }
 
   // Build message bubble for regular conversations - Telegram Style with Gradient
   Widget _buildMessageBubble(
     Map<String, dynamic> message,
     bool isMe,
-    bool isLight,
-  ) {
+    bool isLight) {
     final messageType = message['message_type'] ?? 'text';
     final orderId = message['order_id'];
     final hasOrderId = orderId != null && orderId != 0;
@@ -4395,8 +3900,7 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
       margin: EdgeInsets.only(
         bottom: 4,
         left: isMe ? 60 : 0,
-        right: isMe ? 0 : 60,
-      ),
+        right: isMe ? 0 : 60),
       child: Column(
         crossAxisAlignment: isMe
             ? CrossAxisAlignment.end
@@ -4408,36 +3912,32 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
             padding: messageType == 'image'
                 ? EdgeInsets.zero
                 : (messageType == 'pdf'
-                      ? const EdgeInsets.symmetric(horizontal: 16, vertical: 12)
-                      : const EdgeInsets.symmetric(
+                      ? EdgeInsets.symmetric(horizontal: 16, vertical: 12)
+                      : EdgeInsets.symmetric(
                           horizontal: 16,
-                          vertical: 12,
-                        )),
+                          vertical: 12)),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
               color: isMe
                   ? (isLight ? Colors.black : Colors.white)
-                  : Colors.transparent,
-            ),
+                  : Colors.transparent),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 // Order reference badge
                 if (hasOrderId)
                   Container(
-                    margin: const EdgeInsets.only(bottom: 6),
-                    padding: const EdgeInsets.symmetric(
+                    margin: EdgeInsets.only(bottom: 6),
+                    padding: EdgeInsets.symmetric(
                       horizontal: 8,
-                      vertical: 4,
-                    ),
+                      vertical: 4),
                     decoration: BoxDecoration(
                       color: isMe
                           ? (isLight
                                 ? Colors.white.withOpacity(0.2)
                                 : Colors.black.withOpacity(0.1))
                           : Colors.black.withOpacity(0.2),
-                      borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-                    ),
+                      borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
@@ -4448,9 +3948,8 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
                               ? (isLight ? Colors.white : Colors.black)
                               : isLight
                               ? Colors.black
-                              : Colors.white,
-                        ),
-                        const SizedBox(width: 4),
+                              : Colors.white),
+                        SizedBox(width: 4),
                         Text(
                           '#$orderId',
                           style: TextStyle(
@@ -4460,12 +3959,8 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
                                 ? (isLight ? Colors.white : Colors.black)
                                 : isLight
                                 ? Colors.black
-                                : Colors.white,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
+                                : Colors.white)),
+                      ])),
 
                 // Message content
                 if (messageType == 'image')
@@ -4487,12 +3982,9 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
                                 ? (isLight ? Colors.white : Colors.black)
                                 : (isLight ? Colors.black : Colors.white),
                             height: 1.3,
-                            fontWeight: FontWeight.w400,
-                          ),
-                        ),
-                      ),
+                            fontWeight: FontWeight.w400))),
                       if (timeString.isNotEmpty) ...[
-                        const SizedBox(width: 8),
+                        SizedBox(width: 8),
                         Text(
                           timeString,
                           style: TextStyle(
@@ -4501,18 +3993,11 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
                                 ? (isLight ? Colors.white : Colors.black)
                                       .withOpacity(0.5)
                                 : (isLight ? Colors.black : Colors.white)
-                                      .withOpacity(0.4),
-                          ),
-                        ),
+                                      .withOpacity(0.4))),
                       ],
-                    ],
-                  ),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
+                    ]),
+              ])),
+        ]));
   }
 
   /// DB may store `/uploads/<file>` while the file is under `uploads/chat-attachments/`.
@@ -4566,11 +4051,9 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
     // Prefer persistent object storage for chat attachments first.
     if (chatAttachmentFileName != null && chatAttachmentFileName.isNotEmpty) {
       candidates.add(
-        'https://storage.googleapis.com/cultioo-uploads/chat-attachments/$chatAttachmentFileName',
-      );
+        'https://storage.googleapis.com/cultioo-uploads/chat-attachments/$chatAttachmentFileName');
       candidates.add(
-        'https://storage.googleapis.com/cultioo-business-uploads/chat-attachments/$chatAttachmentFileName',
-      );
+        'https://storage.googleapis.com/cultioo-business-uploads/chat-attachments/$chatAttachmentFileName');
     }
 
     // Some environments expose uploads at /uploads/*, others at /backend/uploads/*.
@@ -4608,8 +4091,7 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
   Widget _buildImageMessage(
     Map<String, dynamic> message,
     bool isMe,
-    bool isLight,
-  ) {
+    bool isLight) {
     // Extract URL from message data
     String? imageUrl;
 
@@ -4692,8 +4174,7 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
         onTap: () => _showFullScreenImage(
           context,
           List<String>.from(sourceList),
-          isLight,
-        ),
+          isLight),
         child: Container(
           constraints: const BoxConstraints(maxWidth: 240, maxHeight: 240),
           child: Image.network(
@@ -4720,8 +4201,7 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
                   color: isLight
                       ? Colors.black.withOpacity(0.05)
                       : Colors.white.withOpacity(0.05),
-                  borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-                ),
+                  borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
                 child: Center(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -4729,8 +4209,7 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
                       SizedBox(
                         width: 40,
                         height: 40,
-                        child: CultiooLoadingIndicator(size: 24),
-                      ),
+                        child: CultiooLoadingIndicator(size: 24)),
                       SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                       Text(
                         progress != null
@@ -4741,13 +4220,8 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
                               ? Colors.black.withOpacity(0.5)
                               : Colors.white.withOpacity(0.5),
                           fontSize: 12,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              );
+                          fontWeight: FontWeight.w500)),
+                    ])));
             },
             errorBuilder: (context, error, stackTrace) {
               final hasNext = index + 1 < sourceList.length;
@@ -4766,26 +4240,22 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
                 padding: DesktopAppWrapper.getPagePadding(),
                 decoration: BoxDecoration(
                   color: Colors.red.withOpacity(0.1),
-                  borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-                ),
+                  borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Icon(
                       CupertinoIcons.photo_on_rectangle,
                       size: 48,
-                      color: Colors.red.withOpacity(0.7),
-                    ),
+                      color: Colors.red.withOpacity(0.7)),
                     SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                     Text(
                       AppLocalizations.of(context)?.imageUnavailable ??
                           'Image unavailable',
-                      style: const TextStyle(
+                      style: TextStyle(
                         color: Colors.red,
                         fontSize: DesktopOptimizedWidgets.getFontSize(),
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
+                        fontWeight: FontWeight.w600)),
                     SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                     Text(
                       error.toString().contains('SocketException')
@@ -4797,16 +4267,9 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         color: Colors.red.withOpacity(0.7),
-                        fontSize: 11,
-                      ),
-                    ),
-                  ],
-                ),
-              );
-            },
-          ),
-        ),
-      );
+                        fontSize: 11)),
+                  ]));
+            })));
     }
 
     return Column(
@@ -4819,8 +4282,7 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
             padding: DesktopAppWrapper.getPagePadding(),
             decoration: BoxDecoration(
               color: Colors.black.withOpacity(0.2),
-              borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-            ),
+              borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
@@ -4829,9 +4291,8 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
                   size: 24,
                   color: isMe
                       ? Colors.white
-                      : (isLight ? Colors.black : Colors.white),
-                ),
-                const SizedBox(width: 12),
+                      : (isLight ? Colors.black : Colors.white)),
+                SizedBox(width: 12),
                 Text(
                   AppLocalizations.of(context)?.imageNotAvailable ??
                       'Image not available',
@@ -4839,22 +4300,16 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
                     color: isMe
                         ? Colors.white
                         : (isLight ? Colors.black : Colors.white),
-                    fontSize: DesktopOptimizedWidgets.getFontSize(),
-                  ),
-                ),
-              ],
-            ),
-          ),
-      ],
-    );
+                    fontSize: DesktopOptimizedWidgets.getFontSize())),
+              ])),
+      ]);
   }
 
   // Build PDF message widget
   Widget _buildPDFMessage(
     Map<String, dynamic> message,
     bool isMe,
-    bool isLight,
-  ) {
+    bool isLight) {
     final fileName = message['file_name'] ?? 'Document.pdf';
 
     // Extract PDF URL from message
@@ -4894,7 +4349,7 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
         mainAxisSize: MainAxisSize.min,
         children: [
           Container(
-            padding: const EdgeInsets.all(8), // Smaller icon container
+            padding: EdgeInsets.all(8), // Smaller icon container
             decoration: BoxDecoration(
               color: isMe
                   ? (isLight
@@ -4908,10 +4363,8 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
               color: isMe
                   ? (isLight ? Colors.white : Colors.black)
                   : (isLight ? Colors.black : Colors.white),
-              size: 20,
-            ),
-          ),
-          const SizedBox(width: 12),
+              size: 20)),
+          SizedBox(width: 12),
           Flexible(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -4926,9 +4379,8 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
                         : (isLight ? Colors.black : Colors.white),
                     fontSize: 15,
                     fontWeight: FontWeight.w500, // Medium weight
-                  ),
-                ),
-                const SizedBox(height: 2),
+                  )),
+                SizedBox(height: 2),
                 Text(
                   AppLocalizations.of(context)?.tapToOpenPdf ??
                       'Tap to open PDF',
@@ -4939,13 +4391,9 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
                                 : (isLight ? Colors.black : Colors.white))
                             .withOpacity(0.6), // Subtle subtitle
                     fontSize: 11,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-              ],
-            ),
-          ),
-          const SizedBox(width: 8),
+                    fontWeight: FontWeight.w500)),
+              ])),
+          SizedBox(width: 8),
           Icon(
             CupertinoIcons.chevron_right,
             size: 14,
@@ -4953,11 +4401,8 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
                 (isMe
                         ? (isLight ? Colors.white : Colors.black)
                         : (isLight ? Colors.black : Colors.white))
-                    .withOpacity(0.4),
-          ),
-        ],
-      ),
-    );
+                    .withOpacity(0.4)),
+        ]));
   }
 
   // Open PDF in browser or external viewer
@@ -4978,8 +4423,7 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
       print('❌ Error opening PDF: $e');
       TopNotification.error(
         context,
-        AppLocalizations.of(context)?.failedToOpenPdf ?? 'Failed to open PDF',
-      );
+        AppLocalizations.of(context)?.failedToOpenPdf ?? 'Failed to open PDF');
     }
   }
 
@@ -4987,17 +4431,14 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
   Widget _buildTextMessage(
     Map<String, dynamic> message,
     bool isMe,
-    bool isLight,
-  ) {
+    bool isLight) {
     return Text(
       message['message_text'] ?? '',
       style: TextStyle(
         fontSize: DesktopOptimizedWidgets.getFontSize(),
         color: isMe
             ? (isLight ? Colors.white : Colors.black)
-            : (isLight ? Colors.black : Colors.white),
-      ),
-    );
+            : (isLight ? Colors.black : Colors.white)));
   }
 
   // Build message bubble for group conversations
@@ -5005,8 +4446,7 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
   Widget _buildGroupMessageBubble(
     Map<String, dynamic> message,
     bool isMe,
-    bool isLight,
-  ) {
+    bool isLight) {
     final messageType = message['message_type'] ?? 'text';
     final senderId = message['sender_id'] ?? '';
     final senderType = message['sender_type'] ?? 'customer';
@@ -5037,7 +4477,7 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
                   : (message['sender_name'] ?? 'Member'));
 
         return Container(
-          margin: const EdgeInsets.only(bottom: 8),
+          margin: EdgeInsets.only(bottom: 8),
           child: Row(
             mainAxisAlignment: isMe
                 ? MainAxisAlignment.end
@@ -5052,11 +4492,10 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
                     Container(
                       width: 40,
                       height: 40,
-                      margin: const EdgeInsets.only(right: 12, bottom: 4),
+                      margin: EdgeInsets.only(right: 12, bottom: 4),
                       decoration: BoxDecoration(
                         color: isLight ? Colors.black : Colors.white,
-                        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-                      ),
+                        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
                       child: _buildAvatarImage(profilePicture, 40, 20) ??
                           Center(
                             child: Text(
@@ -5064,25 +4503,19 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
                               style: TextStyle(
                                 color: isLight ? Colors.white : Colors.black,
                                 fontSize: DesktopOptimizedWidgets.getFontSize(),
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
-                          ),
-                    ),
+                                fontWeight: FontWeight.w600)))),
 
                     // User type badge
                     Positioned(
                       bottom: 0,
                       right: 8,
                       child: Container(
-                        padding: const EdgeInsets.symmetric(
+                        padding: EdgeInsets.symmetric(
                           horizontal: 6,
-                          vertical: 2,
-                        ),
+                          vertical: 2),
                         decoration: BoxDecoration(
                           color: isLight ? Colors.black : Colors.white,
-                          borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-                        ),
+                          borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
                         child: Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [
@@ -5091,23 +4524,16 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
                                   ? CupertinoIcons.cube_box
                                   : CupertinoIcons.building_2_fill,
                               size: 8,
-                              color: isLight ? Colors.white : Colors.black,
-                            ),
-                            const SizedBox(width: 2),
+                              color: isLight ? Colors.white : Colors.black),
+                            SizedBox(width: 2),
                             Text(
                               userType == 'Driver' ? 'D' : 'B',
                               style: TextStyle(
                                 fontSize: 8,
                                 fontWeight: FontWeight.w700,
-                                color: isLight ? Colors.white : Colors.black,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
+                                color: isLight ? Colors.white : Colors.black)),
+                          ]))),
+                  ]),
 
               // Message Island
               Flexible(
@@ -5119,7 +4545,7 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
                     // Sender name (only for received messages)
                     if (!isMe)
                       Padding(
-                        padding: const EdgeInsets.only(left: 16, bottom: 4),
+                        padding: EdgeInsets.only(left: 16, bottom: 4),
                         child: Text(
                           displayName,
                           style: TextStyle(
@@ -5127,24 +4553,19 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
                             fontWeight: FontWeight.w500,
                             color: isLight
                                 ? Colors.black.withOpacity(0.5)
-                                : Colors.white.withOpacity(0.5),
-                          ),
-                        ),
-                      ),
+                                : Colors.white.withOpacity(0.5)))),
 
                     // Message Bubble
                     Container(
                       padding: messageType == 'image' || messageType == 'pdf'
-                          ? const EdgeInsets.all(8)
-                          : const EdgeInsets.symmetric(
+                          ? EdgeInsets.all(8)
+                          : EdgeInsets.symmetric(
                               horizontal: 20,
-                              vertical: 14,
-                            ),
+                              vertical: 14),
                       decoration: isMe
                           ? BoxDecoration(
                               color: isLight ? Colors.black : Colors.white,
-                              borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-                            )
+                              borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8))
                           : null,
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -5152,28 +4573,23 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
                           // Order reference badge (inside the bubble, modern style)
                           if (hasOrderId)
                             Padding(
-                              padding: const EdgeInsets.only(bottom: 8),
+                              padding: EdgeInsets.only(bottom: 8),
                               child: Row(
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
                                   Icon(
                                     CupertinoIcons.bag,
                                     size: 12,
-                                    color: const Color(0xFF6C757D),
-                                  ),
-                                  const SizedBox(width: 4),
+                                    color: const Color(0xFF6C757D)),
+                                  SizedBox(width: 4),
                                   Text(
                                     '${AppLocalizations.of(context)?.orderNumber ?? "Order #"}$orderId',
                                     style: TextStyle(
                                       fontSize: 10,
                                       fontWeight: FontWeight.w600,
                                       color: const Color(0xFF6C757D),
-                                      letterSpacing: 0.5,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
+                                      letterSpacing: 0.5)),
+                                ])),
 
                           // Message content
                           if (messageType == 'image')
@@ -5182,17 +4598,10 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
                             _buildPDFMessage(message, isMe, isLight)
                           else
                             _buildTextMessage(message, isMe, isLight),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        );
-      },
-    );
+                        ])),
+                  ])),
+            ]));
+      });
   }
 
   // Show attachment options with iOS-style design
@@ -5200,8 +4609,7 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
     BuildContext context,
     int orderId,
     bool isLight,
-    Function(File file, String fileType) onFileSelected,
-  ) {
+    Function(File file, String fileType) onFileSelected) {
     TradeRepublicBottomSheet.show(
       context: context,
       showDragHandle: true,
@@ -5216,9 +4624,7 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
             leading: Icon(
               CupertinoIcons.paperclip,
               size: 20,
-              color: TradeRepublicTheme.textColor(context),
-            ),
-          ),
+              color: TradeRepublicTheme.textColor(context))),
 
           TradeRepublicCard(
             backgroundColor: isLight ? null : Colors.transparent,
@@ -5233,16 +4639,14 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
                   leading: Icon(
                     CupertinoIcons.camera,
                     size: 20,
-                    color: TradeRepublicTheme.textColor(context),
-                  ),
+                    color: TradeRepublicTheme.textColor(context)),
                   onTap: () async {
                     HapticFeedback.lightImpact();
                     Navigator.pop(context);
                     FocusManager.instance.primaryFocus?.unfocus();
                     final file = await _selectImage();
                     if (file != null) onFileSelected(file, 'image');
-                  },
-                ),
+                  }),
                 const TradeRepublicDivider(),
                 TradeRepublicListTile.navigation(
                   title: AppLocalizations.of(context)?.document ?? 'Document',
@@ -5252,19 +4656,15 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
                   leading: Icon(
                     CupertinoIcons.doc,
                     size: 20,
-                    color: TradeRepublicTheme.textColor(context),
-                  ),
+                    color: TradeRepublicTheme.textColor(context)),
                   onTap: () async {
                     HapticFeedback.lightImpact();
                     Navigator.pop(context);
                     FocusManager.instance.primaryFocus?.unfocus();
                     final file = await _selectPDF();
                     if (file != null) onFileSelected(file, 'pdf');
-                  },
-                ),
-              ],
-            ),
-          ),
+                  }),
+              ])),
 
           SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
@@ -5275,11 +4675,8 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
               Navigator.pop(context);
             },
             isSecondary: true,
-            width: double.infinity,
-          ),
-        ],
-      ),
-    );
+            width: double.infinity),
+        ]));
   }
 
   // Show settings bottom sheet (chat modal style) - Trade Republic Style
@@ -5289,7 +4686,7 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
       showDragHandle: true,
       maxHeight: MediaQuery.of(context).size.height * 0.75,
       child: SingleChildScrollView(
-        padding: const EdgeInsets.fromLTRB(12, 8, 12, 40),
+        padding: EdgeInsets.fromLTRB(12, 8, 12, 40),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -5299,30 +4696,24 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
                 Icon(
                   CupertinoIcons.settings,
                   size: 22,
-                  color: isLight ? Colors.black : Colors.white,
-                ),
-                const SizedBox(width: 12),
+                  color: isLight ? Colors.black : Colors.white),
+                SizedBox(width: 12),
                 Text(
                   AppLocalizations.of(context)?.settings ?? 'Settings',
                   style: TextStyle(
                     fontSize: 22,
                     fontWeight: FontWeight.w700,
                     color: isLight ? Colors.black : Colors.white,
-                    letterSpacing: -0.4,
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 4),
+                    letterSpacing: -0.4)),
+              ]),
+            SizedBox(height: 4),
             Text(
               AppLocalizations.of(context)?.manageChatPreferences ??
                   'Manage your chat preferences',
               style: TextStyle(
                 color: (isLight ? Colors.black : Colors.white).withOpacity(0.5),
                 fontSize: 15,
-                fontWeight: FontWeight.w400,
-              ),
-            ),
+                fontWeight: FontWeight.w400)),
             SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
             // Tiles — no card wrapper, no extra background
             TradeRepublicListTile.navigation(
@@ -5330,32 +4721,28 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
                   AppLocalizations.of(context)?.pinnedChats ?? 'Pinned Chats',
               subtitle:
                   '${_pinnedChats.length} ${AppLocalizations.of(context)?.pinned ?? 'pinned'}',
-              leading: const Icon(
+              leading: Icon(
                 CupertinoIcons.pin_fill,
                 size: 18,
-                color: Color(0xFFFF9500),
-              ),
+                color: Color(0xFFFF9500)),
               onTap: () {
                 Navigator.pop(context);
                 _showPinnedUsersModal(isLight);
-              },
-            ),
+              }),
             const TradeRepublicDivider(),
             TradeRepublicListTile.navigation(
               title:
                   AppLocalizations.of(context)?.blockedUsers ?? 'Blocked Users',
               subtitle:
                   '${_blockedUsers.length} ${AppLocalizations.of(context)?.blocked ?? 'blocked'}',
-              leading: const Icon(
+              leading: Icon(
                 CupertinoIcons.person_crop_circle_badge_minus,
                 size: 18,
-                color: Color(0xFFFF3B30),
-              ),
+                color: Color(0xFFFF3B30)),
               onTap: () {
                 Navigator.pop(context);
                 _showBlockedUsersModal(isLight);
-              },
-            ),
+              }),
             const TradeRepublicDivider(),
             TradeRepublicListTile.navigation(
               title:
@@ -5365,17 +4752,12 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
               leading: Icon(
                 CupertinoIcons.trash,
                 size: 18,
-                color: (isLight ? Colors.black : Colors.white).withOpacity(0.6),
-              ),
+                color: (isLight ? Colors.black : Colors.white).withOpacity(0.6)),
               onTap: () {
                 Navigator.pop(context);
                 _showDeletedChatsModal(isLight);
-              },
-            ),
-          ],
-        ),
-      ),
-    );
+              }),
+          ])));
   }
 
   // Show chat options bottom sheet (in chat modal)
@@ -5383,8 +4765,7 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
     bool isLight,
     String userId,
     String userName,
-    String chatId,
-  ) {
+    String chatId) {
     TradeRepublicBottomSheet.show(
       context: context,
       showDragHandle: true,
@@ -5399,9 +4780,7 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
             leading: Icon(
               CupertinoIcons.person_circle,
               size: 20,
-              color: TradeRepublicTheme.textColor(context),
-            ),
-          ),
+              color: TradeRepublicTheme.textColor(context))),
 
           TradeRepublicCard(
             backgroundColor: isLight ? null : Colors.transparent,
@@ -5422,8 +4801,7 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
                         ? CupertinoIcons.checkmark_shield
                         : CupertinoIcons.nosign,
                     size: 20,
-                    color: const Color(0xFF007AFF),
-                  ),
+                    color: const Color(0xFF007AFF)),
                   onTap: () {
                     HapticFeedback.lightImpact();
                     Navigator.pop(context);
@@ -5432,8 +4810,7 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
                     } else {
                       _blockUser(userId, userName);
                     }
-                  },
-                ),
+                  }),
                 const TradeRepublicDivider(),
                 TradeRepublicListTile.destructive(
                   title:
@@ -5441,21 +4818,17 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
                   subtitle:
                       AppLocalizations.of(context)?.removeConversation ??
                       'Remove this conversation',
-                  leading: const Icon(
+                  leading: Icon(
                     CupertinoIcons.trash,
                     size: 20,
-                    color: Color(0xFFFF3B30),
-                  ),
+                    color: Color(0xFFFF3B30)),
                   onTap: () {
                     HapticFeedback.lightImpact();
                     Navigator.pop(context);
                     _deleteChat(chatId);
                     Navigator.of(context).pop();
-                  },
-                ),
-              ],
-            ),
-          ),
+                  }),
+              ])),
 
           SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
@@ -5466,11 +4839,8 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
               Navigator.pop(context);
             },
             isSecondary: true,
-            width: double.infinity,
-          ),
-        ],
-      ),
-    );
+            width: double.infinity),
+        ]));
   }
 
   // Show user management modal (pinned/blocked/deleted chats)
@@ -5489,9 +4859,7 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
             leading: Icon(
               CupertinoIcons.person_2,
               size: 20,
-              color: TradeRepublicTheme.textColor(context),
-            ),
-          ),
+              color: TradeRepublicTheme.textColor(context))),
 
           TradeRepublicCard(
             backgroundColor: isLight ? null : Colors.transparent,
@@ -5504,16 +4872,14 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
                       'Pinned Chats',
                   subtitle:
                       '${_pinnedChats.length} ${AppLocalizations.of(context)?.pinned ?? 'pinned'}',
-                  leading: const Icon(
+                  leading: Icon(
                     CupertinoIcons.pin_fill,
                     size: 20,
-                    color: Color(0xFFFF9500),
-                  ),
+                    color: Color(0xFFFF9500)),
                   onTap: () {
                     Navigator.pop(context);
                     _showPinnedUsersModal(isLight);
-                  },
-                ),
+                  }),
                 const TradeRepublicDivider(),
                 TradeRepublicListTile.navigation(
                   title:
@@ -5521,16 +4887,14 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
                       'Blocked Users',
                   subtitle:
                       '${_blockedUsers.length} ${AppLocalizations.of(context)?.blocked ?? 'blocked'}',
-                  leading: const Icon(
+                  leading: Icon(
                     CupertinoIcons.nosign,
                     size: 20,
-                    color: Color(0xFFFF3B30),
-                  ),
+                    color: Color(0xFFFF3B30)),
                   onTap: () {
                     Navigator.pop(context);
                     _showBlockedUsersModal(isLight);
-                  },
-                ),
+                  }),
                 const TradeRepublicDivider(),
                 TradeRepublicListTile.navigation(
                   title:
@@ -5541,19 +4905,13 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
                   leading: Icon(
                     CupertinoIcons.trash,
                     size: 20,
-                    color: TradeRepublicTheme.textColor(context),
-                  ),
+                    color: TradeRepublicTheme.textColor(context)),
                   onTap: () {
                     Navigator.pop(context);
                     _showDeletedChatsModal(isLight);
-                  },
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
+                  }),
+              ])),
+        ]));
   }
 
   // Show pinned users modal
@@ -5567,7 +4925,7 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
         children: [
           // ── Sheet header: Icon left + Title ──
           Padding(
-            padding: const EdgeInsets.fromLTRB(20, 8, 20, 0),
+            padding: EdgeInsets.fromLTRB(20, 8, 20, 0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -5576,9 +4934,8 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
                     Icon(
                       CupertinoIcons.pin,
                       size: 22,
-                      color: isLight ? Colors.black : Colors.white,
-                    ),
-                    const SizedBox(width: 12),
+                      color: isLight ? Colors.black : Colors.white),
+                    SizedBox(width: 12),
                     Text(
                       AppLocalizations.of(context)?.pinnedChats ??
                           'Pinned Chats',
@@ -5586,24 +4943,16 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
                         fontSize: 22,
                         fontWeight: FontWeight.w700,
                         color: isLight ? Colors.black : Colors.white,
-                        letterSpacing: -0.4,
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 4),
+                        letterSpacing: -0.4)),
+                  ]),
+                SizedBox(height: 4),
                 Text(
                   '${_pinnedChats.length} ${AppLocalizations.of(context)?.pinned ?? 'pinned'}',
                   style: TextStyle(
                     color: (isLight ? Colors.black : Colors.white).withOpacity(
-                      0.5,
-                    ),
-                    fontSize: 15,
-                  ),
-                ),
-              ],
-            ),
-          ),
+                      0.5),
+                    fontSize: 15)),
+              ])),
 
           Expanded(
             child: _pinnedChats.isEmpty
@@ -5614,19 +4963,15 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
                         Icon(
                           CupertinoIcons.pin,
                           size: 56,
-                          color: TradeRepublicTheme.hintColor(context),
-                        ),
+                          color: TradeRepublicTheme.hintColor(context)),
                         SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                         Text(
                           AppLocalizations.of(context)?.noPinnedChats ??
                               'No pinned chats',
-                          style: TradeRepublicTheme.bodyMedium(context),
-                        ),
-                      ],
-                    ),
-                  )
+                          style: TradeRepublicTheme.bodyMedium(context)),
+                      ]))
                 : ListView.builder(
-                    padding: const EdgeInsets.fromLTRB(20, 20, 20, 32),
+                    padding: EdgeInsets.fromLTRB(20, 20, 20, 32),
                     itemCount: _pinnedChats.length,
                     itemBuilder: (context, index) {
                       final chatId = _pinnedChats.elementAt(index);
@@ -5634,29 +4979,25 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
 
                       if (chatId.startsWith('order_')) {
                         final orderId = int.tryParse(
-                          chatId.replaceFirst('order_', ''),
-                        );
+                          chatId.replaceFirst('order_', ''));
                         if (orderId != null) {
                           try {
                             final order = orders.firstWhere(
-                              (o) => o['order_id'] == orderId,
-                            );
+                              (o) => o['order_id'] == orderId);
                             chatName = order['customer_name'] ?? chatId;
                           } catch (_) {}
                         }
                       } else {
                         try {
                           final group = userGroups.firstWhere(
-                            (g) => g['groupId'] == chatId,
-                          );
+                            (g) => g['groupId'] == chatId);
                           chatName = group['name'] ?? chatId;
                         } catch (_) {}
                       }
 
                       return Padding(
                         padding: EdgeInsets.only(
-                          bottom: index < _pinnedChats.length - 1 ? 0 : 0,
-                        ),
+                          bottom: index < _pinnedChats.length - 1 ? 0 : 0),
                         child: TradeRepublicCard(
                           padding: EdgeInsets.zero,
                           backgroundColor: isLight
@@ -5664,20 +5005,12 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
                               : Colors.transparent,
                           child: TradeRepublicListTile(
                             title: chatName,
-                            leading: const Icon(
+                            leading: Icon(
                               CupertinoIcons.pin_fill,
                               size: 18,
-                              color: Color(0xFFFF9500),
-                            ),
-                          ),
-                        ),
-                      );
-                    },
-                  ),
-          ),
-        ],
-      ),
-    );
+                              color: Color(0xFFFF9500)))));
+                    })),
+        ]));
   }
 
   // Show blocked users modal
@@ -5691,7 +5024,7 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Padding(
-              padding: const EdgeInsets.fromLTRB(20, 8, 20, 0),
+              padding: EdgeInsets.fromLTRB(20, 8, 20, 0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -5701,9 +5034,8 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
                       Icon(
                         CupertinoIcons.nosign,
                         size: 22,
-                        color: isLight ? Colors.black : Colors.white,
-                      ),
-                      const SizedBox(width: 12),
+                        color: isLight ? Colors.black : Colors.white),
+                      SizedBox(width: 12),
                       Text(
                         AppLocalizations.of(context)?.blockedUsers ??
                             'Blocked Users',
@@ -5711,23 +5043,16 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
                           fontSize: 22,
                           fontWeight: FontWeight.w700,
                           color: isLight ? Colors.black : Colors.white,
-                          letterSpacing: -0.4,
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 4),
+                          letterSpacing: -0.4)),
+                    ]),
+                  SizedBox(height: 4),
                   Text(
                     '${_blockedUsers.length} ${AppLocalizations.of(context)?.blocked ?? 'blocked'}',
                     style: TextStyle(
                       color: (isLight ? Colors.black : Colors.white)
                           .withOpacity(0.5),
-                      fontSize: 15,
-                    ),
-                  ),
-                ],
-              ),
-            ),
+                      fontSize: 15)),
+                ])),
 
             Expanded(
               child: _blockedUsers.isEmpty
@@ -5738,19 +5063,15 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
                           Icon(
                             CupertinoIcons.checkmark_shield,
                             size: 56,
-                            color: TradeRepublicTheme.hintColor(context),
-                          ),
+                            color: TradeRepublicTheme.hintColor(context)),
                           SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                           Text(
                             AppLocalizations.of(context)?.noBlockedUsers ??
                                 'No blocked users',
-                            style: TradeRepublicTheme.bodyMedium(context),
-                          ),
-                        ],
-                      ),
-                    )
+                            style: TradeRepublicTheme.bodyMedium(context)),
+                        ]))
                   : Padding(
-                      padding: const EdgeInsets.fromLTRB(20, 20, 20, 32),
+                      padding: EdgeInsets.fromLTRB(20, 20, 20, 32),
                       child: TradeRepublicCard(
                         padding: EdgeInsets.zero,
                         backgroundColor: isLight
@@ -5766,11 +5087,10 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
                             final userId = _blockedUsers.elementAt(index);
                             return TradeRepublicListTile(
                               title: userId,
-                              leading: const Icon(
+                              leading: Icon(
                                 CupertinoIcons.nosign,
                                 size: 18,
-                                color: Color(0xFFFF3B30),
-                              ),
+                                color: Color(0xFFFF3B30)),
                               trailing: TradeRepublicButton(
                                 label:
                                     AppLocalizations.of(context)?.unblock ??
@@ -5778,26 +5098,16 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
                                 backgroundColor: const Color(0xFF34C759),
                                 foregroundColor: Colors.white,
                                 height: 34,
-                                padding: const EdgeInsets.symmetric(
-                                  horizontal: 14,
-                                ),
+                                padding: EdgeInsets.symmetric(
+                                  horizontal: 14),
                                 onPressed: () async {
                                   HapticFeedback.mediumImpact();
                                   await _unblockUser(userId, userId);
                                   setModalState(() {});
                                   setState(() {});
-                                },
-                              ),
-                            );
-                          },
-                        ),
-                      ),
-                    ),
-            ),
-          ],
-        ),
-      ),
-    );
+                                }));
+                          })))),
+          ])));
   }
 
   // Show deleted chats modal
@@ -5812,7 +5122,7 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Padding(
-              padding: const EdgeInsets.fromLTRB(20, 8, 20, 0),
+              padding: EdgeInsets.fromLTRB(20, 8, 20, 0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -5822,9 +5132,8 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
                       Icon(
                         CupertinoIcons.trash,
                         size: 22,
-                        color: isLight ? Colors.black : Colors.white,
-                      ),
-                      const SizedBox(width: 12),
+                        color: isLight ? Colors.black : Colors.white),
+                      SizedBox(width: 12),
                       Text(
                         AppLocalizations.of(context)?.deletedChats ??
                             'Deleted Chats',
@@ -5832,23 +5141,16 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
                           fontSize: 22,
                           fontWeight: FontWeight.w700,
                           color: isLight ? Colors.black : Colors.white,
-                          letterSpacing: -0.4,
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 4),
+                          letterSpacing: -0.4)),
+                    ]),
+                  SizedBox(height: 4),
                   Text(
                     '${_deletedChats.length} ${AppLocalizations.of(context)?.deleted ?? 'deleted'}',
                     style: TextStyle(
                       color: (isLight ? Colors.black : Colors.white)
                           .withOpacity(0.5),
-                      fontSize: 15,
-                    ),
-                  ),
-                ],
-              ),
-            ),
+                      fontSize: 15)),
+                ])),
 
             Expanded(
               child: _deletedChats.isEmpty
@@ -5859,19 +5161,15 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
                           Icon(
                             CupertinoIcons.checkmark_circle,
                             size: 56,
-                            color: TradeRepublicTheme.hintColor(context),
-                          ),
+                            color: TradeRepublicTheme.hintColor(context)),
                           SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                           Text(
                             AppLocalizations.of(context)?.noDeletedChats ??
                                 'No deleted chats',
-                            style: TradeRepublicTheme.bodyMedium(context),
-                          ),
-                        ],
-                      ),
-                    )
+                            style: TradeRepublicTheme.bodyMedium(context)),
+                        ]))
                   : Padding(
-                      padding: const EdgeInsets.fromLTRB(20, 20, 20, 32),
+                      padding: EdgeInsets.fromLTRB(20, 20, 20, 32),
                       child: TradeRepublicCard(
                         padding: EdgeInsets.zero,
                         backgroundColor: isLight
@@ -5902,8 +5200,7 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
                               leading: Icon(
                                 chatIcon,
                                 size: 18,
-                                color: TradeRepublicTheme.iconColor(context),
-                              ),
+                                color: TradeRepublicTheme.iconColor(context)),
                               trailing: TradeRepublicButton(
                                 label:
                                     AppLocalizations.of(context)?.restore ??
@@ -5911,14 +5208,12 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
                                 backgroundColor: const Color(0xFF34C759),
                                 foregroundColor: Colors.white,
                                 height: 34,
-                                padding: const EdgeInsets.symmetric(
-                                  horizontal: 14,
-                                ),
+                                padding: EdgeInsets.symmetric(
+                                  horizontal: 14),
                                 onPressed: () async {
                                   HapticFeedback.mediumImpact();
                                   setModalState(
-                                    () => _deletedChats.remove(chatId),
-                                  );
+                                    () => _deletedChats.remove(chatId));
                                   await _saveDeletedChats();
                                   setState(() {});
                                   _fetchOrders();
@@ -5926,22 +5221,11 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
                                   TopNotification.success(
                                     context,
                                     AppLocalizations.of(
-                                          context,
-                                        )?.chatRestored ??
-                                        'Chat restored',
-                                  );
-                                },
-                              ),
-                            );
-                          },
-                        ),
-                      ),
-                    ),
-            ),
-          ],
-        ),
-      ),
-    );
+                                          context)?.chatRestored ??
+                                        'Chat restored');
+                                }));
+                          })))),
+          ])));
   }
 
   // Show new chat modal to search and select users
@@ -5981,25 +5265,21 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
                         leading: Icon(
                           CupertinoIcons.plus_bubble,
                           size: 20,
-                          color: TradeRepublicTheme.textColor(context),
-                        ),
-                      ),
+                          color: TradeRepublicTheme.textColor(context))),
 
                       // Search bar
                       TradeRepublicCard(
                         backgroundColor: isLight ? null : Colors.transparent,
-                        padding: const EdgeInsets.symmetric(
+                        padding: EdgeInsets.symmetric(
                           horizontal: 14,
-                          vertical: 4,
-                        ),
+                          vertical: 4),
                         child: Row(
                           children: [
                             Icon(
                               CupertinoIcons.search,
                               size: 18,
-                              color: TradeRepublicTheme.hintColor(context),
-                            ),
-                            const SizedBox(width: 10),
+                              color: TradeRepublicTheme.hintColor(context)),
+                            SizedBox(width: 10),
                             Expanded(
                               child: TradeRepublicTextField(
                                 controller: searchController,
@@ -6021,16 +5301,13 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
                                     searchResults = results;
                                     isSearching = false;
                                   });
-                                },
-                              ),
-                            ),
+                                })),
                             if (searchController.text.isNotEmpty)
                               TradeRepublicButton.icon(
                                 icon: Icon(
                                   CupertinoIcons.xmark_circle_fill,
                                   size: 18,
-                                  color: TradeRepublicTheme.hintColor(context),
-                                ),
+                                  color: TradeRepublicTheme.hintColor(context)),
                                 size: 28,
                                 backgroundColor: Colors.transparent,
                                 onPressed: () {
@@ -6039,11 +5316,8 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
                                     searchResults = [];
                                     isSearching = false;
                                   });
-                                },
-                              ),
-                          ],
-                        ),
-                      ),
+                                }),
+                          ])),
 
                       SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
@@ -6061,34 +5335,26 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
                                           ? CupertinoIcons.person_2
                                           : CupertinoIcons.search,
                                       size: 52,
-                                      color: TradeRepublicTheme.hintColor(context),
-                                    ),
-                                    const SizedBox(height: 14),
+                                      color: TradeRepublicTheme.hintColor(context)),
+                                    SizedBox(height: 14),
                                     Text(
                                       searchController.text.isEmpty
                                           ? (AppLocalizations.of(
-                                                  context,
-                                                )?.searchForUsers ??
+                                                  context)?.searchForUsers ??
                                                 'Search for users')
                                           : (AppLocalizations.of(
-                                                  context,
-                                                )?.noUsersFound ??
+                                                  context)?.noUsersFound ??
                                                 'No users found'),
-                                      style: TradeRepublicTheme.titleSmall(context),
-                                    ),
-                                    const SizedBox(height: 6),
+                                      style: TradeRepublicTheme.titleSmall(context)),
+                                    SizedBox(height: 6),
                                     Text(
                                       searchController.text.isEmpty
                                           ? (AppLocalizations.of(
-                                                  context,
-                                                )?.enterNameOrId ??
+                                                  context)?.enterNameOrId ??
                                                 'Enter a name or ID to find users')
                                           : 'Try a different search term',
-                                      style: TradeRepublicTheme.bodySmall(context),
-                                    ),
-                                  ],
-                                ),
-                              )
+                                      style: TradeRepublicTheme.bodySmall(context)),
+                                  ]))
                             : ListView.builder(
                                 itemCount: searchResults.length,
                                 itemBuilder: (context, index) {
@@ -6096,20 +5362,11 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
                                   return _buildUserSearchResult(
                                     user,
                                     isLight,
-                                    context,
-                                  );
-                                },
-                              ),
-                      ),
-                    ],
-                  ),
-                ),
-              );
-            },
-          );
-        },
-      ),
-    );
+                                    context);
+                                })),
+                    ])));
+            });
+        }));
   }
 
   // Search for users by name or ID
@@ -6120,8 +5377,7 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
       // Search in both delvioo_users and users tables
       final response = await http.get(
         Uri.parse('${ApiConfig.baseUrl}/api/search/all-users?q=$query'),
-        headers: {'Content-Type': 'application/json'},
-      );
+        headers: {'Content-Type': 'application/json'});
 
       print('📡 Search response: ${response.statusCode}');
       print('📡 Search body: ${response.body}');
@@ -6144,8 +5400,7 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
   Widget _buildUserSearchResult(
     Map<String, dynamic> user,
     bool isLight,
-    BuildContext context,
-  ) {
+    BuildContext context) {
     final userId = user['user_id'] ?? user['username'] ?? user['id'] ?? '';
     final username = user['username'] ?? userId;
     final businessName = user['business_name'] ?? user['businessName'] ?? '';
@@ -6206,7 +5461,7 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
     }
 
     return Padding(
-      padding: const EdgeInsets.only(bottom: 10),
+      padding: EdgeInsets.only(bottom: 10),
       child: TradeRepublicCard(
         backgroundColor: isLight ? null : Colors.transparent,
         padding: EdgeInsets.zero,
@@ -6223,8 +5478,7 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
             height: 42,
             decoration: BoxDecoration(
               color: typeColor.withOpacity(0.12),
-              borderRadius: BorderRadius.circular(14),
-            ),
+              borderRadius: BorderRadius.circular(14)),
             child: profilePic.isNotEmpty
                 ? ClipRRect(
                     borderRadius: BorderRadius.circular(14),
@@ -6235,27 +5489,19 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
                             height: 42,
                             fit: BoxFit.cover,
                             errorBuilder: (_, __, ___) =>
-                                Icon(typeIcon, color: typeColor, size: 22),
-                          )
+                                Icon(typeIcon, color: typeColor, size: 22))
                         : Image.network(
                             resolvedProfilePic,
                             width: 42,
                             height: 42,
                             fit: BoxFit.cover,
                             errorBuilder: (_, __, ___) =>
-                                Icon(typeIcon, color: typeColor, size: 22),
-                          ),
-                  )
-                : Icon(typeIcon, color: typeColor, size: 22),
-          ),
+                                Icon(typeIcon, color: typeColor, size: 22)))
+                : Icon(typeIcon, color: typeColor, size: 22)),
           trailing: Icon(
             CupertinoIcons.chevron_right,
             size: 16,
-            color: TradeRepublicTheme.hintColor(context),
-          ),
-        ),
-      ),
-    );
+            color: TradeRepublicTheme.hintColor(context)))));
   }
 
   // Start new chat with selected user
@@ -6263,11 +5509,9 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
     String userId,
     String userName,
     String receiverType,
-    bool isLight,
-  ) {
+    bool isLight) {
     print(
-      '💬 Starting new chat with: $userName ($userId) - type: $receiverType',
-    );
+      '💬 Starting new chat with: $userName ($userId) - type: $receiverType');
 
     // Use the same chat modal design as for orders, but with direct messages
     final TextEditingController messageController = TextEditingController();
@@ -6291,8 +5535,7 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
       builder: (BuildContext context, StateSetter setModalState) {
         return Padding(
           padding: EdgeInsets.only(
-            bottom: MediaQuery.of(context).viewInsets.bottom,
-          ),
+            bottom: MediaQuery.of(context).viewInsets.bottom),
           child: SizedBox(
             height: MediaQuery.of(context).size.height,
             child: Column(
@@ -6303,11 +5546,9 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
                     20,
                     MediaQuery.of(context).padding.top + 16,
                     20,
-                    14,
-                  ),
+                    14),
                   decoration: BoxDecoration(
-                    color: isLight ? Colors.white : Colors.black,
-                  ),
+                    color: isLight ? Colors.white : Colors.black),
                   child: Row(
                     children: [
                       // Back button - Trade Republic Style
@@ -6315,14 +5556,12 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
                         icon: Icon(
                           CupertinoIcons.back,
                           size: 20,
-                          color: isLight ? Colors.black : Colors.white,
-                        ),
+                          color: isLight ? Colors.black : Colors.white),
                         size: 36,
                         isSecondary: true,
-                        onPressed: () => Navigator.pop(context),
-                      ),
+                        onPressed: () => Navigator.pop(context)),
 
-                      const SizedBox(width: 16),
+                      SizedBox(width: 16),
 
                       // Customer name with badge
                       Expanded(
@@ -6335,13 +5574,10 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
                                   fontSize: DesktopOptimizedWidgets.getFontSize() + 6,
                                   fontWeight: FontWeight.w700,
                                   letterSpacing: -0.5,
-                                  color: isLight ? Colors.black : Colors.white,
-                                ),
+                                  color: isLight ? Colors.black : Colors.white),
                                 maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                            ),
-                            const SizedBox(width: 8),
+                                overflow: TextOverflow.ellipsis)),
+                            SizedBox(width: 8),
                             // Role Badge
                             Builder(
                               builder: (context) {
@@ -6355,22 +5591,19 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
                                 if (receiverType == 'business') {
                                   roleLabel =
                                       AppLocalizations.of(
-                                        context,
-                                      )?.sellerLabel ??
+                                        context)?.sellerLabel ??
                                       'Seller';
                                   roleColor = const Color(0xFF007AFF); // Blue
                                 } else if (receiverType == 'delvioo') {
                                   roleLabel =
                                       AppLocalizations.of(
-                                        context,
-                                      )?.driverLabel ??
+                                        context)?.driverLabel ??
                                       'Driver';
                                   roleColor = Colors.green;
                                 } else {
                                   roleLabel =
                                       AppLocalizations.of(
-                                        context,
-                                      )?.buyerLabel ??
+                                        context)?.buyerLabel ??
                                       'Buyer';
                                   roleColor =
                                       (isLight ? Colors.black : Colors.white)
@@ -6380,31 +5613,21 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
                                 }
 
                                 return Container(
-                                  padding: const EdgeInsets.symmetric(
+                                  padding: EdgeInsets.symmetric(
                                     horizontal: 8,
-                                    vertical: 3,
-                                  ),
+                                    vertical: 3),
                                   decoration: BoxDecoration(
                                     color: roleColor.withOpacity(0.1),
-                                    borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-                                  ),
+                                    borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
                                   child: Text(
                                     roleLabel,
                                     style: TextStyle(
                                       fontSize: 12,
                                       fontWeight: FontWeight.w600,
-                                      color: roleColor,
-                                    ),
-                                  ),
-                                );
-                              },
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
+                                      color: roleColor)));
+                              }),
+                          ])),
+                    ])),
 
                 // Messages Area
                 Expanded(
@@ -6412,8 +5635,7 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
                     key: ValueKey('direct_messages_$refreshKey'),
                     future: _fetchDirectMessages(
                       userId,
-                      userType: chatUserType,
-                    ),
+                      userType: chatUserType),
                     builder: (context, snapshot) {
                       if (snapshot.connectionState == ConnectionState.waiting) {
                         return const Center(child: CultiooLoadingIndicator());
@@ -6428,8 +5650,7 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
                                 CupertinoIcons.chat_bubble,
                                 size: 64,
                                 color: (isLight ? Colors.black : Colors.white)
-                                    .withOpacity(0.2),
-                              ),
+                                    .withOpacity(0.2)),
                               SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
                               Text(
                                 AppLocalizations.of(context)?.noMessagesYet ??
@@ -6437,24 +5658,17 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
                                 style: TextStyle(
                                   fontSize: DesktopOptimizedWidgets.getFontSize(),
                                   fontWeight: FontWeight.w600,
-                                  color: isLight ? Colors.black : Colors.white,
-                                ),
-                              ),
-                              const SizedBox(height: 4),
+                                  color: isLight ? Colors.black : Colors.white)),
+                              SizedBox(height: 4),
                               Text(
                                 AppLocalizations.of(
-                                      context,
-                                    )?.startTheConversation ??
+                                      context)?.startTheConversation ??
                                     'Start the conversation',
                                 style: TextStyle(
                                   fontSize: DesktopOptimizedWidgets.getFontSize(),
                                   color: (isLight ? Colors.black : Colors.white)
-                                      .withOpacity(0.5),
-                                ),
-                              ),
-                            ],
-                          ),
-                        );
+                                      .withOpacity(0.5))),
+                            ]));
                       }
 
                       final messages = snapshot.data!;
@@ -6462,12 +5676,11 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
                       // Use the username loaded in initState
                       final myUsername = _myUsername ?? currentUserId;
                       print(
-                        '🆔 Comparing messages with myUsername: $myUsername',
-                      );
+                        '🆔 Comparing messages with myUsername: $myUsername');
 
                       return ListView.builder(
                         reverse: true,
-                        padding: const EdgeInsets.symmetric(vertical: 16),
+                        padding: EdgeInsets.symmetric(vertical: 16),
                         itemCount: messages.length,
                         itemBuilder: (context, index) {
                           final message = messages[messages.length - 1 - index];
@@ -6484,11 +5697,8 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
                                   currentUserId.toLowerCase();
 
                           return _buildMessageBubble(message, isMe, isLight);
-                        },
-                      );
-                    },
-                  ),
-                ),
+                        });
+                    })),
 
                 // Input bar - Trade Republic Style
                 Container(
@@ -6496,11 +5706,9 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
                     20,
                     12,
                     20,
-                    MediaQuery.of(context).padding.bottom + 12,
-                  ),
+                    MediaQuery.of(context).padding.bottom + 12),
                   decoration: BoxDecoration(
-                    color: isLight ? Colors.white : Colors.black,
-                  ),
+                    color: isLight ? Colors.white : Colors.black),
                   child: Row(
                     children: [
                       // Input field
@@ -6511,19 +5719,16 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
                               AppLocalizations.of(context)?.message ??
                               'Message',
                           maxLines: null,
-                          textCapitalization: TextCapitalization.sentences,
-                        ),
-                      ),
+                          textCapitalization: TextCapitalization.sentences)),
 
-                      const SizedBox(width: 10),
+                      SizedBox(width: 10),
 
                       // Send button
                       TradeRepublicButton.icon(
                         icon: Icon(
                           CupertinoIcons.arrow_up,
                           size: 18,
-                          color: isLight ? Colors.white : Colors.black,
-                        ),
+                          color: isLight ? Colors.white : Colors.black),
                         backgroundColor: isLight ? Colors.black : Colors.white,
                         size: 40,
                         onPressed: () async {
@@ -6535,8 +5740,7 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
                           await _sendDirectMessage(
                             userId,
                             message,
-                            receiverType,
-                          );
+                            receiverType);
 
                           messageController.clear();
                           setModalState(() {
@@ -6546,29 +5750,18 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
                           TopNotification.success(
                             context,
                             AppLocalizations.of(context)?.messageSent ??
-                                'Message sent',
-                          );
-                        },
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ),
-        );
-      },
-    );
+                                'Message sent');
+                        }),
+                    ])),
+              ])));
+      });
 
     Navigator.of(context)
         .push(
           CupertinoPageRoute(
             builder: (ctx) => Scaffold(
               backgroundColor: isLight ? Colors.white : Colors.black,
-              body: chatWidget,
-            ),
-          ),
-        )
+              body: chatWidget)))
         .then((_) {
           _showHeader();
           setState(() {
@@ -6601,14 +5794,12 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
         url += '?user_type=$userType';
         print('🔗 URL with filter: $url');
         print(
-          '⚠️ If you see messages for the WRONG identity, the backend is not filtering correctly!',
-        );
+          '⚠️ If you see messages for the WRONG identity, the backend is not filtering correctly!');
       }
 
       final response = await http.get(
         Uri.parse(url),
-        headers: {'Content-Type': 'application/json'},
-      );
+        headers: {'Content-Type': 'application/json'});
 
       print('📡 Direct messages response: ${response.statusCode}');
       print('📡 Direct messages body: ${response.body}');
@@ -6617,8 +5808,7 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
         final data = json.decode(response.body);
         if (data['success'] == true) {
           final allMessages = List<Map<String, dynamic>>.from(
-            data['messages'] ?? [],
-          );
+            data['messages'] ?? []);
 
           // NO FILTERING IN DIRECT MESSAGES
           // Direct messages should show ALL messages in the conversation
@@ -6639,8 +5829,7 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
   Future<void> _sendDirectMessage(
     String recipientId,
     String messageText,
-    String receiverType,
-  ) async {
+    String receiverType) async {
     try {
       print('📨 Sending direct message to: $recipientId (type: $receiverType)');
       print('📨 Message: $messageText');
@@ -6662,8 +5851,7 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
           'sender_type': 'delvioo', // Delvioo driver
           'receiver_type':
               receiverType, // Use the user_type from search results
-        }),
-      );
+        }));
 
       print('📡 Send direct message response: ${response.statusCode}');
       print('📡 Send direct message body: ${response.body}');
@@ -6737,12 +5925,10 @@ class _PulsingIconState extends State<_PulsingIcon>
     super.initState();
     _controller = AnimationController(
       duration: const Duration(milliseconds: 1500),
-      vsync: this,
-    )..repeat(reverse: true);
+      vsync: this)..repeat(reverse: true);
     _animation = Tween<double>(
       begin: 0.9,
-      end: 1.1,
-    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeInOut));
+      end: 1.1).animate(CurvedAnimation(parent: _controller, curve: Curves.easeInOut));
   }
 
   @override
@@ -6758,10 +5944,8 @@ class _PulsingIconState extends State<_PulsingIcon>
       builder: (context, child) {
         return Transform.scale(
           scale: _animation.value,
-          child: Icon(widget.icon, size: widget.size, color: widget.color),
-        );
-      },
-    );
+          child: Icon(widget.icon, size: widget.size, color: widget.color));
+      });
   }
 }
 
@@ -6795,16 +5979,13 @@ class _CullyAiChatPageState extends State<_CullyAiChatPage>
     super.initState();
     _pageEntranceCtrl = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 500),
-    );
+      duration: const Duration(milliseconds: 500));
     _pageEntranceFade = CurvedAnimation(
       parent: _pageEntranceCtrl,
-      curve: Curves.easeOut,
-    );
+      curve: Curves.easeOut);
     _pageEntranceSlide =
         Tween<Offset>(begin: const Offset(0, 0.04), end: Offset.zero).animate(
-          CurvedAnimation(parent: _pageEntranceCtrl, curve: Curves.easeOut),
-        );
+          CurvedAnimation(parent: _pageEntranceCtrl, curve: Curves.easeOut));
     _pageEntranceCtrl.forward();
     _loadUsername();
   }
@@ -6867,9 +6048,8 @@ class _CullyAiChatPageState extends State<_CullyAiChatPage>
                   Icon(
                     CupertinoIcons.trash,
                     size: 22,
-                    color: isLight ? Colors.black : Colors.white,
-                  ),
-                  const SizedBox(width: 12),
+                    color: isLight ? Colors.black : Colors.white),
+                  SizedBox(width: 12),
                   Expanded(
                     child: Text(
                       AppLocalizations.of(context)?.clearChat ?? 'Clear Chat',
@@ -6877,37 +6057,28 @@ class _CullyAiChatPageState extends State<_CullyAiChatPage>
                         fontSize: 22,
                         fontWeight: FontWeight.w700,
                         color: isLight ? Colors.black : Colors.white,
-                        letterSpacing: -0.4,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
+                        letterSpacing: -0.4))),
+                ]),
               SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
               Text(
                 AppLocalizations.of(context)?.deleteCullyHistoryConfirm ??
                     'Delete all CullyAI conversation history? This cannot be undone.',
-                style: TradeRepublicTheme.bodySmall(context),
-              ),
-              const SizedBox(height: 28),
+                style: TradeRepublicTheme.bodySmall(context)),
+              SizedBox(height: 28),
               TradeRepublicButton(
                 label: AppLocalizations.of(context)?.delete ?? 'Delete',
                 onPressed: () => Navigator.pop(context, true),
                 backgroundColor: const Color(0xFFFF3B30),
                 foregroundColor: Colors.white,
-                width: double.infinity,
-              ),
-              const SizedBox(height: 10),
+                width: double.infinity),
+              SizedBox(height: 10),
               TradeRepublicButton(
                 label: AppLocalizations.of(context)?.cancel ?? 'Cancel',
                 onPressed: () => Navigator.pop(context, false),
                 isSecondary: true,
-                width: double.infinity,
-              ),
+                width: double.infinity),
               SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
-            ],
-          ),
-        ) ??
+            ])) ??
         false;
 
     if (confirm) {
@@ -6915,8 +6086,7 @@ class _CullyAiChatPageState extends State<_CullyAiChatPage>
       if (!mounted) return;
       TopNotification.success(
         context,
-        AppLocalizations.of(context)?.chatDeleted ?? 'Chat deleted',
-      );
+        AppLocalizations.of(context)?.chatDeleted ?? 'Chat deleted');
     }
   }
 
@@ -6970,8 +6140,7 @@ class _CullyAiChatPageState extends State<_CullyAiChatPage>
               'language': langCode,
               'currency': currencySymbol,
               'assistant_mode': 'driver',
-            }),
-          )
+            }))
           .timeout(const Duration(seconds: 30));
 
       if (response.statusCode == 200) {
@@ -7017,8 +6186,7 @@ class _CullyAiChatPageState extends State<_CullyAiChatPage>
         _scrollController.animateTo(
           _scrollController.position.maxScrollExtent,
           duration: const Duration(milliseconds: 300),
-          curve: Curves.easeOut,
-        );
+          curve: Curves.easeOut);
       }
     });
   }
@@ -7047,10 +6215,9 @@ class _CullyAiChatPageState extends State<_CullyAiChatPage>
                       ? _buildWelcome(textColor)
                       : ListView.builder(
                           controller: _scrollController,
-                          padding: const EdgeInsets.symmetric(
+                          padding: EdgeInsets.symmetric(
                             horizontal: 16,
-                            vertical: 12,
-                          ),
+                            vertical: 12),
                           itemCount: _messages.length + (_isLoading ? 1 : 0),
                           itemBuilder: (context, i) {
                             if (i == _messages.length) {
@@ -7062,42 +6229,31 @@ class _CullyAiChatPageState extends State<_CullyAiChatPage>
                               msg['role'] == 'user',
                               cardBg,
                               textColor,
-                              i,
-                            );
-                          },
-                        ),
-                ),
+                              i);
+                          })),
                 _buildInputBar(isLight, cardBg, textColor),
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
+              ])))));
   }
 
   Widget _buildHeader(bool isLight, Color textColor) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+      padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
       child: Row(
         children: [
           TradeRepublicButton.icon(
             icon: Icon(CupertinoIcons.back, color: textColor, size: 20),
             size: 40,
             isSecondary: true,
-            onPressed: () => Navigator.of(context).pop(),
-          ),
-          const SizedBox(width: 12),
+            onPressed: () => Navigator.of(context).pop()),
+          SizedBox(width: 12),
           ClipRRect(
             borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
             child: Image.asset(
               isLight ? 'logo/cully_light.png' : 'logo/cully_dark.png',
               width: 40,
               height: 40,
-              fit: BoxFit.cover,
-            ),
-          ),
-          const SizedBox(width: 10),
+              fit: BoxFit.cover)),
+          SizedBox(width: 10),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -7107,40 +6263,29 @@ class _CullyAiChatPageState extends State<_CullyAiChatPage>
                   style: TextStyle(
                     fontSize: DesktopOptimizedWidgets.getFontSize(),
                     fontWeight: FontWeight.w700,
-                    color: textColor,
-                  ),
-                ),
+                    color: textColor)),
                 Row(
                   children: [
                     const _PulsingDot(),
-                    const SizedBox(width: 5),
+                    SizedBox(width: 5),
                     Text(
                       AppLocalizations.of(context)?.online ?? 'Online',
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 12,
                         color: Color(0xFF3ECFCF),
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
+                        fontWeight: FontWeight.w500)),
+                  ]),
+              ])),
           if (_messages.isNotEmpty)
             TradeRepublicButton.icon(
               icon: Icon(
                 CupertinoIcons.trash,
                 color: textColor.withOpacity(0.5),
-                size: 17,
-              ),
+                size: 17),
               size: 36,
               isSecondary: true,
-              onPressed: () => _confirmClearCullyMessages(isLight),
-            ),
-        ],
-      ),
-    );
+              onPressed: () => _confirmClearCullyMessages(isLight)),
+        ]));
   }
 
   Widget _buildWelcome(Color textColor) {
@@ -7152,21 +6297,18 @@ class _CullyAiChatPageState extends State<_CullyAiChatPage>
     bool isUser,
     Color cardBg,
     Color textColor,
-    int index,
-  ) {
+    int index) {
     final bubble = Align(
       alignment: isUser ? Alignment.centerRight : Alignment.centerLeft,
       child: Container(
-        margin: const EdgeInsets.only(bottom: 10),
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+        margin: EdgeInsets.only(bottom: 10),
+        padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
         constraints: BoxConstraints(
-          maxWidth: MediaQuery.of(context).size.width * 0.75,
-        ),
+          maxWidth: MediaQuery.of(context).size.width * 0.75),
         decoration: BoxDecoration(
           gradient: isUser
               ? const LinearGradient(
-                  colors: [Color(0xFF6C63FF), Color(0xFF3ECFCF)],
-                )
+                  colors: [Color(0xFF6C63FF), Color(0xFF3ECFCF)])
               : null,
           color: isUser ? null : cardBg,
           borderRadius: BorderRadius.only(
@@ -7177,42 +6319,33 @@ class _CullyAiChatPageState extends State<_CullyAiChatPage>
                 : const Radius.circular(4),
             bottomRight: isUser
                 ? const Radius.circular(4)
-                : const Radius.circular(18),
-          ),
+                : const Radius.circular(18)),
           boxShadow: [
             BoxShadow(
               color: Colors.black.withOpacity(0.04),
               blurRadius: 8,
-              offset: const Offset(0, 2),
-            ),
-          ],
-        ),
+              offset: const Offset(0, 2)),
+          ]),
         child: (index == _animatingIndex && !isUser)
             ? _TypewriterText(
                 text: text,
                 style: TextStyle(fontSize: 15, color: textColor, height: 1.4),
                 onDone: () {
                   if (mounted) setState(() => _animatingIndex = null);
-                },
-              )
+                })
             : Text(
                 text,
                 style: TextStyle(
                   fontSize: 15,
                   color: isUser ? Colors.white : textColor,
-                  height: 1.4,
-                ),
-              ),
-      ),
-    );
+                  height: 1.4))));
     if (_newBubbleIndices.contains(index)) {
       return _AnimatedBubble(
         isUser: isUser,
         onDone: () {
           if (mounted) setState(() => _newBubbleIndices.remove(index));
         },
-        child: bubble,
-      );
+        child: bubble);
     }
     return bubble;
   }
@@ -7221,23 +6354,18 @@ class _CullyAiChatPageState extends State<_CullyAiChatPage>
     return Align(
       alignment: Alignment.centerLeft,
       child: Container(
-        margin: const EdgeInsets.only(bottom: 10),
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+        margin: EdgeInsets.only(bottom: 10),
+        padding: EdgeInsets.symmetric(horizontal: 16, vertical: 14),
         decoration: BoxDecoration(
           color: cardBg,
-          borderRadius: const BorderRadius.only(
+          borderRadius: BorderRadius.only(
             topLeft: Radius.circular(18),
             topRight: Radius.circular(18),
             bottomLeft: Radius.circular(4),
-            bottomRight: Radius.circular(18),
-          ),
-        ),
+            bottomRight: Radius.circular(18))),
         child: Row(
           mainAxisSize: MainAxisSize.min,
-          children: List.generate(3, (i) => _AiDot(delay: i * 200)),
-        ),
-      ),
-    );
+          children: List.generate(3, (i) => _AiDot(delay: i * 200)))));
   }
 
   Widget _buildInputBar(bool isLight, Color cardBg, Color textColor) {
@@ -7246,12 +6374,10 @@ class _CullyAiChatPageState extends State<_CullyAiChatPage>
         left: 16,
         right: 16,
         top: 8,
-        bottom: MediaQuery.of(context).viewInsets.bottom + 8,
-      ),
+        bottom: MediaQuery.of(context).viewInsets.bottom + 8),
       decoration: BoxDecoration(
         color: cardBg,
-        border: Border(top: BorderSide(color: textColor.withOpacity(0.06))),
-      ),
+        border: Border(top: BorderSide(color: textColor.withOpacity(0.06)))),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
@@ -7265,33 +6391,25 @@ class _CullyAiChatPageState extends State<_CullyAiChatPage>
               minLines: 1,
               textInputAction: TextInputAction.send,
               onSubmitted: (_) => _sendMessage(),
-              textCapitalization: TextCapitalization.sentences,
-            ),
-          ),
-          const SizedBox(width: 10),
+              textCapitalization: TextCapitalization.sentences)),
+          SizedBox(width: 10),
           TradeRepublicButton.icon(
             icon: _isLoading
-                ? const SizedBox(
+                ? SizedBox(
                     width: 20,
                     height: 20,
                     child: CircularProgressIndicator(
                       strokeWidth: 2,
-                      color: Colors.white,
-                    ),
-                  )
-                : const Icon(
+                      color: Colors.white))
+                : Icon(
                     CupertinoIcons.arrow_up,
                     color: Colors.white,
-                    size: 20,
-                  ),
+                    size: 20),
             size: 50,
             backgroundColor: const Color(0xFF6C63FF),
             foregroundColor: Colors.white,
-            onPressed: _isLoading ? null : _sendMessage,
-          ),
-        ],
-      ),
-    );
+            onPressed: _isLoading ? null : _sendMessage),
+        ]));
   }
 }
 
@@ -7313,8 +6431,7 @@ class _AiDotState extends State<_AiDot> with SingleTickerProviderStateMixin {
     super.initState();
     _ctrl = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 600),
-    )..repeat(reverse: true);
+      duration: const Duration(milliseconds: 600))..repeat(reverse: true);
     _anim = CurvedAnimation(parent: _ctrl, curve: Curves.easeInOut);
     Future.delayed(Duration(milliseconds: widget.delay), () {
       if (mounted) _ctrl.forward();
@@ -7334,13 +6451,10 @@ class _AiDotState extends State<_AiDot> with SingleTickerProviderStateMixin {
       builder: (_, __) => Container(
         width: 8,
         height: 8,
-        margin: const EdgeInsets.symmetric(horizontal: 3),
+        margin: EdgeInsets.symmetric(horizontal: 3),
         decoration: BoxDecoration(
           color: const Color(0xFF6C63FF).withOpacity(0.4 + 0.6 * _anim.value),
-          borderRadius: BorderRadius.circular(4),
-        ),
-      ),
-    );
+          borderRadius: BorderRadius.circular(4))));
   }
 }
 
@@ -7384,8 +6498,7 @@ class _TypewriterTextState extends State<_TypewriterText> {
   Widget build(BuildContext context) {
     return Text(
       widget.text.substring(0, _charCount.clamp(0, widget.text.length)),
-      style: widget.style,
-    );
+      style: widget.style);
   }
 }
 
@@ -7411,31 +6524,25 @@ class _AnimatedWelcomeState extends State<_AnimatedWelcome>
     _ctrls = [
       AnimationController(
         vsync: this,
-        duration: const Duration(milliseconds: 800),
-      ),
+        duration: const Duration(milliseconds: 800)),
       AnimationController(
         vsync: this,
-        duration: const Duration(milliseconds: 500),
-      ),
+        duration: const Duration(milliseconds: 500)),
       AnimationController(
         vsync: this,
-        duration: const Duration(milliseconds: 500),
-      ),
+        duration: const Duration(milliseconds: 500)),
     ];
     _fades = _ctrls
         .map(
           (c) =>
               CurvedAnimation(parent: c, curve: Curves.easeOut)
-                  as Animation<double>,
-        )
+                  as Animation<double>)
         .toList();
     _slides = _ctrls
         .map(
           (c) => Tween<Offset>(
             begin: const Offset(0, 0.18),
-            end: Offset.zero,
-          ).animate(CurvedAnimation(parent: c, curve: Curves.easeOut)),
-        )
+            end: Offset.zero).animate(CurvedAnimation(parent: c, curve: Curves.easeOut)))
         .toList();
     for (int i = 0; i < 3; i++) {
       Future.delayed(Duration(milliseconds: 60 + i * 160), () {
@@ -7456,7 +6563,7 @@ class _AnimatedWelcomeState extends State<_AnimatedWelcome>
   Widget build(BuildContext context) {
     return Center(
       child: Padding(
-        padding: const EdgeInsets.all(32),
+        padding: EdgeInsets.all(32),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -7464,8 +6571,7 @@ class _AnimatedWelcomeState extends State<_AnimatedWelcome>
               opacity: _fades[0],
               child: ScaleTransition(
                 scale: Tween<double>(begin: 0.4, end: 1.0).animate(
-                  CurvedAnimation(parent: _ctrls[0], curve: Curves.elasticOut),
-                ),
+                  CurvedAnimation(parent: _ctrls[0], curve: Curves.elasticOut)),
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(40),
                   child: Image.asset(
@@ -7474,12 +6580,8 @@ class _AnimatedWelcomeState extends State<_AnimatedWelcome>
                         : 'logo/cully_dark.png',
                     width: 80,
                     height: 80,
-                    fit: BoxFit.cover,
-                  ),
-                ),
-              ),
-            ),
-            const SizedBox(height: 20),
+                    fit: BoxFit.cover)))),
+            SizedBox(height: 20),
             FadeTransition(
               opacity: _fades[1],
               child: SlideTransition(
@@ -7490,11 +6592,7 @@ class _AnimatedWelcomeState extends State<_AnimatedWelcome>
                   style: TextStyle(
                     fontSize: 22,
                     fontWeight: FontWeight.w700,
-                    color: widget.textColor,
-                  ),
-                ),
-              ),
-            ),
+                    color: widget.textColor)))),
             SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
             FadeTransition(
               opacity: _fades[2],
@@ -7506,15 +6604,8 @@ class _AnimatedWelcomeState extends State<_AnimatedWelcome>
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 15,
-                    color: widget.textColor.withOpacity(0.5),
-                  ),
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
+                    color: widget.textColor.withOpacity(0.5))))),
+          ])));
   }
 }
 
@@ -7544,13 +6635,11 @@ class _AnimatedBubbleState extends State<_AnimatedBubble>
     super.initState();
     _ctrl = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 380),
-    );
+      duration: const Duration(milliseconds: 380));
     _fade = CurvedAnimation(parent: _ctrl, curve: Curves.easeOut);
     _slide = Tween<Offset>(
       begin: Offset(widget.isUser ? 0.12 : -0.12, 0),
-      end: Offset.zero,
-    ).animate(CurvedAnimation(parent: _ctrl, curve: Curves.easeOut));
+      end: Offset.zero).animate(CurvedAnimation(parent: _ctrl, curve: Curves.easeOut));
     _ctrl.forward().then((_) => widget.onDone?.call());
   }
 
@@ -7564,8 +6653,7 @@ class _AnimatedBubbleState extends State<_AnimatedBubble>
   Widget build(BuildContext context) {
     return FadeTransition(
       opacity: _fade,
-      child: SlideTransition(position: _slide, child: widget.child),
-    );
+      child: SlideTransition(position: _slide, child: widget.child));
   }
 }
 
@@ -7587,12 +6675,10 @@ class _PulsingDotState extends State<_PulsingDot>
     super.initState();
     _ctrl = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 900),
-    )..repeat(reverse: true);
+      duration: const Duration(milliseconds: 900))..repeat(reverse: true);
     _scale = Tween<double>(
       begin: 0.7,
-      end: 1.4,
-    ).animate(CurvedAnimation(parent: _ctrl, curve: Curves.easeInOut));
+      end: 1.4).animate(CurvedAnimation(parent: _ctrl, curve: Curves.easeInOut));
   }
 
   @override
@@ -7608,11 +6694,8 @@ class _PulsingDotState extends State<_PulsingDot>
       child: Container(
         width: 7,
         height: 7,
-        decoration: const BoxDecoration(
+        decoration: BoxDecoration(
           color: Color(0xFF3ECFCF),
-          shape: BoxShape.circle,
-        ),
-      ),
-    );
+          shape: BoxShape.circle)));
   }
 }

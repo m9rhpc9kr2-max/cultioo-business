@@ -3,7 +3,7 @@ import 'pointer_safe.dart';
 import 'trade_republic_theme.dart';
 import 'trade_republic_bottom_sheet.dart';
 
-EdgeInsets _defaultTradeRepublicCardPadding() => const EdgeInsets.all(16.0);
+EdgeInsets _defaultTradeRepublicCardPadding() => EdgeInsets.all(16.0);
 
 /// When [flat] is true, [TradeRepublicCard] uses transparent fills so content
 /// sits on a single sheet background (e.g. minimalist desktop order details).
@@ -85,8 +85,7 @@ class TradeRepublicCard extends StatelessWidget {
       width: width,
       height: height,
       onTap: onTap,
-      child: child,
-    );
+      child: child);
   }
 
   /// Card with subtle border, no fill
@@ -110,8 +109,7 @@ class TradeRepublicCard extends StatelessWidget {
       width: width,
       height: height,
       onTap: onTap,
-      child: child,
-    );
+      child: child);
   }
 
   /// Transparent card — just padding & borderRadius, no background
@@ -134,8 +132,7 @@ class TradeRepublicCard extends StatelessWidget {
       width: width,
       height: height,
       onTap: onTap,
-      child: child,
-    );
+      child: child);
   }
 
   @override
@@ -159,20 +156,16 @@ class TradeRepublicCard extends StatelessWidget {
       margin: margin,
       decoration: BoxDecoration(
         color: effectiveBg,
-        borderRadius: effectiveRadius,
-      ),
+        borderRadius: effectiveRadius),
       child: Padding(
         padding: effectivePadding,
-        child: child,
-      ),
-    );
+        child: child));
 
     if (onTap != null) {
       card = _TappableCard(
         onTap: onTap!,
         borderRadius: effectiveRadius,
-        child: card,
-      );
+        child: card);
     }
 
     return card;
@@ -207,20 +200,16 @@ class _TradeRepublicElevatedCard extends TradeRepublicCard {
       margin: margin,
       decoration: BoxDecoration(
         color: effectiveBg,
-        borderRadius: effectiveRadius,
-      ),
+        borderRadius: effectiveRadius),
       child: Padding(
         padding: effectivePadding,
-        child: child,
-      ),
-    );
+        child: child));
 
     if (onTap != null) {
       card = _TappableCard(
         onTap: onTap!,
         borderRadius: effectiveRadius,
-        child: card,
-      );
+        child: card);
     }
 
     return card;
@@ -257,20 +246,16 @@ class _TradeRepublicOutlinedCard extends TradeRepublicCard {
       margin: margin,
       decoration: BoxDecoration(
         color: backgroundColor ?? baseSurface,
-        borderRadius: effectiveRadius,
-      ),
+        borderRadius: effectiveRadius),
       child: Padding(
         padding: effectivePadding,
-        child: child,
-      ),
-    );
+        child: child));
 
     if (onTap != null) {
       card = _TappableCard(
         onTap: onTap!,
         borderRadius: effectiveRadius,
-        child: card,
-      );
+        child: card);
     }
 
     return card;
@@ -318,17 +303,13 @@ class _TappableCardState extends State<_TappableCard> {
         behavior: HitTestBehavior.opaque,
         child: AnimatedContainer(
           duration: const Duration(milliseconds: 120),
-          margin: const EdgeInsets.symmetric(horizontal: 6),
+          margin: EdgeInsets.symmetric(horizontal: 6),
           foregroundDecoration: _hovered
               ? BoxDecoration(
                   color: (isLight ? Colors.black : Colors.white)
                       .withValues(alpha: 0.04),
-                  borderRadius: widget.borderRadius,
-                )
+                  borderRadius: widget.borderRadius)
               : null,
-          child: widget.child,
-        ),
-      ),
-    );
+          child: widget.child)));
   }
 }

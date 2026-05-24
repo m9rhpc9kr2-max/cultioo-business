@@ -30,8 +30,7 @@ class BiometricAuthService {
       print('  - isDeviceSupported: $isDeviceSupported');
       print('  - availableBiometrics: $availableBiometrics');
       print(
-        '  - Final result: ${isAvailable && isDeviceSupported && availableBiometrics.isNotEmpty}',
-      );
+        '  - Final result: ${isAvailable && isDeviceSupported && availableBiometrics.isNotEmpty}');
 
       return isAvailable && isDeviceSupported && availableBiometrics.isNotEmpty;
     } catch (e) {
@@ -63,9 +62,7 @@ class BiometricAuthService {
         localizedReason: 'Please authenticate to enable biometric login',
         options: const AuthenticationOptions(
           biometricOnly: false,
-          stickyAuth: true,
-        ),
-      );
+          stickyAuth: true));
 
       if (didAuthenticate) {
         await _secureStorage.write(key: _biometricEnabledKey, value: 'true');
@@ -87,16 +84,14 @@ class BiometricAuthService {
   // Check if biometric is enabled
   static Future<bool> isBiometricEnabled() async {
     final String? isEnabled = await _secureStorage.read(
-      key: _biometricEnabledKey,
-    );
+      key: _biometricEnabledKey);
     return isEnabled == 'true';
   }
 
   // Check if two-factor is enabled
   static Future<bool> isTwoFactorEnabled() async {
     final String? isEnabled = await _secureStorage.read(
-      key: _twoFactorEnabledKey,
-    );
+      key: _twoFactorEnabledKey);
     return isEnabled == 'true';
   }
 
@@ -104,8 +99,7 @@ class BiometricAuthService {
   static Future<void> setTwoFactorSettings(bool enabled, String? code) async {
     await _secureStorage.write(
       key: _twoFactorEnabledKey,
-      value: enabled.toString(),
-    );
+      value: enabled.toString());
     if (enabled && code != null) {
       await _secureStorage.write(key: _twoFactorCodeKey, value: code);
     } else {
@@ -116,8 +110,7 @@ class BiometricAuthService {
   // Get 2FA settings
   static Future<Map<String, dynamic>> getTwoFactorSettings() async {
     final String? isEnabled = await _secureStorage.read(
-      key: _twoFactorEnabledKey,
-    );
+      key: _twoFactorEnabledKey);
     final String? code = await _secureStorage.read(key: _twoFactorCodeKey);
 
     return {'enabled': isEnabled == 'true', 'code': code};
@@ -161,9 +154,7 @@ class BiometricAuthService {
         localizedReason: 'Please authenticate to access the app',
         options: const AuthenticationOptions(
           biometricOnly: false,
-          stickyAuth: true,
-        ),
-      );
+          stickyAuth: true));
 
       return didAuthenticate;
     } catch (e) {
@@ -183,8 +174,7 @@ class BiometricAuthService {
           context: context,
           isDismissible: false,
           enableDrag: false,
-          child: _TwoFactorDialog(correctCode: storedCode),
-        ) ??
+          child: _TwoFactorDialog(correctCode: storedCode)) ??
         false;
   }
 
@@ -194,8 +184,7 @@ class BiometricAuthService {
           context: context,
           isDismissible: false,
           enableDrag: false,
-          child: const _PasswordDialog(),
-        ) ??
+          child: const _PasswordDialog()) ??
         false;
   }
 
@@ -204,8 +193,7 @@ class BiometricAuthService {
     if (bypass) {
       await _secureStorage.write(
         key: _authBypassKey,
-        value: DateTime.now().millisecondsSinceEpoch.toString(),
-      );
+        value: DateTime.now().millisecondsSinceEpoch.toString());
     } else {
       await _secureStorage.delete(key: _authBypassKey);
     }
@@ -258,9 +246,8 @@ class _TwoFactorDialogState extends State<_TwoFactorDialog> {
       child: Container(
         decoration: BoxDecoration(
           color: Colors.grey.shade900,
-          borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
-        ),
-        padding: const EdgeInsets.all(24),
+          borderRadius: BorderRadius.vertical(top: Radius.circular(20))),
+        padding: EdgeInsets.all(24),
         child: SafeArea(
           child: Column(
             mainAxisSize: MainAxisSize.min,
@@ -268,22 +255,18 @@ class _TwoFactorDialogState extends State<_TwoFactorDialog> {
               Container(
                 width: 40,
                 height: 4,
-                margin: const EdgeInsets.only(bottom: 20),
+                margin: EdgeInsets.only(bottom: 20),
                 decoration: BoxDecoration(
                   color: Colors.white.withOpacity(0.3),
-                  borderRadius: BorderRadius.circular(2),
-                ),
-              ),
+                  borderRadius: BorderRadius.circular(2))),
               Text(
                 AppLocalizations.of(context)?.twoFactorAuthentication ?? 'Two-Factor Authentication',
-                style: const TextStyle(color: Colors.white, fontWeight: FontWeight.w700, fontSize: 18),
-              ),
-              const SizedBox(height: 16),
+                style: TextStyle(color: Colors.white, fontWeight: FontWeight.w700, fontSize: 18)),
+              SizedBox(height: 16),
               Text(
                 AppLocalizations.of(context)?.enter8DigitVerificationCode ?? 'Enter your 8-digit verification code:',
-                style: const TextStyle(color: Colors.white70),
-              ),
-              const SizedBox(height: 16),
+                style: TextStyle(color: Colors.white70)),
+              SizedBox(height: 16),
               TradeRepublicTextField(
                 controller: _codeController,
                 keyboardType: TextInputType.number,
@@ -296,39 +279,28 @@ class _TwoFactorDialogState extends State<_TwoFactorDialog> {
                       _errorMessage = '';
                     });
                   }
-                },
-              ),
+                }),
               if (_errorMessage.isNotEmpty) ...[
-                const SizedBox(height: 8),
+                SizedBox(height: 8),
                 Text(
                   _errorMessage,
-                  style: const TextStyle(color: Colors.red, fontSize: 12),
-                ),
+                  style: TextStyle(color: Colors.red, fontSize: 12)),
               ],
-              const SizedBox(height: 24),
+              SizedBox(height: 24),
               Row(
                 children: [
                   Expanded(
                     child: TradeRepublicButton(
                       label: AppLocalizations.of(context)?.cancel ?? 'Cancel',
                       onPressed: _isLoading ? null : () => Navigator.of(context).pop(false),
-                      isSecondary: true,
-                    ),
-                  ),
-                  const SizedBox(width: 12),
+                      isSecondary: true)),
+                  SizedBox(width: 12),
                   Expanded(
                     child: TradeRepublicButton(
                       label: AppLocalizations.of(context)?.verify ?? 'Verify',
-                      onPressed: _isLoading ? null : _verify,
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
+                      onPressed: _isLoading ? null : _verify)),
+                ]),
+            ]))));
   }
 
   void _verify() async {
@@ -338,8 +310,7 @@ class _TwoFactorDialogState extends State<_TwoFactorDialog> {
     });
 
     await Future.delayed(
-      const Duration(milliseconds: 500),
-    ); // Simulate verification delay
+      const Duration(milliseconds: 500)); // Simulate verification delay
 
     if (_codeController.text == widget.correctCode) {
       Navigator.of(context).pop(true);
@@ -380,9 +351,8 @@ class _PasswordDialogState extends State<_PasswordDialog> {
       child: Container(
         decoration: BoxDecoration(
           color: Colors.grey.shade900,
-          borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
-        ),
-        padding: const EdgeInsets.all(24),
+          borderRadius: BorderRadius.vertical(top: Radius.circular(20))),
+        padding: EdgeInsets.all(24),
         child: SafeArea(
           child: Column(
             mainAxisSize: MainAxisSize.min,
@@ -390,22 +360,18 @@ class _PasswordDialogState extends State<_PasswordDialog> {
               Container(
                 width: 40,
                 height: 4,
-                margin: const EdgeInsets.only(bottom: 20),
+                margin: EdgeInsets.only(bottom: 20),
                 decoration: BoxDecoration(
                   color: Colors.white.withOpacity(0.3),
-                  borderRadius: BorderRadius.circular(2),
-                ),
-              ),
+                  borderRadius: BorderRadius.circular(2))),
               Text(
                 AppLocalizations.of(context)?.enterPassword ?? 'Enter Password',
-                style: const TextStyle(color: Colors.white, fontWeight: FontWeight.w700, fontSize: 18),
-              ),
-              const SizedBox(height: 16),
+                style: TextStyle(color: Colors.white, fontWeight: FontWeight.w700, fontSize: 18)),
+              SizedBox(height: 16),
               Text(
                 AppLocalizations.of(context)?.enterYourAccountPassword ?? 'Enter your account password:',
-                style: const TextStyle(color: Colors.white70),
-              ),
-              const SizedBox(height: 16),
+                style: TextStyle(color: Colors.white70)),
+              SizedBox(height: 16),
               TradeRepublicTextField(
                 controller: _passwordController,
                 obscureText: _obscureText,
@@ -416,39 +382,28 @@ class _PasswordDialogState extends State<_PasswordDialog> {
                       _errorMessage = '';
                     });
                   }
-                },
-              ),
+                }),
               if (_errorMessage.isNotEmpty) ...[
-                const SizedBox(height: 8),
+                SizedBox(height: 8),
                 Text(
                   _errorMessage,
-                  style: const TextStyle(color: Colors.red, fontSize: 12),
-                ),
+                  style: TextStyle(color: Colors.red, fontSize: 12)),
               ],
-              const SizedBox(height: 24),
+              SizedBox(height: 24),
               Row(
                 children: [
                   Expanded(
                     child: TradeRepublicButton(
                       label: AppLocalizations.of(context)?.cancel ?? 'Cancel',
                       onPressed: _isLoading ? null : () => Navigator.of(context).pop(false),
-                      isSecondary: true,
-                    ),
-                  ),
-                  const SizedBox(width: 12),
+                      isSecondary: true)),
+                  SizedBox(width: 12),
                   Expanded(
                     child: TradeRepublicButton(
                       label: AppLocalizations.of(context)?.login ?? 'Login',
-                      onPressed: _isLoading ? null : _authenticate,
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
+                      onPressed: _isLoading ? null : _authenticate)),
+                ]),
+            ]))));
   }
 
   void _authenticate() async {

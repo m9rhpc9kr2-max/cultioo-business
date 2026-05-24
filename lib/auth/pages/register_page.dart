@@ -102,22 +102,19 @@ class _CountryPickerButton extends StatelessWidget {
       onTap: onTap,
       child: Container(
         height: 54,
-        padding: const EdgeInsets.symmetric(horizontal: 12),
+        padding: EdgeInsets.symmetric(horizontal: 12),
         decoration: BoxDecoration(
           color: fg.withOpacity(0.06),
-          borderRadius: BorderRadius.circular(TradeRepublicTheme.radiusMedium),
-        ),
+          borderRadius: BorderRadius.circular(TradeRepublicTheme.radiusMedium)),
         child: Row(mainAxisSize: MainAxisSize.min, children: [
-          Text(selected.flag, style: TextStyle(fontSize: DesktopOptimizedWidgets.getFontSize() + 6,),
-          const SizedBox(width: 6),
+          Text(selected.flag, style: TextStyle(fontSize: DesktopOptimizedWidgets.getFontSize() + 6),
+          SizedBox(width: 6),
           Text(
               String.fromCharCode(40) + selected.code + String.fromCharCode(41),
               style: TextStyle(fontSize: DesktopOptimizedWidgets.getFontSize(), fontWeight: FontWeight.w600, color: fg)),
-          const SizedBox(width: 4),
+          SizedBox(width: 4),
           Icon(CupertinoIcons.chevron_down, size: 12, color: fg.withOpacity(0.4)),
-        ]),
-      ),
-    );
+        ])));
   }
 }
 
@@ -146,24 +143,21 @@ class _CountryPickerSheet extends StatelessWidget {
           child: Align(
             alignment: Alignment.centerLeft,
             child: Text(AppLocalizations.of(context)!.tr('Select Country'),
-                style: TextStyle(fontSize: 17, fontWeight: FontWeight.w700, color: fg)),
-          ),
-        ),
+                style: TextStyle(fontSize: 17, fontWeight: FontWeight.w700, color: fg)))),
         SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
         Expanded(
           child: ListView.builder(
-            padding: const EdgeInsets.symmetric(horizontal: 12),
+            padding: EdgeInsets.symmetric(horizontal: 12),
             itemCount: _countries.length,
             itemBuilder: (_, i) {
               final c = _countries[i];
               final isSel = c.name == selected.name;
               return Container(
-                margin: const EdgeInsets.symmetric(vertical: 3),
+                margin: EdgeInsets.symmetric(vertical: 3),
                 decoration: BoxDecoration(
                   color: isSel ? fg.withOpacity(0.08) : Colors.transparent,
                   borderRadius:
-                      BorderRadius.circular(TradeRepublicTheme.radiusMedium),
-                ),
+                      BorderRadius.circular(TradeRepublicTheme.radiusMedium)),
                 child: TradeRepublicListTile(
                   title: '${c.flag}  ${c.name}',
                   subtitle: c.code,
@@ -175,15 +169,10 @@ class _CountryPickerSheet extends StatelessWidget {
                     Navigator.pop(context);
                   },
                   padding:
-                      const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
-                ),
-              );
-            },
-          ),
-        ),
+                      EdgeInsets.symmetric(horizontal: 14, vertical: 12)));
+            })),
         SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
-      ]),
-    );
+      ]));
   }
 }
 
@@ -218,10 +207,8 @@ class _BusinessSizePickerSheet extends StatelessWidget {
           style: TextStyle(
             fontSize: 17,
             fontWeight: FontWeight.w700,
-            color: fg,
-          ),
-        ),
-        const SizedBox(height: 10),
+            color: fg)),
+        SizedBox(height: 10),
         ...sizes.map((size) {
           final isSelected = size == selected;
           return TradeRepublicListTile(
@@ -233,11 +220,9 @@ class _BusinessSizePickerSheet extends StatelessWidget {
               onSelected(size);
               Navigator.pop(context);
             },
-            padding: const EdgeInsets.symmetric(vertical: 10),
-          );
+            padding: EdgeInsets.symmetric(vertical: 10));
         }),
-      ],
-    );
+      ]);
   }
 }
 
@@ -278,12 +263,10 @@ class _CupertinoBirthdateSheetState extends State<_CupertinoBirthdateSheet> {
         children: [
           Container(
             height: 52,
-            padding: const EdgeInsets.symmetric(horizontal: 8),
+            padding: EdgeInsets.symmetric(horizontal: 8),
             decoration: BoxDecoration(
               border: Border(
-                bottom: BorderSide(color: fg.withOpacity(0.08)),
-              ),
-            ),
+                bottom: BorderSide(color: fg.withOpacity(0.08)))),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -292,16 +275,13 @@ class _CupertinoBirthdateSheetState extends State<_CupertinoBirthdateSheet> {
                   height: 36,
                   width: 88,
                   isSecondary: true,
-                  onPressed: () => Navigator.pop(context),
-                ),
+                  onPressed: () => Navigator.pop(context)),
                 Text(
                   AppLocalizations.of(context)?.dateOfBirth ?? AppLocalizations.of(context)!.tr('Date of birth'),
                   style: TextStyle(
                     color: fg,
                     fontWeight: FontWeight.w600,
-                    fontSize: DesktopOptimizedWidgets.getFontSize(),
-                  ),
-                ),
+                    fontSize: DesktopOptimizedWidgets.getFontSize())),
                 TradeRepublicButton(
                   label: AppLocalizations.of(context)?.done ?? AppLocalizations.of(context)!.tr('Done'),
                   height: 36,
@@ -309,28 +289,19 @@ class _CupertinoBirthdateSheetState extends State<_CupertinoBirthdateSheet> {
                   onPressed: () {
                     widget.onDone(_selectedDate);
                     Navigator.pop(context);
-                  },
-                ),
-              ],
-            ),
-          ),
+                  }),
+              ])),
           Expanded(
             child: CupertinoTheme(
               data: CupertinoThemeData(
-                brightness: widget.isLight ? Brightness.light : Brightness.dark,
-              ),
+                brightness: widget.isLight ? Brightness.light : Brightness.dark),
               child: CupertinoDatePicker(
                 mode: CupertinoDatePickerMode.date,
                 initialDateTime: _selectedDate,
                 minimumDate: widget.firstDate,
                 maximumDate: widget.lastDate,
-                onDateTimeChanged: (d) => _selectedDate = d,
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
+                onDateTimeChanged: (d) => _selectedDate = d))),
+        ]));
   }
 }
 
@@ -371,27 +342,21 @@ class _StepPage extends StatelessWidget {
             width: 52, height: 52,
             decoration: BoxDecoration(
               color: fg.withOpacity(0.07),
-              borderRadius: BorderRadius.circular(TradeRepublicTheme.radiusMedium),
-            ),
-            child: Icon(icon, size: 26, color: fg),
-          ),
+              borderRadius: BorderRadius.circular(TradeRepublicTheme.radiusMedium)),
+            child: Icon(icon, size: 26, color: fg)),
           SizedBox(height: isDesktop ? 24 : 20),
           Text(title,
             style: TextStyle(
               fontSize: isDesktop ? 28 : 26,
               fontWeight: FontWeight.w700,
               color: fg,
-              letterSpacing: -0.5,
-            ),
-          ),
-          const SizedBox(height: 4),
+              letterSpacing: -0.5)),
+          SizedBox(height: 4),
           Text(subtitle, style: TextStyle(fontSize: DesktopOptimizedWidgets.getFontSize(), color: sub)),
           SizedBox(height: isDesktop ? 36 : 28),
           ...children,
           SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
-        ],
-      ),
-    );
+        ]));
   }
 }
 
@@ -415,16 +380,14 @@ class _SummaryRow extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(children: [
       Icon(icon, size: 15, color: fg.withOpacity(0.4)),
-      const SizedBox(width: 10),
+      SizedBox(width: 10),
       Text(label, style: TextStyle(fontSize: 13, color: fg.withOpacity(0.4))),
       const Spacer(),
       Flexible(
         child: Text(value,
           style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: fg),
           textAlign: TextAlign.right,
-          overflow: TextOverflow.ellipsis,
-        ),
-      ),
+          overflow: TextOverflow.ellipsis)),
     ]);
   }
 }
@@ -450,14 +413,10 @@ class _CodeBox extends StatelessWidget {
         borderRadius: BorderRadius.circular(10),
         border: Border.all(
           color: isFocused ? fg.withOpacity(0.6) : fg.withOpacity(0.12),
-          width: isFocused ? 1.5 : 1,
-        ),
-      ),
+          width: isFocused ? 1.5 : 1)),
       child: Center(
         child: Text(char,
-          style: TextStyle(fontSize: 22, fontWeight: FontWeight.w700, color: fg)),
-      ),
-    );
+          style: TextStyle(fontSize: 22, fontWeight: FontWeight.w700, color: fg))));
   }
 }
 
@@ -571,8 +530,7 @@ class _RegisterPageState extends State<RegisterPage> {
   Future<void> _checkUsername(String u) async {
     try {
       final resp = await http.get(
-        Uri.parse('${ApiConfig.baseUrl}/api/auth/check-username?username=${Uri.encodeComponent(u)}&scope=seller'),
-      ).timeout(const Duration(seconds: 6));
+        Uri.parse('${ApiConfig.baseUrl}/api/auth/check-username?username=${Uri.encodeComponent(u)}&scope=seller')).timeout(const Duration(seconds: 6));
       if (!mounted) return;
       final data = json.decode(resp.body);
       setState(() {
@@ -600,8 +558,7 @@ class _RegisterPageState extends State<RegisterPage> {
     setState(() => _checkingEmail = true);
     _emailDebounce = Timer(
       const Duration(milliseconds: 600),
-      () => _checkEmail(e),
-    );
+      () => _checkEmail(e));
   }
 
   Future<void> _checkEmail(String e) async {
@@ -609,9 +566,7 @@ class _RegisterPageState extends State<RegisterPage> {
       final resp = await http
           .get(
             Uri.parse(
-              '${ApiConfig.baseUrl}/api/auth/check-email?email=${Uri.encodeComponent(e)}',
-            ),
-          )
+              '${ApiConfig.baseUrl}/api/auth/check-email?email=${Uri.encodeComponent(e)}'))
           .timeout(const Duration(seconds: 6));
       if (!mounted) return;
 
@@ -678,8 +633,7 @@ class _RegisterPageState extends State<RegisterPage> {
     if (_phoneCtrl.text == formatted) return;
     _phoneCtrl.value = TextEditingValue(
       text: formatted,
-      selection: TextSelection.collapsed(offset: formatted.length),
-    );
+      selection: TextSelection.collapsed(offset: formatted.length));
   }
 
   String _fullPhoneWithCountry() {
@@ -742,9 +696,7 @@ class _RegisterPageState extends State<RegisterPage> {
         onDone: (d) {
           if (!mounted) return;
           setState(() => _birthdateCtrl.text = _formatDateYmd(d));
-        },
-      ),
-    );
+        }));
   }
 
   Future<void> _pickBusinessCountry(bool isLight) async {
@@ -755,17 +707,14 @@ class _RegisterPageState extends State<RegisterPage> {
       child: _CountryPickerSheet(
         selected: _countries.firstWhere(
           (c) => c.name == _businessCountry,
-          orElse: () => _selectedCountry,
-        ),
+          orElse: () => _selectedCountry),
         isLight: isLight,
         onSelected: (c) {
           setState(() {
             _businessCountry = c.name;
             _businessCountryCtrl.text = c.name;
           });
-        },
-      ),
-    );
+        }));
   }
 
   Future<void> _pickBusinessSize(bool isLight) async {
@@ -780,9 +729,7 @@ class _RegisterPageState extends State<RegisterPage> {
             _businessSize = size;
             _businessSizeCtrl.text = size;
           });
-        },
-      ),
-    );
+        }));
   }
 
   // ── Navigation ────────────────────────────────────────────────────────────
@@ -878,8 +825,7 @@ class _RegisterPageState extends State<RegisterPage> {
           'phone':       fullPhone,
           'website':     _websiteCtrl.text.trim().isNotEmpty ? _websiteCtrl.text.trim() : null,
           'ein':         _einCtrl.text.trim().isNotEmpty ? _einCtrl.text.trim() : null,
-        }),
-      );
+        }));
       if (!mounted) return;
       final data = json.decode(resp.body);
       final isSuccess = data['success'] == true;
@@ -914,8 +860,7 @@ class _RegisterPageState extends State<RegisterPage> {
       final resp = await http.post(
         Uri.parse('${ApiConfig.baseUrl}/api/auth/verify-email'),
         headers: {'Content-Type': 'application/json'},
-        body: json.encode({'username': _pendingUsername, 'code': code}),
-      );
+        body: json.encode({'username': _pendingUsername, 'code': code}));
       if (!mounted) return;
       final data = json.decode(resp.body);
       if (resp.statusCode == 200 && data['success'] == true) {
@@ -942,15 +887,13 @@ class _RegisterPageState extends State<RegisterPage> {
       final resp = await http.post(
         Uri.parse('${ApiConfig.baseUrl}/api/auth/resend-verification'),
         headers: {'Content-Type': 'application/json'},
-        body: json.encode({'username': _pendingUsername}),
-      );
+        body: json.encode({'username': _pendingUsername}));
       if (!mounted) return;
       final data = json.decode(resp.body);
       if (data['success'] == true) {
         TopNotification.success(
           context,
-          '${AppLocalizations.of(context)!.tr('New code sent to')} $_pendingEmail',
-        );
+          '${AppLocalizations.of(context)!.tr('New code sent to')} $_pendingEmail');
         _codeCtrl.clear();
       } else {
         TopNotification.error(context, data['message'] ?? AppLocalizations.of(context)!.tr('Could not resend code'));
@@ -974,9 +917,7 @@ class _RegisterPageState extends State<RegisterPage> {
         onSelected: (c) {
           setState(() => _selectedCountry = c);
           _onPhoneChanged();
-        },
-      ),
-    );
+        }));
   }
 
   // ── Build ─────────────────────────────────────────────────────────────────
@@ -1007,21 +948,17 @@ class _RegisterPageState extends State<RegisterPage> {
                         width: 38, height: 38,
                         decoration: BoxDecoration(
                             color: fg.withOpacity(0.06), shape: BoxShape.circle),
-                        child: Icon(CupertinoIcons.back, size: 18, color: fg),
-                      ),
-                    )
+                        child: Icon(CupertinoIcons.back, size: 18, color: fg)))
                   else
-                    const SizedBox(width: 38),
+                    SizedBox(width: 38),
                   const Spacer(),
                   PageIndicator(
                     currentPage: _currentPage,
                     pageCount: _totalPages,
-                    pageController: _pageCtrl,
-                  ),
+                    pageController: _pageCtrl),
                   const Spacer(),
-                  const SizedBox(width: 38),
-                ]),
-              ),
+                  SizedBox(width: 38),
+                ])),
 
               // ── Pages
               Expanded(
@@ -1048,12 +985,10 @@ class _RegisterPageState extends State<RegisterPage> {
                               FilteringTextInputFormatter.allow(RegExp(r'[a-z0-9_\.]')),
                               _LowercaseFormatter(),
                             ],
-                            prefixIcon: Icon(CupertinoIcons.at, size: 18, color: sub),
-                          ),
+                            prefixIcon: Icon(CupertinoIcons.at, size: 18, color: sub)),
                           Positioned(
                             right: 14, top: 0, bottom: 0,
-                            child: Center(child: _buildUsernameStatus(fg)),
-                          ),
+                            child: Center(child: _buildUsernameStatus(fg))),
                         ]),
                         SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                         Row(children: [
@@ -1063,10 +998,8 @@ class _RegisterPageState extends State<RegisterPage> {
                               hintText: AppLocalizations.of(context)!.tr('First name *') ?? AppLocalizations.of(context)!.tr('First name *'),
                               textCapitalization: TextCapitalization.words,
                               textInputAction: TextInputAction.next,
-                              prefixIcon: Icon(CupertinoIcons.person, size: 18, color: sub),
-                            ),
-                          ),
-                          const SizedBox(width: 10),
+                              prefixIcon: Icon(CupertinoIcons.person, size: 18, color: sub))),
+                          SizedBox(width: 10),
                           Expanded(
                             child: TradeRepublicTextField(
                               controller: _lastNameCtrl,
@@ -1077,10 +1010,7 @@ class _RegisterPageState extends State<RegisterPage> {
                               prefixIcon: Icon(
                                 CupertinoIcons.person,
                                 size: 18,
-                                color: Colors.transparent,
-                              ),
-                            ),
-                          ),
+                                color: Colors.transparent))),
                         ]),
                         SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                         Stack(children: [
@@ -1089,12 +1019,10 @@ class _RegisterPageState extends State<RegisterPage> {
                             hintText: AppLocalizations.of(context)!.tr('Email address') ?? AppLocalizations.of(context)!.tr('Email address'),
                             keyboardType: TextInputType.emailAddress,
                             textInputAction: TextInputAction.next,
-                            prefixIcon: Icon(CupertinoIcons.mail, size: 18, color: sub),
-                          ),
+                            prefixIcon: Icon(CupertinoIcons.mail, size: 18, color: sub)),
                           Positioned(
                             right: 14, top: 0, bottom: 0,
-                            child: Center(child: _buildEmailStatus(fg)),
-                          ),
+                            child: Center(child: _buildEmailStatus(fg))),
                         ]),
                         SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                         TradeRepublicTap(
@@ -1104,10 +1032,7 @@ class _RegisterPageState extends State<RegisterPage> {
                               controller: _birthdateCtrl,
                               hintText: AppLocalizations.of(context)!.tr('Date of birth *  (YYYY-MM-DD)') ?? AppLocalizations.of(context)!.tr('Date of birth *  (YYYY-MM-DD)'),
                               textInputAction: TextInputAction.next,
-                              prefixIcon: Icon(CupertinoIcons.calendar, size: 18, color: sub),
-                            ),
-                          ),
-                        ),
+                              prefixIcon: Icon(CupertinoIcons.calendar, size: 18, color: sub)))),
                         SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                         TradeRepublicTextField(
                           controller: _passwordCtrl,
@@ -1115,10 +1040,8 @@ class _RegisterPageState extends State<RegisterPage> {
                           obscureText: true,
                           showVisibilityToggle: true,
                           textInputAction: TextInputAction.done,
-                          onSubmitted: (_) => _next(),
-                        ),
-                      ],
-                    ),
+                          onSubmitted: (_) => _next()),
+                      ]),
 
                     // ── Page 2: Company ───────────────────────────────────
                     _StepPage(
@@ -1133,16 +1056,14 @@ class _RegisterPageState extends State<RegisterPage> {
                           hintText: AppLocalizations.of(context)!.tr('Company / Business name (optional)') ?? AppLocalizations.of(context)!.tr('Company / Business name (optional)'),
                           textCapitalization: TextCapitalization.words,
                           textInputAction: TextInputAction.next,
-                          prefixIcon: Icon(CupertinoIcons.briefcase, size: 18, color: sub),
-                        ),
+                          prefixIcon: Icon(CupertinoIcons.briefcase, size: 18, color: sub)),
                         SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                         TradeRepublicTextField(
                           controller: _businessDescriptionCtrl,
                           hintText: AppLocalizations.of(context)!.tr('Business description (optional)') ?? AppLocalizations.of(context)!.tr('Business description (optional)'),
                           textCapitalization: TextCapitalization.sentences,
                           textInputAction: TextInputAction.next,
-                          prefixIcon: Icon(CupertinoIcons.doc_plaintext, size: 18, color: sub),
-                        ),
+                          prefixIcon: Icon(CupertinoIcons.doc_plaintext, size: 18, color: sub)),
                         SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                         Row(children: [
                           Expanded(
@@ -1152,18 +1073,14 @@ class _RegisterPageState extends State<RegisterPage> {
                               hintText: AppLocalizations.of(context)!.tr('Street *') ?? AppLocalizations.of(context)!.tr('Street *'),
                               textCapitalization: TextCapitalization.words,
                               textInputAction: TextInputAction.next,
-                              prefixIcon: Icon(CupertinoIcons.location_solid, size: 18, color: sub),
-                            ),
-                          ),
-                          const SizedBox(width: 10),
+                              prefixIcon: Icon(CupertinoIcons.location_solid, size: 18, color: sub))),
+                          SizedBox(width: 10),
                           Expanded(
                             flex: 2,
                             child: TradeRepublicTextField(
                               controller: _houseNumberCtrl,
                               hintText: AppLocalizations.of(context)!.tr('No. *') ?? AppLocalizations.of(context)!.tr('No. *'),
-                              textInputAction: TextInputAction.next,
-                            ),
-                          ),
+                              textInputAction: TextInputAction.next)),
                         ]),
                         SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                         Row(children: [
@@ -1173,27 +1090,22 @@ class _RegisterPageState extends State<RegisterPage> {
                               controller: _zipCtrl,
                               hintText: AppLocalizations.of(context)!.tr('ZIP *') ?? AppLocalizations.of(context)!.tr('ZIP *'),
                               keyboardType: TextInputType.text,
-                              textInputAction: TextInputAction.next,
-                            ),
-                          ),
-                          const SizedBox(width: 10),
+                              textInputAction: TextInputAction.next)),
+                          SizedBox(width: 10),
                           Expanded(
                             flex: 3,
                             child: TradeRepublicTextField(
                               controller: _cityCtrl,
                               hintText: AppLocalizations.of(context)!.tr('City *') ?? AppLocalizations.of(context)!.tr('City *'),
                               textCapitalization: TextCapitalization.words,
-                              textInputAction: TextInputAction.next,
-                            ),
-                          ),
+                              textInputAction: TextInputAction.next)),
                         ]),
                         SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                         TradeRepublicTextField(
                           controller: _stateCtrl,
                           hintText: AppLocalizations.of(context)!.tr('State / Region (optional)') ?? AppLocalizations.of(context)!.tr('State / Region (optional)'),
                           textCapitalization: TextCapitalization.words,
-                          textInputAction: TextInputAction.next,
-                        ),
+                          textInputAction: TextInputAction.next),
                         SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                         Row(children: [
                           Expanded(
@@ -1203,12 +1115,8 @@ class _RegisterPageState extends State<RegisterPage> {
                                 child: TradeRepublicTextField(
                                   controller: _businessCountryCtrl,
                                   hintText: AppLocalizations.of(context)!.tr('Business country *') ?? AppLocalizations.of(context)!.tr('Business country *'),
-                                  prefixIcon: Icon(CupertinoIcons.globe, size: 18, color: sub),
-                                ),
-                              ),
-                            ),
-                          ),
-                          const SizedBox(width: 10),
+                                  prefixIcon: Icon(CupertinoIcons.globe, size: 18, color: sub))))),
+                          SizedBox(width: 10),
                           Expanded(
                             child: TradeRepublicTap(
                               onTap: () => _pickBusinessSize(isLight),
@@ -1216,11 +1124,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                 child: TradeRepublicTextField(
                                   controller: _businessSizeCtrl,
                                   hintText: AppLocalizations.of(context)!.tr('Business size (optional)') ?? AppLocalizations.of(context)!.tr('Business size (optional)'),
-                                  prefixIcon: Icon(CupertinoIcons.person_2, size: 18, color: sub),
-                                ),
-                              ),
-                            ),
-                          ),
+                                  prefixIcon: Icon(CupertinoIcons.person_2, size: 18, color: sub))))),
                         ]),
                         SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                         TradeRepublicTextField(
@@ -1228,26 +1132,22 @@ class _RegisterPageState extends State<RegisterPage> {
                           hintText: AppLocalizations.of(context)!.tr('Website  (optional)') ?? AppLocalizations.of(context)!.tr('Website  (optional)'),
                           keyboardType: TextInputType.url,
                           textInputAction: TextInputAction.next,
-                          prefixIcon: Icon(CupertinoIcons.globe, size: 18, color: sub),
-                        ),
+                          prefixIcon: Icon(CupertinoIcons.globe, size: 18, color: sub)),
                         SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                         // Phone row (Pflichtfeld)
                         Row(children: [
                           _CountryPickerButton(
                             selected: _selectedCountry,
                             isLight: isLight,
-                            onTap: () => _showCountryPicker(isLight),
-                          ),
-                          const SizedBox(width: 10),
+                            onTap: () => _showCountryPicker(isLight)),
+                          SizedBox(width: 10),
                           Expanded(
                             child: TradeRepublicTextField(
                               controller: _phoneCtrl,
                               hintText: AppLocalizations.of(context)!.tr('Phone (optional)  (123) 456 78 90') ?? AppLocalizations.of(context)!.tr('Phone (optional)  (123) 456 78 90'),
                               keyboardType: TextInputType.phone,
                               inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'[0-9\s\(\)]'))],
-                              textInputAction: TextInputAction.next,
-                            ),
-                          ),
+                              textInputAction: TextInputAction.next)),
                         ]),
                         SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                         TradeRepublicTextField(
@@ -1255,10 +1155,8 @@ class _RegisterPageState extends State<RegisterPage> {
                           hintText: AppLocalizations.of(context)!.tr('EIN / Tax ID  (optional)') ?? AppLocalizations.of(context)!.tr('EIN / Tax ID  (optional)'),
                           textInputAction: TextInputAction.done,
                           onSubmitted: (_) => _next(),
-                          prefixIcon: Icon(CupertinoIcons.doc_text, size: 18, color: sub),
-                        ),
-                      ],
-                    ),
+                          prefixIcon: Icon(CupertinoIcons.doc_text, size: 18, color: sub)),
+                      ]),
 
                     // ── Page 3: Review & Terms ────────────────────────────
                     _StepPage(
@@ -1271,41 +1169,38 @@ class _RegisterPageState extends State<RegisterPage> {
                         // Summary card
                         Container(
                           width: double.infinity,
-                          padding: const EdgeInsets.all(18),
+                          padding: EdgeInsets.all(18),
                           decoration: BoxDecoration(
                             color: fg.withOpacity(0.05),
-                            borderRadius: BorderRadius.circular(TradeRepublicTheme.radiusMedium),
-                          ),
+                            borderRadius: BorderRadius.circular(TradeRepublicTheme.radiusMedium)),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               _SummaryRow(icon: CupertinoIcons.at,        label: AppLocalizations.of(context)!.tr('Username') ?? AppLocalizations.of(context)!.tr('Username'), value: _usernameCtrl.text.trim(), fg: fg),
-                              const SizedBox(height: 10),
+                              SizedBox(height: 10),
                                 _SummaryRow(icon: CupertinoIcons.person,    label: AppLocalizations.of(context)!.tr('Name') ?? AppLocalizations.of(context)!.tr('Name'), value: '${_firstNameCtrl.text.trim()} ${_lastNameCtrl.text.trim()}'.trim(), fg: fg),
-                                const SizedBox(height: 10),
+                                SizedBox(height: 10),
                               _SummaryRow(icon: CupertinoIcons.mail,      label: AppLocalizations.of(context)!.tr('Email') ?? AppLocalizations.of(context)!.tr('Email'),    value: _emailCtrl.text.trim(), fg: fg),
-                              const SizedBox(height: 10),
+                              SizedBox(height: 10),
                                 _SummaryRow(icon: CupertinoIcons.calendar,  label: AppLocalizations.of(context)!.tr('Birthdate') ?? AppLocalizations.of(context)!.tr('Birthdate'), value: _birthdateCtrl.text.trim(), fg: fg),
-                                const SizedBox(height: 10),
+                                SizedBox(height: 10),
                               _SummaryRow(icon: CupertinoIcons.briefcase, label: AppLocalizations.of(context)!.tr('Company') ?? AppLocalizations.of(context)!.tr('Company'),  value: _companyCtrl.text.trim(), fg: fg),
-                              const SizedBox(height: 10),
+                              SizedBox(height: 10),
                                 _SummaryRow(icon: CupertinoIcons.doc_plaintext, label: AppLocalizations.of(context)!.tr('Description') ?? AppLocalizations.of(context)!.tr('Description'), value: _businessDescriptionCtrl.text.trim(), fg: fg),
-                                const SizedBox(height: 10),
+                                SizedBox(height: 10),
                                 _SummaryRow(icon: CupertinoIcons.location_solid, label: AppLocalizations.of(context)!.tr('Address') ?? AppLocalizations.of(context)!.tr('Address'), value: _buildBusinessAddress(), fg: fg),
-                                const SizedBox(height: 10),
+                                SizedBox(height: 10),
                                 _SummaryRow(icon: CupertinoIcons.globe, label: AppLocalizations.of(context)!.tr('Business Country') ?? AppLocalizations.of(context)!.tr('Business Country'), value: _businessCountry, fg: fg),
-                                const SizedBox(height: 10),
+                                SizedBox(height: 10),
                                 _SummaryRow(icon: CupertinoIcons.person_2, label: AppLocalizations.of(context)!.tr('Business Size') ?? AppLocalizations.of(context)!.tr('Business Size'), value: _businessSize, fg: fg),
-                                const SizedBox(height: 10),
+                                SizedBox(height: 10),
                               _SummaryRow(icon: CupertinoIcons.phone,     label: AppLocalizations.of(context)!.tr('Phone') ?? AppLocalizations.of(context)!.tr('Phone'),
                                   value: _fullPhoneWithCountry(), fg: fg),
                               if (_websiteCtrl.text.trim().isNotEmpty) ...[
-                                const SizedBox(height: 10),
+                                SizedBox(height: 10),
                                 _SummaryRow(icon: CupertinoIcons.globe, label: AppLocalizations.of(context)!.tr('Website') ?? AppLocalizations.of(context)!.tr('Website'), value: _websiteCtrl.text.trim(), fg: fg),
                               ],
-                            ],
-                          ),
-                        ),
+                            ])),
                         SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
                         // Terms checkbox
                         TradeRepublicTap(
@@ -1321,15 +1216,12 @@ class _RegisterPageState extends State<RegisterPage> {
                                   borderRadius: BorderRadius.circular(6),
                                   border: Border.all(
                                     color: _acceptTerms ? fg : fg.withOpacity(0.25),
-                                    width: 1.5,
-                                  ),
-                                ),
+                                    width: 1.5)),
                                 child: _acceptTerms
                                     ? Icon(CupertinoIcons.checkmark, size: 14,
                                         color: isLight ? Colors.white : Colors.black)
-                                    : null,
-                              ),
-                              const SizedBox(width: 12),
+                                    : null),
+                              SizedBox(width: 12),
                               Expanded(
                                 child: RichText(
                                   text: TextSpan(
@@ -1343,9 +1235,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                         recognizer: TapGestureRecognizer()
                                           ..onTap = () => launchUrl(
                                             Uri.parse('https://cultioo.com/us/us_legal_app#business_terms'),
-                                            mode: LaunchMode.inAppBrowserView,
-                                          ),
-                                      ),
+                                            mode: LaunchMode.inAppBrowserView)),
                                       const TextSpan(text: ' and '),
                                       TextSpan(
                                         text: 'Privacy Policy',
@@ -1353,18 +1243,10 @@ class _RegisterPageState extends State<RegisterPage> {
                                         recognizer: TapGestureRecognizer()
                                           ..onTap = () => launchUrl(
                                             Uri.parse('https://cultioo.com/us/us_legal_app#business_privacy'),
-                                            mode: LaunchMode.inAppBrowserView,
-                                          ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
+                                            mode: LaunchMode.inAppBrowserView)),
+                                    ]))),
+                            ])),
+                      ]),
 
                     // ── Page 4: Email Verification ────────────────────────
                     _StepPage(
@@ -1388,11 +1270,9 @@ class _RegisterPageState extends State<RegisterPage> {
                             inputFormatters: [
                               FilteringTextInputFormatter.digitsOnly,
                             ],
-                            style: const TextStyle(color: Colors.transparent),
+                            style: TextStyle(color: Colors.transparent),
                             onChanged: (_) => setState(() {}),
-                            onSubmitted: (_) => _verifyCode(),
-                          ),
-                        ),
+                            onSubmitted: (_) => _verifyCode())),
                         // Visual OTP boxes
                         TradeRepublicTap(
                           onTap: () => _codeFocus.requestFocus(),
@@ -1405,22 +1285,17 @@ class _RegisterPageState extends State<RegisterPage> {
                                 children: List.generate(8, (i) {
                                   // Small gap after digit 4
                                   return Row(mainAxisSize: MainAxisSize.min, children: [
-                                    if (i == 4) const SizedBox(width: 12),
+                                    if (i == 4) SizedBox(width: 12),
                                     Padding(
-                                      padding: const EdgeInsets.symmetric(horizontal: 3),
+                                      padding: EdgeInsets.symmetric(horizontal: 3),
                                       child: _CodeBox(
                                         char: i < val.text.length ? code[i] : '',
                                         isLight: isLight,
-                                        isFocused: i == val.text.length && _codeFocus.hasFocus,
-                                      ),
-                                    ),
+                                        isFocused: i == val.text.length && _codeFocus.hasFocus)),
                                   ]);
-                                }),
-                              );
-                            },
-                          ),
-                        ),
-                        const SizedBox(height: 28),
+                                }));
+                            })),
+                        SizedBox(height: 28),
                         // Resend row
                         Center(
                           child: TradeRepublicTap(
@@ -1434,14 +1309,9 @@ class _RegisterPageState extends State<RegisterPage> {
                                     style: TextStyle(
                                         fontSize: 13,
                                         color: fg.withOpacity(0.55),
-                                        decoration: TextDecoration.underline)),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
+                                        decoration: TextDecoration.underline)))),
+                      ]),
+                  ])),
 
               // ── Bottom button
               Padding(
@@ -1462,14 +1332,8 @@ class _RegisterPageState extends State<RegisterPage> {
                           ? _submit
                           : _currentPage == 3
                               ? _verifyCode
-                              : _next,
-                ),
-              ),
-            ]),
-          ),
-        ),
-      ),
-    );
+                              : _next)),
+            ])))));
   }
 
   Widget _buildUsernameStatus(Color fg) {
@@ -1493,23 +1357,19 @@ class _RegisterPageState extends State<RegisterPage> {
         height: 16,
         child: CircularProgressIndicator(
           strokeWidth: 1.5,
-          color: fg.withOpacity(0.4),
-        ),
-      );
+          color: fg.withOpacity(0.4)));
     }
     if (_emailAvailable == true) {
       return Icon(
         CupertinoIcons.checkmark_circle_fill,
         size: 18,
-        color: const Color(0xFF19AF00),
-      );
+        color: const Color(0xFF19AF00));
     }
     if (_emailAvailable == false) {
       return Icon(
         CupertinoIcons.xmark_circle_fill,
         size: 18,
-        color: const Color(0xFFC80000),
-      );
+        color: const Color(0xFFC80000));
     }
     return const SizedBox.shrink();
   }

@@ -23,16 +23,14 @@ class LegalInfoBottomSheet {
             Row(
               children: [
                 Icon(CupertinoIcons.doc_text, size: 22, color: isLight ? Colors.black : Colors.white),
-                const SizedBox(width: 12),
+                SizedBox(width: 12),
                 Text(
                   AppLocalizations.of(context)?.legalInformation ?? 'Legal Information',
                   style: TextStyle(fontSize: 22, fontWeight: FontWeight.w700,
-                    color: isLight ? Colors.black : Colors.white, letterSpacing: -0.4),
-                ),
-              ],
-            ),
+                    color: isLight ? Colors.black : Colors.white, letterSpacing: -0.4)),
+              ]),
 
-            const SizedBox(height: 30),
+            SizedBox(height: 30),
 
             // Scrollable Content
             Expanded(
@@ -48,8 +46,7 @@ class LegalInfoBottomSheet {
                       onTap: () {
                         HapticFeedback.lightImpact();
                         _showTermsAndConditions(context, isLight);
-                      },
-                    ),
+                      }),
 
                     // Privacy Policy
                     _buildLegalSection(
@@ -60,8 +57,7 @@ class LegalInfoBottomSheet {
                       onTap: () {
                         HapticFeedback.lightImpact();
                         _showPrivacyPolicy(context, isLight);
-                      },
-                    ),
+                      }),
 
                     // Independent Contractor Agreement
                     _buildLegalSection(
@@ -72,8 +68,7 @@ class LegalInfoBottomSheet {
                       onTap: () {
                         HapticFeedback.lightImpact();
                         _showIndependentContractorAgreement(context, isLight);
-                      },
-                    ),
+                      }),
 
                     // Contact
                     _buildLegalSection(
@@ -84,14 +79,10 @@ class LegalInfoBottomSheet {
                       onTap: () {
                         HapticFeedback.lightImpact();
                         _showContactInfo(context, isLight);
-                      },
-                    ),
-                  ],
-                ),
-              ),
-            ),
+                      }),
+                  ]))),
 
-            const SizedBox(height: 12),
+            SizedBox(height: 12),
 
             // Close Button
             TradeRepublicButton(
@@ -100,12 +91,8 @@ class LegalInfoBottomSheet {
                     onPressed: () {
                       HapticFeedback.lightImpact();
                       Navigator.pop(context);
-                    },
-                  ),
-          ],
-        ),
-      ),
-    );
+                    }),
+          ])));
   }
 
   static Widget _buildLegalSection({
@@ -118,29 +105,25 @@ class LegalInfoBottomSheet {
     return TradeRepublicTap(
       onTap: onTap,
       child: Container(
-        margin: const EdgeInsets.only(bottom: 12),
-        padding: const EdgeInsets.all(20),
+        margin: EdgeInsets.only(bottom: 12),
+        padding: EdgeInsets.all(20),
         decoration: BoxDecoration(
           color: isLight
               ? Colors.black.withOpacity(0.05)
               : const Color(0xFF121212),
-          borderRadius: BorderRadius.circular(20),
-        ),
+          borderRadius: BorderRadius.circular(20)),
         child: Row(
           children: [
             Container(
-              padding: const EdgeInsets.all(12),
+              padding: EdgeInsets.all(12),
               decoration: BoxDecoration(
                 color: isLight ? Colors.white : const Color(0xFF1A1A1A),
-                borderRadius: BorderRadius.circular(20),
-              ),
+                borderRadius: BorderRadius.circular(20)),
               child: Icon(
                 icon,
                 size: 20,
-                color: (isLight ? Colors.black : Colors.white).withOpacity(0.8),
-              ),
-            ),
-            const SizedBox(width: 16),
+                color: (isLight ? Colors.black : Colors.white).withOpacity(0.8))),
+            SizedBox(width: 16),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -151,31 +134,21 @@ class LegalInfoBottomSheet {
                       fontSize: 16,
                       fontWeight: FontWeight.w600,
                       color: isLight ? Colors.black : Colors.white,
-                      letterSpacing: -0.2,
-                    ),
-                  ),
-                  const SizedBox(height: 4),
+                      letterSpacing: -0.2)),
+                  SizedBox(height: 4),
                   Text(
                     subtitle,
                     style: TextStyle(
                       fontSize: 13,
                       fontWeight: FontWeight.w500,
                       color: (isLight ? Colors.black : Colors.white)
-                          .withOpacity(0.5),
-                    ),
-                  ),
-                ],
-              ),
-            ),
+                          .withOpacity(0.5))),
+                ])),
             Icon(
               CupertinoIcons.arrow_right,
               size: 16,
-              color: (isLight ? Colors.black : Colors.white).withOpacity(0.3),
-            ),
-          ],
-        ),
-      ),
-    );
+              color: (isLight ? Colors.black : Colors.white).withOpacity(0.3)),
+          ])));
   }
 
   static void _showTermsAndConditions(BuildContext context, bool isLight) {
@@ -192,16 +165,14 @@ class LegalInfoBottomSheet {
             Row(
               children: [
                 Icon(CupertinoIcons.doc_text_search, size: 22, color: isLight ? Colors.black : Colors.white),
-                const SizedBox(width: 12),
+                SizedBox(width: 12),
                 Text(
                   AppLocalizations.of(context)?.termsAndConditions ?? 'Terms and Conditions',
                   style: TextStyle(fontSize: 22, fontWeight: FontWeight.w700,
-                    color: isLight ? Colors.black : Colors.white, letterSpacing: -0.4),
-                ),
-              ],
-            ),
+                    color: isLight ? Colors.black : Colors.white, letterSpacing: -0.4)),
+              ]),
 
-            const SizedBox(height: 20),
+            SizedBox(height: 20),
 
             // Content
             Expanded(
@@ -240,14 +211,9 @@ class LegalInfoBottomSheet {
                   'For questions: support@cultioo.com',
                   style: TextStyle(
                     color: (isLight ? Colors.black : Colors.white).withOpacity(
-                      0.7,
-                    ),
+                      0.7),
                     fontSize: 16,
-                    height: 1.6,
-                  ),
-                ),
-              ),
-            ),
+                    height: 1.6)))),
 
             // Close Button
             TradeRepublicButton(
@@ -256,12 +222,8 @@ class LegalInfoBottomSheet {
                     onPressed: () {
                       HapticFeedback.lightImpact();
                       Navigator.pop(context);
-                    },
-                  ),
-          ],
-        ),
-      ),
-    );
+                    }),
+          ])));
   }
 
   static void _showPrivacyPolicy(BuildContext context, bool isLight) {
@@ -278,16 +240,14 @@ class LegalInfoBottomSheet {
             Row(
               children: [
                 Icon(CupertinoIcons.lock_shield, size: 22, color: isLight ? Colors.black : Colors.white),
-                const SizedBox(width: 12),
+                SizedBox(width: 12),
                 Text(
                   AppLocalizations.of(context)?.privacyPolicy ?? 'Privacy Policy',
                   style: TextStyle(fontSize: 22, fontWeight: FontWeight.w700,
-                    color: isLight ? Colors.black : Colors.white, letterSpacing: -0.4),
-                ),
-              ],
-            ),
+                    color: isLight ? Colors.black : Colors.white, letterSpacing: -0.4)),
+              ]),
 
-            const SizedBox(height: 20),
+            SizedBox(height: 20),
 
             // Content
             Expanded(
@@ -347,14 +307,9 @@ class LegalInfoBottomSheet {
                   'Data Protection Officer: dpo@cultioo.com',
                   style: TextStyle(
                     color: (isLight ? Colors.black : Colors.white).withOpacity(
-                      0.7,
-                    ),
+                      0.7),
                     fontSize: 16,
-                    height: 1.6,
-                  ),
-                ),
-              ),
-            ),
+                    height: 1.6)))),
 
             // Close Button
             TradeRepublicButton(
@@ -363,18 +318,13 @@ class LegalInfoBottomSheet {
                     onPressed: () {
                       HapticFeedback.lightImpact();
                       Navigator.pop(context);
-                    },
-                  ),
-          ],
-        ),
-      ),
-    );
+                    }),
+          ])));
   }
 
   static void _showIndependentContractorAgreement(
     BuildContext context,
-    bool isLight,
-  ) {
+    bool isLight) {
     TradeRepublicBottomSheet.show(
       context: context,
       child: SizedBox(
@@ -388,16 +338,14 @@ class LegalInfoBottomSheet {
             Row(
               children: [
                 Icon(CupertinoIcons.doc_checkmark, size: 22, color: isLight ? Colors.black : Colors.white),
-                const SizedBox(width: 12),
+                SizedBox(width: 12),
                 Text(
                   AppLocalizations.of(context)?.independentContractorAgreement ?? 'Independent Contractor Agreement',
                   style: TextStyle(fontSize: 22, fontWeight: FontWeight.w700,
-                    color: isLight ? Colors.black : Colors.white, letterSpacing: -0.4),
-                ),
-              ],
-            ),
+                    color: isLight ? Colors.black : Colors.white, letterSpacing: -0.4)),
+              ]),
 
-            const SizedBox(height: 20),
+            SizedBox(height: 20),
 
             // Content
             Expanded(
@@ -496,14 +444,9 @@ class LegalInfoBottomSheet {
                   'Legal Department: legal@cultioo.com',
                   style: TextStyle(
                     color: (isLight ? Colors.black : Colors.white).withOpacity(
-                      0.7,
-                    ),
+                      0.7),
                     fontSize: 16,
-                    height: 1.6,
-                  ),
-                ),
-              ),
-            ),
+                    height: 1.6)))),
 
             // Close Button
             TradeRepublicButton(
@@ -512,12 +455,8 @@ class LegalInfoBottomSheet {
                     onPressed: () {
                       HapticFeedback.lightImpact();
                       Navigator.pop(context);
-                    },
-                  ),
-          ],
-        ),
-      ),
-    );
+                    }),
+          ])));
   }
 
   static void _showContactInfo(BuildContext context, bool isLight) {
@@ -534,16 +473,14 @@ class LegalInfoBottomSheet {
             Row(
               children: [
                 Icon(CupertinoIcons.envelope, size: 22, color: isLight ? Colors.black : Colors.white),
-                const SizedBox(width: 12),
+                SizedBox(width: 12),
                 Text(
                   AppLocalizations.of(context)?.contactUs ?? 'Contact Us',
                   style: TextStyle(fontSize: 22, fontWeight: FontWeight.w700,
-                    color: isLight ? Colors.black : Colors.white, letterSpacing: -0.4),
-                ),
-              ],
-            ),
+                    color: isLight ? Colors.black : Colors.white, letterSpacing: -0.4)),
+              ]),
 
-            const SizedBox(height: 30),
+            SizedBox(height: 30),
 
             // Content
             Expanded(
@@ -556,10 +493,9 @@ class LegalInfoBottomSheet {
                       title: AppLocalizations.of(context)?.driverSupport ?? 'Driver Support',
                       subtitle: AppLocalizations.of(context)?.getHelpWithDeliveriesAndAccountIssues ?? 'Get help with deliveries and account issues',
                       contactInfo: 'support@cultioo.com',
-                      isLight: isLight,
-                    ),
+                      isLight: isLight),
 
-                    const SizedBox(height: 16),
+                    SizedBox(height: 16),
 
                     // Emergency Contact
                     _buildContactCard(
@@ -567,10 +503,9 @@ class LegalInfoBottomSheet {
                       title: AppLocalizations.of(context)?.emergencyHotline ?? 'Emergency Hotline',
                       subtitle: AppLocalizations.of(context)?.forUrgentSafetyOrSecurityIssues ?? 'For urgent safety or security issues',
                       contactInfo: '+1 (800) 555-0911',
-                      isLight: isLight,
-                    ),
+                      isLight: isLight),
 
-                    const SizedBox(height: 16),
+                    SizedBox(height: 16),
 
                     // Technical Support
                     _buildContactCard(
@@ -578,10 +513,9 @@ class LegalInfoBottomSheet {
                       title: AppLocalizations.of(context)?.technicalSupport ?? 'Technical Support',
                       subtitle: AppLocalizations.of(context)?.reportBugsOrTechnicalProblems ?? 'Report bugs or technical problems',
                       contactInfo: 'tech@cultioo.com',
-                      isLight: isLight,
-                    ),
+                      isLight: isLight),
 
-                    const SizedBox(height: 16),
+                    SizedBox(height: 16),
 
                     // Privacy Inquiries
                     _buildContactCard(
@@ -589,10 +523,9 @@ class LegalInfoBottomSheet {
                       title: AppLocalizations.of(context)?.privacyInquiries ?? 'Privacy Inquiries',
                       subtitle: AppLocalizations.of(context)?.questionsAboutYourDataAndPrivacy ?? 'Questions about your data and privacy',
                       contactInfo: 'privacy@cultioo.com',
-                      isLight: isLight,
-                    ),
+                      isLight: isLight),
 
-                    const SizedBox(height: 16),
+                    SizedBox(height: 16),
 
                     // Business Hours
                     _buildInfoCard(
@@ -600,10 +533,9 @@ class LegalInfoBottomSheet {
                       title: AppLocalizations.of(context)?.businessHours ?? 'Business Hours',
                       info:
                           'Monday - Friday: 8:00 AM - 8:00 PM EST\nSaturday - Sunday: 10:00 AM - 6:00 PM EST',
-                      isLight: isLight,
-                    ),
+                      isLight: isLight),
 
-                    const SizedBox(height: 16),
+                    SizedBox(height: 16),
 
                     // Office Address
                     _buildInfoCard(
@@ -611,12 +543,8 @@ class LegalInfoBottomSheet {
                       title: AppLocalizations.of(context)?.officeAddress ?? 'Office Address',
                       info:
                           'Cultioo Inc.\n123 Business Street\nSan Francisco, CA 94105\nUnited States',
-                      isLight: isLight,
-                    ),
-                  ],
-                ),
-              ),
-            ),
+                      isLight: isLight),
+                  ]))),
 
             // Close Button
             TradeRepublicButton(
@@ -625,12 +553,8 @@ class LegalInfoBottomSheet {
                     onPressed: () {
                       HapticFeedback.lightImpact();
                       Navigator.pop(context);
-                    },
-                  ),
-          ],
-        ),
-      ),
-    );
+                    }),
+          ])));
   }
 
   static Widget _buildContactCard({
@@ -641,32 +565,27 @@ class LegalInfoBottomSheet {
     required bool isLight,
   }) {
     return Container(
-      padding: const EdgeInsets.all(20),
+      padding: EdgeInsets.all(20),
       decoration: BoxDecoration(
         color: isLight
             ? Colors.black.withOpacity(0.05)
             : const Color(0xFF121212),
-        borderRadius: BorderRadius.circular(20),
-      ),
+        borderRadius: BorderRadius.circular(20)),
       child: Column(
         children: [
           Row(
             children: [
               Container(
-                padding: const EdgeInsets.all(12),
+                padding: EdgeInsets.all(12),
                 decoration: BoxDecoration(
                   color: isLight ? Colors.white : const Color(0xFF1A1A1A),
-                  borderRadius: BorderRadius.circular(20),
-                ),
+                  borderRadius: BorderRadius.circular(20)),
                 child: Icon(
                   icon,
                   size: 24,
                   color: (isLight ? Colors.black : Colors.white).withOpacity(
-                    0.8,
-                  ),
-                ),
-              ),
-              const SizedBox(width: 16),
+                    0.8))),
+              SizedBox(width: 16),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -677,46 +596,33 @@ class LegalInfoBottomSheet {
                         fontSize: 16,
                         fontWeight: FontWeight.w600,
                         color: isLight ? Colors.black : Colors.white,
-                        letterSpacing: -0.2,
-                      ),
-                    ),
-                    const SizedBox(height: 4),
+                        letterSpacing: -0.2)),
+                    SizedBox(height: 4),
                     Text(
                       subtitle,
                       style: TextStyle(
                         fontSize: 13,
                         fontWeight: FontWeight.w500,
                         color: (isLight ? Colors.black : Colors.white)
-                            .withOpacity(0.5),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 12),
+                            .withOpacity(0.5))),
+                  ])),
+            ]),
+          SizedBox(height: 12),
           Container(
             width: double.infinity,
-            padding: const EdgeInsets.all(16),
+            padding: EdgeInsets.all(16),
             decoration: BoxDecoration(
               color: isLight ? Colors.white : const Color(0xFF1A1A1A),
-              borderRadius: BorderRadius.circular(20),
-            ),
+              borderRadius: BorderRadius.circular(20)),
             child: Text(
               contactInfo,
               style: TextStyle(
                 fontSize: 15,
                 fontWeight: FontWeight.w600,
                 color: const Color(0xFF007AFF),
-                letterSpacing: -0.2,
-              ),
-              textAlign: TextAlign.center,
-            ),
-          ),
-        ],
-      ),
-    );
+                letterSpacing: -0.2),
+              textAlign: TextAlign.center)),
+        ]));
   }
 
   static Widget _buildInfoCard({
@@ -726,29 +632,25 @@ class LegalInfoBottomSheet {
     required bool isLight,
   }) {
     return Container(
-      padding: const EdgeInsets.all(20),
+      padding: EdgeInsets.all(20),
       decoration: BoxDecoration(
         color: isLight
             ? Colors.black.withOpacity(0.05)
             : const Color(0xFF121212),
-        borderRadius: BorderRadius.circular(20),
-      ),
+        borderRadius: BorderRadius.circular(20)),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
-            padding: const EdgeInsets.all(12),
+            padding: EdgeInsets.all(12),
             decoration: BoxDecoration(
               color: isLight ? Colors.white : const Color(0xFF1A1A1A),
-              borderRadius: BorderRadius.circular(20),
-            ),
+              borderRadius: BorderRadius.circular(20)),
             child: Icon(
               icon,
               size: 24,
-              color: (isLight ? Colors.black : Colors.white).withOpacity(0.8),
-            ),
-          ),
-          const SizedBox(width: 16),
+              color: (isLight ? Colors.black : Colors.white).withOpacity(0.8))),
+          SizedBox(width: 16),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -759,26 +661,17 @@ class LegalInfoBottomSheet {
                     fontSize: 16,
                     fontWeight: FontWeight.w600,
                     color: isLight ? Colors.black : Colors.white,
-                    letterSpacing: -0.2,
-                  ),
-                ),
-                const SizedBox(height: 8),
+                    letterSpacing: -0.2)),
+                SizedBox(height: 8),
                 Text(
                   info,
                   style: TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.w500,
                     color: (isLight ? Colors.black : Colors.white).withOpacity(
-                      0.7,
-                    ),
-                    height: 1.5,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
+                      0.7),
+                    height: 1.5)),
+              ])),
+        ]));
   }
 }

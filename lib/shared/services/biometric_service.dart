@@ -23,12 +23,10 @@ class BiometricService {
     } on PlatformException catch (e) {
       if (e.code == 'no_fragment_activity') {
         print(
-          'FragmentActivity error - MainActivity needs to extend FlutterFragmentActivity',
-        );
+          'FragmentActivity error - MainActivity needs to extend FlutterFragmentActivity');
       }
       print(
-        'PlatformException checking biometric availability: ${e.code} - ${e.message}',
-      );
+        'PlatformException checking biometric availability: ${e.code} - ${e.message}');
       return false;
     } catch (e) {
       print('Error checking biometric availability: $e');
@@ -48,20 +46,16 @@ class BiometricService {
         localizedReason: 'Use your biometric to sign in to your account',
         options: const AuthenticationOptions(
           biometricOnly: true,
-          stickyAuth: true,
-        ),
-      );
+          stickyAuth: true));
 
       return didAuthenticate;
     } on PlatformException catch (e) {
       if (e.code == 'no_fragment_activity') {
         print(
-          'FragmentActivity error - this should be fixed by updating MainActivity',
-        );
+          'FragmentActivity error - this should be fixed by updating MainActivity');
       }
       print(
-        'PlatformException during biometric login: ${e.code} - ${e.message}',
-      );
+        'PlatformException during biometric login: ${e.code} - ${e.message}');
       return false;
     } catch (e) {
       print('Biometric authentication error: $e');
@@ -71,8 +65,7 @@ class BiometricService {
 
   /// Enable biometric authentication with verification (DO NOT USE - use setLocalBiometricEnabled instead)
   @Deprecated(
-    'Use setLocalBiometricEnabled method instead to avoid double storage',
-  )
+    'Use setLocalBiometricEnabled method instead to avoid double storage')
   static Future<bool> enableBiometric() async {
     try {
       final bool isAvailable = await _localAuth.canCheckBiometrics;
@@ -80,8 +73,7 @@ class BiometricService {
 
       if (!isAvailable || !isDeviceSupported) {
         print(
-          'Biometric not available: isAvailable=$isAvailable, isDeviceSupported=$isDeviceSupported',
-        );
+          'Biometric not available: isAvailable=$isAvailable, isDeviceSupported=$isDeviceSupported');
         return false;
       }
 
@@ -89,9 +81,7 @@ class BiometricService {
         localizedReason: 'Please verify your biometric to enable this feature',
         options: const AuthenticationOptions(
           biometricOnly: true,
-          stickyAuth: true,
-        ),
-      );
+          stickyAuth: true));
 
       if (didAuthenticate) {
         final prefs = await SharedPreferences.getInstance();
@@ -103,8 +93,7 @@ class BiometricService {
     } on PlatformException catch (e) {
       if (e.code == 'no_fragment_activity') {
         print(
-          'FragmentActivity error - this should be fixed by updating MainActivity',
-        );
+          'FragmentActivity error - this should be fixed by updating MainActivity');
       }
       print('PlatformException enabling biometric: ${e.code} - ${e.message}');
       return false;
@@ -121,9 +110,7 @@ class BiometricService {
         localizedReason: 'Please verify your biometric to disable this feature',
         options: const AuthenticationOptions(
           biometricOnly: true,
-          stickyAuth: true,
-        ),
-      );
+          stickyAuth: true));
 
       if (didAuthenticate) {
         final prefs = await SharedPreferences.getInstance();
@@ -145,9 +132,7 @@ class BiometricService {
         localizedReason: 'Test your biometric authentication',
         options: const AuthenticationOptions(
           biometricOnly: true,
-          stickyAuth: true,
-        ),
-      );
+          stickyAuth: true));
 
       return didAuthenticate;
     } catch (e) {

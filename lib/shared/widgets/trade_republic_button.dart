@@ -73,8 +73,7 @@ class TradeRepublicButton extends StatefulWidget {
       foregroundColor: foregroundColor,
       tint: tint,
       size: size,
-      isSecondary: isSecondary,
-    );
+      isSecondary: isSecondary);
   }
 
   @override
@@ -93,11 +92,9 @@ class _TradeRepublicButtonState extends State<TradeRepublicButton>
     super.initState();
     _animController = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 100),
-    );
+      duration: const Duration(milliseconds: 100));
     _scaleAnim = Tween<double>(begin: 1.0, end: 0.97).animate(
-      CurvedAnimation(parent: _animController, curve: Curves.easeInOut),
-    );
+      CurvedAnimation(parent: _animController, curve: Curves.easeInOut));
   }
 
   @override
@@ -226,14 +223,12 @@ class _TradeRepublicButtonState extends State<TradeRepublicButton>
                 alignment: Alignment.center,
                 decoration: BoxDecoration(
                   color: renderedBg,
-                  borderRadius: borderRadius,
-                ),
+                  borderRadius: borderRadius),
                 child: widget.isLoading
                     ? SizedBox(
                         width: loadingIndicatorSize,
                         height: loadingIndicatorSize,
-                        child: CultiooLoadingIndicator(size: loadingIndicatorSize),
-                      )
+                        child: CultiooLoadingIndicator(size: loadingIndicatorSize))
                     : Row(
                         mainAxisSize: MainAxisSize.min,
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -242,10 +237,8 @@ class _TradeRepublicButtonState extends State<TradeRepublicButton>
                             IconTheme(
                               data: IconThemeData(
                                 color: renderedFg,
-                                size: labelIconSize,
-                              ),
-                              child: widget.icon!,
-                            ),
+                                size: labelIconSize),
+                              child: widget.icon!),
                             if (widget.label != null) SizedBox(width: 6),
                           ],
                           if (widget.label != null)
@@ -256,21 +249,12 @@ class _TradeRepublicButtonState extends State<TradeRepublicButton>
                                   color: renderedFg,
                                   fontSize: labelFontSize,
                                   fontWeight: FontWeight.w600,
-                                  letterSpacing: -0.2,
-                                ),
+                                  letterSpacing: -0.2),
                                 textAlign: TextAlign.center,
                                 maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                            ),
-                        ],
-                      ),
-              ),
-            ),
-          ),
-        );
-      },
-    );
+                                overflow: TextOverflow.ellipsis)),
+                        ])))));
+      });
 
     return buttonChild;
   }
@@ -317,11 +301,9 @@ class _TradeRepublicIconButtonState extends State<_TradeRepublicIconButton>
     super.initState();
     _animController = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 100),
-    );
+      duration: const Duration(milliseconds: 100));
     _scaleAnim = Tween<double>(begin: 1.0, end: 0.92).animate(
-      CurvedAnimation(parent: _animController, curve: Curves.easeInOut),
-    );
+      CurvedAnimation(parent: _animController, curve: Curves.easeInOut));
   }
 
   @override
@@ -436,23 +418,14 @@ class _TradeRepublicIconButtonState extends State<_TradeRepublicIconButton>
                 height: effectiveSize,
                 decoration: BoxDecoration(
                   color: renderedBg,
-                  borderRadius: BorderRadius.circular(effectiveSize / 2),
-                ),
+                  borderRadius: BorderRadius.circular(effectiveSize / 2)),
                 child: Center(
                   child: IconTheme(
                     data: IconThemeData(
                       color: renderedFg,
-                      size: 18.0,
-                    ),
-                    child: widget.iconWidget,
-                  ),
-                ),
-              ),
-            ),
-          ),
-        );
-      },
-    );
+                      size: 18.0),
+                    child: widget.iconWidget))))));
+      });
   }
 }
 
@@ -469,8 +442,7 @@ extension TradeRepublicButtonHelper on TradeRepublicButton {
       label: label,
       onPressed: onPressed,
       backgroundColor: tint ?? (isLight ? Colors.black : Colors.white),
-      foregroundColor: isLight ? Colors.white : Colors.black,
-    );
+      foregroundColor: isLight ? Colors.white : Colors.black);
   }
 
   /// Creates a Trade Republic icon button that matches CNButton.icon parameters
@@ -486,7 +458,6 @@ extension TradeRepublicButtonHelper on TradeRepublicButton {
       onPressed: onPressed,
       backgroundColor: tint ?? (isLight ? Colors.black : Colors.white),
       foregroundColor: isLight ? Colors.white : Colors.black,
-      size: size,
-    );
+      size: size);
   }
 }

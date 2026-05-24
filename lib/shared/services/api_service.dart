@@ -48,22 +48,19 @@ class ApiService {
               'Content-Type': 'application/json',
               'Accept': 'application/json',
             },
-            body: jsonEncode(body),
-          )
+            body: jsonEncode(body))
           .timeout(
             const Duration(seconds: 30),
             onTimeout: () {
               print('❌ REQUEST TIMEOUT after 30 seconds');
               throw Exception('Request timeout');
-            },
-          );
+            });
 
       print('───────────────────────────────────────');
       print('📥 Response received!');
       print('📥 Status code: ${response.statusCode}');
       print(
-        '📥 Response body: ${response.body.substring(0, response.body.length > 200 ? 200 : response.body.length)}...',
-      );
+        '📥 Response body: ${response.body.substring(0, response.body.length > 200 ? 200 : response.body.length)}...');
 
       final data = jsonDecode(response.body);
 
@@ -130,8 +127,7 @@ class ApiService {
           'password': password,
           'user_type': userType,
           'isBusiness': userType == 'Business' ? 1 : 0,
-        }),
-      );
+        }));
 
       final data = jsonDecode(response.body);
 
@@ -172,8 +168,7 @@ class ApiService {
               'Content-Type': 'application/json',
               'Accept': 'application/json',
             },
-            body: jsonEncode(body),
-          )
+            body: jsonEncode(body))
           .timeout(const Duration(seconds: 15));
 
       print('📥 2FA Response status: ${response.statusCode}');
@@ -220,8 +215,7 @@ class ApiService {
         headers: {
           'Authorization': 'Bearer $token',
           'Content-Type': 'application/json',
-        },
-      );
+        });
 
       final data = jsonDecode(response.body);
 
@@ -286,8 +280,7 @@ class ApiService {
               'Accept': 'application/json',
               'Authorization': 'Bearer $token',
             },
-            body: jsonEncode(body),
-          )
+            body: jsonEncode(body))
           .timeout(const Duration(seconds: 15));
 
       print('📥 Response status: ${response.statusCode}');
@@ -322,13 +315,11 @@ class ApiService {
       final response = await http
           .get(
             Uri.parse(
-              '$baseUrl/auth/check-email?email=${Uri.encodeComponent(email)}',
-            ),
+              '$baseUrl/auth/check-email?email=${Uri.encodeComponent(email)}'),
             headers: {
               'Content-Type': 'application/json',
               'Accept': 'application/json',
-            },
-          )
+            })
           .timeout(const Duration(seconds: 5));
 
       final data = jsonDecode(response.body);
@@ -352,19 +343,16 @@ class ApiService {
 
   // Check if username exists
   static Future<Map<String, dynamic>> checkUsernameExists(
-    String username,
-  ) async {
+    String username) async {
     try {
       final response = await http
           .get(
             Uri.parse(
-              '$baseUrl/auth/check-username?username=${Uri.encodeComponent(username)}',
-            ),
+              '$baseUrl/auth/check-username?username=${Uri.encodeComponent(username)}'),
             headers: {
               'Content-Type': 'application/json',
               'Accept': 'application/json',
-            },
-          )
+            })
           .timeout(const Duration(seconds: 5));
 
       final data = jsonDecode(response.body);

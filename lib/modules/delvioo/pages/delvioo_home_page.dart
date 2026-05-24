@@ -90,23 +90,18 @@ class _DelviooHomePageState extends State<DelviooHomePage>
     // Header animation (App Bar)
     _headerAnimController = AnimationController(
       duration: const Duration(milliseconds: 600),
-      vsync: this,
-    );
+      vsync: this);
     _headerSlideAnim = Tween<double>(begin: -50, end: 0).animate(
       CurvedAnimation(
         parent: _headerAnimController,
-        curve: Curves.easeOutCubic,
-      ),
-    );
+        curve: Curves.easeOutCubic));
     _headerFadeAnim = Tween<double>(begin: 0, end: 1).animate(
-      CurvedAnimation(parent: _headerAnimController, curve: Curves.easeOut),
-    );
+      CurvedAnimation(parent: _headerAnimController, curve: Curves.easeOut));
 
     // Content animation
     _contentAnimController = AnimationController(
       duration: const Duration(milliseconds: 800),
-      vsync: this,
-    );
+      vsync: this);
 
     _loadDeliveryStats();
     _loadMonthlyData();
@@ -119,8 +114,7 @@ class _DelviooHomePageState extends State<DelviooHomePage>
     _headerVisibilityController = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 300),
-      value: 1.0,
-    );
+      value: 1.0);
   }
 
   @override
@@ -139,8 +133,7 @@ class _DelviooHomePageState extends State<DelviooHomePage>
       _headerVisibilityController!.animateTo(
         0.0,
         duration: const Duration(milliseconds: 300),
-        curve: Curves.easeInOut,
-      );
+        curve: Curves.easeInOut);
     }
   }
 
@@ -152,8 +145,7 @@ class _DelviooHomePageState extends State<DelviooHomePage>
       _headerVisibilityController!.animateTo(
         1.0,
         duration: const Duration(milliseconds: 300),
-        curve: Curves.easeInOut,
-      );
+        curve: Curves.easeInOut);
     }
   }
 
@@ -178,8 +170,7 @@ class _DelviooHomePageState extends State<DelviooHomePage>
 
       final response = await http.get(
         Uri.parse('${ApiConfig.baseUrl}/api/delivery-stats?driverId=$driverId'),
-        headers: {'Content-Type': 'application/json'},
-      );
+        headers: {'Content-Type': 'application/json'});
 
       print('📈 Stats API Response status: ${response.statusCode}');
       print('📈 Stats API Response body: ${response.body}');
@@ -268,8 +259,7 @@ class _DelviooHomePageState extends State<DelviooHomePage>
         TopNotification.error(
           context,
           AppLocalizations.of(context)?.failedToLoadDeliveryStatistics ??
-              'Failed to load delivery statistics',
-        );
+              'Failed to load delivery statistics');
       }
 
       if (mounted) {
@@ -316,18 +306,15 @@ class _DelviooHomePageState extends State<DelviooHomePage>
 
       final response = await http.get(
         Uri.parse(
-          '${ApiConfig.baseUrl}/api/delivery-stats/monthly?driverId=$driverId',
-        ),
-        headers: {'Content-Type': 'application/json'},
-      );
+          '${ApiConfig.baseUrl}/api/delivery-stats/monthly?driverId=$driverId'),
+        headers: {'Content-Type': 'application/json'});
 
       if (response.statusCode == 200) {
         final responseData = json.decode(response.body);
 
         if (responseData['success'] == true && responseData['data'] != null) {
           final monthlyList = List<Map<String, dynamic>>.from(
-            responseData['data'],
-          );
+            responseData['data']);
 
           if (!mounted) return;
           setState(() {
@@ -378,8 +365,7 @@ class _DelviooHomePageState extends State<DelviooHomePage>
       // Korrigierte URL: userId als Pfad-Parameter
       final response = await http.get(
         Uri.parse('${ApiConfig.baseUrl}/api/delvioo/vehicles/$userId'),
-        headers: {'Content-Type': 'application/json'},
-      );
+        headers: {'Content-Type': 'application/json'});
 
       print('🚛 Vehicles API response status: ${response.statusCode}');
 
@@ -396,8 +382,7 @@ class _DelviooHomePageState extends State<DelviooHomePage>
                 v['is_primary_vehicle'] == 1 ||
                 v['is_primary_vehicle'] == true ||
                 v['is_primary_vehicle']?.toString() == '1',
-            orElse: () => vehicles.first,
-          );
+            orElse: () => vehicles.first);
 
           if (!mounted) return;
           setState(() {
@@ -437,8 +422,7 @@ class _DelviooHomePageState extends State<DelviooHomePage>
 
   // Load sections from vehicle data (vehicle_sections JSON column)
   Future<void> _loadVehicleSectionsFromVehicle(
-    Map<String, dynamic> vehicle,
-  ) async {
+    Map<String, dynamic> vehicle) async {
     try {
       print('📦 Loading sections from vehicle data...');
       print('📦 Vehicle data keys: ${vehicle.keys.toList()}');
@@ -501,13 +485,11 @@ class _DelviooHomePageState extends State<DelviooHomePage>
 
       final response = await http.get(
         Uri.parse(
-          '${ApiConfig.baseUrl}/api/delvioo/vehicles/$vehicleId/occupied-sections',
-        ),
+          '${ApiConfig.baseUrl}/api/delvioo/vehicles/$vehicleId/occupied-sections'),
         headers: {
           'Content-Type': 'application/json',
           if (token != null) 'Authorization': 'Bearer $token',
-        },
-      );
+        });
 
       print('🔍 Response status: ${response.statusCode}');
       print('🔍 Response body: ${response.body}');
@@ -538,8 +520,7 @@ class _DelviooHomePageState extends State<DelviooHomePage>
           }
 
           print(
-            '🔍 Before setState - indices: $indices, loadData keys: ${loadData.keys.toList()}',
-          );
+            '🔍 Before setState - indices: $indices, loadData keys: ${loadData.keys.toList()}');
 
           if (!mounted) return;
           if (mounted) {
@@ -550,14 +531,11 @@ class _DelviooHomePageState extends State<DelviooHomePage>
           }
 
           print(
-            '🔍 After setState - _occupiedSectionIndices: $_occupiedSectionIndices',
-          );
+            '🔍 After setState - _occupiedSectionIndices: $_occupiedSectionIndices');
           print(
-            '🔍 After setState - _occupiedSectionData keys: ${_occupiedSectionData.keys.toList()}',
-          );
+            '🔍 After setState - _occupiedSectionData keys: ${_occupiedSectionData.keys.toList()}');
           print(
-            '🔍 After setState - _occupiedSectionData: $_occupiedSectionData',
-          );
+            '🔍 After setState - _occupiedSectionData: $_occupiedSectionData');
 
           // Note: Load distribution analysis removed from auto-start
           // Can be triggered manually if needed
@@ -595,12 +573,10 @@ class _DelviooHomePageState extends State<DelviooHomePage>
     if (_hasLoadWarning()) {
       if (isOccupied) {
         return const Color(
-          0xFFEF4444,
-        ); // Red for occupied sections with warning
+          0xFFEF4444); // Red for occupied sections with warning
       } else {
         return const Color(
-          0xFFEF4444,
-        ).withOpacity(0.2); // Light red for empty sections with warning
+          0xFFEF4444).withOpacity(0.2); // Light red for empty sections with warning
       }
     }
 
@@ -610,8 +586,7 @@ class _DelviooHomePageState extends State<DelviooHomePage>
     }
 
     return (isLight ? Colors.black : Colors.white).withOpacity(
-      0.05,
-    ); // Light background for empty
+      0.05); // Light background for empty
   }
 
   // Get text color based on warning state
@@ -651,8 +626,7 @@ class _DelviooHomePageState extends State<DelviooHomePage>
     try {
       final response = await http.put(
         Uri.parse('${ApiConfig.baseUrl}/api/delvioo/vehicle/$vehicleId/set-primary'),
-        headers: {'Content-Type': 'application/json'},
-      );
+        headers: {'Content-Type': 'application/json'});
       if (response.statusCode == 200) {
         final data = json.decode(response.body);
         if (data['success'] == true) {
@@ -667,15 +641,14 @@ class _DelviooHomePageState extends State<DelviooHomePage>
 
   Widget _buildActiveVehicleCard(bool isLight) {
     if (_isLoadingVehicles) {
-      return const SizedBox(
+      return SizedBox(
         height: 76,
-        child: Center(child: CultiooLoadingIndicator()),
-      );
+        child: Center(child: CultiooLoadingIndicator()));
     }
 
     if (_selectedVehicle == null) {
       return TradeRepublicCard(
-        padding: const EdgeInsets.all(18),
+        padding: EdgeInsets.all(18),
         child: Row(
           children: [
             Container(
@@ -683,33 +656,24 @@ class _DelviooHomePageState extends State<DelviooHomePage>
               height: 48,
               decoration: BoxDecoration(
                 color: (isLight ? Colors.black : Colors.white).withOpacity(0.05),
-                borderRadius: BorderRadius.circular(14),
-              ),
+                borderRadius: BorderRadius.circular(14)),
               child: Icon(
                 CupertinoIcons.car_detailed,
                 size: 22,
-                color: (isLight ? Colors.black : Colors.white).withOpacity(0.35),
-              ),
-            ),
-            const SizedBox(width: 16),
+                color: (isLight ? Colors.black : Colors.white).withOpacity(0.35))),
+            SizedBox(width: 16),
             Expanded(
               child: Text(
                 AppLocalizations.of(context)?.noVehicleSelected ?? 'No vehicle selected',
                 style: TextStyle(
                   fontSize: DesktopOptimizedWidgets.getFontSize(),
                   fontWeight: FontWeight.w600,
-                  color: (isLight ? Colors.black : Colors.white).withOpacity(0.45),
-                ),
-              ),
-            ),
+                  color: (isLight ? Colors.black : Colors.white).withOpacity(0.45)))),
             Icon(
               CupertinoIcons.chevron_right,
               size: 16,
-              color: (isLight ? Colors.black : Colors.white).withOpacity(0.25),
-            ),
-          ],
-        ),
-      );
+              color: (isLight ? Colors.black : Colors.white).withOpacity(0.25)),
+          ]));
     }
 
     final make = _selectedVehicle!['vehicle_make']?.toString() ?? '';
@@ -725,7 +689,7 @@ class _DelviooHomePageState extends State<DelviooHomePage>
         [year, make, model].where((s) => s.isNotEmpty).join(' ');
 
     return TradeRepublicCard(
-      padding: const EdgeInsets.all(18),
+      padding: EdgeInsets.all(18),
       child: Row(
         children: [
           // Icon with primary star badge
@@ -739,16 +703,13 @@ class _DelviooHomePageState extends State<DelviooHomePage>
                   color: isPrimary
                       ? const Color(0xFF00C853).withOpacity(0.12)
                       : (isLight ? Colors.black : Colors.white).withOpacity(0.06),
-                  borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius()),
-                ),
+                  borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius())),
                 child: Icon(
                   _getVehicleIcon(_selectedVehicle!),
                   size: 24,
                   color: isPrimary
                       ? const Color(0xFF00C853)
-                      : (isLight ? Colors.black : Colors.white),
-                ),
-              ),
+                      : (isLight ? Colors.black : Colors.white))),
               if (isPrimary)
                 Positioned(
                   right: -4,
@@ -756,20 +717,15 @@ class _DelviooHomePageState extends State<DelviooHomePage>
                   child: Container(
                     width: 18,
                     height: 18,
-                    decoration: const BoxDecoration(
+                    decoration: BoxDecoration(
                       color: Color(0xFF00C853),
-                      shape: BoxShape.circle,
-                    ),
-                    child: const Icon(
+                      shape: BoxShape.circle),
+                    child: Icon(
                       CupertinoIcons.star_fill,
                       size: 10,
-                      color: Colors.white,
-                    ),
-                  ),
-                ),
-            ],
-          ),
-          const SizedBox(width: 16),
+                      color: Colors.white))),
+            ]),
+          SizedBox(width: 16),
           // Vehicle name + plate + badge
           Expanded(
             child: Column(
@@ -781,10 +737,8 @@ class _DelviooHomePageState extends State<DelviooHomePage>
                     fontSize: 17,
                     fontWeight: FontWeight.w700,
                     letterSpacing: -0.3,
-                    color: isLight ? Colors.black : Colors.white,
-                  ),
-                ),
-                const SizedBox(height: 3),
+                    color: isLight ? Colors.black : Colors.white)),
+                SizedBox(height: 3),
                 Text(
                   [
                     if (licensePlate.isNotEmpty) licensePlate,
@@ -793,52 +747,39 @@ class _DelviooHomePageState extends State<DelviooHomePage>
                   style: TextStyle(
                     fontSize: 13,
                     color: (isLight ? Colors.black : Colors.white).withOpacity(0.5),
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
+                    fontWeight: FontWeight.w500)),
                 if (isPrimary) ...[  
-                  const SizedBox(height: 6),
+                  SizedBox(height: 6),
                   Container(
-                    padding: const EdgeInsets.symmetric(
+                    padding: EdgeInsets.symmetric(
                         horizontal: 8, vertical: 3),
                     decoration: BoxDecoration(
                       color: const Color(0xFF00C853).withOpacity(0.12),
-                      borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-                    ),
+                      borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        const Icon(
+                        Icon(
                           CupertinoIcons.checkmark_circle_fill,
                           size: 11,
-                          color: Color(0xFF00C853),
-                        ),
-                        const SizedBox(width: 4),
+                          color: Color(0xFF00C853)),
+                        SizedBox(width: 4),
                         Text(
                           AppLocalizations.of(context)?.activeToday ?? 'Active today',
-                          style: const TextStyle(
+                          style: TextStyle(
                             fontSize: 11,
                             fontWeight: FontWeight.w700,
-                            color: Color(0xFF00C853),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
+                            color: Color(0xFF00C853))),
+                      ])),
                 ],
-              ],
-            ),
-          ),
+              ])),
           // Arrow only when multiple vehicles
           if (_driverVehicles.length > 1)
             Icon(
               CupertinoIcons.chevron_right,
               size: 16,
-              color: (isLight ? Colors.black : Colors.white).withOpacity(0.3),
-            ),
-        ],
-      ),
-    );
+              color: (isLight ? Colors.black : Colors.white).withOpacity(0.3)),
+        ]));
   }
 
   Future<void> _refreshAllData() async {
@@ -872,8 +813,7 @@ class _DelviooHomePageState extends State<DelviooHomePage>
                 CupertinoSliverRefreshControl(
                   onRefresh: _refreshAllData,
                   refreshTriggerPullDistance: 80,
-                  refreshIndicatorExtent: 60,
-                ),
+                  refreshIndicatorExtent: 60),
                 SliverToBoxAdapter(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -884,13 +824,10 @@ class _DelviooHomePageState extends State<DelviooHomePage>
                       20,
                       isDesktop ? 32 : MediaQuery.of(context).padding.top + 16,
                       20,
-                      24,
-                    ),
+                      24),
                     child: _buildAnimatedContainer(
                       delay: 0,
-                      child: _buildWelcomeHeader(isLight, appSettings),
-                    ),
-                  ),
+                      child: _buildWelcomeHeader(isLight, appSettings))),
                   SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
                   // Active Vehicle Card + inline switcher
@@ -908,23 +845,20 @@ class _DelviooHomePageState extends State<DelviooHomePage>
                                 fontWeight: FontWeight.w600,
                                 letterSpacing: 0.3,
                                 color: (isLight ? Colors.black : Colors.white)
-                                    .withOpacity(0.45),
-                              ),
-                            ),
-                          ],
-                        ),
+                                    .withOpacity(0.45))),
+                          ]),
                         SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                         _buildActiveVehicleCard(isLight),
                         // Inline vehicle switcher pills (only when 2+ vehicles)
                         if (_driverVehicles.length > 1) ...[  
-                          const SizedBox(height: 10),
+                          SizedBox(height: 10),
                           SizedBox(
                             height: 36,
                             child: ListView.separated(
                               scrollDirection: Axis.horizontal,
                               padding: EdgeInsets.zero,
                               itemCount: _driverVehicles.length,
-                              separatorBuilder: (_, __) => const SizedBox(width: 8),
+                              separatorBuilder: (_, __) => SizedBox(width: 8),
                               itemBuilder: (context, index) {
                                 final v = _driverVehicles[index];
                                 final isSelected =
@@ -948,15 +882,14 @@ class _DelviooHomePageState extends State<DelviooHomePage>
                                         },
                                   child: AnimatedContainer(
                                     duration: const Duration(milliseconds: 200),
-                                    padding: const EdgeInsets.symmetric(
+                                    padding: EdgeInsets.symmetric(
                                         horizontal: 14, vertical: 0),
                                     decoration: BoxDecoration(
                                       color: isSelected
                                           ? (isLight ? Colors.black : Colors.white)
                                           : (isLight ? Colors.black : Colors.white)
                                               .withOpacity(0.07),
-                                      borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-                                    ),
+                                      borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
                                     child: Row(
                                       mainAxisSize: MainAxisSize.min,
                                       children: [
@@ -966,9 +899,8 @@ class _DelviooHomePageState extends State<DelviooHomePage>
                                           color: isSelected
                                               ? (isLight ? Colors.white : Colors.black)
                                               : (isLight ? Colors.black : Colors.white)
-                                                  .withOpacity(0.5),
-                                        ),
-                                        const SizedBox(width: 6),
+                                                  .withOpacity(0.5)),
+                                        SizedBox(width: 6),
                                         Text(
                                           label.isNotEmpty ? label : '#${index + 1}',
                                           style: TextStyle(
@@ -977,22 +909,13 @@ class _DelviooHomePageState extends State<DelviooHomePage>
                                             color: isSelected
                                                 ? (isLight ? Colors.white : Colors.black)
                                                 : (isLight ? Colors.black : Colors.white)
-                                                    .withOpacity(0.55),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                );
-                              },
-                            ),
-                          ),
+                                                    .withOpacity(0.55))),
+                                      ])));
+                              })),
                         ],
-                      ],
-                    ),
-                  ),
+                      ])),
 
-                  const SizedBox(height: 30),
+                  SizedBox(height: 30),
 
                   // Total Earnings Card - Animated
                   Padding(
@@ -1000,30 +923,24 @@ class _DelviooHomePageState extends State<DelviooHomePage>
                     child: _buildAnimatedContainer(
                       delay: 1,
                       slideFromRight: false,
-                      child: _buildEarningsCard(isLight, appSettings),
-                    ),
-                  ),
-                  const SizedBox(height: 20),
+                      child: _buildEarningsCard(isLight, appSettings))),
+                  SizedBox(height: 20),
 
                   // Stats Grid - Animated
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: DesktopAppWrapper.getHorizontalPadding()),
                     child: _buildAnimatedContainer(
                       delay: 2,
-                      child: _buildStatsGrid(isLight, appSettings),
-                    ),
-                  ),
-                  const SizedBox(height: 30),
+                      child: _buildStatsGrid(isLight, appSettings))),
+                  SizedBox(height: 30),
 
                   // Truck Visualization - Animated
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: DesktopAppWrapper.getHorizontalPadding()),
                     child: _buildAnimatedContainer(
                       delay: 3,
-                      child: _buildTruckVisualization(isLight, appSettings),
-                    ),
-                  ),
-                  const SizedBox(height: 30),
+                      child: _buildTruckVisualization(isLight, appSettings))),
+                  SizedBox(height: 30),
 
                   // Fuel & Emissions Section - Animated
                   Padding(
@@ -1031,10 +948,8 @@ class _DelviooHomePageState extends State<DelviooHomePage>
                     child: _buildAnimatedContainer(
                       delay: 4,
                       slideFromRight: true,
-                      child: _buildFuelEmissionsSection(isLight, appSettings),
-                    ),
-                  ),
-                  const SizedBox(height: 30),
+                      child: _buildFuelEmissionsSection(isLight, appSettings))),
+                  SizedBox(height: 30),
 
                   // Period Statistics - Animated
                   Padding(
@@ -1042,18 +957,10 @@ class _DelviooHomePageState extends State<DelviooHomePage>
                     child: _buildAnimatedContainer(
                       delay: 5,
                       slideFromRight: true,
-                      child: _buildPeriodStatistics(isLight, appSettings),
-                    ),
-                  ),
+                      child: _buildPeriodStatistics(isLight, appSettings))),
                   SizedBox(height: MediaQuery.of(context).padding.bottom + 100),
-                ],
-              ),
-            ),
-            ],
-            ),
-              ),
-            ),
-    );
+                ])),
+            ]))));
   }
 
   // Animated Container Widget with Staggered Animation - From top/bottom
@@ -1071,15 +978,13 @@ class _DelviooHomePageState extends State<DelviooHomePage>
         final curvedValue = Curves.easeOutCubic.transform(
           delayedValue > 0
               ? (delayedValue / (1 - delay * 0.15)).clamp(0.0, 1.0)
-              : 0.0,
-        );
+              : 0.0);
 
         return Transform.translate(
           offset: Offset(
             0, // No horizontal movement
             // slideFromRight = true means from bottom, false = from top
-            slideFromRight ? 30 * (1 - curvedValue) : -30 * (1 - curvedValue),
-          ),
+            slideFromRight ? 30 * (1 - curvedValue) : -30 * (1 - curvedValue)),
           child: Opacity(
             opacity: curvedValue,
             child: Transform.scale(
@@ -1087,12 +992,8 @@ class _DelviooHomePageState extends State<DelviooHomePage>
               alignment: slideFromRight
                   ? Alignment.bottomCenter
                   : Alignment.topCenter,
-              child: child,
-            ),
-          ),
-        );
-      },
-    );
+              child: child)));
+      });
   }
 
   Widget _buildWelcomeHeader(bool isLight, AppSettings appSettings) {
@@ -1111,21 +1012,16 @@ class _DelviooHomePageState extends State<DelviooHomePage>
                 ? Colors.black.withOpacity(0.5)
                 : Colors.white.withOpacity(0.5),
             fontSize: 15,
-            fontWeight: FontWeight.w400,
-          ),
-        ),
-        const SizedBox(height: 4),
+            fontWeight: FontWeight.w400)),
+        SizedBox(height: 4),
         Text(
           displayName,
           style: TextStyle(
             color: isLight ? Colors.black : Colors.white,
             fontSize: 34,
             fontWeight: FontWeight.w700,
-            letterSpacing: -0.5,
-          ),
-        ),
-      ],
-    );
+            letterSpacing: -0.5)),
+      ]);
   }
 
   Widget _buildEarningsCard(bool isLight, AppSettings appSettings) {
@@ -1142,8 +1038,7 @@ class _DelviooHomePageState extends State<DelviooHomePage>
       // Find the selected month's data
       final monthData = _monthlyData.firstWhere(
         (m) => m['month'] == _selectedPeriod,
-        orElse: () => {'earnings': '0'},
-      );
+        orElse: () => {'earnings': '0'});
       final earningsRaw = monthData['earnings'];
       displayEarnings = double.tryParse(earningsRaw?.toString() ?? '0') ?? 0.0;
 
@@ -1187,10 +1082,8 @@ class _DelviooHomePageState extends State<DelviooHomePage>
             fontSize: 48,
             fontWeight: FontWeight.w700,
             letterSpacing: -1,
-            height: 1.0,
-          ),
-        ),
-        const SizedBox(height: 4),
+            height: 1.0)),
+        SizedBox(height: 4),
         Text(
           AppLocalizations.of(context)?.totalEarnings ?? 'Total Earnings',
           style: TextStyle(
@@ -1198,9 +1091,7 @@ class _DelviooHomePageState extends State<DelviooHomePage>
                 ? Colors.black.withOpacity(0.5)
                 : Colors.white.withOpacity(0.5),
             fontSize: 15,
-            fontWeight: FontWeight.w400,
-          ),
-        ),
+            fontWeight: FontWeight.w400)),
         SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
         // Period selector row
         TradeRepublicCard(
@@ -1208,37 +1099,29 @@ class _DelviooHomePageState extends State<DelviooHomePage>
             HapticFeedback.lightImpact();
             _showPeriodSelector(isLight, appSettings);
           },
-          padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 14),
+          padding: EdgeInsets.symmetric(horizontal: 18, vertical: 14),
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
               Icon(
                 CupertinoIcons.calendar,
                 color: isLight ? Colors.black : Colors.white,
-                size: 18,
-              ),
-              const SizedBox(width: 8),
+                size: 18),
+              SizedBox(width: 8),
               Text(
                 periodLabel,
                 style: TextStyle(
                   color: isLight ? Colors.black : Colors.white,
                   fontSize: DesktopOptimizedWidgets.getFontSize(),
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-              const SizedBox(width: 4),
+                  fontWeight: FontWeight.w500)),
+              SizedBox(width: 4),
               Icon(
                 CupertinoIcons.chevron_down,
                 color: (isLight ? Colors.black : Colors.white).withOpacity(
-                  0.5,
-                ),
-                size: 16,
-              ),
-            ],
-          ),
-        ),
-      ],
-    );
+                  0.5),
+                size: 16),
+            ])),
+      ]);
   }
 
   void _showPeriodSelector(bool isLight, AppSettings appSettings) {
@@ -1260,16 +1143,13 @@ class _DelviooHomePageState extends State<DelviooHomePage>
                 Icon(
                   CupertinoIcons.calendar,
                   size: 22,
-                  color: isLight ? Colors.black : Colors.white,
-                ),
-                const SizedBox(width: 12),
+                  color: isLight ? Colors.black : Colors.white),
+                SizedBox(width: 12),
                 Text(
                   AppLocalizations.of(context)?.selectPeriod ?? 'Select Period',
                   style: TextStyle(fontSize: 22, fontWeight: FontWeight.w700,
-                    color: isLight ? Colors.black : Colors.white, letterSpacing: -0.4),
-                ),
-              ],
-            ),
+                    color: isLight ? Colors.black : Colors.white, letterSpacing: -0.4)),
+              ]),
             SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
             // Period list
@@ -1287,9 +1167,7 @@ class _DelviooHomePageState extends State<DelviooHomePage>
                         'Since company founding',
                     earnings: appSettings.formatCurrency(
                       appSettings.convertCurrency(
-                        _parseDouble(_statsData?['totalEarnings']),
-                      ),
-                    ),
+                        _parseDouble(_statsData?['totalEarnings']))),
                     isSelected: _selectedPeriod == 'all-time',
                     onTap: () {
                       HapticFeedback.selectionClick();
@@ -1297,22 +1175,19 @@ class _DelviooHomePageState extends State<DelviooHomePage>
                         _selectedPeriod = 'all-time';
                       });
                       Navigator.pop(context);
-                    },
-                  ),
+                    }),
 
                   SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
                   // Divider with label
                   Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 16),
+                    padding: EdgeInsets.symmetric(vertical: 16),
                     child: Row(
                       children: [
                         Expanded(
                           child: TradeRepublicDivider(
                             color: (isLight ? Colors.black : Colors.white)
-                                .withOpacity(0.1),
-                          ),
-                        ),
+                                .withOpacity(0.1))),
                         Padding(
                           padding: EdgeInsets.symmetric(horizontal: DesktopAppWrapper.getHorizontalPadding()),
                           child: Text(
@@ -1323,19 +1198,12 @@ class _DelviooHomePageState extends State<DelviooHomePage>
                                   .withOpacity(0.5),
                               fontSize: 12,
                               fontWeight: FontWeight.w600,
-                              letterSpacing: 1,
-                            ),
-                          ),
-                        ),
+                              letterSpacing: 1))),
                         Expanded(
                           child: TradeRepublicDivider(
                             color: (isLight ? Colors.black : Colors.white)
-                                .withOpacity(0.1),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
+                                .withOpacity(0.1))),
+                      ])),
 
                   // Monthly options
                   ..._monthlyData.map((monthData) {
@@ -1345,12 +1213,10 @@ class _DelviooHomePageState extends State<DelviooHomePage>
                         double.tryParse(earningsRaw?.toString() ?? '0') ?? 0.0;
                     final deliveries =
                         int.tryParse(
-                          monthData['deliveries']?.toString() ?? '0',
-                        ) ??
+                          monthData['deliveries']?.toString() ?? '0') ??
                         0;
                     final convertedEarnings = appSettings.convertCurrency(
-                      earnings,
-                    );
+                      earnings);
 
                     // Format month label
                     String monthLabel = month;
@@ -1379,7 +1245,7 @@ class _DelviooHomePageState extends State<DelviooHomePage>
                     }
 
                     return Padding(
-                      padding: const EdgeInsets.only(bottom: 12),
+                      padding: EdgeInsets.only(bottom: 12),
                       child: _buildPeriodOption(
                         isLight: isLight,
                         icon: CupertinoIcons.calendar,
@@ -1394,19 +1260,12 @@ class _DelviooHomePageState extends State<DelviooHomePage>
                             _selectedPeriod = month;
                           });
                           Navigator.pop(context);
-                        },
-                      ),
-                    );
+                        }));
                   }),
 
                   SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
-                ],
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
+                ])),
+          ])));
   }
 
   Widget _buildPeriodOption({
@@ -1419,23 +1278,20 @@ class _DelviooHomePageState extends State<DelviooHomePage>
     required VoidCallback onTap,
   }) {
     final periodCard = Container(
-      padding: const EdgeInsets.all(18),
+      padding: EdgeInsets.all(18),
       decoration: BoxDecoration(
         color: isSelected
             ? (isLight ? Colors.black : Colors.white).withOpacity(0.05)
             : Colors.transparent,
-        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-      ),
+        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
       child: Row(
         children: [
           Icon(
             icon,
             color: (isLight ? Colors.black : Colors.white).withOpacity(
-              isSelected ? 1.0 : 0.5,
-            ),
-            size: 22,
-          ),
-          const SizedBox(width: 16),
+              isSelected ? 1.0 : 0.5),
+            size: 22),
+          SizedBox(width: 16),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -1445,42 +1301,30 @@ class _DelviooHomePageState extends State<DelviooHomePage>
                   style: TextStyle(
                     color: isLight ? Colors.black : Colors.white,
                     fontSize: DesktopOptimizedWidgets.getFontSize(),
-                    fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500,
-                  ),
-                ),
-                const SizedBox(height: 2),
+                    fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500)),
+                SizedBox(height: 2),
                 Text(
                   subtitle,
                   style: TextStyle(
                     color: (isLight ? Colors.black : Colors.white).withOpacity(
-                      0.5,
-                    ),
+                      0.5),
                     fontSize: 13,
-                    fontWeight: FontWeight.w400,
-                  ),
-                ),
-              ],
-            ),
-          ),
+                    fontWeight: FontWeight.w400)),
+              ])),
           Text(
             earnings,
             style: TextStyle(
               color: isLight ? Colors.black : Colors.white,
               fontSize: DesktopOptimizedWidgets.getFontSize(),
-              fontWeight: FontWeight.w600,
-            ),
-          ),
+              fontWeight: FontWeight.w600)),
           if (isSelected) ...[
-            const SizedBox(width: 12),
+            SizedBox(width: 12),
             Icon(
               CupertinoIcons.checkmark,
               color: isLight ? Colors.black : Colors.white,
-              size: 18,
-            ),
+              size: 18),
           ],
-        ],
-      ),
-    );
+        ]));
 
     return TradeRepublicTap(onTap: onTap, child: periodCard);
   }
@@ -1506,8 +1350,7 @@ class _DelviooHomePageState extends State<DelviooHomePage>
                     _showChartModal(
                       AppLocalizations.of(context)?.deliveries ?? 'Deliveries',
                       'deliveries',
-                      isLight,
-                    );
+                      isLight);
                   },
                   child: _buildStatCard(
                     title:
@@ -1517,12 +1360,8 @@ class _DelviooHomePageState extends State<DelviooHomePage>
                     icon: CupertinoIcons.cube_box,
                     color: isLight ? Colors.black : Colors.white,
                     isLight: isLight,
-                    showChartIcon: true,
-                  ),
-                ),
-              ),
-            ),
-            const SizedBox(width: 16),
+                    showChartIcon: true)))),
+            SizedBox(width: 16),
             Expanded(
               child: _buildAnimatedStatCard(
                 delay: 1,
@@ -1532,8 +1371,7 @@ class _DelviooHomePageState extends State<DelviooHomePage>
                     _showChartModal(
                       AppLocalizations.of(context)?.distance ?? 'Distance',
                       'distance',
-                      isLight,
-                    );
+                      isLight);
                   },
                   child: _buildStatCard(
                     title: AppLocalizations.of(context)?.distance ?? 'Distance',
@@ -1541,13 +1379,8 @@ class _DelviooHomePageState extends State<DelviooHomePage>
                     icon: CupertinoIcons.location,
                     color: isLight ? Colors.black : Colors.white,
                     isLight: isLight,
-                    showChartIcon: true,
-                  ),
-                ),
-              ),
-            ),
-          ],
-        ),
+                    showChartIcon: true)))),
+          ]),
         SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
         _buildAnimatedStatCard(
           delay: 2,
@@ -1557,8 +1390,7 @@ class _DelviooHomePageState extends State<DelviooHomePage>
               _showChartModal(
                 AppLocalizations.of(context)?.averageRating ?? 'Average Rating',
                 'earnings',
-                isLight,
-              );
+                isLight);
             },
             child: _buildWideStatCard(
               title:
@@ -1567,12 +1399,8 @@ class _DelviooHomePageState extends State<DelviooHomePage>
               icon: CupertinoIcons.star,
               color: isLight ? Colors.black : Colors.white,
               isLight: isLight,
-              showChartIcon: true,
-            ),
-          ),
-        ),
-      ],
-    );
+              showChartIcon: true))),
+      ]);
   }
 
   // Truck Visualization with Sections
@@ -1594,9 +1422,7 @@ class _DelviooHomePageState extends State<DelviooHomePage>
                 color: isLight ? Colors.black : Colors.white,
                 fontSize: 22,
                 fontWeight: FontWeight.w700,
-                letterSpacing: -0.5,
-              ),
-            ),
+                letterSpacing: -0.5)),
             const Spacer(),
             // Vehicle Selector Button
             if (_driverVehicles.length > 1)
@@ -1607,15 +1433,13 @@ class _DelviooHomePageState extends State<DelviooHomePage>
                     _showVehicleSelector(isLight);
                   },
                   child: Container(
-                    padding: const EdgeInsets.symmetric(
+                    padding: EdgeInsets.symmetric(
                       horizontal: 10,
-                      vertical: 6,
-                    ),
+                      vertical: 6),
                     decoration: BoxDecoration(
                       color: (isLight ? Colors.black : Colors.white)
                           .withOpacity(0.05),
-                      borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-                    ),
+                      borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
@@ -1627,26 +1451,17 @@ class _DelviooHomePageState extends State<DelviooHomePage>
                               color: isLight ? Colors.black : Colors.white,
                               fontSize: 12,
                               fontWeight: FontWeight.w600,
-                              fontFamily: 'Poppins',
-                            ),
+                              fontFamily: 'Poppins'),
                             overflow: TextOverflow.ellipsis,
-                            maxLines: 1,
-                          ),
-                        ),
-                        const SizedBox(width: 2),
+                            maxLines: 1)),
+                        SizedBox(width: 2),
                         Icon(
                           CupertinoIcons.chevron_down,
                           color: (isLight ? Colors.black : Colors.white)
                               .withOpacity(0.5),
-                          size: 16,
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-          ],
-        ),
+                          size: 16),
+                      ])))),
+          ]),
         SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
         // Truck Container
@@ -1655,8 +1470,7 @@ class _DelviooHomePageState extends State<DelviooHomePage>
           padding: DesktopAppWrapper.getPagePadding(),
           decoration: BoxDecoration(
             color: (isLight ? Colors.black : Colors.white).withOpacity(0.03),
-            borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-          ),
+            borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
           child: Column(
             children: [
               // Truck Visualization
@@ -1664,18 +1478,13 @@ class _DelviooHomePageState extends State<DelviooHomePage>
                 const Center(
                   child: Padding(
                     padding: EdgeInsets.all(40),
-                    child: CultiooLoadingIndicator(),
-                  ),
-                )
+                    child: CultiooLoadingIndicator()))
               else if (_vehicleSections.isEmpty)
                 _buildEmptyTruckState(isLight)
               else
                 _buildTruckWithSections(isLight),
-            ],
-          ),
-        ),
-      ],
-    );
+            ])),
+      ]);
   }
 
   // Empty truck state when no sections configured
@@ -1688,8 +1497,7 @@ class _DelviooHomePageState extends State<DelviooHomePage>
           Icon(
             CupertinoIcons.cube_box,
             size: 48,
-            color: (isLight ? Colors.black : Colors.white).withOpacity(0.3),
-          ),
+            color: (isLight ? Colors.black : Colors.white).withOpacity(0.3)),
           SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
           Text(
             AppLocalizations.of(context)?.noVehicleSectionsConfigured ??
@@ -1697,21 +1505,15 @@ class _DelviooHomePageState extends State<DelviooHomePage>
             style: TextStyle(
               color: isLight ? Colors.black : Colors.white,
               fontSize: DesktopOptimizedWidgets.getFontSize(),
-              fontWeight: FontWeight.w500,
-            ),
-          ),
-          const SizedBox(height: 4),
+              fontWeight: FontWeight.w500)),
+          SizedBox(height: 4),
           Text(
             AppLocalizations.of(context)?.addSectionsInMaps ??
                 'Add sections in Maps → Vehicle Settings',
             style: TextStyle(
               color: (isLight ? Colors.black : Colors.white).withOpacity(0.5),
-              fontSize: 12,
-            ),
-          ),
-        ],
-      ),
-    );
+              fontSize: 12)),
+        ]));
   }
 
   // Build truck with sections visualization - Minimal Style like Maps
@@ -1738,11 +1540,10 @@ class _DelviooHomePageState extends State<DelviooHomePage>
     // Truck Visualization - Minimal Style like Maps
     return Container(
       height: 120,
-      padding: const EdgeInsets.all(2),
+      padding: EdgeInsets.all(2),
       decoration: BoxDecoration(
         color: (isLight ? Colors.black : Colors.white).withOpacity(0.05),
-        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-      ),
+        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(18),
         child: Row(
@@ -1753,20 +1554,15 @@ class _DelviooHomePageState extends State<DelviooHomePage>
               decoration: BoxDecoration(
                 color: _hasLoadWarning()
                     ? const Color(0xFFEF4444).withOpacity(0.3)
-                    : (isLight ? Colors.black : Colors.white).withOpacity(0.05),
-              ),
+                    : (isLight ? Colors.black : Colors.white).withOpacity(0.05)),
               child: Center(
                 child: Icon(
                   CupertinoIcons.cube_box,
                   color: _hasLoadWarning()
                       ? const Color(0xFFEF4444)
                       : (isLight ? Colors.black : Colors.white).withOpacity(
-                          0.3,
-                        ),
-                  size: 24,
-                ),
-              ),
-            ),
+                          0.3),
+                  size: 24))),
             // Sections
             Expanded(
               child: Row(
@@ -1796,8 +1592,7 @@ class _DelviooHomePageState extends State<DelviooHomePage>
                   final mainTextColor = _getSectionTextColor(
                     index,
                     isLight,
-                    isOccupied,
-                  );
+                    isOccupied);
                   final subTextColor = _hasLoadWarning()
                       ? mainTextColor.withOpacity(0.7)
                       : (isOccupied
@@ -1816,8 +1611,7 @@ class _DelviooHomePageState extends State<DelviooHomePage>
                       child: AnimatedContainer(
                         duration: const Duration(milliseconds: 200),
                         decoration: BoxDecoration(
-                          color: _getSectionColor(index, isLight),
-                        ),
+                          color: _getSectionColor(index, isLight)),
                         child: Center(
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
@@ -1831,10 +1625,8 @@ class _DelviooHomePageState extends State<DelviooHomePage>
                                   fontSize: DesktopOptimizedWidgets.getFontSize() + 10,
                                   fontWeight: FontWeight.w800,
                                   color: mainTextColor,
-                                  fontFamily: 'Poppins',
-                                ),
-                              ),
-                              const SizedBox(height: 4),
+                                  fontFamily: 'Poppins')),
+                              SizedBox(height: 4),
                               // Capacity with original unit
                               Text(
                                 totalCargoCapacity > 0
@@ -1845,22 +1637,10 @@ class _DelviooHomePageState extends State<DelviooHomePage>
                                   fontSize: 13,
                                   fontWeight: FontWeight.w700,
                                   color: subTextColor,
-                                  fontFamily: 'Poppins',
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                  );
-                }).toList(),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
+                                  fontFamily: 'Poppins')),
+                            ])))));
+                }).toList())),
+          ])));
   }
 
   // Build a wheel
@@ -1870,9 +1650,7 @@ class _DelviooHomePageState extends State<DelviooHomePage>
       height: 20,
       decoration: BoxDecoration(
         color: isLight ? Colors.black : Colors.white,
-        shape: BoxShape.circle,
-      ),
-    );
+        shape: BoxShape.circle));
   }
 
   // Build legend item
@@ -1889,20 +1667,15 @@ class _DelviooHomePageState extends State<DelviooHomePage>
           height: 12,
           decoration: BoxDecoration(
             color: color,
-            borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-          ),
-        ),
-        const SizedBox(width: 8),
+            borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8))),
+        SizedBox(width: 8),
         Text(
           label,
           style: TextStyle(
             color: isLight ? Colors.black : Colors.white,
             fontSize: 13,
-            fontWeight: FontWeight.w500,
-          ),
-        ),
-      ],
-    );
+            fontWeight: FontWeight.w500)),
+      ]);
   }
 
   // Show vehicle selector bottom sheet - Modern Design like Maps
@@ -1921,16 +1694,13 @@ class _DelviooHomePageState extends State<DelviooHomePage>
                 Icon(
                   CupertinoIcons.car_detailed,
                   size: 22,
-                  color: isLight ? Colors.black : Colors.white,
-                ),
-                const SizedBox(width: 12),
+                  color: isLight ? Colors.black : Colors.white),
+                SizedBox(width: 12),
                 Text(
                   AppLocalizations.of(context)?.selectVehicle ?? 'Select Vehicle',
                   style: TextStyle(fontSize: 22, fontWeight: FontWeight.w700,
-                    color: isLight ? Colors.black : Colors.white, letterSpacing: -0.4),
-                ),
-              ],
-            ),
+                    color: isLight ? Colors.black : Colors.white, letterSpacing: -0.4)),
+              ]),
             SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
             // Vehicle List
             Expanded(
@@ -1943,24 +1713,18 @@ class _DelviooHomePageState extends State<DelviooHomePage>
                             CupertinoIcons.car,
                             size: 64,
                             color: (isLight ? Colors.black : Colors.white)
-                                .withOpacity(0.3),
-                          ),
+                                .withOpacity(0.3)),
                           SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
                           Text(
                             AppLocalizations.of(
-                                  context,
-                                )?.noVehiclesRegistered ??
+                                  context)?.noVehiclesRegistered ??
                                 'No vehicles registered',
                             style: TextStyle(
                               fontSize: DesktopOptimizedWidgets.getFontSize() + 4,
                               fontWeight: FontWeight.w600,
                               color: isLight ? Colors.black : Colors.white,
-                              fontFamily: 'Poppins',
-                            ),
-                          ),
-                        ],
-                      ),
-                    )
+                              fontFamily: 'Poppins')),
+                        ]))
                   : ListView.builder(
                       itemCount: _driverVehicles.length,
                       itemBuilder: (context, index) {
@@ -1994,8 +1758,7 @@ class _DelviooHomePageState extends State<DelviooHomePage>
 
                         // Get cargo capacity
                         final cargoCapacity = _parseDouble(
-                          vehicle['cargo_capacity'],
-                        );
+                          vehicle['cargo_capacity']);
                         final cargoUnit =
                             vehicle['cargo_unit']?.toString() ?? 'm³';
 
@@ -2013,15 +1776,14 @@ class _DelviooHomePageState extends State<DelviooHomePage>
                             await _loadVehicleSectionsFromVehicle(vehicle);
                           },
                           child: Container(
-                            margin: const EdgeInsets.only(bottom: 12),
+                            margin: EdgeInsets.only(bottom: 12),
                             padding: DesktopAppWrapper.getPagePadding(),
                             decoration: BoxDecoration(
                               color: isSelected
                                   ? (isLight ? Colors.black : Colors.white)
                                         .withOpacity(0.05)
                                   : Colors.transparent,
-                              borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-                            ),
+                              borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
                             child: Row(
                               children: [
                                 // Vehicle Icon
@@ -2032,17 +1794,14 @@ class _DelviooHomePageState extends State<DelviooHomePage>
                                     color:
                                         (isLight ? Colors.black : Colors.white)
                                             .withOpacity(0.05),
-                                    borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-                                  ),
+                                    borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
                                   child: Icon(
                                     _getVehicleIcon(vehicle),
                                     color: isLight
                                         ? Colors.black
                                         : Colors.white,
-                                    size: 24,
-                                  ),
-                                ),
-                                const SizedBox(width: 16),
+                                    size: 24)),
+                                SizedBox(width: 16),
                                 // Vehicle Info
                                 Expanded(
                                   child: Column(
@@ -2053,8 +1812,7 @@ class _DelviooHomePageState extends State<DelviooHomePage>
                                         vehicleName.isNotEmpty
                                             ? vehicleName
                                             : AppLocalizations.of(
-                                                    context,
-                                                  )?.vehicle ??
+                                                    context)?.vehicle ??
                                                   'Vehicle',
                                         style: TextStyle(
                                           fontSize: DesktopOptimizedWidgets.getFontSize() + 4,
@@ -2062,11 +1820,9 @@ class _DelviooHomePageState extends State<DelviooHomePage>
                                           color: isLight
                                               ? Colors.black
                                               : Colors.white,
-                                          fontFamily: 'Poppins',
-                                        ),
-                                      ),
+                                          fontFamily: 'Poppins')),
                                       if (vehicleDescription.isNotEmpty) ...[
-                                        const SizedBox(height: 4),
+                                        SizedBox(height: 4),
                                         Text(
                                           vehicleDescription,
                                           style: TextStyle(
@@ -2074,9 +1830,7 @@ class _DelviooHomePageState extends State<DelviooHomePage>
                                             color: isLight
                                                 ? Colors.black
                                                 : Colors.white,
-                                            fontFamily: 'Poppins',
-                                          ),
-                                        ),
+                                            fontFamily: 'Poppins')),
                                       ],
                                       SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                                       // Capacity & Sections info
@@ -2085,10 +1839,9 @@ class _DelviooHomePageState extends State<DelviooHomePage>
                                           if (cargoCapacity > 0)
                                             Container(
                                               padding:
-                                                  const EdgeInsets.symmetric(
+                                                  EdgeInsets.symmetric(
                                                     horizontal: 10,
-                                                    vertical: 4,
-                                                  ),
+                                                    vertical: 4),
                                               decoration: BoxDecoration(
                                                 color:
                                                     (isLight
@@ -2096,8 +1849,7 @@ class _DelviooHomePageState extends State<DelviooHomePage>
                                                             : Colors.white)
                                                         .withOpacity(0.05),
                                                 borderRadius:
-                                                    BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-                                              ),
+                                                    BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
                                               child: Text(
                                                 '📦 ${AppSettings().formatNumber(cargoCapacity, decimals: 1)} $cargoUnit',
                                                 style: TextStyle(
@@ -2108,29 +1860,22 @@ class _DelviooHomePageState extends State<DelviooHomePage>
                                                               ? Colors.black
                                                               : Colors.white)
                                                           .withOpacity(0.6),
-                                                  fontFamily: 'Poppins',
-                                                ),
-                                              ),
-                                            ),
+                                                  fontFamily: 'Poppins'))),
                                           if (hasSections) ...[
-                                            const SizedBox(width: 8),
+                                            SizedBox(width: 8),
                                             Container(
                                               padding:
-                                                  const EdgeInsets.symmetric(
+                                                  EdgeInsets.symmetric(
                                                     horizontal: 10,
-                                                    vertical: 4,
-                                                  ),
+                                                    vertical: 4),
                                               decoration: BoxDecoration(
                                                 color: isLight
                                                     ? Colors.green.withOpacity(
-                                                        0.1,
-                                                      )
+                                                        0.1)
                                                     : Colors.green.withOpacity(
-                                                        0.2,
-                                                      ),
+                                                        0.2),
                                                 borderRadius:
-                                                    BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-                                              ),
+                                                    BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
                                               child: Text(
                                                 '🚛 $numSections sections',
                                                 style: TextStyle(
@@ -2139,16 +1884,10 @@ class _DelviooHomePageState extends State<DelviooHomePage>
                                                   color: isLight
                                                       ? Colors.green[800]
                                                       : Colors.green[300],
-                                                  fontFamily: 'Poppins',
-                                                ),
-                                              ),
-                                            ),
+                                                  fontFamily: 'Poppins'))),
                                           ],
-                                        ],
-                                      ),
-                                    ],
-                                  ),
-                                ),
+                                        ]),
+                                    ])),
                                 // Selection indicator
                                 if (isSelected)
                                   Icon(
@@ -2156,21 +1895,12 @@ class _DelviooHomePageState extends State<DelviooHomePage>
                                     color: isLight
                                         ? Colors.black
                                         : Colors.white,
-                                    size: 28,
-                                  ),
-                              ],
-                            ),
-                          ),
-                        );
-                      },
-                    ),
-            ),
+                                    size: 28),
+                              ])));
+                      })),
             // Safe area padding
             SizedBox(height: MediaQuery.of(context).padding.bottom + 20),
-          ],
-        ),
-      ),
-    );
+          ])));
   }
 
   // Get vehicle icon based on type
@@ -2192,8 +1922,7 @@ class _DelviooHomePageState extends State<DelviooHomePage>
   void _showSectionDetails(
     Map<String, dynamic> section,
     int sectionIndex,
-    bool isLight,
-  ) {
+    bool isLight) {
     // Use the actual occupied status from database
     final isOccupied = _occupiedSectionIndices.contains(sectionIndex);
     // Get load data for this section
@@ -2210,8 +1939,7 @@ class _DelviooHomePageState extends State<DelviooHomePage>
     print('   - isOccupied: $isOccupied');
     print('   - _occupiedSectionIndices: $_occupiedSectionIndices');
     print(
-      '   - _occupiedSectionData keys: ${_occupiedSectionData.keys.toList()}',
-    );
+      '   - _occupiedSectionData keys: ${_occupiedSectionData.keys.toList()}');
     print('   - loadData for index $sectionIndex: $loadData');
     print('   - loadQuantity: $loadQuantity, loadUnit: $loadUnit');
 
@@ -2230,20 +1958,16 @@ class _DelviooHomePageState extends State<DelviooHomePage>
               Icon(
                 CupertinoIcons.square_grid_2x2,
                 size: 22,
-                color: isLight ? Colors.black : Colors.white,
-              ),
-              const SizedBox(width: 12),
+                color: isLight ? Colors.black : Colors.white),
+              SizedBox(width: 12),
               Text(
                 section['name'] ?? '${AppLocalizations.of(context)?.section ?? 'Section'} ${sectionIndex + 1}',
                 style: TextStyle(
                   color: isLight ? Colors.black : Colors.white,
                   fontSize: 22,
                   fontWeight: FontWeight.w700,
-                  letterSpacing: -0.4,
-                ),
-              ),
-            ],
-          ),
+                  letterSpacing: -0.4)),
+            ]),
           SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
           Text(
             isOccupied
@@ -2256,9 +1980,7 @@ class _DelviooHomePageState extends State<DelviooHomePage>
                   ? (isLight ? Colors.black : Colors.white).withOpacity(0.5)
                   : const Color(0xFF10B981),
               fontSize: 15,
-              fontWeight: FontWeight.w500,
-            ),
-          ),
+              fontWeight: FontWeight.w500)),
           SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
           // Capacity Info
@@ -2266,8 +1988,7 @@ class _DelviooHomePageState extends State<DelviooHomePage>
             padding: DesktopAppWrapper.getPagePadding(),
             decoration: BoxDecoration(
               color: (isLight ? Colors.black : Colors.white).withOpacity(0.05),
-              borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-            ),
+              borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
             child: Row(
               children: [
                 Expanded(
@@ -2279,28 +2000,20 @@ class _DelviooHomePageState extends State<DelviooHomePage>
                           color: isLight ? Colors.black : Colors.white,
                           fontSize: DesktopOptimizedWidgets.getFontSize() + 10,
                           fontWeight: FontWeight.w700,
-                          fontFamily: 'Poppins',
-                        ),
-                      ),
+                          fontFamily: 'Poppins')),
                       Text(
                         AppLocalizations.of(context)?.capacity ?? 'Capacity',
                         style: TextStyle(
                           color: (isLight ? Colors.black : Colors.white)
                               .withOpacity(0.5),
                           fontSize: 13,
-                          fontFamily: 'Poppins',
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
+                          fontFamily: 'Poppins')),
+                    ])),
                 Container(
                   width: 1,
                   height: 40,
                   color: (isLight ? Colors.black : Colors.white).withOpacity(
-                    0.1,
-                  ),
-                ),
+                    0.1)),
                 Expanded(
                   child: Column(
                     children: [
@@ -2310,24 +2023,16 @@ class _DelviooHomePageState extends State<DelviooHomePage>
                           color: isLight ? Colors.black : Colors.white,
                           fontSize: DesktopOptimizedWidgets.getFontSize() + 10,
                           fontWeight: FontWeight.w700,
-                          fontFamily: 'Poppins',
-                        ),
-                      ),
+                          fontFamily: 'Poppins')),
                       Text(
                         AppLocalizations.of(context)?.orders ?? 'Orders',
                         style: TextStyle(
                           color: (isLight ? Colors.black : Colors.white)
                               .withOpacity(0.5),
                           fontSize: 13,
-                          fontFamily: 'Poppins',
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ),
+                          fontFamily: 'Poppins')),
+                    ])),
+              ])),
 
           // Load Info if occupied
           if (isOccupied) ...[
@@ -2336,10 +2041,8 @@ class _DelviooHomePageState extends State<DelviooHomePage>
               padding: DesktopAppWrapper.getPagePadding(),
               decoration: BoxDecoration(
                 color: (isLight ? Colors.black : Colors.white).withOpacity(
-                  0.03,
-                ),
-                borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-              ),
+                  0.03),
+                borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -2348,9 +2051,8 @@ class _DelviooHomePageState extends State<DelviooHomePage>
                       Icon(
                         CupertinoIcons.cube_box,
                         color: isLight ? Colors.black : Colors.white,
-                        size: 20,
-                      ),
-                      const SizedBox(width: 8),
+                        size: 20),
+                      SizedBox(width: 8),
                       Text(
                         AppLocalizations.of(context)?.currentLoad ??
                             'Current Load',
@@ -2358,11 +2060,8 @@ class _DelviooHomePageState extends State<DelviooHomePage>
                           color: isLight ? Colors.black : Colors.white,
                           fontSize: DesktopOptimizedWidgets.getFontSize(),
                           fontWeight: FontWeight.w600,
-                          fontFamily: 'Poppins',
-                        ),
-                      ),
-                    ],
-                  ),
+                          fontFamily: 'Poppins')),
+                    ]),
                   SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                   // Load quantity - big display
                   Row(
@@ -2373,10 +2072,8 @@ class _DelviooHomePageState extends State<DelviooHomePage>
                           color: isLight ? Colors.black : Colors.white,
                           fontSize: 36,
                           fontWeight: FontWeight.w700,
-                          fontFamily: 'Poppins',
-                        ),
-                      ),
-                      const SizedBox(width: 8),
+                          fontFamily: 'Poppins')),
+                      SizedBox(width: 8),
                       Text(
                         loadUnit,
                         style: TextStyle(
@@ -2384,11 +2081,8 @@ class _DelviooHomePageState extends State<DelviooHomePage>
                               .withOpacity(0.6),
                           fontSize: DesktopOptimizedWidgets.getFontSize() + 6,
                           fontWeight: FontWeight.w600,
-                          fontFamily: 'Poppins',
-                        ),
-                      ),
-                    ],
-                  ),
+                          fontFamily: 'Poppins')),
+                    ]),
                   if (loadProduct.isNotEmpty) ...[
                     SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                     Text(
@@ -2398,13 +2092,9 @@ class _DelviooHomePageState extends State<DelviooHomePage>
                             .withOpacity(0.7),
                         fontSize: 15,
                         fontWeight: FontWeight.w500,
-                        fontFamily: 'Poppins',
-                      ),
-                    ),
+                        fontFamily: 'Poppins')),
                   ],
-                ],
-              ),
-            ),
+                ])),
           ],
 
           // Available message if not occupied
@@ -2414,16 +2104,14 @@ class _DelviooHomePageState extends State<DelviooHomePage>
               padding: DesktopAppWrapper.getPagePadding(),
               decoration: BoxDecoration(
                 color: const Color(0xFF10B981).withOpacity(0.1),
-                borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-              ),
+                borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
               child: Row(
                 children: [
-                  const Icon(
+                  Icon(
                     CupertinoIcons.checkmark_circle_fill,
                     color: Color(0xFF10B981),
-                    size: 24,
-                  ),
-                  const SizedBox(width: 12),
+                    size: 24),
+                  SizedBox(width: 12),
                   Expanded(
                     child: Text(
                       AppLocalizations.of(context)?.sectionEmptyReadyForCargo ??
@@ -2432,19 +2120,12 @@ class _DelviooHomePageState extends State<DelviooHomePage>
                         color: (isLight ? Colors.black : Colors.white)
                             .withOpacity(0.7),
                         fontSize: DesktopOptimizedWidgets.getFontSize(),
-                        fontFamily: 'Poppins',
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
+                        fontFamily: 'Poppins'))),
+                ])),
           ],
 
           SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
-        ],
-      ),
-    );
+        ]));
   }
 
   // Animated Stat Card mit Pop-In Effekt
@@ -2456,10 +2137,8 @@ class _DelviooHomePageState extends State<DelviooHomePage>
       builder: (context, value, _) {
         return Transform.scale(
           scale: value,
-          child: Opacity(opacity: value.clamp(0.0, 1.0), child: child),
-        );
-      },
-    );
+          child: Opacity(opacity: value.clamp(0.0, 1.0), child: child));
+      });
   }
 
   Widget _buildStatCard({
@@ -2471,11 +2150,10 @@ class _DelviooHomePageState extends State<DelviooHomePage>
     bool showChartIcon = false,
   }) {
     return Container(
-      padding: const EdgeInsets.all(18),
+      padding: EdgeInsets.all(18),
       decoration: BoxDecoration(
         color: (isLight ? Colors.black : Colors.white).withOpacity(0.03),
-        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-      ),
+        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -2487,10 +2165,8 @@ class _DelviooHomePageState extends State<DelviooHomePage>
                 Icon(
                   CupertinoIcons.chart_bar_alt_fill,
                   color: (isLight ? Colors.black : Colors.white).withOpacity(0.3),
-                  size: 18,
-                ),
-            ],
-          ),
+                  size: 18),
+            ]),
           SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
           Text(
             value,
@@ -2498,21 +2174,15 @@ class _DelviooHomePageState extends State<DelviooHomePage>
               color: isLight ? Colors.black : Colors.white,
               fontSize: 28,
               fontWeight: FontWeight.w700,
-              letterSpacing: -0.5,
-            ),
-          ),
-          const SizedBox(height: 4),
+              letterSpacing: -0.5)),
+          SizedBox(height: 4),
           Text(
             title,
             style: TextStyle(
               color: isLight ? Colors.black : Colors.white,
               fontSize: 13,
-              fontWeight: FontWeight.w500,
-            ),
-          ),
-        ],
-      ),
-    );
+              fontWeight: FontWeight.w500)),
+        ]));
   }
 
   Widget _buildWideStatCard({
@@ -2525,15 +2195,14 @@ class _DelviooHomePageState extends State<DelviooHomePage>
   }) {
     return Container(
       width: double.infinity,
-      padding: const EdgeInsets.all(18),
+      padding: EdgeInsets.all(18),
       decoration: BoxDecoration(
         color: (isLight ? Colors.black : Colors.white).withOpacity(0.03),
-        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-      ),
+        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
       child: Row(
         children: [
           Icon(icon, color: isLight ? Colors.black : Colors.white, size: 22),
-          const SizedBox(width: 16),
+          SizedBox(width: 16),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -2544,30 +2213,21 @@ class _DelviooHomePageState extends State<DelviooHomePage>
                     color: isLight ? Colors.black : Colors.white,
                     fontSize: 32,
                     fontWeight: FontWeight.w700,
-                    letterSpacing: -0.5,
-                  ),
-                ),
-                const SizedBox(height: 4),
+                    letterSpacing: -0.5)),
+                SizedBox(height: 4),
                 Text(
                   title,
                   style: TextStyle(
                     color: isLight ? Colors.black : Colors.white,
                     fontSize: DesktopOptimizedWidgets.getFontSize(),
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-              ],
-            ),
-          ),
+                    fontWeight: FontWeight.w500)),
+              ])),
           if (showChartIcon)
             Icon(
               CupertinoIcons.chart_bar_alt_fill,
               color: (isLight ? Colors.black : Colors.white).withOpacity(0.3),
-              size: 20,
-            ),
-        ],
-      ),
-    );
+              size: 20),
+        ]));
   }
 
   // Chart Modal
@@ -2619,19 +2279,15 @@ class _DelviooHomePageState extends State<DelviooHomePage>
                     Icon(
                       CupertinoIcons.chart_bar_circle,
                       color: isLight ? Colors.black : Colors.white,
-                      size: 24,
-                    ),
-                    const SizedBox(width: 12),
+                      size: 24),
+                    SizedBox(width: 12),
                     Text(
                       title,
                       style: TextStyle(
                         color: isLight ? Colors.black : Colors.white,
                         fontSize: DesktopOptimizedWidgets.getFontSize() + 6,
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
-                  ],
-                ),
+                        fontWeight: FontWeight.w700)),
+                  ]),
                 SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.end,
@@ -2642,13 +2298,11 @@ class _DelviooHomePageState extends State<DelviooHomePage>
                         color: isLight ? Colors.black : Colors.white,
                         fontSize: 40,
                         fontWeight: FontWeight.w700,
-                        letterSpacing: -1,
-                      ),
-                    ),
-                    const SizedBox(width: 12),
+                        letterSpacing: -1)),
+                    SizedBox(width: 12),
                     if (percentChange != 0)
                       Padding(
-                        padding: const EdgeInsets.only(bottom: 8),
+                        padding: EdgeInsets.only(bottom: 8),
                         child: Row(
                           children: [
                             Icon(
@@ -2658,9 +2312,8 @@ class _DelviooHomePageState extends State<DelviooHomePage>
                               color: isPositive
                                   ? const Color(0xFF10B981)
                                   : const Color(0xFFEF4444),
-                              size: 18,
-                            ),
-                            const SizedBox(width: 4),
+                              size: 18),
+                            SizedBox(width: 4),
                             Text(
                               '${appSettings.formatNumber(percentChange.abs(), decimals: 1)}%',
                               style: TextStyle(
@@ -2668,24 +2321,17 @@ class _DelviooHomePageState extends State<DelviooHomePage>
                                     ? const Color(0xFF10B981)
                                     : const Color(0xFFEF4444),
                                 fontSize: DesktopOptimizedWidgets.getFontSize(),
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                  ],
-                ),
+                                fontWeight: FontWeight.w600)),
+                          ])),
+                  ]),
                 SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                 Text(
                   _selectedChartPeriod,
                   style: TextStyle(
                     color: (isLight ? Colors.black : Colors.white).withOpacity(0.5),
                     fontSize: DesktopOptimizedWidgets.getFontSize(),
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-                const SizedBox(height: 32),
+                    fontWeight: FontWeight.w500)),
+                SizedBox(height: 32),
                 SizedBox(
                   height: 260,
                   child: _chartData.length < 2
@@ -2693,10 +2339,7 @@ class _DelviooHomePageState extends State<DelviooHomePage>
                           child: Text(
                             'No data available',
                             style: TextStyle(
-                              color: (isLight ? Colors.black : Colors.white).withOpacity(0.5),
-                            ),
-                          ),
-                        )
+                              color: (isLight ? Colors.black : Colors.white).withOpacity(0.5))))
                       : TradeRepublicBarChart(
                           data: _chartData,
                           isLight: isLight,
@@ -2709,9 +2352,7 @@ class _DelviooHomePageState extends State<DelviooHomePage>
                               default:
                                 return appSettings.formatNumber(v, decimals: 0);
                             }
-                          },
-                        ),
-                ),
+                          })),
                 SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
                 TradeRepublicPeriodSegmented(
                   isLight: isLight,
@@ -2730,15 +2371,10 @@ class _DelviooHomePageState extends State<DelviooHomePage>
                       _chartData = _buildRealChartData(metric, period);
                     });
                     setModalState(() {});
-                  },
-                ),
+                  }),
                 SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
-              ],
-            ),
-          );
-        },
-      ),
-    );
+              ]));
+        }));
   }
 
   /// Build chart data from real monthly stats. Maps period label → number of months.
@@ -2794,9 +2430,7 @@ class _DelviooHomePageState extends State<DelviooHomePage>
             color: isLight ? Colors.black : Colors.white,
             fontSize: 22,
             fontWeight: FontWeight.w700,
-            letterSpacing: -0.5,
-          ),
-        ),
+            letterSpacing: -0.5)),
         SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
         _buildAnimatedPeriodCard(
           delay: 0,
@@ -2804,19 +2438,13 @@ class _DelviooHomePageState extends State<DelviooHomePage>
             title: AppLocalizations.of(context)?.today ?? 'Today',
             deliveries: appSettings.formatNumber(
               _parseDouble(_statsData?['todayDeliveries']),
-              decimals: 0,
-            ),
+              decimals: 0),
             distance: appSettings.formatDistance(
-              _parseDouble(_statsData?['todayDistance']),
-            ),
+              _parseDouble(_statsData?['todayDistance'])),
             earnings: appSettings.formatCurrency(
               appSettings.convertCurrency(
-                _parseDouble(_statsData?['todayEarnings']),
-              ),
-            ),
-            isLight: isLight,
-          ),
-        ),
+                _parseDouble(_statsData?['todayEarnings']))),
+            isLight: isLight)),
         SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
         _buildAnimatedPeriodCard(
           delay: 1,
@@ -2824,19 +2452,13 @@ class _DelviooHomePageState extends State<DelviooHomePage>
             title: AppLocalizations.of(context)?.thisWeek ?? 'This Week',
             deliveries: appSettings.formatNumber(
               _parseDouble(_statsData?['weekDeliveries']),
-              decimals: 0,
-            ),
+              decimals: 0),
             distance: appSettings.formatDistance(
-              _parseDouble(_statsData?['weekDistance']),
-            ),
+              _parseDouble(_statsData?['weekDistance'])),
             earnings: appSettings.formatCurrency(
               appSettings.convertCurrency(
-                _parseDouble(_statsData?['weekEarnings']),
-              ),
-            ),
-            isLight: isLight,
-          ),
-        ),
+                _parseDouble(_statsData?['weekEarnings']))),
+            isLight: isLight)),
         SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
         _buildAnimatedPeriodCard(
           delay: 2,
@@ -2844,21 +2466,14 @@ class _DelviooHomePageState extends State<DelviooHomePage>
             title: AppLocalizations.of(context)?.thisMonth ?? 'This Month',
             deliveries: appSettings.formatNumber(
               _parseDouble(_statsData?['monthDeliveries']),
-              decimals: 0,
-            ),
+              decimals: 0),
             distance: appSettings.formatDistance(
-              _parseDouble(_statsData?['monthDistance']),
-            ),
+              _parseDouble(_statsData?['monthDistance'])),
             earnings: appSettings.formatCurrency(
               appSettings.convertCurrency(
-                _parseDouble(_statsData?['monthEarnings']),
-              ),
-            ),
-            isLight: isLight,
-          ),
-        ),
-      ],
-    );
+                _parseDouble(_statsData?['monthEarnings']))),
+            isLight: isLight)),
+      ]);
   }
 
   // Animated Period Card mit Slide-Up Effekt
@@ -2870,10 +2485,8 @@ class _DelviooHomePageState extends State<DelviooHomePage>
       builder: (context, value, _) {
         return Transform.translate(
           offset: Offset(0, 30 * (1 - value)),
-          child: Opacity(opacity: value, child: child),
-        );
-      },
-    );
+          child: Opacity(opacity: value, child: child));
+      });
   }
 
   Widget _buildPeriodCard({
@@ -2884,11 +2497,10 @@ class _DelviooHomePageState extends State<DelviooHomePage>
     required bool isLight,
   }) {
     return Container(
-      padding: const EdgeInsets.all(18),
+      padding: EdgeInsets.all(18),
       decoration: BoxDecoration(
         color: (isLight ? Colors.black : Colors.white).withOpacity(0.03),
-        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-      ),
+        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -2898,9 +2510,7 @@ class _DelviooHomePageState extends State<DelviooHomePage>
               color: isLight ? Colors.black : Colors.white,
               fontSize: DesktopOptimizedWidgets.getFontSize() + 4,
               fontWeight: FontWeight.w700,
-              letterSpacing: -0.3,
-            ),
-          ),
+              letterSpacing: -0.3)),
           SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
           Row(
             children: [
@@ -2909,40 +2519,30 @@ class _DelviooHomePageState extends State<DelviooHomePage>
                   deliveries,
                   AppLocalizations.of(context)?.deliveries ?? 'Deliveries',
                   CupertinoIcons.cube_box,
-                  isLight,
-                ),
-              ),
-              const SizedBox(width: 12),
+                  isLight)),
+              SizedBox(width: 12),
               Expanded(
                 child: _buildPeriodStat(
                   distance,
                   AppLocalizations.of(context)?.distance ?? 'Distance',
                   CupertinoIcons.map,
-                  isLight,
-                ),
-              ),
-              const SizedBox(width: 12),
+                  isLight)),
+              SizedBox(width: 12),
               Expanded(
                 child: _buildPeriodStat(
                   earnings,
                   AppLocalizations.of(context)?.earnings ?? 'Earnings',
                   CupertinoIcons.creditcard,
-                  isLight,
-                ),
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
+                  isLight)),
+            ]),
+        ]));
   }
 
   Widget _buildPeriodStat(
     String value,
     String label,
     IconData icon,
-    bool isLight,
-  ) {
+    bool isLight) {
     return Column(
       children: [
         Icon(icon, color: isLight ? Colors.black : Colors.white, size: 20),
@@ -2953,20 +2553,15 @@ class _DelviooHomePageState extends State<DelviooHomePage>
             color: isLight ? Colors.black : Colors.white,
             fontSize: DesktopOptimizedWidgets.getFontSize() + 4,
             fontWeight: FontWeight.w700,
-            letterSpacing: -0.2,
-          ),
-        ),
-        const SizedBox(height: 4),
+            letterSpacing: -0.2)),
+        SizedBox(height: 4),
         Text(
           label,
           style: TextStyle(
             color: (isLight ? Colors.black : Colors.white).withOpacity(0.6),
             fontSize: 12,
-            fontWeight: FontWeight.w500,
-          ),
-        ),
-      ],
-    );
+            fontWeight: FontWeight.w500)),
+      ]);
   }
 
   // Fuel & Emissions Section - Shows fuel usage, costs, CO2 and savings
@@ -3110,19 +2705,16 @@ class _DelviooHomePageState extends State<DelviooHomePage>
             color: isLight ? Colors.black : Colors.white,
             fontSize: 22,
             fontWeight: FontWeight.w700,
-            letterSpacing: -0.5,
-          ),
-        ),
+            letterSpacing: -0.5)),
         SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
         // Main Stats Card
         Container(
           width: double.infinity,
-          padding: const EdgeInsets.all(0),
+          padding: EdgeInsets.all(0),
           decoration: BoxDecoration(
             color: (isLight ? Colors.black : Colors.white).withOpacity(0.03),
-            borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-          ),
+            borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
           child: Column(
             children: [
               // Fuel Usage Row
@@ -3135,16 +2727,12 @@ class _DelviooHomePageState extends State<DelviooHomePage>
                       title:
                           AppLocalizations.of(context)?.fuelUsed ?? 'Fuel Used',
                       value: fuelUsedText,
-                      isLight: isLight,
-                    ),
-                  ),
+                      isLight: isLight)),
                   Container(
                     width: 1,
                     height: 60,
                     color: (isLight ? Colors.black : Colors.white).withOpacity(
-                      0.1,
-                    ),
-                  ),
+                      0.1)),
                   Expanded(
                     child: _buildFuelStatItem(
                       icon: CupertinoIcons.money_dollar_circle,
@@ -3152,16 +2740,12 @@ class _DelviooHomePageState extends State<DelviooHomePage>
                       title:
                           AppLocalizations.of(context)?.fuelCost ?? 'Fuel Cost',
                       value: appSettings.formatCurrency(totalFuelCost),
-                      isLight: isLight,
-                    ),
-                  ),
-                ],
-              ),
+                      isLight: isLight)),
+                ]),
 
               SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
               TradeRepublicDivider(
-                color: (isLight ? Colors.black : Colors.white).withOpacity(0.1),
-              ),
+                color: (isLight ? Colors.black : Colors.white).withOpacity(0.1)),
               SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
               // CO2 Emissions Row
@@ -3175,16 +2759,12 @@ class _DelviooHomePageState extends State<DelviooHomePage>
                           AppLocalizations.of(context)?.co2Emissions ??
                           'CO₂ Emissions',
                       value: co2EmissionsText,
-                      isLight: isLight,
-                    ),
-                  ),
+                      isLight: isLight)),
                   Container(
                     width: 1,
                     height: 60,
                     color: (isLight ? Colors.black : Colors.white).withOpacity(
-                      0.1,
-                    ),
-                  ),
+                      0.1)),
                   Expanded(
                     child: _buildFuelStatItem(
                       icon: CupertinoIcons.speedometer,
@@ -3195,30 +2775,24 @@ class _DelviooHomePageState extends State<DelviooHomePage>
                           : (AppLocalizations.of(context)?.avgConsumption ??
                                 'Avg. Consumption'),
                       value: consumptionText,
-                      isLight: isLight,
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ),
-        ),
+                      isLight: isLight)),
+                ]),
+            ])),
 
         SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
         // CO2 Savings Card - Modern Minimal
         Container(
           width: double.infinity,
-          padding: const EdgeInsets.all(0),
+          padding: EdgeInsets.all(0),
           decoration: BoxDecoration(
             color: (isLight ? Colors.black : Colors.white).withOpacity(0.03),
-            borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-          ),
+            borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
           child: Column(
             children: [
               // Hero: CO2 Saved - centered big number
               Padding(
-                padding: const EdgeInsets.fromLTRB(20, 24, 20, 0),
+                padding: EdgeInsets.fromLTRB(20, 24, 20, 0),
                 child: Column(
                   children: [
                     Container(
@@ -3226,14 +2800,11 @@ class _DelviooHomePageState extends State<DelviooHomePage>
                       height: 56,
                       decoration: BoxDecoration(
                         color: const Color(0xFF10B981).withOpacity(0.12),
-                        borderRadius: BorderRadius.circular(18),
-                      ),
-                      child: const Icon(
+                        borderRadius: BorderRadius.circular(18)),
+                      child: Icon(
                         CupertinoIcons.leaf_arrow_circlepath,
                         color: Color(0xFF10B981),
-                        size: 24,
-                      ),
-                    ),
+                        size: 24)),
                     SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                     Text(
                       AppLocalizations.of(context)?.co2Saved ?? 'CO₂ Saved',
@@ -3241,44 +2812,35 @@ class _DelviooHomePageState extends State<DelviooHomePage>
                         fontSize: DesktopOptimizedWidgets.getFontSize(),
                         fontWeight: FontWeight.w500,
                         color: (isLight ? Colors.black : Colors.white)
-                            .withOpacity(0.4),
-                      ),
-                    ),
-                    const SizedBox(height: 4),
+                            .withOpacity(0.4))),
+                    SizedBox(height: 4),
                     Text(
                       savedCO2Text,
                       style: TextStyle(
                         color: isLight ? Colors.black : Colors.white,
                         fontSize: 36,
                         fontWeight: FontWeight.w700,
-                        letterSpacing: -1.5,
-                      ),
-                    ),
-                    const SizedBox(height: 4),
+                        letterSpacing: -1.5)),
+                    SizedBox(height: 4),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        const Text('🌳', style: TextStyle(fontSize: DesktopOptimizedWidgets.getFontSize(),),
-                        const SizedBox(width: 4),
+                        Text('🌳', style: TextStyle(fontSize: DesktopOptimizedWidgets.getFontSize()),
+                        SizedBox(width: 4),
                         Text(
                           '≈ ${appSettings.formatNumber(savedCO2Kg / 21, decimals: 1)} ${AppLocalizations.of(context)?.treesYear ?? 'trees/year'}',
                           style: TextStyle(
                             fontSize: 13,
                             fontWeight: FontWeight.w500,
-                            color: const Color(0xFF10B981),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
+                            color: const Color(0xFF10B981))),
+                      ]),
+                  ])),
 
-              const SizedBox(height: 20),
+              SizedBox(height: 20),
 
               // Savings breakdown - 3 stats in a row
               Padding(
-                padding: const EdgeInsets.fromLTRB(8, 0, 8, 8),
+                padding: EdgeInsets.fromLTRB(8, 0, 8, 8),
                 child: Row(
                   children: [
                     Expanded(
@@ -3288,14 +2850,11 @@ class _DelviooHomePageState extends State<DelviooHomePage>
                         title: AppLocalizations.of(context)?.filledEmptyRuns ??
                             'Filled Runs',
                         value: '$filledEmptyRuns',
-                        isLight: isLight,
-                      ),
-                    ),
+                        isLight: isLight)),
                     Container(
                       width: 1,
                       height: 60,
-                      color: (isLight ? Colors.black : Colors.white).withOpacity(0.1),
-                    ),
+                      color: (isLight ? Colors.black : Colors.white).withOpacity(0.1)),
                     Expanded(
                       child: _buildFuelStatItem(
                         icon: CupertinoIcons.map,
@@ -3303,14 +2862,11 @@ class _DelviooHomePageState extends State<DelviooHomePage>
                         title: AppLocalizations.of(context)?.distanceSaved ??
                             'Dist. Saved',
                         value: savedDistanceText,
-                        isLight: isLight,
-                      ),
-                    ),
+                        isLight: isLight)),
                     Container(
                       width: 1,
                       height: 60,
-                      color: (isLight ? Colors.black : Colors.white).withOpacity(0.1),
-                    ),
+                      color: (isLight ? Colors.black : Colors.white).withOpacity(0.1)),
                     Expanded(
                       child: _buildFuelStatItem(
                         icon: CupertinoIcons.speedometer,
@@ -3318,42 +2874,29 @@ class _DelviooHomePageState extends State<DelviooHomePage>
                         title: AppLocalizations.of(context)?.fuelSaved ??
                             'Fuel Saved',
                         value: savedFuelText,
-                        isLight: isLight,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        ),
+                        isLight: isLight)),
+                  ])),
+            ])),
 
         // Info text
         Padding(
-          padding: const EdgeInsets.only(left: 4, top: 8),
+          padding: EdgeInsets.only(left: 4, top: 8),
           child: Row(
             children: [
               Icon(
                 CupertinoIcons.info_circle,
                 color: (isLight ? Colors.black : Colors.white).withOpacity(0.25),
-                size: 14,
-              ),
-              const SizedBox(width: 6),
+                size: 14),
+              SizedBox(width: 6),
               Expanded(
                 child: Text(
                   AppLocalizations.of(context)?.fillingEmptyTripsHelpsReduce ??
                       'By filling empty return trips, you help reduce unnecessary emissions.',
                   style: TextStyle(
                     color: (isLight ? Colors.black : Colors.white).withOpacity(0.3),
-                    fontSize: 12,
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-      ],
-    );
+                    fontSize: 12))),
+            ])),
+      ]);
   }
 
   // Helper widget for fuel stat items
@@ -3367,34 +2910,27 @@ class _DelviooHomePageState extends State<DelviooHomePage>
     return Column(
       children: [
         Container(
-          padding: const EdgeInsets.all(10),
+          padding: EdgeInsets.all(10),
           decoration: BoxDecoration(
             color: iconColor.withOpacity(0.1),
-            borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-          ),
-          child: Icon(icon, color: iconColor, size: 22),
-        ),
-        const SizedBox(height: 10),
+            borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
+          child: Icon(icon, color: iconColor, size: 22)),
+        SizedBox(height: 10),
         Text(
           value,
           style: TextStyle(
             color: isLight ? Colors.black : Colors.white,
             fontSize: DesktopOptimizedWidgets.getFontSize() + 4,
             fontWeight: FontWeight.w700,
-            letterSpacing: -0.3,
-          ),
-        ),
-        const SizedBox(height: 4),
+            letterSpacing: -0.3)),
+        SizedBox(height: 4),
         Text(
           title,
           style: TextStyle(
             color: (isLight ? Colors.black : Colors.white).withOpacity(0.5),
             fontSize: 12,
-            fontWeight: FontWeight.w500,
-          ),
-        ),
-      ],
-    );
+            fontWeight: FontWeight.w500)),
+      ]);
   }
 
   // Helper widget for savings breakdown rows
@@ -3402,25 +2938,19 @@ class _DelviooHomePageState extends State<DelviooHomePage>
     return Row(
       children: [
         Icon(icon, color: Colors.white.withOpacity(0.8), size: 18),
-        const SizedBox(width: 12),
+        SizedBox(width: 12),
         Expanded(
           child: Text(
             label,
             style: TextStyle(
               color: Colors.white.withOpacity(0.8),
-              fontSize: DesktopOptimizedWidgets.getFontSize(),
-            ),
-          ),
-        ),
+              fontSize: DesktopOptimizedWidgets.getFontSize()))),
         Text(
           value,
           style: TextStyle(
             color: Colors.white,
             fontSize: DesktopOptimizedWidgets.getFontSize(),
-            fontWeight: FontWeight.w700,
-          ),
-        ),
-      ],
-    );
+            fontWeight: FontWeight.w700)),
+      ]);
   }
 }

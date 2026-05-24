@@ -20,8 +20,7 @@ class NominatimService {
           'countrycodes': 'us,de', // Support US and Germany addresses
           'bounded': '1',
           'extratags': '1',
-        },
-      );
+        });
 
       print('🌍 Nominatim request: $uri');
 
@@ -29,8 +28,7 @@ class NominatimService {
         uri,
         headers: {
           'User-Agent': 'CultiooBusinessApp/1.0 (business-address-search)',
-        },
-      );
+        });
 
       if (response.statusCode == 200) {
         final List<dynamic> data = json.decode(response.body);

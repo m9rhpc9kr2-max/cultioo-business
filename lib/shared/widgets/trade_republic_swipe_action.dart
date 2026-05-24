@@ -122,7 +122,7 @@ class TradeRepublicSwipeAction extends StatefulWidget {
     this.onTap,
     this.commitThreshold = 92,
     this.borderRadius = 20,
-    this.margin = const EdgeInsets.only(bottom: 16),
+    this.margin = EdgeInsets.only(bottom: 16),
     this.foregroundColor,
   });
 
@@ -150,8 +150,7 @@ class _TradeRepublicSwipeActionState extends State<TradeRepublicSwipeAction>
     super.initState();
     _settle = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 320),
-    )..addListener(() {
+      duration: const Duration(milliseconds: 320))..addListener(() {
         final a = _settleAnim;
         if (a == null || !mounted) return;
         setState(() => _drag = a.value);
@@ -219,8 +218,7 @@ class _TradeRepublicSwipeActionState extends State<TradeRepublicSwipeAction>
     final ctrl = _settle;
     if (ctrl == null) return;
     _settleAnim = Tween<double>(begin: _drag, end: target).animate(
-      CurvedAnimation(parent: ctrl, curve: Curves.easeOutCubic),
-    );
+      CurvedAnimation(parent: ctrl, curve: Curves.easeOutCubic));
     ctrl
       ..reset()
       ..forward();
@@ -258,9 +256,7 @@ class _TradeRepublicSwipeActionState extends State<TradeRepublicSwipeAction>
                 alignment: Alignment.centerLeft,
                 radius: widget.borderRadius,
                 defaultBg: defaultReveal,
-                defaultFg: defaultRevealFg,
-              ),
-            ),
+                defaultFg: defaultRevealFg)),
 
           // Trailing reveal grows from the RIGHT edge.
           if (showTrailing)
@@ -276,9 +272,7 @@ class _TradeRepublicSwipeActionState extends State<TradeRepublicSwipeAction>
                 alignment: Alignment.centerRight,
                 radius: widget.borderRadius,
                 defaultBg: defaultReveal,
-                defaultFg: defaultRevealFg,
-              ),
-            ),
+                defaultFg: defaultRevealFg)),
 
           // Foreground row. Solid background prevents reveal bleed-through.
           Transform.translate(
@@ -290,13 +284,8 @@ class _TradeRepublicSwipeActionState extends State<TradeRepublicSwipeAction>
               onHorizontalDragEnd: _onDragEnd,
               child: Container(
                 color: pageBg,
-                child: widget.child,
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
+                child: widget.child))),
+        ]));
   }
 }
 
@@ -336,7 +325,7 @@ class _Reveal extends StatelessWidget {
           maxWidth: double.infinity,
           alignment: alignment,
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
+            padding: EdgeInsets.symmetric(horizontal: 20),
             child: Opacity(
               opacity: progress,
               child: Row(
@@ -348,27 +337,17 @@ class _Reveal extends StatelessWidget {
                     curve: Curves.easeOutBack,
                     child: Transform.rotate(
                       angle: spec.iconRotation,
-                      child: Icon(spec.effectiveIcon, color: fg, size: 18),
-                    ),
-                  ),
-                  const SizedBox(width: 8),
+                      child: Icon(spec.effectiveIcon, color: fg, size: 18))),
+                  SizedBox(width: 8),
                   Text(
                     spec.effectiveLabel,
                     style: TextStyle(
                       color: fg,
                       fontSize: 13,
                       fontWeight: FontWeight.w700,
-                      letterSpacing: -0.1,
-                    ),
+                      letterSpacing: -0.1),
                     softWrap: false,
-                    overflow: TextOverflow.clip,
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
+                    overflow: TextOverflow.clip),
+                ]))))));
   }
 }

@@ -27,8 +27,7 @@ class TradeRepublicDivider extends StatelessWidget {
     return TradeRepublicDivider(
       key: key,
       color: color,
-      margin: const EdgeInsets.symmetric(vertical: 16),
-    );
+      margin: EdgeInsets.symmetric(vertical: 16));
   }
 
   @override
@@ -39,13 +38,10 @@ class TradeRepublicDivider extends StatelessWidget {
     return Container(
       margin: margin ??
           EdgeInsets.symmetric(
-            vertical: 8,
-          ),
+            vertical: 8),
       height: thickness,
       decoration: BoxDecoration(
         color: effectiveColor,
-        borderRadius: BorderRadius.circular(1),
-      ),
-    );
+        borderRadius: BorderRadius.circular(1)));
   }
 }

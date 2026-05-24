@@ -34,24 +34,20 @@ class _MapBox3DMapState extends State<MapBox3DMap> {
           key: ValueKey('mapbox_3d_${widget.isLightMode ? 'light' : 'dark'}'),
           cameraOptions: CameraOptions(
             center: Point(
-              coordinates: Position(center.longitude, center.latitude),
-            ),
+              coordinates: Position(center.longitude, center.latitude)),
             zoom: widget.initialZoom,
             pitch: 45.0, // 3D viewing angle
-            bearing: 0.0,
-          ),
+            bearing: 0.0),
           styleUri: widget.isLightMode
               ? MapboxStyles
                     .STANDARD // Modern standard style with 3D
               : MapboxStyles.DARK, // Dark mode with 3D
           textureView: true, // Better performance on mobile
           onMapCreated: _onMapCreated,
-          onTapListener: _onMapTap,
-        ),
+          onTapListener: _onMapTap),
         // Overlay widgets (markers, controls, etc.)
         ...widget.overlayWidgets,
-      ],
-    );
+      ]);
   }
 
   void _onMapCreated(MapboxMap mapboxMap) {
@@ -64,9 +60,7 @@ class _MapBox3DMapState extends State<MapBox3DMap> {
       widget.onMapTap!(
         LatLng(
           point.coordinates.lat.toDouble(),
-          point.coordinates.lng.toDouble(),
-        ),
-      );
+          point.coordinates.lng.toDouble()));
     }
   }
 }

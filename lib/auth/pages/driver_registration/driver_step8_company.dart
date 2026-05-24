@@ -17,8 +17,7 @@ class USDOTFormatter extends TextInputFormatter {
   @override
   TextEditingValue formatEditUpdate(
     TextEditingValue oldValue,
-    TextEditingValue newValue,
-  ) {
+    TextEditingValue newValue) {
     final text = newValue.text.replaceAll(RegExp(r'[^0-9]'), '');
 
     if (text.isEmpty) {
@@ -30,8 +29,7 @@ class USDOTFormatter extends TextInputFormatter {
 
     return TextEditingValue(
       text: limited,
-      selection: TextSelection.collapsed(offset: limited.length),
-    );
+      selection: TextSelection.collapsed(offset: limited.length));
   }
 }
 
@@ -40,8 +38,7 @@ class MCNumberFormatter extends TextInputFormatter {
   @override
   TextEditingValue formatEditUpdate(
     TextEditingValue oldValue,
-    TextEditingValue newValue,
-  ) {
+    TextEditingValue newValue) {
     final text = newValue.text.replaceAll(RegExp(r'[^0-9]'), '');
 
     if (text.isEmpty) {
@@ -53,8 +50,7 @@ class MCNumberFormatter extends TextInputFormatter {
 
     return TextEditingValue(
       text: limited,
-      selection: TextSelection.collapsed(offset: limited.length),
-    );
+      selection: TextSelection.collapsed(offset: limited.length));
   }
 }
 
@@ -63,8 +59,7 @@ class USPhoneFormatter extends TextInputFormatter {
   @override
   TextEditingValue formatEditUpdate(
     TextEditingValue oldValue,
-    TextEditingValue newValue,
-  ) {
+    TextEditingValue newValue) {
     final text = newValue.text.replaceAll(RegExp(r'[^0-9]'), '');
 
     if (text.isEmpty) {
@@ -89,8 +84,7 @@ class USPhoneFormatter extends TextInputFormatter {
 
     return TextEditingValue(
       text: formatted,
-      selection: TextSelection.collapsed(offset: formatted.length),
-    );
+      selection: TextSelection.collapsed(offset: formatted.length));
   }
 }
 
@@ -99,8 +93,7 @@ class GermanPhoneFormatter extends TextInputFormatter {
   @override
   TextEditingValue formatEditUpdate(
     TextEditingValue oldValue,
-    TextEditingValue newValue,
-  ) {
+    TextEditingValue newValue) {
     final text = newValue.text.replaceAll(RegExp(r'[^0-9]'), '');
 
     if (text.isEmpty) {
@@ -122,8 +115,7 @@ class GermanPhoneFormatter extends TextInputFormatter {
 
     return TextEditingValue(
       text: formatted,
-      selection: TextSelection.collapsed(offset: formatted.length),
-    );
+      selection: TextSelection.collapsed(offset: formatted.length));
   }
 }
 
@@ -1274,8 +1266,7 @@ class _DriverStep8CompanyState extends State<DriverStep8Company> {
 
     if (_companyEmailController.text.isEmpty ||
         !RegExp(
-          r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$',
-        ).hasMatch(_companyEmailController.text)) {
+          r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(_companyEmailController.text)) {
       _companyEmailError = true;
       isValid = false;
     }
@@ -1337,8 +1328,7 @@ class _DriverStep8CompanyState extends State<DriverStep8Company> {
             24,
             MediaQuery.of(context).padding.top + 20,
             24,
-            MediaQuery.of(context).padding.bottom + 24,
-          ),
+            MediaQuery.of(context).padding.bottom + 24),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -1351,24 +1341,19 @@ class _DriverStep8CompanyState extends State<DriverStep8Company> {
                       height: 80,
                       decoration: BoxDecoration(
                         color: isLight ? Colors.black : Colors.white,
-                        borderRadius: BorderRadius.circular(20),
-                      ),
+                        borderRadius: BorderRadius.circular(20)),
                       child: Icon(
                         CupertinoIcons.briefcase,
                         color: isLight ? Colors.white : Colors.black,
-                        size: 40,
-                      ),
-                    ),
-                    const SizedBox(height: 20),
+                        size: 40)),
+                    SizedBox(height: 20),
                     Text(
                       AppLocalizations.of(context)?.companyInformation ?? 'Company Information',
                       style: TextStyle(
                         color: isLight ? Colors.black : Colors.white,
                         fontSize: 32,
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
-                    const SizedBox(height: 8),
+                        fontWeight: FontWeight.w700)),
+                    SizedBox(height: 8),
                     Text(
                       _isUSCountry
                           ? (AppLocalizations.of(context)?.stepSevenCarrierDetails ?? 'Step 7 of 9 – Carrier registration details')
@@ -1376,30 +1361,26 @@ class _DriverStep8CompanyState extends State<DriverStep8Company> {
                       style: TextStyle(
                         color: (isLight ? Colors.black : Colors.white)
                             .withOpacity(0.5),
-                        fontSize: 16,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+                        fontSize: 16)),
+                  ])),
 
-              const SizedBox(height: 40),
+              SizedBox(height: 40),
 
               // DRIVER TYPE SELECTION
               _buildSectionHeader('Driver Type', isLight),
-              const SizedBox(height: 16),
+              SizedBox(height: 16),
 
               // Single Driver Toggle Card
               _buildDriverTypeSelector(isLight),
 
-              const SizedBox(height: 32),
+              SizedBox(height: 32),
 
               // Show company fields only if NOT single driver
               if (!_isSingleDriver) ...[
                 // DOT & MC NUMBERS SECTION (US only)
                 if (_isUSCountry) ...[
                   _buildSectionHeader('DOT & MC Numbers', isLight),
-                  const SizedBox(height: 16),
+                  SizedBox(height: 16),
 
                   // USDOT Number
                   _buildModernTextField(
@@ -1410,10 +1391,9 @@ class _DriverStep8CompanyState extends State<DriverStep8Company> {
                     keyboardType: TextInputType.number,
                     hasError: _usdotError,
                     inputFormatters: [USDOTFormatter()],
-                    hint: AppLocalizations.of(context)?.pleaseEnter8DigitCode.replaceAll('Please enter the ', '').replaceAll('-digit code', ' digits') ?? '8 digits',
-                  ),
+                    hint: AppLocalizations.of(context)?.pleaseEnter8DigitCode.replaceAll('Please enter the ', '').replaceAll('-digit code', ' digits') ?? '8 digits'),
 
-                  const SizedBox(height: 16),
+                  SizedBox(height: 16),
 
                   // MC Number
                   _buildModernTextField(
@@ -1425,20 +1405,19 @@ class _DriverStep8CompanyState extends State<DriverStep8Company> {
                     hasError: _mcNumberError,
                     inputFormatters: [MCNumberFormatter()],
                     hint: AppLocalizations.of(context)?.sixToSevenDigits ??
-                        '',
-                  ),
+                        ''),
 
-                  const SizedBox(height: 16),
+                  SizedBox(height: 16),
                 ],
 
                 // Legal Structure Dropdown
                 _buildLegalStructureSelector(isLight),
 
-                const SizedBox(height: 32),
+                SizedBox(height: 32),
 
                 // COMPANY REGISTRATION SECTION
                 _buildSectionHeader('Official Company Registration', isLight),
-                const SizedBox(height: 16),
+                SizedBox(height: 16),
 
                 // Official Company Name
                 _buildModernTextField(
@@ -1446,24 +1425,22 @@ class _DriverStep8CompanyState extends State<DriverStep8Company> {
                   label: AppLocalizations.of(context)?.officialCompanyName ?? 'Official Company Name',
                   icon: CupertinoIcons.briefcase,
                   isLight: isLight,
-                  hasError: _companyNameError,
-                ),
+                  hasError: _companyNameError),
 
-                const SizedBox(height: 16),
+                SizedBox(height: 16),
 
                 // DBA Name (Optional)
                 _buildModernTextField(
                   controller: _dbaNameController,
                   label: AppLocalizations.of(context)?.dbaNameOptional ?? 'DBA Name (Optional)',
                   icon: CupertinoIcons.bag,
-                  isLight: isLight,
-                ),
+                  isLight: isLight),
 
-                const SizedBox(height: 32),
+                SizedBox(height: 32),
 
                 // COMPANY ADDRESS SECTION
                 _buildSectionHeader('Main Business Address', isLight),
-                const SizedBox(height: 16),
+                SizedBox(height: 16),
 
                 // Street and Number Row
                 Row(
@@ -1475,10 +1452,8 @@ class _DriverStep8CompanyState extends State<DriverStep8Company> {
                         label: AppLocalizations.of(context)?.street ?? 'Street',
                         icon: CupertinoIcons.location,
                         isLight: isLight,
-                        hasError: _companyStreetError,
-                      ),
-                    ),
-                    const SizedBox(width: 16),
+                        hasError: _companyStreetError)),
+                    SizedBox(width: 16),
                     Expanded(
                       flex: 1,
                       child: _buildModernTextField(
@@ -1487,13 +1462,10 @@ class _DriverStep8CompanyState extends State<DriverStep8Company> {
                         icon: CupertinoIcons.tag,
                         isLight: isLight,
                         keyboardType: TextInputType.text,
-                        hasError: _companyStreetNumberError,
-                      ),
-                    ),
-                  ],
-                ),
+                        hasError: _companyStreetNumberError)),
+                  ]),
 
-                const SizedBox(height: 16),
+                SizedBox(height: 16),
 
                 // City and ZIP Row
                 Row(
@@ -1505,10 +1477,8 @@ class _DriverStep8CompanyState extends State<DriverStep8Company> {
                         label: AppLocalizations.of(context)?.city ?? 'City',
                         icon: CupertinoIcons.building_2_fill,
                         isLight: isLight,
-                        hasError: _companyCityError,
-                      ),
-                    ),
-                    const SizedBox(width: 16),
+                        hasError: _companyCityError)),
+                    SizedBox(width: 16),
                     Expanded(
                       flex: 1,
                       child: _buildModernTextField(
@@ -1517,27 +1487,24 @@ class _DriverStep8CompanyState extends State<DriverStep8Company> {
                         icon: CupertinoIcons.placemark,
                         isLight: isLight,
                         keyboardType: TextInputType.number,
-                        hasError: _companyZipError,
-                      ),
-                    ),
-                  ],
-                ),
+                        hasError: _companyZipError)),
+                  ]),
 
-                const SizedBox(height: 16),
+                SizedBox(height: 16),
 
                 // Country Selection
                 _buildCountrySelector(isLight),
 
-                const SizedBox(height: 16),
+                SizedBox(height: 16),
 
                 // State Selection (dependent on country)
                 _buildStateSelector(isLight),
 
-                const SizedBox(height: 32),
+                SizedBox(height: 32),
 
                 // CONTACT INFORMATION SECTION
                 _buildSectionHeader('Company Contact Information', isLight),
-                const SizedBox(height: 16),
+                SizedBox(height: 16),
 
                 // Company Email
                 _buildModernTextField(
@@ -1546,16 +1513,15 @@ class _DriverStep8CompanyState extends State<DriverStep8Company> {
                   icon: CupertinoIcons.mail,
                   isLight: isLight,
                   keyboardType: TextInputType.emailAddress,
-                  hasError: _companyEmailError,
-                ),
+                  hasError: _companyEmailError),
 
-                const SizedBox(height: 16),
+                SizedBox(height: 16),
 
                 // Company Phone with Country Code
                 _buildPhoneField(isLight),
               ], // End of if (!_isSingleDriver)
 
-              const SizedBox(height: 40),
+              SizedBox(height: 40),
 
               // Navigation Buttons
               Row(
@@ -1566,29 +1532,18 @@ class _DriverStep8CompanyState extends State<DriverStep8Company> {
                     height: 52,
                     child: TradeRepublicButton.icon(
                             icon: Icon(CupertinoIcons.chevron_back, size: 18),
-                            onPressed: widget.onBack,
-                          ),
-                  ),
+                            onPressed: widget.onBack)),
 
-                  const SizedBox(width: 12),
+                  SizedBox(width: 12),
 
                   // Continue Button - Full Width with Gradient
                   Expanded(
                     child: TradeRepublicButton(
                             label: AppLocalizations.of(context)?.continueToVerification ?? 'Continue to Verification',
                             icon: Icon(CupertinoIcons.arrow_right, size: 18),
-                            onPressed: _validateAndContinue,
-                          ),
-                  ),
-                ],
-              ),
-            ],
-          ),
-        ),
-      ),
-        ),
-      ),
-    );
+                            onPressed: _validateAndContinue)),
+                ]),
+            ]))))));
   }
 
   // Section Header Builder - Step 1 Style
@@ -1609,13 +1564,12 @@ class _DriverStep8CompanyState extends State<DriverStep8Company> {
             child: AnimatedContainer(
               duration: const Duration(milliseconds: 200),
               height: 120,
-              padding: const EdgeInsets.all(16),
+              padding: EdgeInsets.all(16),
               decoration: BoxDecoration(
                 color: _isSingleDriver
                     ? (isLight ? Colors.black : Colors.white)
                     : (isLight ? Colors.black : Colors.white).withOpacity(0.05),
-                borderRadius: BorderRadius.circular(20),
-              ),
+                borderRadius: BorderRadius.circular(20)),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -1625,10 +1579,8 @@ class _DriverStep8CompanyState extends State<DriverStep8Company> {
                     color: _isSingleDriver
                         ? (isLight ? Colors.white : Colors.black)
                         : ((isLight ? Colors.black : Colors.white).withOpacity(
-                            0.5,
-                          )),
-                  ),
-                  const SizedBox(height: 12),
+                            0.5))),
+                  SizedBox(height: 12),
                   Text(
                     AppLocalizations.of(context)?.singleDriver ?? 'Single Driver',
                     style: TextStyle(
@@ -1636,28 +1588,20 @@ class _DriverStep8CompanyState extends State<DriverStep8Company> {
                           ? (isLight ? Colors.white : Colors.black)
                           : (isLight ? Colors.black : Colors.white),
                       fontSize: 14,
-                      fontWeight: FontWeight.w600,
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
-                  const SizedBox(height: 4),
+                      fontWeight: FontWeight.w600),
+                    textAlign: TextAlign.center),
+                  SizedBox(height: 4),
                   Text(
                     AppLocalizations.of(context)?.independent ?? 'Independent',
                     style: TextStyle(
                       color: _isSingleDriver
                           ? (isLight ? Colors.white70 : Colors.black54)
                           : (isLight ? Colors.black45 : Colors.white54),
-                      fontSize: 11,
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ),
+                      fontSize: 11),
+                    textAlign: TextAlign.center),
+                ])))),
 
-        const SizedBox(width: 16),
+        SizedBox(width: 16),
 
         // Company Driver Option
         Expanded(
@@ -1671,13 +1615,12 @@ class _DriverStep8CompanyState extends State<DriverStep8Company> {
             child: AnimatedContainer(
               duration: const Duration(milliseconds: 200),
               height: 120,
-              padding: const EdgeInsets.all(16),
+              padding: EdgeInsets.all(16),
               decoration: BoxDecoration(
                 color: !_isSingleDriver
                     ? (isLight ? Colors.black : Colors.white)
                     : (isLight ? Colors.black : Colors.white).withOpacity(0.05),
-                borderRadius: BorderRadius.circular(20),
-              ),
+                borderRadius: BorderRadius.circular(20)),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -1687,10 +1630,8 @@ class _DriverStep8CompanyState extends State<DriverStep8Company> {
                     color: !_isSingleDriver
                         ? (isLight ? Colors.white : Colors.black)
                         : ((isLight ? Colors.black : Colors.white).withOpacity(
-                            0.5,
-                          )),
-                  ),
-                  const SizedBox(height: 12),
+                            0.5))),
+                  SizedBox(height: 12),
                   Text(
                     AppLocalizations.of(context)?.companyDriver ?? 'Company Driver',
                     style: TextStyle(
@@ -1698,42 +1639,30 @@ class _DriverStep8CompanyState extends State<DriverStep8Company> {
                           ? (isLight ? Colors.white : Colors.black)
                           : (isLight ? Colors.black : Colors.white),
                       fontSize: 14,
-                      fontWeight: FontWeight.w600,
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
-                  const SizedBox(height: 4),
+                      fontWeight: FontWeight.w600),
+                    textAlign: TextAlign.center),
+                  SizedBox(height: 4),
                   Text(
                     AppLocalizations.of(context)?.workForACompany ?? 'Work for a company',
                     style: TextStyle(
                       color: !_isSingleDriver
                           ? (isLight ? Colors.white70 : Colors.black54)
                           : (isLight ? Colors.black45 : Colors.white54),
-                      fontSize: 11,
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ),
-      ],
-    );
+                      fontSize: 11),
+                    textAlign: TextAlign.center),
+                ])))),
+      ]);
   }
 
   Widget _buildSectionHeader(String title, bool isLight) {
     return Padding(
-      padding: const EdgeInsets.only(left: 4, bottom: 0),
+      padding: EdgeInsets.only(left: 4, bottom: 0),
       child: Text(
         title,
         style: TextStyle(
           color: isLight ? Colors.black : Colors.white,
           fontSize: 18,
-          fontWeight: FontWeight.w700,
-        ),
-      ),
-    );
+          fontWeight: FontWeight.w700)));
   }
 
   // Modern TextField Builder - Step 1 Style
@@ -1748,15 +1677,14 @@ class _DriverStep8CompanyState extends State<DriverStep8Company> {
     String? hint,
   }) {
     return Container(
-      margin: const EdgeInsets.only(bottom: 16),
+      margin: EdgeInsets.only(bottom: 16),
       decoration: BoxDecoration(
         color: hasError
             ? Colors.red.withOpacity(0.08)
             : (isLight ? Colors.white : Colors.transparent),
-        borderRadius: BorderRadius.circular(20),
-      ),
+        borderRadius: BorderRadius.circular(20)),
       child: Padding(
-        padding: const EdgeInsets.all(20),
+        padding: EdgeInsets.all(20),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
@@ -1769,15 +1697,12 @@ class _DriverStep8CompanyState extends State<DriverStep8Company> {
                   height: 36,
                   decoration: BoxDecoration(
                     color: isLight ? Colors.black : Colors.white,
-                    borderRadius: BorderRadius.circular(20),
-                  ),
+                    borderRadius: BorderRadius.circular(20)),
                   child: Icon(
                     icon,
                     color: isLight ? Colors.white : Colors.black,
-                    size: 18,
-                  ),
-                ),
-                const SizedBox(width: 12),
+                    size: 18)),
+                SizedBox(width: 12),
                 Expanded(
                   child: Text(
                     label,
@@ -1785,13 +1710,9 @@ class _DriverStep8CompanyState extends State<DriverStep8Company> {
                       color: isLight ? Colors.black : Colors.white,
                       fontSize: 16,
                       fontWeight: FontWeight.w600,
-                      letterSpacing: -0.2,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 12),
+                      letterSpacing: -0.2))),
+              ]),
+            SizedBox(height: 12),
 
             // TradeRepublicTextField without extra wrapper
             TradeRepublicTextField(
@@ -1799,12 +1720,8 @@ class _DriverStep8CompanyState extends State<DriverStep8Company> {
               controller: controller,
               keyboardType: keyboardType,
               inputFormatters: inputFormatters,
-              hintText: hint,
-            ),
-          ],
-        ),
-      ),
-    );
+              hintText: hint),
+          ])));
   }
 
   // Legal Structure Selector - Step 1 Style
@@ -1812,14 +1729,13 @@ class _DriverStep8CompanyState extends State<DriverStep8Company> {
     return TradeRepublicTap(
       onTap: () => _showLegalStructureBottomSheet(isLight),
       child: Container(
-        margin: const EdgeInsets.only(bottom: 16),
+        margin: EdgeInsets.only(bottom: 16),
         height: 140,
         decoration: BoxDecoration(
           color: isLight ? Colors.white : Colors.transparent,
-          borderRadius: BorderRadius.circular(20),
-        ),
+          borderRadius: BorderRadius.circular(20)),
         child: Padding(
-          padding: const EdgeInsets.all(20),
+          padding: EdgeInsets.all(20),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -1831,15 +1747,12 @@ class _DriverStep8CompanyState extends State<DriverStep8Company> {
                     height: 36,
                     decoration: BoxDecoration(
                       color: isLight ? Colors.black : Colors.white,
-                      borderRadius: BorderRadius.circular(20),
-                    ),
+                      borderRadius: BorderRadius.circular(20)),
                     child: Icon(
                       CupertinoIcons.building_2_fill,
                       color: isLight ? Colors.white : Colors.black,
-                      size: 18,
-                    ),
-                  ),
-                  const SizedBox(width: 12),
+                      size: 18)),
+                  SizedBox(width: 12),
                   Expanded(
                     child: Text(
                       AppLocalizations.of(context)?.legalStructure ?? 'Legal Structure',
@@ -1847,27 +1760,20 @@ class _DriverStep8CompanyState extends State<DriverStep8Company> {
                         color: isLight ? Colors.black : Colors.white,
                         fontSize: 16,
                         fontWeight: FontWeight.w600,
-                        letterSpacing: -0.2,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 12),
+                        letterSpacing: -0.2))),
+                ]),
+              SizedBox(height: 12),
 
               // Selector field
               Expanded(
                 child: Container(
                   decoration: BoxDecoration(
                     color: (isLight ? Colors.black : Colors.white).withOpacity(
-                      0.05,
-                    ),
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  padding: const EdgeInsets.symmetric(
+                      0.05),
+                    borderRadius: BorderRadius.circular(20)),
+                  padding: EdgeInsets.symmetric(
                     horizontal: 20,
-                    vertical: 12,
-                  ),
+                    vertical: 12),
                   child: Row(
                     children: [
                       Expanded(
@@ -1877,24 +1783,13 @@ class _DriverStep8CompanyState extends State<DriverStep8Company> {
                             color: isLight ? Colors.black : Colors.white,
                             fontSize: 16,
                             fontWeight: FontWeight.w500,
-                            letterSpacing: -0.2,
-                          ),
-                        ),
-                      ),
+                            letterSpacing: -0.2))),
                       Icon(
                         CupertinoIcons.chevron_down,
                         size: 16,
-                        color: (isLight ? Colors.black : Colors.white).withOpacity(0.4),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
+                        color: (isLight ? Colors.black : Colors.white).withOpacity(0.4)),
+                    ]))),
+            ]))));
   }
 
   // Show Legal Structure Bottom Sheet - Settings Page Style
@@ -1909,23 +1804,21 @@ class _DriverStep8CompanyState extends State<DriverStep8Company> {
                 Row(
                   children: [
                     Icon(CupertinoIcons.building_2_fill, size: 22, color: isLight ? Colors.black : Colors.white),
-                    const SizedBox(width: 12),
+                    SizedBox(width: 12),
                     Flexible(child: Text(
                       AppLocalizations.of(context)?.selectLegalStructure ?? 'Select Legal Structure',
                       style: TextStyle(fontSize: 22, fontWeight: FontWeight.w700,
-                        color: isLight ? Colors.black : Colors.white, letterSpacing: -0.4),
-                    )),
-                  ],
-                ),
+                        color: isLight ? Colors.black : Colors.white, letterSpacing: -0.4))),
+                  ]),
 
-                const SizedBox(height: 20),
+                SizedBox(height: 20),
 
                 // Options
                 ..._legalStructures.map((structure) {
                   final bool isSelected = _selectedLegalStructure == structure;
 
                   return Padding(
-                    padding: const EdgeInsets.only(bottom: 8),
+                    padding: EdgeInsets.only(bottom: 8),
                     child: TradeRepublicTap(
                       onTap: () {
                         setState(() {
@@ -1934,15 +1827,14 @@ class _DriverStep8CompanyState extends State<DriverStep8Company> {
                         Navigator.pop(context);
                       },
                       child: Container(
-                        padding: const EdgeInsets.all(16),
+                        padding: EdgeInsets.all(16),
                         decoration: BoxDecoration(
                           color: isSelected
                               ? (isLight ? Colors.black : Colors.white)
                               : (isLight
                                     ? Colors.black.withOpacity(0.04)
                                     : const Color(0xFF121212)),
-                          borderRadius: BorderRadius.circular(20),
-                        ),
+                          borderRadius: BorderRadius.circular(20)),
                         child: Row(
                           children: [
                             Expanded(
@@ -1954,54 +1846,41 @@ class _DriverStep8CompanyState extends State<DriverStep8Company> {
                                       : (isLight ? Colors.black : Colors.white),
                                   fontSize: 16,
                                   fontWeight: FontWeight.w600,
-                                  letterSpacing: -0.2,
-                                ),
-                              ),
-                            ),
+                                  letterSpacing: -0.2))),
                             if (isSelected)
                               Icon(
                                 CupertinoIcons.check_mark_circled,
                                 color: isLight ? Colors.white : Colors.black,
-                                size: 24,
-                              ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  );
+                                size: 24),
+                          ]))));
                 }),
 
-                const SizedBox(height: 12),
+                SizedBox(height: 12),
 
                 // Cancel button
                 TradeRepublicButton(
                         label: AppLocalizations.of(context)?.cancel ?? 'Cancel',
                         isSecondary: true,
-                        onPressed: () => Navigator.pop(context),
-                      ),
-              ],
-            ),
-      );
+                        onPressed: () => Navigator.pop(context)),
+              ]));
   }
 
   // Phone Field with Country Code Selector
   Widget _buildPhoneField(bool isLight) {
     final selectedPhoneData = _phoneCountryCodes.firstWhere(
       (phone) => phone['code'] == _selectedPhoneCountryCode,
-      orElse: () => _phoneCountryCodes[0],
-    );
+      orElse: () => _phoneCountryCodes[0]);
 
     return Container(
-      margin: const EdgeInsets.only(bottom: 16),
+      margin: EdgeInsets.only(bottom: 16),
       height: 140,
       decoration: BoxDecoration(
         color: _companyPhoneError
             ? Colors.red.withOpacity(0.08)
             : (isLight ? Colors.white : Colors.transparent),
-        borderRadius: BorderRadius.circular(20),
-      ),
+        borderRadius: BorderRadius.circular(20)),
       child: Padding(
-        padding: const EdgeInsets.all(20),
+        padding: EdgeInsets.all(20),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -2013,15 +1892,12 @@ class _DriverStep8CompanyState extends State<DriverStep8Company> {
                   height: 36,
                   decoration: BoxDecoration(
                     color: isLight ? Colors.black : Colors.white,
-                    borderRadius: BorderRadius.circular(20),
-                  ),
+                    borderRadius: BorderRadius.circular(20)),
                   child: Icon(
                     CupertinoIcons.phone,
                     color: isLight ? Colors.white : Colors.black,
-                    size: 18,
-                  ),
-                ),
-                const SizedBox(width: 12),
+                    size: 18)),
+                SizedBox(width: 12),
                 Expanded(
                   child: Text(
                     AppLocalizations.of(context)?.companyPhone ?? 'Company Phone',
@@ -2029,67 +1905,52 @@ class _DriverStep8CompanyState extends State<DriverStep8Company> {
                       color: isLight ? Colors.black : Colors.white,
                       fontSize: 16,
                       fontWeight: FontWeight.w600,
-                      letterSpacing: -0.2,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 12),
+                      letterSpacing: -0.2))),
+              ]),
+            SizedBox(height: 12),
 
             // Input field with country code selector
             Expanded(
               child: Container(
                 decoration: BoxDecoration(
                   color: (isLight ? Colors.black : Colors.white).withOpacity(
-                    0.05,
-                  ),
-                  borderRadius: BorderRadius.circular(20),
-                ),
+                    0.05),
+                  borderRadius: BorderRadius.circular(20)),
                 child: Row(
                   children: [
                     // Country code selector
                     TradeRepublicTap(
                       onTap: () => _showPhoneCountryCodeBottomSheet(isLight),
                       child: Container(
-                        padding: const EdgeInsets.symmetric(
+                        padding: EdgeInsets.symmetric(
                           horizontal: 16,
-                          vertical: 12,
-                        ),
+                          vertical: 12),
                         child: Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [
                             Text(
                               selectedPhoneData['emoji']!,
-                              style: const TextStyle(fontSize: 20),
-                            ),
-                            const SizedBox(width: 8),
+                              style: TextStyle(fontSize: 20)),
+                            SizedBox(width: 8),
                             Text(
                               _selectedPhoneCountryCode,
                               style: TextStyle(
                                 color: isLight ? Colors.black : Colors.white,
                                 fontSize: 16,
                                 fontWeight: FontWeight.w500,
-                                letterSpacing: -0.2,
-                              ),
-                            ),
-                            const SizedBox(width: 4),
+                                letterSpacing: -0.2)),
+                            SizedBox(width: 4),
                             Icon(
                               CupertinoIcons.chevron_down,
                               size: 12,
-                              color: (isLight ? Colors.black : Colors.white).withOpacity(0.4),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
+                              color: (isLight ? Colors.black : Colors.white).withOpacity(0.4)),
+                          ]))),
                     // Vertical divider
                     Container(
                       width: 1,
                       height: 24,
                       color: (isLight ? Colors.black : Colors.white)
-                          .withOpacity(0.1),
-                    ),
+                          .withOpacity(0.1)),
                     // Phone number input
                     Expanded(
                       child: TradeRepublicTextField(
@@ -2103,8 +1964,7 @@ class _DriverStep8CompanyState extends State<DriverStep8Company> {
                           color: isLight ? Colors.black : Colors.white,
                           fontSize: 16,
                           fontWeight: FontWeight.w500,
-                          letterSpacing: -0.2,
-                        ),
+                          letterSpacing: -0.2),
                         hintText: _selectedPhoneCountryCode == '+1'
                             ? '(555) 123-4567'
                             : '1234 5678901',
@@ -2113,19 +1973,10 @@ class _DriverStep8CompanyState extends State<DriverStep8Company> {
                               .withOpacity(0.4),
                           fontSize: 16,
                           fontWeight: FontWeight.w400,
-                          letterSpacing: -0.2,
-                        ),
-                        filled: false,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
+                          letterSpacing: -0.2),
+                        filled: false)),
+                  ]))),
+          ])));
   }
 
   // Show Phone Country Code Bottom Sheet
@@ -2140,22 +1991,19 @@ class _DriverStep8CompanyState extends State<DriverStep8Company> {
                 Row(
                   children: [
                     Icon(CupertinoIcons.phone, size: 22, color: isLight ? Colors.black : Colors.white),
-                    const SizedBox(width: 12),
+                    SizedBox(width: 12),
                     Flexible(child: Text(
                       AppLocalizations.of(context)?.selectCountryCode ?? 'Select Country Code',
                       style: TextStyle(fontSize: 22, fontWeight: FontWeight.w700,
-                        color: isLight ? Colors.black : Colors.white, letterSpacing: -0.4),
-                    )),
-                  ],
-                ),
+                        color: isLight ? Colors.black : Colors.white, letterSpacing: -0.4))),
+                  ]),
 
-                const SizedBox(height: 20),
+                SizedBox(height: 20),
 
                 // Scrollable list for phone codes
                 ConstrainedBox(
                   constraints: BoxConstraints(
-                    maxHeight: MediaQuery.of(context).size.height * 0.5,
-                  ),
+                    maxHeight: MediaQuery.of(context).size.height * 0.5),
                   child: SingleChildScrollView(
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
@@ -2164,7 +2012,7 @@ class _DriverStep8CompanyState extends State<DriverStep8Company> {
                             _selectedPhoneCountryCode == phoneData['code'];
 
                         return Padding(
-                          padding: const EdgeInsets.only(bottom: 8),
+                          padding: EdgeInsets.only(bottom: 8),
                           child: TradeRepublicTap(
                             onTap: () {
                               setState(() {
@@ -2175,23 +2023,21 @@ class _DriverStep8CompanyState extends State<DriverStep8Company> {
                               Navigator.pop(context);
                             },
                             child: Container(
-                              padding: const EdgeInsets.all(16),
+                              padding: EdgeInsets.all(16),
                               decoration: BoxDecoration(
                                 color: isSelected
                                     ? (isLight ? Colors.black : Colors.white)
                                     : (isLight
                                           ? Colors.black.withOpacity(0.04)
                                           : const Color(0xFF121212)),
-                                borderRadius: BorderRadius.circular(20),
-                              ),
+                                borderRadius: BorderRadius.circular(20)),
                               child: Row(
                                 children: [
                                   // Flag emoji
                                   Text(
                                     phoneData['emoji']!,
-                                    style: const TextStyle(fontSize: 24),
-                                  ),
-                                  const SizedBox(width: 16),
+                                    style: TextStyle(fontSize: 24)),
+                                  SizedBox(width: 16),
                                   Text(
                                     phoneData['code']!,
                                     style: TextStyle(
@@ -2204,10 +2050,8 @@ class _DriverStep8CompanyState extends State<DriverStep8Company> {
                                                 : Colors.white),
                                       fontSize: 18,
                                       fontWeight: FontWeight.w700,
-                                      letterSpacing: -0.2,
-                                    ),
-                                  ),
-                                  const SizedBox(width: 12),
+                                      letterSpacing: -0.2)),
+                                  SizedBox(width: 12),
                                   Expanded(
                                     child: Text(
                                       phoneData['country']!,
@@ -2221,59 +2065,43 @@ class _DriverStep8CompanyState extends State<DriverStep8Company> {
                                                   : Colors.white),
                                         fontSize: 16,
                                         fontWeight: FontWeight.w600,
-                                        letterSpacing: -0.2,
-                                      ),
-                                    ),
-                                  ),
+                                        letterSpacing: -0.2))),
                                   if (isSelected)
                                     Icon(
                                       CupertinoIcons.check_mark_circled,
                                       color: isLight
                                           ? Colors.white
                                           : Colors.black,
-                                      size: 24,
-                                    ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        );
-                      }).toList(),
-                    ),
-                  ),
-                ),
+                                      size: 24),
+                                ]))));
+                      }).toList()))),
 
-                const SizedBox(height: 12),
+                SizedBox(height: 12),
 
                 // Cancel button
                 TradeRepublicButton(
                         label: AppLocalizations.of(context)?.cancel ?? 'Cancel',
                         isSecondary: true,
-                        onPressed: () => Navigator.pop(context),
-                      ),
-              ],
-            ),
-      );
+                        onPressed: () => Navigator.pop(context)),
+              ]));
   }
 
   // Country Selector - Step 1 Style with Flag
   Widget _buildCountrySelector(bool isLight) {
     final selectedCountryData = _countries.firstWhere(
       (country) => country['name'] == _selectedCountry,
-      orElse: () => _countries[0],
-    );
+      orElse: () => _countries[0]);
 
     return TradeRepublicTap(
       onTap: () => _showCountryBottomSheet(isLight),
       child: Container(
-        margin: const EdgeInsets.only(bottom: 16),
+        margin: EdgeInsets.only(bottom: 16),
         height: 140,
         decoration: BoxDecoration(
           color: isLight ? Colors.white : Colors.transparent,
-          borderRadius: BorderRadius.circular(20),
-        ),
+          borderRadius: BorderRadius.circular(20)),
         child: Padding(
-          padding: const EdgeInsets.all(20),
+          padding: EdgeInsets.all(20),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -2285,15 +2113,12 @@ class _DriverStep8CompanyState extends State<DriverStep8Company> {
                     height: 36,
                     decoration: BoxDecoration(
                       color: isLight ? Colors.black : Colors.white,
-                      borderRadius: BorderRadius.circular(20),
-                    ),
+                      borderRadius: BorderRadius.circular(20)),
                     child: Icon(
                       CupertinoIcons.globe,
                       color: isLight ? Colors.white : Colors.black,
-                      size: 18,
-                    ),
-                  ),
-                  const SizedBox(width: 12),
+                      size: 18)),
+                  SizedBox(width: 12),
                   Expanded(
                     child: Text(
                       AppLocalizations.of(context)?.country ?? 'Country',
@@ -2301,35 +2126,27 @@ class _DriverStep8CompanyState extends State<DriverStep8Company> {
                         color: isLight ? Colors.black : Colors.white,
                         fontSize: 16,
                         fontWeight: FontWeight.w600,
-                        letterSpacing: -0.2,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 12),
+                        letterSpacing: -0.2))),
+                ]),
+              SizedBox(height: 12),
 
               // Selector field with flag
               Expanded(
                 child: Container(
                   decoration: BoxDecoration(
                     color: (isLight ? Colors.black : Colors.white).withOpacity(
-                      0.05,
-                    ),
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  padding: const EdgeInsets.symmetric(
+                      0.05),
+                    borderRadius: BorderRadius.circular(20)),
+                  padding: EdgeInsets.symmetric(
                     horizontal: 20,
-                    vertical: 12,
-                  ),
+                    vertical: 12),
                   child: Row(
                     children: [
                       // Flag emoji
                       Text(
                         selectedCountryData['emoji']!,
-                        style: const TextStyle(fontSize: 20),
-                      ),
-                      const SizedBox(width: 12),
+                        style: TextStyle(fontSize: 20)),
+                      SizedBox(width: 12),
                       Expanded(
                         child: Text(
                           _selectedCountry,
@@ -2337,24 +2154,13 @@ class _DriverStep8CompanyState extends State<DriverStep8Company> {
                             color: isLight ? Colors.black : Colors.white,
                             fontSize: 16,
                             fontWeight: FontWeight.w500,
-                            letterSpacing: -0.2,
-                          ),
-                        ),
-                      ),
+                            letterSpacing: -0.2))),
                       Icon(
                         CupertinoIcons.chevron_down,
                         size: 16,
-                        color: (isLight ? Colors.black : Colors.white).withOpacity(0.4),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
+                        color: (isLight ? Colors.black : Colors.white).withOpacity(0.4)),
+                    ]))),
+            ]))));
   }
 
   // State Selector - Step 1 Style (dependent on country)
@@ -2364,14 +2170,13 @@ class _DriverStep8CompanyState extends State<DriverStep8Company> {
     return TradeRepublicTap(
       onTap: () => _showStateBottomSheet(isLight),
       child: Container(
-        margin: const EdgeInsets.only(bottom: 16),
+        margin: EdgeInsets.only(bottom: 16),
         height: 140,
         decoration: BoxDecoration(
           color: isLight ? Colors.white : Colors.transparent,
-          borderRadius: BorderRadius.circular(20),
-        ),
+          borderRadius: BorderRadius.circular(20)),
         child: Padding(
-          padding: const EdgeInsets.all(20),
+          padding: EdgeInsets.all(20),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -2383,15 +2188,12 @@ class _DriverStep8CompanyState extends State<DriverStep8Company> {
                     height: 36,
                     decoration: BoxDecoration(
                       color: isLight ? Colors.black : Colors.white,
-                      borderRadius: BorderRadius.circular(20),
-                    ),
+                      borderRadius: BorderRadius.circular(20)),
                     child: Icon(
                       CupertinoIcons.map,
                       color: isLight ? Colors.white : Colors.black,
-                      size: 18,
-                    ),
-                  ),
-                  const SizedBox(width: 12),
+                      size: 18)),
+                  SizedBox(width: 12),
                   Expanded(
                     child: Text(
                       stateLabel,
@@ -2399,27 +2201,20 @@ class _DriverStep8CompanyState extends State<DriverStep8Company> {
                         color: isLight ? Colors.black : Colors.white,
                         fontSize: 16,
                         fontWeight: FontWeight.w600,
-                        letterSpacing: -0.2,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 12),
+                        letterSpacing: -0.2))),
+                ]),
+              SizedBox(height: 12),
 
               // Selector field
               Expanded(
                 child: Container(
                   decoration: BoxDecoration(
                     color: (isLight ? Colors.black : Colors.white).withOpacity(
-                      0.05,
-                    ),
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  padding: const EdgeInsets.symmetric(
+                      0.05),
+                    borderRadius: BorderRadius.circular(20)),
+                  padding: EdgeInsets.symmetric(
                     horizontal: 20,
-                    vertical: 12,
-                  ),
+                    vertical: 12),
                   child: Row(
                     children: [
                       Expanded(
@@ -2429,24 +2224,13 @@ class _DriverStep8CompanyState extends State<DriverStep8Company> {
                             color: isLight ? Colors.black : Colors.white,
                             fontSize: 16,
                             fontWeight: FontWeight.w500,
-                            letterSpacing: -0.2,
-                          ),
-                        ),
-                      ),
+                            letterSpacing: -0.2))),
                       Icon(
                         CupertinoIcons.chevron_down,
                         size: 16,
-                        color: (isLight ? Colors.black : Colors.white).withOpacity(0.4),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
+                        color: (isLight ? Colors.black : Colors.white).withOpacity(0.4)),
+                    ]))),
+            ]))));
   }
 
   // Show State Bottom Sheet - Settings Page Style
@@ -2463,22 +2247,19 @@ class _DriverStep8CompanyState extends State<DriverStep8Company> {
                 Row(
                   children: [
                     Icon(CupertinoIcons.location, size: 22, color: isLight ? Colors.black : Colors.white),
-                    const SizedBox(width: 12),
+                    SizedBox(width: 12),
                     Flexible(child: Text(
                       'Select \$stateLabel',
                       style: TextStyle(fontSize: 22, fontWeight: FontWeight.w700,
-                        color: isLight ? Colors.black : Colors.white, letterSpacing: -0.4),
-                    )),
-                  ],
-                ),
+                        color: isLight ? Colors.black : Colors.white, letterSpacing: -0.4))),
+                  ]),
 
-                const SizedBox(height: 20),
+                SizedBox(height: 20),
 
                 // Scrollable list for states
                 ConstrainedBox(
                   constraints: BoxConstraints(
-                    maxHeight: MediaQuery.of(context).size.height * 0.5,
-                  ),
+                    maxHeight: MediaQuery.of(context).size.height * 0.5),
                   child: SingleChildScrollView(
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
@@ -2486,7 +2267,7 @@ class _DriverStep8CompanyState extends State<DriverStep8Company> {
                         final bool isSelected = _selectedState == state;
 
                         return Padding(
-                          padding: const EdgeInsets.only(bottom: 8),
+                          padding: EdgeInsets.only(bottom: 8),
                           child: TradeRepublicTap(
                             onTap: () {
                               setState(() {
@@ -2495,15 +2276,14 @@ class _DriverStep8CompanyState extends State<DriverStep8Company> {
                               Navigator.pop(context);
                             },
                             child: Container(
-                              padding: const EdgeInsets.all(16),
+                              padding: EdgeInsets.all(16),
                               decoration: BoxDecoration(
                                 color: isSelected
                                     ? (isLight ? Colors.black : Colors.white)
                                     : (isLight
                                           ? Colors.black.withOpacity(0.04)
                                           : const Color(0xFF121212)),
-                                borderRadius: BorderRadius.circular(20),
-                              ),
+                                borderRadius: BorderRadius.circular(20)),
                               child: Row(
                                 children: [
                                   Expanded(
@@ -2519,39 +2299,25 @@ class _DriverStep8CompanyState extends State<DriverStep8Company> {
                                                   : Colors.white),
                                         fontSize: 16,
                                         fontWeight: FontWeight.w600,
-                                        letterSpacing: -0.2,
-                                      ),
-                                    ),
-                                  ),
+                                        letterSpacing: -0.2))),
                                   if (isSelected)
                                     Icon(
                                       CupertinoIcons.check_mark_circled,
                                       color: isLight
                                           ? Colors.white
                                           : Colors.black,
-                                      size: 24,
-                                    ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        );
-                      }).toList(),
-                    ),
-                  ),
-                ),
+                                      size: 24),
+                                ]))));
+                      }).toList()))),
 
-                const SizedBox(height: 12),
+                SizedBox(height: 12),
 
                 // Cancel button
                 TradeRepublicButton(
                         label: AppLocalizations.of(context)?.cancel ?? 'Cancel',
                         isSecondary: true,
-                        onPressed: () => Navigator.pop(context),
-                      ),
-              ],
-            ),
-      );
+                        onPressed: () => Navigator.pop(context)),
+              ]));
   }
 
   // Show Country Bottom Sheet - Settings Page Style with Flags
@@ -2566,22 +2332,19 @@ class _DriverStep8CompanyState extends State<DriverStep8Company> {
                 Row(
                   children: [
                     Icon(CupertinoIcons.globe, size: 22, color: isLight ? Colors.black : Colors.white),
-                    const SizedBox(width: 12),
+                    SizedBox(width: 12),
                     Flexible(child: Text(
                       AppLocalizations.of(context)?.selectCountry ?? 'Select Country',
                       style: TextStyle(fontSize: 22, fontWeight: FontWeight.w700,
-                        color: isLight ? Colors.black : Colors.white, letterSpacing: -0.4),
-                    )),
-                  ],
-                ),
+                        color: isLight ? Colors.black : Colors.white, letterSpacing: -0.4))),
+                  ]),
 
-                const SizedBox(height: 20),
+                SizedBox(height: 20),
 
                 // Scrollable list for countries
                 ConstrainedBox(
                   constraints: BoxConstraints(
-                    maxHeight: MediaQuery.of(context).size.height * 0.5,
-                  ),
+                    maxHeight: MediaQuery.of(context).size.height * 0.5),
                   child: SingleChildScrollView(
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
@@ -2590,7 +2353,7 @@ class _DriverStep8CompanyState extends State<DriverStep8Company> {
                             _selectedCountry == country['name'];
 
                         return Padding(
-                          padding: const EdgeInsets.only(bottom: 8),
+                          padding: EdgeInsets.only(bottom: 8),
                           child: TradeRepublicTap(
                             onTap: () {
                               setState(() {
@@ -2599,12 +2362,10 @@ class _DriverStep8CompanyState extends State<DriverStep8Company> {
                                 // Reset state, legal structure and phone code when country changes
                                 if (oldCountry != _selectedCountry) {
                                   _selectedState = _getDefaultState(
-                                    _selectedCountry,
-                                  );
+                                    _selectedCountry);
                                   _selectedLegalStructure =
                                       _getDefaultLegalStructure(
-                                        _selectedCountry,
-                                      );
+                                        _selectedCountry);
                                   _selectedPhoneCountryCode =
                                       _getDefaultPhoneCode(_selectedCountry);
                                 }
@@ -2612,23 +2373,21 @@ class _DriverStep8CompanyState extends State<DriverStep8Company> {
                               Navigator.pop(context);
                             },
                             child: Container(
-                              padding: const EdgeInsets.all(16),
+                              padding: EdgeInsets.all(16),
                               decoration: BoxDecoration(
                                 color: isSelected
                                     ? (isLight ? Colors.black : Colors.white)
                                     : (isLight
                                           ? Colors.black.withOpacity(0.04)
                                           : const Color(0xFF121212)),
-                                borderRadius: BorderRadius.circular(20),
-                              ),
+                                borderRadius: BorderRadius.circular(20)),
                               child: Row(
                                 children: [
                                   // Flag emoji
                                   Text(
                                     country['emoji']!,
-                                    style: const TextStyle(fontSize: 24),
-                                  ),
-                                  const SizedBox(width: 16),
+                                    style: TextStyle(fontSize: 24)),
+                                  SizedBox(width: 16),
                                   Expanded(
                                     child: Text(
                                       country['name']!,
@@ -2642,38 +2401,24 @@ class _DriverStep8CompanyState extends State<DriverStep8Company> {
                                                   : Colors.white),
                                         fontSize: 16,
                                         fontWeight: FontWeight.w600,
-                                        letterSpacing: -0.2,
-                                      ),
-                                    ),
-                                  ),
+                                        letterSpacing: -0.2))),
                                   if (isSelected)
                                     Icon(
                                       CupertinoIcons.check_mark_circled,
                                       color: isLight
                                           ? Colors.white
                                           : Colors.black,
-                                      size: 24,
-                                    ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        );
-                      }).toList(),
-                    ),
-                  ),
-                ),
+                                      size: 24),
+                                ]))));
+                      }).toList()))),
 
-                const SizedBox(height: 12),
+                SizedBox(height: 12),
 
                 // Cancel button
                 TradeRepublicButton(
                         label: AppLocalizations.of(context)?.cancel ?? 'Cancel',
                         isSecondary: true,
-                        onPressed: () => Navigator.pop(context),
-                      ),
-              ],
-            ),
-      );
+                        onPressed: () => Navigator.pop(context)),
+              ]));
   }
 }

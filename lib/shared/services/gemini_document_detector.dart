@@ -20,9 +20,7 @@ class GeminiDocumentDetector {
       apiKey: _apiKey,
       generationConfig: GenerationConfig(
         temperature: 0.0,
-        maxOutputTokens: 10,
-      ),
-    );
+        maxOutputTokens: 10));
     return _cachedModel!;
   }
 
@@ -39,8 +37,7 @@ class GeminiDocumentDetector {
         decoded,
         width: (decoded.width * scale).round(),
         height: (decoded.height * scale).round(),
-        interpolation: img.Interpolation.linear,
-      );
+        interpolation: img.Interpolation.linear);
       return Uint8List.fromList(img.encodeJpg(resized, quality: 75));
     } catch (_) {
       return bytes;
@@ -93,8 +90,7 @@ Answer ONLY "yes" or "no". Nothing else.''';
         onTimeout: () {
           print('⏱️ Gemini: Analysis timed out');
           throw Exception('Gemini timeout');
-        },
-      );
+        });
 
       final String? answer = response.text?.trim().toLowerCase();
       final bool detected = answer == 'yes';
@@ -169,8 +165,7 @@ Answer ONLY "yes" or "no". Nothing else.''';
         onTimeout: () {
           print('⏱️ Gemini: Face analysis timed out');
           throw Exception('Gemini timeout');
-        },
-      );
+        });
 
       final String? answer = response.text?.trim().toLowerCase();
       final bool detected = answer == 'yes';

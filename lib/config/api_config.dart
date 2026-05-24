@@ -49,23 +49,20 @@ class ApiConfig {
         final response = await http
             .get(
               Uri.parse('$url/api/health'),
-              headers: {'Content-Type': 'application/json'},
-            )
+              headers: {'Content-Type': 'application/json'})
             .timeout(
               const Duration(seconds: 5),
               onTimeout: () {
                 print('⏱️ Connection to $url timed out after 5 seconds');
                 throw Exception('Timeout');
-              },
-            );
+              });
 
         print('📡 Response from $url: ${response.statusCode}');
         if (response.statusCode == 200) {
           String body = response.body;
           int bodyMaxLength = body.length > 50 ? 50 : body.length;
           print(
-            '📡 Response body: ${body.length > 50 ? '${body.substring(0, bodyMaxLength)}...' : body}',
-          );
+            '📡 Response body: ${body.length > 50 ? '${body.substring(0, bodyMaxLength)}...' : body}');
         }
 
         if (response.statusCode == 200) {
@@ -81,8 +78,7 @@ class ApiConfig {
         String errorMsg = e.toString();
         int maxLength = errorMsg.length > 100 ? 100 : errorMsg.length;
         print(
-          '❌ Failed to connect to $url: ${errorMsg.length > 100 ? '${errorMsg.substring(0, maxLength)}...' : errorMsg}',
-        );
+          '❌ Failed to connect to $url: ${errorMsg.length > 100 ? '${errorMsg.substring(0, maxLength)}...' : errorMsg}');
         continue;
       }
     }
@@ -91,8 +87,7 @@ class ApiConfig {
     _activeBaseUrl = _defaultBaseUrl;
     print('⚠️ All health checks failed - using fallback: $_activeBaseUrl');
     print(
-      '💡 For local development, ensure business backend runs on localhost:3006',
-    );
+      '💡 For local development, ensure business backend runs on localhost:3006');
     print('💡 For Android Emulator, run: adb reverse tcp:3006 tcp:3006');
     print('==========================================');
   }

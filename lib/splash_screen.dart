@@ -30,75 +30,59 @@ class _SplashScreenState extends State<SplashScreen>
     // Main animation controller
     _animationController = AnimationController(
       duration: const Duration(milliseconds: 2000),
-      vsync: this,
-    );
+      vsync: this);
 
     // Glow effect controller
     _glowController = AnimationController(
       duration: const Duration(milliseconds: 1500),
-      vsync: this,
-    );
+      vsync: this);
 
     // Split animation controller
     _splitController = AnimationController(
       duration: const Duration(milliseconds: 1200),
-      vsync: this,
-    );
+      vsync: this);
 
     // Fade in animation
     _fadeAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
       CurvedAnimation(
         parent: _animationController,
-        curve: const Interval(0.0, 0.5, curve: Curves.easeInOut),
-      ),
-    );
+        curve: const Interval(0.0, 0.5, curve: Curves.easeInOut)));
 
     // Scale animation with bounce
     _scaleAnimation = Tween<double>(begin: 0.5, end: 1.0).animate(
       CurvedAnimation(
         parent: _animationController,
-        curve: const Interval(0.0, 0.6, curve: Curves.elasticOut),
-      ),
-    );
+        curve: const Interval(0.0, 0.6, curve: Curves.elasticOut)));
 
     // Slide animation for text
     _slideAnimation = Tween<double>(begin: 30.0, end: 0.0).animate(
       CurvedAnimation(
         parent: _animationController,
-        curve: const Interval(0.4, 0.8, curve: Curves.easeOut),
-      ),
-    );
+        curve: const Interval(0.4, 0.8, curve: Curves.easeOut)));
 
     // Glow pulse animation
     _glowAnimation = Tween<double>(begin: 0.3, end: 1.0).animate(
-      CurvedAnimation(parent: _glowController, curve: Curves.easeInOut),
-    );
+      CurvedAnimation(parent: _glowController, curve: Curves.easeInOut));
 
     // Split animation - logo fades out
     _logoFadeOut = Tween<double>(begin: 1.0, end: 0.0).animate(
       CurvedAnimation(
         parent: _splitController,
-        curve: const Interval(0.0, 0.3, curve: Curves.easeInOut),
-      ),
-    );
+        curve: const Interval(0.0, 0.3, curve: Curves.easeInOut)));
 
     // Left slide animation - slides to left
     _leftSlideAnimation =
         Tween<Offset>(begin: Offset.zero, end: const Offset(-1.5, 0)).animate(
           CurvedAnimation(
             parent: _splitController,
-            curve: const Interval(0.0, 0.6, curve: Curves.easeInCubic),
-          ),
-        );
+            curve: const Interval(0.0, 0.6, curve: Curves.easeInCubic)));
 
     // Right slide animation - slides to right
     _rightSlideAnimation =
         Tween<Offset>(begin: Offset.zero, end: const Offset(1.5, 0)).animate(
           CurvedAnimation(
             parent: _splitController,
-            curve: const Interval(0.0, 0.6, curve: Curves.easeInCubic),
-          ),
-        );
+            curve: const Interval(0.0, 0.6, curve: Curves.easeInCubic)));
 
     // Start animations
     _animationController.forward();
@@ -173,18 +157,9 @@ class _SplashScreenState extends State<SplashScreen>
                                 : 'assets/images/cultioo_logo_light.png',
                             width: 220,
                             height: 124,
-                            fit: BoxFit.contain,
-                          ),
-                        );
-                      },
-                    ),
-                  ),
-                );
-              },
-            ),
-          ),
-        ],
-      ),
-    );
+                            fit: BoxFit.contain));
+                      })));
+              })),
+        ]));
   }
 }

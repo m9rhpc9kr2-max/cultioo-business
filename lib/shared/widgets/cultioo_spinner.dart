@@ -23,8 +23,7 @@ class CultiooSliverRefreshControl extends StatelessWidget {
     return CupertinoSliverRefreshControl(
       onRefresh: onRefresh,
       refreshTriggerPullDistance: 80.0,
-      refreshIndicatorExtent: 60.0,
-    );
+      refreshIndicatorExtent: 60.0);
   }
 }
 
@@ -44,10 +43,7 @@ class CultiooLoadingIndicator extends StatelessWidget {
       height: size,
       child: const Center(
         child: CupertinoActivityIndicator(
-          radius: 14.0,
-        ),
-      ),
-    );
+          radius: 14.0)));
   }
 }
 
@@ -79,8 +75,7 @@ class _SimplePullRefreshIndicatorState extends State<_SimplePullRefreshIndicator
     super.initState();
     _pulseCtrl = AnimationController(
       duration: const Duration(milliseconds: 900),
-      vsync: this,
-    );
+      vsync: this);
   }
 
   @override
@@ -126,19 +121,13 @@ class _SimplePullRefreshIndicatorState extends State<_SimplePullRefreshIndicator
               opacity: opacity.clamp(0.0, 1.0),
               child: Transform.scale(
                 scale: scale,
-                child: child,
-              ),
-            );
+                child: child));
           },
           child: Image.asset(
             _logoAsset(isDark),
             width: 56,
             height: 56,
-            filterQuality: FilterQuality.medium,
-          ),
-        ),
-      ),
-    );
+            filterQuality: FilterQuality.medium))));
   }
 }
 
@@ -173,12 +162,10 @@ class _PullRefreshIndicatorState extends State<_PullRefreshIndicator>
     super.initState();
     _rotCtrl = AnimationController(
       duration: const Duration(milliseconds: 1100),
-      vsync: this,
-    );
+      vsync: this);
     _snapCtrl = AnimationController(
       duration: const Duration(milliseconds: 300),
-      vsync: this,
-    );
+      vsync: this);
   }
 
   @override
@@ -250,9 +237,7 @@ class _PullRefreshIndicatorState extends State<_PullRefreshIndicator>
                       progress:   p,
                       rotVal:     rotVal,
                       isSpinning: spinning,
-                      ink:        ink,
-                    ),
-                  ),
+                      ink:        ink)),
                   if (logoT > 0)
                     Opacity(
                       opacity: logoT.clamp(0.0, 1.0),
@@ -260,23 +245,14 @@ class _PullRefreshIndicatorState extends State<_PullRefreshIndicator>
                         scale: logoScale,
                         child: Transform.rotate(
                           angle: logoAngle,
-                          child: child,
-                        ),
-                      ),
-                    ),
-                ],
-              ),
-            );
+                          child: child))),
+                ]));
           },
           child: Image.asset(
             _logoAsset(isDark),
             width:  56,
             height: 56,
-            filterQuality: FilterQuality.medium,
-          ),
-        ),
-      ),
-    );
+            filterQuality: FilterQuality.medium))));
   }
 }
 
@@ -358,8 +334,7 @@ class _TrackPainter extends CustomPainter {
       Paint()
         ..color = ink.withValues(alpha: 0.09)
         ..strokeWidth = strokeWidth
-        ..style = PaintingStyle.stroke,
-    );
+        ..style = PaintingStyle.stroke);
   }
 
   @override
@@ -393,14 +368,12 @@ class _CometPainter extends CustomPainter {
         Rect.fromCircle(center: center, radius: r),
         angle - tail * frac,
         tail / steps,
-        false, paint,
-      );
+        false, paint);
     }
     canvas.drawCircle(
       Offset(center.dx + cos(angle) * r, center.dy + sin(angle) * r),
       strokeWidth * 0.9,
-      Paint()..color = ink.withValues(alpha: 0.88),
-    );
+      Paint()..color = ink.withValues(alpha: 0.88));
   }
 
   @override

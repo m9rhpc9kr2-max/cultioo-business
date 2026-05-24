@@ -79,12 +79,10 @@ class _TradeRepublicTapState extends State<TradeRepublicTap>
     super.initState();
     _controller = AnimationController(
       vsync: this,
-      duration: widget.duration,
-    );
+      duration: widget.duration);
     _scaleAnimation = Tween<double>(
       begin: 1.0,
-      end: widget.scaleFactor,
-    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeOut));
+      end: widget.scaleFactor).animate(CurvedAnimation(parent: _controller, curve: Curves.easeOut));
   }
 
   @override
@@ -124,16 +122,13 @@ class _TradeRepublicTapState extends State<TradeRepublicTap>
       animation: _scaleAnimation,
       builder: (context, child) => Transform.scale(
         scale: _scaleAnimation.value,
-        child: child,
-      ),
-      child: widget.child ?? const SizedBox.shrink(),
-    );
+        child: child),
+      child: widget.child ?? const SizedBox.shrink());
 
     if (widget.borderRadius != null) {
       content = ClipRRect(
         borderRadius: widget.borderRadius!,
-        child: content,
-      );
+        child: content);
     }
 
     return GestureDetector(
@@ -157,7 +152,6 @@ class _TradeRepublicTapState extends State<TradeRepublicTap>
       onLongPressStart: widget.onLongPressStart,
       onLongPressMoveUpdate: widget.onLongPressMoveUpdate,
       onLongPressEnd: widget.onLongPressEnd,
-      child: content,
-    );
+      child: content);
   }
 }

@@ -34,8 +34,7 @@ class CultiooDesktopLayout {
         mainHorizontalPadding,
         12,
         mainHorizontalPadding,
-        0,
-      );
+        0);
     }
     return EdgeInsets.fromLTRB(24, topInset + 24, 24, 0);
   }
@@ -51,19 +50,16 @@ class CultiooDesktopLayout {
         mainHorizontalPadding,
         desktopTop,
         mainHorizontalPadding,
-        0,
-      );
+        0);
     }
     return EdgeInsets.fromLTRB(24, topInset + 24, 24, 0);
   }
 
   static const ScrollPhysics _clamp = ClampingScrollPhysics(
-    parent: AlwaysScrollableScrollPhysics(),
-  );
+    parent: AlwaysScrollableScrollPhysics());
 
   static const ScrollPhysics _bounce = BouncingScrollPhysics(
-    parent: AlwaysScrollableScrollPhysics(),
-  );
+    parent: AlwaysScrollableScrollPhysics());
 
   /// Clamps on desktop or very wide layouts; bounce on phones.
   static ScrollPhysics adaptiveScrollPhysics(BuildContext context) {
@@ -117,9 +113,7 @@ class CultiooDesktopLayout {
   static Border hairlineBorderBottom(BuildContext context) => Border(
         bottom: BorderSide(
           color: hairlineColor(context),
-          width: hairlineWidth,
-        ),
-      );
+          width: hairlineWidth));
 
   /// Sidebar edge — intentionally none (flat native shell).
   static Border? sidebarRightEdgeBorder(BuildContext context) => null;

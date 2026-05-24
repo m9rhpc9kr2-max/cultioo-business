@@ -22,18 +22,15 @@ class NetworkConnectivityService {
       final response = await http
           .get(
             Uri.parse('$url/api/health'),
-            headers: {'Accept': 'application/json'},
-          )
+            headers: {'Accept': 'application/json'})
           .timeout(
-            Duration(seconds: 2),
-          ); // Shorter timeout for faster tests
+            Duration(seconds: 2)); // Shorter timeout for faster tests
 
       final isReachable = response.statusCode == 200;
       print(
         isReachable
             ? '✅ $url is reachable'
-            : '❌ $url returned ${response.statusCode}',
-      );
+            : '❌ $url returned ${response.statusCode}');
       return isReachable;
     } catch (e) {
       // Try alternative health check endpoint
@@ -41,8 +38,7 @@ class NetworkConnectivityService {
         final response = await http
             .get(
               Uri.parse('$url/api/auth/check-email?email=test@test.com'),
-              headers: {'Accept': 'application/json'},
-            )
+              headers: {'Accept': 'application/json'})
             .timeout(Duration(seconds: 2));
 
         // A 404 or other HTTP codes also mean the server is reachable
@@ -50,8 +46,7 @@ class NetworkConnectivityService {
         print(
           isReachable
               ? '✅ $url is reachable (via auth endpoint)'
-              : '❌ $url returned ${response.statusCode}',
-        );
+              : '❌ $url returned ${response.statusCode}');
         return isReachable;
       } catch (e2) {
         print('❌ URL $url not reachable: $e2');

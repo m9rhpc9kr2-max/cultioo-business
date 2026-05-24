@@ -74,16 +74,12 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
         transitionsBuilder: (_, animation, __, child) {
           final slide = Tween<Offset>(
             begin: const Offset(1.0, 0.0),
-            end: Offset.zero,
-          ).animate(CurvedAnimation(
+            end: Offset.zero).animate(CurvedAnimation(
             parent: animation,
-            curve: Curves.easeInOutCubic,
-          ));
+            curve: Curves.easeInOutCubic));
           return SlideTransition(position: slide, child: child);
-        },
-      ),
-      (route) => false,
-    );
+        }),
+      (route) => false);
   }
 
   // Account type selection screen
@@ -140,8 +136,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
   AnimationController get _modeTransitionController {
     _modeTransitionControllerRaw ??= AnimationController(
       duration: const Duration(milliseconds: 400),
-      vsync: this,
-    );
+      vsync: this);
     return _modeTransitionControllerRaw!;
   }
 
@@ -163,34 +158,28 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
     // Initialize animation controllers with faster durations
     _slideController = AnimationController(
       duration: const Duration(milliseconds: 200),
-      vsync: this,
-    );
+      vsync: this);
 
     _fadeController = AnimationController(
       duration: const Duration(milliseconds: 150),
-      vsync: this,
-    );
+      vsync: this);
 
     _switchController = AnimationController(
       duration: const Duration(milliseconds: 200),
-      vsync: this,
-    );
+      vsync: this);
 
     // Initialize animations with faster, simpler animations
     _slideAnimation = Tween<Offset>(
       begin: const Offset(0, 0.1),
-      end: Offset.zero,
-    ).animate(CurvedAnimation(parent: _slideController, curve: Curves.easeOut));
+      end: Offset.zero).animate(CurvedAnimation(parent: _slideController, curve: Curves.easeOut));
 
     _fadeAnimation = Tween<double>(
       begin: 0.0,
-      end: 1.0,
-    ).animate(CurvedAnimation(parent: _fadeController, curve: Curves.easeIn));
+      end: 1.0).animate(CurvedAnimation(parent: _fadeController, curve: Curves.easeIn));
 
     _scaleAnimation = Tween<double>(
       begin: 0.95,
-      end: 1.0,
-    ).animate(CurvedAnimation(parent: _slideController, curve: Curves.easeOut));
+      end: 1.0).animate(CurvedAnimation(parent: _slideController, curve: Curves.easeOut));
 
     // Start animations
     _startAnimations();
@@ -271,8 +260,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
     final input = _emailController.text.trim().toLowerCase();
     _emailController.value = TextEditingValue(
       text: input,
-      selection: TextSelection.collapsed(offset: input.length),
-    );
+      selection: TextSelection.collapsed(offset: input.length));
     if (input.length < 3) {
       print('⚠️ Please enter a valid email or username');
       return;
@@ -285,8 +273,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
       try {
         final testResponse = await http.get(
           Uri.parse('${ApiConfig.baseUrl}/api/health'),
-          headers: {'Content-Type': 'application/json'},
-        ).timeout(const Duration(seconds: 8));
+          headers: {'Content-Type': 'application/json'}).timeout(const Duration(seconds: 8));
         
         print('🌐 Health check status: ${testResponse.statusCode}');
         
@@ -299,8 +286,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
           TopNotification.error(
             context,
             AppLocalizations.of(context)?.connectionError ??
-                'Cannot connect to server. Please check your internet connection.',
-          );
+                'Cannot connect to server. Please check your internet connection.');
         }
         return;
       }
@@ -318,15 +304,13 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                 body: json.encode({
                   'email': _emailController.text.trim(),
                   'isDelviooMode': true,
-                }),
-              )
+                }))
               .timeout(
                 const Duration(seconds: 10),
                 onTimeout: () {
                   print('⏱️ 2FA check timeout - continuing with login');
                   throw Exception('Connection timeout');
-                },
-              );
+                });
 
           print('📥 2FA Check Response: ${check2FAResponse.statusCode}');
 
@@ -336,15 +320,13 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
 
             if (check2FAData['requiresTwoFA'] == true) {
               print(
-                '🔐 2FA is enabled for this Delvioo user - showing 2FA input first',
-              );
+                '🔐 2FA is enabled for this Delvioo user - showing 2FA input first');
 
               // User has 2FA enabled - show 2FA modal BEFORE login
               setState(() => _isLoading = false);
               _show2FABeforeLoginModal(
                 check2FAData['userId']?.toString() ?? '',
-                check2FAData['email'] ?? _emailController.text.trim(),
-              );
+                check2FAData['email'] ?? _emailController.text.trim());
               return; // Stop here - don't proceed with login yet
             }
           } else if (check2FAResponse.statusCode == 404) {
@@ -352,8 +334,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
             print('ℹ️ User not found in 2FA check - continuing with login');
           } else {
             print(
-              '⚠️ Unexpected 2FA check response: ${check2FAResponse.statusCode}',
-            );
+              '⚠️ Unexpected 2FA check response: ${check2FAResponse.statusCode}');
           }
         } catch (e) {
           print('❌ 2FA Check failed: $e');
@@ -366,8 +347,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
       final result = await ApiService.login(
         email: _emailController.text.trim(),
         password: _passwordController.text,
-        isDelviooMode: _isDelviooMode,
-      );
+        isDelviooMode: _isDelviooMode);
 
       if (result['success'] == true) {
         final userProvider = Provider.of<AppSettings>(context, listen: false);
@@ -435,8 +415,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
           if (mounted) {
             TopNotification.error(
               context,
-              result['message'] ?? 'Login error: user data missing. Please try again.',
-            );
+              result['message'] ?? 'Login error: user data missing. Please try again.');
           }
           return;
         }
@@ -451,8 +430,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
         if (mounted) {
           TopNotification.error(
             context,
-            result['message'] ?? 'Please verify your email address before signing in.',
-          );
+            result['message'] ?? 'Please verify your email address before signing in.');
         }
       } else if (result['requiresTwoFA'] == true) {
         // Reset loading BEFORE showing the sheet so the Verify button is enabled
@@ -473,8 +451,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
             context,
             result['message'] ??
                 AppLocalizations.of(context)?.loginFailed ??
-                'Login failed. Please check your credentials.',
-          );
+                'Login failed. Please check your credentials.');
         }
       }
     } catch (e) {
@@ -483,8 +460,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
         TopNotification.error(
           context,
           AppLocalizations.of(context)?.connectionError ??
-              'Connection error. Please check your internet connection.',
-        );
+              'Connection error. Please check your internet connection.');
       }
     } finally {
       if (mounted) {
@@ -519,16 +495,14 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
       final authUrl = Uri.https(
         'accounts.google.com',
         '/o/oauth2/v2/auth',
-        authParams,
-      ).toString();
+        authParams).toString();
 
       print('🌐 Opening web auth...');
 
       // Use flutter_web_auth_2 for consistent callback handling
       final resultUrl = await FlutterWebAuth2.authenticate(
         url: authUrl,
-        callbackUrlScheme: 'cultioo-business',
-      );
+        callbackUrlScheme: 'cultioo-business');
 
       print('✅ Received callback: $resultUrl');
 
@@ -558,8 +532,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
           'client_secret': 'GOOGLE_OAUTH_CLIENT_SECRET_PLACEHOLDER',
           'redirect_uri': 'https://cultioo.com/auth/google-business-callback',
           'grant_type': 'authorization_code',
-        },
-      );
+        });
 
       print('🔵 Google token response: ${tokenResponse.statusCode}');
 
@@ -610,8 +583,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
               'name': name,
               'googleId': googleId,
               'isDelviooMode': _isDelviooMode,
-            }),
-          );
+            }));
           if (response.statusCode != 404) break;
         } catch (e) {
           print('🔵 Endpoint $endpoint failed: $e');
@@ -649,8 +621,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
             userType: _isDelviooMode
                 ? 'Driver'
                 : AppLocalizations.of(context)?.business ?? 'Business',
-            authMethod: 'google',
-          );
+            authMethod: 'google');
 
           print('✅ Google Sign-In successful');
 
@@ -668,8 +639,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
       if (mounted) {
         TopNotification.error(
           context,
-          'Google Sign-In failed: ${e.toString().split('\n').first}',
-        );
+          'Google Sign-In failed: ${e.toString().split('\n').first}');
       }
     } finally {
       if (mounted) {
@@ -718,8 +688,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
       final authUrl = Uri.https(
         'accounts.google.com',
         '/o/oauth2/v2/auth',
-        authParams,
-      ).toString();
+        authParams).toString();
 
       print('🌐 Opening browser for Google Sign-In...');
 
@@ -737,8 +706,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
         onTimeout: () {
           print('⏱️ OAuth timeout');
           return null;
-        },
-      );
+        });
 
       if (code == null) {
         return;
@@ -754,8 +722,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
           'code': code,
           'redirectUri': redirectUri,
           'isDelviooMode': _isDelviooMode,
-        }),
-      );
+        }));
 
       if (response.statusCode == 200) {
         final data = json.decode(response.body);
@@ -807,8 +774,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
             userType: _isDelviooMode
                 ? 'Driver'
                 : AppLocalizations.of(context)?.business ?? 'Business',
-            authMethod: 'google',
-          );
+            authMethod: 'google');
 
           // Store username in SharedPreferences for profile loading
           final prefs = await SharedPreferences.getInstance();
@@ -851,8 +817,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
         'displayName': displayName,
         'photoUrl': photoUrl,
         'isDelviooMode': _isDelviooMode,
-      }),
-    );
+      }));
 
     if (response.statusCode == 200) {
       final data = json.decode(response.body);
@@ -898,8 +863,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
           userType: _isDelviooMode
               ? 'Driver'
               : AppLocalizations.of(context)?.business ?? 'Business',
-          authMethod: 'google',
-        );
+          authMethod: 'google');
 
         // Store username
         final prefs = await SharedPreferences.getInstance();
@@ -930,8 +894,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
         scopes: [
           AppleIDAuthorizationScopes.email,
           AppleIDAuthorizationScopes.fullName,
-        ],
-      );
+        ]);
       print('🍎 Apple Sign-In credential received');
 
       if (credential.identityToken == null) {
@@ -984,8 +947,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
           setState(() => _isLoading = false);
           TopNotification.error(
             context,
-            'Apple Sign-In Error: Email not available. Please try again or contact support.',
-          );
+            'Apple Sign-In Error: Email not available. Please try again or contact support.');
         }
         return;
       }
@@ -1007,8 +969,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
           'familyName': credential.familyName,
           'userIdentifier': credential.userIdentifier,
           'isDelviooMode': _isDelviooMode,
-        }),
-      ).timeout(const Duration(seconds: 20));
+        })).timeout(const Duration(seconds: 20));
 
       print('🍎 Backend response: ${response.statusCode}');
       print('🍎 Backend body: ${response.body.length > 500 ? response.body.substring(0, 500) : response.body}');
@@ -1055,8 +1016,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
           if (mounted) {
             TopNotification.error(
               context,
-              data['message'] ?? 'Apple Sign-In failed. Please try again.',
-            );
+              data['message'] ?? 'Apple Sign-In failed. Please try again.');
           }
         }
       } else {
@@ -1077,8 +1037,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
       if (!isCancelled && mounted) {
         TopNotification.error(
           context,
-          'Apple Sign-In failed. Please try again.',
-        );
+          'Apple Sign-In failed. Please try again.');
       }
     } finally {
       if (mounted) {
@@ -1093,8 +1052,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
     final random = Random.secure();
     return List.generate(
       length,
-      (index) => chars[random.nextInt(chars.length)],
-    ).join();
+      (index) => chars[random.nextInt(chars.length)]).join();
   }
 
   // 🔵 Google Sign-In for Business Upgrade (checks if email exists in users table)
@@ -1110,8 +1068,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
     try {
       final GoogleSignIn googleSignIn = GoogleSignIn(
         scopes: const ['email', 'profile'],
-        serverClientId: _kGoogleOAuthServerClientId,
-      );
+        serverClientId: _kGoogleOAuthServerClientId);
 
       // Sign out first to force account selection
       await googleSignIn.signOut();
@@ -1130,8 +1087,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
       // Send to backend with business upgrade flag
       final response = await http.post(
         Uri.parse(
-          '${ApiConfig.baseUrl}/api/auth/google-signin-business-upgrade',
-        ),
+          '${ApiConfig.baseUrl}/api/auth/google-signin-business-upgrade'),
         headers: {'Content-Type': 'application/json'},
         body: json.encode({
           'idToken': googleAuth.idToken,
@@ -1139,8 +1095,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
           'email': googleUser.email,
           'displayName': googleUser.displayName,
           'photoUrl': googleUser.photoUrl,
-        }),
-      );
+        }));
 
       if (response.statusCode == 200) {
         final data = json.decode(response.body);
@@ -1148,8 +1103,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
           if (data['requiresBusinessUpgrade'] == true) {
             // User exists but is not a business yet - show business details modal
             print(
-              '✅ Google email verified - User exists, showing business upgrade form',
-            );
+              '✅ Google email verified - User exists, showing business upgrade form');
             _verifiedEmail = googleUser.email;
             if (mounted) {
               setState(() => _isLoading = false);
@@ -1160,16 +1114,14 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
             print('✅ User is already a business - logging in');
             final userProvider = Provider.of<AppSettings>(
               context,
-              listen: false,
-            );
+              listen: false);
             await userProvider.setIsLoggedIn(true);
             await userProvider.setUserData(
               userId: data['user']['id']?.toString() ?? '',
               name: data['user']['name'] ?? '',
               email: data['user']['email'] ?? '',
               token: data['token'] ?? '',
-              userType: AppLocalizations.of(context)?.business ?? 'Business',
-            );
+              userType: AppLocalizations.of(context)?.business ?? 'Business');
 
             if (mounted) {
               await Future.delayed(const Duration(milliseconds: 100));
@@ -1178,8 +1130,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
           } else {
             // New user - create account and show business details
             print(
-              '✅ New Google user - creating account and showing business upgrade form',
-            );
+              '✅ New Google user - creating account and showing business upgrade form');
             _verifiedEmail = googleUser.email;
             if (mounted) {
               setState(() => _isLoading = false);
@@ -1213,41 +1164,31 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
               Icon(
                 CupertinoIcons.checkmark_circle_fill,
                 size: 22,
-                color: isLight ? Colors.black : Colors.white,
-              ),
-              const SizedBox(width: 12),
+                color: isLight ? Colors.black : Colors.white),
+              SizedBox(width: 12),
               Text(
                 AppLocalizations.of(context)?.success ?? 'Success',
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: 22,
                   fontWeight: FontWeight.w700,
                   color: Colors.green,
-                  letterSpacing: -0.4,
-                ),
-              ),
-            ],
-          ),
+                  letterSpacing: -0.4)),
+            ]),
           SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
           Text(
             message,
             textAlign: TextAlign.center,
             style: TextStyle(
               fontSize: DesktopOptimizedWidgets.getFontSize(),
-              color: (isLight ? Colors.black : Colors.white).withOpacity(0.7),
-            ),
-          ),
+              color: (isLight ? Colors.black : Colors.white).withOpacity(0.7))),
           SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
           SizedBox(
             width: double.infinity,
             child: TradeRepublicButton(
               label: AppLocalizations.of(context)?.ok ?? 'OK',
               onPressed: () => Navigator.of(context).pop(),
-              backgroundColor: Colors.green,
-            ),
-          ),
-        ],
-      ),
-    );
+              backgroundColor: Colors.green)),
+        ]));
   }
 
   // 🔐 NEW: Show 2FA modal BEFORE login attempt (for Delvioo users with 2FA enabled)
@@ -1262,8 +1203,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
       isDismissible: false, // User must enter 2FA code
       child: Padding(
         padding: EdgeInsets.only(
-          bottom: MediaQuery.of(context).viewInsets.bottom,
-        ),
+          bottom: MediaQuery.of(context).viewInsets.bottom),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -1274,9 +1214,8 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                 Icon(
                   CupertinoIcons.lock_shield_fill,
                   size: 22,
-                  color: isLight ? Colors.black : Colors.white,
-                ),
-                const SizedBox(width: 12),
+                  color: isLight ? Colors.black : Colors.white),
+                SizedBox(width: 12),
                 Expanded(
                   child: Text(
                     AppLocalizations.of(context)?.twoFactorAuthentication ??
@@ -1285,12 +1224,8 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                       fontSize: 22,
                       fontWeight: FontWeight.w700,
                       color: isLight ? Colors.black : Colors.white,
-                      letterSpacing: -0.4,
-                    ),
-                  ),
-                ),
-              ],
-            ),
+                      letterSpacing: -0.4))),
+              ]),
             SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
             Text(
@@ -1299,9 +1234,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: DesktopOptimizedWidgets.getFontSize(),
-                color: (isLight ? Colors.black : Colors.white).withOpacity(0.7),
-              ),
-            ),
+                color: (isLight ? Colors.black : Colors.white).withOpacity(0.7))),
             SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
             // 2FA Code Input
@@ -1310,8 +1243,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
               keyboardType: TextInputType.number,
               maxLength: 8,
               textAlign: TextAlign.center,
-              hintText: '00000000',
-            ),
+              hintText: '00000000'),
             SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
             // Verify Button
@@ -1336,19 +1268,16 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                         // Get Provider and Navigator BEFORE closing modal (while context is valid)
                         final userProvider = Provider.of<AppSettings>(
                           context,
-                          listen: false,
-                        );
+                          listen: false);
                         final navigatorContext = Navigator.of(context);
 
                         print('📧 Email: $email');
                         print('🔑 2FA Code: ${twoFAController.text}');
                         print(
-                          '🔑 Password length: ${_passwordController.text.length}',
-                        );
+                          '🔑 Password length: ${_passwordController.text.length}');
                         print('🌐 API Base URL: ${ApiConfig.baseUrl}');
                         print(
-                          '🌐 Full Login URL: ${ApiConfig.baseUrl}/api/auth/login',
-                        );
+                          '🌐 Full Login URL: ${ApiConfig.baseUrl}/api/auth/login');
 
                         navigatorContext.pop(); // Close 2FA modal
                         print('✅ Modal closed');
@@ -1369,8 +1298,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                             email: email,
                             password: _passwordController.text,
                             isDelviooMode: true,
-                            twoFACode: twoFAController.text,
-                          );
+                            twoFACode: twoFAController.text);
 
                           print('───────────────────────────────────────');
                           print('📥 Login Result received: $result');
@@ -1378,8 +1306,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                           print('📥 Message: ${result['message']}');
                           if (result['token'] != null) {
                             print(
-                              '📥 Token: ${result['token'].toString().substring(0, 50)}...',
-                            );
+                              '📥 Token: ${result['token'].toString().substring(0, 50)}...');
                           }
 
                           if (!mounted) return;
@@ -1392,8 +1319,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                                 result['user']?['email_verified'] == false ||
                                 result['user']?['email_verified'] == 0) {
                               print(
-                                '📧 Email verification required - showing verification modal',
-                              );
+                                '📧 Email verification required - showing verification modal');
 
                               // Save user data first
                               if (result['user'] != null) {
@@ -1403,8 +1329,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                                   name: result['user']['name'] ?? '',
                                   email: result['user']['email'] ?? '',
                                   token: result['token'] ?? '',
-                                  userType: 'Driver',
-                                );
+                                  userType: 'Driver');
                               }
 
                               // Show email verification modal
@@ -1415,8 +1340,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                                       result['user']?['id']?.toString() ??
                                       userId,
                                   userProvider: userProvider,
-                                  navigatorContext: navigatorContext,
-                                );
+                                  navigatorContext: navigatorContext);
                               }
                               return; // Don't proceed to main page yet
                             }
@@ -1430,14 +1354,12 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                                 name: result['user']['name'] ?? '',
                                 email: result['user']['email'] ?? '',
                                 token: result['token'] ?? '',
-                                userType: 'Driver',
-                              );
+                                userType: 'Driver');
                             }
 
                             // Wait a bit for state updates to complete
                             await Future.delayed(
-                              const Duration(milliseconds: 100),
-                            );
+                              const Duration(milliseconds: 100));
 
                             if (mounted) {
                               print('✅ About to navigate to Delvioo main page');
@@ -1455,8 +1377,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                           print('❌ Exception Message: $e');
                           print('❌ Exception Details: ${e.toString()}');
                           print(
-                            '🌐 Was trying to connect to: ${ApiConfig.baseUrl}',
-                          );
+                            '🌐 Was trying to connect to: ${ApiConfig.baseUrl}');
                           print('═══════════════════════════════════════');
 
                           print('❌ Connection error: $e');
@@ -1469,8 +1390,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                           print('🏁 2FA LOGIN PROCESS COMPLETED');
                           print('═══════════════════════════════════════');
                         }
-                      },
-                    )
+                      })
                   : TradeRepublicButton(
                       label:
                           AppLocalizations.of(context)?.verifyLogin ??
@@ -1484,8 +1404,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                         // Same logic as above
                         final userProvider = Provider.of<AppSettings>(
                           context,
-                          listen: false,
-                        );
+                          listen: false);
                         Navigator.of(context).pop();
                         setState(() => _isLoading = true);
                         try {
@@ -1493,8 +1412,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                             email: _emailController.text.trim(),
                             password: _passwordController.text,
                             twoFACode: twoFAController.text.trim(),
-                            isDelviooMode: _isDelviooMode,
-                          );
+                            isDelviooMode: _isDelviooMode);
                           if (result['success'] == true) {
                             await userProvider.setIsLoggedIn(true);
                             if (result['user'] != null) {
@@ -1503,12 +1421,10 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                                 name: result['user']['name'] ?? '',
                                 email: result['user']['email'] ?? '',
                                 token: result['token'] ?? '',
-                                userType: 'Driver',
-                              );
+                                userType: 'Driver');
                             }
                             await Future.delayed(
-                              const Duration(milliseconds: 100),
-                            );
+                              const Duration(milliseconds: 100));
                             if (mounted) {
                               _navigateToHome(delvioo: true);
                             }
@@ -1522,9 +1438,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                             setState(() => _isLoading = false);
                           }
                         }
-                      },
-                    ),
-            ),
+                      })),
 
             SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
@@ -1534,21 +1448,16 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                     label: AppLocalizations.of(context)?.cancel ?? 'Cancel',
                     onPressed: () {
                       Navigator.of(context).pop();
-                    },
-                  )
+                    })
                 : TradeRepublicButton(
                     label: AppLocalizations.of(context)?.cancel ?? 'Cancel',
                     isSecondary: true,
                     onPressed: () {
                       Navigator.of(context).pop();
-                    },
-                  ),
+                    }),
 
             SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
-          ],
-        ),
-      ),
-    );
+          ])));
   }
 
   void _show2FABottomSheet(String userId, {bool? isStaticCodeStep}) {
@@ -1565,8 +1474,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
       isDismissible: false, // User must enter 2FA code
       child: Padding(
         padding: EdgeInsets.only(
-          bottom: MediaQuery.of(context).viewInsets.bottom,
-        ),
+          bottom: MediaQuery.of(context).viewInsets.bottom),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -1577,9 +1485,8 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                 Icon(
                   CupertinoIcons.lock_shield_fill,
                   size: 22,
-                  color: isLight ? Colors.black : Colors.white,
-                ),
-                const SizedBox(width: 12),
+                  color: isLight ? Colors.black : Colors.white),
+                SizedBox(width: 12),
                 Expanded(
                   child: Text(
                     AppLocalizations.of(context)?.twoFactorAuthentication ??
@@ -1588,12 +1495,8 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                       fontSize: 22,
                       fontWeight: FontWeight.w700,
                       color: isLight ? Colors.black : Colors.white,
-                      letterSpacing: -0.4,
-                    ),
-                  ),
-                ),
-              ],
-            ),
+                      letterSpacing: -0.4))),
+              ]),
             SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
             Text(
@@ -1605,9 +1508,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: DesktopOptimizedWidgets.getFontSize(),
-                color: (isLight ? Colors.black : Colors.white).withOpacity(0.7),
-              ),
-            ),
+                color: (isLight ? Colors.black : Colors.white).withOpacity(0.7))),
             SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
             // 2FA Code Input - Trade Republic Style
@@ -1617,8 +1518,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
               keyboardType: TextInputType.number,
               maxLength: 8,
               textAlign: TextAlign.center,
-              hintText: '00000000',
-            ),
+              hintText: '00000000'),
             SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
             // Verify Button
@@ -1636,8 +1536,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                       // Prevent double submission
                       if (_isLoading) {
                         print(
-                          '⚠️ 2FA verification already in progress, ignoring duplicate request',
-                        );
+                          '⚠️ 2FA verification already in progress, ignoring duplicate request');
                         return;
                       }
 
@@ -1650,35 +1549,29 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                         if (isStaticStep) {
                           // ✅ For static code: use login endpoint with twoFACode
                           print(
-                            '🔐 Verifying static 2FA code via login endpoint',
-                          );
+                            '🔐 Verifying static 2FA code via login endpoint');
                           result = await ApiService.login(
                             email: _emailController.text.trim(),
                             password: _passwordController.text,
                             twoFACode: code,
-                            isDelviooMode: _isDelviooMode,
-                          );
+                            isDelviooMode: _isDelviooMode);
                         } else {
                           // ✅ For email code: use verify-2fa endpoint
                           print(
-                            '📧 Verifying email 2FA code via verify-2fa endpoint',
-                          );
+                            '📧 Verifying email 2FA code via verify-2fa endpoint');
                           result = await ApiService.verify2FA(
                             userId: userId,
                             code: code,
-                            isDelviooMode: _isDelviooMode,
-                          );
+                            isDelviooMode: _isDelviooMode);
                         }
 
                         if (result['success'] == true) {
                           print(
-                            '✅ 2FA SUCCESS - Starting navigation process...',
-                          );
+                            '✅ 2FA SUCCESS - Starting navigation process...');
 
                           final userProvider = Provider.of<AppSettings>(
                             context,
-                            listen: false,
-                          );
+                            listen: false);
 
                           print('✅ Closing 2FA sheet...');
                           // Close 2FA sheet first - use root navigator
@@ -1688,12 +1581,10 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
 
                           // Small delay to ensure modal is closed
                           await Future.delayed(
-                            const Duration(milliseconds: 100),
-                          );
+                            const Duration(milliseconds: 100));
 
                           print(
-                            '✅ Navigating to main page BEFORE saving token...',
-                          );
+                            '✅ Navigating to main page BEFORE saving token...');
                           // Navigate FIRST, before saving token (which triggers notifyListeners)
                           if (mounted) {
                             final targetRoute = _isDelviooMode
@@ -1705,8 +1596,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                             _navigateToHome(delvioo: _isDelviooMode);
 
                             print(
-                              '✅ Navigation initiated, now saving token...',
-                            );
+                              '✅ Navigation initiated, now saving token...');
                           }
 
                           // NOW save the token and user data (after navigation is started)
@@ -1721,16 +1611,13 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                               userType: _isDelviooMode
                                   ? 'Driver'
                                   : AppLocalizations.of(
-                                          context,
-                                        )?.businessLabel ??
+                                          context)?.businessLabel ??
                                         'Business', // ✅ Save the userType!
                             );
                             print(
-                              '✅ Token stored after 2FA: ${result['token']?.substring(0, 20)}...',
-                            );
+                              '✅ Token stored after 2FA: ${result['token']?.substring(0, 20)}...');
                             print(
-                              '✅ UserType saved: ${_isDelviooMode ? 'Driver' : 'Business'}',
-                            );
+                              '✅ UserType saved: ${_isDelviooMode ? 'Driver' : 'Business'}');
                           }
 
                           print('✅ 2FA login completed successfully');
@@ -1738,8 +1625,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                             result['step'] == 'email_code') {
                           // ✅ Static code was correct, now close current modal and open NEW modal for email code
                           print(
-                            '✅ Static code verified, switching to email code step',
-                          );
+                            '✅ Static code verified, switching to email code step');
 
                           // Close current static code modal
                           if (mounted && Navigator.canPop(context)) {
@@ -1751,8 +1637,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                           // sent the email code via send2FACode(). Calling _showEmailCodeModal
                           // would send a SECOND email with a DIFFERENT code.
                           await Future.delayed(
-                            const Duration(milliseconds: 200),
-                          );
+                            const Duration(milliseconds: 200));
 
                           if (mounted) {
                             _show2FABottomSheet(userId, isStaticCodeStep: false);
@@ -1764,10 +1649,8 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                               context,
                               result['message'] ??
                                   AppLocalizations.of(
-                                    context,
-                                  )?.twoFaVerificationFailed ??
-                                  '2FA verification failed',
-                            );
+                                    context)?.twoFaVerificationFailed ??
+                                  '2FA verification failed');
                           }
                         }
                       } catch (e) {
@@ -1775,16 +1658,14 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                         if (mounted) {
                           TopNotification.error(
                             context,
-                            '${AppLocalizations.of(context)?.verificationError ?? "Verification error"}: ${e.toString()}',
-                          );
+                            '${AppLocalizations.of(context)?.verificationError ?? "Verification error"}: ${e.toString()}');
                         }
                       } finally {
                         if (mounted) {
                           setState(() => _isLoading = false);
                         }
                       }
-                    },
-            ),
+                    }),
 
             SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
@@ -1800,14 +1681,12 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                           final response = await http
                               .post(
                                 Uri.parse(
-                                  '${ApiService.baseUrl}/auth/resend-2fa-email',
-                                ),
+                                  '${ApiService.baseUrl}/auth/resend-2fa-email'),
                                 headers: {
                                   'Content-Type': 'application/json',
                                   'Accept': 'application/json',
                                 },
-                                body: jsonEncode({'username': userId}),
-                              )
+                                body: jsonEncode({'username': userId}))
                               .timeout(const Duration(seconds: 15));
 
                           final data = jsonDecode(response.body);
@@ -1817,26 +1696,21 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                               context,
                               data['message'] ??
                                   AppLocalizations.of(context)?.newEmailSent ??
-                                  'New email has been sent',
-                            );
+                                  'New email has been sent');
                           } else {
                             TopNotification.error(
                               context,
                               data['message'] ??
                                   AppLocalizations.of(
-                                    context,
-                                  )?.errorSendingEmail ??
-                                  'Error sending email',
-                            );
+                                    context)?.errorSendingEmail ??
+                                  'Error sending email');
                           }
                         } catch (e) {
                           TopNotification.error(
                             context,
-                            '${AppLocalizations.of(context)?.connectionError ?? 'Connection error'}: ${e.toString()}',
-                          );
+                            '${AppLocalizations.of(context)?.connectionError ?? 'Connection error'}: ${e.toString()}');
                         }
-                      },
-                    )
+                      })
                   : TradeRepublicButton(
                       label:
                           AppLocalizations.of(context)?.resendEmail ??
@@ -1847,14 +1721,12 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                           final response = await http
                               .post(
                                 Uri.parse(
-                                  '${ApiService.baseUrl}/auth/resend-2fa-email',
-                                ),
+                                  '${ApiService.baseUrl}/auth/resend-2fa-email'),
                                 headers: {
                                   'Content-Type': 'application/json',
                                   'Accept': 'application/json',
                                 },
-                                body: jsonEncode({'username': userId}),
-                              )
+                                body: jsonEncode({'username': userId}))
                               .timeout(const Duration(seconds: 15));
 
                           final data = jsonDecode(response.body);
@@ -1864,26 +1736,21 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                               context,
                               data['message'] ??
                                   AppLocalizations.of(context)?.newEmailSent ??
-                                  'New email has been sent',
-                            );
+                                  'New email has been sent');
                           } else {
                             TopNotification.error(
                               context,
                               data['message'] ??
                                   AppLocalizations.of(
-                                    context,
-                                  )?.errorSendingEmail ??
-                                  'Error sending email',
-                            );
+                                    context)?.errorSendingEmail ??
+                                  'Error sending email');
                           }
                         } catch (e) {
                           TopNotification.error(
                             context,
-                            '${AppLocalizations.of(context)?.connectionError ?? 'Connection error'}: ${e.toString()}',
-                          );
+                            '${AppLocalizations.of(context)?.connectionError ?? 'Connection error'}: ${e.toString()}');
                         }
-                      },
-                    ),
+                      }),
               SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
             ],
 
@@ -1894,22 +1761,17 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                     onPressed: () {
                       Navigator.of(context).pop();
                       setState(() => _isLoading = false);
-                    },
-                  )
+                    })
                 : TradeRepublicButton(
                     label: AppLocalizations.of(context)?.cancel ?? 'Cancel',
                     isSecondary: true,
                     onPressed: () {
                       Navigator.of(context).pop();
                       setState(() => _isLoading = false);
-                    },
-                  ),
+                    }),
 
             SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
-          ],
-        ),
-      ),
-    );
+          ])));
   }
 
   Widget _buildAppModeSwitch(bool isLight) {
@@ -1935,9 +1797,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                 _switchController.forward();
               }
             });
-          },
-        ),
-      );
+          }));
     }
 
     // On iOS: Use TradeRepublicSlider (same as macOS/Android)
@@ -1961,9 +1821,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                 _switchController.forward();
               }
             });
-          },
-        ),
-      );
+          }));
     }
 
     // On Android: Use TradeRepublicSlider
@@ -1986,9 +1844,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
               _switchController.forward();
             }
           });
-        },
-      ),
-    );
+        }));
   }
 
   // Kept for backwards compatibility but no longer used
@@ -2004,11 +1860,10 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
           child: Container(
             width: buttonWidth * 2 + 12,
             height: buttonHeight + 12,
-            padding: const EdgeInsets.all(6),
+            padding: EdgeInsets.all(6),
             decoration: BoxDecoration(
               color: (isLight ? Colors.white : Colors.black).withOpacity(0.3),
-              borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-            ),
+              borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
 
             child: LayoutBuilder(
               builder: (context, constraints) {
@@ -2032,12 +1887,8 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                               color: (isLight ? Colors.black : Colors.white)
                                   .withOpacity(0.2),
                               blurRadius: 10,
-                              offset: const Offset(0, 2),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
+                              offset: const Offset(0, 2)),
+                          ]))),
                     // Buttons
                     Row(
                       children: [
@@ -2069,10 +1920,8 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                                           : (isLight
                                                     ? Colors.black
                                                     : Colors.white)
-                                                .withOpacity(0.5),
-                                    ),
-                                  ),
-                                  const SizedBox(width: 8),
+                                                .withOpacity(0.5))),
+                                  SizedBox(width: 8),
                                   AnimatedDefaultTextStyle(
                                     duration: const Duration(milliseconds: 200),
                                     style: TextStyle(
@@ -2085,18 +1934,11 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                                           : (isLight
                                                     ? Colors.black
                                                     : Colors.white)
-                                                .withOpacity(0.5),
-                                    ),
+                                                .withOpacity(0.5)),
                                     child: Text(
                                       AppLocalizations.of(context)?.business ??
-                                          'Business',
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
+                                          'Business')),
+                                ])))),
                         // Delvioo Button
                         Expanded(
                           child: TradeRepublicTap(
@@ -2125,10 +1967,8 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                                           : (isLight
                                                     ? Colors.black
                                                     : Colors.white)
-                                                .withOpacity(0.5),
-                                    ),
-                                  ),
-                                  const SizedBox(width: 8),
+                                                .withOpacity(0.5))),
+                                  SizedBox(width: 8),
                                   AnimatedDefaultTextStyle(
                                     duration: const Duration(milliseconds: 200),
                                     style: TextStyle(
@@ -2141,27 +1981,14 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                                           : (isLight
                                                     ? Colors.black
                                                     : Colors.white)
-                                                .withOpacity(0.5),
-                                    ),
+                                                .withOpacity(0.5)),
                                     child: Text(
                                       AppLocalizations.of(context)?.delvioo ??
-                                          'Delvioo',
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                );
-              },
-            ),
-          ),
-        ),
-      );
+                                          'Delvioo')),
+                                ])))),
+                      ]),
+                  ]);
+              }))));
     }
 
     // On iOS: Use TradeRepublicSlider (same as macOS/Android)
@@ -2185,9 +2012,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                 _switchController.forward();
               }
             });
-          },
-        ),
-      );
+          }));
     }
 
     // On Android: Use custom glass morphism switch
@@ -2196,7 +2021,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
       child: BackdropFilter(
         filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
         child: Container(
-          padding: const EdgeInsets.all(6),
+          padding: EdgeInsets.all(6),
           decoration: BoxDecoration(
             color: isLight
                 ? Colors.white.withOpacity(0.15)
@@ -2209,10 +2034,8 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                     : Colors.black.withOpacity(0.3),
                 blurRadius: 20,
                 spreadRadius: 2,
-                offset: const Offset(0, 4),
-              ),
-            ],
-          ),
+                offset: const Offset(0, 4)),
+            ]),
           child: LayoutBuilder(
             builder: (context, constraints) {
               final switchWidth = constraints.maxWidth;
@@ -2227,8 +2050,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                     width: buttonWidth,
                     height: 56,
                     margin: EdgeInsets.only(
-                      left: _isDelviooMode ? buttonWidth : 0,
-                    ),
+                      left: _isDelviooMode ? buttonWidth : 0),
                     decoration: BoxDecoration(
                       color: isLight
                           ? Colors.black.withOpacity(0.8)
@@ -2240,11 +2062,8 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                               .withOpacity(0.4),
                           blurRadius: 15,
                           spreadRadius: 2,
-                          offset: const Offset(0, 3),
-                        ),
-                      ],
-                    ),
-                  ),
+                          offset: const Offset(0, 3)),
+                      ])),
                   // Button texts
                   Row(
                     children: [
@@ -2260,10 +2079,9 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                           },
                           behavior: HitTestBehavior.opaque,
                           child: Container(
-                            padding: const EdgeInsets.symmetric(
+                            padding: EdgeInsets.symmetric(
                               vertical: 18,
-                              horizontal: 12,
-                            ),
+                              horizontal: 12),
                             child: AnimatedDefaultTextStyle(
                               duration: const Duration(milliseconds: 500),
                               curve: Curves.easeInOutCubic,
@@ -2274,17 +2092,11 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                                     ? Colors.black.withOpacity(0.6)
                                     : Colors.white.withOpacity(0.6),
                                 fontSize: DesktopOptimizedWidgets.getFontSize(),
-                                fontWeight: FontWeight.w700,
-                              ),
+                                fontWeight: FontWeight.w700),
                               child: Text(
                                 AppLocalizations.of(context)?.business ??
                                     'Business',
-                                textAlign: TextAlign.center,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
+                                textAlign: TextAlign.center))))),
                       Expanded(
                         child: TradeRepublicTap(
                           onTap: () {
@@ -2297,10 +2109,9 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                           },
                           behavior: HitTestBehavior.opaque,
                           child: Container(
-                            padding: const EdgeInsets.symmetric(
+                            padding: EdgeInsets.symmetric(
                               vertical: 18,
-                              horizontal: 12,
-                            ),
+                              horizontal: 12),
                             child: AnimatedDefaultTextStyle(
                               duration: const Duration(milliseconds: 500),
                               curve: Curves.easeInOutCubic,
@@ -2311,26 +2122,14 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                                     ? Colors.black.withOpacity(0.6)
                                     : Colors.white.withOpacity(0.6),
                                 fontSize: DesktopOptimizedWidgets.getFontSize(),
-                                fontWeight: FontWeight.w700,
-                              ),
+                                fontWeight: FontWeight.w700),
                               child: Text(
                                 AppLocalizations.of(context)?.delvioo ??
                                     'Delvioo',
-                                textAlign: TextAlign.center,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              );
-            },
-          ),
-        ),
-      ),
-    );
+                                textAlign: TextAlign.center))))),
+                    ]),
+                ]);
+            }))));
   }
 
   // macOS Switch Button Helper
@@ -2345,13 +2144,12 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
       onTap: onTap,
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 200),
-        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+        padding: EdgeInsets.symmetric(horizontal: 24, vertical: 12),
         decoration: BoxDecoration(
           color: isSelected
               ? (isLight ? Colors.black : Colors.white)
               : Colors.transparent,
-          borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-        ),
+          borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -2360,9 +2158,8 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
               size: 20,
               color: isSelected
                   ? (isLight ? Colors.white : Colors.black)
-                  : (isLight ? Colors.black : Colors.white).withOpacity(0.6),
-            ),
-            const SizedBox(width: 10),
+                  : (isLight ? Colors.black : Colors.white).withOpacity(0.6)),
+            SizedBox(width: 10),
             Text(
               label,
               style: TextStyle(
@@ -2370,13 +2167,8 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                 fontWeight: FontWeight.w600,
                 color: isSelected
                     ? (isLight ? Colors.white : Colors.black)
-                    : (isLight ? Colors.black : Colors.white).withOpacity(0.6),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
+                    : (isLight ? Colors.black : Colors.white).withOpacity(0.6))),
+          ])));
   }
 
   /// Animated transition to select a mode
@@ -2432,8 +2224,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
         isLight,
         isDesktop,
         isMobile,
-        screenHeight,
-      );
+        screenHeight);
     }
 
     // Responsive values
@@ -2464,8 +2255,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                     child: Container(
                       constraints: BoxConstraints(maxWidth: maxFormWidth),
                       padding: EdgeInsets.symmetric(
-                        horizontal: horizontalPadding,
-                      ),
+                        horizontal: horizontalPadding),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
@@ -2487,21 +2277,15 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                                       color:
                                           (isLight ? Colors.black : Colors.white)
                                               .withOpacity(0.05),
-                                      borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-                                    ),
+                                      borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
                                     child: Icon(
                                       CupertinoIcons.back,
                                       size: 20,
                                       color: isLight
                                           ? Colors.black
-                                          : Colors.white,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
+                                          : Colors.white))))),
 
-                          const SizedBox(height: 20),
+                          SizedBox(height: 20),
 
                           // App Logo — uses actual logo images
                           ClipRRect(
@@ -2517,18 +2301,13 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                                 height: logoSize,
                                 decoration: BoxDecoration(
                                   color: isLight ? Colors.black : Colors.white,
-                                  borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-                                ),
+                                  borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
                                 child: Icon(
                                   _isDelviooMode
                                       ? CupertinoIcons.cube_box_fill
                                       : CupertinoIcons.briefcase_fill,
                                   size: logoSize * 0.45,
-                                  color: isLight ? Colors.white : Colors.black,
-                                ),
-                              ),
-                            ),
-                          ),
+                                  color: isLight ? Colors.white : Colors.black)))),
 
                           SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
@@ -2542,27 +2321,22 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                               fontSize: titleSize,
                               fontWeight: FontWeight.w700,
                               color: isLight ? Colors.black : Colors.white,
-                              letterSpacing: -0.5,
-                            ),
-                          ),
+                              letterSpacing: -0.5)),
 
-                          const SizedBox(height: 6),
+                          SizedBox(height: 6),
 
                           // Subtitle
                           Text(
                             _isDelviooMode
                                 ? AppLocalizations.of(
-                                        context,
-                                      )?.signInToStartDelivering ??
+                                        context)?.signInToStartDelivering ??
                                       'Sign in to start delivering'
                                 : 'Sign in to your seller account',
                             style: TextStyle(
                               fontSize: 15,
                               fontWeight: FontWeight.w400,
                               color: (isLight ? Colors.black : Colors.white)
-                                  .withOpacity(0.5),
-                            ),
-                          ),
+                                  .withOpacity(0.5))),
 
                           SizedBox(height: isDesktop ? 40 : 36),
 
@@ -2579,8 +2353,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                             height: inputHeight,
                             keyboardType: TextInputType.emailAddress,
                             textInputAction: TextInputAction.next,
-                            forceLowercase: true,
-                          ),
+                            forceLowercase: true),
 
                           SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
@@ -2594,10 +2367,9 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                             height: inputHeight,
                             obscureText: _obscurePassword,
                             textInputAction: TextInputAction.done,
-                            onSubmitted: (_) => _login(),
-                          ),
+                            onSubmitted: (_) => _login()),
 
-                          const SizedBox(height: 14),
+                          SizedBox(height: 14),
 
                           // Forgot Password
                           Align(
@@ -2608,20 +2380,14 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                                 onTap: _showForgotPasswordModal,
                                 child: Text(
                                   AppLocalizations.of(
-                                        context,
-                                      )?.forgotPasswordQuestion ??
+                                        context)?.forgotPasswordQuestion ??
                                       'Forgot password?',
                                   style: TextStyle(
                                     fontSize: 13,
                                     fontWeight: FontWeight.w500,
                                     color:
                                         (isLight ? Colors.black : Colors.white)
-                                            .withOpacity(0.45),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
+                                            .withOpacity(0.45)))))),
 
                           SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
@@ -2634,10 +2400,9 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                             isLoading: _isLoading,
                             isLight: isLight,
                             height: buttonHeight,
-                            isDesktop: isDesktop,
-                          ),
+                            isDesktop: isDesktop),
 
-                          const SizedBox(height: 28),
+                          SizedBox(height: 28),
 
                           // Divider with OR
                           Row(
@@ -2646,13 +2411,10 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                                 child: Container(
                                   height: 1,
                                   color: (isLight ? Colors.black : Colors.white)
-                                      .withOpacity(0.08),
-                                ),
-                              ),
+                                      .withOpacity(0.08))),
                               Padding(
-                                padding: const EdgeInsets.symmetric(
-                                  horizontal: 16,
-                                ),
+                                padding: EdgeInsets.symmetric(
+                                  horizontal: 16),
                                 child: Text(
                                   AppLocalizations.of(context)?.orLabel ?? 'or',
                                   style: TextStyle(
@@ -2660,21 +2422,15 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                                     fontWeight: FontWeight.w500,
                                     color:
                                         (isLight ? Colors.black : Colors.white)
-                                            .withOpacity(0.3),
-                                  ),
-                                ),
-                              ),
+                                            .withOpacity(0.3)))),
                               Expanded(
                                 child: Container(
                                   height: 1,
                                   color: (isLight ? Colors.black : Colors.white)
-                                      .withOpacity(0.08),
-                                ),
-                              ),
-                            ],
-                          ),
+                                      .withOpacity(0.08))),
+                            ]),
 
-                          const SizedBox(height: 28),
+                          SizedBox(height: 28),
 
                           // Social Sign In Buttons
                           Row(
@@ -2688,19 +2444,15 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                                     height: 20,
                                     child: SvgPicture.string(
                                       '<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path fill="currentColor" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="currentColor" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="currentColor" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="currentColor" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>',
-                                      color: isLight ? Colors.black : Colors.white,
-                                    ),
-                                  ),
+                                      color: isLight ? Colors.black : Colors.white)),
                                   label: isDesktop
                                       ? (AppLocalizations.of(context)?.googleLabel ?? '')
                                       : null,
                                   isLight: isLight,
-                                  height: buttonHeight,
-                                ),
-                              ),
+                                  height: buttonHeight)),
                               // Apple (iOS only)
                               if (_isIOS) ...[
-                                const SizedBox(width: 12),
+                                SizedBox(width: 12),
                                 Expanded(
                                   child: _buildSocialButton(
                                     onTap: _isLoading ? null : _signInWithApple,
@@ -2709,21 +2461,16 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                                       height: 24,
                                       child: SvgPicture.string(
                                         '<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path fill="currentColor" d="M17.05 13.5c-.91 0-1.82.55-2.25 1.51.93.64 1.54 1.77 1.54 3.02 0 2.05-1.53 3.76-3.41 3.76-1.9 0-3.44-1.71-3.44-3.76 0-1.25.61-2.38 1.54-3.02-.43-.96-1.34-1.51-2.25-1.51-2.06 0-3.71 1.88-3.71 4.2 0 2.33 1.65 4.2 3.71 4.2 1.06 0 2.05-.41 2.8-1.12.75.71 1.74 1.12 2.8 1.12 2.06 0 3.71-1.87 3.71-4.2 0-2.32-1.65-4.2-3.71-4.2zm-5.14-2.5c0 1.38-1.12 2.5-2.5 2.5s-2.5-1.12-2.5-2.5 1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5zm5 0c0 1.38-1.12 2.5-2.5 2.5s-2.5-1.12-2.5-2.5 1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5z"/></svg>',
-                                        color: isLight ? Colors.black : Colors.white,
-                                      ),
-                                    ),
+                                        color: isLight ? Colors.black : Colors.white)),
                                     label: isDesktop
                                         ? (AppLocalizations.of(context)?.appleLabel ?? '')
                                         : null,
                                     isLight: isLight,
-                                    height: buttonHeight,
-                                  ),
-                                ),
+                                    height: buttonHeight)),
                               ],
-                            ],
-                          ),
+                            ]),
 
-                          const SizedBox(height: 36),
+                          SizedBox(height: 36),
 
                           // Register Section
                           Column(
@@ -2731,53 +2478,38 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                               Text(
                                 _isDelviooMode
                                     ? AppLocalizations.of(
-                                            context,
-                                          )?.dontHaveAccountSignUp ??
+                                            context)?.dontHaveAccountSignUp ??
                                           "Don't have an account?"
                                     : "Don't have a seller account?",
                                 style: TextStyle(
                                   fontSize: 13,
                                   color: (isLight ? Colors.black : Colors.white)
-                                      .withOpacity(0.45),
-                                ),
-                              ),
+                                      .withOpacity(0.45))),
                               SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                               _buildSecondaryButton(
                                 label: _isDelviooMode
                                     ? AppLocalizations.of(
-                                            context,
-                                          )?.becomeADriver ??
+                                            context)?.becomeADriver ??
                                           'Become a Driver'
                                     : 'Create Seller Account',
                                 onPressed: () {
                                   if (_isDelviooMode) {
                                     Navigator.pushNamed(
                                       context,
-                                      '/driver-registration',
-                                    );
+                                      '/driver-registration');
                                   } else {
                                     Navigator.pushNamed(context, '/register');
                                   }
                                 },
                                 isLight: isLight,
                                 height: buttonHeight - 4,
-                                isDesktop: isDesktop,
-                              ),
-                            ],
-                          ),
+                                isDesktop: isDesktop),
+                            ]),
 
                           // Bottom spacing
                           SizedBox(height: isMobile ? (_isIOS ? 60 : 40) : 40),
-                        ],
-                      ),
-                    ),
-                  ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
+                        ])))),
+            ]))));
   }
 
   /// Mode selection screen — shown before login with logo + compelling cards
@@ -2785,18 +2517,15 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
     bool isLight,
     bool isDesktop,
     bool isMobile,
-    double screenHeight,
-  ) {
+    double screenHeight) {
     final maxFormWidth = isDesktop ? 500.0 : double.infinity;
     final horizontalPadding = isDesktop ? 0.0 : 28.0;
 
     // Animate out when a mode is selected
     final fadeOut = Tween<double>(begin: 1.0, end: 0.0).animate(
-      CurvedAnimation(parent: _modeTransitionController, curve: Curves.easeIn),
-    );
+      CurvedAnimation(parent: _modeTransitionController, curve: Curves.easeIn));
     final scaleOut = Tween<double>(begin: 1.0, end: 0.96).animate(
-      CurvedAnimation(parent: _modeTransitionController, curve: Curves.easeIn),
-    );
+      CurvedAnimation(parent: _modeTransitionController, curve: Curves.easeIn));
 
     final topPadding = MediaQuery.of(context).padding.top;
 
@@ -2827,13 +2556,10 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                           fontSize: 22,
                           fontWeight: FontWeight.w600,
                           color: isLight ? Colors.black : Colors.white,
-                          letterSpacing: -0.3,
-                        ),
-                        textAlign: TextAlign.center,
-                      ),
-                    ),
+                          letterSpacing: -0.3),
+                        textAlign: TextAlign.center)),
 
-                    const SizedBox(height: 36),
+                    SizedBox(height: 36),
 
                     // Business Card
                     _buildModeCard(
@@ -2844,12 +2570,10 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                           'Business',
                       subtitle:
                           AppLocalizations.of(
-                            context,
-                          )?.businessModeDescription ??
+                            context)?.businessModeDescription ??
                           'Sell at YOUR price. We give customers the freedom.',
                       delay: 0,
-                      onTap: () => _selectMode(0),
-                    ),
+                      onTap: () => _selectMode(0)),
 
                     SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
@@ -2862,25 +2586,16 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                           'Delvioo',
                       subtitle:
                           AppLocalizations.of(
-                            context,
-                          )?.delviooModeDescription ??
+                            context)?.delviooModeDescription ??
                           'Drive. Deliver. Earn. On your terms.',
                       delay: 1,
-                      onTap: () => _selectMode(1),
-                    ),
+                      onTap: () => _selectMode(1)),
 
                     // Spacer at bottom for balance
                     const Spacer(),
 
                     SizedBox(height: isMobile ? 30 : 20),
-                  ],
-                ),
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
+                  ])))))));
   }
 
   /// A single mode selection card with staggered slide-in animation
@@ -2897,9 +2612,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
         Tween<Offset>(begin: const Offset(0, 0.15), end: Offset.zero).animate(
           CurvedAnimation(
             parent: _slideController,
-            curve: Interval(delay * 0.15, 1.0, curve: Curves.easeOut),
-          ),
-        );
+            curve: Interval(delay * 0.15, 1.0, curve: Curves.easeOut)));
 
     return SlideTransition(
       position: staggeredSlide,
@@ -2911,13 +2624,11 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
             onTap: onTap,
             child: Container(
               width: double.infinity,
-              padding: const EdgeInsets.all(22),
+              padding: EdgeInsets.all(22),
               decoration: BoxDecoration(
                 color: (isLight ? Colors.black : Colors.white).withOpacity(
-                  0.04,
-                ),
-                borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-              ),
+                  0.04),
+                borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
               child: Row(
                 children: [
                   // Icon
@@ -2926,15 +2637,12 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                     height: 52,
                     decoration: BoxDecoration(
                       color: isLight ? Colors.black : Colors.white,
-                      borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius()),
-                    ),
+                      borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius())),
                     child: Icon(
                       icon,
                       size: 24,
-                      color: isLight ? Colors.white : Colors.black,
-                    ),
-                  ),
-                  const SizedBox(width: 18),
+                      color: isLight ? Colors.white : Colors.black)),
+                  SizedBox(width: 18),
                   // Text
                   Expanded(
                     child: Column(
@@ -2945,10 +2653,8 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                           style: TextStyle(
                             fontSize: DesktopOptimizedWidgets.getFontSize() + 4,
                             fontWeight: FontWeight.w600,
-                            color: isLight ? Colors.black : Colors.white,
-                          ),
-                        ),
-                        const SizedBox(height: 4),
+                            color: isLight ? Colors.black : Colors.white)),
+                        SizedBox(height: 4),
                         Text(
                           subtitle,
                           style: TextStyle(
@@ -2956,28 +2662,16 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                             fontWeight: FontWeight.w400,
                             color: (isLight ? Colors.black : Colors.white)
                                 .withOpacity(0.5),
-                            height: 1.3,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(width: 8),
+                            height: 1.3)),
+                      ])),
+                  SizedBox(width: 8),
                   // Arrow
                   Icon(
                     CupertinoIcons.chevron_right,
                     size: 18,
                     color: (isLight ? Colors.black : Colors.white).withOpacity(
-                      0.3,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
+                      0.3)),
+                ]))))));
   }
 
   Widget _buildInputField({
@@ -3009,8 +2703,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
       })] : null,
       style: TextStyle(fontSize: DesktopOptimizedWidgets.getFontSize(), fontWeight: FontWeight.w500, color: inputTextColor, height: 1.0),
       hintStyle: TextStyle(fontSize: 15, fontWeight: FontWeight.w400, color: inputTextColor.withOpacity(0.4), height: 1.0),
-      fillColor: isLight ? Colors.black.withOpacity(0.05) : const Color(0xFF111111),
-    );
+      fillColor: isLight ? Colors.black.withOpacity(0.05) : const Color(0xFF111111));
   }
 
   Widget _buildPrimaryButton({
@@ -3027,9 +2720,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
       child: TradeRepublicButton(
         label: label,
         onPressed: onPressed,
-        isLoading: isLoading,
-      ),
-    );
+        isLoading: isLoading));
   }
 
   Widget _buildSecondaryButton({
@@ -3045,9 +2736,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
       child: TradeRepublicButton(
         label: label,
         onPressed: onPressed,
-        isSecondary: true,
-      ),
-    );
+        isSecondary: true));
   }
 
   Widget _buildSocialButton({
@@ -3067,28 +2756,21 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
           height: height,
           decoration: BoxDecoration(
             color: (isLight ? Colors.black : Colors.white).withOpacity(0.04),
-            borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-          ),
+            borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               icon,
               if (label != null) ...[
-                const SizedBox(width: 10),
+                SizedBox(width: 10),
                 Text(
                   label,
                   style: TextStyle(
                     fontSize: DesktopOptimizedWidgets.getFontSize(),
                     fontWeight: FontWeight.w500,
-                    color: isLight ? Colors.black : Colors.white,
-                  ),
-                ),
+                    color: isLight ? Colors.black : Colors.white)),
               ],
-            ],
-          ),
-        ),
-      ),
-    );
+            ]))));
   }
 
   void _showUpgradeModal() {
@@ -3099,8 +2781,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
       context: context,
       enableDrag: true,
       isDismissible: true,
-      child: _buildEmailVerificationModal(isLight),
-    );
+      child: _buildEmailVerificationModal(isLight));
   }
 
   Widget _buildUpgradeField(
@@ -3108,8 +2789,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
     String hint,
     IconData icon,
     TextEditingController controller,
-    bool isLight,
-  ) {
+    bool isLight) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -3118,17 +2798,13 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
           style: TextStyle(
             fontSize: DesktopOptimizedWidgets.getFontSize(),
             fontWeight: FontWeight.w600,
-            color: isLight ? Colors.black : Colors.white,
-          ),
-        ),
+            color: isLight ? Colors.black : Colors.white)),
         SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
         TradeRepublicTextField(
           controller: controller,
           hintText: hint,
-          prefixIcon: Icon(icon),
-        ),
-      ],
-    );
+          prefixIcon: Icon(icon)),
+      ]);
   }
 
   Future<void> _processBusinessUpgrade(
@@ -3140,8 +2816,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
     String city,
     String country,
     String businessSize,
-    String zipCode,
-  ) async {
+    String zipCode) async {
     print('DEBUG: Business Name value: "$businessName"');
     print('DEBUG: Business Name length: ${businessName.length}');
 
@@ -3198,8 +2873,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
       final response = await http.post(
         Uri.parse('${ApiConfig.baseUrl}/api/business/upgrade'),
         headers: {'Content-Type': 'application/json'},
-        body: json.encode(requestData),
-      );
+        body: json.encode(requestData));
 
       if (mounted) {
         setState(() => _isLoading = false);
@@ -3228,37 +2902,29 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                           Icon(
                             CupertinoIcons.checkmark_circle_fill,
                             size: 22,
-                            color: isLight ? Colors.black : Colors.white,
-                          ),
-                          const SizedBox(width: 12),
+                            color: isLight ? Colors.black : Colors.white),
+                          SizedBox(width: 12),
                           Expanded(
                             child: Text(
                               AppLocalizations.of(context)?.upgradeSuccessful ??
                                   'Upgrade Successful!',
-                              style: const TextStyle(
+                              style: TextStyle(
                                 fontSize: 22,
                                 fontWeight: FontWeight.w700,
                                 color: Colors.green,
-                                letterSpacing: -0.4,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
+                                letterSpacing: -0.4))),
+                        ]),
                       SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
                       Text(
                         AppLocalizations.of(
-                              context,
-                            )?.businessUpgradeSubmitted ??
+                              context)?.businessUpgradeSubmitted ??
                             'Your business upgrade request has been submitted. You can now login with your business account.',
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           fontSize: DesktopOptimizedWidgets.getFontSize(),
                           color: (isLight ? Colors.black : Colors.white)
-                              .withOpacity(0.7),
-                        ),
-                      ),
+                              .withOpacity(0.7))),
                       SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
                       SizedBox(
@@ -3267,31 +2933,23 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                             ? TradeRepublicButton(
                                 label:
                                     AppLocalizations.of(
-                                      context,
-                                    )?.continueToLogin ??
+                                      context)?.continueToLogin ??
                                     'Continue to Login',
                                 onPressed: () {
                                   Navigator.of(context).pop();
-                                },
-                              )
+                                })
                             : TradeRepublicButton(
                                 label:
                                     AppLocalizations.of(
-                                      context,
-                                    )?.continueToLogin ??
+                                      context)?.continueToLogin ??
                                     'Continue to Login',
                                 backgroundColor: Colors.green,
                                 onPressed: () {
                                   Navigator.of(context).pop();
-                                },
-                              ),
-                      ),
+                                })),
                       SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
-                    ],
-                  );
-                },
-              ),
-            );
+                    ]);
+                }));
           } else {
             print('❌ Upgrade failed: ${responseData['message']}');
           }
@@ -3326,9 +2984,8 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                   Icon(
                     CupertinoIcons.camera_fill,
                     size: 22,
-                    color: isLight ? Colors.black : Colors.white,
-                  ),
-                  const SizedBox(width: 12),
+                    color: isLight ? Colors.black : Colors.white),
+                  SizedBox(width: 12),
                   Text(
                     AppLocalizations.of(context)?.selectBusinessLogo ??
                         'Select Business Logo',
@@ -3336,12 +2993,9 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                       fontSize: 22,
                       fontWeight: FontWeight.w700,
                       color: isLight ? Colors.black : Colors.white,
-                      letterSpacing: -0.4,
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 20),
+                      letterSpacing: -0.4)),
+                ]),
+              SizedBox(height: 20),
 
               Row(
                 children: [
@@ -3351,96 +3005,72 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                         Navigator.pop(context);
                         await _pickImageFromSource(
                           ImageSource.camera,
-                          setModalState,
-                        );
+                          setModalState);
                       },
                       child: Container(
                         padding: DesktopAppWrapper.getPagePadding(),
                         decoration: BoxDecoration(
                           color: (isLight ? Colors.black : Colors.white)
                               .withOpacity(0.1),
-                          borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-                        ),
+                          borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
                         child: Column(
                           children: [
                             Icon(
                               CupertinoIcons.camera_fill,
                               size: 40,
-                              color: isLight ? Colors.black : Colors.white,
-                            ),
+                              color: isLight ? Colors.black : Colors.white),
                             SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                             Text(
                               AppLocalizations.of(context)?.camera ?? 'Camera',
                               style: TextStyle(
                                 color: isLight ? Colors.black : Colors.white,
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(width: 16),
+                                fontWeight: FontWeight.w600)),
+                          ])))),
+                  SizedBox(width: 16),
                   Expanded(
                     child: TradeRepublicTap(
                       onTap: () async {
                         Navigator.pop(context);
                         await _pickImageFromSource(
                           ImageSource.gallery,
-                          setModalState,
-                        );
+                          setModalState);
                       },
                       child: Container(
                         padding: DesktopAppWrapper.getPagePadding(),
                         decoration: BoxDecoration(
                           color: (isLight ? Colors.black : Colors.white)
                               .withOpacity(0.1),
-                          borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-                        ),
+                          borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
                         child: Column(
                           children: [
                             Icon(
                               CupertinoIcons.photo_fill_on_rectangle_fill,
                               size: 40,
-                              color: isLight ? Colors.black : Colors.white,
-                            ),
+                              color: isLight ? Colors.black : Colors.white),
                             SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                             Text(
                               AppLocalizations.of(context)?.gallery ??
                                   'Gallery',
                               style: TextStyle(
                                 color: isLight ? Colors.black : Colors.white,
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 20),
-            ],
-          );
-        },
-      ),
-    );
+                                fontWeight: FontWeight.w600)),
+                          ])))),
+                ]),
+              SizedBox(height: 20),
+            ]);
+        }));
   }
 
   Future<void> _pickImageFromSource(
     ImageSource source,
-    StateSetter setModalState,
-  ) async {
+    StateSetter setModalState) async {
     try {
       final ImagePicker picker = ImagePicker();
       final XFile? image = await picker.pickImage(
         source: source,
         imageQuality: 80,
         maxWidth: 1024,
-        maxHeight: 1024,
-      );
+        maxHeight: 1024);
 
       if (image != null) {
         setModalState(() {
@@ -3449,22 +3079,19 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
 
         TopNotification.success(
           context,
-          'Business logo selected successfully!',
-        );
+          'Business logo selected successfully!');
       }
     } catch (e) {
       TopNotification.error(
         context,
-        '${AppLocalizations.of(context)?.errorSelectingImage ?? "Error selecting image"}: $e',
-      );
+        '${AppLocalizations.of(context)?.errorSelectingImage ?? "Error selecting image"}: $e');
     }
   }
 
   void _showCountrySelection(
     StateSetter setModalState,
     String currentCountry,
-    Function(String) onCountrySelected,
-  ) {
+    Function(String) onCountrySelected) {
     final appSettings = Provider.of<AppSettings>(context, listen: false);
     final isLight = appSettings.isLightMode(context);
 
@@ -3499,20 +3126,16 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                 Icon(
                   CupertinoIcons.globe,
                   size: 22,
-                  color: isLight ? Colors.black : Colors.white,
-                ),
-                const SizedBox(width: 12),
+                  color: isLight ? Colors.black : Colors.white),
+                SizedBox(width: 12),
                 Text(
                   AppLocalizations.of(context)?.selectCountry ?? 'Select Country',
                   style: TextStyle(
                     fontSize: 22,
                     fontWeight: FontWeight.w700,
                     color: isLight ? Colors.black : Colors.white,
-                    letterSpacing: -0.4,
-                  ),
-                ),
-              ],
-            ),
+                    letterSpacing: -0.4)),
+              ]),
             SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
             Expanded(
@@ -3528,7 +3151,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                       onCountrySelected(country['name']!);
                     },
                     child: Container(
-                      margin: const EdgeInsets.only(bottom: 12),
+                      margin: EdgeInsets.only(bottom: 12),
                       padding: DesktopAppWrapper.getPagePadding(),
                       decoration: BoxDecoration(
                         color: isSelected
@@ -3536,16 +3159,14 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                                   .withOpacity(0.15)
                             : (isLight ? Colors.black : Colors.white)
                                   .withOpacity(0.04),
-                        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-                      ),
+                        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
                       child: Row(
                         children: [
                           // Flag emoji
                           Text(
                             country['flag']!,
-                            style: const TextStyle(fontSize: 28),
-                          ),
-                          const SizedBox(width: 16),
+                            style: TextStyle(fontSize: 28)),
+                          SizedBox(width: 16),
                           Expanded(
                             child: Text(
                               country['name']!,
@@ -3554,34 +3175,21 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                                 fontWeight: isSelected
                                     ? FontWeight.w700
                                     : FontWeight.normal,
-                                color: isLight ? Colors.black : Colors.white,
-                              ),
-                            ),
-                          ),
+                                color: isLight ? Colors.black : Colors.white))),
                           if (isSelected)
                             Icon(
                               CupertinoIcons.checkmark_circle_fill,
                               color: isLight ? Colors.black : Colors.white,
-                              size: 24,
-                            ),
-                        ],
-                      ),
-                    ),
-                  );
-                },
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
+                              size: 24),
+                        ])));
+                })),
+          ])));
   }
 
   void _showBusinessSizeSelection(
     StateSetter setModalState,
     String currentSize,
-    Function(String) onSizeSelected,
-  ) {
+    Function(String) onSizeSelected) {
     final appSettings = Provider.of<AppSettings>(context, listen: false);
     final isLight = appSettings.isLightMode(context);
 
@@ -3606,9 +3214,8 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                 Icon(
                   CupertinoIcons.briefcase_fill,
                   size: 22,
-                  color: isLight ? Colors.black : Colors.white,
-                ),
-                const SizedBox(width: 12),
+                  color: isLight ? Colors.black : Colors.white),
+                SizedBox(width: 12),
                 Expanded(
                   child: Text(
                     AppLocalizations.of(context)?.selectBusinessSize ??
@@ -3617,12 +3224,8 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                       fontSize: 22,
                       fontWeight: FontWeight.w700,
                       color: isLight ? Colors.black : Colors.white,
-                      letterSpacing: -0.4,
-                    ),
-                  ),
-                ),
-              ],
-            ),
+                      letterSpacing: -0.4))),
+              ]),
             SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
             Expanded(
@@ -3638,7 +3241,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                       onSizeSelected(option['size'] as String);
                     },
                     child: Container(
-                      margin: const EdgeInsets.only(bottom: 12),
+                      margin: EdgeInsets.only(bottom: 12),
                       padding: DesktopAppWrapper.getPagePadding(),
                       decoration: BoxDecoration(
                         color: isSelected
@@ -3646,16 +3249,14 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                                   .withOpacity(0.15)
                             : (isLight ? Colors.black : Colors.white)
                                   .withOpacity(0.04),
-                        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-                      ),
+                        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
                       child: Row(
                         children: [
                           Icon(
                             option['icon'] as IconData,
                             color: isLight ? Colors.black : Colors.white,
-                            size: 24,
-                          ),
-                          const SizedBox(width: 16),
+                            size: 24),
+                          SizedBox(width: 16),
                           Expanded(
                             child: Text(
                               option['size'] as String,
@@ -3664,27 +3265,15 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                                 fontWeight: isSelected
                                     ? FontWeight.w700
                                     : FontWeight.normal,
-                                color: isLight ? Colors.black : Colors.white,
-                              ),
-                            ),
-                          ),
+                                color: isLight ? Colors.black : Colors.white))),
                           if (isSelected)
                             Icon(
                               Icons.check_circle,
                               color: isLight ? Colors.black : Colors.white,
-                              size: 24,
-                            ),
-                        ],
-                      ),
-                    ),
-                  );
-                },
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
+                              size: 24),
+                        ])));
+                })),
+          ])));
   }
 
   // Email Verification Modal - Step 1 of Business Upgrade
@@ -3702,8 +3291,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
           height: MediaQuery.of(context).size.height * 0.7,
           child: Padding(
             padding: EdgeInsets.only(
-              bottom: MediaQuery.of(context).viewInsets.bottom,
-            ),
+              bottom: MediaQuery.of(context).viewInsets.bottom),
             child: Column(
               children: [
                 DragHandle(),
@@ -3719,14 +3307,11 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                           decoration: BoxDecoration(
                             color: (isLight ? Colors.black : Colors.white)
                                 .withOpacity(0.1),
-                            borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-                          ),
+                            borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
                           child: Icon(
                             CupertinoIcons.mail,
                             size: 40,
-                            color: isLight ? Colors.black : Colors.white,
-                          ),
-                        ),
+                            color: isLight ? Colors.black : Colors.white)),
                         SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
                         Text(
@@ -3735,23 +3320,18 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                           style: TextStyle(
                             fontSize: DesktopOptimizedWidgets.getFontSize() + 10,
                             fontWeight: FontWeight.w700,
-                            color: isLight ? Colors.black : Colors.white,
-                          ),
-                        ),
+                            color: isLight ? Colors.black : Colors.white)),
                         SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
                         Text(
                           AppLocalizations.of(
-                                context,
-                              )?.verifyEmailBeforeUpgrade ??
+                                context)?.verifyEmailBeforeUpgrade ??
                               'We need to verify your email address before upgrading to a business account',
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             fontSize: DesktopOptimizedWidgets.getFontSize(),
                             color: (isLight ? Colors.black : Colors.white)
-                                .withOpacity(0.7),
-                          ),
-                        ),
+                                .withOpacity(0.7))),
                         SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
                         // Email Input Field
@@ -3764,26 +3344,18 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                               style: TextStyle(
                                 fontSize: DesktopOptimizedWidgets.getFontSize(),
                                 fontWeight: FontWeight.w600,
-                                color: isLight ? Colors.black : Colors.white,
-                              ),
-                            ),
+                                color: isLight ? Colors.black : Colors.white)),
                             SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                             TradeRepublicTextField(
                               controller: _emailVerificationController,
                               hintText:
                                   AppLocalizations.of(
-                                    context,
-                                  )?.enterYourEmailAddress ??
+                                    context)?.enterYourEmailAddress ??
                                   'Enter your email address',
-                              prefixIcon: const Icon(CupertinoIcons.mail_solid),
-                              keyboardType: TextInputType.emailAddress,
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
+                              prefixIcon: Icon(CupertinoIcons.mail_solid),
+                              keyboardType: TextInputType.emailAddress),
+                          ]),
+                      ]))),
 
                 // Fixed bottom buttons
                 Column(
@@ -3794,8 +3366,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                           ? AppLocalizations.of(context)?.sendingCode ??
                                 'Sending Code...'
                           : AppLocalizations.of(
-                                  context,
-                                )?.sendVerificationCode ??
+                                  context)?.sendVerificationCode ??
                                 'Send Verification Code',
                       onPressed: isSending
                           ? null
@@ -3825,8 +3396,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                                   setModalState(() => isSending = false);
                                 }
                               }
-                            },
-                    ),
+                            }),
                     SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
                     // Cancel Button
@@ -3835,24 +3405,17 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                             label:
                                 AppLocalizations.of(context)?.cancel ??
                                 'Cancel',
-                            onPressed: () => Navigator.of(context).pop(),
-                          )
+                            onPressed: () => Navigator.of(context).pop())
                         : TradeRepublicButton(
                             label:
                                 AppLocalizations.of(context)?.cancel ??
                                 'Cancel',
                             isSecondary: true,
-                            onPressed: () => Navigator.of(context).pop(),
-                          ),
+                            onPressed: () => Navigator.of(context).pop()),
                     SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
-                  ],
-                ),
-              ],
-            ),
-          ),
-        );
-      },
-    );
+                  ]),
+              ])));
+      });
   }
 
   // Code Input Modal - Step 2 of Email Verification
@@ -3864,8 +3427,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
       context: context,
       enableDrag: true,
       isDismissible: true,
-      child: _buildCodeInputModal(email, isLight),
-    );
+      child: _buildCodeInputModal(email, isLight));
   }
 
   Widget _buildCodeInputModal(String email, bool isLight) {
@@ -3900,8 +3462,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
           padding: EdgeInsets.only(
             bottom: MediaQuery.of(context).viewInsets.bottom + 24,
             left: 4,
-            right: 4,
-          ),
+            right: 4),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -3910,14 +3471,12 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
               Row(
                 children: [
                   Icon(CupertinoIcons.checkmark_seal_fill, size: 22, color: isLight ? Colors.black : Colors.white),
-                  const SizedBox(width: 12),
+                  SizedBox(width: 12),
                   Flexible(child: Text(
                     AppLocalizations.of(context)?.enterVerificationCode ?? 'Enter Verification Code',
                     style: TextStyle(fontSize: 22, fontWeight: FontWeight.w700,
-                      color: isLight ? Colors.black : Colors.white, letterSpacing: -0.4),
-                  )),
-                ],
-              ),
+                      color: isLight ? Colors.black : Colors.white, letterSpacing: -0.4))),
+                ]),
 
               // Scrollable content
               Flexible(
@@ -3933,24 +3492,20 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                         style: TextStyle(
                           fontSize: DesktopOptimizedWidgets.getFontSize(),
                           color: (isLight ? Colors.black : Colors.white)
-                              .withOpacity(0.6),
-                        ),
-                      ),
-                      const SizedBox(height: 4),
+                              .withOpacity(0.6))),
+                      SizedBox(height: 4),
 
                       Text(
                         email,
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: 15,
                           fontWeight: FontWeight.w600,
-                          color: Colors.green,
-                        ),
-                      ),
-                      const SizedBox(height: 28),
+                          color: Colors.green)),
+                      SizedBox(height: 28),
 
                       // Verification Code Input
                       Padding(
-                        padding: const EdgeInsets.only(left: 4, bottom: 8),
+                        padding: EdgeInsets.only(left: 4, bottom: 8),
                         child: Align(
                           alignment: Alignment.centerLeft,
                           child: Text(
@@ -3961,18 +3516,13 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                               fontWeight: FontWeight.w600,
                               letterSpacing: -0.2,
                               color: (isLight ? Colors.black : Colors.white)
-                                  .withOpacity(0.6),
-                            ),
-                          ),
-                        ),
-                      ),
+                                  .withOpacity(0.6))))),
                       TradeRepublicTextField.code(
                         controller: codeController,
                         hintText: '00000000',
                         maxLength: 8,
-                        autofocus: true,
-                      ),
-                      const SizedBox(height: 20),
+                        autofocus: true),
+                      SizedBox(height: 20),
 
                       // Resend row
                       Row(
@@ -3984,10 +3534,8 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                             style: TextStyle(
                               fontSize: DesktopOptimizedWidgets.getFontSize(),
                               color: (isLight ? Colors.black : Colors.white)
-                                  .withOpacity(0.5),
-                            ),
-                          ),
-                          const SizedBox(width: 6),
+                                  .withOpacity(0.5))),
+                          SizedBox(width: 6),
                           if (!canResend)
                             Text(
                               '${countdownSeconds}s',
@@ -3995,9 +3543,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                                 fontSize: DesktopOptimizedWidgets.getFontSize(),
                                 fontWeight: FontWeight.w600,
                                 color: (isLight ? Colors.black : Colors.white)
-                                    .withOpacity(0.35),
-                              ),
-                            )
+                                    .withOpacity(0.35)))
                           else
                             TradeRepublicTap(
                               onTap: () async {
@@ -4013,18 +3559,11 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                                     'Resend',
                                 style: TextStyle(fontSize: DesktopOptimizedWidgets.getFontSize(),
                                   fontWeight: FontWeight.w600,
-                                  color: Colors.green,
-                                ),
-                              ),
-                            ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-              ),
+                                  color: Colors.green))),
+                        ]),
+                    ]))),
 
-              const SizedBox(height: 20),
+              SizedBox(height: 20),
 
               // Verify Button
               TradeRepublicButton(
@@ -4054,8 +3593,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                         } finally {
                           setModalState(() => isVerifying = false);
                         }
-                      },
-              ),
+                      }),
               SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
               TradeRepublicButton(
@@ -4065,14 +3603,10 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                 onPressed: () {
                   Navigator.of(context).pop();
                   _showUpgradeModal();
-                },
-              ),
+                }),
               SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
-            ],
-          ),
-        );
-      },
-    );
+            ]));
+      });
   }
 
   void _showBusinessDetailsModal() {
@@ -4080,8 +3614,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
       context: context,
       enableDrag: true,
       isDismissible: true,
-      child: _buildBusinessDetailsModal(),
-    );
+      child: _buildBusinessDetailsModal());
   }
 
   Widget _buildBusinessDetailsModal() {
@@ -4102,22 +3635,18 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
               Icon(
                 CupertinoIcons.briefcase_fill,
                 size: 22,
-                color: isLight ? Colors.black : Colors.white,
-              ),
-              const SizedBox(width: 12),
+                color: isLight ? Colors.black : Colors.white),
+              SizedBox(width: 12),
               Text(
                 AppLocalizations.of(context)?.businessDetails ?? 'Business Details',
                 style: TextStyle(
                   fontSize: 22,
                   fontWeight: FontWeight.w700,
                   color: isLight ? Colors.black : Colors.white,
-                  letterSpacing: -0.4,
-                ),
-              ),
-            ],
-          ),
+                  letterSpacing: -0.4)),
+            ]),
 
-          const SizedBox(height: 20),
+          SizedBox(height: 20),
 
           // Form - Flexible height
           Flexible(
@@ -4126,7 +3655,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                 children: [
                   // Business Logo Section
                   _buildBusinessLogoSection(setModalState, isLight),
-                  const SizedBox(height: 20),
+                  SizedBox(height: 20),
 
                   // Business Name
                   _buildBusinessField(
@@ -4139,8 +3668,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                     hint:
                         AppLocalizations.of(context)?.enterYourBusinessName ??
                         'Enter your business name',
-                    isLight: isLight,
-                  ),
+                    isLight: isLight),
 
                   // Business Description
                   _buildBusinessField(
@@ -4154,8 +3682,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                     hint:
                         AppLocalizations.of(context)?.describeYourBusiness ??
                         'Describe your business...',
-                    isLight: isLight,
-                  ),
+                    isLight: isLight),
 
                   // Business Website
                   _buildBusinessField(
@@ -4167,33 +3694,27 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                         AppLocalizations.of(context)?.optional ?? 'Optional',
                     controller: _businessWebsiteController,
                     hint: 'https://example.com',
-                    isLight: isLight,
-                  ),
+                    isLight: isLight),
 
                   // Tax Information Section Header
                   Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 16),
+                    padding: EdgeInsets.symmetric(vertical: 16),
                     child: Row(
                       children: [
                         Icon(
                           CupertinoIcons.doc_text,
                           size: 20,
                           color: (isLight ? Colors.black : Colors.white)
-                              .withOpacity(0.7),
-                        ),
-                        const SizedBox(width: 8),
+                              .withOpacity(0.7)),
+                        SizedBox(width: 8),
                         Text(
                           AppLocalizations.of(context)?.taxInformation ??
                               'Tax Information',
                           style: TextStyle(
                             fontSize: DesktopOptimizedWidgets.getFontSize() + 4,
                             fontWeight: FontWeight.w600,
-                            color: isLight ? Colors.black : Colors.white,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
+                            color: isLight ? Colors.black : Colors.white)),
+                      ])),
 
                   // Tax and VAT Numbers - same height containers
                   Row(
@@ -4209,10 +3730,8 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                               'Optional',
                           controller: _taxNumberController,
                           hint: AppLocalizations.of(context)?.taxId ?? 'Tax ID',
-                          isLight: isLight,
-                        ),
-                      ),
-                      const SizedBox(width: 12),
+                          isLight: isLight)),
+                      SizedBox(width: 12),
                       Expanded(
                         child: _buildBusinessField(
                           icon: CupertinoIcons.doc_text,
@@ -4224,36 +3743,28 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                               'Optional',
                           controller: _vatNumberController,
                           hint: AppLocalizations.of(context)?.vatId ?? 'VAT ID',
-                          isLight: isLight,
-                        ),
-                      ),
-                    ],
-                  ),
+                          isLight: isLight)),
+                    ]),
 
                   // Address Section Header
                   Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 16),
+                    padding: EdgeInsets.symmetric(vertical: 16),
                     child: Row(
                       children: [
                         Icon(
                           CupertinoIcons.location_fill,
                           size: 20,
                           color: (isLight ? Colors.black : Colors.white)
-                              .withOpacity(0.7),
-                        ),
-                        const SizedBox(width: 8),
+                              .withOpacity(0.7)),
+                        SizedBox(width: 8),
                         Text(
                           AppLocalizations.of(context)?.businessAddressLabel ??
                               'Business Address',
                           style: TextStyle(
                             fontSize: DesktopOptimizedWidgets.getFontSize() + 4,
                             fontWeight: FontWeight.w600,
-                            color: isLight ? Colors.black : Colors.white,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
+                            color: isLight ? Colors.black : Colors.white)),
+                      ])),
 
                   // Street and Number - better proportions
                   Row(
@@ -4269,10 +3780,8 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                           hint:
                               AppLocalizations.of(context)?.streetName ??
                               'Street name',
-                          isLight: isLight,
-                        ),
-                      ),
-                      const SizedBox(width: 12),
+                          isLight: isLight)),
+                      SizedBox(width: 12),
                       Expanded(
                         flex: 2, // Made wider as requested
                         child: _buildBusinessField(
@@ -4281,11 +3790,8 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                           subtitle: '*',
                           controller: _houseNumberController,
                           hint: '123',
-                          isLight: isLight,
-                        ),
-                      ),
-                    ],
-                  ),
+                          isLight: isLight)),
+                    ]),
 
                   // City and State - same height containers
                   Row(
@@ -4299,10 +3805,8 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                           hint:
                               AppLocalizations.of(context)?.cityName ??
                               'City name',
-                          isLight: isLight,
-                        ),
-                      ),
-                      const SizedBox(width: 12),
+                          isLight: isLight)),
+                      SizedBox(width: 12),
                       Expanded(
                         child: _buildBusinessField(
                           icon: CupertinoIcons.map_fill,
@@ -4312,11 +3816,8 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                           hint:
                               AppLocalizations.of(context)?.stateProvince ??
                               'State/Province',
-                          isLight: isLight,
-                        ),
-                      ),
-                    ],
-                  ),
+                          isLight: isLight)),
+                    ]),
 
                   // ZIP and Country - same height containers
                   Row(
@@ -4330,24 +3831,17 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                           subtitle: '*',
                           controller: _zipCodeController,
                           hint: '12345',
-                          isLight: isLight,
-                        ),
-                      ),
-                      const SizedBox(width: 12),
+                          isLight: isLight)),
+                      SizedBox(width: 12),
                       Expanded(
-                        child: _buildCountrySelector(setModalState, isLight),
-                      ),
-                    ],
-                  ),
+                        child: _buildCountrySelector(setModalState, isLight)),
+                    ]),
 
                   // Business Size Selector - same height
                   _buildBusinessSizeSelector(setModalState, isLight),
-                ],
-              ),
-            ),
-          ),
+                ]))),
 
-          const SizedBox(height: 20),
+          SizedBox(height: 20),
 
           // Action Buttons
           Row(
@@ -4356,10 +3850,8 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                 child: TradeRepublicButton(
                   label: AppLocalizations.of(context)?.cancel ?? 'Cancel',
                   isSecondary: true,
-                  onPressed: () => Navigator.of(context).pop(),
-                ),
-              ),
-              const SizedBox(width: 16),
+                  onPressed: () => Navigator.of(context).pop())),
+              SizedBox(width: 16),
               Expanded(
                 flex: 2,
                 child: TradeRepublicButton(
@@ -4378,16 +3870,10 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                           _cityController.text.trim(),
                           _selectedCountry,
                           _selectedSize,
-                          _zipCodeController.text.trim(),
-                        ),
-                ),
-              ),
-            ],
-          ),
+                          _zipCodeController.text.trim()))),
+            ]),
           SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
-        ],
-      ),
-    );
+        ]));
   }
 
   // Helper methods for verification process
@@ -4398,8 +3884,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
           .post(
             Uri.parse('${ApiConfig.baseUrl}/api/business/send-verification'),
             headers: {'Content-Type': 'application/json'},
-            body: json.encode({'email': email}),
-          )
+            body: json.encode({'email': email}))
           .timeout(const Duration(seconds: 15));
 
       print('📧 Response status: ${response.statusCode}');
@@ -4415,29 +3900,25 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
         if (responseData['alreadyBusiness'] == true) {
           print('⚠️ User is already a business account');
           throw Exception(
-            'This email is already registered as a Business account. Please log in instead.',
-          );
+            'This email is already registered as a Business account. Please log in instead.');
         }
 
         final userName = responseData['userName'] ?? '';
         print('✅ Verification code sent successfully');
         TopNotification.success(
           context,
-          'Verification code sent to $email${userName.isNotEmpty ? ' ($userName)' : ''}!',
-        );
+          'Verification code sent to $email${userName.isNotEmpty ? ' ($userName)' : ''}!');
       } else if (response.statusCode == 404) {
         print('❌ No account found for email: $email');
         throw Exception(
           AppLocalizations.of(context)?.noAccountFoundWithEmailAddress ??
-              'No account found with this email address. Please check the email or create an account first.',
-        );
+              'No account found with this email address. Please check the email or create an account first.');
       } else {
         print('❌ Failed to send verification code: ${responseData['message']}');
         throw Exception(
           responseData['message'] ??
               AppLocalizations.of(context)?.failedToSendVerificationCode ??
-              'Failed to send verification code',
-        );
+              'Failed to send verification code');
       }
     } catch (e) {
       print('❌ Error sending verification code: $e');
@@ -4450,8 +3931,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
       final response = await http.post(
         Uri.parse('${ApiConfig.baseUrl}/api/business/verify-code'),
         headers: {'Content-Type': 'application/json'},
-        body: json.encode({'email': email, 'code': code}),
-      );
+        body: json.encode({'email': email, 'code': code}));
 
       if (response.statusCode == 200) {
         final responseData = json.decode(response.body);
@@ -4476,49 +3956,42 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
   // Build helper widgets with country flags
   Widget _buildCountrySelector(StateSetter setModalState, bool isLight) {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 16),
+      padding: EdgeInsets.only(bottom: 16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: [
           Padding(
-            padding: const EdgeInsets.only(left: 4, bottom: 8),
+            padding: EdgeInsets.only(left: 4, bottom: 8),
             child: Text(
               '${AppLocalizations.of(context)?.country ?? 'Country'} *',
               style: TextStyle(
                 fontSize: 13,
                 fontWeight: FontWeight.w600,
                 letterSpacing: -0.2,
-                color: (isLight ? Colors.black : Colors.white).withOpacity(0.6),
-              ),
-            ),
-          ),
+                color: (isLight ? Colors.black : Colors.white).withOpacity(0.6)))),
           TradeRepublicTap(
             onTap: () => _showCountrySelection(
               setModalState,
               _selectedCountry,
               (country) {
                 setModalState(() => _selectedCountry = country);
-              },
-            ),
+              }),
             child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+              padding: EdgeInsets.symmetric(horizontal: 16, vertical: 14),
               decoration: BoxDecoration(
                 color: isLight
                     ? Colors.black.withOpacity(0.04)
                     : const Color(0xFF111111),
-                borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-              ),
+                borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
               child: Row(
                 children: [
                   ClipRRect(
                     borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                     child: Text(
                       _countryToFlag(_selectedCountry),
-                      style: TextStyle(fontSize: DesktopOptimizedWidgets.getFontSize() + 6,,
-                    ),
-                  ),
-                  const SizedBox(width: 12),
+                      style: TextStyle(fontSize: DesktopOptimizedWidgets.getFontSize() + 6)),
+                  SizedBox(width: 12),
                   Expanded(
                     child: Text(
                       _selectedCountry,
@@ -4526,69 +3999,54 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                         color: isLight ? Colors.black : Colors.white,
                         fontSize: 15,
                         fontWeight: FontWeight.w500,
-                        letterSpacing: -0.2,
-                      ),
-                    ),
-                  ),
+                        letterSpacing: -0.2))),
                   Icon(
                     Icons.expand_more,
                     color: (isLight ? Colors.black : Colors.white)
                         .withOpacity(0.5),
-                    size: 18,
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
+                    size: 18),
+                ]))),
+        ]));
   }
 
   Widget _buildBusinessSizeSelector(StateSetter setModalState, bool isLight) {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 16),
+      padding: EdgeInsets.only(bottom: 16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: [
           Padding(
-            padding: const EdgeInsets.only(left: 4, bottom: 8),
+            padding: EdgeInsets.only(left: 4, bottom: 8),
             child: Text(
               '${AppLocalizations.of(context)?.businessSize ?? 'Business Size'} *',
               style: TextStyle(
                 fontSize: 13,
                 fontWeight: FontWeight.w600,
                 letterSpacing: -0.2,
-                color: (isLight ? Colors.black : Colors.white).withOpacity(0.6),
-              ),
-            ),
-          ),
+                color: (isLight ? Colors.black : Colors.white).withOpacity(0.6)))),
           TradeRepublicTap(
             onTap: () => _showBusinessSizeSelection(
               setModalState,
               _selectedSize,
               (size) {
                 setModalState(() => _selectedSize = size);
-              },
-            ),
+              }),
             child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+              padding: EdgeInsets.symmetric(horizontal: 16, vertical: 14),
               decoration: BoxDecoration(
                 color: isLight
                     ? Colors.black.withOpacity(0.04)
                     : const Color(0xFF111111),
-                borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-              ),
+                borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
               child: Row(
                 children: [
                   Icon(
                     CupertinoIcons.building_2_fill,
                     size: 18,
                     color: (isLight ? Colors.black : Colors.white)
-                        .withOpacity(0.5),
-                  ),
-                  const SizedBox(width: 12),
+                        .withOpacity(0.5)),
+                  SizedBox(width: 12),
                   Expanded(
                     child: Text(
                       _selectedSize,
@@ -4596,23 +4054,14 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                         color: isLight ? Colors.black : Colors.white,
                         fontSize: 15,
                         fontWeight: FontWeight.w500,
-                        letterSpacing: -0.2,
-                      ),
-                    ),
-                  ),
+                        letterSpacing: -0.2))),
                   Icon(
                     Icons.expand_more,
                     color: (isLight ? Colors.black : Colors.white)
                         .withOpacity(0.5),
-                    size: 18,
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
+                    size: 18),
+                ]))),
+        ]));
   }
 
   // Business Detail Modal Helper Methods
@@ -4628,25 +4077,18 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
               color: isLight
                   ? Colors.black.withOpacity(0.05)
                   : const Color(0xFF121212),
-              borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-            ),
+              borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
             child: _selectedBusinessImage != null
                 ? ClipRRect(
                     borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                     child: Image.file(
                       _selectedBusinessImage!,
-                      fit: BoxFit.cover,
-                    ),
-                  )
+                      fit: BoxFit.cover))
                 : Icon(
                     CupertinoIcons.photo,
                     size: 28,
                     color: (isLight ? Colors.black : Colors.white).withOpacity(
-                      0.5,
-                    ),
-                  ),
-          ),
-        ),
+                      0.5)))),
         SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
         Text(
           AppLocalizations.of(context)?.businessLogoOptional ??
@@ -4654,11 +4096,8 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
           style: TextStyle(
             fontSize: 12,
             fontWeight: FontWeight.w500,
-            color: (isLight ? Colors.black : Colors.white).withOpacity(0.5),
-          ),
-        ),
-      ],
-    );
+            color: (isLight ? Colors.black : Colors.white).withOpacity(0.5))),
+      ]);
   }
 
   Widget _buildBusinessField({
@@ -4671,7 +4110,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
   }) {
     final bool isRequired = subtitle == '*';
     return Padding(
-      padding: const EdgeInsets.only(bottom: 16),
+      padding: EdgeInsets.only(bottom: 16),
       child: TradeRepublicTextField.withLabel(
         label: isRequired
           ? '$title ${String.fromCharCode(42)}'
@@ -4680,9 +4119,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
         hintText: hint,
         fillColor: isLight
             ? Colors.black.withOpacity(0.04)
-            : const Color(0xFF111111),
-      ),
-    );
+            : const Color(0xFF111111)));
   }
 
   // 📧 NEW: Email verification modal for Delvioo users after 2FA
@@ -4709,8 +4146,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
           'email': email,
           'userId': userId,
           'isDelviooMode': true,
-        }),
-      );
+        }));
 
       if (mounted) setState(() => _isLoading = false);
 
@@ -4735,8 +4171,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
         builder: (context, setModalState) {
           return Padding(
             padding: EdgeInsets.only(
-              bottom: MediaQuery.of(context).viewInsets.bottom,
-            ),
+              bottom: MediaQuery.of(context).viewInsets.bottom),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
@@ -4751,14 +4186,12 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                         }
 
                         await Future.delayed(
-                          const Duration(milliseconds: 180),
-                        );
+                          const Duration(milliseconds: 180));
 
                         if (mounted) {
                           _show2FABottomSheet(
                             userId,
-                            isStaticCodeStep: true,
-                          );
+                            isStaticCodeStep: true);
                         }
                       },
                       child: Container(
@@ -4767,22 +4200,17 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                         decoration: BoxDecoration(
                           color: (isLight ? Colors.black : Colors.white)
                               .withOpacity(0.08),
-                          shape: BoxShape.circle,
-                        ),
+                          shape: BoxShape.circle),
                         child: Icon(
                           CupertinoIcons.back,
                           size: 18,
-                          color: isLight ? Colors.black : Colors.white,
-                        ),
-                      ),
-                    ),
-                    const SizedBox(width: 10),
+                          color: isLight ? Colors.black : Colors.white))),
+                    SizedBox(width: 10),
                     Icon(
                       CupertinoIcons.mail_solid,
                       size: 22,
-                      color: isLight ? Colors.black : Colors.white,
-                    ),
-                    const SizedBox(width: 12),
+                      color: isLight ? Colors.black : Colors.white),
+                    SizedBox(width: 12),
                     Expanded(
                       child: Text(
                         AppLocalizations.of(context)?.emailVerification ??
@@ -4791,12 +4219,8 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                           fontSize: 22,
                           fontWeight: FontWeight.w700,
                           color: isLight ? Colors.black : Colors.white,
-                          letterSpacing: -0.4,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
+                          letterSpacing: -0.4))),
+                  ]),
                 SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
                 Text(
@@ -4805,10 +4229,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                   style: TextStyle(
                     fontSize: DesktopOptimizedWidgets.getFontSize(),
                     color: (isLight ? Colors.black : Colors.white).withOpacity(
-                      0.7,
-                    ),
-                  ),
-                ),
+                      0.7))),
                 SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
                 // Email Code Input
@@ -4817,8 +4238,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                   keyboardType: TextInputType.number,
                   maxLength: 8,
                   textAlign: TextAlign.center,
-                  hintText: '••••••••',
-                ),
+                  hintText: '••••••••'),
                 SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
                 // Verify Button
@@ -4842,16 +4262,14 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                             try {
                               final response = await http.post(
                                 Uri.parse(
-                                  '${ApiConfig.baseUrl}/api/auth/verify-email-code',
-                                ),
+                                  '${ApiConfig.baseUrl}/api/auth/verify-email-code'),
                                 headers: {'Content-Type': 'application/json'},
                                 body: json.encode({
                                   'email': email,
                                   'code': emailCodeController.text,
                                   'userId': userId,
                                   'isDelviooMode': true,
-                                }),
-                              );
+                                }));
 
                               if (response.statusCode == 200) {
                                 final data = json.decode(response.body);
@@ -4878,9 +4296,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                               setModalState(() => isVerifying = false);
                               print('❌ Connection error: $e');
                             }
-                          },
-                  ),
-                ),
+                          })),
 
                 SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
@@ -4898,38 +4314,30 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                           try {
                             final response = await http.post(
                               Uri.parse(
-                                '${ApiConfig.baseUrl}/api/auth/send-email-verification',
-                              ),
+                                '${ApiConfig.baseUrl}/api/auth/send-email-verification'),
                               headers: {'Content-Type': 'application/json'},
                               body: json.encode({
                                 'email': email,
                                 'userId': userId,
                                 'isDelviooMode': true,
-                              }),
-                            );
+                              }));
 
                             setModalState(() => isSendingCode = false);
 
                             if (response.statusCode == 200) {
                               TopNotification.success(
                                 context,
-                                AppLocalizations.of(context)?.codeResentSuccessfully ?? 'Code resent successfully!',
-                              );
+                                AppLocalizations.of(context)?.codeResentSuccessfully ?? 'Code resent successfully!');
                             }
                           } catch (e) {
                             setModalState(() => isSendingCode = false);
                             print('❌ Error while sending: $e');
                           }
-                        },
-                ),
+                        }),
 
                 SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
-              ],
-            ),
-          );
-        },
-      ),
-    );
+              ]));
+        }));
   }
 
   Future<void> _sendEmailCodeForLogin2FA({
@@ -4944,8 +4352,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
             'email': email,
             'userId': userId,
             'isDelviooMode': _isDelviooMode,
-          }),
-        )
+          }))
         .timeout(const Duration(seconds: 15));
 
     final data = json.decode(response.body);
@@ -4954,8 +4361,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
       throw Exception(
         data['message'] ??
             AppLocalizations.of(context)?.failedToSendVerificationCode ??
-            'Failed to send verification code',
-      );
+            'Failed to send verification code');
     }
   }
 
@@ -4988,21 +4394,18 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
               try {
                 await _sendEmailCodeForLogin2FA(
                   email: emailForVerification,
-                  userId: userId,
-                );
+                  userId: userId);
                 if (mounted) {
                   TopNotification.success(
                     context,
                     AppLocalizations.of(context)?.verificationCodeSent ??
-                        'Verification code sent to your email',
-                  );
+                        'Verification code sent to your email');
                 }
               } catch (e) {
                 if (mounted) {
                   TopNotification.error(
                     context,
-                    e.toString().replaceAll('Exception: ', ''),
-                  );
+                    e.toString().replaceAll('Exception: ', ''));
                 }
               } finally {
                 if (mounted) {
@@ -5017,8 +4420,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
               left: 16,
               right: 16,
               top: 8,
-              bottom: MediaQuery.of(context).viewInsets.bottom + 20,
-            ),
+              bottom: MediaQuery.of(context).viewInsets.bottom + 20),
             child: SingleChildScrollView(
               child: Column(
                 mainAxisSize: MainAxisSize.min,
@@ -5030,9 +4432,8 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                     Icon(
                       CupertinoIcons.mail_solid,
                       size: 22,
-                      color: isLight ? Colors.black : Colors.white,
-                    ),
-                    const SizedBox(width: 12),
+                      color: isLight ? Colors.black : Colors.white),
+                    SizedBox(width: 12),
                       Expanded(
                         child: Text(
                           AppLocalizations.of(context)?.emailVerification ??
@@ -5041,12 +4442,8 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                             fontSize: 22,
                             fontWeight: FontWeight.w700,
                             color: isLight ? Colors.black : Colors.white,
-                            letterSpacing: -0.4,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
+                            letterSpacing: -0.4))),
+                    ]),
                 SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
                 // Subtitle
@@ -5056,11 +4453,8 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                   style: TextStyle(
                     fontSize: DesktopOptimizedWidgets.getFontSize(),
                     color: (isLight ? Colors.black : Colors.white).withOpacity(
-                      0.5,
-                    ),
-                  ),
-                  textAlign: TextAlign.center,
-                ),
+                      0.5)),
+                  textAlign: TextAlign.center),
 
                 SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
@@ -5073,8 +4467,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                     if (value.length == 8) {
                       FocusScope.of(context).unfocus();
                     }
-                  },
-                ),
+                  }),
 
                 SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
@@ -5091,10 +4484,8 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                             TopNotification.error(
                               context,
                               AppLocalizations.of(
-                                    context,
-                                  )?.pleaseEnterThe8DigitCode ??
-                                  'Please enter the 8-digit code',
-                            );
+                                    context)?.pleaseEnterThe8DigitCode ??
+                                  'Please enter the 8-digit code');
                             return;
                           }
 
@@ -5102,8 +4493,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
 
                           try {
                             print(
-                              '📧 Verifying email 2FA code: $code for user: ${_emailController.text.trim()}',
-                            );
+                              '📧 Verifying email 2FA code: $code for user: ${_emailController.text.trim()}');
 
                             // Verify 2FA code by calling login endpoint again with the code
                             final result = await ApiService.login(
@@ -5124,8 +4514,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                               // Save user data and token
                               final userProvider = Provider.of<AppSettings>(
                                 context,
-                                listen: false,
-                              );
+                                listen: false);
                               await userProvider.setIsLoggedIn(true);
 
                               if (result['user'] != null) {
@@ -5138,15 +4527,13 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                                   userType: _isDelviooMode
                                       ? 'Driver'
                                       : AppLocalizations.of(
-                                              context,
-                                            )?.businessLabel ??
+                                              context)?.businessLabel ??
                                             'Business', // ✅ Save the userType!
                                 );
 
                                 print('✅ Login successful - Token saved');
                                 print(
-                                  '✅ UserType saved: ${_isDelviooMode ? 'Driver' : 'Business'}',
-                                );
+                                  '✅ UserType saved: ${_isDelviooMode ? 'Driver' : 'Business'}');
                               }
 
                               if (mounted) {
@@ -5155,30 +4542,25 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                               }
                             } else {
                               print(
-                                '❌ Email 2FA verification failed: ${result['message']}',
-                              );
+                                '❌ Email 2FA verification failed: ${result['message']}');
                               TopNotification.error(
                                 context,
                                 result['message'] ??
                                     AppLocalizations.of(
-                                      context,
-                                    )?.verificationError ??
-                                    'Verification failed',
-                              );
+                                      context)?.verificationError ??
+                                    'Verification failed');
                             }
                           } catch (e) {
                             print('❌ Email 2FA verification error: $e');
                             TopNotification.error(
                               context,
-                              '${AppLocalizations.of(context)?.verificationError ?? "Verification error"}: ${e.toString()}',
-                            );
+                              '${AppLocalizations.of(context)?.verificationError ?? "Verification error"}: ${e.toString()}');
                           } finally {
                             if (mounted) {
                               setModalState(() => state['isVerifying'] = false);
                             }
                           }
-                        },
-                ),
+                        }),
 
                 SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
@@ -5198,41 +4580,31 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                           try {
                             await _sendEmailCodeForLogin2FA(
                               email: emailForVerification,
-                              userId: userId,
-                            );
+                              userId: userId);
                             if (mounted) {
                               TopNotification.success(
                                 context,
                                 AppLocalizations.of(context)
                                         ?.verificationCodeSent ??
-                                    'Verification code sent to your email',
-                              );
+                                    'Verification code sent to your email');
                             }
                           } catch (e) {
                             if (mounted) {
                               TopNotification.error(
                                 context,
-                                e.toString().replaceAll('Exception: ', ''),
-                              );
+                                e.toString().replaceAll('Exception: ', ''));
                             }
                           } finally {
                             if (mounted) {
                               setModalState(
-                                () => state['isSendingCode'] = false,
-                              );
+                                () => state['isSendingCode'] = false);
                             }
                           }
-                        },
-                ),
+                        }),
 
-                const SizedBox(height: 20),
-              ],
-            ),
-          ),
-          );
-        },
-      ),
-    );
+                SizedBox(height: 20),
+              ])));
+        }));
 }
 
   // 🔑 NEW: Forgot Password Modal
@@ -5250,8 +4622,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
         builder: (context, setModalState) {
           return Padding(
             padding: EdgeInsets.only(
-              bottom: MediaQuery.of(context).viewInsets.bottom,
-            ),
+              bottom: MediaQuery.of(context).viewInsets.bottom),
             child: SingleChildScrollView(
               child: Column(
                 mainAxisSize: MainAxisSize.min,
@@ -5263,9 +4634,8 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                       Icon(
                         CupertinoIcons.lock_rotation,
                         size: 22,
-                        color: isLight ? Colors.black : Colors.white,
-                      ),
-                      const SizedBox(width: 12),
+                        color: isLight ? Colors.black : Colors.white),
+                      SizedBox(width: 12),
                       Text(
                         AppLocalizations.of(context)?.forgotPassword ??
                             'Forgot Password?',
@@ -5273,11 +4643,8 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                           fontSize: 22,
                           fontWeight: FontWeight.w700,
                           color: isLight ? Colors.black : Colors.white,
-                          letterSpacing: -0.4,
-                        ),
-                      ),
-                    ],
-                  ),
+                          letterSpacing: -0.4)),
+                    ]),
                   SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
                   // Subtitle
@@ -5288,10 +4655,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                     style: TextStyle(
                       fontSize: DesktopOptimizedWidgets.getFontSize(),
                       color: (isLight ? Colors.black : Colors.white).withOpacity(
-                        0.7,
-                      ),
-                    ),
-                  ),
+                        0.7))),
                   SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
                   // Email Input
@@ -5301,8 +4665,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                         AppLocalizations.of(context)?.yourEmailCom ??
                         'your@email.com',
                     keyboardType: TextInputType.emailAddress,
-                    prefixIcon: const Icon(Icons.email),
-                  ),
+                    prefixIcon: Icon(Icons.email)),
                   SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
                   // Send Button
@@ -5321,10 +4684,8 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                               TopNotification.error(
                                 context,
                                 AppLocalizations.of(
-                                      context,
-                                    )?.pleaseEnterYourEmail ??
-                                    'Please enter a valid email address',
-                              );
+                                      context)?.pleaseEnterYourEmail ??
+                                    'Please enter a valid email address');
                               return;
                             }
 
@@ -5333,14 +4694,12 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                           try {
                             final response = await http.post(
                               Uri.parse(
-                                '${ApiConfig.baseUrl}/api/auth/forgot-password',
-                              ),
+                                '${ApiConfig.baseUrl}/api/auth/forgot-password'),
                               headers: {'Content-Type': 'application/json'},
                               body: json.encode({
                                 'email': email,
                                 'isDelviooMode': _isDelviooMode,
-                              }),
-                            );
+                              }));
 
                             if (mounted) {
                               setModalState(() => isSending = false);
@@ -5349,8 +4708,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                                 Navigator.of(context).pop();
                                 // Wait for modal to close before showing next one
                                 await Future.delayed(
-                                  const Duration(milliseconds: 300),
-                                );
+                                  const Duration(milliseconds: 300));
                                 if (mounted) {
                                   _showVerifyCodeModal(email);
                                 }
@@ -5358,10 +4716,8 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                                 TopNotification.error(
                                   context,
                                   AppLocalizations.of(
-                                        context,
-                                      )?.failedToSendResetCode ??
-                                      'Failed to send reset code. Please try again.',
-                                );
+                                        context)?.failedToSendResetCode ??
+                                      'Failed to send reset code. Please try again.');
                               }
                             }
                           } catch (e) {
@@ -5369,12 +4725,10 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                               setModalState(() => isSending = false);
                               TopNotification.error(
                                 context,
-                                '${AppLocalizations.of(context)?.errorPrefix ?? "Error"}: ${e.toString()}',
-                              );
+                                '${AppLocalizations.of(context)?.errorPrefix ?? "Error"}: ${e.toString()}');
                             }
                           }
-                          },
-                  ),
+                          }),
 
                   SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
@@ -5382,16 +4736,10 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                   TradeRepublicButton(
                     label: AppLocalizations.of(context)?.cancel ?? 'Cancel',
                     isSecondary: true,
-                    onPressed: () => Navigator.of(context).pop(),
-                  ),
+                    onPressed: () => Navigator.of(context).pop()),
                   SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
-                ],
-              ),
-            ),
-          );
-        },
-      ),
-    );
+                ])));
+        }));
   }
 
   // 🔑 STEP 2: Verify Code Modal
@@ -5409,8 +4757,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
         builder: (context, setModalState) {
           return Padding(
             padding: EdgeInsets.only(
-              bottom: MediaQuery.of(context).viewInsets.bottom,
-            ),
+              bottom: MediaQuery.of(context).viewInsets.bottom),
             child: SingleChildScrollView(
               child: Column(
                 mainAxisSize: MainAxisSize.min,
@@ -5422,20 +4769,16 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                       Icon(
                         CupertinoIcons.checkmark_shield_fill,
                         size: 22,
-                        color: isLight ? Colors.black : Colors.white,
-                      ),
-                      const SizedBox(width: 12),
+                        color: isLight ? Colors.black : Colors.white),
+                      SizedBox(width: 12),
                       Text(
                         AppLocalizations.of(context)?.verifyCode ?? 'Verify Code',
                         style: TextStyle(
                           fontSize: 22,
                           fontWeight: FontWeight.w700,
                           color: isLight ? Colors.black : Colors.white,
-                          letterSpacing: -0.4,
-                        ),
-                      ),
-                    ],
-                  ),
+                          letterSpacing: -0.4)),
+                    ]),
                   SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
                   // Subtitle
@@ -5445,17 +4788,14 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                     style: TextStyle(
                       fontSize: DesktopOptimizedWidgets.getFontSize(),
                       color: (isLight ? Colors.black : Colors.white)
-                          .withOpacity(0.6),
-                    ),
-                  ),
+                          .withOpacity(0.6))),
                   SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
                   // Code Input
                   TradeRepublicTextField.code(
                     controller: codeController,
                     hintText: '12345678',
-                    maxLength: 8,
-                  ),
+                    maxLength: 8),
                   SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
                   // Verify Button
@@ -5473,10 +4813,8 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                               TopNotification.error(
                                 context,
                                 AppLocalizations.of(
-                                      context,
-                                    )?.pleaseEnterThe8DigitCode ??
-                                    'Please enter the 8-digit code',
-                              );
+                                      context)?.pleaseEnterThe8DigitCode ??
+                                    'Please enter the 8-digit code');
                               return;
                             }
 
@@ -5486,15 +4824,13 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                               // Verify code with backend
                               final response = await http.post(
                                 Uri.parse(
-                                  '${ApiConfig.baseUrl}/api/auth/verify-reset-code',
-                                ),
+                                  '${ApiConfig.baseUrl}/api/auth/verify-reset-code'),
                                 headers: {'Content-Type': 'application/json'},
                                 body: json.encode({
                                   'email': email,
                                   'code': code,
                                   'isDelviooMode': _isDelviooMode,
-                                }),
-                              );
+                                }));
 
                               if (mounted) {
                                 setModalState(() => isVerifying = false);
@@ -5506,8 +4842,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                                     Navigator.of(context).pop();
                                     // Wait before opening password modal
                                     await Future.delayed(
-                                      const Duration(milliseconds: 300),
-                                    );
+                                      const Duration(milliseconds: 300));
                                     if (mounted) {
                                       // Open password modal
                                       _showNewPasswordModal(email, code);
@@ -5517,19 +4852,15 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                                       context,
                                       data['message'] ??
                                           AppLocalizations.of(
-                                            context,
-                                          )?.invalidOrExpiredCode ??
-                                          'Invalid or expired code',
-                                    );
+                                            context)?.invalidOrExpiredCode ??
+                                          'Invalid or expired code');
                                   }
                                 } else {
                                   TopNotification.error(
                                     context,
                                     AppLocalizations.of(
-                                          context,
-                                        )?.invalidOrExpiredCode ??
-                                        'Invalid or expired code',
-                                  );
+                                          context)?.invalidOrExpiredCode ??
+                                        'Invalid or expired code');
                                 }
                               }
                             } catch (e) {
@@ -5537,12 +4868,10 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                                 setModalState(() => isVerifying = false);
                                 TopNotification.error(
                                   context,
-                                  '${AppLocalizations.of(context)?.errorPrefix ?? "Error"}: ${e.toString()}',
-                                );
+                                  '${AppLocalizations.of(context)?.errorPrefix ?? "Error"}: ${e.toString()}');
                               }
                             }
-                          },
-                  ),
+                          }),
 
                   SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
@@ -5550,16 +4879,10 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                   TradeRepublicButton(
                     label: AppLocalizations.of(context)?.cancel ?? 'Cancel',
                     isSecondary: true,
-                    onPressed: () => Navigator.of(context).pop(),
-                  ),
+                    onPressed: () => Navigator.of(context).pop()),
                   SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
-                ],
-              ),
-            ),
-          );
-        },
-      ),
-    );
+                ])));
+        }));
   }
 
   // 🔑 STEP 3: New Password Modal (after code verification)
@@ -5580,8 +4903,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
         builder: (context, setModalState) {
           return Padding(
             padding: EdgeInsets.only(
-              bottom: MediaQuery.of(context).viewInsets.bottom,
-            ),
+              bottom: MediaQuery.of(context).viewInsets.bottom),
             child: SingleChildScrollView(
               child: Column(
                 mainAxisSize: MainAxisSize.min,
@@ -5593,20 +4915,16 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                       Icon(
                         CupertinoIcons.lock_rotation,
                         size: 22,
-                        color: isLight ? Colors.black : Colors.white,
-                      ),
-                      const SizedBox(width: 12),
+                        color: isLight ? Colors.black : Colors.white),
+                      SizedBox(width: 12),
                       Text(
                         AppLocalizations.of(context)?.newPassword ?? 'New Password',
                         style: TextStyle(
                           fontSize: 22,
                           fontWeight: FontWeight.w700,
                           color: isLight ? Colors.black : Colors.white,
-                          letterSpacing: -0.4,
-                        ),
-                      ),
-                    ],
-                  ),
+                          letterSpacing: -0.4)),
+                    ]),
                   SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
                   // Subtitle
@@ -5617,9 +4935,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                     style: TextStyle(
                       fontSize: DesktopOptimizedWidgets.getFontSize(),
                       color: (isLight ? Colors.black : Colors.white)
-                          .withOpacity(0.7),
-                    ),
-                  ),
+                          .withOpacity(0.7))),
                   SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
                   // New Password Input
@@ -5628,8 +4944,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                     hintText:
                         AppLocalizations.of(context)?.newPassword ??
                         'New Password',
-                    prefixIcon: const Icon(Icons.lock_outline),
-                  ),
+                    prefixIcon: Icon(Icons.lock_outline)),
                   SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
                   // Confirm Password Input
@@ -5638,8 +4953,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                     hintText:
                         AppLocalizations.of(context)?.confirmNewPassword ??
                         'Confirm New Password',
-                    prefixIcon: const Icon(Icons.lock_outline),
-                  ),
+                    prefixIcon: Icon(Icons.lock_outline)),
                   SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
                   // Reset Button
@@ -5659,13 +4973,10 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                               TopNotification.error(
                                 context,
                                 AppLocalizations.of(
-                                      context,
-                                    )?.passwordMustBeAtLeast8Chars ??
+                                      context)?.passwordMustBeAtLeast8Chars ??
                                     AppLocalizations.of(
-                                      context,
-                                    )?.passwordAtLeast8Characters ??
-                                    'Password must be at least 8 characters',
-                              );
+                                      context)?.passwordAtLeast8Characters ??
+                                    'Password must be at least 8 characters');
                               return;
                             }
 
@@ -5673,10 +4984,8 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                               TopNotification.error(
                                 context,
                                 AppLocalizations.of(
-                                      context,
-                                    )?.passwordsDoNotMatch ??
-                                    'Passwords do not match',
-                              );
+                                      context)?.passwordsDoNotMatch ??
+                                    'Passwords do not match');
                               return;
                             }
 
@@ -5685,16 +4994,14 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                             try {
                               final response = await http.post(
                                 Uri.parse(
-                                  '${ApiConfig.baseUrl}/api/auth/reset-password',
-                                ),
+                                  '${ApiConfig.baseUrl}/api/auth/reset-password'),
                                 headers: {'Content-Type': 'application/json'},
                                 body: json.encode({
                                   'email': email,
                                   'code': code,
                                   'newPassword': password,
                                   'isDelviooMode': _isDelviooMode,
-                                }),
-                              );
+                                }));
 
                               if (mounted) {
                                 setModalState(() => isResetting = false);
@@ -5706,28 +5013,22 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                                     TopNotification.success(
                                       context,
                                       AppLocalizations.of(
-                                            context,
-                                          )?.passwordResetSuccessful ??
-                                          'Password reset successful! Please login with your new password.',
-                                    );
+                                            context)?.passwordResetSuccessful ??
+                                          'Password reset successful! Please login with your new password.');
                                   } else {
                                     TopNotification.error(
                                       context,
                                       data['message'] ??
                                           AppLocalizations.of(
-                                            context,
-                                          )?.failedToResetPassword ??
-                                          'Failed to reset password',
-                                    );
+                                            context)?.failedToResetPassword ??
+                                          'Failed to reset password');
                                   }
                                 } else {
                                   TopNotification.error(
                                     context,
                                     AppLocalizations.of(
-                                          context,
-                                        )?.failedToResetPassword ??
-                                        'Failed to reset password',
-                                  );
+                                          context)?.failedToResetPassword ??
+                                        'Failed to reset password');
                                 }
                               }
                             } catch (e) {
@@ -5735,12 +5036,10 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                                 setModalState(() => isResetting = false);
                                 TopNotification.error(
                                   context,
-                                  '${AppLocalizations.of(context)?.errorPrefix ?? "Error"}: ${e.toString()}',
-                                );
+                                  '${AppLocalizations.of(context)?.errorPrefix ?? "Error"}: ${e.toString()}');
                               }
                             }
-                          },
-                  ),
+                          }),
 
                   SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
@@ -5748,15 +5047,9 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                   TradeRepublicButton(
                     label: AppLocalizations.of(context)?.cancel ?? 'Cancel',
                     isSecondary: true,
-                    onPressed: () => Navigator.of(context).pop(),
-                  ),
+                    onPressed: () => Navigator.of(context).pop()),
                   SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
-                ],
-              ),
-            ),
-          );
-        },
-      ),
-    );
+                ])));
+        }));
   }
 }

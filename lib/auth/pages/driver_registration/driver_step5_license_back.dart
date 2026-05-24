@@ -78,12 +78,10 @@ class _DriverStep5LicenseBackState extends State<DriverStep5LicenseBack>
   void _setupAnimations() {
     _fadeController = AnimationController(
       duration: const Duration(milliseconds: 600),
-      vsync: this,
-    );
+      vsync: this);
 
     _fadeAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
-      CurvedAnimation(parent: _fadeController, curve: Curves.easeInOut),
-    );
+      CurvedAnimation(parent: _fadeController, curve: Curves.easeInOut));
 
     _fadeController.forward();
   }
@@ -105,8 +103,7 @@ class _DriverStep5LicenseBackState extends State<DriverStep5LicenseBack>
   // Upload image to server
   Future<String?> _uploadImageToServer(
     File imageFile,
-    String documentType,
-  ) async {
+    String documentType) async {
     try {
       print('📤 Uploading $documentType image to server...');
 
@@ -195,8 +192,7 @@ class _DriverStep5LicenseBackState extends State<DriverStep5LicenseBack>
           onTimeout: () {
             print('❌ Camera discovery timeout');
             throw Exception('Camera discovery timeout');
-          },
-        );
+          });
       } catch (e) {
         print('❌ Failed to get cameras: $e');
         if (mounted) {
@@ -233,8 +229,7 @@ class _DriverStep5LicenseBackState extends State<DriverStep5LicenseBack>
         _cameras[0],
         ResolutionPreset.medium,
         enableAudio: false,
-        imageFormatGroup: ImageFormatGroup.jpeg,
-      );
+        imageFormatGroup: ImageFormatGroup.jpeg);
 
       try {
         await _cameraController!.initialize().timeout(
@@ -242,8 +237,7 @@ class _DriverStep5LicenseBackState extends State<DriverStep5LicenseBack>
           onTimeout: () {
             print('❌ Camera initialization timeout');
             throw Exception('Camera initialization timeout');
-          },
-        );
+          });
       } catch (e) {
         print('❌ Camera initialization failed: $e');
         if (mounted) {
@@ -304,8 +298,7 @@ class _DriverStep5LicenseBackState extends State<DriverStep5LicenseBack>
 
         final bool licenseInFrame = await GeminiDocumentDetector.detectDocument(
           cameraController: _cameraController!,
-          documentType: 'license_back',
-        );
+          documentType: 'license_back');
 
         if (!mounted || !_isCameraInitialized) return;
 
@@ -343,8 +336,7 @@ class _DriverStep5LicenseBackState extends State<DriverStep5LicenseBack>
     if (!mounted || !_isCountingDown) return;
 
     print(
-      '🕐 Modern Countdown: $_countdown seconds remaining - UPDATING MODAL!',
-    );
+      '🕐 Modern Countdown: $_countdown seconds remaining - UPDATING MODAL!');
 
     // Check if countdown finished
     if (_countdown <= 0) {
@@ -361,8 +353,7 @@ class _DriverStep5LicenseBackState extends State<DriverStep5LicenseBack>
           print('🔍 Gemini: Re-checking license back still in frame...');
           final bool stillInFrame = await GeminiDocumentDetector.detectDocument(
             cameraController: _cameraController!,
-            documentType: 'license_back',
-          );
+            documentType: 'license_back');
 
           if (!mounted || !_isCountingDown) return;
 
@@ -426,8 +417,7 @@ class _DriverStep5LicenseBackState extends State<DriverStep5LicenseBack>
         print('AI: Analyzing and cropping to license back area only...');
         // Crop the photo to ONLY the license back area (the rectangle)
         final File? croppedFile = await _cropImageToLicenseBackArea(
-          File(photo.path),
-        );
+          File(photo.path));
 
         if (croppedFile != null) {
           HapticFeedback.heavyImpact();
@@ -453,8 +443,7 @@ class _DriverStep5LicenseBackState extends State<DriverStep5LicenseBack>
           print('📤 Uploading license back image to server...');
           final String? uploadedUrl = await _uploadImageToServer(
             croppedFile,
-            'license_back',
-          );
+            'license_back');
 
           if (uploadedUrl != null) {
             setState(() {
@@ -465,8 +454,7 @@ class _DriverStep5LicenseBackState extends State<DriverStep5LicenseBack>
             TopNotification.show(
               context,
               message: AppLocalizations.of(context)?.driverLicenseBackUploaded ?? 'Driver\'s license back uploaded successfully!',
-              type: NotificationType.success,
-            );
+              type: NotificationType.success);
 
             // Save license back image data with URL
             widget.initialData.addAll({
@@ -481,8 +469,7 @@ class _DriverStep5LicenseBackState extends State<DriverStep5LicenseBack>
             TopNotification.show(
               context,
               message: AppLocalizations.of(context)?.failedToUploadLicenseBack ?? 'Failed to upload license back. Please try again.',
-              type: NotificationType.error,
-            );
+              type: NotificationType.error);
 
             // Clear the image so user can retry
             setState(() {
@@ -497,8 +484,7 @@ class _DriverStep5LicenseBackState extends State<DriverStep5LicenseBack>
           TopNotification.show(
             context,
             message: AppLocalizations.of(context)?.failedToProcessLicenseBackArea ?? 'Failed to process license back area. Please try again.',
-            type: NotificationType.error,
-          );
+            type: NotificationType.error);
 
           // Restart detection
           Future.delayed(const Duration(seconds: 1), () {
@@ -515,8 +501,7 @@ class _DriverStep5LicenseBackState extends State<DriverStep5LicenseBack>
       TopNotification.show(
         context,
         message: AppLocalizations.of(context)?.errorCapturingLicenseBack ?? 'Error capturing license back. Please try again.',
-        type: NotificationType.error,
-      );
+        type: NotificationType.error);
 
       // Restart detection cycle after error
       Future.delayed(const Duration(seconds: 1), () {
@@ -535,8 +520,7 @@ class _DriverStep5LicenseBackState extends State<DriverStep5LicenseBack>
   Future<File?> _cropImageToLicenseBackArea(File imageFile) async {
     try {
       print(
-        'AI: Starting to crop license back image to rectangle area only...',
-      );
+        'AI: Starting to crop license back image to rectangle area only...');
 
       // Read the image
       final imageBytes = await imageFile.readAsBytes();
@@ -562,12 +546,10 @@ class _DriverStep5LicenseBackState extends State<DriverStep5LicenseBack>
         final cropTop = frameTop.clamp(0, imageHeight - frameHeight);
         final cropWidth = frameWidth.clamp(
           10,
-          imageWidth - cropLeft,
-        ); // Minimum 10px
+          imageWidth - cropLeft); // Minimum 10px
         final cropHeight = frameHeight.clamp(
           10,
-          imageHeight - cropTop,
-        ); // Minimum 10px
+          imageHeight - cropTop); // Minimum 10px
 
         print('AI: License back rectangle area calculated:');
         print('  - Frame: ${frameWidth}x$frameHeight');
@@ -580,24 +562,20 @@ class _DriverStep5LicenseBackState extends State<DriverStep5LicenseBack>
           x: cropLeft,
           y: cropTop,
           width: cropWidth,
-          height: cropHeight,
-        );
+          height: cropHeight);
 
         print(
-          'AI: Successfully cropped license back to rectangle. New size: ${croppedImage.width}x${croppedImage.height}',
-        );
+          'AI: Successfully cropped license back to rectangle. New size: ${croppedImage.width}x${croppedImage.height}');
 
         // Save the cropped rectangle as the final license back image
         final tempDir = await getTemporaryDirectory();
         final croppedPath = path.join(
           tempDir.path,
-          'license_back_rectangle_${DateTime.now().millisecondsSinceEpoch}.jpg',
-        );
+          'license_back_rectangle_${DateTime.now().millisecondsSinceEpoch}.jpg');
 
         final croppedFile = File(croppedPath);
         await croppedFile.writeAsBytes(
-          img.encodeJpg(croppedImage, quality: 90),
-        ); // High quality for license
+          img.encodeJpg(croppedImage, quality: 90)); // High quality for license
 
         print('AI: License back rectangle saved successfully to: $croppedPath');
         return croppedFile;
@@ -646,15 +624,13 @@ class _DriverStep5LicenseBackState extends State<DriverStep5LicenseBack>
       TopNotification.show(
         context,
         message: AppLocalizations.of(context)?.pleaseCaptureDriverLicenseBack ?? 'Please capture the back of your driver\'s license',
-        type: NotificationType.error,
-      );
+        type: NotificationType.error);
     }
   }
   void _showCameraBottomSheet(String type) {
     final AppSettings appSettings = Provider.of<AppSettings>(
       context,
-      listen: false,
-    );
+      listen: false);
     final isLight = appSettings.isLightMode(context);
 
     _resetDetection();
@@ -704,28 +680,21 @@ class _DriverStep5LicenseBackState extends State<DriverStep5LicenseBack>
                             gradient: const LinearGradient(
                               begin: Alignment.topLeft,
                               end: Alignment.bottomRight,
-                              colors: [Color(0xFF34C759), Color(0xFF30D158)],
-                            ),
+                              colors: [Color(0xFF34C759), Color(0xFF30D158)]),
                             shape: BoxShape.circle,
                             boxShadow: [
                               BoxShadow(
                                 color:
                                     const Color(0xFF34C759).withOpacity(0.3),
                                 blurRadius: 28,
-                                spreadRadius: 6,
-                              ),
-                            ],
-                          ),
-                          child: const Icon(
+                                spreadRadius: 6),
+                            ]),
+                          child: Icon(
                             CupertinoIcons.checkmark,
                             color: Colors.white,
-                            size: 52,
-                          ),
-                        ),
-                      );
-                    },
-                  ),
-                  const SizedBox(height: 28),
+                            size: 52)));
+                    }),
+                  SizedBox(height: 28),
                   // Title — slide up + fade
                   TweenAnimationBuilder<double>(
                     tween: Tween(begin: 0.0, end: 1.0),
@@ -734,8 +703,7 @@ class _DriverStep5LicenseBackState extends State<DriverStep5LicenseBack>
                     builder: (context, v, child) {
                       return Transform.translate(
                         offset: Offset(0, 14 * (1 - v)),
-                        child: Opacity(opacity: v, child: child),
-                      );
+                        child: Opacity(opacity: v, child: child));
                     },
                     child: Text(
                       AppLocalizations.of(context)?.photoCaptured ??
@@ -744,11 +712,8 @@ class _DriverStep5LicenseBackState extends State<DriverStep5LicenseBack>
                         fontSize: 24,
                         fontWeight: FontWeight.w700,
                         color: isLight ? Colors.black : Colors.white,
-                        letterSpacing: -0.5,
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 14),
+                        letterSpacing: -0.5))),
+                  SizedBox(height: 14),
                   // Processing row — fade in
                   TweenAnimationBuilder<double>(
                     tween: Tween(begin: 0.0, end: 1.0),
@@ -763,25 +728,18 @@ class _DriverStep5LicenseBackState extends State<DriverStep5LicenseBack>
                         CupertinoActivityIndicator(
                           radius: 8,
                           color: (isLight ? Colors.black : Colors.white)
-                              .withOpacity(0.3),
-                        ),
-                        const SizedBox(width: 10),
+                              .withOpacity(0.3)),
+                        SizedBox(width: 10),
                         Text(
                           AppLocalizations.of(context)?.processingEllipsis ?? 'Processing...',
                           style: TextStyle(
                             fontSize: 15,
                             color: (isLight ? Colors.black : Colors.white)
                                 .withOpacity(0.4),
-                            letterSpacing: -0.2,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
+                            letterSpacing: -0.2)),
+                      ])),
                   const Spacer(flex: 4),
-                ],
-              ),
-            );
+                ]));
           }
 
           // ── Camera scanner view ──
@@ -797,29 +755,24 @@ class _DriverStep5LicenseBackState extends State<DriverStep5LicenseBack>
                     fontSize: 20,
                     fontWeight: FontWeight.w700,
                     color: isLight ? Colors.black : Colors.white,
-                    letterSpacing: -0.4,
-                  ),
-                ),
-                const SizedBox(height: 4),
+                    letterSpacing: -0.4)),
+                SizedBox(height: 4),
                 Text(
                   AppLocalizations.of(context)?.aiCapturesAutomatically ?? 'AI captures automatically when ready',
                   style: TextStyle(
                     fontSize: 14,
                     color: (isLight ? Colors.black : Colors.white)
-                        .withOpacity(0.4),
-                  ),
-                ),
+                        .withOpacity(0.4))),
 
-                const SizedBox(height: 16),
+                SizedBox(height: 16),
 
                 // Camera area
                 Expanded(
                   child: Container(
-                    margin: const EdgeInsets.symmetric(horizontal: 16),
+                    margin: EdgeInsets.symmetric(horizontal: 16),
                     decoration: BoxDecoration(
                       color: Colors.black,
-                      borderRadius: BorderRadius.circular(20),
-                    ),
+                      borderRadius: BorderRadius.circular(20)),
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(20),
                       child: Stack(
@@ -842,9 +795,7 @@ class _DriverStep5LicenseBackState extends State<DriverStep5LicenseBack>
                                               ?.width ??
                                           1,
                                       child: CameraPreview(
-                                          _cameraController!),
-                                    ),
-                                  )
+                                          _cameraController!)))
                                 : Center(
                                     child: _cameraError.isNotEmpty
                                         ? Column(
@@ -854,9 +805,8 @@ class _DriverStep5LicenseBackState extends State<DriverStep5LicenseBack>
                                                 CupertinoIcons.camera_fill,
                                                 size: 36,
                                                 color: Colors.white
-                                                    .withOpacity(0.3),
-                                              ),
-                                              const SizedBox(height: 16),
+                                                    .withOpacity(0.3)),
+                                              SizedBox(height: 16),
                                               Padding(
                                                 padding: const EdgeInsets
                                                     .symmetric(
@@ -868,11 +818,8 @@ class _DriverStep5LicenseBackState extends State<DriverStep5LicenseBack>
                                                   style: TextStyle(
                                                     color: Colors.white
                                                         .withOpacity(0.5),
-                                                    fontSize: 14,
-                                                  ),
-                                                ),
-                                              ),
-                                              const SizedBox(height: 16),
+                                                    fontSize: 14))),
+                                              SizedBox(height: 16),
                                               TradeRepublicButton(
                                                 label: AppLocalizations.of(
                                                             context)
@@ -884,16 +831,11 @@ class _DriverStep5LicenseBackState extends State<DriverStep5LicenseBack>
                                                 backgroundColor: Colors.white
                                                     .withOpacity(0.15),
                                                 foregroundColor: Colors.white,
-                                                onPressed: _initializeCamera,
-                                              ),
-                                            ],
-                                          )
+                                                onPressed: _initializeCamera),
+                                            ])
                                         : const CupertinoActivityIndicator(
                                             radius: 14,
-                                            color: Colors.white,
-                                          ),
-                                  ),
-                          ),
+                                            color: Colors.white))),
 
                           // Corner brackets scanner overlay
                           CustomPaint(
@@ -902,9 +844,7 @@ class _DriverStep5LicenseBackState extends State<DriverStep5LicenseBack>
                               bracketColor: _isLicenseDetected
                                   ? const Color(0xFF34C759)
                                   : Colors.white.withOpacity(0.45),
-                              isDetected: _isLicenseDetected,
-                            ),
-                          ),
+                              isDetected: _isLicenseDetected)),
 
                           // Status pill
                           Positioned(
@@ -916,7 +856,7 @@ class _DriverStep5LicenseBackState extends State<DriverStep5LicenseBack>
                                 duration:
                                     const Duration(milliseconds: 300),
                                 curve: Curves.easeInOut,
-                                padding: const EdgeInsets.symmetric(
+                                padding: EdgeInsets.symmetric(
                                     horizontal: 16, vertical: 8),
                                 decoration: BoxDecoration(
                                   color: _isLicenseDetected
@@ -924,8 +864,7 @@ class _DriverStep5LicenseBackState extends State<DriverStep5LicenseBack>
                                           .withOpacity(0.9)
                                       : Colors.black.withOpacity(0.55),
                                   borderRadius:
-                                      BorderRadius.circular(20),
-                                ),
+                                      BorderRadius.circular(20)),
                                 child: Row(
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
@@ -937,28 +876,20 @@ class _DriverStep5LicenseBackState extends State<DriverStep5LicenseBack>
                                             ? Colors.white
                                             : Colors.white
                                                 .withOpacity(0.5),
-                                        shape: BoxShape.circle,
-                                      ),
-                                    ),
-                                    const SizedBox(width: 8),
+                                        shape: BoxShape.circle)),
+                                    SizedBox(width: 8),
                                     Text(
                                       _isCountingDown
                                           ? '${AppLocalizations.of(context)?.capturingInCountdown ?? 'Capturing in'} $_countdown...'
                                           : _isLicenseDetected
                                               ? AppLocalizations.of(context)?.licenseDetected ?? 'License Detected'
                                               : AppLocalizations.of(context)?.scanningEllipsis ?? 'Scanning...',
-                                      style: const TextStyle(
+                                      style: TextStyle(
                                         color: Colors.white,
                                         fontSize: 13,
                                         fontWeight: FontWeight.w600,
-                                        letterSpacing: -0.2,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ),
+                                        letterSpacing: -0.2)),
+                                  ])))),
 
                           // Countdown ring
                           if (_isCountingDown)
@@ -970,8 +901,7 @@ class _DriverStep5LicenseBackState extends State<DriverStep5LicenseBack>
                                   decoration: BoxDecoration(
                                     color:
                                         Colors.black.withOpacity(0.65),
-                                    shape: BoxShape.circle,
-                                  ),
+                                    shape: BoxShape.circle),
                                   child: Stack(
                                     alignment: Alignment.center,
                                     children: [
@@ -997,32 +927,19 @@ class _DriverStep5LicenseBackState extends State<DriverStep5LicenseBack>
                                                   .white
                                                   .withOpacity(0.08),
                                               strokeCap:
-                                                  StrokeCap.round,
-                                            );
-                                          },
-                                        ),
-                                      ),
+                                                  StrokeCap.round);
+                                          })),
                                       Text(
                                         '$_countdown',
-                                        style: const TextStyle(
+                                        style: TextStyle(
                                           color: Colors.white,
                                           fontSize: 38,
                                           fontWeight: FontWeight.w300,
-                                          letterSpacing: -1,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
+                                          letterSpacing: -1)),
+                                    ])))),
+                        ])))),
 
-                const SizedBox(height: 16),
+                SizedBox(height: 16),
 
                 // Cancel button
                 Padding(
@@ -1045,16 +962,9 @@ class _DriverStep5LicenseBackState extends State<DriverStep5LicenseBack>
                         _resetDetection();
                         _modalSetState = null;
                         Navigator.pop(context);
-                      },
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          );
-        },
-      ),
-    );
+                      }))),
+              ]));
+        }));
   }
 
 
@@ -1085,20 +995,19 @@ class _DriverStep5LicenseBackState extends State<DriverStep5LicenseBack>
             24,
             MediaQuery.of(context).padding.top + 20,
             24,
-            MediaQuery.of(context).padding.bottom + 24,
-          ),
+            MediaQuery.of(context).padding.bottom + 24),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               // Header
               _buildHeader(isLight),
 
-              const SizedBox(height: 40),
+              SizedBox(height: 40),
 
               // License back upload section
               _buildLicenseBackUploadSection(isLight),
 
-              const SizedBox(height: 40),
+              SizedBox(height: 40),
 
               // Navigation Buttons
               Row(
@@ -1109,11 +1018,9 @@ class _DriverStep5LicenseBackState extends State<DriverStep5LicenseBack>
                     height: 52,
                     child: TradeRepublicButton.icon(
                       icon: Icon(CupertinoIcons.chevron_back, size: 18),
-                      onPressed: widget.onBack,
-                    ),
-                  ),
+                      onPressed: widget.onBack)),
 
-                  const SizedBox(width: 12),
+                  SizedBox(width: 12),
 
                   // Continue Button - Full Width with Gradient
                   Expanded(
@@ -1128,19 +1035,9 @@ class _DriverStep5LicenseBackState extends State<DriverStep5LicenseBack>
                             : null,
                         onPressed: _licenseBackImage != null
                             ? _handleNext
-                            : null,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ),
-        ),
-      ),
-        ),
-      ),
-    );
+                            : null))),
+                ]),
+            ]))))));
   }
 
   Widget _buildHeader(bool isLight) {
@@ -1152,34 +1049,25 @@ class _DriverStep5LicenseBackState extends State<DriverStep5LicenseBack>
             height: 80,
             decoration: BoxDecoration(
               color: isLight ? Colors.black : Colors.white,
-              borderRadius: BorderRadius.circular(20),
-            ),
+              borderRadius: BorderRadius.circular(20)),
             child: Icon(
               CupertinoIcons.person_badge_plus,
               color: isLight ? Colors.white : Colors.black,
-              size: 40,
-            ),
-          ),
-          const SizedBox(height: 20),
+              size: 40)),
+          SizedBox(height: 20),
           Text(
             AppLocalizations.of(context)?.licenseBackSide ?? 'License Back Side',
             style: TextStyle(
               color: isLight ? Colors.black : Colors.white,
               fontSize: 32,
-              fontWeight: FontWeight.w700,
-            ),
-          ),
-          const SizedBox(height: 8),
+              fontWeight: FontWeight.w700)),
+          SizedBox(height: 8),
           Text(
             '${AppLocalizations.of(context)?.stepXofY ?? 'Step'} 5 ${AppLocalizations.of(context)?.ofLabel ?? 'of'} 10 - ${AppLocalizations.of(context)?.licenseBackLabel ?? 'License Back'}',
             style: TextStyle(
               color: (isLight ? Colors.black : Colors.white).withOpacity(0.5),
-              fontSize: 16,
-            ),
-          ),
-        ],
-      ),
-    );
+              fontSize: 16)),
+        ]));
   }
 
   Widget _buildLicenseBackUploadSection(bool isLight) {
@@ -1187,16 +1075,13 @@ class _DriverStep5LicenseBackState extends State<DriverStep5LicenseBack>
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
-          padding: const EdgeInsets.only(left: 4, bottom: 16),
+          padding: EdgeInsets.only(left: 4, bottom: 16),
           child: Text(
             AppLocalizations.of(context)?.captureDriversLicenseBack ?? "Capture Back of Your Driver's License",
             style: TextStyle(
               color: isLight ? Colors.black : Colors.white,
               fontSize: 18,
-              fontWeight: FontWeight.w700,
-            ),
-          ),
-        ),
+              fontWeight: FontWeight.w700))),
 
         // Back of License
         _buildPhotoCapture(
@@ -1204,10 +1089,8 @@ class _DriverStep5LicenseBackState extends State<DriverStep5LicenseBack>
           subtitle: AppLocalizations.of(context)?.includeBarcodeEndorsements ?? 'Include barcode, endorsements and restrictions',
           image: _licenseBackImage,
           onTap: () => _pickImage('back'),
-          isLight: isLight,
-        ),
-      ],
-    );
+          isLight: isLight),
+      ]);
   }
 
   Widget _buildPhotoCapture({
@@ -1224,8 +1107,7 @@ class _DriverStep5LicenseBackState extends State<DriverStep5LicenseBack>
         height: 200,
         decoration: BoxDecoration(
           color: isLight ? Colors.white : Colors.black,
-          borderRadius: BorderRadius.circular(20),
-        ),
+          borderRadius: BorderRadius.circular(20)),
         child: image != null
             ? ClipRRect(
                 borderRadius: BorderRadius.circular(20),
@@ -1235,50 +1117,38 @@ class _DriverStep5LicenseBackState extends State<DriverStep5LicenseBack>
                       image,
                       width: double.infinity,
                       height: double.infinity,
-                      fit: BoxFit.cover,
-                    ),
+                      fit: BoxFit.cover),
                     Positioned(
                       top: 12,
                       right: 12,
                       child: Container(
-                        padding: const EdgeInsets.all(8),
+                        padding: EdgeInsets.all(8),
                         decoration: BoxDecoration(
                           color: Colors.green,
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                        child: const Icon(
+                          borderRadius: BorderRadius.circular(20)),
+                        child: Icon(
                           CupertinoIcons.checkmark,
                           color: Colors.white,
-                          size: 16,
-                        ),
-                      ),
-                    ),
+                          size: 16))),
                     Positioned(
                       bottom: 12,
                       left: 12,
                       right: 12,
                       child: Container(
-                        padding: const EdgeInsets.all(12),
+                        padding: EdgeInsets.all(12),
                         decoration: BoxDecoration(
                           color: Colors.black.withOpacity(0.7),
-                          borderRadius: BorderRadius.circular(20),
-                        ),
+                          borderRadius: BorderRadius.circular(20)),
                         child: Text(
                           AppLocalizations.of(context)?.tapToRetakePhoto ?? 'Tap to retake photo',
                           style: TextStyle(
                             color: Colors.white,
                             fontSize: 14,
-                            fontWeight: FontWeight.w600,
-                          ),
-                          textAlign: TextAlign.center,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              )
+                            fontWeight: FontWeight.w600),
+                          textAlign: TextAlign.center))),
+                  ]))
             : Padding(
-                padding: const EdgeInsets.all(16),
+                padding: EdgeInsets.all(16),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -1288,46 +1158,33 @@ class _DriverStep5LicenseBackState extends State<DriverStep5LicenseBack>
                       decoration: BoxDecoration(
                         color: (isLight ? Colors.black : Colors.white)
                             .withOpacity(0.1),
-                        borderRadius: BorderRadius.circular(20),
-                      ),
+                        borderRadius: BorderRadius.circular(20)),
                       child: Icon(
                         CupertinoIcons.camera,
                         color: (isLight ? Colors.black : Colors.white)
                             .withOpacity(0.6),
-                        size: 24,
-                      ),
-                    ),
-                    const SizedBox(height: 8),
+                        size: 24)),
+                    SizedBox(height: 8),
                     Text(
                       title,
                       style: TextStyle(
                         color: isLight ? Colors.black : Colors.white,
                         fontSize: 14,
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
-                    const SizedBox(height: 2),
+                        fontWeight: FontWeight.w700)),
+                    SizedBox(height: 2),
                     Text(
                       subtitle,
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         color: (isLight ? Colors.black : Colors.white)
                             .withOpacity(0.6),
-                        fontSize: 12,
-                      ),
-                    ),
-                    const SizedBox(height: 8),
+                        fontSize: 12)),
+                    SizedBox(height: 8),
                     UnconstrainedBox(
                       child: TradeRepublicButton(
                         label: AppLocalizations.of(context)?.takePhoto ?? 'Take Photo',
-                        onPressed: onTap,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-      ),
-    );
+                        onPressed: onTap)),
+                  ]))));
   }
 }
 

@@ -35,10 +35,8 @@ class KeyboardToolbar extends StatelessWidget {
           left: 0,
           right: 0,
           bottom: 0,
-          child: _KeyboardFertigButton(),
-        ),
-      ],
-    );
+          child: _KeyboardFertigButton()),
+      ]);
   }
 }
 
@@ -95,16 +93,12 @@ class _KeyboardFertigButtonState extends State<_KeyboardFertigButton>
             label: AppLocalizations.of(context)?.done ?? 'Done',
             height: 32,
             width: 72,
-            padding: const EdgeInsets.symmetric(horizontal: 8),
+            padding: EdgeInsets.symmetric(horizontal: 8),
             borderRadius: BorderRadius.circular(10),
             isSecondary: false,
             showShadow: true,
             onPressed: () {
               FocusManager.instance.primaryFocus?.unfocus();
-            },
-          ),
-        ),
-      ),
-    );
+            }))));
   }
 }

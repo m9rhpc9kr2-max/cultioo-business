@@ -131,8 +131,7 @@ class DesktopOptimizedWidgets {
       color: color,
       fontSize: fontSize ?? getFontSize(),
       fontWeight: fontWeight,
-      letterSpacing: letterSpacing,
-    );
+      letterSpacing: letterSpacing);
   }
 
   /// Desktop-optimized heading style
@@ -145,8 +144,7 @@ class DesktopOptimizedWidgets {
       color: color,
       fontSize: fontSize ?? (getFontSize() + 4),
       fontWeight: fontWeight,
-      letterSpacing: -0.2,
-    );
+      letterSpacing: -0.2);
   }
 
   /// Desktop-optimized button style
@@ -158,8 +156,7 @@ class DesktopOptimizedWidgets {
       color: color,
       fontSize: fontSize ?? (getFontSize() + 1),
       fontWeight: FontWeight.w600,
-      letterSpacing: -0.2,
-    );
+      letterSpacing: -0.2);
   }
 
   /// Desktop-optimized box decoration
@@ -180,11 +177,9 @@ class DesktopOptimizedWidgets {
               BoxShadow(
                 color: Colors.black.withValues(alpha: 0.08),
                 blurRadius: getShadowBlur(),
-                offset: const Offset(0, 1),
-              ),
+                offset: const Offset(0, 1)),
             ]
-          : null,
-    );
+          : null);
   }
 
   /// Desktop-optimized edge insets for content
@@ -194,16 +189,14 @@ class DesktopOptimizedWidgets {
   }) {
     return EdgeInsets.symmetric(
       horizontal: horizontal ?? getPadding(),
-      vertical: vertical ?? (getPadding() / 2),
-    );
+      vertical: vertical ?? (getPadding() / 2));
   }
 
   /// Desktop-optimized edge insets for buttons
   static EdgeInsets getDesktopButtonPadding() {
     return EdgeInsets.symmetric(
       horizontal: getPadding() * 1.5,
-      vertical: getPadding() / 2,
-    );
+      vertical: getPadding() / 2);
   }
 
   /// Desktop-optimized edge insets for cards
@@ -289,10 +282,8 @@ class DesktopOptimizedContainer extends StatelessWidget {
         backgroundColor: bgColor!,
         borderColor: borderColor,
         borderRadius: borderRadius,
-        showShadow: showShadow,
-      ),
-      child: child,
-    );
+        showShadow: showShadow),
+      child: child);
   }
 }
 
@@ -315,14 +306,11 @@ class DesktopOptimizedDivider extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: padding ?? EdgeInsets.symmetric(
-        vertical: DesktopOptimizedWidgets.getSpacing(),
-      ),
+        vertical: DesktopOptimizedWidgets.getSpacing()),
       child: Divider(
         height: height ?? 1,
         thickness: thickness ?? DesktopOptimizedWidgets.getDividerThickness(),
-        color: color ?? DesktopOptimizedWidgets.getDividerColor(context),
-      ),
-    );
+        color: color ?? DesktopOptimizedWidgets.getDividerColor(context)));
   }
 }
 
@@ -343,8 +331,7 @@ class DesktopOptimizedSpacing extends StatelessWidget {
   }) {
     return DesktopOptimizedSpacing(
       key: key,
-      width: width ?? DesktopOptimizedWidgets.getSpacing(),
-    );
+      width: width ?? DesktopOptimizedWidgets.getSpacing());
   }
 
   factory DesktopOptimizedSpacing.vertical({
@@ -353,8 +340,7 @@ class DesktopOptimizedSpacing extends StatelessWidget {
   }) {
     return DesktopOptimizedSpacing(
       key: key,
-      height: height ?? DesktopOptimizedWidgets.getSpacing(),
-    );
+      height: height ?? DesktopOptimizedWidgets.getSpacing());
   }
 
   @override

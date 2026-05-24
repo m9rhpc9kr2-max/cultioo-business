@@ -38,7 +38,7 @@ class MacOSControlBar extends StatelessWidget {
       child: Container(
         height: height ?? 52,
         padding:
-            padding ?? const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
+            padding ?? EdgeInsets.symmetric(horizontal: 14, vertical: 6),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -49,13 +49,8 @@ class MacOSControlBar extends StatelessWidget {
             Expanded(
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: children,
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
+                children: children)),
+          ])));
   }
 
   /// Fallback for other platforms
@@ -63,22 +58,17 @@ class MacOSControlBar extends StatelessWidget {
     return Container(
       height: height ?? 52,
       padding:
-          padding ?? const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
+          padding ?? EdgeInsets.symmetric(horizontal: 14, vertical: 6),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(14),
-        color: Colors.white.withValues(alpha: 0.2),
-      ),
+        color: Colors.white.withValues(alpha: 0.2)),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(14),
         child: BackdropFilter(
           filter: ui.ImageFilter.blur(sigmaX: 20, sigmaY: 20),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: children,
-          ),
-        ),
-      ),
-    );
+            children: children))));
   }
 
   /// macOS Traffic Light Buttons
@@ -86,23 +76,20 @@ class MacOSControlBar extends StatelessWidget {
     return Row(
       children: [
         _TrafficLight(color: const Color(0xFFFF5F57), onTap: onClose),
-        const SizedBox(width: 8),
+        SizedBox(width: 8),
         _TrafficLight(
           color: const Color(0xFFFFBD2E),
           onTap: () {
             // Minimize action
-          },
-        ),
-        const SizedBox(width: 8),
+          }),
+        SizedBox(width: 8),
         _TrafficLight(
           color: const Color(0xFF28CA42),
           onTap: () {
             // Fullscreen action
-          },
-        ),
-        const SizedBox(width: 16),
-      ],
-    );
+          }),
+        SizedBox(width: 16),
+      ]);
   }
 }
 
@@ -138,20 +125,14 @@ class _TrafficLightState extends State<_TrafficLight> {
               BoxShadow(
                 color: widget.color.withOpacity(0.4),
                 blurRadius: isHovered ? 4 : 2,
-                offset: const Offset(0, 1),
-              ),
-            ],
-          ),
+                offset: const Offset(0, 1)),
+            ]),
           child: isHovered
               ? Icon(
                   _getIconForColor(widget.color),
                   size: 8,
-                  color: Colors.black.withOpacity(0.7),
-                )
-              : null,
-        ),
-      ),
-    );
+                  color: Colors.black.withOpacity(0.7))
+              : null)));
   }
 
   IconData _getIconForColor(Color color) {
@@ -185,27 +166,23 @@ class MacOSCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final content = Container(
       margin: margin,
-      padding: padding ?? const EdgeInsets.all(14),
-      child: child,
-    );
+      padding: padding ?? EdgeInsets.all(14),
+      child: child);
 
     if (Platform.isMacOS) {
       return LiquidGlassContainer(
         blurStyle: blurStyle ?? BlurStyle.regular,
         borderRadius: BorderRadius.circular(14),
         opacity: 0.95,
-        child: content,
-      );
+        child: content);
     } else {
       return Card(
         margin: margin,
         elevation: elevation ?? 4,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
         child: Padding(
-          padding: padding ?? const EdgeInsets.all(14),
-          child: child,
-        ),
-      );
+          padding: padding ?? EdgeInsets.all(14),
+          child: child));
     }
   }
 }
@@ -236,11 +213,8 @@ class MacOSBottomSheet extends StatelessWidget {
         child: ConstrainedBox(
           constraints: BoxConstraints(
             maxWidth: screenWidth > 1200 ? 860 : 680,
-            maxHeight: sheetHeight,
-          ),
-          child: _buildMacOSSheet(),
-        ),
-      );
+            maxHeight: sheetHeight),
+          child: _buildMacOSSheet()));
     }
 
     return SizedBox(height: sheetHeight, child: _buildFallbackSheet());
@@ -254,14 +228,12 @@ class MacOSBottomSheet extends StatelessWidget {
         children: [
           if (title != null) _buildHeader(),
           Expanded(child: child),
-        ],
-      ),
-    );
+        ]));
   }
 
   Widget _buildFallbackSheet() {
     return Container(
-      padding: const EdgeInsets.all(16),
+      padding: EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(14),
@@ -269,44 +241,34 @@ class MacOSBottomSheet extends StatelessWidget {
           BoxShadow(
             color: Colors.black.withValues(alpha: 0.1),
             blurRadius: 20,
-            offset: const Offset(0, -5),
-          ),
-        ],
-      ),
+            offset: const Offset(0, -5)),
+        ]),
       child: Column(
         children: [
           if (title != null) _buildHeader(),
           Expanded(child: child),
-        ],
-      ),
-    );
+        ]));
   }
 
   Widget _buildHeader() {
     return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: const BoxDecoration(),
+      padding: EdgeInsets.all(16),
+      decoration: BoxDecoration(),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(
             title!,
-            style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
-          ),
+            style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600)),
           if (onClose != null)
             TradeRepublicTap(
               onTap: onClose,
               child: Container(
-                padding: const EdgeInsets.all(4),
+                padding: EdgeInsets.all(4),
                 child: Icon(
                   Icons.close,
                   size: 20,
-                    color: Colors.black.withValues(alpha: 0.6),
-                ),
-              ),
-            ),
-        ],
-      ),
-    );
+                    color: Colors.black.withValues(alpha: 0.6)))),
+        ]));
   }
 }

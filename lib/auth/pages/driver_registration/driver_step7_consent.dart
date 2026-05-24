@@ -118,8 +118,7 @@ class _DriverStep7ConsentState extends State<DriverStep7Consent> {
           'firstName': firstName,
           'lastName': lastName,
           'country': country,
-        }),
-      );
+        }));
 
       print('📥 Response status: ${response.statusCode}');
       print('📥 Response body: ${response.body}');
@@ -149,8 +148,7 @@ class _DriverStep7ConsentState extends State<DriverStep7Consent> {
         } else {
           throw Exception(
             responseData['message'] ??
-                (AppLocalizations.of(context)?.failedToCreateSession ?? ''),
-          );
+                (AppLocalizations.of(context)?.failedToCreateSession ?? ''));
         }
       } else {
         throw Exception('Server error: ${response.statusCode}');
@@ -161,8 +159,7 @@ class _DriverStep7ConsentState extends State<DriverStep7Consent> {
       TopNotification.show(
         context,
         message: AppLocalizations.of(context)?.failedToCreateTaxForm ?? 'Failed to create tax form. Please try again.',
-        type: NotificationType.error,
-      );
+        type: NotificationType.error);
     } finally {
       setState(() {
         _isLoadingStripe = false;
@@ -207,15 +204,13 @@ class _DriverStep7ConsentState extends State<DriverStep7Consent> {
           TopNotification.show(
             context,
             message: AppLocalizations.of(context)?.completeTaxFormInBrowser ?? 'Complete the tax form in browser, then return to verify',
-            type: NotificationType.info,
-          );
+            type: NotificationType.info);
         } else {
           print('❌ All launch modes failed, showing manual dialog');
           TopNotification.show(
             context,
             message: AppLocalizations.of(context)?.couldNotOpenBrowserManual ?? 'Could not open browser. Showing manual option.',
-            type: NotificationType.warning,
-          );
+            type: NotificationType.warning);
           _showEmbeddedTaxForm(url);
         }
       } else {
@@ -223,8 +218,7 @@ class _DriverStep7ConsentState extends State<DriverStep7Consent> {
         TopNotification.show(
           context,
           message: AppLocalizations.of(context)?.couldNotOpenBrowser ?? 'Could not open browser',
-          type: NotificationType.error,
-        );
+          type: NotificationType.error);
         _showEmbeddedTaxForm(url);
       }
     } catch (e) {
@@ -232,8 +226,7 @@ class _DriverStep7ConsentState extends State<DriverStep7Consent> {
       TopNotification.show(
         context,
         message: '${AppLocalizations.of(context)?.errorOpeningBrowser ?? 'Error opening browser'}: $e',
-        type: NotificationType.error,
-      );
+        type: NotificationType.error);
 
       // Show bottom sheet with URL that user can copy as fallback
       final bool isLight = Provider.of<AppSettings>(context, listen: false).isLightMode(context);
@@ -244,20 +237,17 @@ class _DriverStep7ConsentState extends State<DriverStep7Consent> {
           children: [
             Row(
               children: [
-                Expanded(child: Text(AppLocalizations.of(context)?.taxFormUrl ?? 'Tax Form URL', style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w700))),
-              ],
-            ),
-            const SizedBox(height: 16),
+                Expanded(child: Text(AppLocalizations.of(context)?.taxFormUrl ?? 'Tax Form URL', style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700))),
+              ]),
+            SizedBox(height: 16),
             Align(
               alignment: Alignment.centerLeft,
-              child: Text(AppLocalizations.of(context)?.pleaseOpenThisUrlInYourBrowser ?? 'Please open this URL in your browser:'),
-            ),
-            const SizedBox(height: 10),
+              child: Text(AppLocalizations.of(context)?.pleaseOpenThisUrlInYourBrowser ?? 'Please open this URL in your browser:')),
+            SizedBox(height: 10),
             SelectableText(
               url,
-              style: const TextStyle(fontSize: 12, fontFamily: 'monospace'),
-            ),
-            const SizedBox(height: 20),
+              style: TextStyle(fontSize: 12, fontFamily: 'monospace')),
+            SizedBox(height: 20),
             SizedBox(
               width: double.infinity,
               child: TradeRepublicButton(
@@ -268,23 +258,16 @@ class _DriverStep7ConsentState extends State<DriverStep7Consent> {
                   TopNotification.show(
                     context,
                     message: AppLocalizations.of(context)?.urlCopiedToClipboard ?? 'URL copied to clipboard!',
-                    type: NotificationType.success,
-                  );
-                },
-              ),
-            ),
-            const SizedBox(height: 8),
+                    type: NotificationType.success);
+                })),
+            SizedBox(height: 8),
             SizedBox(
               width: double.infinity,
               child: TradeRepublicButton(
                 label: AppLocalizations.of(context)?.close ?? 'Close',
                 isSecondary: true,
-                onPressed: () => Navigator.of(context).pop(),
-              ),
-            ),
-          ],
-        ),
-      );
+                onPressed: () => Navigator.of(context).pop())),
+          ]));
     }
   }
 
@@ -294,8 +277,7 @@ class _DriverStep7ConsentState extends State<DriverStep7Consent> {
       TopNotification.show(
         context,
         message: AppLocalizations.of(context)?.pleaseStartTheTaxFormFirst ?? 'Please start the tax form first',
-        type: NotificationType.error,
-      );
+        type: NotificationType.error);
       return;
     }
 
@@ -309,8 +291,7 @@ class _DriverStep7ConsentState extends State<DriverStep7Consent> {
       // Use ApiConfig for consistent backend URL
       final String baseUrl = ApiConfig.baseUrl;
       final uri = Uri.parse(
-        '$baseUrl/api/stripe/verify-tax-completion?accountId=$_stripeAccountId',
-      );
+        '$baseUrl/api/stripe/verify-tax-completion?accountId=$_stripeAccountId');
 
       final response = await http.get(uri);
 
@@ -330,16 +311,14 @@ class _DriverStep7ConsentState extends State<DriverStep7Consent> {
             TopNotification.show(
               context,
               message: AppLocalizations.of(context)?.taxFormCompletedSuccessfully ?? '✅ Tax form completed successfully!',
-              type: NotificationType.success,
-            );
+              type: NotificationType.success);
             _validateForm();
           } else {
             TopNotification.show(
               context,
               message:
                   'Tax form not yet completed. Please finish it in your browser.',
-              type: NotificationType.info,
-            );
+              type: NotificationType.info);
           }
         }
       }
@@ -348,8 +327,7 @@ class _DriverStep7ConsentState extends State<DriverStep7Consent> {
       TopNotification.show(
         context,
         message: AppLocalizations.of(context)?.failedToVerifyTaxFormPleaseTryAgain ?? 'Failed to verify tax form. Please try again.',
-        type: NotificationType.error,
-      );
+        type: NotificationType.error);
     } finally {
       setState(() {
         _isLoadingStripe = false;
@@ -361,8 +339,7 @@ class _DriverStep7ConsentState extends State<DriverStep7Consent> {
   void _showEmbeddedTaxForm(String url) {
     final AppSettings appSettings = Provider.of<AppSettings>(
       context,
-      listen: false,
-    );
+      listen: false);
     final bool isLight = appSettings.isLightMode(context);
     // Show bottom sheet with URL that user can copy
     TradeRepublicBottomSheet.show(
@@ -372,40 +349,31 @@ class _DriverStep7ConsentState extends State<DriverStep7Consent> {
         children: [
           Row(
             children: [
-              Expanded(child: Text(AppLocalizations.of(context)?.taxForm ?? 'Tax Form', style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w700))),
-            ],
-          ),
-          const SizedBox(height: 16),
+              Expanded(child: Text(AppLocalizations.of(context)?.taxForm ?? 'Tax Form', style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700))),
+            ]),
+          SizedBox(height: 16),
           Align(
             alignment: Alignment.centerLeft,
             child: Text(
               AppLocalizations.of(context)?.pleaseOpenUrlInBrowserToCompleteTaxForm ?? 'Please open this URL in your browser to complete the tax form:',
-              style: const TextStyle(fontSize: 14),
-            ),
-          ),
-          const SizedBox(height: 16),
+              style: TextStyle(fontSize: 14))),
+          SizedBox(height: 16),
           Container(
-            padding: const EdgeInsets.all(12),
+            padding: EdgeInsets.all(12),
             decoration: BoxDecoration(
               color: (isLight ? Colors.black : Colors.white).withOpacity(
-                0.05,
-              ),
-              borderRadius: BorderRadius.circular(20),
-            ),
+                0.05),
+              borderRadius: BorderRadius.circular(20)),
             child: SelectableText(
               url,
-              style: const TextStyle(fontSize: 12, fontFamily: 'monospace'),
-            ),
-          ),
-          const SizedBox(height: 16),
+              style: TextStyle(fontSize: 12, fontFamily: 'monospace'))),
+          SizedBox(height: 16),
           Align(
             alignment: Alignment.centerLeft,
             child: Text(
               AppLocalizations.of(context)?.afterCompletingFormReturnHere ?? 'After completing the form, return here and tap "Verify" to continue.',
-              style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
-            ),
-          ),
-          const SizedBox(height: 20),
+              style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500))),
+          SizedBox(height: 20),
           SizedBox(
             width: double.infinity,
             child: TradeRepublicButton(
@@ -416,23 +384,16 @@ class _DriverStep7ConsentState extends State<DriverStep7Consent> {
                 TopNotification.show(
                   context,
                   message: AppLocalizations.of(context)?.urlCopiedToClipboardOpenItInSafariChrome ?? 'URL copied to clipboard! Open it in Safari/Chrome',
-                  type: NotificationType.success,
-                );
-              },
-            ),
-          ),
-          const SizedBox(height: 8),
+                  type: NotificationType.success);
+              })),
+          SizedBox(height: 8),
           SizedBox(
             width: double.infinity,
             child: TradeRepublicButton(
               label: AppLocalizations.of(context)?.close ?? 'Close',
               isSecondary: true,
-              onPressed: () => Navigator.of(context).pop(),
-            ),
-          ),
-        ],
-      ),
-    );
+              onPressed: () => Navigator.of(context).pop())),
+        ]));
   }
 
   void _showErrorDialog(String message) {
@@ -443,27 +404,21 @@ class _DriverStep7ConsentState extends State<DriverStep7Consent> {
         children: [
           Row(
             children: [
-              const Icon(CupertinoIcons.exclamationmark_circle, color: Colors.red),
-              const SizedBox(width: 8),
-              Text(AppLocalizations.of(context)?.error ?? 'Error', style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w700)),
-            ],
-          ),
-          const SizedBox(height: 16),
+              Icon(CupertinoIcons.exclamationmark_circle, color: Colors.red),
+              SizedBox(width: 8),
+              Text(AppLocalizations.of(context)?.error ?? 'Error', style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700)),
+            ]),
+          SizedBox(height: 16),
           Align(
             alignment: Alignment.centerLeft,
-            child: Text(message),
-          ),
-          const SizedBox(height: 20),
+            child: Text(message)),
+          SizedBox(height: 20),
           SizedBox(
             width: double.infinity,
             child: TradeRepublicButton(
               label: AppLocalizations.of(context)?.ok ?? 'OK',
-              onPressed: () => Navigator.of(context).pop(),
-            ),
-          ),
-        ],
-      ),
-    );
+              onPressed: () => Navigator.of(context).pop())),
+        ]));
   }
 
   @override
@@ -491,8 +446,7 @@ class _DriverStep7ConsentState extends State<DriverStep7Consent> {
             24,
             MediaQuery.of(context).padding.top + 20,
             24,
-            MediaQuery.of(context).padding.bottom + 24,
-          ),
+            MediaQuery.of(context).padding.bottom + 24),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -505,24 +459,19 @@ class _DriverStep7ConsentState extends State<DriverStep7Consent> {
                       height: 80,
                       decoration: BoxDecoration(
                         color: isLight ? Colors.black : Colors.white,
-                        borderRadius: BorderRadius.circular(20),
-                      ),
+                        borderRadius: BorderRadius.circular(20)),
                       child: Icon(
                         CupertinoIcons.doc_text,
                         color: isLight ? Colors.white : Colors.black,
-                        size: 40,
-                      ),
-                    ),
-                    const SizedBox(height: 20),
+                        size: 40)),
+                    SizedBox(height: 20),
                     Text(
                       AppLocalizations.of(context)?.taxInformation ?? 'Tax Information',
                       style: TextStyle(
                         color: isLight ? Colors.black : Colors.white,
                         fontSize: 32,
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
-                    const SizedBox(height: 8),
+                        fontWeight: FontWeight.w700)),
+                    SizedBox(height: 8),
                     Text(
                       _isUSCountry
                           ? (AppLocalizations.of(context)?.stepSixTaxCompliance ?? 'Step 6 of 9 – Tax compliance')
@@ -530,24 +479,20 @@ class _DriverStep7ConsentState extends State<DriverStep7Consent> {
                       style: TextStyle(
                         color: (isLight ? Colors.black : Colors.white)
                             .withOpacity(0.5),
-                        fontSize: 16,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+                        fontSize: 16)),
+                  ])),
 
-              const SizedBox(height: 40),
+              SizedBox(height: 40),
 
               // Stripe Tax Compliance Section (US only)
               if (_isUSCountry) ...[
                 _buildSectionHeader('Tax Compliance via Stripe', isLight),
-                const SizedBox(height: 16),
+                SizedBox(height: 16),
                 _buildStripeTaxSection(isLight),
-                const SizedBox(height: 32),
+                SizedBox(height: 32),
               ] else ...[
                 _buildNonUSTaxSection(isLight),
-                const SizedBox(height: 32),
+                SizedBox(height: 32),
               ],
 
               // Terms Agreement
@@ -562,10 +507,9 @@ class _DriverStep7ConsentState extends State<DriverStep7Consent> {
                   _validateForm();
                 }),
                 isLight: isLight,
-                hasLinks: true,
-              ),
+                hasLinks: true),
 
-              const SizedBox(height: 40),
+              SizedBox(height: 40),
 
               // Navigation Buttons
               Row(
@@ -576,11 +520,9 @@ class _DriverStep7ConsentState extends State<DriverStep7Consent> {
                     height: 52,
                     child: TradeRepublicButton.icon(
                       icon: Icon(CupertinoIcons.chevron_back, size: 18),
-                      onPressed: widget.onBack,
-                    ),
-                  ),
+                      onPressed: widget.onBack)),
 
-                  const SizedBox(width: 12),
+                  SizedBox(width: 12),
 
                   // Continue Button - Full Width with Gradient
                   Expanded(
@@ -589,19 +531,9 @@ class _DriverStep7ConsentState extends State<DriverStep7Consent> {
                       child: TradeRepublicButton(
                         label: AppLocalizations.of(context)?.continueToCompany ?? 'Continue to Company',
                         icon: Icon(CupertinoIcons.arrow_right, size: 18),
-                        onPressed: _formValid ? _proceedToVerification : () {},
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ),
-        ),
-      ),
-        ),
-      ),
-    );
+                        onPressed: _formValid ? _proceedToVerification : () {}))),
+                ]),
+            ]))))));
   }
 
   void _proceedToVerification() {
@@ -673,9 +605,7 @@ class _DriverStep7ConsentState extends State<DriverStep7Consent> {
             colors: [
               Colors.green.withOpacity(0.15),
               Colors.teal.withOpacity(0.1),
-            ],
-          ),
-        ),
+            ])),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -690,16 +620,12 @@ class _DriverStep7ConsentState extends State<DriverStep7Consent> {
                     gradient: const LinearGradient(
                       colors: [Color(0xFF00C853), Color(0xFF4CAF50)],
                       begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
-                    ),
-                  ),
-                  child: const Icon(
+                      end: Alignment.bottomRight)),
+                  child: Icon(
                     CupertinoIcons.checkmark_seal,
                     color: Colors.white,
-                    size: 28,
-                  ),
-                ),
-                const SizedBox(width: 20),
+                    size: 28)),
+                SizedBox(width: 20),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -710,86 +636,68 @@ class _DriverStep7ConsentState extends State<DriverStep7Consent> {
                           color: isLight ? Colors.black : Colors.white,
                           fontSize: 20,
                           fontWeight: FontWeight.w700,
-                          letterSpacing: -0.4,
-                        ),
-                      ),
-                      const SizedBox(height: 6),
+                          letterSpacing: -0.4)),
+                      SizedBox(height: 6),
                       Container(
-                        padding: const EdgeInsets.symmetric(
+                        padding: EdgeInsets.symmetric(
                           horizontal: 12,
-                          vertical: 4,
-                        ),
+                          vertical: 4),
                         decoration: BoxDecoration(
                           color: Colors.green.withOpacity(0.2),
-                          borderRadius: BorderRadius.circular(20),
-                        ),
+                          borderRadius: BorderRadius.circular(20)),
                         child: Text(
                           AppLocalizations.of(context)?.verifiedByStripe ?? 'Verified by Stripe',
                           style: TextStyle(
                             color: Colors.green.shade700,
                             fontSize: 12,
                             fontWeight: FontWeight.w600,
-                            letterSpacing: 0.2,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
+                            letterSpacing: 0.2))),
+                    ])),
+              ]),
 
-            const SizedBox(height: 24),
+            SizedBox(height: 24),
 
             // Benefits section
             Container(
-              padding: const EdgeInsets.all(20),
+              padding: EdgeInsets.all(20),
               decoration: BoxDecoration(
                 color: isLight
                     ? Colors.black.withOpacity(0.05)
                     : Colors.white.withOpacity(0.05),
-                borderRadius: BorderRadius.circular(20),
-              ),
+                borderRadius: BorderRadius.circular(20)),
               child: Column(
                 children: [
                   _buildCompletionBenefit(
                     icon: CupertinoIcons.doc_text,
                     title: AppLocalizations.of(context)?.formsReady1099 ?? '1099 Forms Ready',
                     subtitle: AppLocalizations.of(context)?.automaticYearEndTaxDocumentGeneration ?? 'Automatic year-end tax document generation',
-                    isLight: isLight,
-                  ),
-                  const SizedBox(height: 16),
+                    isLight: isLight),
+                  SizedBox(height: 16),
                   _buildCompletionBenefit(
                     icon: CupertinoIcons.lock_shield,
                     title: AppLocalizations.of(context)?.secureTaxStorage ?? 'Secure Tax Storage',
                     subtitle: AppLocalizations.of(context)?.yourInformationIsSafelyEncryptedByStripe ?? 'Your information is safely encrypted by Stripe',
-                    isLight: isLight,
-                  ),
-                  const SizedBox(height: 16),
+                    isLight: isLight),
+                  SizedBox(height: 16),
                   _buildCompletionBenefit(
                     icon: CupertinoIcons.mail,
                     title: AppLocalizations.of(context)?.emailDelivery ?? 'Email Delivery',
                     subtitle: AppLocalizations.of(context)?.taxFormsDeliveredDirectlyToYourInbox ?? 'Tax forms delivered directly to your inbox',
-                    isLight: isLight,
-                  ),
-                ],
-              ),
-            ),
+                    isLight: isLight),
+                ])),
 
-            const SizedBox(height: 20),
+            SizedBox(height: 20),
 
             // Status footer
             Container(
-              padding: const EdgeInsets.all(16),
+              padding: EdgeInsets.all(16),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(20),
                 gradient: LinearGradient(
                   colors: [
                     Colors.green.withOpacity(0.1),
                     Colors.teal.withOpacity(0.05),
-                  ],
-                ),
-              ),
+                  ])),
               child: Row(
                 children: [
                   Container(
@@ -798,31 +706,21 @@ class _DriverStep7ConsentState extends State<DriverStep7Consent> {
                     decoration: BoxDecoration(
                       color: Colors.green,
                       borderRadius: BorderRadius.circular(20),
-                      shape: BoxShape.circle,
-                    ),
-                  ),
-                  const SizedBox(width: 12),
+                      shape: BoxShape.circle)),
+                  SizedBox(width: 12),
                   Expanded(
                     child: Text(
                       AppLocalizations.of(context)?.irsCompliantAndReady ?? 'IRS compliant and ready for earnings tracking',
                       style: TextStyle(
                         color: Colors.green.shade700,
                         fontSize: 14,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                  ),
-                  const Icon(
+                        fontWeight: FontWeight.w500))),
+                  Icon(
                     CupertinoIcons.check_mark_circled,
                     color: Colors.green,
-                    size: 20,
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
-      );
+                    size: 20),
+                ])),
+          ]));
     } else if (_taxFormStatus == 'pending' && _taxFormUrl != null) {
       // Tax form in progress - Beautiful modern design
       return Container(
@@ -834,9 +732,7 @@ class _DriverStep7ConsentState extends State<DriverStep7Consent> {
             colors: [
               Colors.blue.withOpacity(0.1),
               Colors.purple.withOpacity(0.1),
-            ],
-          ),
-        ),
+            ])),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -851,16 +747,12 @@ class _DriverStep7ConsentState extends State<DriverStep7Consent> {
                     gradient: const LinearGradient(
                       colors: [Colors.blue, Colors.purple],
                       begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
-                    ),
-                  ),
-                  child: const Icon(
+                      end: Alignment.bottomRight)),
+                  child: Icon(
                     CupertinoIcons.hourglass,
                     color: Colors.white,
-                    size: 24,
-                  ),
-                ),
-                const SizedBox(width: 16),
+                    size: 24)),
+                SizedBox(width: 16),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -871,35 +763,27 @@ class _DriverStep7ConsentState extends State<DriverStep7Consent> {
                           color: isLight ? Colors.black : Colors.white,
                           fontSize: 18,
                           fontWeight: FontWeight.w700,
-                          letterSpacing: -0.3,
-                        ),
-                      ),
-                      const SizedBox(height: 4),
+                          letterSpacing: -0.3)),
+                      SizedBox(height: 4),
                       Text(
                         AppLocalizations.of(context)?.stripeConnectSessionActive ?? 'Stripe Connect Session Active',
                         style: TextStyle(
                           color: Colors.blue,
                           fontSize: 14,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
+                          fontWeight: FontWeight.w500)),
+                    ])),
+              ]),
 
-            const SizedBox(height: 20),
+            SizedBox(height: 20),
 
             // Progress indicator
             Container(
-              padding: const EdgeInsets.all(16),
+              padding: EdgeInsets.all(16),
               decoration: BoxDecoration(
                 color: isLight
                     ? Colors.black.withOpacity(0.05)
                     : Colors.white.withOpacity(0.05),
-                borderRadius: BorderRadius.circular(20),
-              ),
+                borderRadius: BorderRadius.circular(20)),
               child: Column(
                 children: [
                   Row(
@@ -909,28 +793,21 @@ class _DriverStep7ConsentState extends State<DriverStep7Consent> {
                         height: 32,
                         decoration: BoxDecoration(
                           color: Colors.blue,
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                        child: const Icon(
+                          borderRadius: BorderRadius.circular(20)),
+                        child: Icon(
                           CupertinoIcons.globe,
                           color: Colors.white,
-                          size: 18,
-                        ),
-                      ),
-                      const SizedBox(width: 12),
+                          size: 18)),
+                      SizedBox(width: 12),
                       Expanded(
                         child: Text(
                           AppLocalizations.of(context)?.completeTaxFormInBrowser ?? 'Complete the tax form in your browser',
                           style: TextStyle(
                             color: isLight ? Colors.black : Colors.white,
                             fontSize: 15,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 12),
+                            fontWeight: FontWeight.w500))),
+                    ]),
+                  SizedBox(height: 12),
                   Row(
                     children: [
                       Container(
@@ -939,32 +816,23 @@ class _DriverStep7ConsentState extends State<DriverStep7Consent> {
                         decoration: BoxDecoration(
                           color: (isLight ? Colors.black : Colors.white)
                               .withOpacity(0.4),
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                        child: const Icon(
+                          borderRadius: BorderRadius.circular(20)),
+                        child: Icon(
                           CupertinoIcons.device_phone_portrait,
                           color: Colors.white,
-                          size: 18,
-                        ),
-                      ),
-                      const SizedBox(width: 12),
+                          size: 18)),
+                      SizedBox(width: 12),
                       Expanded(
                         child: Text(
                           'Return here and tap "Verify" to continue',
                           style: TextStyle(
                             color: (isLight ? Colors.black : Colors.white)
                                 .withOpacity(0.5),
-                            fontSize: 15,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
+                            fontSize: 15))),
+                    ]),
+                ])),
 
-            const SizedBox(height: 20),
+            SizedBox(height: 20),
 
             // Action buttons with better spacing
             Row(
@@ -972,18 +840,14 @@ class _DriverStep7ConsentState extends State<DriverStep7Consent> {
                 Expanded(
                   child: Container(
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20),
-                    ),
+                      borderRadius: BorderRadius.circular(20)),
                     child: TradeRepublicButton(
                       label: AppLocalizations.of(context)?.restart ?? 'Restart',
-                      icon: const Icon(CupertinoIcons.refresh, size: 20),
+                      icon: Icon(CupertinoIcons.refresh, size: 20),
                       onPressed: _createStripeTaxSession,
                       backgroundColor: (isLight ? Colors.black : Colors.white)
-                          .withOpacity(0.05),
-                    ),
-                  ),
-                ),
-                const SizedBox(width: 12),
+                          .withOpacity(0.05)))),
+                SizedBox(width: 12),
                 Expanded(
                   child: Container(
                     decoration: BoxDecoration(
@@ -991,32 +855,23 @@ class _DriverStep7ConsentState extends State<DriverStep7Consent> {
                       gradient: const LinearGradient(
                         colors: [Colors.blue, Colors.purple],
                         begin: Alignment.topLeft,
-                        end: Alignment.bottomRight,
-                      ),
-                    ),
+                        end: Alignment.bottomRight)),
                     child: TradeRepublicButton(
                       label: _isLoadingStripe ? 'Checking...' : AppLocalizations.of(context)?.verify ?? 'Verify',
-                      icon: const Icon(CupertinoIcons.checkmark_seal, size: 20),
+                      icon: Icon(CupertinoIcons.checkmark_seal, size: 20),
                       onPressed: _isLoadingStripe
                           ? null
                           : _verifyTaxFormCompletion,
-                      backgroundColor: Colors.transparent,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ],
-        ),
-      );
+                      backgroundColor: Colors.transparent))),
+              ]),
+          ]));
     } else {
       // No tax form started yet
       return Container(
-        padding: const EdgeInsets.all(20),
+        padding: EdgeInsets.all(20),
         decoration: BoxDecoration(
           color: isLight ? Colors.white : Colors.black,
-          borderRadius: BorderRadius.circular(20),
-        ),
+          borderRadius: BorderRadius.circular(20)),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -1027,93 +882,71 @@ class _DriverStep7ConsentState extends State<DriverStep7Consent> {
                   height: 40,
                   decoration: BoxDecoration(
                     color: isLight ? Colors.black : Colors.white,
-                    borderRadius: BorderRadius.circular(20),
-                  ),
+                    borderRadius: BorderRadius.circular(20)),
                   child: Icon(
                     CupertinoIcons.building_2_fill,
                     color: isLight ? Colors.white : Colors.black,
-                    size: 24,
-                  ),
-                ),
-                const SizedBox(width: 15),
+                    size: 24)),
+                SizedBox(width: 15),
                 Expanded(
                   child: Text(
                     AppLocalizations.of(context)?.irsTaxInformation ?? 'IRS Tax Information',
                     style: TextStyle(
                       color: isLight ? Colors.black : Colors.white,
                       fontSize: 18,
-                      fontWeight: FontWeight.w700,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 15),
+                      fontWeight: FontWeight.w700))),
+              ]),
+            SizedBox(height: 15),
             Text(
               'To comply with IRS regulations, we collect your tax information via Stripe. This enables:',
               style: TextStyle(
                 color: (isLight ? Colors.black : Colors.white).withOpacity(0.5),
-                fontSize: 14,
-              ),
-            ),
-            const SizedBox(height: 12),
+                fontSize: 14)),
+            SizedBox(height: 12),
             _buildInfoBullet(
               'Automatic 1099 form generation at year-end',
-              isLight,
-            ),
+              isLight),
             _buildInfoBullet('Secure tax data storage by Stripe', isLight),
             _buildInfoBullet(
               'IRS compliance for gig economy payments',
-              isLight,
-            ),
+              isLight),
             _buildInfoBullet(
               AppLocalizations.of(context)?.automaticTaxFormDelivery ?? 'Automatic tax form delivery to your email',
-              isLight,
-            ),
-            const SizedBox(height: 15),
+              isLight),
+            SizedBox(height: 15),
             Container(
-              padding: const EdgeInsets.all(12),
+              padding: EdgeInsets.all(12),
               decoration: BoxDecoration(
                 color: Colors.blue.withOpacity(0.1),
-                borderRadius: BorderRadius.circular(20),
-              ),
+                borderRadius: BorderRadius.circular(20)),
               child: Row(
                 children: [
-                  const Icon(CupertinoIcons.info, color: Colors.blue, size: 20),
-                  const SizedBox(width: 10),
+                  Icon(CupertinoIcons.info, color: Colors.blue, size: 20),
+                  SizedBox(width: 10),
                   Expanded(
                     child: Text(
                       'You will complete W-9 (US) or W-8 (foreign) form securely via Stripe.',
                       style: TextStyle(
                         color: (isLight ? Colors.black : Colors.white)
                             .withOpacity(0.5),
-                        fontSize: 13,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            const SizedBox(height: 20),
+                        fontSize: 13))),
+                ])),
+            SizedBox(height: 20),
             SizedBox(
               width: double.infinity,
               child: TradeRepublicButton(
                 label: _isLoadingStripe
                     ? AppLocalizations.of(context)?.creatingSession ?? 'Creating Session…'
                     : 'Start Tax Form with Stripe',
-                icon: const Icon(CupertinoIcons.doc_text, size: 20),
-                onPressed: _isLoadingStripe ? null : _createStripeTaxSession,
-              ),
-            ),
-          ],
-        ),
-      );
+                icon: Icon(CupertinoIcons.doc_text, size: 20),
+                onPressed: _isLoadingStripe ? null : _createStripeTaxSession)),
+          ]));
     }
   }
 
   Widget _buildInfoBullet(String text, bool isLight) {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 8),
+      padding: EdgeInsets.only(bottom: 8),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -1122,21 +955,14 @@ class _DriverStep7ConsentState extends State<DriverStep7Consent> {
             style: TextStyle(
               color: isLight ? Colors.black : Colors.white,
               fontSize: 16,
-              fontWeight: FontWeight.w700,
-            ),
-          ),
+              fontWeight: FontWeight.w700)),
           Expanded(
             child: Text(
               text,
               style: TextStyle(
                 color: (isLight ? Colors.black : Colors.white).withOpacity(0.5),
-                fontSize: 14,
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
+                fontSize: 14))),
+        ]));
   }
 
   Widget _buildCompletionBenefit({
@@ -1152,11 +978,9 @@ class _DriverStep7ConsentState extends State<DriverStep7Consent> {
           height: 40,
           decoration: BoxDecoration(
             color: Colors.green.withOpacity(0.15),
-            borderRadius: BorderRadius.circular(20),
-          ),
-          child: Icon(icon, color: Colors.green.shade600, size: 20),
-        ),
-        const SizedBox(width: 16),
+            borderRadius: BorderRadius.circular(20)),
+          child: Icon(icon, color: Colors.green.shade600, size: 20)),
+        SizedBox(width: 16),
         Expanded(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -1167,30 +991,21 @@ class _DriverStep7ConsentState extends State<DriverStep7Consent> {
                   color: isLight ? Colors.black : Colors.white,
                   fontSize: 15,
                   fontWeight: FontWeight.w600,
-                  letterSpacing: -0.2,
-                ),
-              ),
-              const SizedBox(height: 2),
+                  letterSpacing: -0.2)),
+              SizedBox(height: 2),
               Text(
                 subtitle,
                 style: TextStyle(
                   color: (isLight ? Colors.black : Colors.white).withOpacity(
-                    0.5,
-                  ),
+                    0.5),
                   fontSize: 13,
-                  letterSpacing: -0.1,
-                ),
-              ),
-            ],
-          ),
-        ),
+                  letterSpacing: -0.1)),
+            ])),
         Icon(
           CupertinoIcons.check_mark_circled,
           color: Colors.green.shade400,
-          size: 18,
-        ),
-      ],
-    );
+          size: 18),
+      ]);
   }
 
   // Get country-specific tax info
@@ -1363,8 +1178,7 @@ class _DriverStep7ConsentState extends State<DriverStep7Consent> {
     return Container(
       decoration: BoxDecoration(
         color: isLight ? Colors.white : Colors.black,
-        borderRadius: BorderRadius.circular(20),
-      ),
+        borderRadius: BorderRadius.circular(20)),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -1375,16 +1189,12 @@ class _DriverStep7ConsentState extends State<DriverStep7Consent> {
                 height: 48,
                 decoration: BoxDecoration(
                   color: Colors.blue.withOpacity(0.1),
-                  borderRadius: BorderRadius.circular(20),
-                ),
+                  borderRadius: BorderRadius.circular(20)),
                 child: Center(
                   child: Text(
                     taxInfo['emoji'] as String,
-                    style: const TextStyle(fontSize: 24),
-                  ),
-                ),
-              ),
-              const SizedBox(width: 16),
+                    style: TextStyle(fontSize: 24)))),
+              SizedBox(width: 16),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -1394,32 +1204,24 @@ class _DriverStep7ConsentState extends State<DriverStep7Consent> {
                       style: TextStyle(
                         color: isLight ? Colors.black : Colors.white,
                         fontSize: 20,
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
-                    const SizedBox(height: 4),
+                        fontWeight: FontWeight.w700)),
+                    SizedBox(height: 4),
                     Text(
                       _selectedCountry,
                       style: TextStyle(
                         color: Colors.blue,
                         fontSize: 14,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 20),
+                        fontWeight: FontWeight.w500)),
+                  ])),
+            ]),
+          SizedBox(height: 20),
 
           // Tax Authority Info
           Container(
-            padding: const EdgeInsets.all(16),
+            padding: EdgeInsets.all(16),
             decoration: BoxDecoration(
               color: Colors.blue.withOpacity(0.1),
-              borderRadius: BorderRadius.circular(20),
-            ),
+              borderRadius: BorderRadius.circular(20)),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -1428,22 +1230,17 @@ class _DriverStep7ConsentState extends State<DriverStep7Consent> {
                     Icon(
                       CupertinoIcons.building_2_fill,
                       color: Colors.blue,
-                      size: 20,
-                    ),
-                    const SizedBox(width: 10),
+                      size: 20),
+                    SizedBox(width: 10),
                     Expanded(
                       child: Text(
                         taxInfo['authority'] as String,
                         style: TextStyle(
                           color: isLight ? Colors.black : Colors.white,
                           fontSize: 16,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 12),
+                          fontWeight: FontWeight.w600))),
+                  ]),
+                SizedBox(height: 12),
                 Row(
                   children: [
                     Expanded(
@@ -1455,21 +1252,15 @@ class _DriverStep7ConsentState extends State<DriverStep7Consent> {
                             style: TextStyle(
                               color: (isLight ? Colors.black : Colors.white)
                                   .withOpacity(0.5),
-                              fontSize: 12,
-                            ),
-                          ),
-                          const SizedBox(height: 2),
+                              fontSize: 12)),
+                          SizedBox(height: 2),
                           Text(
                             taxInfo['taxId'] as String,
                             style: TextStyle(
                               color: isLight ? Colors.black : Colors.white,
                               fontSize: 13,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
+                              fontWeight: FontWeight.w500)),
+                        ])),
                     Expanded(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -1479,115 +1270,86 @@ class _DriverStep7ConsentState extends State<DriverStep7Consent> {
                             style: TextStyle(
                               color: (isLight ? Colors.black : Colors.white)
                                   .withOpacity(0.5),
-                              fontSize: 12,
-                            ),
-                          ),
-                          const SizedBox(height: 2),
+                              fontSize: 12)),
+                          SizedBox(height: 2),
                           Text(
                             taxInfo['vatId'] as String,
                             style: TextStyle(
                               color: isLight ? Colors.black : Colors.white,
                               fontSize: 13,
-                              fontWeight: FontWeight.w500,
-                            ),
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
+                              fontWeight: FontWeight.w500),
+                            overflow: TextOverflow.ellipsis),
+                        ])),
+                  ]),
+              ])),
 
-          const SizedBox(height: 20),
+          SizedBox(height: 20),
 
           Container(
-            padding: const EdgeInsets.all(16),
+            padding: EdgeInsets.all(16),
             decoration: BoxDecoration(
               color: Colors.green.withOpacity(0.1),
-              borderRadius: BorderRadius.circular(20),
-            ),
+              borderRadius: BorderRadius.circular(20)),
             child: Row(
               children: [
                 Icon(
                   CupertinoIcons.checkmark_seal,
                   color: Colors.green,
-                  size: 24,
-                ),
-                const SizedBox(width: 12),
+                  size: 24),
+                SizedBox(width: 12),
                 Expanded(
                   child: Text(
                     'No US W-8/W-9 tax form required',
                     style: TextStyle(
                       color: Colors.green.shade700,
                       fontSize: 15,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
+                      fontWeight: FontWeight.w500))),
+              ])),
 
-          const SizedBox(height: 20),
+          SizedBox(height: 20),
 
           Text(
             'Requirements in $_selectedCountry:',
             style: TextStyle(
               color: isLight ? Colors.black : Colors.white,
               fontSize: 16,
-              fontWeight: FontWeight.w600,
-            ),
-          ),
-          const SizedBox(height: 12),
+              fontWeight: FontWeight.w600)),
+          SizedBox(height: 12),
 
           ...requirements.map((req) => _buildInfoBullet(req, isLight)),
 
-          const SizedBox(height: 16),
+          SizedBox(height: 16),
           Container(
-            padding: const EdgeInsets.all(12),
+            padding: EdgeInsets.all(12),
             decoration: BoxDecoration(
               color: Colors.orange.withOpacity(0.1),
-              borderRadius: BorderRadius.circular(20),
-            ),
+              borderRadius: BorderRadius.circular(20)),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Icon(CupertinoIcons.lightbulb, color: Colors.orange, size: 20),
-                const SizedBox(width: 10),
+                SizedBox(width: 10),
                 Expanded(
                   child: Text(
                     taxInfo['note'] as String,
                     style: TextStyle(
                       color: (isLight ? Colors.black : Colors.white)
                           .withOpacity(0.7),
-                      fontSize: 13,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
+                      fontSize: 13))),
+              ])),
+        ]));
   }
 
   // Section Header
   Widget _buildSectionHeader(String title, bool isLight) {
     return Padding(
-      padding: const EdgeInsets.only(left: 4, bottom: 16),
+      padding: EdgeInsets.only(left: 4, bottom: 16),
       child: Text(
         title,
         style: TextStyle(
           fontSize: 18,
           fontWeight: FontWeight.w700,
-          color: isLight ? Colors.black : Colors.white,
-        ),
-      ),
-    );
+          color: isLight ? Colors.black : Colors.white)));
   }
 
   Widget _buildConsentItem({
@@ -1601,13 +1363,12 @@ class _DriverStep7ConsentState extends State<DriverStep7Consent> {
     return TradeRepublicTap(
       onTap: () => onChanged(!value),
       child: Container(
-        padding: const EdgeInsets.all(20),
+        padding: EdgeInsets.all(20),
         decoration: BoxDecoration(
           color: value
               ? Colors.green.withOpacity(0.08)
               : (isLight ? Colors.white : Colors.black),
-          borderRadius: BorderRadius.circular(20),
-        ),
+          borderRadius: BorderRadius.circular(20)),
         child: Row(
           children: [
             Expanded(
@@ -1619,85 +1380,64 @@ class _DriverStep7ConsentState extends State<DriverStep7Consent> {
                     style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.w600,
-                      color: isLight ? Colors.black : Colors.white,
-                    ),
-                  ),
-                  const SizedBox(height: 4),
+                      color: isLight ? Colors.black : Colors.white)),
+                  SizedBox(height: 4),
                   if (hasLinks)
                     RichText(
                       text: TextSpan(
                         style: TextStyle(
                           fontSize: 14,
                           color: (isLight ? Colors.black : Colors.white)
-                              .withOpacity(0.7),
-                        ),
+                              .withOpacity(0.7)),
                         children: [
                           TextSpan(text: description),
                           TextSpan(
                             text: AppLocalizations.of(context)?.termsConditions ?? 'Terms & Conditions',
                             style: TextStyle(
                               color: Colors.blue,
-                              decoration: TextDecoration.underline,
-                            ),
+                              decoration: TextDecoration.underline),
                             recognizer: TapGestureRecognizer()
                               ..onTap = () async {
                                 final url = Uri.parse(
-                                  'https://cultioo.com/us/us_legal_app#delvioo_terms',
-                                );
+                                  'https://cultioo.com/us/us_legal_app#delvioo_terms');
                                 if (await canLaunchUrl(url)) {
                                   await launchUrl(
                                     url,
-                                    mode: LaunchMode.inAppBrowserView,
-                                  );
+                                    mode: LaunchMode.inAppBrowserView);
                                 }
-                              },
-                          ),
+                              }),
                           TextSpan(text: ' and '),
                           TextSpan(
                             text: AppLocalizations.of(context)?.privacyPolicy ?? 'Privacy Policy',
                             style: TextStyle(
                               color: Colors.blue,
-                              decoration: TextDecoration.underline,
-                            ),
+                              decoration: TextDecoration.underline),
                             recognizer: TapGestureRecognizer()
                               ..onTap = () async {
                                 final url = Uri.parse(
-                                  'https://cultioo.com/us/us_legal_app#delvioo_privacy',
-                                );
+                                  'https://cultioo.com/us/us_legal_app#delvioo_privacy');
                                 if (await canLaunchUrl(url)) {
                                   await launchUrl(
                                     url,
-                                    mode: LaunchMode.inAppBrowserView,
-                                  );
+                                    mode: LaunchMode.inAppBrowserView);
                                 }
-                              },
-                          ),
+                              }),
                           TextSpan(text: '.'),
-                        ],
-                      ),
-                    )
+                        ]))
                   else
                     Text(
                       description,
                       style: TextStyle(
                         fontSize: 14,
                         color: (isLight ? Colors.black : Colors.white)
-                            .withOpacity(0.7),
-                      ),
-                    ),
-                ],
-              ),
-            ),
-            const SizedBox(width: 16),
+                            .withOpacity(0.7))),
+                ])),
+            SizedBox(width: 16),
             TradeRepublicSwitch(
               value: value,
               onChanged: (val) => onChanged(val),
               selectedLabel: 'Y',
-              unselectedLabel: 'N',
-            ),
-          ],
-        ),
-      ),
-    );
+              unselectedLabel: 'N'),
+          ])));
   }
 }

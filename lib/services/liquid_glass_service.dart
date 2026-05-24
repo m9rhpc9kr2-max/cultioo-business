@@ -88,15 +88,13 @@ class LiquidGlassContainer extends StatelessWidget {
     final blurSigma = LiquidGlassService.getBlurSigma(blurStyle);
     final defaultTint = LiquidGlassService.getTintColor(
       blurStyle,
-      isLight: isLight,
-    );
+      isLight: isLight);
     final effectiveTint = tintColor ?? defaultTint;
     final effectiveOpacity = opacity ?? 0.95;
 
     return Container(
       decoration: BoxDecoration(
-        borderRadius: borderRadius ?? BorderRadius.circular(20),
-      ),
+        borderRadius: borderRadius ?? BorderRadius.circular(20)),
       child: ClipRRect(
         borderRadius: borderRadius ?? BorderRadius.circular(20),
         child: BackdropFilter(
@@ -104,12 +102,7 @@ class LiquidGlassContainer extends StatelessWidget {
           child: Container(
             decoration: BoxDecoration(
               color: effectiveTint.withOpacity(effectiveOpacity),
-              borderRadius: borderRadius ?? BorderRadius.circular(20),
-            ),
-            child: child,
-          ),
-        ),
-      ),
-    );
+              borderRadius: borderRadius ?? BorderRadius.circular(20)),
+            child: child))));
   }
 }

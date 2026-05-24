@@ -31,7 +31,6 @@ class CustomTextField extends StatelessWidget {
       prefixIcon: prefixIcon != null ? Icon(prefixIcon) : null,
       suffixIcon: suffixIcon,
       keyboardType: keyboardType,
-      maxLength: maxLength,
-    );
+      maxLength: maxLength);
   }
 }

@@ -73,8 +73,7 @@ class RightToLeftDecimalFormatter extends TextInputFormatter {
   @override
   TextEditingValue formatEditUpdate(
     TextEditingValue oldValue,
-    TextEditingValue newValue,
-  ) {
+    TextEditingValue newValue) {
     final isNegative = signed && newValue.text.trimLeft().startsWith('-');
     final digits = newValue.text.replaceAll(RegExp(r'[^\d]'), '');
 
@@ -82,8 +81,7 @@ class RightToLeftDecimalFormatter extends TextInputFormatter {
       final s = isNegative ? '-' : '';
       return newValue.copyWith(
         text: s,
-        selection: TextSelection.collapsed(offset: s.length),
-      );
+        selection: TextSelection.collapsed(offset: s.length));
     }
 
     String raw = digits.replaceAll(RegExp(r'^0+'), '');
@@ -101,7 +99,6 @@ class RightToLeftDecimalFormatter extends TextInputFormatter {
 
     return newValue.copyWith(
       text: formatted,
-      selection: TextSelection.collapsed(offset: formatted.length),
-    );
+      selection: TextSelection.collapsed(offset: formatted.length));
   }
 }

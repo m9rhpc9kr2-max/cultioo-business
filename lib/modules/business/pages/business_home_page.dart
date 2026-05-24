@@ -62,22 +62,17 @@ class _BusinessHomePageState extends State<BusinessHomePage>
     // Initialize modern animation controllers
     _headerAnimController = AnimationController(
       duration: const Duration(milliseconds: 600),
-      vsync: this,
-    );
+      vsync: this);
     _headerSlideAnim = Tween<double>(begin: -30, end: 0).animate(
       CurvedAnimation(
         parent: _headerAnimController,
-        curve: Curves.easeOutCubic,
-      ),
-    );
+        curve: Curves.easeOutCubic));
     _headerFadeAnim = Tween<double>(begin: 0, end: 1).animate(
-      CurvedAnimation(parent: _headerAnimController, curve: Curves.easeOut),
-    );
+      CurvedAnimation(parent: _headerAnimController, curve: Curves.easeOut));
 
     _contentAnimController = AnimationController(
       duration: const Duration(milliseconds: 800),
-      vsync: this,
-    );
+      vsync: this);
 
     // Start header animation immediately
     _headerAnimController.forward();
@@ -132,8 +127,7 @@ class _BusinessHomePageState extends State<BusinessHomePage>
             0,
             23,
             59,
-            59,
-          ).toIso8601String();
+            59).toIso8601String();
           break;
         case 'last-month':
           final lastMonth = DateTime(now.year, now.month - 1, 1);
@@ -144,8 +138,7 @@ class _BusinessHomePageState extends State<BusinessHomePage>
             0,
             23,
             59,
-            59,
-          ).toIso8601String();
+            59).toIso8601String();
           break;
         case 'last-3-months':
           startDate = DateTime(now.year, now.month - 3, 1).toIso8601String();
@@ -163,8 +156,7 @@ class _BusinessHomePageState extends State<BusinessHomePage>
             31,
             23,
             59,
-            59,
-          ).toIso8601String();
+            59).toIso8601String();
           break;
         case 'all-time':
         default:
@@ -189,12 +181,10 @@ class _BusinessHomePageState extends State<BusinessHomePage>
         http.get(Uri.parse(statsUrl), headers: headers),
         http.get(
           Uri.parse('${ApiConfig.baseUrl}/api/business/followers'),
-          headers: headers,
-        ),
+          headers: headers),
         http.get(
           Uri.parse('${ApiConfig.baseUrl}/api/business/products/top'),
-          headers: headers,
-        ),
+          headers: headers),
       ]);
 
       final statsResponse = responses[0];
@@ -252,8 +242,7 @@ class _BusinessHomePageState extends State<BusinessHomePage>
         final productsData = json.decode(productsResponse.body);
         print('🏆 Top products data: ${productsData['data']}');
         topProducts = List<Map<String, dynamic>>.from(
-          productsData['data'] ?? [],
-        );
+          productsData['data'] ?? []);
         print('🏆 Loaded ${topProducts.length} top products');
       }
 
@@ -288,8 +277,7 @@ class _BusinessHomePageState extends State<BusinessHomePage>
 
     TopNotification.error(
       context,
-      AppLocalizations.of(context)?.sessionExpiredPleaseSignInAgain ?? AppLocalizations.of(context)!.tr('Session expired. Please sign in again.'),
-    );
+      AppLocalizations.of(context)?.sessionExpiredPleaseSignInAgain ?? AppLocalizations.of(context)!.tr('Session expired. Please sign in again.'));
   }
 
   void _showPeriodSelectionModal(bool isLight) {
@@ -309,9 +297,8 @@ class _BusinessHomePageState extends State<BusinessHomePage>
               Icon(
                 CupertinoIcons.calendar,
                 size: 22,
-                color: isLight ? Colors.black : Colors.white,
-              ),
-              const SizedBox(width: 12),
+                color: isLight ? Colors.black : Colors.white),
+              SizedBox(width: 12),
               Flexible(
                 child: Text(
                   AppLocalizations.of(context)?.timePeriod ?? AppLocalizations.of(context)!.tr('Time Period'),
@@ -319,65 +306,52 @@ class _BusinessHomePageState extends State<BusinessHomePage>
                     fontSize: 22,
                     fontWeight: FontWeight.w700,
                     color: isLight ? Colors.black : Colors.white,
-                    letterSpacing: -0.4,
-                  ),
-                ),
-              ),
-            ],
-          ),
+                    letterSpacing: -0.4))),
+            ]),
 
-          const SizedBox(height: 20),
+          SizedBox(height: 20),
 
           // Period Options - Trade Republic style
           _buildPeriodOption(
             'all-time',
             loc?.allTime ?? AppLocalizations.of(context)!.tr('All Time'),
             Icons.all_inclusive,
-            isLight,
-          ),
+            isLight),
           _buildPeriodOption(
             'this-month',
             loc?.thisMonth ?? AppLocalizations.of(context)!.tr('This Month'),
             CupertinoIcons.calendar,
-            isLight,
-          ),
+            isLight),
           _buildPeriodOption(
             'last-month',
             loc?.lastMonth ?? AppLocalizations.of(context)!.tr('Last Month'),
             Icons.calendar_month,
-            isLight,
-          ),
+            isLight),
           _buildPeriodOption(
             'last-3-months',
             loc?.lastThreeMonths ?? AppLocalizations.of(context)!.tr('Last 3 Months'),
             Icons.date_range,
-            isLight,
-          ),
+            isLight),
           _buildPeriodOption(
             'this-year',
             loc?.thisYear ?? AppLocalizations.of(context)!.tr('This Year'),
             Icons.event_note,
-            isLight,
-          ),
+            isLight),
           _buildPeriodOption(
             'last-year',
             loc?.lastYear ?? AppLocalizations.of(context)!.tr('Last Year'),
             Icons.history,
-            isLight,
-          ),
+            isLight),
 
           SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
-        ],
-      ),
-    );
+        ]));
   }
 
   Widget _buildPeriodOption(
     String periodKey,
     String periodLabel,
     IconData icon,
-    bool isLight,
-  ) {
+    bool isLight) {
     final isSelected = selectedPeriod == periodKey;
 
     return TradeRepublicListTile(
@@ -393,8 +367,7 @@ class _BusinessHomePageState extends State<BusinessHomePage>
         });
         Navigator.pop(context);
         _loadDashboardData();
-      },
-    );
+      });
   }
 
   String _getPeriodLabel(String periodKey) {
@@ -433,8 +406,7 @@ class _BusinessHomePageState extends State<BusinessHomePage>
               alignment: Alignment.topCenter,
               child: ConstrainedBox(
                 constraints: BoxConstraints(
-                  maxWidth: isDesktop ? 1080 : double.infinity,
-                ),
+                  maxWidth: isDesktop ? 1080 : double.infinity),
                 child: Scrollbar(
                   controller: _scrollController,
                   thumbVisibility: isDesktop,
@@ -443,12 +415,10 @@ class _BusinessHomePageState extends State<BusinessHomePage>
                   child: CustomScrollView(
                     controller: _scrollController,
                     physics: const BouncingScrollPhysics(
-                      parent: AlwaysScrollableScrollPhysics(),
-                    ),
+                      parent: AlwaysScrollableScrollPhysics()),
                     slivers: [
                       CultiooSliverRefreshControl(
-                        onRefresh: _loadDashboardData,
-                      ),
+                        onRefresh: _loadDashboardData),
                       SliverToBoxAdapter(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -456,8 +426,7 @@ class _BusinessHomePageState extends State<BusinessHomePage>
                             // Trade Republic Style Header
                             _buildTradeRepublicHeader(
                               isLight,
-                              isDesktop: isDesktop,
-                            ),
+                              isDesktop: isDesktop),
 
                             // Revenue Summary - Large number
                             _buildRevenueSummary(isLight),
@@ -465,29 +434,18 @@ class _BusinessHomePageState extends State<BusinessHomePage>
                             // Stats Grid
                             Padding(
                               padding: EdgeInsets.symmetric(
-                                horizontal: horizontalPadding,
-                              ),
-                              child: _buildStatsGrid(isLight),
-                            ),
-                            const SizedBox(height: 32),
+                                horizontal: horizontalPadding),
+                              child: _buildStatsGrid(isLight)),
+                            SizedBox(height: 32),
 
                             // Top Products Section
                             Padding(
                               padding: EdgeInsets.symmetric(
-                                horizontal: horizontalPadding,
-                              ),
-                              child: _buildTopProductsSection(isLight),
-                            ),
-                            const SizedBox(height: 100),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-    );
+                                horizontal: horizontalPadding),
+                              child: _buildTopProductsSection(isLight)),
+                            SizedBox(height: 100),
+                          ])),
+                    ])))));
   }
 
   // Trade Republic Style Header - Simple, no glass effects
@@ -503,8 +461,7 @@ class _BusinessHomePageState extends State<BusinessHomePage>
         isDesktop ? 32 : 20,
         isDesktop ? 28 : topPadding + 20,
         isDesktop ? 32 : 20,
-        isDesktop ? 28 : 24,
-      ),
+        isDesktop ? 28 : 24),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -515,22 +472,16 @@ class _BusinessHomePageState extends State<BusinessHomePage>
                   ? Colors.black.withOpacity(0.5)
                   : Colors.white.withOpacity(0.5),
               fontSize: isDesktop ? 16 : 15,
-              fontWeight: FontWeight.w400,
-            ),
-          ),
-          const SizedBox(height: 4),
+              fontWeight: FontWeight.w400)),
+          SizedBox(height: 4),
           Text(
             username,
             style: TextStyle(
               color: isLight ? Colors.black : Colors.white,
               fontSize: isDesktop ? 40 : 34,
               fontWeight: FontWeight.w700,
-              letterSpacing: -0.5,
-            ),
-          ),
-        ],
-      ),
-    );
+              letterSpacing: -0.5)),
+        ]));
   }
 
   // Trade Republic Style Revenue Summary - Large number without container
@@ -539,7 +490,7 @@ class _BusinessHomePageState extends State<BusinessHomePage>
     final appSettings = Provider.of<AppSettings>(context, listen: false);
 
     return Padding(
-      padding: const EdgeInsets.fromLTRB(20, 0, 20, 32),
+      padding: EdgeInsets.fromLTRB(20, 0, 20, 32),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -551,10 +502,8 @@ class _BusinessHomePageState extends State<BusinessHomePage>
               fontSize: 48,
               fontWeight: FontWeight.w700,
               letterSpacing: -1,
-              height: 1.0,
-            ),
-          ),
-          const SizedBox(height: 4),
+              height: 1.0)),
+          SizedBox(height: 4),
           Text(
             AppLocalizations.of(context)?.totalRevenue ?? AppLocalizations.of(context)!.tr('Total Revenue'),
             style: TextStyle(
@@ -562,46 +511,36 @@ class _BusinessHomePageState extends State<BusinessHomePage>
                   ? Colors.black.withOpacity(0.5)
                   : Colors.white.withOpacity(0.5),
               fontSize: 15,
-              fontWeight: FontWeight.w400,
-            ),
-          ),
+              fontWeight: FontWeight.w400)),
           SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
           // Period selector row
           TradeRepublicCard(
             onTap: () => _showPeriodSelectionModal(isLight),
             boxShadow: const [],
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+            padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
                 Icon(
                   CupertinoIcons.calendar,
                   color: isLight ? Colors.black : Colors.white,
-                  size: 18,
-                ),
-                const SizedBox(width: 10),
+                  size: 18),
+                SizedBox(width: 10),
                 Text(
                   _getPeriodLabel(selectedPeriod),
                   style: TextStyle(
                     color: isLight ? Colors.black : Colors.white,
                     fontSize: DesktopOptimizedWidgets.getFontSize(),
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-                const SizedBox(width: 8),
+                    fontWeight: FontWeight.w500)),
+                SizedBox(width: 8),
                 Icon(
                   CupertinoIcons.chevron_down,
                   color: isLight
                       ? Colors.black.withOpacity(0.4)
                       : Colors.white.withOpacity(0.4),
-                  size: 14,
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
+                  size: 14),
+              ])),
+        ]));
   }
 
   // Modern Staggered Animation Widget - Delvioo Style
@@ -616,20 +555,17 @@ class _BusinessHomePageState extends State<BusinessHomePage>
         final delayFactor = delay * 0.15;
         final delayedValue = (_contentAnimController.value - delayFactor).clamp(
           0.0,
-          1.0,
-        );
+          1.0);
         final remainingRange = (1.0 - delayFactor).clamp(0.1, 1.0);
         final curvedValue = Curves.easeOutCubic.transform(
           delayedValue > 0
               ? (delayedValue / remainingRange).clamp(0.0, 1.0)
-              : 0.0,
-        );
+              : 0.0);
 
         return Transform.translate(
           offset: Offset(
             0,
-            slideFromBottom ? 30 * (1 - curvedValue) : -30 * (1 - curvedValue),
-          ),
+            slideFromBottom ? 30 * (1 - curvedValue) : -30 * (1 - curvedValue)),
           child: Opacity(
             opacity: curvedValue,
             child: Transform.scale(
@@ -637,12 +573,8 @@ class _BusinessHomePageState extends State<BusinessHomePage>
               alignment: slideFromBottom
                   ? Alignment.bottomCenter
                   : Alignment.topCenter,
-              child: child,
-            ),
-          ),
-        );
-      },
-    );
+              child: child)));
+      });
   }
 
   Widget _buildFloatingAppBar(bool isLight) {
@@ -652,36 +584,27 @@ class _BusinessHomePageState extends State<BusinessHomePage>
       child: BackdropFilter(
         filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
         child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 20),
+          padding: EdgeInsets.symmetric(horizontal: 24, vertical: 20),
           decoration: BoxDecoration(
             color: isLight
                 ? Colors.white.withOpacity(0.3)
                 : Colors.black.withOpacity(0.3),
-            borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-          ),
+            borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
           child: Row(
             children: [
               Icon(
                 CupertinoIcons.square_grid_2x2,
                 color: isLight ? Colors.black : Colors.white,
-                size: 28,
-              ),
-              const SizedBox(width: 16),
+                size: 28),
+              SizedBox(width: 16),
               Expanded(
                 child: Text(
                   AppLocalizations.of(context)?.dashboard ?? AppLocalizations.of(context)!.tr('Dashboard'),
                   style: TextStyle(
                     color: isLight ? Colors.black : Colors.white,
                     fontSize: 28,
-                    fontWeight: FontWeight.w700,
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
+                    fontWeight: FontWeight.w700))),
+            ]))));
   }
 
   Widget _buildWelcomeHeader(bool isLight) {
@@ -699,9 +622,7 @@ class _BusinessHomePageState extends State<BusinessHomePage>
             color: (isLight ? Colors.black : Colors.white).withOpacity(0.5),
             fontSize: DesktopOptimizedWidgets.getFontSize() + 4,
             fontWeight: FontWeight.w600,
-            fontFamily: 'Poppins',
-          ),
-        ),
+            fontFamily: 'Poppins')),
         SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
         Text(
           username,
@@ -710,11 +631,8 @@ class _BusinessHomePageState extends State<BusinessHomePage>
             fontSize: 36,
             fontWeight: FontWeight.w700,
             fontFamily: 'Poppins',
-            letterSpacing: -1,
-          ),
-        ),
-      ],
-    );
+            letterSpacing: -1)),
+      ]);
   }
 
   Widget _buildRevenueCard(bool isLight) {
@@ -725,89 +643,69 @@ class _BusinessHomePageState extends State<BusinessHomePage>
       onTap: () => _showPeriodSelectionModal(isLight),
       child: Container(
         width: double.infinity,
-        padding: const EdgeInsets.all(28),
+        padding: EdgeInsets.all(28),
         decoration: BoxDecoration(
           gradient: LinearGradient(
             colors: [Colors.blue, Colors.blue[700]!],
             begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-          ),
-          borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-        ),
+            end: Alignment.bottomRight),
+          borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(
               children: [
                 Container(
-                  padding: const EdgeInsets.all(14),
+                  padding: EdgeInsets.all(14),
                   decoration: BoxDecoration(
                     color: Colors.white.withOpacity(0.2),
-                    borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-                  ),
-                  child: const Icon(
+                    borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
+                  child: Icon(
                     CupertinoIcons.money_dollar_circle,
                     color: Colors.white,
-                    size: 28,
-                  ),
-                ),
+                    size: 28)),
                 const Spacer(),
                 Container(
-                  padding: const EdgeInsets.symmetric(
+                  padding: EdgeInsets.symmetric(
                     horizontal: 14,
-                    vertical: 8,
-                  ),
+                    vertical: 8),
                   decoration: BoxDecoration(
                     color: Colors.white.withOpacity(0.2),
-                    borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-                  ),
+                    borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
                   child: Row(
                     children: [
                       Text(
                         _getPeriodLabel(selectedPeriod),
-                        style: const TextStyle(
+                        style: TextStyle(
                           color: Colors.white,
                           fontSize: 13,
                           fontWeight: FontWeight.w700,
-                          fontFamily: 'Poppins',
-                        ),
-                      ),
-                      const SizedBox(width: 4),
-                      const Icon(
+                          fontFamily: 'Poppins')),
+                      SizedBox(width: 4),
+                      Icon(
                         CupertinoIcons.arrowtriangle_down_fill,
                         color: Colors.white,
-                        size: 18,
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
+                        size: 18),
+                    ])),
+              ]),
             SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
             Text(
               AppLocalizations.of(context)?.totalRevenue ?? AppLocalizations.of(context)!.tr('Total Revenue'),
-              style: const TextStyle(
+              style: TextStyle(
                 color: Colors.white70,
                 fontSize: 15,
                 fontWeight: FontWeight.w600,
-                fontFamily: 'Poppins',
-              ),
-            ),
-            const SizedBox(height: 10),
+                fontFamily: 'Poppins')),
+            SizedBox(height: 10),
             Text(
               appSettings.formatCurrency(totalRevenue),
-              style: const TextStyle(
+              style: TextStyle(
                 color: Colors.white,
                 fontSize: 48,
                 fontWeight: FontWeight.w700,
                 fontFamily: 'Poppins',
-                letterSpacing: -1.5,
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
+                letterSpacing: -1.5)),
+          ])));
   }
 
   Widget _buildStatsGrid(bool isLight) {
@@ -838,15 +736,12 @@ class _BusinessHomePageState extends State<BusinessHomePage>
                 onTap: () => _showChartModal(
                   AppLocalizations.of(context)?.orders ?? AppLocalizations.of(context)!.tr('Orders'),
                   totalOrders,
-                  isLight,
-                ),
-              ),
+                  isLight)),
               TradeRepublicDivider(
                 color: isLight
                     ? Colors.black.withOpacity(0.06)
                     : Colors.white.withOpacity(0.06),
-                height: 24,
-              ),
+                height: 24),
               _buildStatRow(
                 AppLocalizations.of(context)?.followers ?? AppLocalizations.of(context)!.tr('Followers'),
                 followersCount.toString(),
@@ -855,15 +750,12 @@ class _BusinessHomePageState extends State<BusinessHomePage>
                 onTap: () => _showChartModal(
                   AppLocalizations.of(context)?.followers ?? AppLocalizations.of(context)!.tr('Followers'),
                   followersCount,
-                  isLight,
-                ),
-              ),
+                  isLight)),
               TradeRepublicDivider(
                 color: isLight
                     ? Colors.black.withOpacity(0.06)
                     : Colors.white.withOpacity(0.06),
-                height: 24,
-              ),
+                height: 24),
               _buildStatRow(
                 AppLocalizations.of(context)?.productViews ?? AppLocalizations.of(context)!.tr('Product Views'),
                 totalViews.toString(),
@@ -872,14 +764,9 @@ class _BusinessHomePageState extends State<BusinessHomePage>
                 onTap: () => _showChartModal(
                   AppLocalizations.of(context)?.productViews ?? AppLocalizations.of(context)!.tr('Product Views'),
                   totalViews,
-                  isLight,
-                ),
-              ),
-            ],
-          ),
-        ),
-      ],
-    );
+                  isLight)),
+            ])),
+      ]);
   }
 
   Widget _buildStatRow(
@@ -897,22 +784,18 @@ class _BusinessHomePageState extends State<BusinessHomePage>
         children: [
           Text(
             value,
-            style: TextStyle(fontSize: DesktopOptimizedWidgets.getFontSize() + 4, fontWeight: FontWeight.w600),
-          ),
+            style: TextStyle(fontSize: DesktopOptimizedWidgets.getFontSize() + 4, fontWeight: FontWeight.w600)),
           if (onTap != null) ...[
-            const SizedBox(width: 8),
+            SizedBox(width: 8),
             Icon(
               CupertinoIcons.chart_bar,
               size: 16,
               color: isLight
                   ? Colors.black.withOpacity(0.3)
-                  : Colors.white.withOpacity(0.3),
-            ),
+                  : Colors.white.withOpacity(0.3)),
           ],
-        ],
-      ),
-      onTap: onTap,
-    );
+        ]),
+      onTap: onTap);
   }
 
   /// Maps localized period label → API period key
@@ -938,15 +821,13 @@ class _BusinessHomePageState extends State<BusinessHomePage>
     try {
       final token = await _getStoredToken();
       final uri = Uri.parse(
-        '${ApiConfig.baseUrl}/api/business/analytics/chart?metric=$metric&period=$period',
-      );
+        '${ApiConfig.baseUrl}/api/business/analytics/chart?metric=$metric&period=$period');
       final response = await http.get(
         uri,
         headers: {
           'Content-Type': 'application/json',
           if (token != null) 'Authorization': 'Bearer $token',
-        },
-      ).timeout(const Duration(seconds: 10));
+        }).timeout(const Duration(seconds: 10));
 
       if (response.statusCode == 200) {
         final body = json.decode(response.body);
@@ -972,9 +853,7 @@ class _BusinessHomePageState extends State<BusinessHomePage>
         initialPeriod: _selectedChartPeriod,
         fetchChartData: _fetchChartData,
         periodLabelToApiKey: _periodLabelToApiKey,
-        onPeriodChanged: (p) => setState(() => _selectedChartPeriod = p),
-      ),
-    );
+        onPeriodChanged: (p) => setState(() => _selectedChartPeriod = p)));
   }
 
   Widget _buildStatCard({
@@ -996,9 +875,7 @@ class _BusinessHomePageState extends State<BusinessHomePage>
               fontSize: 44,
               fontWeight: FontWeight.w700,
               fontFamily: 'Poppins',
-              letterSpacing: -1,
-            ),
-          ),
+              letterSpacing: -1)),
           SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
           Text(
             title,
@@ -1009,12 +886,8 @@ class _BusinessHomePageState extends State<BusinessHomePage>
               fontSize: 12,
               fontWeight: FontWeight.w600,
               fontFamily: 'Poppins',
-              letterSpacing: 0.5,
-            ),
-          ),
-        ],
-      ),
-    );
+              letterSpacing: 0.5)),
+        ]));
   }
 
   Widget _buildWideStatCard({
@@ -1039,9 +912,7 @@ class _BusinessHomePageState extends State<BusinessHomePage>
                     fontSize: 44,
                     fontWeight: FontWeight.w700,
                     fontFamily: 'Poppins',
-                    letterSpacing: -1,
-                  ),
-                ),
+                    letterSpacing: -1)),
                 SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                 Text(
                   title,
@@ -1052,15 +923,9 @@ class _BusinessHomePageState extends State<BusinessHomePage>
                     fontSize: 12,
                     fontWeight: FontWeight.w600,
                     fontFamily: 'Poppins',
-                    letterSpacing: 0.5,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
+                    letterSpacing: 0.5)),
+              ])),
+        ]));
   }
 
   Widget _buildTopProductsSection(bool isLight) {
@@ -1076,10 +941,7 @@ class _BusinessHomePageState extends State<BusinessHomePage>
                   ? Colors.black.withOpacity(0.4)
                   : Colors.white.withOpacity(0.4),
               fontSize: DesktopOptimizedWidgets.getFontSize(),
-              fontWeight: FontWeight.w400,
-            ),
-          ),
-        ),
+              fontWeight: FontWeight.w400))),
         if (topProducts.isEmpty)
           _buildEmptyTopProducts(isLight)
         else
@@ -1094,38 +956,31 @@ class _BusinessHomePageState extends State<BusinessHomePage>
                   product,
                   index + 1,
                   isLight,
-                  index == topProducts.length - 1,
-                );
-              }).toList(),
-            ),
-          ),
-      ],
-    );
+                  index == topProducts.length - 1);
+              }).toList())),
+      ]);
   }
 
   Widget _buildEmptyTopProducts(bool isLight) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 40),
+      padding: EdgeInsets.symmetric(vertical: 40),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          const SizedBox(width: double.infinity),
+          SizedBox(width: double.infinity),
           Icon(
             CupertinoIcons.cube_box,
             color: isLight
                 ? Colors.black.withOpacity(0.15)
                 : Colors.white.withOpacity(0.15),
-            size: 48,
-          ),
+            size: 48),
           SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
           Text(
             AppLocalizations.of(context)?.noProductsYet ?? AppLocalizations.of(context)!.tr('No Products Yet'),
             style: TextStyle(
               color: isLight ? Colors.black : Colors.white,
               fontSize: DesktopOptimizedWidgets.getFontSize() + 4,
-              fontWeight: FontWeight.w600,
-            ),
-          ),
+              fontWeight: FontWeight.w600)),
           SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
           Text(
             AppLocalizations.of(context)?.addFirstProductToGetStarted ?? AppLocalizations.of(context)!.tr('Add your first product to get started'),
@@ -1134,12 +989,8 @@ class _BusinessHomePageState extends State<BusinessHomePage>
                   ? Colors.black.withOpacity(0.5)
                   : Colors.white.withOpacity(0.5),
               fontSize: DesktopOptimizedWidgets.getFontSize(),
-              fontWeight: FontWeight.w400,
-            ),
-          ),
-        ],
-      ),
-    );
+              fontWeight: FontWeight.w400)),
+        ]));
   }
 
   /// Safely decodes a base64 image string. Returns null on any error.
@@ -1157,8 +1008,7 @@ class _BusinessHomePageState extends State<BusinessHomePage>
     Map<String, dynamic> product,
     int rank,
     bool isLight,
-    bool isLast,
-  ) {
+    bool isLast) {
     final views = product['views'] ?? 0;
     final imageUrl = product['imageUrl'];
     final title =
@@ -1168,7 +1018,7 @@ class _BusinessHomePageState extends State<BusinessHomePage>
     return Column(
       children: [
         Padding(
-          padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 16),
+          padding: EdgeInsets.symmetric(vertical: 14, horizontal: 16),
           child: Row(
             children: [
               // Rank number
@@ -1181,10 +1031,7 @@ class _BusinessHomePageState extends State<BusinessHomePage>
                         ? Colors.black.withOpacity(0.4)
                         : Colors.white.withOpacity(0.4),
                     fontSize: DesktopOptimizedWidgets.getFontSize(),
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-              ),
+                    fontWeight: FontWeight.w500))),
               // Product Image - Square with rounded corners
               Container(
                 width: 48,
@@ -1193,8 +1040,7 @@ class _BusinessHomePageState extends State<BusinessHomePage>
                   color: isLight
                       ? Colors.black.withOpacity(0.04)
                       : Colors.white.withOpacity(0.04),
-                  borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-                ),
+                  borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                   child: () {
@@ -1210,21 +1056,16 @@ class _BusinessHomePageState extends State<BusinessHomePage>
                           color: isLight
                               ? Colors.black.withOpacity(0.3)
                               : Colors.white.withOpacity(0.3),
-                          size: 22,
-                        ),
-                      );
+                          size: 22));
                     }
                     return Icon(
                       CupertinoIcons.cube_box,
                       color: isLight
                           ? Colors.black.withOpacity(0.3)
                           : Colors.white.withOpacity(0.3),
-                      size: 22,
-                    );
-                  }(),
-                ),
-              ),
-              const SizedBox(width: 14),
+                      size: 22);
+                  }())),
+              SizedBox(width: 14),
               // Product Info
               Expanded(
                 child: Text(
@@ -1232,12 +1073,9 @@ class _BusinessHomePageState extends State<BusinessHomePage>
                   style: TextStyle(
                     color: isLight ? Colors.black : Colors.white,
                     fontSize: 15,
-                    fontWeight: FontWeight.w500,
-                  ),
+                    fontWeight: FontWeight.w500),
                   maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                ),
-              ),
+                  overflow: TextOverflow.ellipsis)),
               // Views count
               Row(
                 children: [
@@ -1246,9 +1084,8 @@ class _BusinessHomePageState extends State<BusinessHomePage>
                     color: isLight
                         ? Colors.black.withOpacity(0.4)
                         : Colors.white.withOpacity(0.4),
-                    size: 16,
-                  ),
-                  const SizedBox(width: 6),
+                    size: 16),
+                  SizedBox(width: 6),
                   Text(
                     '$views',
                     style: TextStyle(
@@ -1256,30 +1093,22 @@ class _BusinessHomePageState extends State<BusinessHomePage>
                           ? Colors.black.withOpacity(0.6)
                           : Colors.white.withOpacity(0.6),
                       fontSize: DesktopOptimizedWidgets.getFontSize(),
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ),
-        ),
+                      fontWeight: FontWeight.w500)),
+                ]),
+            ])),
         if (!isLast)
           TradeRepublicDivider(
             color: isLight
                 ? Colors.black.withOpacity(0.06)
                 : Colors.white.withOpacity(0.06),
-            height: 1,
-          ),
-      ],
-    );
+            height: 1),
+      ]);
   }
 
   Widget _buildTopProductCard(
     Map<String, dynamic> product,
     int rank,
-    bool isLight,
-  ) {
+    bool isLight) {
     final views = product['views'] ?? 0;
     // Handle price conversion safely - can be num or String from DB
     final dynamic priceValue = product['price'];
@@ -1303,7 +1132,7 @@ class _BusinessHomePageState extends State<BusinessHomePage>
     if (rank == 3) rankColor = Colors.orange[300];
 
     return TradeRepublicCard(
-      margin: const EdgeInsets.only(bottom: 12),
+      margin: EdgeInsets.only(bottom: 12),
       child: Row(
         children: [
           // Rank Badge
@@ -1314,8 +1143,7 @@ class _BusinessHomePageState extends State<BusinessHomePage>
               color:
                   rankColor?.withOpacity(0.2) ??
                   (isLight ? Colors.black : Colors.white).withOpacity(0.05),
-              shape: BoxShape.circle,
-            ),
+              shape: BoxShape.circle),
             child: Center(
               child: Text(
                 '#$rank',
@@ -1323,12 +1151,8 @@ class _BusinessHomePageState extends State<BusinessHomePage>
                   color: rankColor ?? (isLight ? Colors.black : Colors.white),
                   fontSize: DesktopOptimizedWidgets.getFontSize(),
                   fontWeight: FontWeight.w700,
-                  fontFamily: 'Poppins',
-                ),
-              ),
-            ),
-          ),
-          const SizedBox(width: 12),
+                  fontFamily: 'Poppins')))),
+          SizedBox(width: 12),
 
           // Product Image
           () {
@@ -1346,30 +1170,22 @@ class _BusinessHomePageState extends State<BusinessHomePage>
                     height: 50,
                     decoration: BoxDecoration(
                       color: (isLight ? Colors.black : Colors.white).withOpacity(0.05),
-                      borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-                    ),
+                      borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
                     child: Icon(
                       CupertinoIcons.photo_fill,
-                      color: (isLight ? Colors.black : Colors.white).withOpacity(0.3),
-                    ),
-                  ),
-                ),
-              );
+                      color: (isLight ? Colors.black : Colors.white).withOpacity(0.3)))));
             }
             return Container(
               width: 50,
               height: 50,
               decoration: BoxDecoration(
                 color: (isLight ? Colors.black : Colors.white).withOpacity(0.05),
-                borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-              ),
+                borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
               child: Icon(
                 CupertinoIcons.photo_fill,
-                color: (isLight ? Colors.black : Colors.white).withOpacity(0.3),
-              ),
-            );
+                color: (isLight ? Colors.black : Colors.white).withOpacity(0.3)));
           }(),
-          const SizedBox(width: 12),
+          SizedBox(width: 12),
 
           // Product Info
           Expanded(
@@ -1382,28 +1198,21 @@ class _BusinessHomePageState extends State<BusinessHomePage>
                     color: isLight ? Colors.black : Colors.white,
                     fontSize: DesktopOptimizedWidgets.getFontSize(),
                     fontWeight: FontWeight.w600,
-                    fontFamily: 'Poppins',
-                  ),
+                    fontFamily: 'Poppins'),
                   maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                ),
-                const SizedBox(height: 4),
+                  overflow: TextOverflow.ellipsis),
+                SizedBox(height: 4),
                 Text(
                   price > 0
                       ? Provider.of<AppSettings>(context, listen: false).formatCurrency(price)
                       : (AppLocalizations.of(context)?.priceNotSet ?? AppLocalizations.of(context)!.tr('Price not set')),
                   style: TextStyle(
                     color: (isLight ? Colors.black : Colors.white).withOpacity(
-                      0.5,
-                    ),
+                      0.5),
                     fontSize: 13,
                     fontWeight: FontWeight.w500,
-                    fontFamily: 'Poppins',
-                  ),
-                ),
-              ],
-            ),
-          ),
+                    fontFamily: 'Poppins')),
+              ])),
 
           // Views Count (instead of price)
           Column(
@@ -1414,39 +1223,28 @@ class _BusinessHomePageState extends State<BusinessHomePage>
                   Icon(
                     CupertinoIcons.eye_fill,
                     color: (isLight ? Colors.black : Colors.white).withOpacity(
-                      0.5,
-                    ),
-                    size: 18,
-                  ),
-                  const SizedBox(width: 6),
+                      0.5),
+                    size: 18),
+                  SizedBox(width: 6),
                   Text(
                     '$views',
                     style: TextStyle(
                       color: isLight ? Colors.black : Colors.white,
                       fontSize: DesktopOptimizedWidgets.getFontSize() + 6,
                       fontWeight: FontWeight.w700,
-                      fontFamily: 'Poppins',
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 4),
+                      fontFamily: 'Poppins')),
+                ]),
+              SizedBox(height: 4),
               Text(
                 AppLocalizations.of(context)?.viewsLabel ?? AppLocalizations.of(context)!.tr('Views'),
                 style: TextStyle(
                   color: (isLight ? Colors.black : Colors.white).withOpacity(
-                    0.5,
-                  ),
+                    0.5),
                   fontSize: 11,
                   fontWeight: FontWeight.w600,
-                  fontFamily: 'Poppins',
-                ),
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
+                  fontFamily: 'Poppins')),
+            ]),
+        ]));
   }
 }
 
@@ -1511,7 +1309,7 @@ class _ChartModalContentState extends State<_ChartModalContent> {
     final trendColor = isPositive ? positive : negative;
 
     return Padding(
-      padding: const EdgeInsets.fromLTRB(20, 0, 20, 20),
+      padding: EdgeInsets.fromLTRB(20, 0, 20, 20),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -1519,49 +1317,41 @@ class _ChartModalContentState extends State<_ChartModalContent> {
           const DragHandle(),
           Text(
             widget.title.toUpperCase(),
-            style: TextStyle(fontSize: 11, fontWeight: FontWeight.w600, letterSpacing: 1.4, color: dim),
-          ),
+            style: TextStyle(fontSize: 11, fontWeight: FontWeight.w600, letterSpacing: 1.4, color: dim)),
           SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
           Row(
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               Text(
                 widget.currentValue.toString(),
-                style: TextStyle(fontSize: 38, fontWeight: FontWeight.w800, letterSpacing: -1.2, height: 1.0, color: accent),
-              ),
-              const SizedBox(width: 10),
+                style: TextStyle(fontSize: 38, fontWeight: FontWeight.w800, letterSpacing: -1.2, height: 1.0, color: accent)),
+              SizedBox(width: 10),
               if (!_loading)
                 Padding(
-                  padding: const EdgeInsets.only(bottom: 6),
+                  padding: EdgeInsets.only(bottom: 6),
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Icon(
                         isPositive ? CupertinoIcons.arrow_up_right : CupertinoIcons.arrow_down_right,
-                        size: 13, color: trendColor,
-                      ),
-                      const SizedBox(width: 2),
+                        size: 13, color: trendColor),
+                      SizedBox(width: 2),
                       Text(
                         '${percentChange.abs().toStringAsFixed(1)}%',
-                        style: TextStyle(fontSize: 13, fontWeight: FontWeight.w700, letterSpacing: -0.2, color: trendColor),
-                      ),
-                    ],
-                  ),
-                ),
-            ],
-          ),
-          const SizedBox(height: 6),
+                        style: TextStyle(fontSize: 13, fontWeight: FontWeight.w700, letterSpacing: -0.2, color: trendColor)),
+                    ])),
+            ]),
+          SizedBox(height: 6),
           Text(_period, style: TextStyle(fontSize: 13, fontWeight: FontWeight.w500, color: dim, letterSpacing: -0.2)),
-          const SizedBox(height: 28),
+          SizedBox(height: 28),
           SizedBox(
             height: 200,
             child: _loading
                 ? Center(child: SizedBox(width: 24, height: 24, child: CircularProgressIndicator(strokeWidth: 2, color: accent.withOpacity(0.4))))
                 : _data.isEmpty
                     ? Center(child: Text('No data', style: TextStyle(color: dim, fontSize: 13)))
-                    : TradeRepublicBarChart(data: _data, isLight: widget.isLight),
-          ),
-          const SizedBox(height: 20),
+                    : TradeRepublicBarChart(data: _data, isLight: widget.isLight)),
+          SizedBox(height: 20),
           TradeRepublicPeriodSegmented(
             isLight: widget.isLight,
             selected: _period,
@@ -1576,10 +1366,7 @@ class _ChartModalContentState extends State<_ChartModalContent> {
               widget.onPeriodChanged(p);
               setState(() => _period = p);
               _load();
-            },
-          ),
-        ],
-      ),
-    );
+            }),
+        ]));
   }
 }

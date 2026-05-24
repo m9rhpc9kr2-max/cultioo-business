@@ -24,8 +24,7 @@ class IbanInputFormatter extends TextInputFormatter {
   @override
   TextEditingValue formatEditUpdate(
     TextEditingValue oldValue,
-    TextEditingValue newValue,
-  ) {
+    TextEditingValue newValue) {
     String newText = newValue.text
         .replaceAll(RegExp(r'[^A-Za-z0-9]'), '')
         .toUpperCase();
@@ -52,8 +51,7 @@ class IbanInputFormatter extends TextInputFormatter {
 
     return TextEditingValue(
       text: formatted,
-      selection: TextSelection.collapsed(offset: formatted.length),
-    );
+      selection: TextSelection.collapsed(offset: formatted.length));
   }
 
   String _detectBankFromIban(String iban) {
@@ -152,8 +150,7 @@ class IbanInputFormatter extends TextInputFormatter {
       _lastLookupIban = iban;
       try {
         final uri = Uri.parse(
-          'https://openiban.com/validate/$iban?getBIC=true&validateBankCode=true',
-        );
+          'https://openiban.com/validate/$iban?getBIC=true&validateBankCode=true');
         final res = await http
             .get(uri, headers: {'Accept': 'application/json'})
             .timeout(const Duration(seconds: 4));
@@ -182,16 +179,14 @@ class BicInputFormatter extends TextInputFormatter {
   @override
   TextEditingValue formatEditUpdate(
     TextEditingValue oldValue,
-    TextEditingValue newValue,
-  ) {
+    TextEditingValue newValue) {
     String newText = newValue.text
         .replaceAll(RegExp(r'[^A-Za-z0-9]'), '')
         .toUpperCase();
     if (newText.length > 11) newText = newText.substring(0, 11);
     return TextEditingValue(
       text: newText,
-      selection: TextSelection.collapsed(offset: newText.length),
-    );
+      selection: TextSelection.collapsed(offset: newText.length));
   }
 }
 
@@ -204,8 +199,7 @@ class RoutingNumberInputFormatter extends TextInputFormatter {
   @override
   TextEditingValue formatEditUpdate(
     TextEditingValue oldValue,
-    TextEditingValue newValue,
-  ) {
+    TextEditingValue newValue) {
     String newText = newValue.text.replaceAll(RegExp(r'[^0-9]'), '');
     if (newText.length > 9) newText = newText.substring(0, 9);
 
@@ -215,8 +209,7 @@ class RoutingNumberInputFormatter extends TextInputFormatter {
 
     return TextEditingValue(
       text: newText,
-      selection: TextSelection.collapsed(offset: newText.length),
-    );
+      selection: TextSelection.collapsed(offset: newText.length));
   }
 }
 
@@ -226,8 +219,7 @@ class CardNumberInputFormatter extends TextInputFormatter {
   @override
   TextEditingValue formatEditUpdate(
     TextEditingValue oldValue,
-    TextEditingValue newValue,
-  ) {
+    TextEditingValue newValue) {
     // Remove all non-digit characters
     String digits = newValue.text.replaceAll(RegExp(r'[^0-9]'), '');
     if (digits.length > 16) digits = digits.substring(0, 16);
@@ -242,8 +234,7 @@ class CardNumberInputFormatter extends TextInputFormatter {
 
     return TextEditingValue(
       text: formatted,
-      selection: TextSelection.collapsed(offset: formatted.length),
-    );
+      selection: TextSelection.collapsed(offset: formatted.length));
   }
 }
 
@@ -252,8 +243,7 @@ class CardExpiryInputFormatter extends TextInputFormatter {
   @override
   TextEditingValue formatEditUpdate(
     TextEditingValue oldValue,
-    TextEditingValue newValue,
-  ) {
+    TextEditingValue newValue) {
     // Remove all non-digit characters
     String digits = newValue.text.replaceAll(RegExp(r'[^0-9]'), '');
     if (digits.length > 4) digits = digits.substring(0, 4);
@@ -268,8 +258,7 @@ class CardExpiryInputFormatter extends TextInputFormatter {
 
     return TextEditingValue(
       text: formatted,
-      selection: TextSelection.collapsed(offset: formatted.length),
-    );
+      selection: TextSelection.collapsed(offset: formatted.length));
   }
 }
 
@@ -278,14 +267,12 @@ class CardCvcInputFormatter extends TextInputFormatter {
   @override
   TextEditingValue formatEditUpdate(
     TextEditingValue oldValue,
-    TextEditingValue newValue,
-  ) {
+    TextEditingValue newValue) {
     String digits = newValue.text.replaceAll(RegExp(r'[^0-9]'), '');
     if (digits.length > 4) digits = digits.substring(0, 4);
 
     return TextEditingValue(
       text: digits,
-      selection: TextSelection.collapsed(offset: digits.length),
-    );
+      selection: TextSelection.collapsed(offset: digits.length));
   }
 }

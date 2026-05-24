@@ -25,212 +25,178 @@ class AppLocales {
     locale: Locale('en', 'US'),
     flag: '🌐',
     displayName: 'System',
-    region: '',
-  );
+    region: '');
 
   // North America
   static const enUS = SupportedLocale(
     locale: Locale('en', 'US'),
     flag: '🇺🇸',
     displayName: 'English',
-    region: 'USA',
-  );
+    region: 'USA');
   static const enCA = SupportedLocale(
     locale: Locale('en', 'CA'),
     flag: '🇨🇦',
     displayName: 'English',
-    region: 'Canada',
-  );
+    region: 'Canada');
   static const frCA = SupportedLocale(
     locale: Locale('fr', 'CA'),
     flag: '🇨🇦',
     displayName: 'Français',
-    region: 'Canada',
-  );
+    region: 'Canada');
   static const esMX = SupportedLocale(
     locale: Locale('es', 'MX'),
     flag: '🇲🇽',
     displayName: 'Español',
-    region: 'México',
-  );
+    region: 'México');
 
   // EU Member States (27 countries)
   static const deDE = SupportedLocale(
     locale: Locale('de', 'DE'),
     flag: '🇩🇪',
     displayName: 'Deutsch',
-    region: 'Deutschland',
-  );
+    region: 'Deutschland');
   static const deAT = SupportedLocale(
     locale: Locale('de', 'AT'),
     flag: '🇦🇹',
     displayName: 'Deutsch',
-    region: 'Österreich',
-  );
+    region: 'Österreich');
   static const frFR = SupportedLocale(
     locale: Locale('fr', 'FR'),
     flag: '🇫🇷',
     displayName: 'Français',
-    region: 'France',
-  );
+    region: 'France');
   static const esES = SupportedLocale(
     locale: Locale('es', 'ES'),
     flag: '🇪🇸',
     displayName: 'Español',
-    region: 'España',
-  );
+    region: 'España');
   static const itIT = SupportedLocale(
     locale: Locale('it', 'IT'),
     flag: '🇮🇹',
     displayName: 'Italiano',
-    region: 'Italia',
-  );
+    region: 'Italia');
   static const ptPT = SupportedLocale(
     locale: Locale('pt', 'PT'),
     flag: '🇵🇹',
     displayName: 'Português',
-    region: 'Portugal',
-  );
+    region: 'Portugal');
   static const nlNL = SupportedLocale(
     locale: Locale('nl', 'NL'),
     flag: '🇳🇱',
     displayName: 'Nederlands',
-    region: 'Nederland',
-  );
+    region: 'Nederland');
   static const nlBE = SupportedLocale(
     locale: Locale('nl', 'BE'),
     flag: '🇧🇪',
     displayName: 'Nederlands',
-    region: 'België',
-  );
+    region: 'België');
   static const frBE = SupportedLocale(
     locale: Locale('fr', 'BE'),
     flag: '🇧🇪',
     displayName: 'Français',
-    region: 'Belgique',
-  );
+    region: 'Belgique');
   static const deLU = SupportedLocale(
     locale: Locale('de', 'LU'),
     flag: '🇱🇺',
     displayName: 'Deutsch',
-    region: 'Luxemburg',
-  );
+    region: 'Luxemburg');
   static const plPL = SupportedLocale(
     locale: Locale('pl', 'PL'),
     flag: '🇵🇱',
     displayName: 'Polski',
-    region: 'Polska',
-  );
+    region: 'Polska');
   static const roRO = SupportedLocale(
     locale: Locale('ro', 'RO'),
     flag: '🇷🇴',
     displayName: 'Română',
-    region: 'România',
-  );
+    region: 'România');
   static const csCZ = SupportedLocale(
     locale: Locale('cs', 'CZ'),
     flag: '🇨🇿',
     displayName: 'Čeština',
-    region: 'Česko',
-  );
+    region: 'Česko');
   static const elGR = SupportedLocale(
     locale: Locale('el', 'GR'),
     flag: '🇬🇷',
     displayName: 'Ελληνικά',
-    region: 'Ελλάδα',
-  );
+    region: 'Ελλάδα');
   static const huHU = SupportedLocale(
     locale: Locale('hu', 'HU'),
     flag: '🇭🇺',
     displayName: 'Magyar',
-    region: 'Magyarország',
-  );
+    region: 'Magyarország');
   static const svSE = SupportedLocale(
     locale: Locale('sv', 'SE'),
     flag: '🇸🇪',
     displayName: 'Svenska',
-    region: 'Sverige',
-  );
+    region: 'Sverige');
   static const bgBG = SupportedLocale(
     locale: Locale('bg', 'BG'),
     flag: '🇧🇬',
     displayName: 'Български',
-    region: 'България',
-  );
+    region: 'България');
   static const daDK = SupportedLocale(
     locale: Locale('da', 'DK'),
     flag: '🇩🇰',
     displayName: 'Dansk',
-    region: 'Danmark',
-  );
+    region: 'Danmark');
   static const fiFI = SupportedLocale(
     locale: Locale('fi', 'FI'),
     flag: '🇫🇮',
     displayName: 'Suomi',
-    region: 'Suomi',
-  );
+    region: 'Suomi');
   static const skSK = SupportedLocale(
     locale: Locale('sk', 'SK'),
     flag: '🇸🇰',
     displayName: 'Slovenčina',
-    region: 'Slovensko',
-  );
+    region: 'Slovensko');
   static const hrHR = SupportedLocale(
     locale: Locale('hr', 'HR'),
     flag: '🇭🇷',
     displayName: 'Hrvatski',
-    region: 'Hrvatska',
-  );
+    region: 'Hrvatska');
   static const ltLT = SupportedLocale(
     locale: Locale('lt', 'LT'),
     flag: '🇱🇹',
     displayName: 'Lietuvių',
-    region: 'Lietuva',
-  );
+    region: 'Lietuva');
   static const slSI = SupportedLocale(
     locale: Locale('sl', 'SI'),
     flag: '🇸🇮',
     displayName: 'Slovenščina',
-    region: 'Slovenija',
-  );
+    region: 'Slovenija');
   static const lvLV = SupportedLocale(
     locale: Locale('lv', 'LV'),
     flag: '🇱🇻',
     displayName: 'Latviešu',
-    region: 'Latvija',
-  );
+    region: 'Latvija');
   static const etEE = SupportedLocale(
     locale: Locale('et', 'EE'),
     flag: '🇪🇪',
     displayName: 'Eesti',
-    region: 'Eesti',
-  );
+    region: 'Eesti');
   static const enIE = SupportedLocale(
     locale: Locale('en', 'IE'),
     flag: '🇮🇪',
     displayName: 'English',
-    region: 'Ireland',
-  );
+    region: 'Ireland');
   static const elCY = SupportedLocale(
     locale: Locale('el', 'CY'),
     flag: '🇨🇾',
     displayName: 'Ελληνικά',
-    region: 'Κύπρος',
-  );
+    region: 'Κύπρος');
   static const enMT = SupportedLocale(
     locale: Locale('en', 'MT'),
     flag: '🇲🇹',
     displayName: 'English',
-    region: 'Malta',
-  );
+    region: 'Malta');
 
   // Russia
   static const ruRU = SupportedLocale(
     locale: Locale('ru', 'RU'),
     flag: '🇷🇺',
     displayName: 'Русский',
-    region: 'Россия',
-  );
+    region: 'Россия');
 
   static const List<SupportedLocale> all = [
     // North America
@@ -3489,8 +3455,7 @@ class AppLocalizations {
   String get otherDriver => tr('otherDriver');
   String get backToPool => tr('backToPool');
   String splitOrderRemainingInfo(String qty, String unit) => tr(
-    'splitOrderRemainingInfo',
-  ).replaceAll('{qty}', qty).replaceAll('{unit}', unit);
+    'splitOrderRemainingInfo').replaceAll('{qty}', qty).replaceAll('{unit}', unit);
   String get splitOrderYouLabel => tr('splitOrderYouLabel');
 
   // Missing UI strings

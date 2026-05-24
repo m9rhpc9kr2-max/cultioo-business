@@ -24,12 +24,10 @@ class UpperCaseTextFormatter extends TextInputFormatter {
   @override
   TextEditingValue formatEditUpdate(
     TextEditingValue oldValue,
-    TextEditingValue newValue,
-  ) {
+    TextEditingValue newValue) {
     return TextEditingValue(
       text: newValue.text.toUpperCase(),
-      selection: newValue.selection,
-    );
+      selection: newValue.selection);
   }
 }
 
@@ -129,8 +127,7 @@ class _DriverStep9VerificationState extends State<DriverStep9Verification> {
       if (mounted) {
         TopNotification.error(
           context,
-          AppLocalizations.of(context)?.pleaseEnterFullNameAsSignature ?? 'Please enter your full name as signature',
-        );
+          AppLocalizations.of(context)?.pleaseEnterFullNameAsSignature ?? 'Please enter your full name as signature');
       }
     }
     // Check if signature matches the registered name
@@ -140,8 +137,7 @@ class _DriverStep9VerificationState extends State<DriverStep9Verification> {
       if (mounted) {
         TopNotification.error(
           context,
-          '${AppLocalizations.of(context)?.signatureMustMatchName ?? 'Signature must match your registered name:'} $expectedName',
-        );
+          '${AppLocalizations.of(context)?.signatureMustMatchName ?? 'Signature must match your registered name:'} $expectedName');
       }
     }
 
@@ -171,8 +167,7 @@ class _DriverStep9VerificationState extends State<DriverStep9Verification> {
     });
 
     print(
-      'DEBUG Step 11: Signature completed - ${_signatureNameController.text}',
-    );
+      'DEBUG Step 11: Signature completed - ${_signatureNameController.text}');
     print('DEBUG Step 11: Complete registration data: ${widget.initialData}');
 
     // Submit registration to backend
@@ -188,14 +183,12 @@ class _DriverStep9VerificationState extends State<DriverStep9Verification> {
       context: context,
       isDismissible: false,
       enableDrag: false,
-      child: const Column(
+      child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
           CultiooLoadingIndicator(),
           SizedBox(height: 16),
-        ],
-      ),
-    );
+        ]));
 
     try {
       final String baseUrl = ApiConfig.baseUrl;
@@ -204,16 +197,13 @@ class _DriverStep9VerificationState extends State<DriverStep9Verification> {
 
       print('DEBUG: Submitting registration to: $apiEndpoint');
       print(
-        'DEBUG: isSingleDriver value: ${widget.initialData['isSingleDriver']}',
-      );
+        'DEBUG: isSingleDriver value: ${widget.initialData['isSingleDriver']}');
       print(
-        'DEBUG: isSingleDriver type: ${widget.initialData['isSingleDriver'].runtimeType}',
-      );
+        'DEBUG: isSingleDriver type: ${widget.initialData['isSingleDriver'].runtimeType}');
 
       // Convert date format from MM/DD/YYYY to YYYY-MM-DD for database
       final Map<String, dynamic> registrationData = Map<String, dynamic>.from(
-        widget.initialData,
-      );
+        widget.initialData);
 
       if (registrationData['birthdate'] != null &&
           registrationData['birthdate'].toString().isNotEmpty) {
@@ -229,8 +219,7 @@ class _DriverStep9VerificationState extends State<DriverStep9Verification> {
               final String year = parts[2];
               registrationData['birthdate'] = '$year-$month-$day';
               print(
-                'DEBUG: Converted birthdate from $birthdate to ${registrationData['birthdate']}',
-              );
+                'DEBUG: Converted birthdate from $birthdate to ${registrationData['birthdate']}');
             }
           } catch (e) {
             print('DEBUG: Error converting birthdate: $e');
@@ -245,8 +234,7 @@ class _DriverStep9VerificationState extends State<DriverStep9Verification> {
               'Content-Type': 'application/json',
               'Accept': 'application/json',
             },
-            body: json.encode(registrationData),
-          )
+            body: json.encode(registrationData))
           .timeout(const Duration(seconds: 30));
 
       // Close loading dialog safely - only once
@@ -269,9 +257,7 @@ class _DriverStep9VerificationState extends State<DriverStep9Verification> {
             Navigator.of(context).pushReplacement(
               MaterialPageRoute(
                 builder: (context) =>
-                    DriverStep10Success(registrationData: widget.initialData),
-              ),
-            );
+                    DriverStep10Success(registrationData: widget.initialData)));
           }
         } else {
           // Parse error message for better user feedback
@@ -331,8 +317,7 @@ class _DriverStep9VerificationState extends State<DriverStep9Verification> {
         String errorMessage = e.toString();
         if (errorMessage.startsWith('Exception: ')) {
           errorMessage = errorMessage.substring(
-            11,
-          ); // Remove 'Exception: ' prefix
+            11); // Remove 'Exception: ' prefix
         }
 
         TopNotification.error(context, errorMessage);
@@ -361,8 +346,7 @@ class _DriverStep9VerificationState extends State<DriverStep9Verification> {
             24,
             MediaQuery.of(context).padding.top + 20,
             24,
-            MediaQuery.of(context).padding.bottom + 24,
-          ),
+            MediaQuery.of(context).padding.bottom + 24),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -374,38 +358,29 @@ class _DriverStep9VerificationState extends State<DriverStep9Verification> {
                       height: 80,
                       decoration: BoxDecoration(
                         color: isLight ? Colors.black : Colors.white,
-                        borderRadius: BorderRadius.circular(20),
-                      ),
+                        borderRadius: BorderRadius.circular(20)),
                       child: Icon(
                         CupertinoIcons.checkmark_rectangle,
                         color: isLight ? Colors.white : Colors.black,
-                        size: 40,
-                      ),
-                    ),
-                    const SizedBox(height: 20),
+                        size: 40)),
+                    SizedBox(height: 20),
                     Text(
                       AppLocalizations.of(context)?.finalVerification ?? 'Final Verification',
                       style: TextStyle(
                         color: isLight ? Colors.black : Colors.white,
                         fontSize: 32,
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
-                    const SizedBox(height: 8),
+                        fontWeight: FontWeight.w700)),
+                    SizedBox(height: 8),
                     Text(
                       AppLocalizations.of(context)?.step8ReviewAndSign ?? 'Step 9 of 10 - Review and sign agreements',
                       style: TextStyle(
                         color: (isLight ? Colors.black : Colors.white)
                             .withOpacity(0.5),
-                        fontSize: 16,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(height: 40),
+                        fontSize: 16)),
+                  ])),
+              SizedBox(height: 40),
               _buildSectionHeader(AppLocalizations.of(context)?.legalAgreements ?? 'Legal Agreements', isLight),
-              const SizedBox(height: 16),
+              SizedBox(height: 16),
               _buildAgreementCard(
                 title: AppLocalizations.of(context)?.termsAndConditions ?? 'Terms and Conditions',
                 description:
@@ -418,9 +393,8 @@ class _DriverStep9VerificationState extends State<DriverStep9Verification> {
                 }),
                 onReadDocument: () =>
                     LegalInfoBottomSheet.show(context, isLight),
-                isLight: isLight,
-              ),
-              const SizedBox(height: 16),
+                isLight: isLight),
+              SizedBox(height: 16),
               _buildAgreementCard(
                 title: AppLocalizations.of(context)?.privacyPolicy ?? 'Privacy Policy',
                 description: AppLocalizations.of(context)?.iAgreeToPrivacyPolicy ?? 'I have read and agree to the Privacy Policy',
@@ -432,21 +406,19 @@ class _DriverStep9VerificationState extends State<DriverStep9Verification> {
                 }),
                 onReadDocument: () =>
                     LegalInfoBottomSheet.show(context, isLight),
-                isLight: isLight,
-              ),
-              const SizedBox(height: 32),
+                isLight: isLight),
+              SizedBox(height: 32),
               _buildSectionHeader(AppLocalizations.of(context)?.electronicSignature ?? 'Electronic Signature', isLight),
-              const SizedBox(height: 8),
+              SizedBox(height: 8),
 
               // Instruction text
               Container(
-                padding: const EdgeInsets.all(16),
+                padding: EdgeInsets.all(16),
                 decoration: BoxDecoration(
                   color: (isLight
                       ? Colors.blue.shade50
                       : Colors.blue.shade900.withOpacity(0.2)),
-                  borderRadius: BorderRadius.circular(20),
-                ),
+                  borderRadius: BorderRadius.circular(20)),
                 child: Row(
                   children: [
                     Icon(
@@ -454,9 +426,8 @@ class _DriverStep9VerificationState extends State<DriverStep9Verification> {
                       color: isLight
                           ? Colors.blue.shade700
                           : Colors.blue.shade300,
-                      size: 20,
-                    ),
-                    const SizedBox(width: 12),
+                      size: 20),
+                    SizedBox(width: 12),
                     Expanded(
                       child: Text(
                         AppLocalizations.of(context)?.typeNameInCapitalsToSign ?? 'Please type your full name in CAPITAL LETTERS to sign this agreement',
@@ -466,36 +437,30 @@ class _DriverStep9VerificationState extends State<DriverStep9Verification> {
                               : Colors.blue.shade100,
                           fontSize: 13,
                           fontWeight: FontWeight.w500,
-                          height: 1.4,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+                          height: 1.4))),
+                  ])),
 
-              const SizedBox(height: 16),
+              SizedBox(height: 16),
 
               // Show the expected name from Step 1 as reference
               _buildNameReferenceCard(isLight),
 
-              const SizedBox(height: 16),
+              SizedBox(height: 16),
               _buildModernTextField(
                 controller: _signatureNameController,
                 label: AppLocalizations.of(context)?.fullNameSignature ?? 'Full Name (Signature)',
                 icon: CupertinoIcons.pencil,
                 isLight: isLight,
                 hasError: _signatureNameError,
-                hint: AppLocalizations.of(context)?.typeFullLegalNameHere ?? 'Type your full legal name here',
-              ),
-              const SizedBox(height: 32),
+                hint: AppLocalizations.of(context)?.typeFullLegalNameHere ?? 'Type your full legal name here'),
+              SizedBox(height: 32),
               _buildSectionHeader(AppLocalizations.of(context)?.signatureDateAndTime ?? 'Signature Date & Time', isLight),
-              const SizedBox(height: 16),
+              SizedBox(height: 16),
               _buildDateTimeCard(isLight),
-              const SizedBox(height: 40),
+              SizedBox(height: 40),
               _buildLegalNotice(isLight),
 
-              const SizedBox(height: 24),
+              SizedBox(height: 24),
 
               // Legal Info Button
               TradeRepublicButton(
@@ -503,10 +468,9 @@ class _DriverStep9VerificationState extends State<DriverStep9Verification> {
                 icon: Icon(CupertinoIcons.info, size: 18),
                 onPressed: () {
                   LegalInfoBottomSheet.show(context, isLight);
-                },
-              ),
+                }),
 
-              const SizedBox(height: 40),
+              SizedBox(height: 40),
 
               // Navigation Buttons
               Row(
@@ -517,27 +481,16 @@ class _DriverStep9VerificationState extends State<DriverStep9Verification> {
                     height: 52,
                     child: TradeRepublicButton.icon(
                             icon: Icon(CupertinoIcons.chevron_back, size: 18),
-                            onPressed: widget.onBack,
-                          ),
-                  ),
-                  const SizedBox(width: 12),
+                            onPressed: widget.onBack)),
+                  SizedBox(width: 12),
                   // Submit Button - Full Width with Gradient
                   Expanded(
                     child: TradeRepublicButton(
                             label: AppLocalizations.of(context)?.submitApplication ?? 'Submit Application',
                             icon: Icon(CupertinoIcons.checkmark_seal_fill, size: 18),
-                            onPressed: _validateAndContinue,
-                          ),
-                  ),
-                ],
-              ),
-            ],
-          ),
-        ),
-      ),
-        ),
-      ),
-    );
+                            onPressed: _validateAndContinue)),
+                ]),
+            ]))))));
   }
 
   Widget _buildSectionHeader(String title, bool isLight) {
@@ -546,9 +499,7 @@ class _DriverStep9VerificationState extends State<DriverStep9Verification> {
       style: TextStyle(
         color: isLight ? Colors.black : Colors.white,
         fontSize: 18,
-        fontWeight: FontWeight.w700,
-      ),
-    );
+        fontWeight: FontWeight.w700));
   }
 
   Widget _buildNameReferenceCard(bool isLight) {
@@ -565,19 +516,17 @@ class _DriverStep9VerificationState extends State<DriverStep9Verification> {
     }
 
     return Container(
-      padding: const EdgeInsets.all(20),
+      padding: EdgeInsets.all(20),
       decoration: BoxDecoration(
         color: (isLight ? Colors.black : Colors.white).withOpacity(0.03),
-        borderRadius: BorderRadius.circular(20),
-      ),
+        borderRadius: BorderRadius.circular(20)),
       child: Row(
         children: [
           Icon(
             CupertinoIcons.person_circle,
             color: (isLight ? Colors.black : Colors.white).withOpacity(0.5),
-            size: 24,
-          ),
-          const SizedBox(width: 12),
+            size: 24),
+          SizedBox(width: 12),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -586,28 +535,19 @@ class _DriverStep9VerificationState extends State<DriverStep9Verification> {
                   'Your name from registration:',
                   style: TextStyle(
                     color: (isLight ? Colors.black : Colors.white).withOpacity(
-                      0.5,
-                    ),
+                      0.5),
                     fontSize: 12,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-                const SizedBox(height: 4),
+                    fontWeight: FontWeight.w500)),
+                SizedBox(height: 4),
                 Text(
                   fullNameUppercase,
                   style: TextStyle(
                     color: isLight ? Colors.black : Colors.white,
                     fontSize: 18,
                     fontWeight: FontWeight.w700,
-                    letterSpacing: 1.2,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
+                    letterSpacing: 1.2)),
+              ])),
+        ]));
   }
 
   Widget _buildModernTextField({
@@ -622,10 +562,9 @@ class _DriverStep9VerificationState extends State<DriverStep9Verification> {
     return Container(
       decoration: BoxDecoration(
         color: hasError ? Colors.red.withOpacity(0.08) : (isLight ? Colors.white : Colors.black),
-        borderRadius: BorderRadius.circular(20),
-      ),
+        borderRadius: BorderRadius.circular(20)),
       child: Padding(
-        padding: const EdgeInsets.all(20),
+        padding: EdgeInsets.all(20),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
@@ -637,28 +576,21 @@ class _DriverStep9VerificationState extends State<DriverStep9Verification> {
                   height: 36,
                   decoration: BoxDecoration(
                     color: isLight ? Colors.black : Colors.white,
-                    borderRadius: BorderRadius.circular(20),
-                  ),
+                    borderRadius: BorderRadius.circular(20)),
                   child: Icon(
                     icon,
                     color: isLight ? Colors.white : Colors.black,
-                    size: 18,
-                  ),
-                ),
-                const SizedBox(width: 12),
+                    size: 18)),
+                SizedBox(width: 12),
                 Expanded(
                   child: Text(
                     label,
                     style: TextStyle(
                       color: isLight ? Colors.black : Colors.white,
                       fontSize: 16,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 12),
+                      fontWeight: FontWeight.w600))),
+              ]),
+            SizedBox(height: 12),
             TradeRepublicTextField(
               useFormField: true,
               controller: controller,
@@ -666,12 +598,8 @@ class _DriverStep9VerificationState extends State<DriverStep9Verification> {
               inputFormatters: [
                 UpperCaseTextFormatter(), // Force uppercase
               ],
-              hintText: hint,
-            ),
-          ],
-        ),
-      ),
-    );
+              hintText: hint),
+          ])));
   }
 
   Widget _buildAgreementCard({
@@ -686,9 +614,8 @@ class _DriverStep9VerificationState extends State<DriverStep9Verification> {
     return Container(
       decoration: BoxDecoration(
         color: hasError ? Colors.red.withOpacity(0.08) : (isLight ? Colors.white : Colors.black),
-        borderRadius: BorderRadius.circular(20),
-      ),
-      padding: const EdgeInsets.all(20),
+        borderRadius: BorderRadius.circular(20)),
+      padding: EdgeInsets.all(20),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -697,38 +624,31 @@ class _DriverStep9VerificationState extends State<DriverStep9Verification> {
               Icon(
                 CupertinoIcons.doc_text,
                 color: isLight ? Colors.black : Colors.white,
-                size: 24,
-              ),
-              const SizedBox(width: 12),
+                size: 24),
+              SizedBox(width: 12),
               Expanded(
                 child: Text(
                   title,
                   style: TextStyle(
                     color: isLight ? Colors.black : Colors.white,
                     fontSize: 18,
-                    fontWeight: FontWeight.w700,
-                  ),
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 16),
+                    fontWeight: FontWeight.w700))),
+            ]),
+          SizedBox(height: 16),
           TradeRepublicButton(
             label: AppLocalizations.of(context)?.readDocument ?? 'Read Document',
             icon: Icon(CupertinoIcons.eye, size: 18),
-            onPressed: onReadDocument,
-          ),
-          const SizedBox(height: 16),
+            onPressed: onReadDocument),
+          SizedBox(height: 16),
           TradeRepublicTap(
             onTap: onTap,
             child: Container(
-              padding: const EdgeInsets.all(16),
+              padding: EdgeInsets.all(16),
               decoration: BoxDecoration(
                 color: isAgreed
                     ? Colors.green.withOpacity(0.08)
                     : (isLight ? Colors.black : Colors.white).withOpacity(0.03),
-                borderRadius: BorderRadius.circular(20),
-              ),
+                borderRadius: BorderRadius.circular(20)),
               child: Row(
                 children: [
                   Expanded(
@@ -737,32 +657,22 @@ class _DriverStep9VerificationState extends State<DriverStep9Verification> {
                       style: TextStyle(
                         color: isLight ? Colors.black : Colors.white,
                         fontSize: 15,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                  ),
-                  const SizedBox(width: 12),
+                        fontWeight: FontWeight.w500))),
+                  SizedBox(width: 12),
                   TradeRepublicSwitch(
                     value: isAgreed,
                     onChanged: (val) => onTap(),
                     selectedLabel: 'Y',
-                    unselectedLabel: 'N',
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
+                    unselectedLabel: 'N'),
+                ]))),
+        ]));
   }
 
   Widget _buildDateTimeCard(bool isLight) {
     return Container(
       decoration: BoxDecoration(
         color: isLight ? Colors.white : Colors.black,
-        borderRadius: BorderRadius.circular(20),
-      ),
+        borderRadius: BorderRadius.circular(20)),
 
       child: Column(
         children: [
@@ -773,15 +683,12 @@ class _DriverStep9VerificationState extends State<DriverStep9Verification> {
                 height: 48,
                 decoration: BoxDecoration(
                   color: isLight ? Colors.black : Colors.white,
-                  borderRadius: BorderRadius.circular(20),
-                ),
+                  borderRadius: BorderRadius.circular(20)),
                 child: Icon(
                   CupertinoIcons.calendar,
                   color: isLight ? Colors.white : Colors.black,
-                  size: 24,
-                ),
-              ),
-              const SizedBox(width: 16),
+                  size: 24)),
+              SizedBox(width: 16),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -790,22 +697,16 @@ class _DriverStep9VerificationState extends State<DriverStep9Verification> {
                     style: TextStyle(
                       color: (isLight ? Colors.black : Colors.white)
                           .withOpacity(0.5),
-                      fontSize: 14,
-                    ),
-                  ),
+                      fontSize: 14)),
                   Text(
                     _currentDate,
                     style: TextStyle(
                       color: isLight ? Colors.black : Colors.white,
                       fontSize: 18,
-                      fontWeight: FontWeight.w700,
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ),
-          const SizedBox(height: 20),
+                      fontWeight: FontWeight.w700)),
+                ]),
+            ]),
+          SizedBox(height: 20),
           Row(
             children: [
               Container(
@@ -813,15 +714,12 @@ class _DriverStep9VerificationState extends State<DriverStep9Verification> {
                 height: 48,
                 decoration: BoxDecoration(
                   color: isLight ? Colors.black : Colors.white,
-                  borderRadius: BorderRadius.circular(20),
-                ),
+                  borderRadius: BorderRadius.circular(20)),
                 child: Icon(
                   CupertinoIcons.time,
                   color: isLight ? Colors.white : Colors.black,
-                  size: 24,
-                ),
-              ),
-              const SizedBox(width: 16),
+                  size: 24)),
+              SizedBox(width: 16),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -830,54 +728,39 @@ class _DriverStep9VerificationState extends State<DriverStep9Verification> {
                     style: TextStyle(
                       color: (isLight ? Colors.black : Colors.white)
                           .withOpacity(0.5),
-                      fontSize: 14,
-                    ),
-                  ),
+                      fontSize: 14)),
                   Text(
                     _currentTime,
                     style: TextStyle(
                       color: isLight ? Colors.black : Colors.white,
                       fontSize: 18,
-                      fontWeight: FontWeight.w700,
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
+                      fontWeight: FontWeight.w700)),
+                ]),
+            ]),
+        ]));
   }
 
   Widget _buildLegalNotice(bool isLight) {
     return Container(
-      padding: const EdgeInsets.all(20),
+      padding: EdgeInsets.all(20),
       decoration: BoxDecoration(
         color: (isLight ? Colors.black : Colors.white).withOpacity(0.05),
-        borderRadius: BorderRadius.circular(20),
-      ),
+        borderRadius: BorderRadius.circular(20)),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Icon(
             CupertinoIcons.info,
             color: (isLight ? Colors.black : Colors.white).withOpacity(0.5),
-            size: 20,
-          ),
-          const SizedBox(width: 12),
+            size: 20),
+          SizedBox(width: 12),
           Expanded(
             child: Text(
               'By typing your name above, you agree that this constitutes a legal electronic signature and has the same effect as a handwritten signature.',
               style: TextStyle(
                 color: (isLight ? Colors.black : Colors.white).withOpacity(0.5),
                 fontSize: 14,
-                height: 1.5,
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
+                height: 1.5))),
+        ]));
   }
 }

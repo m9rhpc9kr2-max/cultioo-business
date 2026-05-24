@@ -56,8 +56,7 @@ class GermanNumberFormatter extends TextInputFormatter {
   @override
   TextEditingValue formatEditUpdate(
     TextEditingValue oldValue,
-    TextEditingValue newValue,
-  ) {
+    TextEditingValue newValue) {
     // Remove all non-digits
     String digitsOnly = newValue.text.replaceAll(RegExp(r'[^\d]'), '');
 
@@ -65,8 +64,7 @@ class GermanNumberFormatter extends TextInputFormatter {
     if (digitsOnly.isEmpty) {
       return const TextEditingValue(
         text: '',
-        selection: TextSelection.collapsed(offset: 0),
-      );
+        selection: TextSelection.collapsed(offset: 0));
     }
 
     // Convert to double and divide by 100 for decimal places
@@ -83,8 +81,7 @@ class GermanNumberFormatter extends TextInputFormatter {
 
     return TextEditingValue(
       text: formatted,
-      selection: TextSelection.collapsed(offset: formatted.length),
-    );
+      selection: TextSelection.collapsed(offset: formatted.length));
   }
 
   String formatGermanNumber(double value) {
@@ -122,13 +119,11 @@ class GermanNumberFormatter extends TextInputFormatter {
     if (lastComma > lastDot) {
       // Comma is the last separator → EU decimal: "2.000,00"
       return double.tryParse(
-        formattedValue.replaceAll('.', '').replaceAll(',', '.'),
-      ) ?? 0.0;
+        formattedValue.replaceAll('.', '').replaceAll(',', '.')) ?? 0.0;
     } else {
       // Dot is the last separator → US decimal: "2,000.00"
       return double.tryParse(
-        formattedValue.replaceAll(',', ''),
-      ) ?? 0.0;
+        formattedValue.replaceAll(',', '')) ?? 0.0;
     }
   }
 }
@@ -138,8 +133,7 @@ class FuelEconomyFormatter extends TextInputFormatter {
   @override
   TextEditingValue formatEditUpdate(
     TextEditingValue oldValue,
-    TextEditingValue newValue,
-  ) {
+    TextEditingValue newValue) {
     // Remove all non-digits
     String digitsOnly = newValue.text.replaceAll(RegExp(r'[^\d]'), '');
 
@@ -147,8 +141,7 @@ class FuelEconomyFormatter extends TextInputFormatter {
     if (digitsOnly.isEmpty) {
       return const TextEditingValue(
         text: '',
-        selection: TextSelection.collapsed(offset: 0),
-      );
+        selection: TextSelection.collapsed(offset: 0));
     }
 
     // Convert to double and divide by 100 for 2 decimal places
@@ -159,8 +152,7 @@ class FuelEconomyFormatter extends TextInputFormatter {
 
     return TextEditingValue(
       text: formatted,
-      selection: TextSelection.collapsed(offset: formatted.length),
-    );
+      selection: TextSelection.collapsed(offset: formatted.length));
   }
 }
 
@@ -216,29 +208,23 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
     // Initialize animation controllers
     _headerAnimController = AnimationController(
       duration: const Duration(milliseconds: 600),
-      vsync: this,
-    );
+      vsync: this);
     _headerSlideAnim = Tween<double>(begin: -30, end: 0).animate(
       CurvedAnimation(
         parent: _headerAnimController,
-        curve: Curves.easeOutCubic,
-      ),
-    );
+        curve: Curves.easeOutCubic));
     _headerFadeAnim = Tween<double>(begin: 0, end: 1).animate(
-      CurvedAnimation(parent: _headerAnimController, curve: Curves.easeOut),
-    );
+      CurvedAnimation(parent: _headerAnimController, curve: Curves.easeOut));
 
     _contentAnimController = AnimationController(
       duration: const Duration(milliseconds: 800),
-      vsync: this,
-    );
+      vsync: this);
 
     // Initialize header visibility controller
     _headerVisibilityController = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 300),
-      value: 1.0,
-    );
+      value: 1.0);
 
     // Start header animation immediately (like in Home page)
     _headerAnimController.forward().then((_) {
@@ -284,8 +270,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
       _headerVisibilityController!.animateTo(
         0.0,
         duration: const Duration(milliseconds: 300),
-        curve: Curves.easeInOut,
-      );
+        curve: Curves.easeInOut);
     }
   }
 
@@ -298,8 +283,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
       _headerVisibilityController!.animateTo(
         1.0,
         duration: const Duration(milliseconds: 300),
-        curve: Curves.easeInOut,
-      );
+        curve: Curves.easeInOut);
     }
   }
 
@@ -348,8 +332,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
     // Trigger refresh notifier to update sidebar in main page
     refreshUserDataNotifier.value++;
     print(
-      '✅ Triggered refreshUserDataNotifier: ${refreshUserDataNotifier.value}',
-    );
+      '✅ Triggered refreshUserDataNotifier: ${refreshUserDataNotifier.value}');
 
     // Reload user data from database to ensure consistency across all apps
     // The upload endpoint already saved it to delvioo_users.profile_image
@@ -392,8 +375,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
       // Load the logged-in user's profile directly
       final response = await http.get(
         Uri.parse('${ApiConfig.baseUrl}/api/delvioo/profile/$username'),
-        headers: {'Content-Type': 'application/json'},
-      );
+        headers: {'Content-Type': 'application/json'});
 
       print('📡 Profile response status: ${response.statusCode}');
 
@@ -471,10 +453,8 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
             try {
               final earningsResp = await http.get(
                 Uri.parse(
-                  '${ApiConfig.baseUrl}/api/delvioo/driver/$userId/earnings',
-                ),
-                headers: {'Content-Type': 'application/json'},
-              );
+                  '${ApiConfig.baseUrl}/api/delvioo/driver/$userId/earnings'),
+                headers: {'Content-Type': 'application/json'});
               if (earningsResp.statusCode == 200) {
                 final earningsData = json.decode(earningsResp.body);
                 if (earningsData['success'] == true && mounted) {
@@ -497,8 +477,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                   });
                   print(
                     '💰 Earnings loaded: pending=\$${userData!["pendingPayout"]}, '
-                    'deliveries=${userData!["totalDeliveries"]}',
-                  );
+                    'deliveries=${userData!["totalDeliveries"]}');
                 }
               } else {
                 print('⚠️ Earnings API returned ${earningsResp.statusCode}');
@@ -558,8 +537,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
 
       final response = await http.get(
         Uri.parse('${ApiConfig.baseUrl}/api/driver/user-data/$userId'),
-        headers: {'Content-Type': 'application/json'},
-      );
+        headers: {'Content-Type': 'application/json'});
 
       print('📡 User data response status: ${response.statusCode}');
       print('📡 User data response body: ${response.body}');
@@ -584,37 +562,29 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
           }
 
           print(
-            '✅ Successfully loaded data for: ${responseData['data']['firstName']} ${responseData['data']['lastName']}',
-          );
+            '✅ Successfully loaded data for: ${responseData['data']['firstName']} ${responseData['data']['lastName']}');
           print(
-            '🚗 Vehicles in userData: ${responseData['data']['vehicles']?.length ?? 0}',
-          );
+            '🚗 Vehicles in userData: ${responseData['data']['vehicles']?.length ?? 0}');
 
           // DEBUG: Print payment/bank data
           print('💳 Payment Info Fields:');
           print('  - paymentInfo: ${responseData['data']['paymentInfo']}');
           print(
-            '  - stripeBankAccountId: ${responseData['data']['stripeBankAccountId']}',
-          );
+            '  - stripeBankAccountId: ${responseData['data']['stripeBankAccountId']}');
           print(
-            '  - stripe_bank_account_id: ${responseData['data']['stripe_bank_account_id']}',
-          );
+            '  - stripe_bank_account_id: ${responseData['data']['stripe_bank_account_id']}');
           print(
-            '  - accountHolderName: ${responseData['data']['accountHolderName']}',
-          );
+            '  - accountHolderName: ${responseData['data']['accountHolderName']}');
           print(
-            '  - account_holder_name: ${responseData['data']['account_holder_name']}',
-          );
+            '  - account_holder_name: ${responseData['data']['account_holder_name']}');
           print('  - bankType: ${responseData['data']['bankType']}');
           print('  - bank_type: ${responseData['data']['bank_type']}');
           print('  - routingNumber: ${responseData['data']['routingNumber']}');
           print(
-            '  - routing_number: ${responseData['data']['routing_number']}',
-          );
+            '  - routing_number: ${responseData['data']['routing_number']}');
           print('  - accountNumber: ${responseData['data']['accountNumber']}');
           print(
-            '  - account_number: ${responseData['data']['account_number']}',
-          );
+            '  - account_number: ${responseData['data']['account_number']}');
           print('  - iban: ${responseData['data']['iban']}');
           print('  - swiftBic: ${responseData['data']['swiftBic']}');
           print('  - swift_bic: ${responseData['data']['swift_bic']}');
@@ -625,18 +595,15 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
           print('  - profile_image: ${responseData['data']['profile_image']}');
           print('  - profilePic: ${responseData['data']['profilePic']}');
           print(
-            '  - profilePicture: ${responseData['data']['profilePicture']}',
-          );
+            '  - profilePicture: ${responseData['data']['profilePicture']}');
 
           // Load delivery stats (earnings, total deliveries, etc.)
           try {
             print('📊 Loading delivery stats for driver: $userId');
             final statsResponse = await http.get(
               Uri.parse(
-                '${ApiConfig.baseUrl}/api/delivery-stats?driverId=$userId',
-              ),
-              headers: {'Content-Type': 'application/json'},
-            );
+                '${ApiConfig.baseUrl}/api/delivery-stats?driverId=$userId'),
+              headers: {'Content-Type': 'application/json'});
 
             print('📊 Stats response status: ${statsResponse.statusCode}');
             print('📊 Stats response body: ${statsResponse.body}');
@@ -674,18 +641,15 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
 
                 print('✅ User data updated with delivery stats');
                 print(
-                  '✅ userData[pendingPayout] = ${userData?['pendingPayout']}',
-                );
+                  '✅ userData[pendingPayout] = ${userData?['pendingPayout']}');
                 print(
-                  '✅ userData[totalEarnings] = ${userData?['totalEarnings']}',
-                );
+                  '✅ userData[totalEarnings] = ${userData?['totalEarnings']}');
               } else {
                 print('⚠️ No stats data in response');
               }
             } else {
               print(
-                '⚠️ Failed to load delivery stats: ${statsResponse.statusCode}',
-              );
+                '⚠️ Failed to load delivery stats: ${statsResponse.statusCode}');
             }
           } catch (statsError) {
             print('⚠️ Error loading delivery stats: $statsError');
@@ -730,17 +694,14 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
 
       final response = await http.get(
         Uri.parse(
-          '${ApiConfig.baseUrl}/api/delvioo/payout-history/$driverUsername',
-        ),
-        headers: {'Content-Type': 'application/json'},
-      );
+          '${ApiConfig.baseUrl}/api/delvioo/payout-history/$driverUsername'),
+        headers: {'Content-Type': 'application/json'});
 
       if (response.statusCode == 200) {
         final data = json.decode(response.body);
         if (data['success'] == true && data['data'] != null) {
           final payouts = List<Map<String, dynamic>>.from(
-            data['data']['payouts'] ?? [],
-          );
+            data['data']['payouts'] ?? []);
           print('✅ Loaded ${payouts.length} payouts');
           return payouts;
         }
@@ -757,8 +718,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
   Widget _buildPayoutHistoryItem(
     Map<String, dynamic> payout,
     bool isLight,
-    AppSettings appSettings,
-  ) {
+    AppSettings appSettings) {
     final amount = double.tryParse(payout['amount']?.toString() ?? AppLocalizations.of(context)!.tr('0')) ?? 0.0;
     final status = payout['status'] ?? AppLocalizations.of(context)!.tr('pending');
     final deliveries = payout['total_deliveries'] ?? 0;
@@ -824,21 +784,19 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
 
     return TradeRepublicSwipeAction(
       key: ValueKey('payout_$payoutId'),
-      margin: const EdgeInsets.only(bottom: 12),
+      margin: EdgeInsets.only(bottom: 12),
       trailing: TradeRepublicSwipeSpec(
         icon: CupertinoIcons.arrow_down_circle_fill,
         label: AppLocalizations.of(context)?.download ?? 'Download',
-        onActivate: () => _downloadPayoutInvoice(payout, isLight),
-      ),
+        onActivate: () => _downloadPayoutInvoice(payout, isLight)),
       child: Container(
-        margin: const EdgeInsets.only(bottom: 8),
-        padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 16),
+        margin: EdgeInsets.only(bottom: 8),
+        padding: EdgeInsets.symmetric(horizontal: 18, vertical: 16),
         decoration: BoxDecoration(
           color: isLight
               ? Colors.transparent
               : Colors.black,
-          borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius()),
-        ),
+          borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius())),
         child: Row(
           children: [
             // Status icon in circle
@@ -847,15 +805,12 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
               height: 44,
               decoration: BoxDecoration(
                 color: statusColor.withOpacity(0.12),
-                borderRadius: BorderRadius.circular(14),
-              ),
+                borderRadius: BorderRadius.circular(14)),
               child: Icon(
                 statusIcon,
                 color: statusColor,
-                size: 20,
-              ),
-            ),
-            const SizedBox(width: 14),
+                size: 20)),
+            SizedBox(width: 14),
 
             // Amount and details
             Expanded(
@@ -864,28 +819,21 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                 children: [
                   Text(
                     appSettings.formatCurrency(
-                      appSettings.convertCurrency(amount),
-                    ),
+                      appSettings.convertCurrency(amount)),
                     style: TextStyle(
                       fontSize: 17,
                       fontWeight: FontWeight.w600,
                       color: isLight ? Colors.black : Colors.white,
-                      letterSpacing: -0.3,
-                    ),
-                  ),
-                  const SizedBox(height: 2),
+                      letterSpacing: -0.3)),
+                  SizedBox(height: 2),
                   Text(
                     '$deliveries ${deliveries == 1 ? 'delivery' : 'deliveries'}',
                     style: TextStyle(
                       fontSize: 13,
                       fontWeight: FontWeight.w400,
                       color: (isLight ? Colors.black : Colors.white)
-                          .withOpacity(0.4),
-                    ),
-                  ),
-                ],
-              ),
-            ),
+                          .withOpacity(0.4))),
+                ])),
 
             // Date and status
             Column(
@@ -898,45 +846,34 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                   style: TextStyle(
                     fontSize: 13,
                     fontWeight: FontWeight.w500,
-                    color: (isLight ? Colors.black : Colors.white).withOpacity(0.4),
-                  ),
-                ),
-                const SizedBox(height: 2),
+                    color: (isLight ? Colors.black : Colors.white).withOpacity(0.4))),
+                SizedBox(height: 2),
                 Text(
                   statusText,
                   style: TextStyle(
                     fontSize: 12,
                     fontWeight: FontWeight.w600,
-                    color: statusColor,
-                  ),
-                ),
-              ],
-            ),
+                    color: statusColor)),
+              ]),
 
-            const SizedBox(width: 8),
+            SizedBox(width: 8),
             Icon(
               CupertinoIcons.chevron_right,
               size: 16,
-              color: (isLight ? Colors.black : Colors.white).withOpacity(0.2),
-            ),
-          ],
-        ),
-      ),
-    );
+              color: (isLight ? Colors.black : Colors.white).withOpacity(0.2)),
+          ])));
   }
 
   // Download payout invoice as PDF
   Future<void> _downloadPayoutInvoice(
     Map<String, dynamic> payout,
-    bool isLight,
-  ) async {
+    bool isLight) async {
     final payoutId =
         payout['id']?.toString() ?? payout['payout_id']?.toString();
     if (payoutId == null) {
       TopNotification.error(
         context,
-        AppLocalizations.of(context)?.payoutIdNotFound ?? AppLocalizations.of(context)!.tr('Payout ID not found'),
-      );
+        AppLocalizations.of(context)?.payoutIdNotFound ?? AppLocalizations.of(context)!.tr('Payout ID not found'));
       return;
     }
 
@@ -944,12 +881,10 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
       // Show loading indicator
       TopNotification.info(
         context,
-        AppLocalizations.of(context)?.downloadingInvoice ?? AppLocalizations.of(context)!.tr('Downloading invoice...'),
-      );
+        AppLocalizations.of(context)?.downloadingInvoice ?? AppLocalizations.of(context)!.tr('Downloading invoice...'));
 
       final url = Uri.parse(
-        '${ApiConfig.baseUrl}/api/delvioo/payout/$payoutId/invoice',
-      );
+        '${ApiConfig.baseUrl}/api/delvioo/payout/$payoutId/invoice');
       print('📥 Downloading invoice from: $url');
 
       // Download PDF
@@ -967,8 +902,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
         if (mounted) {
           TopNotification.success(
             context,
-            AppLocalizations.of(context)?.invoiceDownloaded ?? AppLocalizations.of(context)!.tr('Invoice downloaded'),
-          );
+            AppLocalizations.of(context)?.invoiceDownloaded ?? AppLocalizations.of(context)!.tr('Invoice downloaded'));
         }
 
         // Open PDF with system viewer using open_filex
@@ -978,16 +912,14 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
         if (result.type != ResultType.done && mounted) {
           TopNotification.info(
             context,
-            '${AppLocalizations.of(context)?.savedTo ?? AppLocalizations.of(context)!.tr('Saved to')}: Payout_$payoutId.pdf',
-          );
+            '${AppLocalizations.of(context)?.savedTo ?? AppLocalizations.of(context)!.tr('Saved to')}: Payout_$payoutId.pdf');
         }
       } else {
         print('📥 Error response: ${response.body}');
         if (mounted) {
           TopNotification.error(
             context,
-            AppLocalizations.of(context)?.failedToDownloadInvoice ?? AppLocalizations.of(context)!.tr('Failed to download invoice'),
-          );
+            AppLocalizations.of(context)?.failedToDownloadInvoice ?? AppLocalizations.of(context)!.tr('Failed to download invoice'));
         }
       }
     } catch (e) {
@@ -995,8 +927,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
       if (mounted) {
         TopNotification.error(
           context,
-          '${AppLocalizations.of(context)?.error ?? AppLocalizations.of(context)!.tr('Error')}: $e',
-        );
+          '${AppLocalizations.of(context)?.error ?? AppLocalizations.of(context)!.tr('Error')}: $e');
       }
     }
   }
@@ -1042,78 +973,68 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
             Row(children: [
               Icon(CupertinoIcons.money_dollar_circle_fill, size: 22,
                   color: light ? Colors.black : Colors.white),
-              const SizedBox(width: 12),
+              SizedBox(width: 12),
               Text(
                 AppLocalizations.of(ctx)?.instantPayout ?? 'Instant Payout',
                 style: TextStyle(fontSize: 22, fontWeight: FontWeight.w700,
-                    color: light ? Colors.black : Colors.white, letterSpacing: -0.4),
-              ),
+                    color: light ? Colors.black : Colors.white, letterSpacing: -0.4)),
             ]),
             SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
             Text(
               AppLocalizations.of(ctx)?.confirmPayoutDetailsDesc ?? 'Confirm your payout details',
               style: TextStyle(fontSize: 15,
-                  color: (light ? Colors.black : Colors.white).withOpacity(0.5)),
-            ),
-            const SizedBox(height: 28),
+                  color: (light ? Colors.black : Colors.white).withOpacity(0.5))),
+            SizedBox(height: 28),
             Container(
               padding: DesktopAppWrapper.getPagePadding(),
               decoration: BoxDecoration(
                 color: (light ? Colors.black : Colors.white).withOpacity(0.04),
-                borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-              ),
+                borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
               child: Column(children: [
                 Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
                   Text(
                     AppLocalizations.of(ctx)?.availableBalance ?? 'Available Balance',
                     style: TextStyle(fontSize: DesktopOptimizedWidgets.getFontSize(),
-                        color: (light ? Colors.black : Colors.white).withOpacity(0.6)),
-                  ),
+                        color: (light ? Colors.black : Colors.white).withOpacity(0.6))),
                   Text('${AppSettings().currencySymbol}${pendingPayout.toStringAsFixed(2)}',
                       style: TextStyle(fontSize: DesktopOptimizedWidgets.getFontSize(), fontWeight: FontWeight.w600,
                           color: light ? Colors.black : Colors.white)),
                 ]),
-                const SizedBox(height: 10),
+                SizedBox(height: 10),
                 TradeRepublicDivider(),
-                const SizedBox(height: 10),
+                SizedBox(height: 10),
                 Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
                   Text(
                     AppLocalizations.of(ctx)?.youWillReceiveLabel ?? 'You will receive',
                     style: TextStyle(fontSize: DesktopOptimizedWidgets.getFontSize(), fontWeight: FontWeight.w700,
-                        color: light ? Colors.black : Colors.white),
-                  ),
+                        color: light ? Colors.black : Colors.white)),
                   Text('${AppSettings().currencySymbol}${pendingPayout.toStringAsFixed(2)}',
                       style: TextStyle(fontSize: DesktopOptimizedWidgets.getFontSize(), fontWeight: FontWeight.w700,
                           color: Color(0xFF34C759))),
                 ]),
-              ]),
-            ),
-            const SizedBox(height: 20),
+              ])),
+            SizedBox(height: 20),
             Text(
               AppLocalizations.of(ctx)?.fundsTransferredImmediately ??
                   'Funds will be transferred to your bank account immediately.',
               style: TextStyle(fontSize: DesktopOptimizedWidgets.getFontSize(),
-                  color: (light ? Colors.black : Colors.white).withOpacity(0.5)),
-            ),
-            const SizedBox(height: 28),
+                  color: (light ? Colors.black : Colors.white).withOpacity(0.5))),
+            SizedBox(height: 28),
             TradeRepublicButton(
               label: AppLocalizations.of(ctx)?.confirmPayout ?? 'Confirm Payout',
               icon: Icon(CupertinoIcons.bolt_fill, size: 20),
               height: 50,
-              onPressed: () { HapticFeedback.lightImpact(); Navigator.of(ctx).pop(true); },
-            ),
+              onPressed: () { HapticFeedback.lightImpact(); Navigator.of(ctx).pop(true); }),
             SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
             TradeRepublicButton(
               label: AppLocalizations.of(ctx)?.cancel ?? 'Cancel',
               isSecondary: true,
               height: 50,
-              onPressed: () { HapticFeedback.lightImpact(); Navigator.of(ctx).pop(false); },
-            ),
+              onPressed: () { HapticFeedback.lightImpact(); Navigator.of(ctx).pop(false); }),
             SizedBox(height: MediaQuery.of(ctx).padding.bottom + 16),
           ]),
         ]);
-      }),
-    );
+      }));
 
     if (confirmed != true || !mounted) return;
 
@@ -1131,19 +1052,15 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
           style: TextStyle(
             color: isLight ? Colors.black : Colors.white,
             fontSize: DesktopOptimizedWidgets.getFontSize(),
-            fontWeight: FontWeight.w600,
-          ),
-        ),
-        const SizedBox(height: 20),
-      ]),
-    );
+            fontWeight: FontWeight.w600)),
+        SizedBox(height: 20),
+      ]));
 
     try {
       final response = await http.post(
         Uri.parse('${ApiConfig.baseUrl}/api/delvioo/payout/instant'),
         headers: {'Content-Type': 'application/json'},
-        body: json.encode({'username': username}),
-      );
+        body: json.encode({'username': username}));
 
       if (mounted && Navigator.canPop(context)) Navigator.pop(context);
 
@@ -1152,23 +1069,20 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
         if (data['success'] == true) {
           TopNotification.success(
             context,
-            '✅ ${AppLocalizations.of(context)?.instantPayoutCompleted ?? 'Instant payout completed!'} ${AppSettings().currencySymbol}${pendingPayout.toStringAsFixed(2)} ${AppLocalizations.of(context)?.transferred ?? 'transferred'}.',
-          );
+            '✅ ${AppLocalizations.of(context)?.instantPayoutCompleted ?? 'Instant payout completed!'} ${AppSettings().currencySymbol}${pendingPayout.toStringAsFixed(2)} ${AppLocalizations.of(context)?.transferred ?? 'transferred'}.');
           await _refreshAllData();
         }
       } else {
         final data = json.decode(response.body);
         TopNotification.error(
           context,
-          data['error'] ?? AppLocalizations.of(context)!.tr('Payout failed. Please try again.'),
-        );
+          data['error'] ?? AppLocalizations.of(context)!.tr('Payout failed. Please try again.'));
       }
     } catch (e) {
       if (mounted && Navigator.canPop(context)) Navigator.pop(context);
       TopNotification.error(
         context,
-        '${AppLocalizations.of(context)?.error ?? AppLocalizations.of(context)!.tr('Error')}: $e',
-      );
+        '${AppLocalizations.of(context)?.error ?? AppLocalizations.of(context)!.tr('Error')}: $e');
     }
   }
 
@@ -1183,15 +1097,13 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
       // Since backend login is not working, search available users by email
       final matchingUser = availableUsers.firstWhere(
         (user) => user['email']?.toLowerCase() == email.toLowerCase(),
-        orElse: () => {},
-      );
+        orElse: () => {});
 
       if (matchingUser.isNotEmpty) {
         final userId = matchingUser['user_id'] ?? matchingUser['id'];
 
         print(
-          '✅ Found matching user: ${matchingUser['first_name']} ${matchingUser['last_name']} ($userId)',
-        );
+          '✅ Found matching user: ${matchingUser['first_name']} ${matchingUser['last_name']} ($userId)');
 
         // Switch to the matching account
         await _switchUser(userId);
@@ -1200,28 +1112,24 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
           context,
           '${AppLocalizations.of(context)?.successfullyLoggedInAs ?? AppLocalizations.of(context)!.tr('Successfully logged in as')} ${matchingUser['first_name']} ${matchingUser['last_name']}!',
           title:
-              AppLocalizations.of(context)?.accountSwitched ?? AppLocalizations.of(context)!.tr('Account Switched'),
-        );
+              AppLocalizations.of(context)?.accountSwitched ?? AppLocalizations.of(context)!.tr('Account Switched'));
       } else {
         print('❌ No user found with email: $email');
         print(
-          '📋 Available emails: ${availableUsers.map((u) => u['email']).join(', ')}',
-        );
+          '📋 Available emails: ${availableUsers.map((u) => u['email']).join(', ')}');
 
         TopNotification.error(
           context,
           '${AppLocalizations.of(context)?.noAccountFoundWithEmail ?? AppLocalizations.of(context)!.tr('No account found with email')} "$email". ${availableUsers.map((u) => '• ${u['email']}').join('\n')}',
           title:
-              AppLocalizations.of(context)?.accountNotFound ?? AppLocalizations.of(context)!.tr('Account Not Found'),
-        );
+              AppLocalizations.of(context)?.accountNotFound ?? AppLocalizations.of(context)!.tr('Account Not Found'));
       }
     } catch (e) {
       print('❌ Error during account switch: $e');
       TopNotification.error(
         context,
         'Error switching account: $e',
-        title: AppLocalizations.of(context)?.switchError ?? AppLocalizations.of(context)!.tr('Switch Error'),
-      );
+        title: AppLocalizations.of(context)?.switchError ?? AppLocalizations.of(context)!.tr('Switch Error'));
     } finally {
       setState(() {
         isLoading = false;
@@ -1250,15 +1158,13 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
       final response = await http
           .get(
             Uri.parse('${ApiConfig.baseUrl}/api/delvioo-groups/user/$userId'),
-            headers: {'Content-Type': 'application/json'},
-          )
+            headers: {'Content-Type': 'application/json'})
           .timeout(
             const Duration(seconds: 5),
             onTimeout: () {
               // Silent timeout - just return empty response
               return http.Response('{"success":false,"error":"timeout"}', 408);
-            },
-          );
+            });
 
       if (response.statusCode == 200) {
         final responseData = json.decode(response.body);
@@ -1316,8 +1222,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
         headers: {
           'Content-Type': 'application/json',
           if (token != null) 'Authorization': 'Bearer $token',
-        },
-      );
+        });
 
       print('📡 Waiting charges response: ${response.statusCode}');
 
@@ -1327,13 +1232,11 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
           if (mounted) {
             setState(() {
               waitingChargeCredits = List<Map<String, dynamic>>.from(
-                responseData['charges'] ?? [],
-              );
+                responseData['charges'] ?? []);
             });
           }
           print(
-            '✅ Waiting charge credits loaded: ${waitingChargeCredits.length} entries, total: ${AppSettings().currencySymbol}${responseData['totalCredits']?.toStringAsFixed(2) ?? AppLocalizations.of(context)!.tr('0.00')}',
-          );
+            '✅ Waiting charge credits loaded: ${waitingChargeCredits.length} entries, total: ${AppSettings().currencySymbol}${responseData['totalCredits']?.toStringAsFixed(2) ?? AppLocalizations.of(context)!.tr('0.00')}');
         }
       }
     } catch (e) {
@@ -1361,12 +1264,10 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
       final response = await http
           .get(
             Uri.parse('${ApiConfig.baseUrl}/api/reviews/driver/$userId'),
-            headers: {'Content-Type': 'application/json'},
-          )
+            headers: {'Content-Type': 'application/json'})
           .timeout(
             const Duration(seconds: 5),
-            onTimeout: () => http.Response('{"success":false}', 408),
-          );
+            onTimeout: () => http.Response('{"success":false}', 408));
 
       if (response.statusCode == 200) {
         final data = json.decode(response.body);
@@ -1442,10 +1343,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                 AppLocalizations.of(context)?.unableToLoadAccountData ?? AppLocalizations.of(context)!.tr('Unable to load account data'),
                 style: TextStyle(
                   color: isLight ? Colors.black : Colors.white,
-                  fontSize: DesktopOptimizedWidgets.getFontSize(),
-                ),
-              ),
-            )
+                  fontSize: DesktopOptimizedWidgets.getFontSize())))
           : Center(
               child: ConstrainedBox(
                 constraints: BoxConstraints(maxWidth: isDesktop ? 800 : double.infinity),
@@ -1455,15 +1353,13 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                 CupertinoSliverRefreshControl(
                   onRefresh: _refreshAllData,
                   refreshTriggerPullDistance: 80,
-                  refreshIndicatorExtent: 60,
-                ),
+                  refreshIndicatorExtent: 60),
                 SliverPadding(
                   padding: EdgeInsets.fromLTRB(
                     20.0,
                     isDesktop ? 32.0 : MediaQuery.of(context).padding.top + 20.0,
                     20.0,
-                    MediaQuery.of(context).padding.bottom + bottomScrollPadding,
-                  ),
+                    MediaQuery.of(context).padding.bottom + bottomScrollPadding),
                   sliver: SliverToBoxAdapter(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -1472,71 +1368,61 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                   _buildAnimatedSection(
                     delay: 0,
                     slideFromRight: false,
-                    child: _buildProfileSummary(isLight),
-                  ),
+                    child: _buildProfileSummary(isLight)),
 
                   // 2. Earnings Dashboard - Animated
                   _buildAnimatedSection(
                     delay: 1,
                     slideFromRight: true,
-                    child: _buildEarningsDashboard(isLight),
-                  ),
+                    child: _buildEarningsDashboard(isLight)),
 
                   // 3. Reviews Section (social proof) - Animated
                   _buildAnimatedSection(
                     delay: 2,
                     slideFromRight: false,
-                    child: _buildReviewsSection(isLight, appSettings),
-                  ),
+                    child: _buildReviewsSection(isLight, appSettings)),
 
                   // 4. Group Management Section - Animated
                   _buildAnimatedSection(
                     delay: 3,
                     slideFromRight: true,
-                    child: _buildGroupManagementSection(isLight),
-                  ),
+                    child: _buildGroupManagementSection(isLight)),
 
                   // 5. Payment Information Section - Animated
                   _buildAnimatedSection(
                     delay: 4,
                     slideFromRight: false,
-                    child: _buildBankDetailsSection(isLight),
-                  ),
+                    child: _buildBankDetailsSection(isLight)),
 
                   // 6. Personal Information Section - Animated
                   _buildAnimatedSection(
                     delay: 5,
                     slideFromRight: true,
-                    child: _buildPersonalInfoSection(isLight),
-                  ),
+                    child: _buildPersonalInfoSection(isLight)),
 
                   // 7. Address Information Section - Animated
                   _buildAnimatedSection(
                     delay: 6,
                     slideFromRight: false,
-                    child: _buildAddressInfoSection(isLight),
-                  ),
+                    child: _buildAddressInfoSection(isLight)),
 
                   // 8b. Carbon Footprint Section - Animated
                   _buildAnimatedSection(
                     delay: 8,
                     slideFromRight: false,
-                    child: _buildCarbonFootprintSection(isLight),
-                  ),
+                    child: _buildCarbonFootprintSection(isLight)),
 
                   // 9. Account Management - Animated
                   _buildAnimatedSection(
                     delay: 9,
                     slideFromRight: false,
-                    child: _buildAccountManagementSection(isLight),
-                  ),
+                    child: _buildAccountManagementSection(isLight)),
 
                   // 10. App Settings Section - Animated
                   _buildAnimatedSection(
                     delay: 10,
                     slideFromRight: true,
-                    child: _buildAppSettingsSection(isLight),
-                  ),
+                    child: _buildAppSettingsSection(isLight)),
 
                   SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
@@ -1549,22 +1435,12 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                       backgroundColor: isLight ? Colors.white : Colors.black,
                       child: TradeRepublicListTile.destructive(
                         title: AppLocalizations.of(context)?.signOut ?? AppLocalizations.of(context)!.tr('Sign Out'),
-                        leading: const Icon(CupertinoIcons.square_arrow_left, size: 18, color: Colors.red),
-                        onTap: () => _handleSignOut(context, isLight),
-                      ),
-                    ),
-                  ),
+                        leading: Icon(CupertinoIcons.square_arrow_left, size: 18, color: Colors.red),
+                        onTap: () => _handleSignOut(context, isLight)))),
 
                   SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
-                ],
-              ),
-            ),
-          ),
-        ],
-      ),
-          ),
-        ),
-    );
+                ]))),
+        ]))));
   }
 
   // Trade Republic Style Header - Minimal & Clean
@@ -1578,10 +1454,8 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
             color: isLight ? Colors.black : Colors.white,
             fontSize: 34,
             fontWeight: FontWeight.w700,
-            letterSpacing: -0.5,
-          ),
-        ),
-        const SizedBox(height: 4),
+            letterSpacing: -0.5)),
+        SizedBox(height: 4),
         Text(
           AppLocalizations.of(context)?.manageYourDriverProfile ?? AppLocalizations.of(context)!.tr('Manage your driver profile'),
           style: TextStyle(
@@ -1589,11 +1463,8 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                 ? Colors.black.withOpacity(0.5)
                 : Colors.white.withOpacity(0.5),
             fontSize: 15,
-            fontWeight: FontWeight.w400,
-          ),
-        ),
-      ],
-    );
+            fontWeight: FontWeight.w400)),
+      ]);
   }
 
   // Animated Section Widget with Staggered Animation - From top/bottom
@@ -1610,21 +1481,18 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
         final delayFactor = delay * 0.08;
         final delayedValue = (_contentAnimController.value - delayFactor).clamp(
           0.0,
-          1.0,
-        );
+          1.0);
         final remainingRange = (1.0 - delayFactor).clamp(0.1, 1.0);
         final curvedValue = Curves.easeOutCubic.transform(
           delayedValue > 0
               ? (delayedValue / remainingRange).clamp(0.0, 1.0)
-              : 0.0,
-        );
+              : 0.0);
 
         return Transform.translate(
           offset: Offset(
             0, // No horizontal movement
             // slideFromRight = true means from bottom, false = from top
-            slideFromRight ? 30 * (1 - curvedValue) : -30 * (1 - curvedValue),
-          ),
+            slideFromRight ? 30 * (1 - curvedValue) : -30 * (1 - curvedValue)),
           child: Opacity(
             opacity: curvedValue,
             child: Transform.scale(
@@ -1632,12 +1500,8 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
               alignment: slideFromRight
                   ? Alignment.bottomCenter
                   : Alignment.topCenter,
-              child: child,
-            ),
-          ),
-        );
-      },
-    );
+              child: child)));
+      });
   }
 
   Widget _buildGroupManagementSection(bool isLight) {
@@ -1646,8 +1510,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
       children: [
         TradeRepublicSectionHeader(
           title: AppLocalizations.of(context)?.groups ?? AppLocalizations.of(context)!.tr('Groups'),
-          padding: const EdgeInsets.only(bottom: 12, top: 28, left: 4),
-        ),
+          padding: EdgeInsets.only(bottom: 12, top: 28, left: 4)),
 
         // Action Buttons - Trade Republic minimal style (hidden when modal is open)
         ValueListenableBuilder<bool>(
@@ -1671,14 +1534,10 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                             TopNotification.info(
                               context,
                               AppLocalizations.of(
-                                    context,
-                                  )?.onlyOneGroupAtATime ?? AppLocalizations.of(context)!.tr('You can only be in one group at a time.'),
-                            );
+                                    context)?.onlyOneGroupAtATime ?? AppLocalizations.of(context)!.tr('You can only be in one group at a time.'));
                           },
-                    tint: isLight ? CupertinoColors.black : CupertinoColors.white,
-                  ),
-                ),
-                const SizedBox(width: 12),
+                    tint: isLight ? CupertinoColors.black : CupertinoColors.white)),
+                SizedBox(width: 12),
                 Expanded(
                   child: TradeRepublicButton(
                     label: AppLocalizations.of(context)?.joinGroup ?? AppLocalizations.of(context)!.tr('Join Group'),
@@ -1692,23 +1551,17 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                             TopNotification.info(
                               context,
                               AppLocalizations.of(
-                                    context,
-                                  )?.onlyOneGroupAtATime ?? AppLocalizations.of(context)!.tr('You can only be in one group at a time.'),
-                            );
+                                    context)?.onlyOneGroupAtATime ?? AppLocalizations.of(context)!.tr('You can only be in one group at a time.'));
                           },
-                    isSecondary: true,
-                  ),
-                ),
-              ],
-            );
-          },
-        ),
+                    isSecondary: true)),
+              ]);
+          }),
 
         // User's Groups List
         if (userGroups.isNotEmpty) ...[
-          const SizedBox(height: 32),
+          SizedBox(height: 32),
           Padding(
-            padding: const EdgeInsets.only(bottom: 12, left: 4),
+            padding: EdgeInsets.only(bottom: 12, left: 4),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -1718,9 +1571,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                     fontSize: 13,
                     fontWeight: FontWeight.w600,
                     color: isLight ? Colors.black : Colors.white,
-                    letterSpacing: 0.5,
-                  ),
-                ),
+                    letterSpacing: 0.5)),
                 TradeRepublicButton(
                   label: AppLocalizations.of(context)?.leave ?? AppLocalizations.of(context)!.tr('Leave'),
                   isDestructive: true,
@@ -1729,57 +1580,43 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                   onPressed: () {
                     HapticFeedback.lightImpact();
                     _showLeaveGroupConfirmation(context, isLight);
-                  },
-                ),
-              ],
-            ),
-          ),
+                  }),
+              ])),
           ...userGroups.map((group) => _buildGroupCard(group, isLight)),
         ] else ...[
-          const SizedBox(height: 32),
+          SizedBox(height: 32),
           // Empty State - Trade Republic Style
           Container(
             width: double.infinity,
-            padding: const EdgeInsets.symmetric(vertical: 48, horizontal: 24),
+            padding: EdgeInsets.symmetric(vertical: 48, horizontal: 24),
             decoration: BoxDecoration(
               color: isLight ? Colors.white : Colors.black,
-              borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-            ),
+              borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
             child: Column(
               children: [
                 Icon(
                   CupertinoIcons.group,
                   size: 48,
                   color: (isLight ? Colors.black : Colors.white).withOpacity(
-                    0.3,
-                  ),
-                ),
+                    0.3)),
                 SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
                 Text(
                   AppLocalizations.of(context)?.noGroup ?? AppLocalizations.of(context)!.tr('No Group'),
                   style: TextStyle(
                     fontSize: 17,
                     fontWeight: FontWeight.w600,
-                    color: isLight ? Colors.black : Colors.white,
-                  ),
-                ),
-                const SizedBox(height: 4),
+                    color: isLight ? Colors.black : Colors.white)),
+                SizedBox(height: 4),
                 Text(
                   AppLocalizations.of(context)?.createOrJoinGroupToGetStarted ?? AppLocalizations.of(context)!.tr('Create or join a group to get started'),
                   style: TextStyle(
                     fontSize: 15,
                     color: (isLight ? Colors.black : Colors.white).withOpacity(
-                      0.5,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
+                      0.5))),
+              ])),
         ],
         SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
-      ],
-    );
+      ]);
   }
 
   // Trade Republic style list tile
@@ -1795,7 +1632,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
       onTap: onTap,
       behavior: HitTestBehavior.opaque,
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+        padding: EdgeInsets.symmetric(horizontal: 16, vertical: 14),
         child: Row(
           children: [
             Container(
@@ -1805,17 +1642,14 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                 color: enabled
                     ? (isLight ? Colors.black : Colors.white)
                     : (isLight ? Colors.white : Colors.black),
-                borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-              ),
+                borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
               child: Icon(
                 icon,
                 color: enabled
                     ? (isLight ? Colors.white : Colors.black)
                     : (isLight ? Colors.white : Colors.black),
-                size: 20,
-              ),
-            ),
-            const SizedBox(width: 14),
+                size: 20)),
+            SizedBox(width: 14),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -1827,29 +1661,19 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                       fontWeight: FontWeight.w500,
                       color: enabled
                           ? (isLight ? Colors.black : Colors.white)
-                          : (isLight ? Colors.white : Colors.black),
-                    ),
-                  ),
+                          : (isLight ? Colors.white : Colors.black))),
                   Text(
                     subtitle,
                     style: TextStyle(
                       fontSize: 13,
                       color: (isLight ? Colors.black : Colors.white)
-                          .withOpacity(0.5),
-                    ),
-                  ),
-                ],
-              ),
-            ),
+                          .withOpacity(0.5))),
+                ])),
             Icon(
               CupertinoIcons.chevron_right,
               color: (isLight ? Colors.black : Colors.white).withOpacity(0.4),
-              size: 22,
-            ),
-          ],
-        ),
-      ),
-    );
+              size: 22),
+          ])));
   }
 
   Widget _buildGroupCard(Map<String, dynamic> group, bool isLight) {
@@ -1857,11 +1681,10 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
     final memberCount = group['memberCount'] ?? 0;
 
     return Container(
-      margin: const EdgeInsets.only(bottom: 8),
+      margin: EdgeInsets.only(bottom: 8),
       decoration: BoxDecoration(
         color: isLight ? Colors.white : Colors.black,
-        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-      ),
+        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
       child: Padding(
         padding: DesktopAppWrapper.getPagePadding(),
         child: Row(
@@ -1872,8 +1695,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
               height: 48,
               decoration: BoxDecoration(
                 color: isLight ? Colors.white : Colors.black,
-                borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-              ),
+                borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                 child: group['groupImage'] != null
@@ -1886,18 +1708,13 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                           return Icon(
                             CupertinoIcons.group,
                             color: isLight ? Colors.white : Colors.black,
-                            size: 24,
-                          );
-                        },
-                      )
+                            size: 24);
+                        })
                     : Icon(
                         CupertinoIcons.group,
                         color: isLight ? Colors.white : Colors.black,
-                        size: 24,
-                      ),
-              ),
-            ),
-            const SizedBox(width: 14),
+                        size: 24))),
+            SizedBox(width: 14),
 
             // Group Details
             Expanded(
@@ -1913,46 +1730,33 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                           style: TextStyle(
                             fontSize: DesktopOptimizedWidgets.getFontSize(),
                             fontWeight: FontWeight.w600,
-                            color: isLight ? Colors.black : Colors.white,
-                          ),
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      ),
+                            color: isLight ? Colors.black : Colors.white),
+                          overflow: TextOverflow.ellipsis)),
                       if (isHost) ...[
-                        const SizedBox(width: 8),
+                        SizedBox(width: 8),
                         Container(
-                          padding: const EdgeInsets.symmetric(
+                          padding: EdgeInsets.symmetric(
                             horizontal: 8,
-                            vertical: 2,
-                          ),
+                            vertical: 2),
                           decoration: BoxDecoration(
                             color: isLight ? Colors.black : Colors.white,
-                            borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-                          ),
+                            borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
                           child: Text(
                             AppLocalizations.of(context)?.hostLabel ?? AppLocalizations.of(context)!.tr('HOST'),
                             style: TextStyle(
                               fontSize: 10,
                               fontWeight: FontWeight.w700,
                               color: isLight ? Colors.white : Colors.black,
-                              letterSpacing: 0.5,
-                            ),
-                          ),
-                        ),
+                              letterSpacing: 0.5))),
                       ],
-                    ],
-                  ),
-                  const SizedBox(height: 4),
+                    ]),
+                  SizedBox(height: 4),
                   Text(
                     '$memberCount members  •  ${group['joinCode'] ?? AppLocalizations.of(context)!.tr('')}',
                     style: TextStyle(
                       fontSize: 13,
-                      color: isLight ? Colors.white : Colors.black,
-                    ),
-                  ),
-                ],
-              ),
-            ),
+                      color: isLight ? Colors.white : Colors.black)),
+                ])),
 
             // Action Buttons - minimal style (hidden when modal is open)
             ValueListenableBuilder<bool>(
@@ -1969,36 +1773,27 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                       icon: Icon(
                         CupertinoIcons.chat_bubble,
                         color: isLight ? Colors.black : Colors.white,
-                        size: 20,
-                      ),
+                        size: 20),
                       onPressed: () {
                         HapticFeedback.lightImpact();
                         _showGroupChatModal(context, group, isLight);
                       },
-                      isSecondary: true,
-                    ),
-                    const SizedBox(width: 8),
+                      isSecondary: true),
+                    SizedBox(width: 8),
                     // Settings Button
                     TradeRepublicButton.icon(
                       icon: Icon(
                         CupertinoIcons.settings,
                         color: isLight ? Colors.black : Colors.white,
-                        size: 20,
-                      ),
+                        size: 20),
                       onPressed: () {
                         HapticFeedback.lightImpact();
                         _showGroupSettingsModal(context, group, isLight);
                       },
-                      isSecondary: true,
-                    ),
-                  ],
-                );
-              },
-            ),
-          ],
-        ),
-      ),
-    );
+                      isSecondary: true),
+                  ]);
+              }),
+          ])));
   }
 
   Widget _buildProfileSummary(bool isLight) {
@@ -2020,8 +1815,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                   height: 88,
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    color: isLight ? Colors.black : Colors.white,
-                  ),
+                    color: isLight ? Colors.black : Colors.white),
                   clipBehavior: Clip.antiAlias,
                   child: userData?['profileImage'] != null
                       ? Image.network(
@@ -2030,21 +1824,16 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                           errorBuilder: (context, error, stackTrace) => Icon(
                             CupertinoIcons.person_fill,
                             size: 36,
-                            color: isLight ? Colors.white : Colors.black,
-                          ),
+                            color: isLight ? Colors.white : Colors.black),
                           loadingBuilder: (context, child, loadingProgress) {
                             if (loadingProgress == null) return child;
                             return const Center(
-                              child: CultiooLoadingIndicator(size: 20),
-                            );
-                          },
-                        )
+                              child: CultiooLoadingIndicator(size: 20));
+                          })
                       : Icon(
                           CupertinoIcons.person_fill,
                           size: 36,
-                          color: isLight ? Colors.white : Colors.black,
-                        ),
-                ),
+                          color: isLight ? Colors.white : Colors.black)),
                 // Camera badge
                 Positioned(
                   bottom: 0,
@@ -2054,19 +1843,12 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                     height: 26,
                     decoration: BoxDecoration(
                       color: isLight ? Colors.white : Colors.black,
-                      shape: BoxShape.circle,
-                    ),
+                      shape: BoxShape.circle),
                     child: Icon(
                       CupertinoIcons.camera_fill,
                       size: 12,
-                      color: isLight ? Colors.black : Colors.white,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
+                      color: isLight ? Colors.black : Colors.white))),
+              ]))),
 
         SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
@@ -2078,20 +1860,16 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
             fontSize: 22,
             fontWeight: FontWeight.w700,
             color: isLight ? Colors.black : Colors.white,
-            letterSpacing: -0.5,
-          ),
-          textAlign: TextAlign.center,
-        ),
-        const SizedBox(height: 4),
+            letterSpacing: -0.5),
+          textAlign: TextAlign.center),
+        SizedBox(height: 4),
         Text(
           userData?['email'] ?? AppLocalizations.of(context)!.tr(''),
           style: TextStyle(
             fontSize: DesktopOptimizedWidgets.getFontSize(),
             fontWeight: FontWeight.w400,
-            color: (isLight ? Colors.black : Colors.white).withOpacity(0.5),
-          ),
-          textAlign: TextAlign.center,
-        ),
+            color: (isLight ? Colors.black : Colors.white).withOpacity(0.5)),
+          textAlign: TextAlign.center),
 
         SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
@@ -2101,35 +1879,28 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
           children: [
             // Status badge
             Container(
-              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+              padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
               decoration: BoxDecoration(
                 color: Colors.green.withOpacity(0.1),
-                borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-              ),
+                borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Container(
                     width: 6,
                     height: 6,
-                    decoration: const BoxDecoration(
+                    decoration: BoxDecoration(
                       color: Colors.green,
-                      shape: BoxShape.circle,
-                    ),
-                  ),
-                  const SizedBox(width: 6),
+                      shape: BoxShape.circle)),
+                  SizedBox(width: 6),
                   Text(
                     AppLocalizations.of(context)?.active ?? AppLocalizations.of(context)!.tr('Active'),
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 13,
                       fontWeight: FontWeight.w500,
-                      color: Colors.green,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            const SizedBox(width: 10),
+                      color: Colors.green)),
+                ])),
+            SizedBox(width: 10),
             // Edit Profile button
             TradeRepublicButton(
               label: AppLocalizations.of(context)?.editProfile ?? AppLocalizations.of(context)!.tr('Edit Profile'),
@@ -2139,46 +1910,36 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
               },
               isSecondary: true,
               height: 36,
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 0),
-            ),
-          ],
-        ),
+              padding: EdgeInsets.symmetric(horizontal: 16, vertical: 0)),
+          ]),
 
         SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
-      ],
-    );
+      ]);
   }
 
   Widget _buildStatusBadge(String text, bool isLight) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+      padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
       decoration: BoxDecoration(
         color: Colors.green.withOpacity(0.1),
-        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-      ),
+        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
           Container(
             width: 6,
             height: 6,
-            decoration: const BoxDecoration(
+            decoration: BoxDecoration(
               color: Colors.green,
-              shape: BoxShape.circle,
-            ),
-          ),
-          const SizedBox(width: 8),
+              shape: BoxShape.circle)),
+          SizedBox(width: 8),
           Text(
             text,
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 13,
               fontWeight: FontWeight.w500,
-              color: Colors.green,
-            ),
-          ),
-        ],
-      ),
-    );
+              color: Colors.green)),
+        ]));
   }
 
   Widget _buildPersonalInfoSection(bool isLight) {
@@ -2188,8 +1949,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
       children: [
         TradeRepublicSectionHeader(
           title: AppLocalizations.of(context)?.personal ?? AppLocalizations.of(context)!.tr('Personal'),
-          padding: const EdgeInsets.only(bottom: 12, top: 28, left: 4),
-        ),
+          padding: EdgeInsets.only(bottom: 12, top: 28, left: 4)),
         TradeRepublicCard(
           padding: EdgeInsets.zero,
           backgroundColor: isLight ? Colors.white : Colors.black,
@@ -2198,23 +1958,17 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
               TradeRepublicListTile(
                 title: AppLocalizations.of(context)?.username ?? AppLocalizations.of(context)!.tr(''),
                 subtitle: userData?['username'] != null ? '@${userData!['username']}' : (AppLocalizations.of(context)?.naValue ?? AppLocalizations.of(context)!.tr('N/A')),
-                leading: const Icon(CupertinoIcons.person_badge_plus, size: 18),
-              ),
+                leading: Icon(CupertinoIcons.person_badge_plus, size: 18)),
               TradeRepublicListTile(
                 title: AppLocalizations.of(context)?.email ?? AppLocalizations.of(context)!.tr('Email'),
                 subtitle: userData?['email']?.toString() ?? AppLocalizations.of(context)?.naValue ?? AppLocalizations.of(context)!.tr('N/A'),
-                leading: const Icon(CupertinoIcons.mail, size: 18),
-              ),
+                leading: Icon(CupertinoIcons.mail, size: 18)),
               TradeRepublicListTile(
                 title: AppLocalizations.of(context)?.phone ?? AppLocalizations.of(context)!.tr('Phone'),
                 subtitle: userData?['phone']?.toString() ?? AppLocalizations.of(context)?.naValue ?? AppLocalizations.of(context)!.tr('N/A'),
-                leading: const Icon(CupertinoIcons.phone, size: 18),
-              ),
-            ],
-          ),
-        ),
-      ],
-    );
+                leading: Icon(CupertinoIcons.phone, size: 18)),
+            ])),
+      ]);
   }
 
   Widget _buildAddressInfoSection(bool isLight) {
@@ -2224,8 +1978,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
       children: [
         TradeRepublicSectionHeader(
           title: AppLocalizations.of(context)?.address ?? AppLocalizations.of(context)!.tr('Address'),
-          padding: const EdgeInsets.only(bottom: 12, top: 16, left: 4),
-        ),
+          padding: EdgeInsets.only(bottom: 12, top: 16, left: 4)),
         TradeRepublicCard(
           padding: EdgeInsets.zero,
           backgroundColor: isLight ? Colors.white : Colors.black,
@@ -2234,28 +1987,21 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
               TradeRepublicListTile(
                 title: AppLocalizations.of(context)?.street ?? AppLocalizations.of(context)!.tr('Street'),
                 subtitle: address['street']?.toString() ?? AppLocalizations.of(context)?.naValue ?? AppLocalizations.of(context)!.tr('N/A'),
-                leading: const Icon(CupertinoIcons.house, size: 18),
-              ),
+                leading: Icon(CupertinoIcons.house, size: 18)),
               TradeRepublicListTile(
                 title: AppLocalizations.of(context)?.city ?? AppLocalizations.of(context)!.tr('City'),
                 subtitle: address['city']?.toString() ?? AppLocalizations.of(context)?.naValue ?? AppLocalizations.of(context)!.tr('N/A'),
-                leading: const Icon(CupertinoIcons.building_2_fill, size: 18),
-              ),
+                leading: Icon(CupertinoIcons.building_2_fill, size: 18)),
               TradeRepublicListTile(
                 title: AppLocalizations.of(context)?.zipCode ?? AppLocalizations.of(context)!.tr('ZIP Code'),
                 subtitle: address['zipCode']?.toString() ?? AppLocalizations.of(context)?.naValue ?? AppLocalizations.of(context)!.tr('N/A'),
-                leading: const Icon(CupertinoIcons.mail, size: 18),
-              ),
+                leading: Icon(CupertinoIcons.mail, size: 18)),
               TradeRepublicListTile(
                 title: AppLocalizations.of(context)?.country ?? AppLocalizations.of(context)!.tr('Country'),
                 subtitle: address['country']?.toString() ?? AppLocalizations.of(context)?.naValue ?? AppLocalizations.of(context)!.tr('N/A'),
-                leading: const Icon(CupertinoIcons.globe, size: 18),
-              ),
-            ],
-          ),
-        ),
-      ],
-    );
+                leading: Icon(CupertinoIcons.globe, size: 18)),
+            ])),
+      ]);
   }
 
   Widget _buildVehicleInfoSection(bool isLight) {
@@ -2265,8 +2011,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
       children: [
         TradeRepublicSectionHeader(
           title: AppLocalizations.of(context)?.vehicleInformation ?? AppLocalizations.of(context)!.tr('Vehicle Information'),
-          padding: const EdgeInsets.only(bottom: 12, top: 16, left: 4),
-        ),
+          padding: EdgeInsets.only(bottom: 12, top: 16, left: 4)),
         TradeRepublicCard(
           padding: EdgeInsets.zero,
           backgroundColor: isLight ? Colors.white : Colors.black,
@@ -2275,32 +2020,25 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
               TradeRepublicListTile(
                 title: AppLocalizations.of(context)?.vehicleType ?? AppLocalizations.of(context)!.tr('Vehicle Type'),
                 subtitle: vehicle['fullVehicle']?.toString() ?? AppLocalizations.of(context)?.naValue ?? AppLocalizations.of(context)!.tr('N/A'),
-                leading: const Icon(CupertinoIcons.cube_box, size: 18),
-                subtitleMaxLines: 2,
-              ),
+                leading: Icon(CupertinoIcons.cube_box, size: 18),
+                subtitleMaxLines: 2),
               TradeRepublicListTile(
                 title: AppLocalizations.of(context)?.licensePlate ?? AppLocalizations.of(context)!.tr('License Plate'),
                 subtitle: vehicle['licensePlate']?.toString() ?? AppLocalizations.of(context)?.naValue ?? AppLocalizations.of(context)!.tr('N/A'),
-                leading: const Icon(CupertinoIcons.doc_text, size: 18),
-                subtitleMaxLines: 2,
-              ),
+                leading: Icon(CupertinoIcons.doc_text, size: 18),
+                subtitleMaxLines: 2),
               TradeRepublicListTile(
                 title: AppLocalizations.of(context)?.makeAndModel ?? AppLocalizations.of(context)!.tr('Make & Model'),
                 subtitle: '${vehicle['make'] ?? AppLocalizations.of(context)?.naValue ?? AppLocalizations.of(context)!.tr('N/A')} ${vehicle['model'] ?? AppLocalizations.of(context)!.tr('')}'.trim(),
-                leading: const Icon(CupertinoIcons.car, size: 18),
-                subtitleMaxLines: 2,
-              ),
+                leading: Icon(CupertinoIcons.car, size: 18),
+                subtitleMaxLines: 2),
               TradeRepublicListTile(
                 title: AppLocalizations.of(context)?.year ?? AppLocalizations.of(context)!.tr('Year'),
                 subtitle: vehicle['year']?.toString() ?? AppLocalizations.of(context)?.naValue ?? AppLocalizations.of(context)!.tr('N/A'),
-                leading: const Icon(CupertinoIcons.calendar, size: 18),
-              ),
-            ],
-          ),
-        ),
-        const SizedBox(height: 20),
-      ],
-    );
+                leading: Icon(CupertinoIcons.calendar, size: 18)),
+            ])),
+        SizedBox(height: 20),
+      ]);
   }
 
   Widget _buildBankDetailsSection(bool isLight) {
@@ -2309,20 +2047,16 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
       children: [
         TradeRepublicSectionHeader(
           title: AppLocalizations.of(context)?.payment ?? AppLocalizations.of(context)!.tr('Payment'),
-          padding: const EdgeInsets.only(bottom: 12, top: 28, left: 4),
-        ),
+          padding: EdgeInsets.only(bottom: 12, top: 28, left: 4)),
         TradeRepublicCard(
           padding: EdgeInsets.zero,
           backgroundColor: isLight ? Colors.white : Colors.black,
           child: TradeRepublicListTile.navigation(
             title: AppLocalizations.of(context)?.paymentSettings ?? AppLocalizations.of(context)!.tr('Payment Settings'),
             subtitle: AppLocalizations.of(context)?.bankDetailsPaymentMethods ?? AppLocalizations.of(context)!.tr('Bank details, payment methods'),
-            leading: const Icon(CupertinoIcons.creditcard, size: 18),
-            onTap: () => _showPaymentSetupModal(context, isLight),
-          ),
-        ),
-      ],
-    );
+            leading: Icon(CupertinoIcons.creditcard, size: 18),
+            onTap: () => _showPaymentSetupModal(context, isLight))),
+      ]);
   }
 
   Widget _buildEarningsDashboard(bool isLight) {
@@ -2365,8 +2099,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
       children: [
         TradeRepublicSectionHeader(
           title: AppLocalizations.of(context)?.earnings ?? AppLocalizations.of(context)!.tr('Earnings'),
-          padding: const EdgeInsets.only(bottom: 12, top: 28, left: 4),
-        ),
+          padding: EdgeInsets.only(bottom: 12, top: 28, left: 4)),
         TradeRepublicCard(
           padding: DesktopAppWrapper.getPagePadding(),
           backgroundColor: isLight ? Colors.white : Colors.black,
@@ -2378,29 +2111,25 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                 Container(
                   width: double.infinity,
                   padding: DesktopAppWrapper.getPagePadding(),
-                  margin: const EdgeInsets.only(bottom: 14),
+                  margin: EdgeInsets.only(bottom: 14),
                   decoration: BoxDecoration(
                     color: isLight ? Colors.white : Colors.black,
-                    borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-                  ),
+                    borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Container(
-                        padding: const EdgeInsets.all(8),
+                        padding: EdgeInsets.all(8),
                         decoration: BoxDecoration(
                           color: isLight ? Colors.black : Colors.white,
-                          borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-                        ),
+                          borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
                         child: Icon(
                           isHost
                               ? CupertinoIcons.star_fill
                               : CupertinoIcons.info,
                           color: isLight ? Colors.white : Colors.black,
-                          size: 20,
-                        ),
-                      ),
-                      const SizedBox(width: 12),
+                          size: 20)),
+                      SizedBox(width: 12),
                       Expanded(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -2412,25 +2141,17 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                               style: TextStyle(
                                 fontWeight: FontWeight.w700,
                                 fontSize: 15,
-                                color: isLight ? Colors.black : Colors.white,
-                              ),
-                            ),
-                            const SizedBox(height: 4),
+                                color: isLight ? Colors.black : Colors.white)),
+                            SizedBox(height: 4),
                             Text(
                               isHost
                                   ? 'You receive all earnings from your group (${memberCount - 1} members).'
                                   : 'Your earnings go to group host: ${hostName.isNotEmpty ? hostName : hostUserId}.',
                               style: TextStyle(
                                 fontSize: 13,
-                                color: isLight ? Colors.black : Colors.white,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
+                                color: isLight ? Colors.black : Colors.white)),
+                          ])),
+                    ])),
               ],
 
               // Earnings Cards - 3 cards layout
@@ -2440,16 +2161,12 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                     child: _buildEarningsCard(
                       AppLocalizations.of(context)?.thisMonth ?? AppLocalizations.of(context)!.tr('This Month'),
                       appSettings.formatCurrency(
-                        appSettings.convertCurrency(pendingPayout),
-                      ),
+                        appSettings.convertCurrency(pendingPayout)),
                       CupertinoIcons.graph_square,
                       isLight ? Colors.black : Colors.white,
                       AppLocalizations.of(context)?.pendingPayout ?? AppLocalizations.of(context)!.tr('Pending payout'),
-                      isLight,
-                    ),
-                  ),
-                ],
-              ),
+                      isLight)),
+                ]),
               SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
               Row(
                 children: [
@@ -2460,10 +2177,8 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                       CupertinoIcons.map,
                       isLight ? Colors.black : Colors.white,
                       AppLocalizations.of(context)?.totalDriven ?? AppLocalizations.of(context)!.tr('Total driven'),
-                      isLight,
-                    ),
-                  ),
-                  const SizedBox(width: 12),
+                      isLight)),
+                  SizedBox(width: 12),
                   Expanded(
                     child: _buildEarningsCard(
                       AppLocalizations.of(context)?.orders ?? AppLocalizations.of(context)!.tr('Orders'),
@@ -2471,29 +2186,24 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                       CupertinoIcons.cube_box,
                       isLight ? Colors.black : Colors.white,
                       AppLocalizations.of(context)?.acceptedLabel ?? AppLocalizations.of(context)!.tr('Accepted'),
-                      isLight,
-                    ),
-                  ),
-                ],
-              ),
+                      isLight)),
+                ]),
               SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
               // Next Payout Info
               Container(
                 width: double.infinity,
-                padding: const EdgeInsets.all(18),
+                padding: EdgeInsets.all(18),
                 decoration: BoxDecoration(
                   color: isLight ? Colors.white : Colors.black,
-                  borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-                ),
+                  borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
                 child: Row(
                   children: [
                     Icon(
                       CupertinoIcons.clock,
                       color: isLight ? Colors.black : Colors.white,
-                      size: 22,
-                    ),
-                    const SizedBox(width: 14),
+                      size: 22),
+                    SizedBox(width: 14),
                     Expanded(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -2502,27 +2212,17 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                             AppLocalizations.of(context)?.nextPayout ?? AppLocalizations.of(context)!.tr('Next Payout'),
                             style: TextStyle(
                               fontSize: 13,
-                              color: isLight ? Colors.black : Colors.white,
-                            ),
-                          ),
-                          const SizedBox(height: 2),
+                              color: isLight ? Colors.black : Colors.white)),
+                          SizedBox(height: 2),
                           Text(
                             nextPayoutDate,
                             style: TextStyle(
                               fontWeight: FontWeight.w700,
                               color: isLight ? Colors.black : Colors.white,
-                              fontSize: 15,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        ),
+                              fontSize: 15)),
+                        ])),
+                  ])),
+            ])),
 
         // ═══════════════════════════════════════════
         // WAITING CHARGE CREDITS 
@@ -2530,30 +2230,25 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
         if (waitingChargeCredits.isNotEmpty) ...[
           SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
           Padding(
-            padding: const EdgeInsets.only(left: 4),
+            padding: EdgeInsets.only(left: 4),
             child: Row(
               children: [
                 Icon(
                   Icons.timer_outlined,
                   size: 22,
-                  color: Colors.green,
-                ),
-                const SizedBox(width: 8),
+                  color: Colors.green),
+                SizedBox(width: 8),
                 Text(
                   AppLocalizations.of(context)?.waitingTimeCompensation ?? AppLocalizations.of(context)!.tr('Waiting Time Compensation'),
                   style: TextStyle(
                     fontSize: 22,
                     fontWeight: FontWeight.w700,
                     color: isLight ? Colors.black : Colors.white,
-                    letterSpacing: -0.5,
-                  ),
-                ),
-              ],
-            ),
-          ),
-          const SizedBox(height: 6),
+                    letterSpacing: -0.5)),
+              ])),
+          SizedBox(height: 6),
           Padding(
-            padding: const EdgeInsets.only(left: 4),
+            padding: EdgeInsets.only(left: 4),
             child: Text(
               AppLocalizations.of(context)?.compensationForSellerWaiting ?? AppLocalizations.of(context)!.tr('Compensation for waiting time at sellers'),
               style: TextStyle(
@@ -2561,10 +2256,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                 fontWeight: FontWeight.w400,
                 color: (isLight ? Colors.black : Colors.white)
                     .withOpacity(0.5),
-                letterSpacing: -0.2,
-              ),
-            ),
-          ),
+                letterSpacing: -0.2))),
           SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
           // Total credits summary
@@ -2572,8 +2264,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
             padding: DesktopAppWrapper.getPagePadding(),
             decoration: BoxDecoration(
               color: Colors.green.shade50.withOpacity(isLight ? 1.0 : 0.1),
-              borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius()),
-            ),
+              borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius())),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -2582,21 +2273,15 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                   style: TextStyle(
                     fontSize: DesktopOptimizedWidgets.getFontSize(),
                     fontWeight: FontWeight.w500,
-                    color: isLight ? Colors.black87 : Colors.white70,
-                  ),
-                ),
+                    color: isLight ? Colors.black87 : Colors.white70)),
                 Text(
                   '+${appSettings.formatCurrency(waitingChargeCredits.fold<double>(0.0, (sum, c) => sum + ((c['total_charges'] ?? 0.0) as num).toDouble()))}',
                   style: TextStyle(
                     fontSize: DesktopOptimizedWidgets.getFontSize() + 6,
                     fontWeight: FontWeight.w700,
                     color: Colors.green,
-                    letterSpacing: -0.5,
-                  ),
-                ),
-              ],
-            ),
-          ),
+                    letterSpacing: -0.5)),
+              ])),
           SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
           // Individual credit entries
@@ -2618,12 +2303,11 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
             return GestureDetector(
               onTap: () => _showWaitingChargeInvoice(charge, isLight, appSettings),
               child: Container(
-              margin: const EdgeInsets.only(bottom: 10),
+              margin: EdgeInsets.only(bottom: 10),
               padding: DesktopAppWrapper.getPagePadding(),
               decoration: BoxDecoration(
                 color: isLight ? Colors.white : Colors.black,
-                borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius()),
-              ),
+                borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius())),
               child: Row(
                 children: [
                   // Timer icon
@@ -2632,17 +2316,13 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                     height: 44,
                     decoration: BoxDecoration(
                       color: Colors.green.shade50.withOpacity(isLight ? 1.0 : 0.15),
-                      borderRadius: BorderRadius.circular(22),
-                    ),
+                      borderRadius: BorderRadius.circular(22)),
                     child: Center(
                       child: Icon(
                         Icons.timer,
                         size: 22,
-                        color: Colors.green,
-                      ),
-                    ),
-                  ),
-                  const SizedBox(width: 14),
+                        color: Colors.green))),
+                  SizedBox(width: 14),
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -2653,34 +2333,26 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                             fontSize: DesktopOptimizedWidgets.getFontSize(),
                             fontWeight: FontWeight.w600,
                             color: isLight ? Colors.black : Colors.white,
-                            letterSpacing: -0.3,
-                          ),
-                        ),
-                        const SizedBox(height: 2),
+                            letterSpacing: -0.3)),
+                        SizedBox(height: 2),
                         Text(
                           '${AppLocalizations.of(context)?.sellerColon ?? AppLocalizations.of(context)!.tr('Seller:')} $sellerName • $totalMin Min',
                           style: TextStyle(
                             fontSize: 13,
                             fontWeight: FontWeight.w400,
                             color: (isLight ? Colors.black : Colors.white)
-                                .withOpacity(0.5),
-                          ),
-                        ),
+                                .withOpacity(0.5))),
                         if (dateStr.isNotEmpty) ...[
-                          const SizedBox(height: 1),
+                          SizedBox(height: 1),
                           Text(
                             dateStr,
                             style: TextStyle(
                               fontSize: 12,
                               fontWeight: FontWeight.w400,
                               color: (isLight ? Colors.black : Colors.white)
-                                  .withOpacity(0.35),
-                            ),
-                          ),
+                                  .withOpacity(0.35))),
                         ],
-                      ],
-                    ),
-                  ),
+                      ])),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
@@ -2690,31 +2362,23 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                           fontSize: DesktopOptimizedWidgets.getFontSize() + 4,
                           fontWeight: FontWeight.w700,
                           color: Colors.green,
-                          letterSpacing: -0.3,
-                        ),
-                      ),
-                      const SizedBox(height: 2),
+                          letterSpacing: -0.3)),
+                      SizedBox(height: 2),
                       Icon(
                         CupertinoIcons.doc_text,
                         size: 14,
-                        color: (isLight ? Colors.black : Colors.white).withOpacity(0.3),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ));
+                        color: (isLight ? Colors.black : Colors.white).withOpacity(0.3)),
+                    ]),
+                ])));
           }),
         ],
-      ],
-    );
+      ]);
   }
 
   void _showWaitingChargeInvoice(
     Map<String, dynamic> charge,
     bool isLight,
-    AppSettings appSettings,
-  ) {
+    AppSettings appSettings) {
     final orderId = charge['order_id'] ?? '';
     final sellerName = charge['seller_name'] ?? charge['seller_username'] ?? (AppLocalizations.of(context)?.unknownLabel ?? 'Unknown');
     final totalCharges = ((charge['total_charges'] ?? 0.0) as num).toDouble();
@@ -2739,7 +2403,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
         top: false,
         child: SingleChildScrollView(
           child: Padding(
-            padding: const EdgeInsets.all(24),
+            padding: EdgeInsets.all(24),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -2748,42 +2412,32 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                 Row(
                   children: [
                     Container(
-                      padding: const EdgeInsets.all(10),
+                      padding: EdgeInsets.all(10),
                       decoration: BoxDecoration(
                         color: Colors.green.withOpacity(0.12),
-                        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius()),
-                      ),
-                      child: const Icon(CupertinoIcons.doc_text_fill, color: Colors.green, size: 24),
-                    ),
-                    const SizedBox(width: 12),
+                        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius())),
+                      child: Icon(CupertinoIcons.doc_text_fill, color: Colors.green, size: 24)),
+                    SizedBox(width: 12),
                     Expanded(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
                             AppLocalizations.of(context)?.tr('Waiting Charges Receipt') ?? 'Waiting Charges Receipt',
-                            style: TextStyle(fontSize: DesktopOptimizedWidgets.getFontSize() + 4, fontWeight: FontWeight.w700),
-                          ),
+                            style: TextStyle(fontSize: DesktopOptimizedWidgets.getFontSize() + 4, fontWeight: FontWeight.w700)),
                           Text(
                             '${AppLocalizations.of(context)?.orderNumber ?? 'Order #'}$orderId',
-                            style: TextStyle(fontSize: 13, color: (isLight ? Colors.black : Colors.white).withOpacity(0.45)),
-                          ),
-                        ],
-                      ),
-                    ),
+                            style: TextStyle(fontSize: 13, color: (isLight ? Colors.black : Colors.white).withOpacity(0.45))),
+                        ])),
                     Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                      padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                       decoration: BoxDecoration(
                         color: paid ? Colors.green : Colors.orange,
-                        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-                      ),
+                        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
                       child: Text(
                         paid ? (AppLocalizations.of(context)?.tr('Paid') ?? 'Paid') : (AppLocalizations.of(context)?.tr('Pending') ?? 'Pending'),
-                        style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w700, color: Colors.white),
-                      ),
-                    ),
-                  ],
-                ),
+                        style: TextStyle(fontSize: 12, fontWeight: FontWeight.w700, color: Colors.white))),
+                  ]),
                 SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
                 _buildDriverInvoiceRow(isLight, AppLocalizations.of(context)?.tr('Date') ?? 'Date',
                   orderDate != null ? '${orderDate.day.toString().padLeft(2,'0')}.${orderDate.month.toString().padLeft(2,'0')}.${orderDate.year}' : '—'),
@@ -2799,35 +2453,26 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(AppLocalizations.of(context)?.tr('You received') ?? 'You received',
-                        style: const TextStyle(fontSize: 17, fontWeight: FontWeight.w700)),
+                        style: TextStyle(fontSize: 17, fontWeight: FontWeight.w700)),
                     Text('+${appSettings.formatCurrency(totalCharges)}',
-                        style: const TextStyle(fontSize: 22, fontWeight: FontWeight.w800, color: Colors.green)),
-                  ],
-                ),
+                        style: TextStyle(fontSize: 22, fontWeight: FontWeight.w800, color: Colors.green)),
+                  ]),
                 SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                 Text(
                   AppLocalizations.of(context)?.tr('This amount was transferred to you for waiting beyond the free waiting time.') ?? 'This amount was transferred to you for waiting beyond the free waiting time.',
-                  style: TextStyle(fontSize: 12, color: (isLight ? Colors.black : Colors.white).withOpacity(0.38), height: 1.4),
-                ),
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
+                  style: TextStyle(fontSize: 12, color: (isLight ? Colors.black : Colors.white).withOpacity(0.38), height: 1.4)),
+              ])))));
   }
 
   Widget _buildDriverInvoiceRow(bool isLight, String label, String value) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 6),
+      padding: EdgeInsets.symmetric(vertical: 6),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(label, style: TextStyle(fontSize: 13, color: (isLight ? Colors.black : Colors.white).withOpacity(0.54))),
           Text(value, style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: isLight ? Colors.black : Colors.white)),
-        ],
-      ),
-    );
+        ]));
   }
 
   Widget _buildEarningsCard(
@@ -2836,14 +2481,12 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
     IconData icon,
     Color color,
     String subtitle,
-    bool isLight,
-  ) {
+    bool isLight) {
     return Container(
-      padding: const EdgeInsets.all(18),
+      padding: EdgeInsets.all(18),
       decoration: BoxDecoration(
         color: isLight ? Colors.white : Colors.black,
-        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-      ),
+        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -2853,31 +2496,23 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
             subtitle,
             style: TextStyle(
               fontSize: 13,
-              color: isLight ? Colors.black : Colors.white,
-            ),
-          ),
-          const SizedBox(height: 4),
+              color: isLight ? Colors.black : Colors.white)),
+          SizedBox(height: 4),
           Text(
             amount,
             style: TextStyle(
               fontSize: DesktopOptimizedWidgets.getFontSize() + 10,
               fontWeight: FontWeight.w700,
-              color: isLight ? Colors.black : Colors.white,
-            ),
-          ),
-          const SizedBox(height: 2),
+              color: isLight ? Colors.black : Colors.white)),
+          SizedBox(height: 2),
           Text(
             title,
             style: TextStyle(
               fontSize: 12,
               fontWeight: FontWeight.w600,
-              color: isLight ? Colors.black : Colors.white,
-            ),
-          ),
+              color: isLight ? Colors.black : Colors.white)),
           Text(subtitle, style: TextStyle(fontSize: 10, color: Colors.white)),
-        ],
-      ),
-    );
+        ]));
   }
 
   String _maskAccountNumber(String accountNumber) {
@@ -2940,9 +2575,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
       child: MediaQuery.removePadding(
         context: context,
         removeBottom: true,
-        child: _CreateGroupModal(isLight: isLight, userData: userData),
-      ),
-    ).whenComplete(() {
+        child: _CreateGroupModal(isLight: isLight, userData: userData))).whenComplete(() {
       // Show dock when modal closes
       hideDockNotifier.value = false;
       // Show buttons when modal closes
@@ -2962,9 +2595,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
       child: MediaQuery.removePadding(
         context: context,
         removeBottom: true,
-        child: _JoinGroupModal(isLight: isLight, userData: userData),
-      ),
-    ).whenComplete(() {
+        child: _JoinGroupModal(isLight: isLight, userData: userData))).whenComplete(() {
       // Show dock when modal closes
       hideDockNotifier.value = false;
       // Show buttons when modal closes
@@ -2975,8 +2606,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
   void _showGroupSettingsModal(
     BuildContext context,
     Map<String, dynamic> group,
-    bool isLight,
-  ) {
+    bool isLight) {
     TradeRepublicBottomSheet.show(
       context: context,
       showDragHandle: true,
@@ -2986,9 +2616,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
         userData: userData,
         onGroupUpdated: () {
           _loadUserGroups();
-        },
-      ),
-    );
+        }));
   }
 
   // Helper method to check if payment info exists
@@ -3057,10 +2685,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                             fontSize: 15,
                             fontWeight: FontWeight.w500,
                             color: (isLight ? Colors.black : Colors.white)
-                                .withOpacity(0.4),
-                          ),
-                        ),
-                      ),
+                                .withOpacity(0.4)))),
                       SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
                       // Big Balance Number - centered
@@ -3070,18 +2695,13 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                             appSettings.convertCurrency(
                               userData?['pendingPayout']?.toDouble() ??
                                   userData?['totalEarnings']?.toDouble() ??
-                                  0.0,
-                            ),
-                          ),
+                                  0.0)),
                           style: TextStyle(
                             fontSize: 52,
                             fontWeight: FontWeight.w700,
                             color: isLight ? Colors.black : Colors.white,
                             letterSpacing: -2.5,
-                            height: 1.0,
-                          ),
-                        ),
-                      ),
+                            height: 1.0))),
 
                       SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
@@ -3092,52 +2712,41 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                         runSpacing: 8,
                         children: [
                           Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                            padding: EdgeInsets.symmetric(horizontal: 16, vertical: 10),
                             decoration: BoxDecoration(
                               color: (isLight ? Colors.black : Colors.white)
                                   .withOpacity(0.05),
-                              borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-                            ),
+                              borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
                             child: Row(
                               mainAxisSize: MainAxisSize.min,
                               children: [
                                 Icon(
                                   CupertinoIcons.arrow_up_right,
                                   size: 14,
-                                  color: const Color(0xFF34C759),
-                                ),
-                                const SizedBox(width: 6),
+                                  color: const Color(0xFF34C759)),
+                                SizedBox(width: 6),
                                 Text(
                                   appSettings.formatCurrency(
                                     appSettings.convertCurrency(
-                                      userData?['totalEarnings']?.toDouble() ?? 0.0,
-                                    ),
-                                  ),
+                                      userData?['totalEarnings']?.toDouble() ?? 0.0)),
                                   style: TextStyle(
                                     fontSize: DesktopOptimizedWidgets.getFontSize(),
                                     fontWeight: FontWeight.w600,
-                                    color: isLight ? Colors.black : Colors.white,
-                                  ),
-                                ),
+                                    color: isLight ? Colors.black : Colors.white)),
                                 Text(
                                   ' ${AppLocalizations.of(context)?.totalEarnings ?? AppLocalizations.of(context)!.tr('total')}',
                                   style: TextStyle(
                                     fontSize: DesktopOptimizedWidgets.getFontSize(),
                                     fontWeight: FontWeight.w400,
                                     color: (isLight ? Colors.black : Colors.white)
-                                        .withOpacity(0.4),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
+                                        .withOpacity(0.4))),
+                              ])),
                           Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                            padding: EdgeInsets.symmetric(horizontal: 16, vertical: 10),
                             decoration: BoxDecoration(
                               color: (isLight ? Colors.black : Colors.white)
                                   .withOpacity(0.05),
-                              borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-                            ),
+                              borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
                             child: Row(
                               mainAxisSize: MainAxisSize.min,
                               children: [
@@ -3145,33 +2754,25 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                                   CupertinoIcons.cube_box,
                                   size: 14,
                                   color: (isLight ? Colors.black : Colors.white)
-                                      .withOpacity(0.5),
-                                ),
-                                const SizedBox(width: 6),
+                                      .withOpacity(0.5)),
+                                SizedBox(width: 6),
                                 Text(
                                   '${userData?['totalDeliveries'] ?? 0}',
                                   style: TextStyle(
                                     fontSize: DesktopOptimizedWidgets.getFontSize(),
                                     fontWeight: FontWeight.w600,
-                                    color: isLight ? Colors.black : Colors.white,
-                                  ),
-                                ),
+                                    color: isLight ? Colors.black : Colors.white)),
                                 Text(
                                   ' ${AppLocalizations.of(context)?.deliveries ?? AppLocalizations.of(context)!.tr('deliveries')}',
                                   style: TextStyle(
                                     fontSize: DesktopOptimizedWidgets.getFontSize(),
                                     fontWeight: FontWeight.w400,
                                     color: (isLight ? Colors.black : Colors.white)
-                                        .withOpacity(0.4),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
+                                        .withOpacity(0.4))),
+                              ])),
+                        ]),
 
-                      const SizedBox(height: 40),
+                      SizedBox(height: 40),
 
                       // Group Members Earnings (only for hosts)
                       if (userData?['groupAggregation'] != null &&
@@ -3183,19 +2784,15 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                             fontSize: DesktopOptimizedWidgets.getFontSize() + 6,
                             fontWeight: FontWeight.w700,
                             color: isLight ? Colors.black : Colors.white,
-                            letterSpacing: -0.3,
-                          ),
-                        ),
-                        const SizedBox(height: 4),
+                            letterSpacing: -0.3)),
+                        SizedBox(height: 4),
                         Text(
                           '${(userData!['groupAggregation']['memberCount'] ?? 1) - 1} members in your group',
                           style: TextStyle(
                             fontSize: DesktopOptimizedWidgets.getFontSize(),
                             fontWeight: FontWeight.w400,
                             color: (isLight ? Colors.black : Colors.white)
-                                .withOpacity(0.4),
-                          ),
-                        ),
+                                .withOpacity(0.4))),
                         SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                         Container(
                           width: double.infinity,
@@ -3203,8 +2800,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                           decoration: BoxDecoration(
                             color: (isLight ? Colors.black : Colors.white)
                                 .withOpacity(0.05),
-                            borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius()),
-                          ),
+                            borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius())),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
@@ -3214,28 +2810,20 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                                   fontSize: 15,
                                   fontWeight: FontWeight.w500,
                                   color: (isLight ? Colors.black : Colors.white)
-                                      .withOpacity(0.6),
-                                ),
-                              ),
+                                      .withOpacity(0.6))),
                               Text(
                                 appSettings.formatCurrency(
                                   appSettings.convertCurrency(
                                     userData?['pendingPayout']?.toDouble() ??
                                         userData?['totalEarnings']
                                             ?.toDouble() ??
-                                        0.0,
-                                  ),
-                                ),
+                                        0.0)),
                                 style: TextStyle(
                                   fontSize: 17,
                                   fontWeight: FontWeight.w700,
-                                  color: const Color(0xFF34C759),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        const SizedBox(height: 40),
+                                  color: const Color(0xFF34C759))),
+                            ])),
+                        SizedBox(height: 40),
                       ],
 
                       // ═══════════════════════════════════════════
@@ -3247,9 +2835,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                           fontSize: DesktopOptimizedWidgets.getFontSize() + 6,
                           fontWeight: FontWeight.w700,
                           color: isLight ? Colors.black : Colors.white,
-                          letterSpacing: -0.3,
-                        ),
-                      ),
+                          letterSpacing: -0.3)),
                       SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
                       // Payout Info Card - clean
@@ -3259,8 +2845,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                         decoration: BoxDecoration(
                           color: (isLight ? Colors.black : Colors.white)
                               .withOpacity(0.05),
-                          borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius()),
-                        ),
+                          borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius())),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -3269,12 +2854,10 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                                 Container(
                                   width: 8,
                                   height: 8,
-                                  decoration: const BoxDecoration(
+                                  decoration: BoxDecoration(
                                     color: Color(0xFF34C759),
-                                    shape: BoxShape.circle,
-                                  ),
-                                ),
-                                const SizedBox(width: 10),
+                                    shape: BoxShape.circle)),
+                                SizedBox(width: 10),
                                 Text(
                                   '${AppLocalizations.of(context)?.nextPayout ?? AppLocalizations.of(context)!.tr('Next payout')}: ${_getNextPayoutDate()}',
                                   style: TextStyle(
@@ -3282,11 +2865,8 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                                     fontWeight: FontWeight.w600,
                                     color: isLight
                                         ? Colors.black
-                                        : Colors.white,
-                                  ),
-                                ),
-                              ],
-                            ),
+                                        : Colors.white)),
+                              ]),
                             SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                             Text(
                               AppLocalizations.of(context)?.automaticMonthlyPayout ?? AppLocalizations.of(context)!.tr('Automatic monthly payout on the 1st'),
@@ -3294,22 +2874,16 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                                 fontSize: 13,
                                 fontWeight: FontWeight.w400,
                                 color: (isLight ? Colors.black : Colors.white)
-                                    .withOpacity(0.4),
-                              ),
-                            ),
-                            const SizedBox(height: 4),
+                                    .withOpacity(0.4))),
+                            SizedBox(height: 4),
                             Text(
                               AppLocalizations.of(context)?.platformFee ?? AppLocalizations.of(context)!.tr('Platform fee: 5% per transaction'),
                               style: TextStyle(
                                 fontSize: 13,
                                 fontWeight: FontWeight.w400,
                                 color: (isLight ? Colors.black : Colors.white)
-                                    .withOpacity(0.4),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
+                                    .withOpacity(0.4))),
+                          ])),
 
                       SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
@@ -3318,10 +2892,9 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                         label: AppLocalizations.of(context)?.instantPayout ?? 'Instant Payout',
                         icon: Icon(CupertinoIcons.bolt_fill, size: 18),
                         height: 50,
-                        onPressed: () => _processDriverInstantPayout(isLight),
-                      ),
+                        onPressed: () => _processDriverInstantPayout(isLight)),
 
-                      const SizedBox(height: 40),
+                      SizedBox(height: 40),
 
                       // ═══════════════════════════════════════════
                       // BANK ACCOUNT SECTION
@@ -3332,36 +2905,30 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                           fontSize: DesktopOptimizedWidgets.getFontSize() + 6,
                           fontWeight: FontWeight.w700,
                           color: isLight ? Colors.black : Colors.white,
-                          letterSpacing: -0.3,
-                        ),
-                      ),
-                      const SizedBox(height: 4),
+                          letterSpacing: -0.3)),
+                      SizedBox(height: 4),
                       Text(
                         AppLocalizations.of(
-                              context,
-                            )?.yourConnectedPaymentMethod ?? AppLocalizations.of(context)!.tr('Your connected payment method'),
+                              context)?.yourConnectedPaymentMethod ?? AppLocalizations.of(context)!.tr('Your connected payment method'),
                         style: TextStyle(
                           fontSize: DesktopOptimizedWidgets.getFontSize(),
                           fontWeight: FontWeight.w400,
                           color: (isLight ? Colors.black : Colors.white)
-                              .withOpacity(0.4),
-                        ),
-                      ),
+                              .withOpacity(0.4))),
                       SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
                       // Existing payment info (if available) - Modern Bank Card Design
                       // Check multiple sources for payment data
                       if (_hasPaymentInfo()) ...[
                         TradeRepublicSwipeAction(
-                          margin: const EdgeInsets.only(bottom: 16),
+                          margin: EdgeInsets.only(bottom: 16),
                           trailing: TradeRepublicSwipeSpec(
                             icon: CupertinoIcons.delete_solid,
                             label: AppLocalizations.of(context)?.delete ?? 'Delete',
                             backgroundColor: const Color(0xFFFF3B30),
                             foregroundColor: Colors.white,
                             onActivate: () =>
-                                _showDeletePaymentConfirmation(context, isLight),
-                          ),
+                                _showDeletePaymentConfirmation(context, isLight)),
                           child: Builder(
                             builder: (context) {
                               final pi = userData!['paymentInfo'];
@@ -3403,14 +2970,11 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                                 maskedNumber: last4,
                                 accountHolderName: holder,
                                 routingOrSwift: routing,
-                                isDefault: false,
-                              );
-                            },
-                          ),
-                        ),
+                                isDefault: false);
+                            })),
                         // Swipe hint
                         Padding(
-                          padding: const EdgeInsets.only(bottom: 16),
+                          padding: EdgeInsets.only(bottom: 16),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
@@ -3418,23 +2982,17 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                                 CupertinoIcons.arrow_left,
                                 size: 16,
                                 color: (isLight ? Colors.black : Colors.white)
-                                    .withOpacity(0.3),
-                              ),
-                              const SizedBox(width: 6),
+                                    .withOpacity(0.3)),
+                              SizedBox(width: 6),
                               Text(
                                 AppLocalizations.of(
-                                      context,
-                                    )?.swipeLeftToDelete ?? AppLocalizations.of(context)!.tr('Swipe left to delete'),
+                                      context)?.swipeLeftToDelete ?? AppLocalizations.of(context)!.tr('Swipe left to delete'),
                                 style: TextStyle(
                                   fontSize: 12,
                                   color: (isLight ? Colors.black : Colors.white)
                                       .withOpacity(0.3),
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
+                                  fontWeight: FontWeight.w500)),
+                            ])),
                       ] else ...[
                         // No payment method - Don't show add button since only one method allowed
                       ],
@@ -3455,11 +3013,10 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                           onTap: () {
                             Navigator.pop(context);
                             _showAddPaymentMethodModal(context, isLight);
-                          },
-                        ),
+                          }),
                       ],
 
-                      const SizedBox(height: 40),
+                      SizedBox(height: 40),
 
                       // Payout History Section
                       SizedBox(
@@ -3471,11 +3028,8 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                             fontSize: DesktopOptimizedWidgets.getFontSize() + 6,
                             fontWeight: FontWeight.w700,
                             color: isLight ? Colors.black : Colors.white,
-                            letterSpacing: -0.3,
-                          ),
-                        ),
-                      ),
-                      const SizedBox(height: 4),
+                            letterSpacing: -0.3))),
+                      SizedBox(height: 4),
                       SizedBox(
                         width: double.infinity,
                         child: Text(
@@ -3485,10 +3039,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                             fontSize: DesktopOptimizedWidgets.getFontSize(),
                             fontWeight: FontWeight.w400,
                             color: (isLight ? Colors.black : Colors.white)
-                                .withOpacity(0.4),
-                          ),
-                        ),
-                      ),
+                                .withOpacity(0.4)))),
                       SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
                       // Payout History List - Trade Republic Style
@@ -3498,41 +3049,32 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                           if (snapshot.connectionState ==
                               ConnectionState.waiting) {
                             return Container(
-                              padding: const EdgeInsets.all(24),
+                              padding: EdgeInsets.all(24),
                               decoration: BoxDecoration(
                                 color: isLight
                                     ? Colors.transparent
                                     : Colors.black,
-                                borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius()),
-                              ),
+                                borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius())),
                               child: Center(
-                                child: CultiooLoadingIndicator(size: 24),
-                              ),
-                            );
+                                child: CultiooLoadingIndicator(size: 24)));
                           }
 
                           if (snapshot.hasError) {
                             return Container(
-                              padding: const EdgeInsets.symmetric(
+                              padding: EdgeInsets.symmetric(
                                 horizontal: 18,
-                                vertical: 16,
-                              ),
+                                vertical: 16),
                               decoration: BoxDecoration(
                                 color: isLight
                                     ? Colors.transparent
                                     : Colors.black,
-                                borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius()),
-                              ),
+                                borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius())),
                               child: Text(
                                 AppLocalizations.of(
-                                      context,
-                                    )?.failedToLoadPayoutHistory ?? AppLocalizations.of(context)!.tr('Failed to load payout history'),
+                                      context)?.failedToLoadPayoutHistory ?? AppLocalizations.of(context)!.tr('Failed to load payout history'),
                                 style: TextStyle(
                                   color: (isLight ? Colors.black : Colors.white)
-                                      .withOpacity(0.5),
-                                ),
-                              ),
-                            );
+                                      .withOpacity(0.5))));
                           }
 
                           final payouts = snapshot.data ?? [];
@@ -3549,16 +3091,13 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(18),
                                       color: (isLight ? Colors.black : Colors.white)
-                                          .withOpacity(0.06),
-                                    ),
+                                          .withOpacity(0.06)),
                                     child: Icon(
                                       CupertinoIcons.clock,
                                       size: 24,
                                       color: (isLight ? Colors.black : Colors.white)
-                                          .withOpacity(0.25),
-                                    ),
-                                  ),
-                                  const SizedBox(height: 14),
+                                          .withOpacity(0.25))),
+                                  SizedBox(height: 14),
                                   Text(
                                     AppLocalizations.of(context)?.noPayoutHistoryYet ?? AppLocalizations.of(context)!.tr('No payout history yet'),
                                     textAlign: TextAlign.center,
@@ -3566,10 +3105,8 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                                       fontSize: DesktopOptimizedWidgets.getFontSize(),
                                       fontWeight: FontWeight.w600,
                                       color: (isLight ? Colors.black : Colors.white)
-                                          .withOpacity(0.7),
-                                    ),
-                                  ),
-                                  const SizedBox(height: 4),
+                                          .withOpacity(0.7))),
+                                  SizedBox(height: 4),
                                   Text(
                                     AppLocalizations.of(context)?.yourPayoutsWillAppearHere ?? AppLocalizations.of(context)!.tr('Your payouts will appear here'),
                                     textAlign: TextAlign.center,
@@ -3577,13 +3114,9 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                                       fontSize: DesktopOptimizedWidgets.getFontSize(),
                                       fontWeight: FontWeight.w400,
                                       color: (isLight ? Colors.black : Colors.white)
-                                          .withOpacity(0.4),
-                                    ),
-                                  ),
+                                          .withOpacity(0.4))),
                                   SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
-                                ],
-                              ),
-                            );
+                                ]));
                           }
 
                           return Column(
@@ -3592,24 +3125,14 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                                 return _buildPayoutHistoryItem(
                                   payout,
                                   isLight,
-                                  appSettings,
-                                );
+                                  appSettings);
                               }),
-                            ],
-                          );
-                        },
-                      ),
+                            ]);
+                        }),
 
-                      const SizedBox(height: 32),
-                    ],
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    ).whenComplete(() {
+                      SizedBox(height: 32),
+                    ]))),
+            ])))).whenComplete(() {
       // Reset bottom sheet state when modal closes
       bottomSheetOpenNotifier.value = false;
       _showHeader();
@@ -3628,14 +3151,11 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
             userData?['paymentInfo'] = paymentInfo;
           });
           _updateStripePaymentInDatabase(paymentInfo);
-        },
-      ),
-    );
+        }));
   }
 
   Future<void> _updateStripePaymentInDatabase(
-    Map<String, dynamic> paymentInfo,
-  ) async {
+    Map<String, dynamic> paymentInfo) async {
     try {
       if (userData == null) return;
 
@@ -3649,8 +3169,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
         if (mounted) {
           TopNotification.error(
             context,
-            AppLocalizations.of(context)!.tr('User ID not found. Please reload the page.') ?? AppLocalizations.of(context)!.tr('User ID not found. Please reload the page.'),
-          );
+            AppLocalizations.of(context)!.tr('User ID not found. Please reload the page.') ?? AppLocalizations.of(context)!.tr('User ID not found. Please reload the page.'));
         }
         return;
       }
@@ -3693,8 +3212,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
           'userId': userId,
           'paymentInfo': paymentInfo,
           'stripeData': stripeData,
-        }),
-      );
+        }));
 
       if (response.statusCode == 200) {
         final responseData = json.decode(response.body);
@@ -3716,8 +3234,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
 
         TopNotification.success(
           context,
-          AppLocalizations.of(context)?.paymentConnectedViaStripe ?? AppLocalizations.of(context)!.tr('Payment information connected via Stripe!'),
-        );
+          AppLocalizations.of(context)?.paymentConnectedViaStripe ?? AppLocalizations.of(context)!.tr('Payment information connected via Stripe!'));
       } else {
         print('❌ Failed to update payment info: ${response.statusCode}');
         print('Response body: ${response.body}');
@@ -3725,8 +3242,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
         if (mounted) {
           TopNotification.error(
             context,
-            AppLocalizations.of(context)?.errorConnectingPaymentInfo ?? AppLocalizations.of(context)!.tr('Error connecting payment information'),
-          );
+            AppLocalizations.of(context)?.errorConnectingPaymentInfo ?? AppLocalizations.of(context)!.tr('Error connecting payment information'));
         }
       }
     } catch (e) {
@@ -3735,8 +3251,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
       if (mounted) {
         TopNotification.error(
           context,
-          '${AppLocalizations.of(context)?.errorConnectingToStripe ?? AppLocalizations.of(context)!.tr('Error connecting to Stripe')}: $e',
-        );
+          '${AppLocalizations.of(context)?.errorConnectingToStripe ?? AppLocalizations.of(context)!.tr('Error connecting to Stripe')}: $e');
       }
     }
   }
@@ -3750,9 +3265,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
         availableUsers: availableUsers,
         selectedUserId: selectedUserId,
         onAccountSwitch: _switchUser,
-        onAccountAdd: _handleAddAccount,
-      ),
-    );
+        onAccountAdd: _handleAddAccount));
   }
 
   void _handleSignOut(BuildContext context, bool isLight) {
@@ -3768,20 +3281,16 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
               Icon(
                 CupertinoIcons.square_arrow_left,
                 size: 22,
-                color: isLight ? Colors.black : Colors.white,
-              ),
-              const SizedBox(width: 12),
+                color: isLight ? Colors.black : Colors.white),
+              SizedBox(width: 12),
               Text(
                 AppLocalizations.of(context)?.signOut ?? AppLocalizations.of(context)!.tr('Sign Out'),
                 style: TextStyle(
                   fontSize: 22,
                   fontWeight: FontWeight.w700,
                   color: isLight ? Colors.black : Colors.white,
-                  letterSpacing: -0.4,
-                ),
-              ),
-            ],
-          ),
+                  letterSpacing: -0.4)),
+            ]),
 
           SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
@@ -3789,18 +3298,15 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
             Text(
               AppLocalizations.of(context)?.signOutConfirmation ??
                   AppLocalizations.of(context)!.tr(
-                    "Are you sure you want to sign out?\\nYou'll need to sign in again to access your account.",
-                  ),
+                    "Are you sure you want to sign out?\\nYou'll need to sign in again to access your account."),
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 15,
                 fontWeight: FontWeight.w500,
                 color: (isLight ? Colors.black : Colors.white).withOpacity(0.6),
-                height: 1.4,
-              ),
-            ),
+                height: 1.4)),
 
-            const SizedBox(height: 32),
+            SizedBox(height: 32),
 
             // Sign Out Button
             TradeRepublicButton(
@@ -3812,8 +3318,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                 // Real logout logic
                 final appSettings = Provider.of<AppSettings>(
                   context,
-                  listen: false,
-                );
+                  listen: false);
                 await appSettings.logout();
 
                 // Clear SharedPreferences
@@ -3823,13 +3328,11 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                 // Navigate to login page
                 if (context.mounted) {
                   Navigator.of(
-                    context,
-                  ).pushNamedAndRemoveUntil('/login', (route) => false);
+                    context).pushNamedAndRemoveUntil('/login', (route) => false);
                 }
               },
               isDestructive: true,
-              width: double.infinity,
-            ),
+              width: double.infinity),
 
             SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
@@ -3838,13 +3341,10 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
               label: AppLocalizations.of(context)?.cancel ?? AppLocalizations.of(context)!.tr('Cancel'),
               onPressed: () => Navigator.pop(context),
               isSecondary: true,
-              width: double.infinity,
-            ),
+              width: double.infinity),
 
             SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
-          ],
-        ),
-    );
+          ]));
   }
 
   void _showProfileEditModal(BuildContext context, bool isLight) {
@@ -3866,9 +3366,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
             userData?['address'] = updatedData['address'];
           });
           _updateProfileInDatabase(updatedData);
-        },
-      ),
-    ).whenComplete(_showHeader);
+        })).whenComplete(_showHeader);
   }
 
   void _showVehicleManagementModal(BuildContext context, bool isLight) {
@@ -3890,27 +3388,22 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
             userData?['vehicle'] = vehicleData;
           });
           // Note: Don't call _updateVehicleInDatabase here - it's already saved by _VehicleManagementModal._saveVehicleToDatabase
-        },
-      ),
-    ).whenComplete(() {
+        })).whenComplete(() {
       // Only reset if not opening a sub-modal
       if (!isOpeningVehicleSubModal) {
         print(
-          '🚗 VEHICLE MODAL: Setting bottomSheetOpenNotifier to FALSE (closing)',
-        );
+          '🚗 VEHICLE MODAL: Setting bottomSheetOpenNotifier to FALSE (closing)');
         bottomSheetOpenNotifier.value = false;
         _showHeader();
       } else {
         print(
-          '🚗 VEHICLE MODAL: Sub-modal flag detected, keeping notifier TRUE',
-        );
+          '🚗 VEHICLE MODAL: Sub-modal flag detected, keeping notifier TRUE');
       }
     });
   }
 
   Future<void> _updateProfileInDatabase(
-    Map<String, dynamic> profileData,
-  ) async {
+    Map<String, dynamic> profileData) async {
     try {
       if (userData == null) return;
 
@@ -3923,8 +3416,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
         print('❌ No user ID found for profile update');
         TopNotification.error(
           context,
-          AppLocalizations.of(context)?.errorNoUserIdFound ?? AppLocalizations.of(context)!.tr('Error: No user ID found'),
-        );
+          AppLocalizations.of(context)?.errorNoUserIdFound ?? AppLocalizations.of(context)!.tr('Error: No user ID found'));
         return;
       }
 
@@ -3946,8 +3438,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
           'back_id_image_url': profileData['back_id_image_url'],
           'license_front_image_url': profileData['license_front_image_url'],
           'license_back_image_url': profileData['license_back_image_url'],
-        }),
-      );
+        }));
 
       print('📡 Profile update response: ${response.statusCode}');
       print('📡 Response body: ${response.body}');
@@ -3985,28 +3476,24 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
         print('✅ Profile updated successfully in database');
         TopNotification.success(
           context,
-          AppLocalizations.of(context)?.profileUpdatedSuccessfully ?? AppLocalizations.of(context)!.tr('Profile updated successfully!'),
-        );
+          AppLocalizations.of(context)?.profileUpdatedSuccessfully ?? AppLocalizations.of(context)!.tr('Profile updated successfully!'));
       } else {
         print('❌ Failed to update profile: ${response.statusCode}');
         print('📋 Error response: ${response.body}');
         TopNotification.error(
           context,
-          AppLocalizations.of(context)?.failedToUpdateProfile ?? AppLocalizations.of(context)!.tr('Failed to update profile in database'),
-        );
+          AppLocalizations.of(context)?.failedToUpdateProfile ?? AppLocalizations.of(context)!.tr('Failed to update profile in database'));
       }
     } catch (e) {
       print('❌ Error updating profile: $e');
       TopNotification.error(
         context,
-        '${AppLocalizations.of(context)?.errorUpdatingProfile ?? AppLocalizations.of(context)!.tr('Error updating profile')}: $e',
-      );
+        '${AppLocalizations.of(context)?.errorUpdatingProfile ?? AppLocalizations.of(context)!.tr('Error updating profile')}: $e');
     }
   }
 
   Future<void> _updateVehicleInDatabase(
-    Map<String, dynamic> vehicleData,
-  ) async {
+    Map<String, dynamic> vehicleData) async {
     try {
       if (userData == null) return;
 
@@ -4016,28 +3503,24 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
         body: json.encode({
           'userId': userData!['userId'] ?? userData!['id'],
           'vehicleData': vehicleData,
-        }),
-      );
+        }));
 
       if (response.statusCode == 200) {
         print('Vehicle updated successfully in database');
         TopNotification.success(
           context,
-          AppLocalizations.of(context)?.vehicleUpdatedSuccessfully ?? AppLocalizations.of(context)!.tr('Vehicle updated successfully!'),
-        );
+          AppLocalizations.of(context)?.vehicleUpdatedSuccessfully ?? AppLocalizations.of(context)!.tr('Vehicle updated successfully!'));
       } else {
         print('Failed to update vehicle: ${response.statusCode}');
         TopNotification.warning(
           context,
-          AppLocalizations.of(context)?.vehicleUpdatedLocally ?? AppLocalizations.of(context)!.tr('Vehicle updated locally'),
-        );
+          AppLocalizations.of(context)?.vehicleUpdatedLocally ?? AppLocalizations.of(context)!.tr('Vehicle updated locally'));
       }
     } catch (e) {
       print('Error updating vehicle: $e');
       TopNotification.warning(
         context,
-        AppLocalizations.of(context)?.vehicleUpdatedLocally ?? AppLocalizations.of(context)!.tr('Vehicle updated locally'),
-      );
+        AppLocalizations.of(context)?.vehicleUpdatedLocally ?? AppLocalizations.of(context)!.tr('Vehicle updated locally'));
     }
   }
 
@@ -4054,9 +3537,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
         userData: userData,
         onSettingsUpdated: (settings) {
           _updateAccountSettingsInDatabase(settings);
-        },
-      ),
-    ).whenComplete(() {
+        })).whenComplete(() {
       // Reset bottom sheet state when modal closes
       bottomSheetOpenNotifier.value = false;
       _showHeader();
@@ -4064,44 +3545,38 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
   }
 
   Future<void> _updateAccountSettingsInDatabase(
-    Map<String, dynamic> settings,
-  ) async {
+    Map<String, dynamic> settings) async {
     try {
       if (userData == null) return;
 
       final response = await http.patch(
         Uri.parse('${ApiConfig.baseUrl}/api/driver/account-settings'),
         headers: {'Content-Type': 'application/json'},
-        body: json.encode({'userId': userData!['id'], 'settings': settings}),
-      );
+        body: json.encode({'userId': userData!['id'], 'settings': settings}));
 
       if (response.statusCode == 200) {
         print('Account settings updated successfully in database');
         TopNotification.success(
           context,
-          AppLocalizations.of(context)?.settingsUpdatedSuccessfully ?? AppLocalizations.of(context)!.tr('Settings updated successfully!'),
-        );
+          AppLocalizations.of(context)?.settingsUpdatedSuccessfully ?? AppLocalizations.of(context)!.tr('Settings updated successfully!'));
       } else {
         print('Failed to update settings: ${response.statusCode}');
         TopNotification.warning(
           context,
-          AppLocalizations.of(context)?.settingsUpdatedLocally ?? AppLocalizations.of(context)!.tr('Settings updated locally'),
-        );
+          AppLocalizations.of(context)?.settingsUpdatedLocally ?? AppLocalizations.of(context)!.tr('Settings updated locally'));
       }
     } catch (e) {
       print('Error updating settings: $e');
       TopNotification.warning(
         context,
-        AppLocalizations.of(context)?.settingsUpdatedLocally ?? AppLocalizations.of(context)!.tr('Settings updated locally'),
-      );
+        AppLocalizations.of(context)?.settingsUpdatedLocally ?? AppLocalizations.of(context)!.tr('Settings updated locally'));
     }
   }
 
   void _showProfileImageModal(
     BuildContext context,
     bool isLight,
-    Function(String) onImageSelected,
-  ) {
+    Function(String) onImageSelected) {
     TradeRepublicBottomSheet.show(
       context: context,
       showDragHandle: true,
@@ -4113,9 +3588,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
           setState(() {
             userData?['profileImage'] = imageUrl;
           });
-        },
-      ),
-    );
+        }));
   }
 
   void _showLeaveGroupConfirmation(BuildContext context, bool isLight) {
@@ -4136,9 +3609,8 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
               Icon(
                 CupertinoIcons.trash,
                 size: 22,
-                color: isLight ? Colors.black : Colors.white,
-              ),
-              const SizedBox(width: 12),
+                color: isLight ? Colors.black : Colors.white),
+              SizedBox(width: 12),
               Expanded(
                 child: Text(
                   isHost
@@ -4148,12 +3620,8 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                     fontSize: 22,
                     fontWeight: FontWeight.w700,
                     letterSpacing: -0.4,
-                    color: isLight ? Colors.black : Colors.white,
-                  ),
-                ),
-              ),
-            ],
-          ),
+                    color: isLight ? Colors.black : Colors.white))),
+            ]),
 
           SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
@@ -4167,11 +3635,9 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
               fontSize: 15,
               fontWeight: FontWeight.w500,
               height: 1.4,
-              color: (isLight ? Colors.black : Colors.white).withOpacity(0.6),
-            ),
-          ),
+              color: (isLight ? Colors.black : Colors.white).withOpacity(0.6))),
 
-          const SizedBox(height: 32),
+          SizedBox(height: 32),
 
           // Primary action button
           TradeRepublicButton(
@@ -4184,8 +3650,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
               _leaveCurrentGroup();
             },
             isDestructive: true,
-            width: double.infinity,
-          ),
+            width: double.infinity),
 
           SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
@@ -4194,11 +3659,8 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
             label: AppLocalizations.of(context)?.cancel ?? AppLocalizations.of(context)!.tr('Cancel'),
             onPressed: () => Navigator.pop(context),
             isSecondary: true,
-            width: double.infinity,
-          ),
-        ],
-      ),
-    );
+            width: double.infinity),
+        ]));
   }
 
   Future<void> _leaveCurrentGroup() async {
@@ -4211,8 +3673,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
       if (groupId == null) {
         TopNotification.error(
           context,
-          AppLocalizations.of(context)?.groupIdNotFound ?? AppLocalizations.of(context)!.tr('Group ID not found'),
-        );
+          AppLocalizations.of(context)?.groupIdNotFound ?? AppLocalizations.of(context)!.tr('Group ID not found'));
         return;
       }
 
@@ -4229,8 +3690,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
           'groupId': groupId,
           'userId':
               userData?['user_id'] ?? userData?['userId'] ?? userData?['id'],
-        }),
-      );
+        }));
 
       print('📡 Leave group response: ${response.statusCode}');
       print('📡 Response body: ${response.body}');
@@ -4242,31 +3702,27 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
         TopNotification.success(
           context,
           '${AppLocalizations.of(context)?.successfullyLeftGroup ?? AppLocalizations.of(context)!.tr('Successfully left the group')}!',
-          title: AppLocalizations.of(context)?.groupLeft ?? AppLocalizations.of(context)!.tr('Group Left'),
-        );
+          title: AppLocalizations.of(context)?.groupLeft ?? AppLocalizations.of(context)!.tr('Group Left'));
       } else {
         final errorData = json.decode(response.body);
         TopNotification.error(
           context,
           errorData['error'] ?? (AppLocalizations.of(context)?.failedToLeaveGroup ?? AppLocalizations.of(context)!.tr('')),
-          title: AppLocalizations.of(context)?.error ?? AppLocalizations.of(context)!.tr('Error'),
-        );
+          title: AppLocalizations.of(context)?.error ?? AppLocalizations.of(context)!.tr('Error'));
       }
     } catch (e) {
       print('❌ Error leaving group: $e');
       TopNotification.error(
         context,
         '${AppLocalizations.of(context)?.errorLeavingGroup ?? AppLocalizations.of(context)!.tr('Error leaving group')}: $e',
-        title: AppLocalizations.of(context)?.error ?? AppLocalizations.of(context)!.tr('Error'),
-      );
+        title: AppLocalizations.of(context)?.error ?? AppLocalizations.of(context)!.tr('Error'));
     }
   }
 
   void _showGroupChatModal(
     BuildContext context,
     Map<String, dynamic> group,
-    bool isLight,
-  ) {
+    bool isLight) {
     final TextEditingController messageController = TextEditingController();
     final ScrollController scrollController = ScrollController();
     final groupId = group['groupId'] ?? AppLocalizations.of(context)!.tr('');
@@ -4306,14 +3762,12 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
           headers: {
             'Content-Type': 'application/json',
             if (token != null) 'Authorization': 'Bearer $token',
-          },
-        );
+          });
 
         if (response.statusCode == 200) {
           final data = json.decode(response.body);
           final loadedMessages = List<Map<String, dynamic>>.from(
-            data['messages'] ?? [],
-          );
+            data['messages'] ?? []);
           final currentUserId = userData?['userId'] ?? userData?['id'];
 
           messages.clear();
@@ -4355,8 +3809,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                     scrollController.animateTo(
                       scrollController.position.maxScrollExtent,
                       duration: const Duration(milliseconds: 300),
-                      curve: Curves.easeOut,
-                    );
+                      curve: Curves.easeOut);
                   }
                 });
               }
@@ -4365,15 +3818,14 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
 
           return Padding(
             padding: EdgeInsets.only(
-              bottom: MediaQuery.of(context).viewInsets.bottom,
-            ),
+              bottom: MediaQuery.of(context).viewInsets.bottom),
             child: SizedBox(
               height: MediaQuery.of(context).size.height * 0.92,
               child: Column(
                 children: [
                   // Minimalist Header - Large Title
                   Container(
-                    padding: const EdgeInsets.fromLTRB(0, 0, 0, 20),
+                    padding: EdgeInsets.fromLTRB(0, 0, 0, 20),
                     child: Row(
                       children: [
                         // Group avatar - black/white
@@ -4382,17 +3834,13 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                           height: 52,
                           decoration: BoxDecoration(
                             color: isLight ? Colors.black : Colors.white,
-                            borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-                          ),
+                            borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
                           child: Center(
                             child: Icon(
                               CupertinoIcons.group,
                               color: isLight ? Colors.white : Colors.black,
-                              size: 26,
-                            ),
-                          ),
-                        ),
-                        const SizedBox(width: 16),
+                              size: 26))),
+                        SizedBox(width: 16),
 
                         // Group info - Large text
                         Expanded(
@@ -4405,42 +3853,32 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                                   fontSize: DesktopOptimizedWidgets.getFontSize() + 10,
                                   fontWeight: FontWeight.w700,
                                   color: isLight ? Colors.black : Colors.white,
-                                  letterSpacing: -0.5,
-                                ),
+                                  letterSpacing: -0.5),
                                 maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                              const SizedBox(height: 4),
+                                overflow: TextOverflow.ellipsis),
+                              SizedBox(height: 4),
                               Text(
                                 '$memberCount members',
                                 style: TextStyle(
                                   fontSize: 15,
                                   color: isLight
                                       ? Colors.black.withOpacity(0.5)
-                                      : Colors.white.withOpacity(0.5),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
+                                      : Colors.white.withOpacity(0.5))),
+                            ])),
 
                         // Settings button - Trade Republic Style
                         TradeRepublicButton.icon(
                           icon: Icon(
                             CupertinoIcons.settings,
                             color: isLight ? Colors.black : Colors.white,
-                            size: 22,
-                          ),
+                            size: 22),
                           onPressed: () {
                             HapticFeedback.lightImpact();
                             Navigator.pop(context);
                             _showGroupSettingsModal(context, group, isLight);
                           },
-                          isSecondary: true,
-                        ),
-                      ],
-                    ),
-                  ),
+                          isSecondary: true),
+                      ])),
 
                   // Messages Area - Clean background
                   Expanded(
@@ -4451,9 +3889,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                               child: SizedBox(
                                 width: 24,
                                 height: 24,
-                                child: CultiooLoadingIndicator(size: 20),
-                              ),
-                            )
+                                child: CultiooLoadingIndicator(size: 20)))
                           : messages.isEmpty
                           ? Center(
                               child: Column(
@@ -4467,55 +3903,43 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                                       color: isLight
                                           ? Colors.black.withOpacity(0.05)
                                           : Colors.white.withOpacity(0.1),
-                                      borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-                                    ),
+                                      borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
                                     child: Icon(
                                       CupertinoIcons.chat_bubble,
                                       size: 36,
                                       color: isLight
                                           ? Colors.black.withOpacity(0.4)
-                                          : Colors.white.withOpacity(0.4),
-                                    ),
-                                  ),
+                                          : Colors.white.withOpacity(0.4))),
                                   SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
                                   Text(
                                     AppLocalizations.of(
-                                          context,
-                                        )?.noMessagesYet ?? AppLocalizations.of(context)!.tr('No Messages Yet'),
+                                          context)?.noMessagesYet ?? AppLocalizations.of(context)!.tr('No Messages Yet'),
                                     style: TextStyle(
                                       fontSize: DesktopOptimizedWidgets.getFontSize() + 10,
                                       fontWeight: FontWeight.w700,
                                       color: isLight
                                           ? Colors.black
                                           : Colors.white,
-                                      letterSpacing: -0.5,
-                                    ),
-                                  ),
+                                      letterSpacing: -0.5)),
                                   SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                                   Text(
                                     AppLocalizations.of(
-                                          context,
-                                        )?.sendFirstMessage ?? AppLocalizations.of(context)!.tr('Send the first message to\\\\nstart the conversation'),
+                                          context)?.sendFirstMessage ?? AppLocalizations.of(context)!.tr('Send the first message to\\\\nstart the conversation'),
                                     style: TextStyle(
                                       fontSize: DesktopOptimizedWidgets.getFontSize(),
                                       color: isLight
                                           ? Colors.black.withOpacity(0.5)
                                           : Colors.white.withOpacity(0.5),
-                                      height: 1.4,
-                                    ),
-                                    textAlign: TextAlign.center,
-                                  ),
-                                ],
-                              ),
-                            )
+                                      height: 1.4),
+                                    textAlign: TextAlign.center),
+                                ]))
                           : ListView.builder(
                               controller: scrollController,
-                              padding: const EdgeInsets.fromLTRB(
+                              padding: EdgeInsets.fromLTRB(
                                 16,
                                 16,
                                 16,
-                                16,
-                              ),
+                                16),
                               itemCount: messages.length,
                               itemBuilder: (context, index) {
                                 final message = messages[index];
@@ -4534,8 +3958,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
 
                                 return Padding(
                                   padding: EdgeInsets.only(
-                                    bottom: isLastInGroup ? 12 : 3,
-                                  ),
+                                    bottom: isLastInGroup ? 12 : 3),
                                   child: Row(
                                     mainAxisAlignment: isMe
                                         ? MainAxisAlignment.end
@@ -4556,9 +3979,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                                                         : Colors.white,
                                                     borderRadius:
                                                         BorderRadius.circular(
-                                                          16,
-                                                        ),
-                                                  ),
+                                                          16)),
                                                   child: Center(
                                                     child: Text(
                                                       (message['sender'] ?? AppLocalizations.of(context)!.tr('U'))[0]
@@ -4569,14 +3990,9 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                                                             : Colors.black,
                                                         fontSize: DesktopOptimizedWidgets.getFontSize(),
                                                         fontWeight:
-                                                            FontWeight.w600,
-                                                      ),
-                                                    ),
-                                                  ),
-                                                )
-                                              : null,
-                                        ),
-                                        const SizedBox(width: 10),
+                                                            FontWeight.w600))))
+                                              : null),
+                                        SizedBox(width: 10),
                                       ],
 
                                       // Message bubble
@@ -4589,10 +4005,9 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                                             // Sender name for group messages
                                             if (!isMe && showAvatar)
                                               Padding(
-                                                padding: const EdgeInsets.only(
+                                                padding: EdgeInsets.only(
                                                   left: 14,
-                                                  bottom: 4,
-                                                ),
+                                                  bottom: 4),
                                                 child: Text(
                                                   message['sender'] ??
                                                       (AppLocalizations.of(context)?.userFallback ?? AppLocalizations.of(context)!.tr('')),
@@ -4603,25 +4018,19 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                                                         ? Colors.black
                                                               .withOpacity(0.5)
                                                         : Colors.white
-                                                              .withOpacity(0.5),
-                                                  ),
-                                                ),
-                                              ),
+                                                              .withOpacity(0.5)))),
 
                                             // Message container - Black/White style
                                             Container(
                                               constraints: BoxConstraints(
                                                 maxWidth:
                                                     MediaQuery.of(
-                                                      context,
-                                                    ).size.width *
-                                                    0.72,
-                                              ),
+                                                      context).size.width *
+                                                    0.72),
                                               padding:
-                                                  const EdgeInsets.symmetric(
+                                                  EdgeInsets.symmetric(
                                                     horizontal: 16,
-                                                    vertical: 12,
-                                                  ),
+                                                    vertical: 12),
                                               decoration: BoxDecoration(
                                                 color: isMe
                                                     ? (isLight
@@ -4631,8 +4040,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                                                           ? Colors.white
                                                           : Colors.black),
                                                 borderRadius:
-                                                    BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-                                              ),
+                                                    BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
                                               child: Text(
                                                 message['text'] ?? AppLocalizations.of(context)!.tr(''),
                                                 style: TextStyle(
@@ -4644,10 +4052,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                                                       : (isLight
                                                             ? Colors.black
                                                             : Colors.white),
-                                                  height: 1.4,
-                                                ),
-                                              ),
-                                            ),
+                                                  height: 1.4))),
 
                                             // Timestamp for last message in group
                                             if (isLastInGroup)
@@ -4655,35 +4060,23 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                                                 padding: EdgeInsets.only(
                                                   top: 6,
                                                   left: isMe ? 0 : 14,
-                                                  right: isMe ? 14 : 0,
-                                                ),
+                                                  right: isMe ? 14 : 0),
                                                 child: Text(
                                                   formatMessageTime(
-                                                    message['timestamp'],
-                                                  ),
+                                                    message['timestamp']),
                                                   style: TextStyle(
                                                     fontSize: 12,
                                                     color: isLight
                                                         ? Colors.black
                                                               .withOpacity(0.4)
                                                         : Colors.white
-                                                              .withOpacity(0.4),
-                                                  ),
-                                                ),
-                                              ),
-                                          ],
-                                        ),
-                                      ),
+                                                              .withOpacity(0.4)))),
+                                          ])),
 
                                       // Spacer for own messages
-                                      if (isMe) const SizedBox(width: 36),
-                                    ],
-                                  ),
-                                );
-                              },
-                            ),
-                    ),
-                  ),
+                                      if (isMe) SizedBox(width: 36),
+                                    ]));
+                              }))),
 
                   // Minimalist Input Bar - Send button inside input
                   Container(
@@ -4691,23 +4084,19 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                       left: 16,
                       right: 16,
                       top: 12,
-                      bottom: MediaQuery.of(context).padding.bottom + 12,
-                    ),
+                      bottom: MediaQuery.of(context).padding.bottom + 12),
                     decoration: BoxDecoration(
-                      color: isLight ? Colors.white : Colors.black,
-                    ),
+                      color: isLight ? Colors.white : Colors.black),
                     child: Container(
                       constraints: const BoxConstraints(
                         minHeight: 48,
-                        maxHeight: 120,
-                      ),
+                        maxHeight: 120),
                       padding: DesktopAppWrapper.getPagePadding(),
                       decoration: BoxDecoration(
                         color: isLight
                             ? Colors.black.withOpacity(0.05)
                             : Colors.white.withOpacity(0.1),
-                        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-                      ),
+                        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
@@ -4720,21 +4109,17 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                                   AppLocalizations.of(context)?.message ?? AppLocalizations.of(context)!.tr('Message'),
                               style: TextStyle(
                                 color: isLight ? Colors.black : Colors.white,
-                                fontSize: DesktopOptimizedWidgets.getFontSize(),
-                              ),
+                                fontSize: DesktopOptimizedWidgets.getFontSize()),
                               maxLines: 5,
                               minLines: 1,
-                              textCapitalization: TextCapitalization.sentences,
-                            ),
-                          ),
+                              textCapitalization: TextCapitalization.sentences)),
 
                           // Send button - Trade Republic Style
                           Padding(
-                            padding: const EdgeInsets.only(
+                            padding: EdgeInsets.only(
                               right: 6,
                               top: 6,
-                              bottom: 6,
-                            ),
+                              bottom: 6),
                             child: TradeRepublicTap(
                               onTap: () async {
                                 if (messageController.text.trim().isNotEmpty) {
@@ -4767,13 +4152,10 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                                               .position
                                               .maxScrollExtent,
                                           duration: const Duration(
-                                            milliseconds: 200,
-                                          ),
-                                          curve: Curves.easeOut,
-                                        );
+                                            milliseconds: 200),
+                                          curve: Curves.easeOut);
                                       }
-                                    },
-                                  );
+                                    });
 
                                   // Send to backend
                                   try {
@@ -4783,8 +4165,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
 
                                     final response = await http.post(
                                       Uri.parse(
-                                        '${ApiConfig.baseUrl}/api/group-messages/send',
-                                      ),
+                                        '${ApiConfig.baseUrl}/api/group-messages/send'),
                                       headers: {
                                         'Content-Type': 'application/json',
                                         if (token != null)
@@ -4795,13 +4176,11 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                                         'userId': userId,
                                         'message': messageText,
                                         'senderName': senderName,
-                                      }),
-                                    );
+                                      }));
 
                                     if (response.statusCode != 200) {
                                       print(
-                                        '❌ Failed to send message: ${response.body}',
-                                      );
+                                        '❌ Failed to send message: ${response.body}');
                                     } else {
                                       print('✅ Message sent successfully');
                                     }
@@ -4815,27 +4194,14 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                                 height: 36,
                                 decoration: BoxDecoration(
                                   color: isLight ? Colors.black : Colors.white,
-                                  borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-                                ),
+                                  borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
                                 child: Icon(
                                   CupertinoIcons.arrow_up,
                                   color: isLight ? Colors.white : Colors.black,
-                                  size: 20,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          );
-        },
-      ),
-    ).whenComplete(() {
+                                  size: 20)))),
+                        ]))),
+                ])));
+        })).whenComplete(() {
       // Show TradeRepublicButtons again when modal closes
       bottomSheetOpenNotifier.value = false;
     });
@@ -4847,8 +4213,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
       children: [
         TradeRepublicSectionHeader(
           title: AppLocalizations.of(context)?.account ?? AppLocalizations.of(context)!.tr('Account'),
-          padding: const EdgeInsets.only(bottom: 12, top: 28, left: 4),
-        ),
+          padding: EdgeInsets.only(bottom: 12, top: 28, left: 4)),
         TradeRepublicCard(
           padding: EdgeInsets.zero,
           backgroundColor: isLight ? Colors.white : Colors.black,
@@ -4857,34 +4222,26 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
               TradeRepublicListTile.navigation(
                 title: AppLocalizations.of(context)?.editProfile ?? AppLocalizations.of(context)!.tr('Edit Profile'),
                 subtitle: AppLocalizations.of(context)?.updateYourPersonalInformation ?? AppLocalizations.of(context)!.tr('Update your personal information'),
-                leading: const Icon(CupertinoIcons.pen, size: 18),
-                onTap: () => _showProfileEditModal(context, isLight),
-              ),
-              const Padding(
+                leading: Icon(CupertinoIcons.pen, size: 18),
+                onTap: () => _showProfileEditModal(context, isLight)),
+              Padding(
                 padding: EdgeInsets.only(left: 56),
-                child: TradeRepublicDivider(),
-              ),
+                child: TradeRepublicDivider()),
               TradeRepublicListTile.navigation(
                 title: AppLocalizations.of(context)?.vehicleManagement ?? AppLocalizations.of(context)!.tr('Vehicle Management'),
                 subtitle: AppLocalizations.of(context)?.manageYourVehiclesAndAddNewOnes ?? AppLocalizations.of(context)!.tr('Manage your vehicles and add new ones'),
-                leading: const Icon(CupertinoIcons.car, size: 18),
-                onTap: () => _showVehicleManagementModal(context, isLight),
-              ),
-              const Padding(
+                leading: Icon(CupertinoIcons.car, size: 18),
+                onTap: () => _showVehicleManagementModal(context, isLight)),
+              Padding(
                 padding: EdgeInsets.only(left: 56),
-                child: TradeRepublicDivider(),
-              ),
+                child: TradeRepublicDivider()),
               TradeRepublicListTile.navigation(
                 title: AppLocalizations.of(context)?.accountSettings ?? AppLocalizations.of(context)!.tr('Account Settings'),
                 subtitle: AppLocalizations.of(context)?.privacyAndSecuritySettings ?? AppLocalizations.of(context)!.tr('Privacy and security settings'),
-                leading: const Icon(CupertinoIcons.settings, size: 18),
-                onTap: () => _showSettingsModal(context, isLight),
-              ),
-            ],
-          ),
-        ),
-      ],
-    );
+                leading: Icon(CupertinoIcons.settings, size: 18),
+                onTap: () => _showSettingsModal(context, isLight)),
+            ])),
+      ]);
   }
 
   Widget _buildAppSettingsSection(bool isLight) {
@@ -4893,20 +4250,16 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
       children: [
         TradeRepublicSectionHeader(
           title: AppLocalizations.of(context)?.settings ?? AppLocalizations.of(context)!.tr('Settings'),
-          padding: const EdgeInsets.only(bottom: 12, top: 28, left: 4),
-        ),
+          padding: EdgeInsets.only(bottom: 12, top: 28, left: 4)),
         TradeRepublicCard(
           padding: EdgeInsets.zero,
           backgroundColor: isLight ? Colors.white : Colors.black,
           child: TradeRepublicListTile.navigation(
             title: AppLocalizations.of(context)?.appSettings ?? AppLocalizations.of(context)?.appSettingsSection ?? AppLocalizations.of(context)!.tr('App Settings'),
             subtitle: AppLocalizations.of(context)?.themeLanguageUnitsPreferences ?? AppLocalizations.of(context)!.tr('Theme, language, units & preferences'),
-            leading: const Icon(CupertinoIcons.settings, size: 18),
-            onTap: () => _showAppSettingsModal(context, isLight),
-          ),
-        ),
-      ],
-    );
+            leading: Icon(CupertinoIcons.settings, size: 18),
+            onTap: () => _showAppSettingsModal(context, isLight))),
+      ]);
   }
 
   Widget _buildReviewsSection(bool isLight, AppSettings appSettings) {
@@ -4915,26 +4268,23 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
       children: [
         TradeRepublicSectionHeader(
           title: AppLocalizations.of(context)?.reviews ?? AppLocalizations.of(context)!.tr('Reviews'),
-          padding: const EdgeInsets.only(bottom: 12, top: 28, left: 4),
-        ),
+          padding: EdgeInsets.only(bottom: 12, top: 28, left: 4)),
 
         // Large Average Rating Display
         if (!isLoadingReviews && reviews.isNotEmpty)
           Container(
-            margin: const EdgeInsets.only(bottom: 16),
+            margin: EdgeInsets.only(bottom: 16),
 
             decoration: BoxDecoration(
               color: (isLight ? Colors.black : Colors.white).withOpacity(0.05),
-              borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-            ),
+              borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
             child: Row(
               children: [
                 Container(
                   padding: DesktopAppWrapper.getPagePadding(),
                   decoration: BoxDecoration(
                     color: Colors.amber.withOpacity(0.15),
-                    borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-                  ),
+                    borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
                   child: Column(
                     children: [
                       Text(
@@ -4942,10 +4292,8 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                         style: TextStyle(
                           color: isLight ? Colors.black : Colors.white,
                           fontSize: 48,
-                          fontWeight: FontWeight.w700,
-                        ),
-                      ),
-                      const SizedBox(height: 4),
+                          fontWeight: FontWeight.w700)),
+                      SizedBox(height: 4),
                       Row(
                         mainAxisSize: MainAxisSize.min,
                         children: List.generate(5, (index) {
@@ -4954,14 +4302,10 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                                 ? CupertinoIcons.star_fill
                                 : CupertinoIcons.star,
                             color: Colors.amber,
-                            size: 20,
-                          );
-                        }),
-                      ),
-                    ],
-                  ),
-                ),
-                const SizedBox(width: 20),
+                            size: 20);
+                        })),
+                    ])),
+                SizedBox(width: 20),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -4971,24 +4315,16 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                         style: TextStyle(
                           color: isLight ? Colors.black : Colors.white,
                           fontSize: DesktopOptimizedWidgets.getFontSize() + 4,
-                          fontWeight: FontWeight.w700,
-                        ),
-                      ),
-                      const SizedBox(height: 6),
+                          fontWeight: FontWeight.w700)),
+                      SizedBox(height: 6),
                       Text(
                         '${AppLocalizations.of(context)?.basedOnReviews ?? AppLocalizations.of(context)!.tr('Based on reviews')} (${reviews.length})',
                         style: TextStyle(
                           color: (isLight ? Colors.black : Colors.white)
                               .withOpacity(0.6),
-                          fontSize: DesktopOptimizedWidgets.getFontSize(),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ),
+                          fontSize: DesktopOptimizedWidgets.getFontSize())),
+                    ])),
+              ])),
 
         // Reviews Card in App Settings style
         _buildAccountOption(
@@ -5004,18 +4340,15 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
           onTap: () {
             // Open reviews modal to show all reviews
             _showReviewsModal(context, isLight, appSettings);
-          },
-        ),
-        const SizedBox(height: 32),
-      ],
-    );
+          }),
+        SizedBox(height: 32),
+      ]);
   }
 
   void _showReviewsModal(
     BuildContext context,
     bool isLight,
-    AppSettings appSettings,
-  ) {
+    AppSettings appSettings) {
     // Hide header when modal opens
     _hideHeader();
 
@@ -5031,7 +4364,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
           children: [
             // Header
             Padding(
-              padding: const EdgeInsets.only(top: 16, bottom: 20),
+              padding: EdgeInsets.only(top: 16, bottom: 20),
               child: Row(
                 children: [
                   Expanded(
@@ -5040,13 +4373,8 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                       style: TextStyle(
                         fontSize: appSettings.getScaledFontSize(28),
                         fontWeight: FontWeight.w700,
-                        color: isLight ? Colors.black : Colors.white,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
+                        color: isLight ? Colors.black : Colors.white))),
+                ])),
 
             // Reviews List
             Expanded(
@@ -5061,60 +4389,42 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                             CupertinoIcons.text_bubble,
                             size: 64,
                             color: (isLight ? Colors.black : Colors.white)
-                                .withOpacity(0.3),
-                          ),
+                                .withOpacity(0.3)),
                           SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
                           Text(
                             AppLocalizations.of(context)?.noReviewsYet ?? AppLocalizations.of(context)!.tr('No reviews yet'),
                             style: TextStyle(
                               fontSize: appSettings.getScaledFontSize(18),
                               fontWeight: FontWeight.w600,
-                              color: isLight ? Colors.black : Colors.white,
-                            ),
-                          ),
+                              color: isLight ? Colors.black : Colors.white)),
                           SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                           Text(
                             AppLocalizations.of(
-                                  context,
-                                )?.customerReviewsWillAppearHere ??
+                                  context)?.customerReviewsWillAppearHere ??
                                 AppLocalizations.of(
-                                  context,
-                                )?.customerReviewsWillAppearHere ?? AppLocalizations.of(context)!.tr('Customer reviews will appear here'),
+                                  context)?.customerReviewsWillAppearHere ?? AppLocalizations.of(context)!.tr('Customer reviews will appear here'),
                             style: TextStyle(
                               fontSize: appSettings.getScaledFontSize(14),
                               color: (isLight ? Colors.black : Colors.white)
-                                  .withOpacity(0.6),
-                            ),
-                          ),
-                        ],
-                      ),
-                    )
+                                  .withOpacity(0.6))),
+                        ]))
                   : ListView.builder(
                       itemCount: reviews.length,
                       itemBuilder: (context, index) {
                         return Padding(
-                          padding: const EdgeInsets.only(bottom: 16),
+                          padding: EdgeInsets.only(bottom: 16),
                           child: TradeRepublicTap(
                             onTap: () => _showReviewDetailModal(
                               context,
                               reviews[index],
                               isLight,
-                              appSettings,
-                            ),
+                              appSettings),
                             child: _buildReviewCard(
                               reviews[index],
                               isLight,
-                              appSettings,
-                            ),
-                          ),
-                        );
-                      },
-                    ),
-            ),
-          ],
-        ),
-      ),
-    ).whenComplete(() {
+                              appSettings)));
+                      })),
+          ]))).whenComplete(() {
       // Reset bottom sheet state when modal closes
       bottomSheetOpenNotifier.value = false;
       // Show header when modal closes
@@ -5125,8 +4435,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
   Widget _buildReviewCard(
     Map<String, dynamic> review,
     bool isLight,
-    AppSettings appSettings,
-  ) {
+    AppSettings appSettings) {
     final rating = review['rating'] ?? 0;
     final comment = review['comment'] ?? AppLocalizations.of(context)!.tr('');
     final customerName =
@@ -5160,32 +4469,27 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
     }
 
     return Container(
-      margin: const EdgeInsets.only(bottom: 12),
+      margin: EdgeInsets.only(bottom: 12),
       padding: DesktopAppWrapper.getPagePadding(),
       decoration: BoxDecoration(
         color: (isLight ? Colors.black : Colors.white).withOpacity(0.05),
-        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-      ),
+        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
             children: [
               Container(
-                padding: const EdgeInsets.all(10),
+                padding: EdgeInsets.all(10),
                 decoration: BoxDecoration(
                   color: (isLight ? Colors.black : Colors.white).withOpacity(
-                    0.05,
-                  ),
-                  borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-                ),
+                    0.05),
+                  borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
                 child: Icon(
                   CupertinoIcons.person_fill,
                   color: isLight ? Colors.black : Colors.white,
-                  size: 22,
-                ),
-              ),
-              const SizedBox(width: 14),
+                  size: 22)),
+              SizedBox(width: 14),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -5195,59 +4499,44 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                       style: TextStyle(
                         color: isLight ? Colors.black : Colors.white,
                         fontSize: appSettings.getScaledFontSize(16),
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
-                    const SizedBox(height: 3),
+                        fontWeight: FontWeight.w700)),
+                    SizedBox(height: 3),
                     Text(
                       formattedDate,
                       style: TextStyle(
                         color: (isLight ? Colors.black : Colors.white)
                             .withOpacity(0.5),
-                        fontSize: appSettings.getScaledFontSize(13),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+                        fontSize: appSettings.getScaledFontSize(13))),
+                  ])),
               Row(
                 children: List.generate(5, (index) {
                   return Padding(
-                    padding: const EdgeInsets.only(left: 2),
+                    padding: EdgeInsets.only(left: 2),
                     child: Icon(
                       index < rating
                           ? CupertinoIcons.star_fill
                           : CupertinoIcons.star,
                       color: Colors.amber,
-                      size: 20,
-                    ),
-                  );
-                }),
-              ),
-            ],
-          ),
+                      size: 20));
+                })),
+            ]),
           if (comment.isNotEmpty) ...[
-            const SizedBox(height: 14),
+            SizedBox(height: 14),
             Text(
               comment,
               style: TextStyle(
                 color: (isLight ? Colors.black : Colors.white).withOpacity(0.8),
                 fontSize: appSettings.getScaledFontSize(15),
-                height: 1.5,
-              ),
-            ),
+                height: 1.5)),
           ],
-        ],
-      ),
-    );
+        ]));
   }
 
   void _showReviewDetailModal(
     BuildContext context,
     Map<String, dynamic> review,
     bool isLight,
-    AppSettings appSettings,
-  ) {
+    AppSettings appSettings) {
     final rating = review['rating'] ?? 0;
     final comment = review['comment'] ?? AppLocalizations.of(context)!.tr('');
     final customerName =
@@ -5274,10 +4563,9 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
           children: [
             Expanded(
               child: SingleChildScrollView(
-                padding: const EdgeInsets.symmetric(
+                padding: EdgeInsets.symmetric(
                   horizontal: 24,
-                  vertical: 8,
-                ),
+                  vertical: 8),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -5289,15 +4577,12 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                           decoration: BoxDecoration(
                             color: (isLight ? Colors.black : Colors.white)
                                 .withOpacity(0.05),
-                            borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-                          ),
+                            borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
                           child: Icon(
                             CupertinoIcons.text_bubble,
                             color: isLight ? Colors.black : Colors.white,
-                            size: 32,
-                          ),
-                        ),
-                        const SizedBox(width: 16),
+                            size: 32)),
+                        SizedBox(width: 16),
                         Expanded(
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -5305,41 +4590,32 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                               Text(
                                 AppLocalizations.of(context)?.customerReview ??
                                     AppLocalizations.of(
-                                      context,
-                                    )?.customerReview ?? AppLocalizations.of(context)!.tr('Customer Review'),
+                                      context)?.customerReview ?? AppLocalizations.of(context)!.tr('Customer Review'),
                                 style: TextStyle(
                                   color: isLight ? Colors.black : Colors.white,
                                   fontSize: appSettings.getScaledFontSize(20),
-                                  fontWeight: FontWeight.w700,
-                                ),
-                              ),
+                                  fontWeight: FontWeight.w700)),
                               if (formattedDate.isNotEmpty) ...[
-                                const SizedBox(height: 4),
+                                SizedBox(height: 4),
                                 Text(
                                   formattedDate,
                                   style: TextStyle(
                                     color:
                                         (isLight ? Colors.black : Colors.white)
                                             .withOpacity(0.6),
-                                    fontSize: appSettings.getScaledFontSize(14),
-                                  ),
-                                ),
+                                    fontSize: appSettings.getScaledFontSize(14))),
                               ],
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
+                            ])),
+                      ]),
 
-                    const SizedBox(height: 32),
+                    SizedBox(height: 32),
 
                     // Rating
                     Container(
                       decoration: BoxDecoration(
                         color: (isLight ? Colors.black : Colors.white)
                             .withOpacity(0.05),
-                        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-                      ),
+                        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
                       child: Column(
                         children: [
                           Text(
@@ -5347,30 +4623,22 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                             style: TextStyle(
                               color: isLight ? Colors.black : Colors.white,
                               fontSize: 48,
-                              fontWeight: FontWeight.w700,
-                            ),
-                          ),
+                              fontWeight: FontWeight.w700)),
                           SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: List.generate(5, (index) {
                               return Padding(
-                                padding: const EdgeInsets.symmetric(
-                                  horizontal: 4,
-                                ),
+                                padding: EdgeInsets.symmetric(
+                                  horizontal: 4),
                                 child: Icon(
                                   index < rating
                                       ? CupertinoIcons.star_fill
                                       : CupertinoIcons.star,
                                   color: Colors.amber,
-                                  size: 32,
-                                ),
-                              );
-                            }),
-                          ),
-                        ],
-                      ),
-                    ),
+                                  size: 32));
+                            })),
+                        ])),
 
                     SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
@@ -5378,29 +4646,23 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                     Row(
                       children: [
                         Container(
-                          padding: const EdgeInsets.all(12),
+                          padding: EdgeInsets.all(12),
                           decoration: BoxDecoration(
                             color: (isLight ? Colors.black : Colors.white)
                                 .withOpacity(0.1),
-                            borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-                          ),
+                            borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
                           child: Icon(
                             CupertinoIcons.person_fill,
                             color: isLight ? Colors.black : Colors.white,
-                            size: 20,
-                          ),
-                        ),
-                        const SizedBox(width: 12),
+                            size: 20)),
+                        SizedBox(width: 12),
                         Text(
                           customerName,
                           style: TextStyle(
                             color: isLight ? Colors.black : Colors.white,
                             fontSize: appSettings.getScaledFontSize(16),
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                      ],
-                    ),
+                            fontWeight: FontWeight.w600)),
+                      ]),
 
                     if (comment.isNotEmpty) ...[
                       SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
@@ -5411,8 +4673,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                         decoration: BoxDecoration(
                           color: (isLight ? Colors.black : Colors.white)
                               .withOpacity(0.05),
-                          borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-                        ),
+                          borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -5422,48 +4683,33 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                                   CupertinoIcons.quote_bubble,
                                   color: (isLight ? Colors.black : Colors.white)
                                       .withOpacity(0.4),
-                                  size: 20,
-                                ),
-                                const SizedBox(width: 8),
+                                  size: 20),
+                                SizedBox(width: 8),
                                 Text(
                                   AppLocalizations.of(context)?.review ??
                                       AppLocalizations.of(
-                                        context,
-                                      )?.reviewLabel ?? AppLocalizations.of(context)!.tr('Review'),
+                                        context)?.reviewLabel ?? AppLocalizations.of(context)!.tr('Review'),
                                   style: TextStyle(
                                     color:
                                         (isLight ? Colors.black : Colors.white)
                                             .withOpacity(0.6),
                                     fontSize: appSettings.getScaledFontSize(13),
                                     fontWeight: FontWeight.w600,
-                                    letterSpacing: 0.5,
-                                  ),
-                                ),
-                              ],
-                            ),
+                                    letterSpacing: 0.5)),
+                              ]),
                             SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                             Text(
                               comment,
                               style: TextStyle(
                                 color: isLight ? Colors.black : Colors.white,
                                 fontSize: appSettings.getScaledFontSize(15),
-                                height: 1.5,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
+                                height: 1.5)),
+                          ])),
                     ],
 
-                    const SizedBox(height: 32),
-                  ],
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
+                    SizedBox(height: 32),
+                  ]))),
+          ])));
   }
 
   void _showAppSettingsModal(BuildContext parentContext, bool isLight) {
@@ -5492,20 +4738,16 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                         Icon(
                           CupertinoIcons.settings,
                           size: 22,
-                          color: isLight ? Colors.black : Colors.white,
-                        ),
-                        const SizedBox(width: 12),
+                          color: isLight ? Colors.black : Colors.white),
+                        SizedBox(width: 12),
                         Text(
                           AppLocalizations.of(context)?.appSettings ?? AppLocalizations.of(context)!.tr('App Settings'),
                           style: TextStyle(
                             fontSize: 22,
                             fontWeight: FontWeight.w700,
                             color: isLight ? Colors.black : Colors.white,
-                            letterSpacing: -0.4,
-                          ),
-                        ),
-                      ],
-                    ),
+                            letterSpacing: -0.4)),
+                      ]),
 
                     SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
@@ -5550,18 +4792,10 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
 
                             // Legal & About
                             _settings_buildLegalAboutSection(appSettings, isLight),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              );
-            },
-          );
-        },
-      ),
-    ).whenComplete(() {
+                          ]))),
+                  ]));
+            });
+        })).whenComplete(() {
       // Reset bottom sheet state when modal closes
       bottomSheetOpenNotifier.value = false;
       _showHeader();
@@ -5572,23 +4806,19 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
 
   Widget _settings_buildSectionHeader(String title, bool isLight) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(0, 24, 0, 12),
+      padding: EdgeInsets.fromLTRB(0, 24, 0, 12),
       child: Text(
         title,
         style: TextStyle(
           fontSize: 11,
           fontWeight: FontWeight.w700,
           color: (isLight ? Colors.black : Colors.white).withOpacity(0.5),
-          letterSpacing: 1.2,
-        ),
-      ),
-    );
+          letterSpacing: 1.2)));
   }
 
   Widget _settings_buildAppearanceSection(
     AppSettings appSettings,
-    bool isLight,
-  ) {
+    bool isLight) {
     // Map internal English keys to localized display names
     final themeOptions = {
       'System': AppLocalizations.of(context)?.system ?? AppLocalizations.of(context)!.tr('System'),
@@ -5607,56 +4837,46 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
       children: [
         _settings_buildSectionHeader(
           (AppLocalizations.of(context)?.appearance ?? AppLocalizations.of(context)!.tr('APPEARANCE')).toUpperCase(),
-          isLight,
-        ),
+          isLight),
         TradeRepublicListTile.navigation(
           title: AppLocalizations.of(context)?.theme ?? AppLocalizations.of(context)!.tr('Theme'),
           subtitle: themeOptions[appSettings.selectedTheme] ?? appSettings.selectedTheme,
           leading: Icon(
             CupertinoIcons.paintbrush,
             size: 20,
-            color: isLight ? Colors.black : Colors.white,
-          ),
+            color: isLight ? Colors.black : Colors.white),
           onTap: () => _settings_showMappedOptions(
             title: AppLocalizations.of(context)?.theme ?? AppLocalizations.of(context)!.tr('Theme'),
             options: themeOptions,
             selectedKey: appSettings.selectedTheme,
             onSelect: (key) => appSettings.setSelectedTheme(key),
-            isLight: isLight,
-          ),
-        ),
+            isLight: isLight)),
         TradeRepublicListTile.navigation(
           title: AppLocalizations.of(context)?.textSize ?? AppLocalizations.of(context)!.tr('Text Size'),
           subtitle: textSizeOptions[appSettings.delviooTextSize] ?? appSettings.delviooTextSize,
           leading: Icon(
             CupertinoIcons.textformat_size,
             size: 20,
-            color: isLight ? Colors.black : Colors.white,
-          ),
+            color: isLight ? Colors.black : Colors.white),
           onTap: () => _settings_showMappedOptions(
             title: AppLocalizations.of(context)?.textSize ?? AppLocalizations.of(context)!.tr('Text Size'),
             options: textSizeOptions,
             selectedKey: appSettings.delviooTextSize,
             onSelect: (key) => appSettings.setDelviooTextSize(key),
-            isLight: isLight,
-          ),
-        ),
-      ],
-    );
+            isLight: isLight)),
+      ]);
   }
 
   Widget _settings_buildDriverSection(
     AppSettings appSettings,
     bool isLight,
-    StateSetter setLocalState,
-  ) {
+    StateSetter setLocalState) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         _settings_buildSectionHeader(
           (AppLocalizations.of(context)?.driverSettings ?? AppLocalizations.of(context)!.tr('DRIVER SETTINGS')).toUpperCase(),
-          isLight,
-        ),
+          isLight),
         TradeRepublicListTile.toggle(
           title: AppLocalizations.of(context)?.pushNotifications ?? AppLocalizations.of(context)!.tr('Push Notifications'),
           subtitle: _settingsNotificationsEnabled
@@ -5665,14 +4885,12 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
           leading: Icon(
             CupertinoIcons.bell,
             size: 20,
-            color: isLight ? Colors.black : Colors.white,
-          ),
+            color: isLight ? Colors.black : Colors.white),
           value: _settingsNotificationsEnabled,
           onChanged: (v) {
             setLocalState(() => _settingsNotificationsEnabled = v);
             _saveSettingPref('notificationsEnabled', v);
-          },
-        ),
+          }),
         TradeRepublicListTile.toggle(
           title: AppLocalizations.of(context)?.locationSharing ?? AppLocalizations.of(context)!.tr('Location Sharing'),
           subtitle: _settingsLocationSharing
@@ -5681,8 +4899,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
           leading: Icon(
             CupertinoIcons.location_solid,
             size: 20,
-            color: isLight ? Colors.black : Colors.white,
-          ),
+            color: isLight ? Colors.black : Colors.white),
           value: _settingsLocationSharing,
           onChanged: (v) async {
             if (v) {
@@ -5695,8 +4912,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
               setLocalState(() => _settingsLocationSharing = v);
               _saveSettingPref('locationSharing', v);
             }
-          },
-        ),
+          }),
         TradeRepublicListTile.toggle(
           title: AppLocalizations.of(context)?.autoAcceptOrders ?? AppLocalizations.of(context)!.tr('Auto Accept Orders'),
           subtitle: _settingsAutoAcceptOrders
@@ -5705,23 +4921,19 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
           leading: Icon(
             CupertinoIcons.checkmark_circle_fill,
             size: 20,
-            color: isLight ? Colors.black : Colors.white,
-          ),
+            color: isLight ? Colors.black : Colors.white),
           value: _settingsAutoAcceptOrders,
           onChanged: (v) {
             setLocalState(() => _settingsAutoAcceptOrders = v);
             _saveSettingPref('autoAcceptOrders', v);
-          },
-        ),
-      ],
-    );
+          }),
+      ]);
   }
 
   Widget _settings_buildWaitingTimeSection(
     AppSettings appSettings,
     bool isLight,
-    StateSetter setLocalState,
-  ) {
+    StateSetter setLocalState) {
     // Load settings from backend if not loaded
     if (!_waitingSettingsLoaded) {
       _loadWaitingTimeSettings();
@@ -5732,8 +4944,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
       children: [
         _settings_buildSectionHeader(
           'WARTEZEIT',
-          isLight,
-        ),
+          isLight),
         // Free waiting time
         TradeRepublicListTile(
           title: AppLocalizations.of(context)?.freeWaiting ?? AppLocalizations.of(context)!.tr('Free Waiting Time'),
@@ -5741,13 +4952,11 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
           leading: Icon(
             CupertinoIcons.clock,
             size: 20,
-            color: isLight ? Colors.black : Colors.white,
-          ),
+            color: isLight ? Colors.black : Colors.white),
           trailing: Icon(
             CupertinoIcons.chevron_right,
             size: 16,
-            color: isLight ? Colors.black38 : Colors.white38,
-          ),
+            color: isLight ? Colors.black38 : Colors.white38),
           onTap: () {
             _showWaitingTimeEditDialog(
               isLight,
@@ -5761,10 +4970,8 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                   setState(() {});
                   _saveWaitingTimeSettings();
                 }
-              },
-            );
-          },
-        ),
+              });
+          }),
         // Rate per hour
         TradeRepublicListTile(
           title: AppLocalizations.of(context)?.waitingCharges ?? AppLocalizations.of(context)!.tr('Hourly Rate'),
@@ -5776,13 +4983,11 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
           leading: Icon(
             CupertinoIcons.money_euro,
             size: 20,
-            color: isLight ? Colors.black : Colors.white,
-          ),
+            color: isLight ? Colors.black : Colors.white),
           trailing: Icon(
             CupertinoIcons.chevron_right,
             size: 16,
-            color: isLight ? Colors.black38 : Colors.white38,
-          ),
+            color: isLight ? Colors.black38 : Colors.white38),
           onTap: () {
             _showWaitingTimeEditDialog(
               isLight,
@@ -5796,24 +5001,18 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                   setState(() {});
                   _saveWaitingTimeSettings();
                 }
-              },
-            );
-          },
-        ),
+              });
+          }),
         // Info text
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+          padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
           child: Text(
             AppLocalizations.of(context)?.waitingTimeInfoDriver ?? AppLocalizations.of(context)!.tr('After the free waiting time expires, the hourly rate will be charged. The timer starts when you tap "Arrived" and stops when the QR code is scanned.'),
             style: TextStyle(
               fontSize: 12,
               color: isLight ? Colors.black45 : Colors.white.withOpacity(0.45),
-              height: 1.4,
-            ),
-          ),
-        ),
-      ],
-    );
+              height: 1.4))),
+      ]);
   }
 
   void _showWaitingTimeEditDialog(
@@ -5821,8 +5020,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
     String title,
     String currentValue,
     String suffix,
-    Function(String) onSave,
-  ) {
+    Function(String) onSave) {
     final controller = TextEditingController(text: currentValue);
 
     TradeRepublicBottomSheet.show(
@@ -5830,8 +5028,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
       showDragHandle: true,
       child: Padding(
         padding: EdgeInsets.only(
-          bottom: MediaQuery.of(context).viewInsets.bottom,
-        ),
+          bottom: MediaQuery.of(context).viewInsets.bottom),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -5841,9 +5038,8 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                 Icon(
                   CupertinoIcons.pencil,
                   size: 22,
-                  color: isLight ? Colors.black : Colors.white,
-                ),
-                const SizedBox(width: 12),
+                  color: isLight ? Colors.black : Colors.white),
+                SizedBox(width: 12),
                 Expanded(
                   child: Text(
                     title,
@@ -5851,15 +5047,11 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                       fontSize: 22,
                       fontWeight: FontWeight.w700,
                       color: isLight ? Colors.black : Colors.white,
-                      letterSpacing: -0.4,
-                    ),
-                  ),
-                ),
-              ],
-            ),
+                      letterSpacing: -0.4))),
+              ]),
             SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 24),
+              padding: EdgeInsets.symmetric(horizontal: 24),
               child: TradeRepublicTextField(
                 controller: controller,
                 keyboardType: const TextInputType.numberWithOptions(decimal: true),
@@ -5869,47 +5061,36 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                   fontSize: 36,
                   fontWeight: FontWeight.w800,
                   color: isLight ? Colors.black : Colors.white,
-                  letterSpacing: -1,
-                ),
+                  letterSpacing: -1),
                   suffixText: suffix,
                   suffixStyle: TextStyle(
                     fontSize: DesktopOptimizedWidgets.getFontSize() + 4,
                     fontWeight: FontWeight.w500,
-                    color: isLight ? Colors.black38 : Colors.white38,
-                  ),
-                filled: false,
-              ),
-            ),
+                    color: isLight ? Colors.black38 : Colors.white38),
+                filled: false)),
             SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 24),
+              padding: EdgeInsets.symmetric(horizontal: 24),
               child: TradeRepublicButton(
                 label: AppLocalizations.of(context)?.save ?? AppLocalizations.of(context)!.tr('Save'),
                 onPressed: () {
                   onSave(controller.text.trim());
                   Navigator.pop(context);
-                },
-              ),
-            ),
-            const SizedBox(height: 32),
-          ],
-        ),
-      ),
-    );
+                })),
+            SizedBox(height: 32),
+          ])));
   }
 
   Widget _settings_buildNavigationSection(
     AppSettings appSettings,
     bool isLight,
-    StateSetter setLocalState,
-  ) {
+    StateSetter setLocalState) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         _settings_buildSectionHeader(
           (AppLocalizations.of(context)?.navigation ?? AppLocalizations.of(context)!.tr('NAVIGATION')).toUpperCase(),
-          isLight,
-        ),
+          isLight),
         TradeRepublicListTile.toggle(
           title: AppLocalizations.of(context)?.motionDock ?? AppLocalizations.of(context)!.tr('Motion Dock'),
           subtitle: _settingsShowDock
@@ -5918,8 +5099,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
           leading: Icon(
             CupertinoIcons.square_grid_2x2,
             size: 20,
-            color: isLight ? Colors.black : Colors.white,
-          ),
+            color: isLight ? Colors.black : Colors.white),
           value: _settingsShowDock,
           onChanged: (v) {
             setLocalState(() {
@@ -5927,24 +5107,20 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
               hideDockNotifier.value = !v;
             });
             _saveSettingPref('showDock', v);
-          },
-        ),
-      ],
-    );
+          }),
+      ]);
   }
 
   Widget _settings_buildPermissionsSection(
     AppSettings appSettings,
     bool isLight,
-    StateSetter setLocalState,
-  ) {
+    StateSetter setLocalState) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         _settings_buildSectionHeader(
           (AppLocalizations.of(context)?.permissionsSection ?? AppLocalizations.of(context)!.tr('PERMISSIONS')).toUpperCase(),
-          isLight,
-        ),
+          isLight),
         _settingsLocationPermissionGranted
           ? TradeRepublicListTile(
               title: AppLocalizations.of(context)?.gpsLocation ?? AppLocalizations.of(context)!.tr('GPS Location'),
@@ -5952,44 +5128,36 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
               leading: Icon(
                 CupertinoIcons.location_fill,
                 size: 20,
-                color: isLight ? Colors.black : Colors.white,
-              ),
+                color: isLight ? Colors.black : Colors.white),
               trailing: Icon(
                 CupertinoIcons.checkmark_circle_fill,
                 size: 20,
-                color: isLight ? Colors.black : Colors.white,
-              ),
-            )
+                color: isLight ? Colors.black : Colors.white))
           : TradeRepublicListTile.navigation(
               title: AppLocalizations.of(context)?.gpsLocation ?? AppLocalizations.of(context)!.tr('GPS Location'),
               subtitle: AppLocalizations.of(context)?.tapToEnableLocation ?? AppLocalizations.of(context)!.tr('Tap to enable location access'),
               leading: Icon(
                 CupertinoIcons.location_fill,
                 size: 20,
-                color: isLight ? Colors.black : Colors.white,
-              ),
+                color: isLight ? Colors.black : Colors.white),
               onTap: () {
                 _settingsRequestLocationPermission().then((_) {
                   _settingsCheckLocationPermission();
                   setLocalState(() {});
                 });
-              },
-            ),
-      ],
-    );
+              }),
+      ]);
   }
 
   Widget _settings_buildLocalizationSection(
     AppSettings appSettings,
-    bool isLight,
-  ) {
+    bool isLight) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         _settings_buildSectionHeader(
           (AppLocalizations.of(context)?.localization ?? AppLocalizations.of(context)!.tr('LOCALIZATION')).toUpperCase(),
-          isLight,
-        ),
+          isLight),
         TradeRepublicListTile.navigation(
           title: AppLocalizations.of(context)?.language ?? AppLocalizations.of(context)!.tr('Language'),
           subtitle: appSettings.selectedLanguage == 'System'
@@ -5998,13 +5166,10 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
           leading: Icon(
             CupertinoIcons.globe,
             size: 20,
-            color: isLight ? Colors.black : Colors.white,
-          ),
+            color: isLight ? Colors.black : Colors.white),
           onTap: () => _settings_showLanguageOptions(
             appSettings: appSettings,
-            isLight: isLight,
-          ),
-        ),
+            isLight: isLight)),
         TradeRepublicListTile.navigation(
           title: AppLocalizations.of(context)?.numberFormat ?? AppLocalizations.of(context)!.tr('Number Format'),
           subtitle: appSettings.delviooNumberFormat == 'System'
@@ -6015,8 +5180,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
           leading: Icon(
             CupertinoIcons.tag,
             size: 20,
-            color: isLight ? Colors.black : Colors.white,
-          ),
+            color: isLight ? Colors.black : Colors.white),
           onTap: () => _settings_showMappedOptions(
             title: AppLocalizations.of(context)?.numberFormat ?? AppLocalizations.of(context)!.tr('Number Format'),
             options: {
@@ -6026,9 +5190,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
             },
             selectedKey: appSettings.delviooNumberFormat,
             onSelect: (key) => appSettings.setDelviooNumberFormat(key),
-            isLight: isLight,
-          ),
-        ),
+            isLight: isLight)),
         TradeRepublicListTile.navigation(
           title: AppLocalizations.of(context)?.currency ?? AppLocalizations.of(context)!.tr('Currency'),
           subtitle: appSettings.delviooCurrency == 'System'
@@ -6037,8 +5199,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
           leading: Icon(
             CupertinoIcons.money_dollar_circle,
             size: 20,
-            color: isLight ? Colors.black : Colors.white,
-          ),
+            color: isLight ? Colors.black : Colors.white),
           onTap: () => _settings_showMappedOptions(
             title: AppLocalizations.of(context)?.currency ?? AppLocalizations.of(context)!.tr('Currency'),
             options: {
@@ -6050,17 +5211,14 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
             },
             selectedKey: appSettings.delviooCurrency,
             onSelect: (key) => appSettings.setDelviooCurrency(key),
-            isLight: isLight,
-          ),
-        ),
+            isLight: isLight)),
         TradeRepublicListTile.navigation(
           title: AppLocalizations.of(context)?.dateFormat ?? AppLocalizations.of(context)!.tr('Date Format'),
           subtitle: appSettings.selectedDateFormat,
           leading: Icon(
             CupertinoIcons.calendar,
             size: 20,
-            color: isLight ? Colors.black : Colors.white,
-          ),
+            color: isLight ? Colors.black : Colors.white),
           onTap: () => _settings_showOptions(
             parentContext: null,
             title: AppLocalizations.of(context)?.dateFormat ?? AppLocalizations.of(context)!.tr('Date Format'),
@@ -6072,17 +5230,13 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
             ],
             selected: appSettings.selectedDateFormat,
             onSelect: (opt) => appSettings.setSelectedDateFormat(opt),
-            isLight: isLight,
-          ),
-        ),
-      ],
-    );
+            isLight: isLight)),
+      ]);
   }
 
   Widget _settings_buildUnitsSection(
     AppSettings appSettings,
-    bool isLight,
-  ) {
+    bool isLight) {
     final tempOptions = {
       'System': AppLocalizations.of(context)?.system ?? AppLocalizations.of(context)!.tr('System'),
       'Celsius': 'Celsius (°C)',
@@ -6104,8 +5258,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
       children: [
         _settings_buildSectionHeader(
           (AppLocalizations.of(context)?.units ?? AppLocalizations.of(context)!.tr('UNITS')).toUpperCase(),
-          isLight,
-        ),
+          isLight),
         TradeRepublicListTile.navigation(
           title: AppLocalizations.of(context)?.temperatureUnit ?? AppLocalizations.of(context)!.tr('Temperature'),
           subtitle: appSettings.delviooTemperatureUnit == 'System'
@@ -6114,16 +5267,13 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
           leading: Icon(
             CupertinoIcons.thermometer,
             size: 20,
-            color: isLight ? Colors.black : Colors.white,
-          ),
+            color: isLight ? Colors.black : Colors.white),
           onTap: () => _settings_showMappedOptions(
             title: AppLocalizations.of(context)?.temperatureUnit ?? AppLocalizations.of(context)!.tr('Temperature'),
             options: tempOptions,
             selectedKey: appSettings.delviooTemperatureUnit,
             onSelect: (key) => appSettings.setDelviooTemperatureUnit(key),
-            isLight: isLight,
-          ),
-        ),
+            isLight: isLight)),
         TradeRepublicListTile.navigation(
           title: AppLocalizations.of(context)?.distanceUnit ?? AppLocalizations.of(context)!.tr('Distance'),
           subtitle: appSettings.delviooDistanceUnit == 'System'
@@ -6132,16 +5282,13 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
           leading: Icon(
             CupertinoIcons.map,
             size: 20,
-            color: isLight ? Colors.black : Colors.white,
-          ),
+            color: isLight ? Colors.black : Colors.white),
           onTap: () => _settings_showMappedOptions(
             title: AppLocalizations.of(context)?.distanceUnit ?? AppLocalizations.of(context)!.tr('Distance Unit'),
             options: distOptions,
             selectedKey: appSettings.delviooDistanceUnit,
             onSelect: (key) => appSettings.setDelviooDistanceUnit(key),
-            isLight: isLight,
-          ),
-        ),
+            isLight: isLight)),
         TradeRepublicListTile.navigation(
           title: AppLocalizations.of(context)?.weightUnit ?? AppLocalizations.of(context)!.tr('Weight'),
           subtitle: appSettings.delviooWeightUnit == 'System'
@@ -6150,112 +5297,91 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
           leading: Icon(
             CupertinoIcons.speedometer,
             size: 20,
-            color: isLight ? Colors.black : Colors.white,
-          ),
+            color: isLight ? Colors.black : Colors.white),
           onTap: () => _settings_showMappedOptions(
             title: AppLocalizations.of(context)?.weightUnit ?? AppLocalizations.of(context)!.tr('Weight Unit'),
             options: weightOptions,
             selectedKey: appSettings.delviooWeightUnit,
             onSelect: (key) => appSettings.setDelviooWeightUnit(key),
-            isLight: isLight,
-          ),
-        ),
-      ],
-    );
+            isLight: isLight)),
+      ]);
   }
 
   Widget _settings_buildDataSection(
     AppSettings appSettings,
-    bool isLight,
-  ) {
+    bool isLight) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         _settings_buildSectionHeader(
           (AppLocalizations.of(context)?.dataManagement ?? AppLocalizations.of(context)!.tr('DATA MANAGEMENT')).toUpperCase(),
-          isLight,
-        ),
+          isLight),
         TradeRepublicListTile.destructive(
           title: AppLocalizations.of(context)?.clearNavigationData ?? AppLocalizations.of(context)!.tr('Clear Navigation Data'),
           subtitle: AppLocalizations.of(context)?.resetAllMultiOrderNavigationSessions ?? AppLocalizations.of(context)!.tr('Reset all multi-order navigation sessions'),
           leading: Icon(CupertinoIcons.trash, size: 20, color: Colors.red),
-          onTap: () => _settingsClearNavigationData(context, isLight),
-        ),
-      ],
-    );
+          onTap: () => _settingsClearNavigationData(context, isLight)),
+      ]);
   }
 
   Widget _settings_buildLegalAboutSection(
     AppSettings appSettings,
-    bool isLight,
-  ) {
+    bool isLight) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         _settings_buildSectionHeader(
           (AppLocalizations.of(context)?.legalAbout ?? AppLocalizations.of(context)!.tr('LEGAL & ABOUT')).toUpperCase(),
-          isLight,
-        ),
+          isLight),
         TradeRepublicListTile.navigation(
           title: AppLocalizations.of(context)?.privacyPolicy ?? AppLocalizations.of(context)!.tr('Privacy Policy'),
           subtitle: AppLocalizations.of(context)?.howWeProtectYourData ?? AppLocalizations.of(context)!.tr('How we protect your data'),
           leading: Icon(
             CupertinoIcons.lock_shield,
             size: 20,
-            color: isLight ? Colors.black : Colors.white,
-          ),
+            color: isLight ? Colors.black : Colors.white),
           onTap: () async {
             final url = Uri.parse(
-              'https://cultioo.com/us/us_legal_app#delvioo_privacy',
-            );
+              'https://cultioo.com/us/us_legal_app#delvioo_privacy');
             if (await canLaunchUrl(url)) {
               await launchUrl(url, mode: LaunchMode.externalApplication);
             }
-          },
-        ),
+          }),
         TradeRepublicListTile.navigation(
           title: AppLocalizations.of(context)?.termsConditions ?? AppLocalizations.of(context)!.tr('Terms & Conditions'),
           subtitle: AppLocalizations.of(context)?.termsOfService ?? AppLocalizations.of(context)!.tr('Terms of service'),
           leading: Icon(
             CupertinoIcons.doc_text,
             size: 20,
-            color: isLight ? Colors.black : Colors.white,
-          ),
+            color: isLight ? Colors.black : Colors.white),
           onTap: () async {
             final url = Uri.parse(
-              'https://cultioo.com/us/us_legal_app#delvioo_terms',
-            );
+              'https://cultioo.com/us/us_legal_app#delvioo_terms');
             if (await canLaunchUrl(url)) {
               await launchUrl(url, mode: LaunchMode.externalApplication);
             }
-          },
-        ),
+          }),
         TradeRepublicListTile.navigation(
           title: AppLocalizations.of(context)?.generalHelp ?? AppLocalizations.of(context)!.tr('General Help'),
           subtitle: AppLocalizations.of(context)?.helpAndSupportForTheApp ?? AppLocalizations.of(context)!.tr('Help and support for the app'),
           leading: Icon(
             CupertinoIcons.question_circle,
             size: 20,
-            color: isLight ? Colors.black : Colors.white,
-          ),
+            color: isLight ? Colors.black : Colors.white),
           onTap: () async {
             final url = Uri.parse('https://cultioo.com/us/us_help');
             if (await canLaunchUrl(url)) {
               await launchUrl(url, mode: LaunchMode.externalApplication);
             }
-          },
-        ),
+          }),
         TradeRepublicListTile(
           title: AppLocalizations.of(context)?.appVersion ?? AppLocalizations.of(context)!.tr('App Version'),
           subtitle: AppLocalizations.of(context)!.tr('1.0.0') ?? AppLocalizations.of(context)!.tr('1.0.0'),
           leading: Icon(
             CupertinoIcons.info_circle,
             size: 20,
-            color: isLight ? Colors.black : Colors.white,
-          ),
-        ),
-      ],
-    );
+            color: isLight ? Colors.black : Colors.white)),
+      ]);
   }
 
   // Options modal that stores internal keys but displays localized names
@@ -6279,9 +5405,8 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
               Icon(
                 CupertinoIcons.list_bullet,
                 size: 22,
-                color: isLight ? Colors.black : Colors.white,
-              ),
-              const SizedBox(width: 12),
+                color: isLight ? Colors.black : Colors.white),
+              SizedBox(width: 12),
               Expanded(
                 child: Text(
                   title,
@@ -6289,12 +5414,8 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                     fontSize: 22,
                     fontWeight: FontWeight.w700,
                     color: isLight ? Colors.black : Colors.white,
-                    letterSpacing: -0.4,
-                  ),
-                ),
-              ),
-            ],
-          ),
+                    letterSpacing: -0.4))),
+            ]),
           SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
           Column(
@@ -6310,17 +5431,15 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                 },
                 child: Container(
                   width: double.infinity,
-                  margin: const EdgeInsets.only(bottom: 10),
-                  padding: const EdgeInsets.symmetric(
+                  margin: EdgeInsets.only(bottom: 10),
+                  padding: EdgeInsets.symmetric(
                     vertical: 14,
-                    horizontal: 16,
-                  ),
+                    horizontal: 16),
                   decoration: BoxDecoration(
                     color: isSelected
                         ? (isLight ? Colors.black : Colors.white)
                         : (isLight ? Colors.black : Colors.white).withOpacity(0.04),
-                    borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-                  ),
+                    borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
                   child: Row(
                     children: [
                       Expanded(
@@ -6334,12 +5453,10 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                                 fontWeight: FontWeight.w600,
                                 color: isSelected
                                     ? (isLight ? Colors.white : Colors.black)
-                                    : (isLight ? Colors.black : Colors.white),
-                              ),
-                            ),
+                                    : (isLight ? Colors.black : Colors.white))),
                             if (key == 'System')
                               Padding(
-                                padding: const EdgeInsets.only(top: 3),
+                                padding: EdgeInsets.only(top: 3),
                                 child: Text(
                                   AppLocalizations.of(context)?.followsDeviceSettings ?? AppLocalizations.of(context)!.tr('Follows device settings'),
                                   style: TextStyle(
@@ -6347,25 +5464,15 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                                     fontWeight: FontWeight.w400,
                                     color: isSelected
                                         ? (isLight ? Colors.white : Colors.black).withOpacity(0.6)
-                                        : (isLight ? Colors.black : Colors.white).withOpacity(0.5),
-                                  ),
-                                ),
-                              ),
-                          ],
-                        ),
-                      ),
+                                        : (isLight ? Colors.black : Colors.white).withOpacity(0.5)))),
+                          ])),
                       if (isSelected)
                         Icon(
                           CupertinoIcons.checkmark_circle_fill,
                           color: isLight ? Colors.white : Colors.black,
-                          size: 20,
-                        ),
-                    ],
-                  ),
-                ),
-              );
-            }).toList(),
-          ),
+                          size: 20),
+                    ])));
+            }).toList()),
 
           SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
@@ -6373,12 +5480,9 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
             label: AppLocalizations.of(context)?.cancel ?? AppLocalizations.of(context)!.tr('Cancel'),
             isSecondary: true,
             height: 50,
-            onPressed: () => Navigator.pop(context),
-          ),
+            onPressed: () => Navigator.pop(context)),
           SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
-        ],
-      ),
-    );
+        ]));
   }
 
   // Small options modal used by settings rows
@@ -6405,9 +5509,8 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
               Icon(
                 CupertinoIcons.list_bullet,
                 size: 22,
-                color: isLight ? Colors.black : Colors.white,
-              ),
-              const SizedBox(width: 12),
+                color: isLight ? Colors.black : Colors.white),
+              SizedBox(width: 12),
               Expanded(
                 child: Text(
                   title,
@@ -6415,12 +5518,8 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                     fontSize: 22,
                     fontWeight: FontWeight.w700,
                     color: isLight ? Colors.black : Colors.white,
-                    letterSpacing: -0.4,
-                  ),
-                ),
-              ),
-            ],
-          ),
+                    letterSpacing: -0.4))),
+            ]),
           SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
           Column(
@@ -6434,17 +5533,15 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                 },
                 child: Container(
                   width: double.infinity,
-                  margin: const EdgeInsets.only(bottom: 10),
-                  padding: const EdgeInsets.symmetric(
+                  margin: EdgeInsets.only(bottom: 10),
+                  padding: EdgeInsets.symmetric(
                     vertical: 14,
-                    horizontal: 16,
-                  ),
+                    horizontal: 16),
                   decoration: BoxDecoration(
                     color: isSelected
                         ? (isLight ? Colors.black : Colors.white)
                         : (isLight ? Colors.black : Colors.white).withOpacity(0.04),
-                    borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-                  ),
+                    borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
                   child: Row(
                     children: [
                       Expanded(
@@ -6458,12 +5555,10 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                                 fontWeight: FontWeight.w600,
                                 color: isSelected
                                     ? (isLight ? Colors.white : Colors.black)
-                                    : (isLight ? Colors.black : Colors.white),
-                              ),
-                            ),
+                                    : (isLight ? Colors.black : Colors.white))),
                             if (opt == (AppLocalizations.of(context)?.system ?? AppLocalizations.of(context)!.tr('System')))
                               Padding(
-                                padding: const EdgeInsets.only(top: 3),
+                                padding: EdgeInsets.only(top: 3),
                                 child: Text(
                                   AppLocalizations.of(context)?.followsDeviceSettings ?? AppLocalizations.of(context)!.tr('Follows device settings'),
                                   style: TextStyle(
@@ -6471,25 +5566,15 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                                     fontWeight: FontWeight.w400,
                                     color: isSelected
                                         ? (isLight ? Colors.white : Colors.black).withOpacity(0.6)
-                                        : (isLight ? Colors.black : Colors.white).withOpacity(0.5),
-                                  ),
-                                ),
-                              ),
-                          ],
-                        ),
-                      ),
+                                        : (isLight ? Colors.black : Colors.white).withOpacity(0.5)))),
+                          ])),
                       if (isSelected)
                         Icon(
                           CupertinoIcons.checkmark_circle_fill,
                           color: isLight ? Colors.white : Colors.black,
-                          size: 20,
-                        ),
-                    ],
-                  ),
-                ),
-              );
-            }).toList(),
-          ),
+                          size: 20),
+                    ])));
+            }).toList()),
 
           SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
@@ -6499,12 +5584,9 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
             height: 50,
             onPressed: () {
               Navigator.pop(context);
-            },
-          ),
+            }),
           SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
-        ],
-      ),
-    );
+        ]));
   }
 
   // Language selection modal with flags and regions
@@ -6539,20 +5621,16 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                 Icon(
                   CupertinoIcons.globe,
                   size: 22,
-                  color: isLight ? Colors.black : Colors.white,
-                ),
-                const SizedBox(width: 12),
+                  color: isLight ? Colors.black : Colors.white),
+                SizedBox(width: 12),
                 Text(
                   AppLocalizations.of(context)?.language ?? AppLocalizations.of(context)!.tr('Language'),
                   style: TextStyle(
                     fontSize: 22,
                     fontWeight: FontWeight.w700,
                     color: isLight ? Colors.black : Colors.white,
-                    letterSpacing: -0.4,
-                  ),
-                ),
-              ],
-            ),
+                    letterSpacing: -0.4)),
+              ]),
             SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
             Expanded(
@@ -6572,16 +5650,14 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                         HapticFeedback.lightImpact();
                         appSettings.setSelectedLanguage('System');
                         Navigator.pop(context);
-                      },
-                    ),
+                      }),
 
-                    const SizedBox(height: 20),
+                    SizedBox(height: 20),
 
                     // North America
                     _settings_buildLanguageSectionHeader(
                       AppLocalizations.of(context)?.northAmerica ?? AppLocalizations.of(context)!.tr('NORTH AMERICA'),
-                      isLight,
-                    ),
+                      isLight),
                     ...northAmerica.map(
                       (locale) => _settings_buildLanguageOptionTile(
                         flag: locale.flag,
@@ -6593,17 +5669,14 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                           HapticFeedback.lightImpact();
                           appSettings.setSelectedLanguage(locale.code);
                           Navigator.pop(context);
-                        },
-                      ),
-                    ),
+                        })),
 
-                    const SizedBox(height: 20),
+                    SizedBox(height: 20),
 
                     // Europe
                     _settings_buildLanguageSectionHeader(
                       AppLocalizations.of(context)?.europeanUnion ?? AppLocalizations.of(context)!.tr('EUROPEAN UNION'),
-                      isLight,
-                    ),
+                      isLight),
                     ...eu.map(
                       (locale) => _settings_buildLanguageOptionTile(
                         flag: locale.flag,
@@ -6615,17 +5688,14 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                           HapticFeedback.lightImpact();
                           appSettings.setSelectedLanguage(locale.code);
                           Navigator.pop(context);
-                        },
-                      ),
-                    ),
+                        })),
 
-                    const SizedBox(height: 20),
+                    SizedBox(height: 20),
 
                     // Russia
                     _settings_buildLanguageSectionHeader(
                       AppLocalizations.of(context)?.russia ?? AppLocalizations.of(context)!.tr('RUSSIA'),
-                      isLight,
-                    ),
+                      isLight),
                     ...russia.map(
                       (locale) => _settings_buildLanguageOptionTile(
                         flag: locale.flag,
@@ -6637,13 +5707,8 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                           HapticFeedback.lightImpact();
                           appSettings.setSelectedLanguage(locale.code);
                           Navigator.pop(context);
-                        },
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
+                        })),
+                  ]))),
 
             SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
@@ -6651,28 +5716,21 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
               label: AppLocalizations.of(context)?.cancel ?? AppLocalizations.of(context)!.tr('Cancel'),
               isSecondary: true,
               height: 50,
-              onPressed: () => Navigator.pop(context),
-            ),
+              onPressed: () => Navigator.pop(context)),
             SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
-          ],
-        ),
-      ),
-    );
+          ])));
   }
 
   Widget _settings_buildLanguageSectionHeader(String title, bool isLight) {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 10),
+      padding: EdgeInsets.only(bottom: 10),
       child: Text(
         title,
         style: TextStyle(
           fontSize: 11,
           fontWeight: FontWeight.w700,
           color: (isLight ? Colors.black : Colors.white).withOpacity(0.5),
-          letterSpacing: 1.2,
-        ),
-      ),
-    );
+          letterSpacing: 1.2)));
   }
 
   Widget _settings_buildLanguageOptionTile({
@@ -6687,18 +5745,17 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
       onTap: onTap,
       child: Container(
         width: double.infinity,
-        margin: const EdgeInsets.only(bottom: 8),
-        padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 16),
+        margin: EdgeInsets.only(bottom: 8),
+        padding: EdgeInsets.symmetric(vertical: 14, horizontal: 16),
         decoration: BoxDecoration(
           color: isSelected
               ? (isLight ? Colors.black : Colors.white)
               : (isLight ? Colors.black : Colors.white).withOpacity(0.04),
-          borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-        ),
+          borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
         child: Row(
           children: [
-            Text(flag, style: TextStyle(fontSize: DesktopOptimizedWidgets.getFontSize() + 10,),
-            const SizedBox(width: 14),
+            Text(flag, style: TextStyle(fontSize: DesktopOptimizedWidgets.getFontSize() + 10),
+            SizedBox(width: 14),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -6710,10 +5767,8 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                       fontWeight: FontWeight.w600,
                       color: isSelected
                           ? (isLight ? Colors.white : Colors.black)
-                          : (isLight ? Colors.black : Colors.white),
-                    ),
-                  ),
-                  const SizedBox(height: 2),
+                          : (isLight ? Colors.black : Colors.white))),
+                  SizedBox(height: 2),
                   Text(
                     displayName == (AppLocalizations.of(context)?.system ?? AppLocalizations.of(context)!.tr('System'))
                         ? (AppLocalizations.of(context)?.followsDeviceSettings ?? AppLocalizations.of(context)!.tr('Follows device settings'))
@@ -6723,22 +5778,14 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                       fontWeight: FontWeight.w400,
                       color: isSelected
                           ? (isLight ? Colors.white : Colors.black).withOpacity(0.6)
-                          : (isLight ? Colors.black : Colors.white).withOpacity(0.5),
-                    ),
-                  ),
-                ],
-              ),
-            ),
+                          : (isLight ? Colors.black : Colors.white).withOpacity(0.5))),
+                ])),
             if (isSelected)
               Icon(
                 CupertinoIcons.checkmark_circle_fill,
                 color: isLight ? Colors.white : Colors.black,
-                size: 20,
-              ),
-          ],
-        ),
-      ),
-    );
+                size: 20),
+          ])));
   }
 
   // Settings state variables & helpers
@@ -6815,8 +5862,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
         try {
           await Geolocator.getCurrentPosition(
             desiredAccuracy: LocationAccuracy.high,
-            timeLimit: const Duration(seconds: 10),
-          );
+            timeLimit: const Duration(seconds: 10));
         } catch (_) {}
       }
 
@@ -6842,8 +5888,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
 
       final response = await http.get(
         Uri.parse('${ApiConfig.baseUrl}/api/delvioo/driver/$driverId/waiting-settings'),
-        headers: {'Content-Type': 'application/json'},
-      );
+        headers: {'Content-Type': 'application/json'});
 
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body);
@@ -6873,8 +5918,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
         body: jsonEncode({
           'waiting_free_minutes': _waitingFreeMinutes,
           'waiting_rate_per_hour': _waitingRatePerHour,
-        }),
-      );
+        }));
 
       if (response.statusCode == 200) {
         print('✅ Waiting settings saved: $_waitingFreeMinutes min, ${AppSettings().currencySymbol}$_waitingRatePerHour/hr');
@@ -6897,9 +5941,8 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
               Icon(
                 CupertinoIcons.trash,
                 size: 22,
-                color: isLight ? Colors.black : Colors.white,
-              ),
-              const SizedBox(width: 12),
+                color: isLight ? Colors.black : Colors.white),
+              SizedBox(width: 12),
               Expanded(
                 child: Text(
                   AppLocalizations.of(context)?.clearNavDataQuestion ?? AppLocalizations.of(context)!.tr('Clear Navigation Data?'),
@@ -6907,12 +5950,8 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                     fontSize: 22,
                     fontWeight: FontWeight.w700,
                     color: isLight ? Colors.black : Colors.white,
-                    letterSpacing: -0.4,
-                  ),
-                ),
-              ),
-            ],
-          ),
+                    letterSpacing: -0.4))),
+            ]),
           SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
           Text(
             AppLocalizations.of(context)?.deleteNavigationSessionsConfirm ?? AppLocalizations.of(context)!.tr('This will delete all saved multi-order navigation sessions. This action cannot be undone.'),
@@ -6920,27 +5959,21 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
             style: TextStyle(
               fontSize: 15,
               color: (isLight ? Colors.black : Colors.white).withOpacity(0.6),
-              height: 1.4,
-            ),
-          ),
-          const SizedBox(height: 32),
+              height: 1.4)),
+          SizedBox(height: 32),
           TradeRepublicButton(
             label: AppLocalizations.of(context)?.clearNavigationData ?? AppLocalizations.of(context)!.tr('Clear Navigation Data'),
             isDestructive: true,
             width: double.infinity,
-            onPressed: () => Navigator.of(ctx).pop(true),
-          ),
+            onPressed: () => Navigator.of(ctx).pop(true)),
           SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
           TradeRepublicButton(
             label: AppLocalizations.of(context)?.cancel ?? AppLocalizations.of(context)!.tr('Cancel'),
             isSecondary: true,
             width: double.infinity,
-            onPressed: () => Navigator.of(ctx).pop(false),
-          ),
+            onPressed: () => Navigator.of(ctx).pop(false)),
           SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
-        ],
-      ),
-    );
+        ]));
 
     if (confirmed != true) return;
 
@@ -6953,24 +5986,21 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
       final response = await http
           .delete(
             Uri.parse('${ApiConfig.baseUrl}/api/navigation/clear-all/1'),
-            headers: {'Content-Type': 'application/json'},
-          )
+            headers: {'Content-Type': 'application/json'})
           .timeout(const Duration(seconds: 10));
 
       if (ctx.mounted) {
         TopNotification.show(
           ctx,
           message: AppLocalizations.of(context)?.navigationDataClearedSuccessfully ?? AppLocalizations.of(context)!.tr(''),
-          type: NotificationType.success,
-        );
+          type: NotificationType.success);
       }
     } catch (e) {
       if (ctx.mounted) {
         TopNotification.show(
           ctx,
           message: AppLocalizations.of(context)?.errorClearingNavData ?? AppLocalizations.of(context)!.tr('Error clearing navigation data'),
-          type: NotificationType.error,
-        );
+          type: NotificationType.error);
       }
     }
   }
@@ -6979,25 +6009,21 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
     String label,
     String value,
     IconData icon,
-    bool isLight,
-  ) {
+    bool isLight) {
     return Padding(
-      padding: const EdgeInsets.only(top: 30),
+      padding: EdgeInsets.only(top: 30),
       child: Row(
         children: [
           Container(
-            padding: const EdgeInsets.all(8),
+            padding: EdgeInsets.all(8),
             decoration: BoxDecoration(
               color: isLight ? Colors.white : Colors.black,
-              borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-            ),
+              borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
             child: Icon(
               icon,
               size: 18,
-              color: isLight ? Colors.black : Colors.white,
-            ),
-          ),
-          const SizedBox(width: 16),
+              color: isLight ? Colors.black : Colors.white)),
+          SizedBox(width: 16),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -7007,64 +6033,48 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                   style: TextStyle(
                     fontSize: 12,
                     color: isLight ? Colors.black : Colors.white,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-                const SizedBox(height: 2),
+                    fontWeight: FontWeight.w500)),
+                SizedBox(height: 2),
                 Text(
                   value,
                   style: TextStyle(
                     fontSize: DesktopOptimizedWidgets.getFontSize(),
                     fontWeight: FontWeight.w600,
-                    color: isLight ? Colors.black : Colors.white,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
+                    color: isLight ? Colors.black : Colors.white)),
+              ])),
+        ]));
   }
 
   Widget _buildPaymentInfoRow(
     String label,
     String value,
     IconData icon,
-    bool isLight,
-  ) {
+    bool isLight) {
     return Row(
       children: [
         Icon(
           icon,
           size: 16,
-          color: (isLight ? Colors.black : Colors.white).withOpacity(0.5),
-        ),
-        const SizedBox(width: 12),
+          color: (isLight ? Colors.black : Colors.white).withOpacity(0.5)),
+        SizedBox(width: 12),
         Expanded(
           child: Text(
             label,
             style: TextStyle(
               fontSize: 13,
-              color: (isLight ? Colors.black : Colors.white).withOpacity(0.6),
-            ),
-          ),
-        ),
+              color: (isLight ? Colors.black : Colors.white).withOpacity(0.6)))),
         Text(
           value,
           style: TextStyle(
             fontSize: 13,
             fontWeight: FontWeight.w600,
-            color: isLight ? Colors.black : Colors.white,
-          ),
-        ),
-      ],
-    );
+            color: isLight ? Colors.black : Colors.white)),
+      ]);
   }
 
   Widget _buildMinimalInfoRow(String label, String value, bool isLight) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 4),
+      padding: EdgeInsets.symmetric(vertical: 4),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -7073,20 +6083,14 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
             style: TextStyle(
               fontSize: DesktopOptimizedWidgets.getFontSize(),
               color: isLight ? Colors.black : Colors.white,
-              fontWeight: FontWeight.w500,
-            ),
-          ),
+              fontWeight: FontWeight.w500)),
           Text(
             value,
             style: TextStyle(
               fontSize: DesktopOptimizedWidgets.getFontSize(),
               fontWeight: FontWeight.w600,
-              color: isLight ? Colors.black : Colors.white,
-            ),
-          ),
-        ],
-      ),
-    );
+              color: isLight ? Colors.black : Colors.white)),
+        ]));
   }
 
   // Trade Republic Style Stat Widget for Payment Settings
@@ -7100,21 +6104,16 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
             fontSize: 13,
             fontWeight: FontWeight.w500,
             color: (isLight ? Colors.black : Colors.white).withOpacity(0.5),
-            letterSpacing: -0.2,
-          ),
-        ),
-        const SizedBox(height: 2),
+            letterSpacing: -0.2)),
+        SizedBox(height: 2),
         Text(
           value,
           style: TextStyle(
             fontSize: 17,
             fontWeight: FontWeight.w600,
             color: isLight ? Colors.black : Colors.white,
-            letterSpacing: -0.3,
-          ),
-        ),
-      ],
-    );
+            letterSpacing: -0.3)),
+      ]);
   }
 
   void _showDeletePaymentConfirmation(BuildContext context, bool isLight) {
@@ -7130,9 +6129,8 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
               Icon(
                 CupertinoIcons.creditcard,
                 size: 22,
-                color: isLight ? Colors.black : Colors.white,
-              ),
-              const SizedBox(width: 12),
+                color: isLight ? Colors.black : Colors.white),
+              SizedBox(width: 12),
               Expanded(
                 child: Text(
                   AppLocalizations.of(context)?.removePaymentMethod ?? AppLocalizations.of(context)!.tr('Remove Payment Method'),
@@ -7140,12 +6138,8 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                     fontSize: 22,
                     fontWeight: FontWeight.w700,
                     color: isLight ? Colors.black : Colors.white,
-                    letterSpacing: -0.4,
-                  ),
-                ),
-              ),
-            ],
-          ),
+                    letterSpacing: -0.4))),
+            ]),
 
             SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
@@ -7154,11 +6148,9 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: DesktopOptimizedWidgets.getFontSize(),
-                color: (isLight ? Colors.black : Colors.white).withOpacity(0.6),
-              ),
-            ),
+                color: (isLight ? Colors.black : Colors.white).withOpacity(0.6))),
 
-            const SizedBox(height: 32),
+            SizedBox(height: 32),
 
             // Remove button
             TradeRepublicButton(
@@ -7168,8 +6160,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                 _deletePaymentMethod();
               },
               isDestructive: true,
-              width: double.infinity,
-            ),
+              width: double.infinity),
 
             SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
@@ -7178,11 +6169,8 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
               label: AppLocalizations.of(context)?.cancel ?? AppLocalizations.of(context)!.tr('Cancel'),
               onPressed: () => Navigator.pop(context),
               isSecondary: true,
-              width: double.infinity,
-            ),
-          ],
-        ),
-    );
+              width: double.infinity),
+          ]));
   }
 
   Future<void> _deletePaymentMethod() async {
@@ -7195,16 +6183,14 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
       if (userId == null) {
         TopNotification.error(
           context,
-          AppLocalizations.of(context)?.userIdNotFound ?? AppLocalizations.of(context)!.tr('User ID not found'),
-        );
+          AppLocalizations.of(context)?.userIdNotFound ?? AppLocalizations.of(context)!.tr('User ID not found'));
         return;
       }
 
       final response = await http.delete(
         Uri.parse('${ApiConfig.baseUrl}/api/driver/stripe-payment'),
         headers: {'Content-Type': 'application/json'},
-        body: json.encode({'userId': userId}),
-      );
+        body: json.encode({'userId': userId}));
 
       if (response.statusCode == 200) {
         setState(() {
@@ -7214,19 +6200,16 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
         await prefs.setBool('delvioo_payout_account_verified', false);
         TopNotification.success(
           context,
-          AppLocalizations.of(context)!.tr('Payment method removed successfully!') ?? AppLocalizations.of(context)!.tr('Payment method removed successfully!'),
-        );
+          AppLocalizations.of(context)!.tr('Payment method removed successfully!') ?? AppLocalizations.of(context)!.tr('Payment method removed successfully!'));
       } else {
         TopNotification.error(
           context,
-          AppLocalizations.of(context)?.failedToRemovePaymentMethod ?? AppLocalizations.of(context)!.tr('Failed to remove payment method'),
-        );
+          AppLocalizations.of(context)?.failedToRemovePaymentMethod ?? AppLocalizations.of(context)!.tr('Failed to remove payment method'));
       }
     } catch (e) {
       TopNotification.error(
         context,
-        '${AppLocalizations.of(context)?.errorRemovingPaymentMethod ?? AppLocalizations.of(context)!.tr('Error removing payment method')}: $e',
-      );
+        '${AppLocalizations.of(context)?.errorRemovingPaymentMethod ?? AppLocalizations.of(context)!.tr('Error removing payment method')}: $e');
     }
   }
 
@@ -7248,8 +6231,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
           (k, v) => MapEntry(k, {
             'startKm': (v['startKm'] as num).toDouble(),
             'endKm': (v['endKm'] as num).toDouble(),
-          }),
-        );
+          }));
         if (mounted) setState(() => _mileageEntries = parsed);
       } catch (_) {}
     }
@@ -7260,8 +6242,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
     try {
       final response = await http.get(
         Uri.parse('${ApiConfig.baseUrl}/api/delvioo/driver/$driverId/mileage'),
-        headers: {'Content-Type': 'application/json'},
-      );
+        headers: {'Content-Type': 'application/json'});
       if (response.statusCode == 200) {
         final data = json.decode(response.body);
         if (data['success'] == true) {
@@ -7276,8 +6257,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
           if (mounted) setState(() => _mileageEntries = parsed);
           // Update local cache
           await prefs.setString('delvioo_mileage_entries', json.encode(
-            parsed.map((k, v) => MapEntry(k, {'startKm': v['startKm'], 'endKm': v['endKm']})),
-          ));
+            parsed.map((k, v) => MapEntry(k, {'startKm': v['startKm'], 'endKm': v['endKm']}))));
         }
       }
     } catch (e) {
@@ -7292,8 +6272,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
     });
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString('delvioo_mileage_entries', json.encode(
-      _mileageEntries.map((k, v) => MapEntry(k, {'startKm': v['startKm'], 'endKm': v['endKm']})),
-    ));
+      _mileageEntries.map((k, v) => MapEntry(k, {'startKm': v['startKm'], 'endKm': v['endKm']}))));
 
     // Persist to backend
     final driverId = _driverIdForMileage;
@@ -7302,8 +6281,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
       await http.post(
         Uri.parse('${ApiConfig.baseUrl}/api/delvioo/driver/$driverId/mileage'),
         headers: {'Content-Type': 'application/json'},
-        body: json.encode({'monthKey': monthKey, 'startKm': startKm, 'endKm': endKm}),
-      );
+        body: json.encode({'monthKey': monthKey, 'startKm': startKm, 'endKm': endKm}));
     } catch (e) {
       print('⚠️ Could not save mileage entry to backend: $e');
     }
@@ -7314,16 +6292,14 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
     setState(() => _mileageEntries.remove(monthKey));
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString('delvioo_mileage_entries', json.encode(
-      _mileageEntries.map((k, v) => MapEntry(k, {'startKm': v['startKm'], 'endKm': v['endKm']})),
-    ));
+      _mileageEntries.map((k, v) => MapEntry(k, {'startKm': v['startKm'], 'endKm': v['endKm']}))));
 
     final driverId = _driverIdForMileage;
     if (driverId == null || driverId.isEmpty) return;
     try {
       await http.delete(
         Uri.parse('${ApiConfig.baseUrl}/api/delvioo/driver/$driverId/mileage/$monthKey'),
-        headers: {'Content-Type': 'application/json'},
-      );
+        headers: {'Content-Type': 'application/json'});
     } catch (e) {
       print('⚠️ Could not delete mileage entry from backend: $e');
     }
@@ -7346,17 +6322,14 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
-          padding: const EdgeInsets.only(bottom: 16.0, top: 8.0, left: 4),
+          padding: EdgeInsets.only(bottom: 16.0, top: 8.0, left: 4),
           child: Text(
             'Carbon Footprint',
             style: TextStyle(
               fontSize: 28,
               fontWeight: FontWeight.w700,
               color: isLight ? Colors.black : Colors.white,
-              letterSpacing: -0.5,
-            ),
-          ),
-        ),
+              letterSpacing: -0.5))),
         TradeRepublicListTile.navigation(
           title: hasData
               ? '${totalCo2Kg.toStringAsFixed(1)} kg CO₂'
@@ -7369,21 +6342,16 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
             height: 48,
             decoration: BoxDecoration(
               color: const Color(0xFF10B981).withOpacity(0.12),
-              borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius()),
-            ),
-            child: const Icon(
+              borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius())),
+            child: Icon(
               CupertinoIcons.leaf_arrow_circlepath,
               color: Color(0xFF10B981),
-              size: 24,
-            ),
-          ),
+              size: 24)),
           onTap: () {
             HapticFeedback.lightImpact();
             _showCarbonFootprintModal(context, isLight);
-          },
-        ),
-      ],
-    );
+          }),
+      ]);
   }
 
   void _showCarbonFootprintModal(BuildContext context, bool isLight) {
@@ -7397,9 +6365,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
         co2ForKm: _co2ForKm,
         onSaveEntry: (monthKey, startKm, endKm) =>
             _saveMileageEntry(monthKey, startKm, endKm),
-        onDeleteEntry: (monthKey) => _deleteMileageEntry(monthKey),
-      ),
-    ).whenComplete(_showHeader);
+        onDeleteEntry: (monthKey) => _deleteMileageEntry(monthKey))).whenComplete(_showHeader);
   }
 
   // ─── END Carbon Footprint ─────────────────────────────────────────────────
@@ -7418,13 +6384,11 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
       leading: Icon(
         icon,
         color: iconColor ?? (isLight ? Colors.black : Colors.white),
-        size: 22,
-      ),
+        size: 22),
       onTap: () {
         HapticFeedback.lightImpact();
         onTap();
-      },
-    );
+      });
   }
 }
 
@@ -7463,20 +6427,16 @@ class _VerificationCenterModalState extends State<_VerificationCenterModal> {
               Icon(
                 CupertinoIcons.shield,
                 size: 22,
-                color: isLight ? Colors.black : Colors.white,
-              ),
-              const SizedBox(width: 12),
+                color: isLight ? Colors.black : Colors.white),
+              SizedBox(width: 12),
               Text(
                 AppLocalizations.of(context)?.verificationCenter ?? AppLocalizations.of(context)!.tr('Verification Center'),
                 style: TextStyle(
                   fontSize: 22,
                   fontWeight: FontWeight.w700,
                   color: widget.isLight ? Colors.black : Colors.white,
-                  letterSpacing: -0.4,
-                ),
-              ),
-            ],
-          ),
+                  letterSpacing: -0.4)),
+            ]),
           SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
           // Scrollable Content
@@ -7490,8 +6450,7 @@ class _VerificationCenterModalState extends State<_VerificationCenterModal> {
                     padding: DesktopAppWrapper.getPagePadding(),
                     decoration: BoxDecoration(
                       color: widget.isLight ? Colors.white : Colors.black,
-                      borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-                    ),
+                      borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -7512,33 +6471,24 @@ class _VerificationCenterModalState extends State<_VerificationCenterModal> {
                                         fontWeight: FontWeight.w700,
                                         color: widget.isLight
                                             ? Colors.black
-                                            : Colors.white,
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            const SizedBox(width: 20),
+                                            : Colors.white))),
+                                ])),
+                            SizedBox(width: 20),
                             Expanded(
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
                                     AppLocalizations.of(
-                                          context,
-                                        )?.verificationScore ??
+                                          context)?.verificationScore ??
                                         AppLocalizations.of(
-                                          context,
-                                        )?.verificationScore ?? AppLocalizations.of(context)!.tr('Verification Score'),
+                                          context)?.verificationScore ?? AppLocalizations.of(context)!.tr('Verification Score'),
                                     style: TextStyle(
                                       fontSize: DesktopOptimizedWidgets.getFontSize() + 6,
                                       fontWeight: FontWeight.w700,
                                       color: widget.isLight
                                           ? Colors.black
-                                          : Colors.white,
-                                    ),
-                                  ),
+                                          : Colors.white)),
                                   Text(
                                     '$verificationScore/100 Points',
                                     style: TextStyle(
@@ -7547,23 +6497,19 @@ class _VerificationCenterModalState extends State<_VerificationCenterModal> {
                                           (widget.isLight
                                                   ? Colors.black
                                                   : Colors.white)
-                                              .withOpacity(0.7),
-                                    ),
-                                  ),
+                                              .withOpacity(0.7))),
                                   SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                                   Container(
-                                    padding: const EdgeInsets.symmetric(
+                                    padding: EdgeInsets.symmetric(
                                       horizontal: 12,
-                                      vertical: 6,
-                                    ),
+                                      vertical: 6),
                                     decoration: BoxDecoration(
                                       color: verificationScore >= 80
                                           ? Colors.green.withOpacity(0.2)
                                           : verificationScore >= 60
                                           ? Colors.orange.withOpacity(0.2)
                                           : Colors.red.withOpacity(0.2),
-                                      borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-                                    ),
+                                      borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
                                     child: Text(
                                       verificationStatus,
                                       style: TextStyle(
@@ -7573,59 +6519,46 @@ class _VerificationCenterModalState extends State<_VerificationCenterModal> {
                                             ? Colors.green
                                             : verificationScore >= 60
                                             ? Colors.orange
-                                            : Colors.red,
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
+                                            : Colors.red))),
+                                ])),
+                          ]),
                         SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
                         const TradeRepublicDivider(),
-                        const SizedBox(height: 20),
+                        SizedBox(height: 20),
 
                         // Document Verification Status
                         Text(
                           AppLocalizations.of(context)?.documentVerification ??
                               AppLocalizations.of(
-                                context,
-                              )?.documentVerification ?? AppLocalizations.of(context)!.tr('Document Verification'),
+                                context)?.documentVerification ?? AppLocalizations.of(context)!.tr('Document Verification'),
                           style: TextStyle(
                             fontSize: DesktopOptimizedWidgets.getFontSize() + 4,
                             fontWeight: FontWeight.w700,
-                            color: widget.isLight ? Colors.black : Colors.white,
-                          ),
-                        ),
+                            color: widget.isLight ? Colors.black : Colors.white)),
                         SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
                         _buildVerificationItem(
                           AppLocalizations.of(context)?.identityDocument ?? AppLocalizations.of(context)!.tr('Identity Document'),
                           verification['idDocumentVerified'] == true,
                           AppLocalizations.of(context)?.frontAndBackVerified ?? AppLocalizations.of(context)!.tr('Front and back successfully verified'),
                           CupertinoIcons.creditcard,
-                          widget.isLight,
-                        ),
+                          widget.isLight),
                         _buildVerificationItem(
                           'Driver\'s License',
                           verification['driverLicenseVerified'] ?? true,
                           AppLocalizations.of(context)?.validityConfirmed ?? AppLocalizations.of(context)!.tr('Validity and authorization confirmed'),
                           CupertinoIcons.car,
-                          widget.isLight,
-                        ),
+                          widget.isLight),
                         _buildVerificationItem(
                           AppLocalizations.of(context)?.insuranceCertificate ?? AppLocalizations.of(context)!.tr('Insurance Certificate'),
                           verification['insuranceVerified'] ?? true,
                           AppLocalizations.of(
-                                context,
-                              )?.liabilityInsuranceVerified ?? AppLocalizations.of(context)!.tr('Liability insurance verified'),
+                                context)?.liabilityInsuranceVerified ?? AppLocalizations.of(context)!.tr('Liability insurance verified'),
                           CupertinoIcons.shield,
-                          widget.isLight,
-                        ),
+                          widget.isLight),
 
                         SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
                         const TradeRepublicDivider(),
-                        const SizedBox(height: 20),
+                        SizedBox(height: 20),
 
                         // Background Checks
                         Text(
@@ -7634,92 +6567,73 @@ class _VerificationCenterModalState extends State<_VerificationCenterModal> {
                           style: TextStyle(
                             fontSize: DesktopOptimizedWidgets.getFontSize() + 4,
                             fontWeight: FontWeight.w700,
-                            color: widget.isLight ? Colors.black : Colors.white,
-                          ),
-                        ),
+                            color: widget.isLight ? Colors.black : Colors.white)),
                         SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
                         _buildVerificationItem(
                           AppLocalizations.of(
-                                context,
-                              )?.criminalBackgroundCheck ?? AppLocalizations.of(context)!.tr('Criminal Background Check'),
+                                context)?.criminalBackgroundCheck ?? AppLocalizations.of(context)!.tr('Criminal Background Check'),
                           verification['backgroundCheckPassed'] == true,
                           AppLocalizations.of(context)?.noCriminalRecords ?? AppLocalizations.of(context)!.tr('No criminal records or convictions'),
                           CupertinoIcons.checkmark_shield,
-                          widget.isLight,
-                        ),
+                          widget.isLight),
                         _buildVerificationItem(
                           AppLocalizations.of(context)?.creditCheck ?? AppLocalizations.of(context)!.tr('Credit Check'),
                           verification['creditCheckPassed'] ?? true,
                           AppLocalizations.of(context)?.creditScoreVerified ?? AppLocalizations.of(context)!.tr('Credit score verified and approved'),
                           CupertinoIcons.building_2_fill,
-                          widget.isLight,
-                        ),
+                          widget.isLight),
                         _buildVerificationItem(
                           AppLocalizations.of(context)?.employmentReferences ?? AppLocalizations.of(context)!.tr('Employment References'),
                           verification['referencesChecked'] ?? false,
                           AppLocalizations.of(context)?.workReferences ?? AppLocalizations.of(context)!.tr('Work references from previous employers'),
                           CupertinoIcons.group,
-                          widget.isLight,
-                        ),
+                          widget.isLight),
 
                         SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
                         const TradeRepublicDivider(),
-                        const SizedBox(height: 20),
+                        SizedBox(height: 20),
 
                         // Platform Compliance
                         Text(
                           AppLocalizations.of(context)?.platformCompliance ??
                               AppLocalizations.of(
-                                context,
-                              )?.platformCompliance ?? AppLocalizations.of(context)!.tr('Platform Compliance'),
+                                context)?.platformCompliance ?? AppLocalizations.of(context)!.tr('Platform Compliance'),
                           style: TextStyle(
                             fontSize: DesktopOptimizedWidgets.getFontSize() + 4,
                             fontWeight: FontWeight.w700,
-                            color: widget.isLight ? Colors.black : Colors.white,
-                          ),
-                        ),
+                            color: widget.isLight ? Colors.black : Colors.white)),
                         SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
                         _buildVerificationItem(
                           AppLocalizations.of(
-                                context,
-                              )?.twoFactorAuthentication ?? AppLocalizations.of(context)!.tr('Two-Factor Authentication'),
+                                context)?.twoFactorAuthentication ?? AppLocalizations.of(context)!.tr('Two-Factor Authentication'),
                           verification['twoFactorEnabled'] ?? false,
                           AppLocalizations.of(
-                                context,
-                              )?.additionalSecurityLayerActivated ?? AppLocalizations.of(context)!.tr('Additional security layer activated'),
+                                context)?.additionalSecurityLayerActivated ?? AppLocalizations.of(context)!.tr('Additional security layer activated'),
                           CupertinoIcons.shield,
-                          widget.isLight,
-                        ),
+                          widget.isLight),
                         _buildVerificationItem(
                           AppLocalizations.of(context)?.biometricVerification ?? AppLocalizations.of(context)!.tr('Biometric Verification'),
                           verification['biometricEnabled'] ?? false,
                           AppLocalizations.of(
-                                context,
-                              )?.fingerprintOrFacialRecognition ?? AppLocalizations.of(context)!.tr('Fingerprint or facial recognition'),
+                                context)?.fingerprintOrFacialRecognition ?? AppLocalizations.of(context)!.tr('Fingerprint or facial recognition'),
                           CupertinoIcons.person_crop_circle,
-                          widget.isLight,
-                        ),
+                          widget.isLight),
                         _buildVerificationItem(
                           AppLocalizations.of(context)?.phoneNumberVerified ?? AppLocalizations.of(context)!.tr('Phone Number Verified'),
                           verification['phoneVerified'] ?? true,
                           AppLocalizations.of(
-                                context,
-                              )?.smsVerificationSuccessful ?? AppLocalizations.of(context)!.tr('SMS verification successful'),
+                                context)?.smsVerificationSuccessful ?? AppLocalizations.of(context)!.tr('SMS verification successful'),
                           CupertinoIcons.phone,
-                          widget.isLight,
-                        ),
+                          widget.isLight),
                         _buildVerificationItem(
                           AppLocalizations.of(context)?.emailVerified ?? AppLocalizations.of(context)!.tr('Email Verified'),
                           verification['emailVerified'] ?? true,
                           AppLocalizations.of(context)?.emailAddressConfirmed ?? AppLocalizations.of(context)!.tr('Email address confirmed'),
                           CupertinoIcons.mail,
-                          widget.isLight,
-                        ),
-                      ],
-                    ),
-                  ),
+                          widget.isLight),
+                      ])),
 
-                  const SizedBox(height: 20),
+                  SizedBox(height: 20),
 
                   // Verification Timeline Card
                   Container(
@@ -7727,8 +6641,7 @@ class _VerificationCenterModalState extends State<_VerificationCenterModal> {
                     padding: DesktopAppWrapper.getPagePadding(),
                     decoration: BoxDecoration(
                       color: widget.isLight ? Colors.white : Colors.black,
-                      borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-                    ),
+                      borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -7739,75 +6652,57 @@ class _VerificationCenterModalState extends State<_VerificationCenterModal> {
                               color: widget.isLight
                                   ? Colors.black
                                   : Colors.white,
-                              size: 24,
-                            ),
-                            const SizedBox(width: 12),
+                              size: 24),
+                            SizedBox(width: 12),
                             Text(
                               AppLocalizations.of(
-                                    context,
-                                  )?.verificationTimeline ??
+                                    context)?.verificationTimeline ??
                                   AppLocalizations.of(
-                                    context,
-                                  )?.verificationTimeline ?? AppLocalizations.of(context)!.tr('Verification Timeline'),
+                                    context)?.verificationTimeline ?? AppLocalizations.of(context)!.tr('Verification Timeline'),
                               style: TextStyle(
                                 fontSize: DesktopOptimizedWidgets.getFontSize() + 4,
                                 fontWeight: FontWeight.w700,
                                 color: widget.isLight
                                     ? Colors.black
-                                    : Colors.white,
-                              ),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(height: 20),
+                                    : Colors.white)),
+                          ]),
+                        SizedBox(height: 20),
                         _buildTimelineItem(
                           AppLocalizations.of(context)?.accountCreated ?? AppLocalizations.of(context)!.tr('Account Created'),
                           verification['accountCreated']?.toString().split(
-                                'T',
-                              )[0] ?? AppLocalizations.of(context)!.tr('2024-01-15'),
+                                'T')[0] ?? AppLocalizations.of(context)!.tr('2024-01-15'),
                           CupertinoIcons.person_crop_circle,
                           widget.isLight ? Colors.black : Colors.white,
-                          widget.isLight,
-                        ),
+                          widget.isLight),
                         _buildTimelineItem(
                           AppLocalizations.of(context)?.documentsUploaded ?? AppLocalizations.of(context)!.tr('Documents Uploaded'),
                           verification['documentsUploaded']?.toString().split(
-                                'T',
-                              )[0] ?? AppLocalizations.of(context)!.tr('2024-01-16'),
+                                'T')[0] ?? AppLocalizations.of(context)!.tr('2024-01-16'),
                           CupertinoIcons.arrow_up_doc,
                           widget.isLight ? Colors.black : Colors.white,
-                          widget.isLight,
-                        ),
+                          widget.isLight),
                         _buildTimelineItem(
                           AppLocalizations.of(context)?.identityVerified ?? AppLocalizations.of(context)!.tr('Identity Verified'),
                           verification['identityVerified']?.toString().split(
-                                'T',
-                              )[0] ?? AppLocalizations.of(context)!.tr('2024-01-18'),
+                                'T')[0] ?? AppLocalizations.of(context)!.tr('2024-01-18'),
                           CupertinoIcons.checkmark_shield,
                           widget.isLight ? Colors.black : Colors.white,
-                          widget.isLight,
-                        ),
+                          widget.isLight),
                         _buildTimelineItem(
                           AppLocalizations.of(context)?.licenseVerified ?? AppLocalizations.of(context)!.tr('License Verified'),
                           verification['licenseVerified']?.toString().split(
-                                'T',
-                              )[0] ?? AppLocalizations.of(context)!.tr('2024-01-19'),
+                                'T')[0] ?? AppLocalizations.of(context)!.tr('2024-01-19'),
                           CupertinoIcons.car,
                           widget.isLight ? Colors.black : Colors.white,
-                          widget.isLight,
-                        ),
+                          widget.isLight),
                         _buildTimelineItem(
                           AppLocalizations.of(context)?.fullyVerified ?? AppLocalizations.of(context)!.tr('Fully Verified'),
                           verification['fullyVerified']?.toString().split(
-                                'T',
-                              )[0] ?? AppLocalizations.of(context)!.tr('2024-01-20'),
+                                'T')[0] ?? AppLocalizations.of(context)!.tr('2024-01-20'),
                           CupertinoIcons.checkmark_circle_fill,
                           widget.isLight ? Colors.black : Colors.white,
-                          widget.isLight,
-                        ),
-                      ],
-                    ),
-                  ),
+                          widget.isLight),
+                      ])),
 
                   SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
@@ -7818,8 +6713,7 @@ class _VerificationCenterModalState extends State<_VerificationCenterModal> {
                         child: Container(
                           decoration: BoxDecoration(
                             color: widget.isLight ? Colors.white : Colors.black,
-                            borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-                          ),
+                            borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
                           child: TradeRepublicButton(
                             label:
                                 AppLocalizations.of(context)?.viewDetails ?? AppLocalizations.of(context)!.tr('View Details'),
@@ -7828,22 +6722,17 @@ class _VerificationCenterModalState extends State<_VerificationCenterModal> {
                                 context,
                                 AppLocalizations.of(context)!.tr('Loading verification details...') ?? AppLocalizations.of(context)!.tr('Loading verification details...'),
                                 title:
-                                    AppLocalizations.of(context)?.details ?? AppLocalizations.of(context)!.tr('Details'),
-                              );
+                                    AppLocalizations.of(context)?.details ?? AppLocalizations.of(context)!.tr('Details'));
                             },
                             tint: widget.isLight
                                 ? CupertinoColors.black
-                                : CupertinoColors.white,
-                          ),
-                        ),
-                      ),
-                      const SizedBox(width: 16),
+                                : CupertinoColors.white))),
+                      SizedBox(width: 16),
                       Expanded(
                         child: Container(
                           decoration: BoxDecoration(
                             color: widget.isLight ? Colors.white : Colors.black,
-                            borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-                          ),
+                            borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
                           child: TradeRepublicButton(
                             label:
                                 AppLocalizations.of(context)?.refresh ?? AppLocalizations.of(context)!.tr('Refresh'),
@@ -7852,24 +6741,14 @@ class _VerificationCenterModalState extends State<_VerificationCenterModal> {
                                 context,
                                 AppLocalizations.of(context)!.tr('Verification status updated!') ?? AppLocalizations.of(context)!.tr('Verification status updated!'),
                                 title:
-                                    AppLocalizations.of(context)?.updated ?? AppLocalizations.of(context)!.tr('Updated'),
-                              );
+                                    AppLocalizations.of(context)?.updated ?? AppLocalizations.of(context)!.tr('Updated'));
                             },
                             tint: widget.isLight
                                 ? CupertinoColors.black
-                                : CupertinoColors.white,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
+                                : CupertinoColors.white))),
+                    ]),
+                ]))),
+        ]));
   }
 
   Widget _buildVerificationItem(
@@ -7877,25 +6756,21 @@ class _VerificationCenterModalState extends State<_VerificationCenterModal> {
     bool isVerified,
     String subtitle,
     IconData icon,
-    bool isLight,
-  ) {
+    bool isLight) {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 16),
+      padding: EdgeInsets.only(bottom: 16),
       child: Row(
         children: [
           Container(
-            padding: const EdgeInsets.all(12),
+            padding: EdgeInsets.all(12),
             decoration: BoxDecoration(
               color: (isLight ? Colors.black : Colors.white).withOpacity(0.05),
-              borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-            ),
+              borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
             child: Icon(
               icon,
               color: isLight ? Colors.black : Colors.white,
-              size: 20,
-            ),
-          ),
-          const SizedBox(width: 16),
+              size: 20)),
+          SizedBox(width: 16),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -7905,32 +6780,22 @@ class _VerificationCenterModalState extends State<_VerificationCenterModal> {
                   style: TextStyle(
                     fontSize: DesktopOptimizedWidgets.getFontSize(),
                     fontWeight: FontWeight.w600,
-                    color: isLight ? Colors.black : Colors.white,
-                  ),
-                ),
-                const SizedBox(height: 4),
+                    color: isLight ? Colors.black : Colors.white)),
+                SizedBox(height: 4),
                 Text(
                   subtitle,
                   style: TextStyle(
                     fontSize: DesktopOptimizedWidgets.getFontSize(),
                     color: (isLight ? Colors.black : Colors.white).withOpacity(
-                      0.7,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
+                      0.7))),
+              ])),
           Icon(
             isVerified
                 ? CupertinoIcons.checkmark_circle_fill
                 : CupertinoIcons.clock,
             color: isLight ? Colors.black : Colors.white,
-            size: 20,
-          ),
-        ],
-      ),
-    );
+            size: 20),
+        ]));
   }
 
   Widget _buildTimelineItem(
@@ -7938,41 +6803,31 @@ class _VerificationCenterModalState extends State<_VerificationCenterModal> {
     String date,
     IconData icon,
     Color color,
-    bool isLight,
-  ) {
+    bool isLight) {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 16),
+      padding: EdgeInsets.only(bottom: 16),
       child: Row(
         children: [
           Container(
-            padding: const EdgeInsets.all(10),
+            padding: EdgeInsets.all(10),
             decoration: BoxDecoration(
               color: color.withOpacity(0.2),
-              borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-            ),
-            child: Icon(icon, color: color, size: 18),
-          ),
-          const SizedBox(width: 16),
+              borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
+            child: Icon(icon, color: color, size: 18)),
+          SizedBox(width: 16),
           Expanded(
             child: Text(
               title,
               style: TextStyle(
                 fontSize: 15,
                 fontWeight: FontWeight.w600,
-                color: isLight ? Colors.black : Colors.white,
-              ),
-            ),
-          ),
+                color: isLight ? Colors.black : Colors.white))),
           Text(
             date,
             style: TextStyle(
               fontSize: 13,
-              color: (isLight ? Colors.black : Colors.white).withOpacity(0.6),
-            ),
-          ),
-        ],
-      ),
-    );
+              color: (isLight ? Colors.black : Colors.white).withOpacity(0.6))),
+        ]));
   }
 }
 
@@ -8024,8 +6879,7 @@ class _CreateGroupModalState extends State<_CreateGroupModal> {
       try {
         final response = await http.get(
           Uri.parse('${ApiConfig.baseUrl}/api/delvioo-groups/check-code/$code'),
-          headers: {'Content-Type': 'application/json'},
-        ).timeout(const Duration(seconds: 5));
+          headers: {'Content-Type': 'application/json'}).timeout(const Duration(seconds: 5));
 
         if (response.statusCode == 200) {
           final responseData = json.decode(response.body);
@@ -8078,9 +6932,8 @@ class _CreateGroupModalState extends State<_CreateGroupModal> {
                 Icon(
                   CupertinoIcons.camera,
                   size: 22,
-                  color: isLight ? Colors.black : Colors.white,
-                ),
-                const SizedBox(width: 12),
+                  color: isLight ? Colors.black : Colors.white),
+                SizedBox(width: 12),
                 Expanded(
                   child: Text(
                     AppLocalizations.of(context)?.chooseImageSource ?? AppLocalizations.of(context)!.tr('Choose Image Source'),
@@ -8088,12 +6941,8 @@ class _CreateGroupModalState extends State<_CreateGroupModal> {
                       fontSize: 22,
                       fontWeight: FontWeight.w700,
                       color: widget.isLight ? Colors.black : Colors.white,
-                      letterSpacing: -0.4,
-                    ),
-                  ),
-                ),
-              ],
-            ),
+                      letterSpacing: -0.4))),
+              ]),
             SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
             if (!Platform.isMacOS)
               _buildImageSourceOption(
@@ -8101,27 +6950,22 @@ class _CreateGroupModalState extends State<_CreateGroupModal> {
                 title: AppLocalizations.of(context)?.camera ?? AppLocalizations.of(context)!.tr('Camera'),
                 subtitle:
                     AppLocalizations.of(context)?.takeANewPhoto ?? AppLocalizations.of(context)!.tr('Take a new photo'),
-                onTap: () => Navigator.pop(context, ImageSource.camera),
-              ),
+                onTap: () => Navigator.pop(context, ImageSource.camera)),
             if (!Platform.isMacOS) SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
             _buildImageSourceOption(
               icon: CupertinoIcons.photo,
               title: AppLocalizations.of(context)?.gallery ?? AppLocalizations.of(context)!.tr('Gallery'),
               subtitle:
                   AppLocalizations.of(context)?.chooseFromYourPhotos ?? AppLocalizations.of(context)!.tr('Choose from your photos'),
-              onTap: () => Navigator.pop(context, ImageSource.gallery),
-            ),
+              onTap: () => Navigator.pop(context, ImageSource.gallery)),
             SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
             TradeRepublicButton(
               label: AppLocalizations.of(context)?.cancel ?? AppLocalizations.of(context)!.tr('Cancel'),
               onPressed: () => Navigator.pop(context),
               tint: widget.isLight
                   ? CupertinoColors.black
-                  : CupertinoColors.white,
-            ),
-          ],
-        ),
-      );
+                  : CupertinoColors.white),
+          ]));
 
       if (source == null) return;
 
@@ -8129,8 +6973,7 @@ class _CreateGroupModalState extends State<_CreateGroupModal> {
         source: source,
         maxWidth: 1024,
         maxHeight: 1024,
-        imageQuality: 85,
-      );
+        imageQuality: 85);
 
       if (pickedFile != null) {
         setState(() {
@@ -8147,8 +6990,7 @@ class _CreateGroupModalState extends State<_CreateGroupModal> {
         TopNotification.error(
           context,
           AppLocalizations.of(context)?.failedToPickImageTryAgain ?? AppLocalizations.of(context)!.tr('Failed to pick image. Please try again.'),
-          title: AppLocalizations.of(context)?.error ?? AppLocalizations.of(context)!.tr('Error'),
-        );
+          title: AppLocalizations.of(context)?.error ?? AppLocalizations.of(context)!.tr('Error'));
       }
     }
   }
@@ -8163,17 +7005,14 @@ class _CreateGroupModalState extends State<_CreateGroupModal> {
 
       final request = http.MultipartRequest(
         'POST',
-        Uri.parse('${ApiConfig.baseUrl}/api/delvioo/group-image'),
-      );
+        Uri.parse('${ApiConfig.baseUrl}/api/delvioo/group-image'));
 
       request.fields['userId'] = userId;
       request.files.add(
         await http.MultipartFile.fromPath(
           'groupImage',
           imageFile.path,
-          contentType: MediaType('image', 'jpeg'),
-        ),
-      );
+          contentType: MediaType('image', 'jpeg')));
 
       final streamedResponse = await request.send();
       final response = await http.Response.fromStream(streamedResponse);
@@ -8193,8 +7032,7 @@ class _CreateGroupModalState extends State<_CreateGroupModal> {
             TopNotification.success(
               context,
               AppLocalizations.of(context)!.tr('Group image uploaded successfully!') ?? AppLocalizations.of(context)!.tr('Group image uploaded successfully!'),
-              title: AppLocalizations.of(context)?.success ?? AppLocalizations.of(context)!.tr('Success'),
-            );
+              title: AppLocalizations.of(context)?.success ?? AppLocalizations.of(context)!.tr('Success'));
           }
         }
       } else {
@@ -8206,8 +7044,7 @@ class _CreateGroupModalState extends State<_CreateGroupModal> {
           TopNotification.error(
             context,
             AppLocalizations.of(context)?.failedToUploadGroupImage ?? AppLocalizations.of(context)!.tr('Failed to upload group image'),
-            title: AppLocalizations.of(context)?.error ?? AppLocalizations.of(context)!.tr('Error'),
-          );
+            title: AppLocalizations.of(context)?.error ?? AppLocalizations.of(context)!.tr('Error'));
         }
       }
     } catch (e) {
@@ -8220,8 +7057,7 @@ class _CreateGroupModalState extends State<_CreateGroupModal> {
         TopNotification.error(
           context,
           AppLocalizations.of(context)?.networkErrorUploadingImage ?? AppLocalizations.of(context)!.tr('Network error while uploading image'),
-          title: AppLocalizations.of(context)?.error ?? AppLocalizations.of(context)!.tr('Error'),
-        );
+          title: AppLocalizations.of(context)?.error ?? AppLocalizations.of(context)!.tr('Error'));
       }
     }
   }
@@ -8237,8 +7073,7 @@ class _CreateGroupModalState extends State<_CreateGroupModal> {
       subtitle: subtitle,
       leading: Icon(icon, size: 22),
       onTap: onTap,
-      padding: const EdgeInsets.symmetric(vertical: 14),
-    );
+      padding: EdgeInsets.symmetric(vertical: 14));
   }
 
   Future<void> _createGroup() async {
@@ -8249,8 +7084,7 @@ class _CreateGroupModalState extends State<_CreateGroupModal> {
       if (accountPageState != null && accountPageState.userGroups.isNotEmpty) {
         TopNotification.info(
           context,
-          AppLocalizations.of(context)?.onlyOneGroupLeaveFirst ?? AppLocalizations.of(context)!.tr('You can only be in one group at a time. Leave your current group first.'),
-        );
+          AppLocalizations.of(context)?.onlyOneGroupLeaveFirst ?? AppLocalizations.of(context)!.tr('You can only be in one group at a time. Leave your current group first.'));
         return;
       }
 
@@ -8266,8 +7100,7 @@ class _CreateGroupModalState extends State<_CreateGroupModal> {
           AppLocalizations.of(context)?.unknownUser ?? AppLocalizations.of(context)!.tr('Unknown User');
 
       print(
-        '🎯 Creating group with userId: $currentUserId, userName: $userName',
-      );
+        '🎯 Creating group with userId: $currentUserId, userName: $userName');
 
       // Create group data
       final groupData = {
@@ -8297,8 +7130,7 @@ class _CreateGroupModalState extends State<_CreateGroupModal> {
       final response = await http.post(
         Uri.parse('${ApiConfig.baseUrl}/api/delvioo-groups/delvioo/create'),
         headers: {'Content-Type': 'application/json'},
-        body: json.encode(groupData),
-      );
+        body: json.encode(groupData));
 
       print('📡 Group creation response: ${response.statusCode}');
       print('📡 Response body: ${response.body}');
@@ -8327,8 +7159,7 @@ class _CreateGroupModalState extends State<_CreateGroupModal> {
             context,
             'Group "${_groupNameController.text}" created successfully! Opening chat...',
             title:
-                AppLocalizations.of(context)?.groupCreated ?? AppLocalizations.of(context)!.tr('Group Created'),
-          );
+                AppLocalizations.of(context)?.groupCreated ?? AppLocalizations.of(context)!.tr('Group Created'));
         }
       } else if (response.statusCode == 409) {
         // Code conflict - should be rare since we check uniqueness before
@@ -8337,8 +7168,7 @@ class _CreateGroupModalState extends State<_CreateGroupModal> {
             context,
             AppLocalizations.of(context)!.tr('Code conflict detected. Please generate a new code and try again.') ?? AppLocalizations.of(context)!.tr('Code conflict detected. Please generate a new code and try again.'),
             title:
-                AppLocalizations.of(context)?.codeConflict ?? AppLocalizations.of(context)!.tr('Code Conflict'),
-          );
+                AppLocalizations.of(context)?.codeConflict ?? AppLocalizations.of(context)!.tr('Code Conflict'));
           await _generateRandomCode();
         }
       } else {
@@ -8346,8 +7176,7 @@ class _CreateGroupModalState extends State<_CreateGroupModal> {
           TopNotification.error(
             context,
             AppLocalizations.of(context)?.failedToCreateGroup ?? AppLocalizations.of(context)!.tr('Failed to create group. Please try again.'),
-            title: AppLocalizations.of(context)?.error ?? AppLocalizations.of(context)!.tr('Error'),
-          );
+            title: AppLocalizations.of(context)?.error ?? AppLocalizations.of(context)!.tr('Error'));
         }
       }
     } catch (e) {
@@ -8357,8 +7186,7 @@ class _CreateGroupModalState extends State<_CreateGroupModal> {
           context,
           AppLocalizations.of(context)?.networkErrorCheckConnection ?? AppLocalizations.of(context)!.tr('Network error. Please check your connection.'),
           title:
-              AppLocalizations.of(context)?.connectionError ?? AppLocalizations.of(context)!.tr('Connection Error'),
-        );
+              AppLocalizations.of(context)?.connectionError ?? AppLocalizations.of(context)!.tr('Connection Error'));
       }
     }
   }
@@ -8369,8 +7197,7 @@ class _CreateGroupModalState extends State<_CreateGroupModal> {
     return SingleChildScrollView(
       physics: const BouncingScrollPhysics(),
       padding: EdgeInsets.only(
-        bottom: MediaQuery.of(context).viewInsets.bottom,
-      ),
+        bottom: MediaQuery.of(context).viewInsets.bottom),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -8383,8 +7210,7 @@ class _CreateGroupModalState extends State<_CreateGroupModal> {
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(28),
               color: (isLight ? Colors.black : Colors.white)
-                  .withOpacity(0.06),
-            ),
+                  .withOpacity(0.06)),
             child: _isUploadingImage
                 ? const Center(child: CultiooLoadingIndicator(size: 24))
                 : _groupImageFile != null
@@ -8394,9 +7220,7 @@ class _CreateGroupModalState extends State<_CreateGroupModal> {
                           _groupImageFile!,
                           width: 88,
                           height: 88,
-                          fit: BoxFit.cover,
-                        ),
-                      )
+                          fit: BoxFit.cover))
                     : _selectedGroupImage != null
                         ? ClipRRect(
                             borderRadius: BorderRadius.circular(28),
@@ -8410,11 +7234,8 @@ class _CreateGroupModalState extends State<_CreateGroupModal> {
                                   CupertinoIcons.person_2_fill,
                                   size: 36,
                                   color: (isLight ? Colors.black : Colors.white)
-                                      .withOpacity(0.25),
-                                );
-                              },
-                            ),
-                          )
+                                      .withOpacity(0.25));
+                              }))
                         : Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
@@ -8422,24 +7243,18 @@ class _CreateGroupModalState extends State<_CreateGroupModal> {
                                 CupertinoIcons.camera,
                                 size: 28,
                                 color: (isLight ? Colors.black : Colors.white)
-                                    .withOpacity(0.3),
-                              ),
-                              const SizedBox(height: 4),
+                                    .withOpacity(0.3)),
+                              SizedBox(height: 4),
                               Text(
                                 AppLocalizations.of(context)?.addGroupPhoto ?? AppLocalizations.of(context)!.tr('Photo'),
                                 style: TextStyle(
                                   fontSize: 10,
                                   fontWeight: FontWeight.w500,
                                   color: (isLight ? Colors.black : Colors.white)
-                                      .withOpacity(0.3),
-                                ),
-                              ),
-                            ],
-                          ),
-          ),
-        ),
+                                      .withOpacity(0.3))),
+                            ]))),
 
-        const SizedBox(height: 20),
+        SizedBox(height: 20),
 
         // ── Sheet header: Icon left + Title ──
         Row(
@@ -8447,48 +7262,39 @@ class _CreateGroupModalState extends State<_CreateGroupModal> {
             Icon(
               CupertinoIcons.person_2,
               size: 22,
-              color: isLight ? Colors.black : Colors.white,
-            ),
-            const SizedBox(width: 12),
+              color: isLight ? Colors.black : Colors.white),
+            SizedBox(width: 12),
             Text(
               AppLocalizations.of(context)?.createGroup ?? AppLocalizations.of(context)!.tr('Create Group'),
               style: TextStyle(
                 fontSize: 22,
                 fontWeight: FontWeight.w700,
                 color: isLight ? Colors.black : Colors.white,
-                letterSpacing: -0.4,
-              ),
-            ),
-          ],
-        ),
-        const SizedBox(height: 6),
+                letterSpacing: -0.4)),
+          ]),
+        SizedBox(height: 6),
         Text(
           AppLocalizations.of(context)?.createOrJoinGroupToGetStarted ?? AppLocalizations.of(context)!.tr('Create a delivery group with other drivers'),
           style: TextStyle(
             fontSize: DesktopOptimizedWidgets.getFontSize(),
             fontWeight: FontWeight.w400,
-            color: (isLight ? Colors.black : Colors.white).withOpacity(0.4),
-          ),
-        ),
+            color: (isLight ? Colors.black : Colors.white).withOpacity(0.4))),
 
-        const SizedBox(height: 32),
+        SizedBox(height: 32),
 
         // Group Name Input
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Padding(
-              padding: const EdgeInsets.only(left: 4, bottom: 8),
+              padding: EdgeInsets.only(left: 4, bottom: 8),
               child: Text(
                 AppLocalizations.of(context)?.groupName ?? AppLocalizations.of(context)!.tr('Group Name'),
                 style: TextStyle(
                   fontSize: 13,
                   fontWeight: FontWeight.w600,
                   color: (isLight ? Colors.black : Colors.white)
-                      .withOpacity(0.5),
-                ),
-              ),
-            ),
+                      .withOpacity(0.5)))),
             TradeRepublicTextField(
               controller: _groupNameController,
               hintText: AppLocalizations.of(context)?.enterGroupName ?? AppLocalizations.of(context)!.tr('Enter group name'),
@@ -8496,40 +7302,33 @@ class _CreateGroupModalState extends State<_CreateGroupModal> {
               style: TextStyle(
                 color: isLight ? Colors.black : Colors.white,
                 fontSize: DesktopOptimizedWidgets.getFontSize(),
-                fontWeight: FontWeight.w500,
-              ),
+                fontWeight: FontWeight.w500),
               onChanged: (value) {
                 setState(() {});
-              },
-            ),
-          ],
-        ),
+              }),
+          ]),
 
-        const SizedBox(height: 20),
+        SizedBox(height: 20),
 
         // Join Code - read-only display with refresh
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Padding(
-              padding: const EdgeInsets.only(left: 4, bottom: 8),
+              padding: EdgeInsets.only(left: 4, bottom: 8),
               child: Text(
                 AppLocalizations.of(context)?.joinCode ?? AppLocalizations.of(context)!.tr('Join Code'),
                 style: TextStyle(
                   fontSize: 13,
                   fontWeight: FontWeight.w600,
                   color: (isLight ? Colors.black : Colors.white)
-                      .withOpacity(0.5),
-                ),
-              ),
-            ),
+                      .withOpacity(0.5)))),
             Container(
-              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
+              padding: EdgeInsets.symmetric(horizontal: 20, vertical: 14),
               decoration: BoxDecoration(
                 color: (isLight ? Colors.black : Colors.white)
                     .withOpacity(0.05),
-                borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius()),
-              ),
+                borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius())),
               child: Row(
                 children: [
                   Expanded(
@@ -8544,39 +7343,29 @@ class _CreateGroupModalState extends State<_CreateGroupModal> {
                         fontWeight: FontWeight.w700,
                         fontFeatures: const [
                           FontFeature.tabularFigures(),
-                        ],
-                      ),
-                    ),
-                  ),
+                        ]))),
                   TradeRepublicButton.icon(
                     icon: _isGeneratingCode
-                        ? const SizedBox(width: 18, height: 18, child: CultiooLoadingIndicator(size: 20))
+                        ? SizedBox(width: 18, height: 18, child: CultiooLoadingIndicator(size: 20))
                         : Icon(CupertinoIcons.arrow_clockwise, size: 18, color: (isLight ? Colors.black : Colors.white).withOpacity(0.5)),
                     size: 36,
                     backgroundColor: (isLight ? Colors.black : Colors.white).withOpacity(0.08),
                     onPressed: _isGeneratingCode ? null : () async {
                       HapticFeedback.lightImpact();
                       await _generateRandomCode();
-                    },
-                  ),
-                ],
-              ),
-            ),
+                    }),
+                ])),
             Padding(
-              padding: const EdgeInsets.only(left: 4, top: 6),
+              padding: EdgeInsets.only(left: 4, top: 6),
               child: Text(
                 AppLocalizations.of(context)?.shareThisCodeWithOthersToJoin ?? AppLocalizations.of(context)!.tr('Share this code with others to join'),
                 style: TextStyle(
                   fontSize: 12,
                   color: (isLight ? Colors.black : Colors.white)
-                      .withOpacity(0.35),
-                ),
-              ),
-            ),
-          ],
-        ),
+                      .withOpacity(0.35)))),
+          ]),
 
-        const SizedBox(height: 32),
+        SizedBox(height: 32),
 
         // Create Button
         TradeRepublicButton(
@@ -8587,8 +7376,7 @@ class _CreateGroupModalState extends State<_CreateGroupModal> {
                   await _createGroup();
                 }
               : null,
-          width: double.infinity,
-        ),
+          width: double.infinity),
 
         SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
@@ -8597,13 +7385,10 @@ class _CreateGroupModalState extends State<_CreateGroupModal> {
           label: AppLocalizations.of(context)?.cancel ?? AppLocalizations.of(context)!.tr('Cancel'),
           onPressed: () => Navigator.pop(context),
           isSecondary: true,
-          width: double.infinity,
-        ),
+          width: double.infinity),
 
           SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
-        ],
-      ),
-    );
+        ]));
   }
 }
 
@@ -8635,8 +7420,7 @@ class _JoinGroupModalState extends State<_JoinGroupModal> {
       if (accountPageState != null && accountPageState.userGroups.isNotEmpty) {
         TopNotification.info(
           context,
-          AppLocalizations.of(context)?.onlyOneGroupLeaveFirst ?? AppLocalizations.of(context)!.tr('You can only be in one group at a time. Leave your current group first.'),
-        );
+          AppLocalizations.of(context)?.onlyOneGroupLeaveFirst ?? AppLocalizations.of(context)!.tr('You can only be in one group at a time. Leave your current group first.'));
         return;
       }
 
@@ -8651,8 +7435,7 @@ class _JoinGroupModalState extends State<_JoinGroupModal> {
         TopNotification.error(
           context,
           AppLocalizations.of(context)!.tr('User ID not available. Please reload the page.') ?? AppLocalizations.of(context)!.tr('User ID not available. Please reload the page.'),
-          title: AppLocalizations.of(context)?.error ?? AppLocalizations.of(context)!.tr('Error'),
-        );
+          title: AppLocalizations.of(context)?.error ?? AppLocalizations.of(context)!.tr('Error'));
         return;
       }
 
@@ -8673,8 +7456,7 @@ class _JoinGroupModalState extends State<_JoinGroupModal> {
       final response = await http.post(
         Uri.parse('${ApiConfig.baseUrl}/api/delvioo-groups/delvioo/join'),
         headers: {'Content-Type': 'application/json'},
-        body: json.encode(joinData),
-      );
+        body: json.encode(joinData));
 
       print('📡 Join group response: ${response.statusCode}');
       print('📡 Response body: ${response.body}');
@@ -8691,16 +7473,14 @@ class _JoinGroupModalState extends State<_JoinGroupModal> {
           TopNotification.success(
             context,
             '${AppLocalizations.of(context)?.successfullyJoinedGroup ?? AppLocalizations.of(context)!.tr('Successfully joined group')} "${responseData['groupName']}"!',
-            title: AppLocalizations.of(context)?.joinedGroup ?? AppLocalizations.of(context)!.tr('Joined Group'),
-          );
+            title: AppLocalizations.of(context)?.joinedGroup ?? AppLocalizations.of(context)!.tr('Joined Group'));
         }
       } else if (response.statusCode == 404) {
         if (mounted) {
           TopNotification.error(
             context,
             AppLocalizations.of(context)!.tr('Group not found. Please check the code.') ?? AppLocalizations.of(context)!.tr('Group not found. Please check the code.'),
-            title: AppLocalizations.of(context)?.invalidCode ?? AppLocalizations.of(context)!.tr('Invalid Code'),
-          );
+            title: AppLocalizations.of(context)?.invalidCode ?? AppLocalizations.of(context)!.tr('Invalid Code'));
         }
       } else if (response.statusCode == 409) {
         if (mounted) {
@@ -8708,16 +7488,14 @@ class _JoinGroupModalState extends State<_JoinGroupModal> {
             context,
             AppLocalizations.of(context)!.tr('You are already a member of this group.') ?? AppLocalizations.of(context)!.tr('You are already a member of this group.'),
             title:
-                AppLocalizations.of(context)?.alreadyJoined ?? AppLocalizations.of(context)!.tr('Already Joined'),
-          );
+                AppLocalizations.of(context)?.alreadyJoined ?? AppLocalizations.of(context)!.tr('Already Joined'));
         }
       } else {
         if (mounted) {
           TopNotification.error(
             context,
             AppLocalizations.of(context)?.failedToJoinGroup ?? AppLocalizations.of(context)!.tr('Failed to join group. Please try again.'),
-            title: AppLocalizations.of(context)?.error ?? AppLocalizations.of(context)!.tr('Error'),
-          );
+            title: AppLocalizations.of(context)?.error ?? AppLocalizations.of(context)!.tr('Error'));
         }
       }
     } catch (e) {
@@ -8727,8 +7505,7 @@ class _JoinGroupModalState extends State<_JoinGroupModal> {
           context,
           AppLocalizations.of(context)?.networkErrorCheckConnection ?? AppLocalizations.of(context)!.tr('Network error. Please check your connection.'),
           title:
-              AppLocalizations.of(context)?.connectionError ?? AppLocalizations.of(context)!.tr('Connection Error'),
-        );
+              AppLocalizations.of(context)?.connectionError ?? AppLocalizations.of(context)!.tr('Connection Error'));
       }
     }
   }
@@ -8738,8 +7515,7 @@ class _JoinGroupModalState extends State<_JoinGroupModal> {
     return SingleChildScrollView(
       physics: const BouncingScrollPhysics(),
       padding: EdgeInsets.only(
-        bottom: MediaQuery.of(context).viewInsets.bottom,
-      ),
+        bottom: MediaQuery.of(context).viewInsets.bottom),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -8750,17 +7526,14 @@ class _JoinGroupModalState extends State<_JoinGroupModal> {
           decoration: BoxDecoration(
             color: (widget.isLight ? Colors.black : Colors.white)
                 .withOpacity(0.06),
-            borderRadius: BorderRadius.circular(24),
-          ),
+            borderRadius: BorderRadius.circular(24)),
           child: Icon(
             CupertinoIcons.person_badge_plus,
             size: 32,
             color: (widget.isLight ? Colors.black : Colors.white)
-                .withOpacity(0.3),
-          ),
-        ),
+                .withOpacity(0.3))),
 
-        const SizedBox(height: 20),
+        SizedBox(height: 20),
 
         // Title
         Text(
@@ -8769,25 +7542,21 @@ class _JoinGroupModalState extends State<_JoinGroupModal> {
             fontSize: DesktopOptimizedWidgets.getFontSize() + 10,
             fontWeight: FontWeight.w700,
             color: widget.isLight ? Colors.black : Colors.white,
-            letterSpacing: -0.5,
-          ),
-        ),
-        const SizedBox(height: 6),
+            letterSpacing: -0.5)),
+        SizedBox(height: 6),
         Text(
           AppLocalizations.of(context)?.groupCodeExplanation ?? AppLocalizations.of(context)!.tr('Ask your group admin for the 8-digit code'),
           style: TextStyle(
             fontSize: DesktopOptimizedWidgets.getFontSize(),
             color: (widget.isLight ? Colors.black : Colors.white)
-                .withOpacity(0.4),
-          ),
-          textAlign: TextAlign.center,
-        ),
+                .withOpacity(0.4)),
+          textAlign: TextAlign.center),
 
-        const SizedBox(height: 28),
+        SizedBox(height: 28),
 
         // Code Label
         Padding(
-          padding: const EdgeInsets.only(left: 4, bottom: 8),
+          padding: EdgeInsets.only(left: 4, bottom: 8),
           child: Align(
             alignment: Alignment.centerLeft,
             child: Text(
@@ -8796,20 +7565,15 @@ class _JoinGroupModalState extends State<_JoinGroupModal> {
                 fontSize: 13,
                 fontWeight: FontWeight.w600,
                 color: (widget.isLight ? Colors.black : Colors.white)
-                    .withOpacity(0.5),
-              ),
-            ),
-          ),
-        ),
+                    .withOpacity(0.5))))),
 
         // Code Input
         Container(
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
+          padding: EdgeInsets.symmetric(horizontal: 20, vertical: 14),
           decoration: BoxDecoration(
             color: (widget.isLight ? Colors.black : Colors.white)
                 .withOpacity(0.05),
-            borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius()),
-          ),
+            borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius())),
           child: TradeRepublicTextField(
             controller: _searchController,
             maxLength: 8,
@@ -8820,19 +7584,16 @@ class _JoinGroupModalState extends State<_JoinGroupModal> {
               fontSize: 22,
               letterSpacing: 5,
               fontWeight: FontWeight.w700,
-              fontFeatures: const [FontFeature.tabularFigures()],
-            ),
+              fontFeatures: const [FontFeature.tabularFigures()]),
             hintText: AppLocalizations.of(context)!.tr('00000000') ?? AppLocalizations.of(context)!.tr('00000000'),
             counterText: '',
             textAlign: TextAlign.center,
             onChanged: (value) {
               setState(() {});
-            },
-          ),
-        ),
+            })),
 
         Padding(
-          padding: const EdgeInsets.only(left: 4, top: 6),
+          padding: EdgeInsets.only(left: 4, top: 6),
           child: Align(
             alignment: Alignment.centerLeft,
             child: Text(
@@ -8840,13 +7601,9 @@ class _JoinGroupModalState extends State<_JoinGroupModal> {
               style: TextStyle(
                 fontSize: 12,
                 color: (widget.isLight ? Colors.black : Colors.white)
-                    .withOpacity(0.35),
-              ),
-            ),
-          ),
-        ),
+                    .withOpacity(0.35))))),
 
-        const SizedBox(height: 28),
+        SizedBox(height: 28),
 
         // Join Button
         TradeRepublicButton(
@@ -8859,8 +7616,7 @@ class _JoinGroupModalState extends State<_JoinGroupModal> {
                   await _joinGroup();
                 }
               : null,
-          width: double.infinity,
-        ),
+          width: double.infinity),
 
         SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
@@ -8869,13 +7625,10 @@ class _JoinGroupModalState extends State<_JoinGroupModal> {
           label: AppLocalizations.of(context)?.cancel ?? AppLocalizations.of(context)!.tr('Cancel'),
           onPressed: () => Navigator.pop(context),
           isSecondary: true,
-          width: double.infinity,
-        ),
+          width: double.infinity),
 
           SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
-        ],
-      ),
-    );
+        ]));
   }
 }
 
@@ -8923,8 +7676,7 @@ class _GroupSettingsModalState extends State<_GroupSettingsModal> {
         body: json.encode({
           'groupId': widget.group['groupId'],
           'userId': widget.userData?['userId'] ?? widget.userData?['id'],
-        }),
-      );
+        }));
 
       print('📡 Leave group response: ${response.statusCode}');
 
@@ -8936,16 +7688,14 @@ class _GroupSettingsModalState extends State<_GroupSettingsModal> {
           TopNotification.success(
             context,
             'You have left the group "${widget.group['name']}"',
-            title: AppLocalizations.of(context)?.leftGroup ?? AppLocalizations.of(context)!.tr('Left Group'),
-          );
+            title: AppLocalizations.of(context)?.leftGroup ?? AppLocalizations.of(context)!.tr('Left Group'));
         }
       } else {
         if (mounted) {
           TopNotification.error(
             context,
             AppLocalizations.of(context)?.failedToLeaveGroup ?? AppLocalizations.of(context)!.tr('Failed to leave group. Please try again.'),
-            title: AppLocalizations.of(context)?.error ?? AppLocalizations.of(context)!.tr('Error'),
-          );
+            title: AppLocalizations.of(context)?.error ?? AppLocalizations.of(context)!.tr('Error'));
         }
       }
     } catch (e) {
@@ -8955,8 +7705,7 @@ class _GroupSettingsModalState extends State<_GroupSettingsModal> {
           context,
           AppLocalizations.of(context)?.networkErrorCheckConnection ?? AppLocalizations.of(context)!.tr('Network error. Please check your connection.'),
           title:
-              AppLocalizations.of(context)?.connectionError ?? AppLocalizations.of(context)!.tr('Connection Error'),
-        );
+              AppLocalizations.of(context)?.connectionError ?? AppLocalizations.of(context)!.tr('Connection Error'));
       }
     } finally {
       if (mounted) {
@@ -8973,8 +7722,7 @@ class _GroupSettingsModalState extends State<_GroupSettingsModal> {
     final eligibleMembers = members
         .where(
           (member) =>
-              member['userId'] != currentUserId && !(member['isHost'] ?? false),
-        )
+              member['userId'] != currentUserId && !(member['isHost'] ?? false))
         .toList();
 
     if (eligibleMembers.isEmpty) {
@@ -8982,8 +7730,7 @@ class _GroupSettingsModalState extends State<_GroupSettingsModal> {
         context,
         AppLocalizations.of(context)!.tr('No other members available to transfer host role to.') ?? AppLocalizations.of(context)!.tr('No other members available to transfer host role to.'),
         title:
-            AppLocalizations.of(context)?.transferNotPossible ?? AppLocalizations.of(context)!.tr('Transfer Not Possible'),
-      );
+            AppLocalizations.of(context)?.transferNotPossible ?? AppLocalizations.of(context)!.tr('Transfer Not Possible'));
       return;
     }
 
@@ -8999,9 +7746,8 @@ class _GroupSettingsModalState extends State<_GroupSettingsModal> {
               Icon(
                 CupertinoIcons.person_2,
                 size: 22,
-                color: isLight ? Colors.black : Colors.white,
-              ),
-              const SizedBox(width: 12),
+                color: isLight ? Colors.black : Colors.white),
+              SizedBox(width: 12),
               Expanded(
                 child: Text(
                   AppLocalizations.of(context)?.transferHostRole ?? AppLocalizations.of(context)!.tr('Transfer Host Role'),
@@ -9009,12 +7755,8 @@ class _GroupSettingsModalState extends State<_GroupSettingsModal> {
                     fontSize: 22,
                     fontWeight: FontWeight.w700,
                     color: widget.isLight ? Colors.black : Colors.white,
-                    letterSpacing: -0.4,
-                  ),
-                ),
-              ),
-            ],
-          ),
+                    letterSpacing: -0.4))),
+            ]),
           SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
           // Content
@@ -9027,33 +7769,23 @@ class _GroupSettingsModalState extends State<_GroupSettingsModal> {
                     AppLocalizations.of(context)?.chooseNewHostForGroup ?? AppLocalizations.of(context)!.tr('Choose a new host for the group:'),
                     style: TextStyle(
                       fontSize: DesktopOptimizedWidgets.getFontSize(),
-                      color: widget.isLight ? Colors.black : Colors.white,
-                    ),
-                  ),
+                      color: widget.isLight ? Colors.black : Colors.white)),
                   SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
                   // Members List
                   ...eligibleMembers.map(
                     (member) => Padding(
-                      padding: const EdgeInsets.only(bottom: 8),
+                      padding: EdgeInsets.only(bottom: 8),
                       child: TradeRepublicListTile.navigation(
                         title: member['userName'] ?? (AppLocalizations.of(context)?.unknown ?? AppLocalizations.of(context)!.tr('')),
                         subtitle: '${AppLocalizations.of(context)?.joinedDate ?? AppLocalizations.of(context)!.tr('Joined')} ${_formatJoinDate(member['joinedAt'] ?? AppLocalizations.of(context)!.tr(''))}',
-                        leading: const Icon(CupertinoIcons.person, size: 22),
+                        leading: Icon(CupertinoIcons.person, size: 22),
                         onTap: () {
                           Navigator.pop(context);
                           _transferHost(member['userId'], member['userName']);
-                        },
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
+                        }))),
+                ]))),
+        ]));
   }
 
   Future<void> _transferHost(String newHostId, String newHostName) async {
@@ -9076,8 +7808,7 @@ class _GroupSettingsModalState extends State<_GroupSettingsModal> {
           'groupId': widget.group['groupId'],
           'currentHostId': widget.userData?['userId'] ?? widget.userData?['id'],
           'newHostId': newHostId,
-        }),
-      );
+        }));
 
       print('📡 Transfer host response: ${response.statusCode}');
 
@@ -9090,8 +7821,7 @@ class _GroupSettingsModalState extends State<_GroupSettingsModal> {
             context,
             'Host role transferred to $newHostName successfully!',
             title:
-                AppLocalizations.of(context)?.hostTransferred ?? AppLocalizations.of(context)!.tr('Host Transferred'),
-          );
+                AppLocalizations.of(context)?.hostTransferred ?? AppLocalizations.of(context)!.tr('Host Transferred'));
         }
       } else {
         if (mounted) {
@@ -9099,8 +7829,7 @@ class _GroupSettingsModalState extends State<_GroupSettingsModal> {
             context,
             AppLocalizations.of(context)?.failedToTransferHostRole ?? AppLocalizations.of(context)!.tr('Failed to transfer host role. Please try again.'),
             title:
-                AppLocalizations.of(context)?.transferFailed ?? AppLocalizations.of(context)!.tr('Transfer Failed'),
-          );
+                AppLocalizations.of(context)?.transferFailed ?? AppLocalizations.of(context)!.tr('Transfer Failed'));
         }
       }
     } catch (e) {
@@ -9110,8 +7839,7 @@ class _GroupSettingsModalState extends State<_GroupSettingsModal> {
           context,
           AppLocalizations.of(context)?.networkErrorCheckConnection ?? AppLocalizations.of(context)!.tr('Network error. Please check your connection.'),
           title:
-              AppLocalizations.of(context)?.connectionError ?? AppLocalizations.of(context)!.tr('Connection Error'),
-        );
+              AppLocalizations.of(context)?.connectionError ?? AppLocalizations.of(context)!.tr('Connection Error'));
       }
     } finally {
       if (mounted) {
@@ -9136,20 +7864,16 @@ class _GroupSettingsModalState extends State<_GroupSettingsModal> {
               Icon(
                 CupertinoIcons.trash,
                 size: 22,
-                color: isLight ? Colors.black : Colors.white,
-              ),
-              const SizedBox(width: 12),
+                color: isLight ? Colors.black : Colors.white),
+              SizedBox(width: 12),
               Text(
                 AppLocalizations.of(context)?.deleteGroup ?? AppLocalizations.of(context)!.tr('Delete Group'),
                 style: TextStyle(
                   fontSize: 22,
                   fontWeight: FontWeight.w700,
                   letterSpacing: -0.4,
-                  color: widget.isLight ? Colors.black : Colors.white,
-                ),
-              ),
-            ],
-          ),
+                  color: widget.isLight ? Colors.black : Colors.white)),
+            ]),
 
           SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
@@ -9161,12 +7885,9 @@ class _GroupSettingsModalState extends State<_GroupSettingsModal> {
               fontSize: DesktopOptimizedWidgets.getFontSize(),
               height: 1.4,
               color: (widget.isLight ? Colors.black : Colors.white).withOpacity(
-                0.6,
-              ),
-            ),
-          ),
+                0.6))),
 
-          const SizedBox(height: 32),
+          SizedBox(height: 32),
 
           // Primary action button
           SizedBox(
@@ -9178,9 +7899,7 @@ class _GroupSettingsModalState extends State<_GroupSettingsModal> {
               onPressed: () {
                 Navigator.pop(context);
                 _deleteGroup();
-              },
-            ),
-          ),
+              })),
 
           SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
@@ -9190,12 +7909,8 @@ class _GroupSettingsModalState extends State<_GroupSettingsModal> {
             child: TradeRepublicButton(
               label: AppLocalizations.of(context)?.cancel ?? AppLocalizations.of(context)!.tr('Cancel'),
               onPressed: () => Navigator.pop(context),
-              isSecondary: true,
-            ),
-          ),
-        ],
-      ),
-    );
+              isSecondary: true)),
+        ]));
   }
 
   Future<void> _deleteGroup() async {
@@ -9206,13 +7921,11 @@ class _GroupSettingsModalState extends State<_GroupSettingsModal> {
     try {
       final response = await http.delete(
         Uri.parse(
-          '${ApiConfig.baseUrl}/api/delvioo-groups/${widget.group['groupId']}',
-        ),
+          '${ApiConfig.baseUrl}/api/delvioo-groups/${widget.group['groupId']}'),
         headers: {'Content-Type': 'application/json'},
         body: json.encode({
           'hostId': widget.userData?['userId'] ?? widget.userData?['id'],
-        }),
-      );
+        }));
 
       print('📡 Delete group response: ${response.statusCode}');
 
@@ -9225,8 +7938,7 @@ class _GroupSettingsModalState extends State<_GroupSettingsModal> {
             context,
             'Group "${widget.group['name']}" has been deleted successfully.',
             title:
-                AppLocalizations.of(context)?.groupDeleted ?? AppLocalizations.of(context)!.tr('Group Deleted'),
-          );
+                AppLocalizations.of(context)?.groupDeleted ?? AppLocalizations.of(context)!.tr('Group Deleted'));
         }
       } else {
         if (mounted) {
@@ -9234,8 +7946,7 @@ class _GroupSettingsModalState extends State<_GroupSettingsModal> {
             context,
             AppLocalizations.of(context)?.failedToDeleteGroup ?? AppLocalizations.of(context)!.tr('Failed to delete group. Please try again.'),
             title:
-                AppLocalizations.of(context)?.deleteFailed ?? AppLocalizations.of(context)!.tr('Delete Failed'),
-          );
+                AppLocalizations.of(context)?.deleteFailed ?? AppLocalizations.of(context)!.tr('Delete Failed'));
         }
       }
     } catch (e) {
@@ -9245,8 +7956,7 @@ class _GroupSettingsModalState extends State<_GroupSettingsModal> {
           context,
           AppLocalizations.of(context)?.networkErrorCheckConnection ?? AppLocalizations.of(context)!.tr('Network error. Please check your connection.'),
           title:
-              AppLocalizations.of(context)?.connectionError ?? AppLocalizations.of(context)!.tr('Connection Error'),
-        );
+              AppLocalizations.of(context)?.connectionError ?? AppLocalizations.of(context)!.tr('Connection Error'));
       }
     } finally {
       if (mounted) {
@@ -9272,20 +7982,16 @@ class _GroupSettingsModalState extends State<_GroupSettingsModal> {
               Icon(
                 CupertinoIcons.settings,
                 size: 22,
-                color: isLight ? Colors.black : Colors.white,
-              ),
-              const SizedBox(width: 12),
+                color: isLight ? Colors.black : Colors.white),
+              SizedBox(width: 12),
               Text(
                 AppLocalizations.of(context)?.groupSettings ?? AppLocalizations.of(context)!.tr('Group Settings'),
                 style: TextStyle(
                   fontSize: 22,
                   fontWeight: FontWeight.w700,
                   color: widget.isLight ? Colors.black : Colors.white,
-                  letterSpacing: -0.4,
-                ),
-              ),
-            ],
-          ),
+                  letterSpacing: -0.4)),
+            ]),
           SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
           Expanded(
@@ -9295,8 +8001,7 @@ class _GroupSettingsModalState extends State<_GroupSettingsModal> {
                 children: [
                   // Group Info Section
                   _buildSectionHeader(
-                    AppLocalizations.of(context)?.groupInformation ?? AppLocalizations.of(context)!.tr('Group Information'),
-                  ),
+                    AppLocalizations.of(context)?.groupInformation ?? AppLocalizations.of(context)!.tr('Group Information')),
                   SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
                   // Group Name
@@ -9308,8 +8013,7 @@ class _GroupSettingsModalState extends State<_GroupSettingsModal> {
                     subtitle:
                         AppLocalizations.of(context)?.groupName ?? AppLocalizations.of(context)!.tr('Group name'),
                     trailing: null,
-                    onTap: null,
-                  ),
+                    onTap: null),
 
                   // Join Code
                   _buildSettingsTile(
@@ -9321,19 +8025,15 @@ class _GroupSettingsModalState extends State<_GroupSettingsModal> {
                       CupertinoIcons.doc_on_doc,
                       color: (widget.isLight ? Colors.black : Colors.white)
                           .withOpacity(0.5),
-                      size: 16,
-                    ),
+                      size: 16),
                     onTap: () {
                       Clipboard.setData(
-                        ClipboardData(text: widget.group['joinCode'] ?? AppLocalizations.of(context)!.tr('')),
-                      );
+                        ClipboardData(text: widget.group['joinCode'] ?? AppLocalizations.of(context)!.tr('')));
                       TopNotification.success(
                         context,
                         AppLocalizations.of(context)!.tr('Group code copied to clipboard!') ?? AppLocalizations.of(context)!.tr('Group code copied to clipboard!'),
-                        title: AppLocalizations.of(context)?.copied ?? AppLocalizations.of(context)!.tr('Copied'),
-                      );
-                    },
-                  ),
+                        title: AppLocalizations.of(context)?.copied ?? AppLocalizations.of(context)!.tr('Copied'));
+                    }),
 
                   // Member Count
                   _buildSettingsTile(
@@ -9343,8 +8043,7 @@ class _GroupSettingsModalState extends State<_GroupSettingsModal> {
                     subtitle:
                         AppLocalizations.of(context)?.totalGroupMembers ?? AppLocalizations.of(context)!.tr('Total group members'),
                     trailing: null,
-                    onTap: null,
-                  ),
+                    onTap: null),
 
                   // Host Status
                   if (isHost)
@@ -9354,44 +8053,36 @@ class _GroupSettingsModalState extends State<_GroupSettingsModal> {
                       subtitle:
                           AppLocalizations.of(context)?.youAreTheGroupHost ?? AppLocalizations.of(context)!.tr('You are the group host'),
                       trailing: Container(
-                        padding: const EdgeInsets.symmetric(
+                        padding: EdgeInsets.symmetric(
                           horizontal: 8,
-                          vertical: 4,
-                        ),
+                          vertical: 4),
                         decoration: BoxDecoration(
                           color: (widget.isLight ? Colors.black : Colors.white)
                               .withOpacity(0.1),
-                          borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-                        ),
+                          borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
                         child: Text(
                           AppLocalizations.of(context)?.adminLabel ?? AppLocalizations.of(context)!.tr('ADMIN'),
                           style: TextStyle(
                             fontSize: 10,
                             fontWeight: FontWeight.w700,
-                            color: widget.isLight ? Colors.black : Colors.white,
-                          ),
-                        ),
-                      ),
-                      onTap: null,
-                    ),
+                            color: widget.isLight ? Colors.black : Colors.white))),
+                      onTap: null),
 
-                  const SizedBox(height: 32),
+                  SizedBox(height: 32),
 
                   // Members Section
                   _buildSectionHeader(
-                    AppLocalizations.of(context)?.groupMembers ?? AppLocalizations.of(context)!.tr('Group Members'),
-                  ),
+                    AppLocalizations.of(context)?.groupMembers ?? AppLocalizations.of(context)!.tr('Group Members')),
                   SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
                   // Members List
                   ...members.map((member) => _buildMemberTile(member)),
 
-                  const SizedBox(height: 32),
+                  SizedBox(height: 32),
 
                   // Group Actions Section
                   _buildSectionHeader(
-                    AppLocalizations.of(context)?.groupActions ?? AppLocalizations.of(context)!.tr('Group Actions'),
-                  ),
+                    AppLocalizations.of(context)?.groupActions ?? AppLocalizations.of(context)!.tr('Group Actions')),
                   SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
                   // Share Group Code
@@ -9401,26 +8092,21 @@ class _GroupSettingsModalState extends State<_GroupSettingsModal> {
                         AppLocalizations.of(context)?.shareGroupCode ?? AppLocalizations.of(context)!.tr('Share Group Code'),
                     subtitle:
                         AppLocalizations.of(
-                          context,
-                        )?.inviteOtherDriversToJoin ?? AppLocalizations.of(context)!.tr('Invite other drivers to join'),
+                          context)?.inviteOtherDriversToJoin ?? AppLocalizations.of(context)!.tr('Invite other drivers to join'),
                     trailing: Icon(
                       CupertinoIcons.chevron_right,
                       color: (widget.isLight ? Colors.black : Colors.white)
                           .withOpacity(0.5),
-                      size: 16,
-                    ),
+                      size: 16),
                     onTap: () {
                       Clipboard.setData(
-                        ClipboardData(text: widget.group['joinCode'] ?? AppLocalizations.of(context)!.tr('')),
-                      );
+                        ClipboardData(text: widget.group['joinCode'] ?? AppLocalizations.of(context)!.tr('')));
                       TopNotification.success(
                         context,
                         'Group code ${widget.group['joinCode']} copied to clipboard!',
                         title:
-                            AppLocalizations.of(context)?.codeCopied ?? AppLocalizations.of(context)!.tr('Code Copied'),
-                      );
-                    },
-                  ),
+                            AppLocalizations.of(context)?.codeCopied ?? AppLocalizations.of(context)!.tr('Code Copied'));
+                    }),
 
                   // Transfer Host (only for host)
                   if (isHost && members.length > 1)
@@ -9430,23 +8116,19 @@ class _GroupSettingsModalState extends State<_GroupSettingsModal> {
                           AppLocalizations.of(context)?.transferHostRole ?? AppLocalizations.of(context)!.tr('Transfer Host Role'),
                       subtitle:
                           AppLocalizations.of(
-                            context,
-                          )?.makeAnotherMemberTheHost ?? AppLocalizations.of(context)!.tr('Make another member the host'),
+                            context)?.makeAnotherMemberTheHost ?? AppLocalizations.of(context)!.tr('Make another member the host'),
                       trailing: Icon(
                         CupertinoIcons.chevron_right,
                         color: (widget.isLight ? Colors.black : Colors.white)
                             .withOpacity(0.5),
-                        size: 16,
-                      ),
-                      onTap: _showTransferHostModal,
-                    ),
+                        size: 16),
+                      onTap: _showTransferHostModal),
 
-                  const SizedBox(height: 32),
+                  SizedBox(height: 32),
 
                   // Danger Zone Section
                   _buildSectionHeader(
-                    AppLocalizations.of(context)?.dangerZone ?? AppLocalizations.of(context)!.tr('Danger Zone'),
-                  ),
+                    AppLocalizations.of(context)?.dangerZone ?? AppLocalizations.of(context)!.tr('Danger Zone')),
                   SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
                   // Leave Group
@@ -9457,16 +8139,13 @@ class _GroupSettingsModalState extends State<_GroupSettingsModal> {
                         : AppLocalizations.of(context)?.leaveGroup ?? AppLocalizations.of(context)!.tr('Leave Group'),
                     subtitle: isHost
                         ? AppLocalizations.of(
-                                context,
-                              )?.transferOwnershipAndLeave ?? AppLocalizations.of(context)!.tr('Transfer ownership and leave')
+                                context)?.transferOwnershipAndLeave ?? AppLocalizations.of(context)!.tr('Transfer ownership and leave')
                         : AppLocalizations.of(
-                                context,
-                              )?.removeYourselfFromGroup ?? AppLocalizations.of(context)!.tr('Remove yourself from this group'),
+                                context)?.removeYourselfFromGroup ?? AppLocalizations.of(context)!.tr('Remove yourself from this group'),
                     trailing: Icon(
                       CupertinoIcons.chevron_right,
                       color: Colors.red.withOpacity(0.5),
-                      size: 16,
-                    ),
+                      size: 16),
                     onTap: isLoading
                         ? null
                         : () {
@@ -9482,28 +8161,23 @@ class _GroupSettingsModalState extends State<_GroupSettingsModal> {
                                           Icon(
                                             CupertinoIcons.arrow_left_circle,
                                             size: 22,
-                                            color: isLight ? Colors.black : Colors.white,
-                                          ),
-                                          const SizedBox(width: 12),
+                                            color: isLight ? Colors.black : Colors.white),
+                                          SizedBox(width: 12),
                                           Text(
                                             AppLocalizations.of(context)?.leaveGroup ?? AppLocalizations.of(context)!.tr('Leave Group'),
                                             style: TextStyle(
                                               fontSize: 22,
                                               fontWeight: FontWeight.w700,
                                               letterSpacing: -0.4,
-                                              color: widget.isLight ? Colors.black : Colors.white,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
+                                              color: widget.isLight ? Colors.black : Colors.white)),
+                                        ]),
 
                                       SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
                                       // Minimal description
                                       Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                          horizontal: 16,
-                                        ),
+                                        padding: EdgeInsets.symmetric(
+                                          horizontal: 16),
                                         child: Text(
                                           isHost
                                               ? (AppLocalizations.of(context)?.leaveGroupAsHost ?? AppLocalizations.of(context)!.tr(''))
@@ -9516,12 +8190,9 @@ class _GroupSettingsModalState extends State<_GroupSettingsModal> {
                                                 (widget.isLight
                                                         ? Colors.black
                                                         : Colors.white)
-                                                    .withOpacity(0.6),
-                                          ),
-                                        ),
-                                      ),
+                                                    .withOpacity(0.6)))),
 
-                                      const SizedBox(height: 32),
+                                      SizedBox(height: 32),
 
                                       // Primary action button - Platform check
                                       SizedBox(
@@ -9529,15 +8200,12 @@ class _GroupSettingsModalState extends State<_GroupSettingsModal> {
                                         child: TradeRepublicButton(
                                           label:
                                               AppLocalizations.of(
-                                                context,
-                                              )?.leaveGroup ?? AppLocalizations.of(context)!.tr('Leave Group'),
+                                                context)?.leaveGroup ?? AppLocalizations.of(context)!.tr('Leave Group'),
                                           tint: Colors.red,
                                           onPressed: () {
                                             Navigator.pop(context);
                                             _leaveGroup();
-                                          },
-                                        ),
-                                      ),
+                                          })),
 
                                       SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
@@ -9547,22 +8215,16 @@ class _GroupSettingsModalState extends State<_GroupSettingsModal> {
                                         child: TradeRepublicButton(
                                           label:
                                               AppLocalizations.of(
-                                                context,
-                                              )?.cancel ?? AppLocalizations.of(context)!.tr('Cancel'),
+                                                context)?.cancel ?? AppLocalizations.of(context)!.tr('Cancel'),
                                           tint: widget.isLight
                                               ? CupertinoColors.black
                                               : CupertinoColors.white,
                                           onPressed: () =>
                                               Navigator.pop(context),
-                                          isSecondary: true,
-                                        ),
-                                      ),
-                                    ],
-                                ),
-                            );
+                                          isSecondary: true)),
+                                    ]));
                           },
-                    isDestructive: true,
-                  ),
+                    isDestructive: true),
 
                   // Delete Group (only for host)
                   if (isHost)
@@ -9572,30 +8234,21 @@ class _GroupSettingsModalState extends State<_GroupSettingsModal> {
                           AppLocalizations.of(context)?.deleteGroup ?? AppLocalizations.of(context)!.tr('Delete Group'),
                       subtitle:
                           AppLocalizations.of(
-                            context,
-                          )?.permanentlyDeleteThisGroup ?? AppLocalizations.of(context)!.tr('Permanently delete this group'),
+                            context)?.permanentlyDeleteThisGroup ?? AppLocalizations.of(context)!.tr('Permanently delete this group'),
                       trailing: Icon(
                         CupertinoIcons.chevron_right,
                         color: Colors.red.withOpacity(0.5),
-                        size: 16,
-                      ),
+                        size: 16),
                       onTap: isLoading ? null : _showDeleteGroupConfirmation,
-                      isDestructive: true,
-                    ),
-                ],
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
+                      isDestructive: true),
+                ]))),
+        ]));
   }
 
   Widget _buildSectionHeader(String title) {
     return TradeRepublicSectionHeader(
       title: title,
-      padding: const EdgeInsets.only(bottom: 0),
-    );
+      padding: EdgeInsets.only(bottom: 0));
   }
 
   Widget _buildSettingsTile({
@@ -9607,7 +8260,7 @@ class _GroupSettingsModalState extends State<_GroupSettingsModal> {
     bool isDestructive = false,
   }) {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 8),
+      padding: EdgeInsets.only(bottom: 8),
       child: TradeRepublicListTile(
         title: title,
         subtitle: subtitle,
@@ -9615,9 +8268,7 @@ class _GroupSettingsModalState extends State<_GroupSettingsModal> {
         trailing: trailing,
         onTap: onTap,
         titleColor: isDestructive ? TradeRepublicTheme.destructiveRed : null,
-        padding: const EdgeInsets.symmetric(vertical: 12),
-      ),
-    );
+        padding: EdgeInsets.symmetric(vertical: 12)));
   }
 
   Widget _buildMemberTile(Map<String, dynamic> member) {
@@ -9626,12 +8277,11 @@ class _GroupSettingsModalState extends State<_GroupSettingsModal> {
     final isCurrentUser = member['userId'] == currentUserId;
 
     return Container(
-      padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
-      margin: const EdgeInsets.only(bottom: 8),
+      padding: EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+      margin: EdgeInsets.only(bottom: 8),
       decoration: BoxDecoration(
         color: (widget.isLight ? Colors.white : Colors.black),
-        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-      ),
+        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
       child: Row(
         children: [
           // Member Avatar
@@ -9640,15 +8290,12 @@ class _GroupSettingsModalState extends State<_GroupSettingsModal> {
             height: 40,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-              color: (widget.isLight ? Colors.white : Colors.black),
-            ),
+              color: (widget.isLight ? Colors.white : Colors.black)),
             child: Icon(
               CupertinoIcons.person,
               color: (widget.isLight ? Colors.black : Colors.white),
-              size: 20,
-            ),
-          ),
-          const SizedBox(width: 12),
+              size: 20)),
+          SizedBox(width: 12),
 
           // Member Details
           Expanded(
@@ -9662,70 +8309,51 @@ class _GroupSettingsModalState extends State<_GroupSettingsModal> {
                       style: TextStyle(
                         fontSize: 15,
                         fontWeight: FontWeight.w600,
-                        color: widget.isLight ? Colors.black : Colors.white,
-                      ),
-                    ),
+                        color: widget.isLight ? Colors.black : Colors.white)),
                     if (isCurrentUser) ...[
-                      const SizedBox(width: 6),
+                      SizedBox(width: 6),
                       Container(
-                        padding: const EdgeInsets.symmetric(
+                        padding: EdgeInsets.symmetric(
                           horizontal: 6,
-                          vertical: 2,
-                        ),
+                          vertical: 2),
                         decoration: BoxDecoration(
                           color: (widget.isLight ? Colors.black : Colors.white)
                               .withOpacity(0.1),
-                          borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-                        ),
+                          borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
                         child: Text(
                           AppLocalizations.of(context)?.youLabel ?? AppLocalizations.of(context)!.tr('You'),
                           style: TextStyle(
                             fontSize: 10,
                             fontWeight: FontWeight.w700,
-                            color: widget.isLight ? Colors.black : Colors.white,
-                          ),
-                        ),
-                      ),
+                            color: widget.isLight ? Colors.black : Colors.white))),
                     ],
                     if (isHost) ...[
-                      const SizedBox(width: 6),
+                      SizedBox(width: 6),
                       Container(
-                        padding: const EdgeInsets.symmetric(
+                        padding: EdgeInsets.symmetric(
                           horizontal: 6,
-                          vertical: 2,
-                        ),
+                          vertical: 2),
                         decoration: BoxDecoration(
                           color: (widget.isLight ? Colors.black : Colors.white)
                               .withOpacity(0.1),
-                          borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-                        ),
+                          borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
                         child: Text(
                           AppLocalizations.of(context)?.host ?? AppLocalizations.of(context)!.tr('Host'),
                           style: TextStyle(
                             fontSize: 10,
                             fontWeight: FontWeight.w700,
-                            color: widget.isLight ? Colors.black : Colors.white,
-                          ),
-                        ),
-                      ),
+                            color: widget.isLight ? Colors.black : Colors.white))),
                     ],
-                  ],
-                ),
-                const SizedBox(height: 2),
+                  ]),
+                SizedBox(height: 2),
                 Text(
                   '${AppLocalizations.of(context)?.joinedDate ?? AppLocalizations.of(context)!.tr('Joined')} ${_formatJoinDate(member['joinedAt'] ?? AppLocalizations.of(context)!.tr(''))}',
                   style: TextStyle(
                     fontSize: 12,
                     color: (widget.isLight ? Colors.black : Colors.white)
-                        .withOpacity(0.6),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
+                        .withOpacity(0.6))),
+              ])),
+        ]));
   }
 
   Widget _buildMemberItem(Map<String, dynamic> member) {
@@ -9734,7 +8362,7 @@ class _GroupSettingsModalState extends State<_GroupSettingsModal> {
     final isCurrentUser = member['userId'] == currentUserId;
 
     return Container(
-      margin: const EdgeInsets.only(bottom: 12),
+      margin: EdgeInsets.only(bottom: 12),
       child: Row(
         children: [
           // Member Avatar
@@ -9743,15 +8371,12 @@ class _GroupSettingsModalState extends State<_GroupSettingsModal> {
             height: 40,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-              color: (widget.isLight ? Colors.white : Colors.black),
-            ),
+              color: (widget.isLight ? Colors.white : Colors.black)),
             child: Icon(
               CupertinoIcons.person,
               color: (widget.isLight ? Colors.black : Colors.white),
-              size: 20,
-            ),
-          ),
-          const SizedBox(width: 12),
+              size: 20)),
+          SizedBox(width: 12),
 
           // Member Details
           Expanded(
@@ -9766,47 +8391,32 @@ class _GroupSettingsModalState extends State<_GroupSettingsModal> {
                         style: TextStyle(
                           fontSize: DesktopOptimizedWidgets.getFontSize(),
                           fontWeight: FontWeight.w600,
-                          color: widget.isLight ? Colors.black : Colors.white,
-                        ),
-                      ),
-                    ),
+                          color: widget.isLight ? Colors.black : Colors.white))),
                     if (isHost)
                       Container(
-                        padding: const EdgeInsets.symmetric(
+                        padding: EdgeInsets.symmetric(
                           horizontal: 6,
-                          vertical: 2,
-                        ),
+                          vertical: 2),
                         decoration: BoxDecoration(
                           color: (widget.isLight ? Colors.black : Colors.white)
                               .withOpacity(0.1),
-                          borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-                        ),
+                          borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
                         child: Text(
                           AppLocalizations.of(context)?.host ?? AppLocalizations.of(context)!.tr('Host'),
                           style: TextStyle(
                             fontSize: 8,
                             fontWeight: FontWeight.w700,
-                            color: widget.isLight ? Colors.black : Colors.white,
-                          ),
-                        ),
-                      ),
-                  ],
-                ),
-                const SizedBox(height: 2),
+                            color: widget.isLight ? Colors.black : Colors.white))),
+                  ]),
+                SizedBox(height: 2),
                 Text(
                   '${AppLocalizations.of(context)?.joinedDate ?? AppLocalizations.of(context)!.tr('Joined')} ${_formatJoinDate(member['joinedAt'] ?? AppLocalizations.of(context)!.tr(''))}',
                   style: TextStyle(
                     fontSize: 12,
                     color: (widget.isLight ? Colors.black : Colors.white)
-                        .withOpacity(0.6),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
+                        .withOpacity(0.6))),
+              ])),
+        ]));
   }
 
   String _formatJoinDate(String dateString) {
@@ -9871,8 +8481,7 @@ class _AddAccountModalState extends State<_AddAccountModal> {
         context,
         AppLocalizations.of(context)!.tr('Please fill in both email and password fields.') ?? AppLocalizations.of(context)!.tr('Please fill in both email and password fields.'),
         title:
-            AppLocalizations.of(context)?.missingInformation ?? AppLocalizations.of(context)!.tr('Missing Information'),
-      );
+            AppLocalizations.of(context)?.missingInformation ?? AppLocalizations.of(context)!.tr('Missing Information'));
       return;
     }
 
@@ -9882,8 +8491,7 @@ class _AddAccountModalState extends State<_AddAccountModal> {
 
     await widget.onAccountAdd(
       _emailController.text.trim(),
-      _passwordController.text.trim(),
-    );
+      _passwordController.text.trim());
 
     setState(() {
       _isLoading = false;
@@ -9910,20 +8518,16 @@ class _AddAccountModalState extends State<_AddAccountModal> {
                 Icon(
                   CupertinoIcons.person_badge_plus,
                   size: 22,
-                  color: isLight ? Colors.black : Colors.white,
-                ),
-                const SizedBox(width: 12),
+                  color: isLight ? Colors.black : Colors.white),
+                SizedBox(width: 12),
                 Text(
                   AppLocalizations.of(context)?.addAccount ?? AppLocalizations.of(context)!.tr('Add Account'),
                   style: TextStyle(
                     fontSize: 22,
                     fontWeight: FontWeight.w700,
                     color: widget.isLight ? Colors.black : Colors.white,
-                    letterSpacing: -0.4,
-                  ),
-                ),
-              ],
-            ),
+                    letterSpacing: -0.4)),
+              ]),
             SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
             Expanded(
@@ -9934,16 +8538,14 @@ class _AddAccountModalState extends State<_AddAccountModal> {
                   TradeRepublicTextField(
                     controller: _emailController,
                     hintText: AppLocalizations.of(context)?.email ?? AppLocalizations.of(context)!.tr('Email'),
-                    keyboardType: TextInputType.emailAddress,
-                  ),
+                    keyboardType: TextInputType.emailAddress),
                   SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
                   // Password Field
                   TradeRepublicTextField.password(
                     controller: _passwordController,
                     hintText:
-                        AppLocalizations.of(context)?.password ?? AppLocalizations.of(context)!.tr('Password'),
-                  ),
+                        AppLocalizations.of(context)?.password ?? AppLocalizations.of(context)!.tr('Password')),
 
                   const Spacer(),
 
@@ -9956,16 +8558,9 @@ class _AddAccountModalState extends State<_AddAccountModal> {
                       onPressed: _isLoading ? null : _handleLogin,
                       tint: widget.isLight
                           ? CupertinoColors.black
-                          : CupertinoColors.white,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
+                          : CupertinoColors.white)),
+                ])),
+          ])));
   }
 
   @override
@@ -9976,8 +8571,7 @@ class _AddAccountModalState extends State<_AddAccountModal> {
         widget.availableUsers.isNotEmpty && widget.selectedUserId != null
         ? widget.availableUsers.firstWhere(
             (user) => user['user_id'] == widget.selectedUserId,
-            orElse: () => {},
-          )
+            orElse: () => {})
         : {};
 
     return SizedBox(
@@ -9990,20 +8584,16 @@ class _AddAccountModalState extends State<_AddAccountModal> {
               Icon(
                 CupertinoIcons.person_circle,
                 size: 22,
-                color: isLight ? Colors.black : Colors.white,
-              ),
-              const SizedBox(width: 12),
+                color: isLight ? Colors.black : Colors.white),
+              SizedBox(width: 12),
               Text(
                 AppLocalizations.of(context)?.accountManagement ?? AppLocalizations.of(context)!.tr('Account Management'),
                 style: TextStyle(
                   fontSize: 22,
                   fontWeight: FontWeight.w700,
                   color: widget.isLight ? Colors.black : Colors.white,
-                  letterSpacing: -0.4,
-                ),
-              ),
-            ],
-          ),
+                  letterSpacing: -0.4)),
+            ]),
           SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
           Expanded(
@@ -10017,9 +8607,7 @@ class _AddAccountModalState extends State<_AddAccountModal> {
                   style: TextStyle(
                     fontSize: DesktopOptimizedWidgets.getFontSize(),
                     fontWeight: FontWeight.w700,
-                    color: widget.isLight ? Colors.black : Colors.white,
-                  ),
-                ),
+                    color: widget.isLight ? Colors.black : Colors.white)),
                 SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
                 // Current Account Card
@@ -10034,15 +8622,12 @@ class _AddAccountModalState extends State<_AddAccountModal> {
                         height: 50,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-                          color: (widget.isLight ? Colors.white : Colors.black),
-                        ),
+                          color: (widget.isLight ? Colors.white : Colors.black)),
                         child: Icon(
                           CupertinoIcons.person,
                           color: (widget.isLight ? Colors.black : Colors.white),
-                          size: 25,
-                        ),
-                      ),
-                      const SizedBox(width: 16),
+                          size: 25)),
+                      SizedBox(width: 16),
 
                       // Account Info
                       Expanded(
@@ -10058,10 +8643,8 @@ class _AddAccountModalState extends State<_AddAccountModal> {
                                 fontWeight: FontWeight.w700,
                                 color: widget.isLight
                                     ? Colors.black
-                                    : Colors.white,
-                              ),
-                            ),
-                            const SizedBox(height: 4),
+                                    : Colors.white)),
+                            SizedBox(height: 4),
                             Text(
                               currentUser.isNotEmpty
                                   ? currentUser['email'] ?? (AppLocalizations.of(context)?.noEmailAddress ?? AppLocalizations.of(context)!.tr('No email'))
@@ -10072,36 +8655,25 @@ class _AddAccountModalState extends State<_AddAccountModal> {
                                     (widget.isLight
                                             ? Colors.black
                                             : Colors.white)
-                                        .withOpacity(0.7),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
+                                        .withOpacity(0.7))),
+                          ])),
 
                       // Active Badge
                       Container(
-                        padding: const EdgeInsets.symmetric(
+                        padding: EdgeInsets.symmetric(
                           horizontal: 12,
-                          vertical: 6,
-                        ),
+                          vertical: 6),
                         decoration: BoxDecoration(
                           color: (widget.isLight ? Colors.black : Colors.white)
                               .withOpacity(0.1),
-                          borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-                        ),
+                          borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
                         child: Text(
                           AppLocalizations.of(context)?.active ?? AppLocalizations.of(context)!.tr('Active'),
                           style: TextStyle(
                             fontSize: 12,
                             fontWeight: FontWeight.w700,
-                            color: widget.isLight ? Colors.black : Colors.white,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
+                            color: widget.isLight ? Colors.black : Colors.white))),
+                    ])),
 
                 const Spacer(),
                 // Close TradeRepublicCard
@@ -10120,16 +8692,10 @@ class _AddAccountModalState extends State<_AddAccountModal> {
                           },
                     tint: widget.isLight
                         ? CupertinoColors.black
-                        : CupertinoColors.white,
-                  ),
-                ),
-                const SizedBox(height: 20),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
+                        : CupertinoColors.white)),
+                SizedBox(height: 20),
+              ])),
+        ]));
   }
 }
 
@@ -10232,55 +8798,47 @@ class _StripePaymentModalState extends State<_StripePaymentModal> {
       if (_accountHolderController.text.trim().isEmpty) {
         TopNotification.error(
           context,
-          AppLocalizations.of(context)?.pleaseEnterAccountHolderName ?? AppLocalizations.of(context)!.tr('Please enter account holder name'),
-        );
+          AppLocalizations.of(context)?.pleaseEnterAccountHolderName ?? AppLocalizations.of(context)!.tr('Please enter account holder name'));
         return false;
       }
       if (_bankNameController.text.trim().isEmpty) {
         TopNotification.error(
           context,
-          AppLocalizations.of(context)?.pleaseEnterBankName ?? AppLocalizations.of(context)!.tr('Please enter bank name'),
-        );
+          AppLocalizations.of(context)?.pleaseEnterBankName ?? AppLocalizations.of(context)!.tr('Please enter bank name'));
         return false;
       }
       if (_accountNumberController.text.trim().isEmpty) {
         TopNotification.error(
           context,
-          AppLocalizations.of(context)?.pleaseEnterAccountNumber ?? AppLocalizations.of(context)!.tr('Please enter account number'),
-        );
+          AppLocalizations.of(context)?.pleaseEnterAccountNumber ?? AppLocalizations.of(context)!.tr('Please enter account number'));
         return false;
       }
       if (_routingNumberController.text.trim().isEmpty) {
         TopNotification.error(
           context,
-          AppLocalizations.of(context)?.pleaseEnterRoutingNumber ?? AppLocalizations.of(context)!.tr('Please enter routing number'),
-        );
+          AppLocalizations.of(context)?.pleaseEnterRoutingNumber ?? AppLocalizations.of(context)!.tr('Please enter routing number'));
         return false;
       }
 
       // Basic US account number validation (6-17 digits)
       String cleanAccount = _accountNumberController.text.replaceAll(
         RegExp(r'[^0-9]'),
-        '',
-      );
+        '');
       if (cleanAccount.length < 6 || cleanAccount.length > 17) {
         TopNotification.error(
           context,
-          AppLocalizations.of(context)?.pleaseEnterValidAccountNumber ?? AppLocalizations.of(context)!.tr('Please enter a valid account number (6-17 digits)'),
-        );
+          AppLocalizations.of(context)?.pleaseEnterValidAccountNumber ?? AppLocalizations.of(context)!.tr('Please enter a valid account number (6-17 digits)'));
         return false;
       }
 
       // Basic US routing number validation (9 digits)
       String cleanRouting = _routingNumberController.text.replaceAll(
         RegExp(r'[^0-9]'),
-        '',
-      );
+        '');
       if (cleanRouting.length != 9) {
         TopNotification.error(
           context,
-          AppLocalizations.of(context)?.pleaseEnterValidRoutingNumber ?? AppLocalizations.of(context)!.tr('Please enter a valid 9-digit routing number'),
-        );
+          AppLocalizations.of(context)?.pleaseEnterValidRoutingNumber ?? AppLocalizations.of(context)!.tr('Please enter a valid 9-digit routing number'));
         return false;
       }
     } else {
@@ -10288,22 +8846,19 @@ class _StripePaymentModalState extends State<_StripePaymentModal> {
       if (_accountHolderController.text.trim().isEmpty) {
         TopNotification.error(
           context,
-          AppLocalizations.of(context)?.pleaseEnterAccountHolderName ?? AppLocalizations.of(context)!.tr('Please enter account holder name'),
-        );
+          AppLocalizations.of(context)?.pleaseEnterAccountHolderName ?? AppLocalizations.of(context)!.tr('Please enter account holder name'));
         return false;
       }
       if (_ibanController.text.trim().isEmpty) {
         TopNotification.error(
           context,
-          AppLocalizations.of(context)?.pleaseEnterIban ?? AppLocalizations.of(context)!.tr('Please enter IBAN'),
-        );
+          AppLocalizations.of(context)?.pleaseEnterIban ?? AppLocalizations.of(context)!.tr('Please enter IBAN'));
         return false;
       }
       if (_bicController.text.trim().isEmpty) {
         TopNotification.error(
           context,
-          AppLocalizations.of(context)?.pleaseEnterBicSwiftCode ?? AppLocalizations.of(context)!.tr('Please enter BIC/SWIFT code'),
-        );
+          AppLocalizations.of(context)?.pleaseEnterBicSwiftCode ?? AppLocalizations.of(context)!.tr('Please enter BIC/SWIFT code'));
         return false;
       }
 
@@ -10312,8 +8867,7 @@ class _StripePaymentModalState extends State<_StripePaymentModal> {
       if (cleanIban.length < 15 || cleanIban.length > 34) {
         TopNotification.error(
           context,
-          AppLocalizations.of(context)?.pleaseEnterValidIban ?? AppLocalizations.of(context)!.tr('Please enter a valid IBAN (15-34 characters)'),
-        );
+          AppLocalizations.of(context)?.pleaseEnterValidIban ?? AppLocalizations.of(context)!.tr('Please enter a valid IBAN (15-34 characters)'));
         return false;
       }
     }
@@ -10348,8 +8902,7 @@ class _StripePaymentModalState extends State<_StripePaymentModal> {
               'bic': _bicController.text.trim(),
               'country': _ibanController.text.trim().substring(
                 0,
-                2,
-              ), // First 2 chars of IBAN
+                2), // First 2 chars of IBAN
               'currency': 'EUR',
               'paymentSystem': 'SEPA',
               'updatedAt': DateTime.now().toIso8601String(),
@@ -10365,8 +8918,7 @@ class _StripePaymentModalState extends State<_StripePaymentModal> {
       if (mounted) {
         TopNotification.error(
           context,
-          '${AppLocalizations.of(context)?.errorSavingPaymentInfo ?? AppLocalizations.of(context)!.tr('Error saving payment information')}: $e',
-        );
+          '${AppLocalizations.of(context)?.errorSavingPaymentInfo ?? AppLocalizations.of(context)!.tr('Error saving payment information')}: $e');
       }
     } finally {
       if (mounted) {
@@ -10391,33 +8943,27 @@ class _StripePaymentModalState extends State<_StripePaymentModal> {
               Icon(
                 CupertinoIcons.creditcard,
                 size: 22,
-                color: isLight ? Colors.black : Colors.white,
-              ),
-              const SizedBox(width: 12),
+                color: isLight ? Colors.black : Colors.white),
+              SizedBox(width: 12),
               Text(
                 AppLocalizations.of(context)?.accountType ?? AppLocalizations.of(context)!.tr('Account Type'),
                 style: TextStyle(
                   fontSize: 22,
                   fontWeight: FontWeight.w700,
                   color: widget.isLight ? Colors.black : Colors.white,
-                  letterSpacing: -0.4,
-                ),
-              ),
-            ],
-          ),
+                  letterSpacing: -0.4)),
+            ]),
 
-            const SizedBox(height: 20),
+            SizedBox(height: 20),
 
             // Options
             _buildAccountTypeOption(
               'checking',
-              AppLocalizations.of(context)?.checkingAccount ?? AppLocalizations.of(context)!.tr('Checking Account'),
-            ),
+              AppLocalizations.of(context)?.checkingAccount ?? AppLocalizations.of(context)!.tr('Checking Account')),
             SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
             _buildAccountTypeOption(
               'savings',
-              AppLocalizations.of(context)?.savingsAccount ?? AppLocalizations.of(context)!.tr('Savings Account'),
-            ),
+              AppLocalizations.of(context)?.savingsAccount ?? AppLocalizations.of(context)!.tr('Savings Account')),
 
             SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
@@ -10430,11 +8976,8 @@ class _StripePaymentModalState extends State<_StripePaymentModal> {
               tint: widget.isLight
                   ? CupertinoColors.black
                   : CupertinoColors.white,
-              isSecondary: true,
-            ),
-          ],
-        ),
-    );
+              isSecondary: true),
+          ]));
   }
 
   Widget _buildAccountTypeOption(String type, String label) {
@@ -10452,8 +8995,7 @@ class _StripePaymentModalState extends State<_StripePaymentModal> {
           color: isSelected
               ? (widget.isLight ? Colors.black : Colors.white)
               : Colors.transparent,
-          borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-        ),
+          borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
         child: Row(
           children: [
             Expanded(
@@ -10465,20 +9007,13 @@ class _StripePaymentModalState extends State<_StripePaymentModal> {
                   color: isSelected
                       ? (widget.isLight ? Colors.white : Colors.black)
                       : (widget.isLight ? Colors.black : Colors.white),
-                  letterSpacing: -0.2,
-                ),
-              ),
-            ),
+                  letterSpacing: -0.2))),
             if (isSelected)
               Icon(
                 CupertinoIcons.checkmark_circle_fill,
                 color: widget.isLight ? Colors.white : Colors.black,
-                size: 24,
-              ),
-          ],
-        ),
-      ),
-    );
+                size: 24),
+          ])));
   }
 
   void _showPasswordConfirmation() {
@@ -10503,36 +9038,29 @@ class _StripePaymentModalState extends State<_StripePaymentModal> {
                     Icon(
                       CupertinoIcons.lock,
                       size: 22,
-                      color: isLight ? Colors.black : Colors.white,
-                    ),
-                    const SizedBox(width: 12),
+                      color: isLight ? Colors.black : Colors.white),
+                    SizedBox(width: 12),
                     Text(
                       AppLocalizations.of(context)?.confirmPassword ?? AppLocalizations.of(context)!.tr('Confirm Password'),
                       style: TextStyle(
                         fontSize: 22,
                         fontWeight: FontWeight.w700,
                         color: widget.isLight ? Colors.black : Colors.white,
-                        letterSpacing: -0.4,
-                      ),
-                    ),
-                  ],
-                ),
+                        letterSpacing: -0.4)),
+                  ]),
 
                 SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
                 Text(
                   AppLocalizations.of(
-                        context,
-                      )?.pleaseEnterPasswordToConnectBank ?? AppLocalizations.of(context)!.tr('Please enter your password to connect your bank account'),
+                        context)?.pleaseEnterPasswordToConnectBank ?? AppLocalizations.of(context)!.tr('Please enter your password to connect your bank account'),
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: DesktopOptimizedWidgets.getFontSize(),
                     color: (widget.isLight ? Colors.black : Colors.white)
-                        .withOpacity(0.6),
-                  ),
-                ),
+                        .withOpacity(0.6))),
 
-                const SizedBox(height: 32),
+                SizedBox(height: 32),
 
                 // Password Field
                 Container(
@@ -10541,8 +9069,7 @@ class _StripePaymentModalState extends State<_StripePaymentModal> {
                     color: widget.isLight
                         ? Colors.transparent
                         : Colors.transparent,
-                    borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-                  ),
+                    borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
                   child: TradeRepublicTextField(
                     controller: passwordController,
                     filled: false,
@@ -10551,15 +9078,13 @@ class _StripePaymentModalState extends State<_StripePaymentModal> {
                       fontSize: DesktopOptimizedWidgets.getFontSize(),
                       fontWeight: FontWeight.w600,
                       color: widget.isLight ? Colors.black : Colors.white,
-                      letterSpacing: -0.2,
-                    ),
+                      letterSpacing: -0.2),
                     hintText:
                         AppLocalizations.of(context)?.enterPassword ?? AppLocalizations.of(context)!.tr('Enter password'),
                     prefixIcon: Icon(
                       CupertinoIcons.lock,
                       color: (widget.isLight ? Colors.black : Colors.white)
-                          .withOpacity(0.6),
-                    ),
+                          .withOpacity(0.6)),
                     suffixIcon: TradeRepublicButton.icon(
                       size: 36,
                       isSecondary: true,
@@ -10569,18 +9094,14 @@ class _StripePaymentModalState extends State<_StripePaymentModal> {
                       icon: Icon(
                         isPasswordVisible
                             ? CupertinoIcons.eye_slash
-                            : CupertinoIcons.eye,
-                      ),
+                            : CupertinoIcons.eye),
                       onPressed: () {
                         setModalState(() {
                           isPasswordVisible = !isPasswordVisible;
                         });
-                      },
-                    ),
-                  ),
-                ),
+                      }))),
 
-                const SizedBox(height: 32),
+                SizedBox(height: 32),
 
                 // Confirm button
                 TradeRepublicButton(
@@ -10592,12 +9113,9 @@ class _StripePaymentModalState extends State<_StripePaymentModal> {
                             TopNotification.error(
                               context,
                               AppLocalizations.of(
-                                    context,
-                                  )?.pleaseEnterYourPassword ??
+                                    context)?.pleaseEnterYourPassword ??
                                   AppLocalizations.of(
-                                    context,
-                                  )?.pleaseEnterYourPassword ?? AppLocalizations.of(context)!.tr('Please enter your password'),
-                            );
+                                    context)?.pleaseEnterYourPassword ?? AppLocalizations.of(context)!.tr('Please enter your password'));
                             return;
                           }
 
@@ -10607,16 +9125,14 @@ class _StripePaymentModalState extends State<_StripePaymentModal> {
 
                           // Simulate password verification
                           await Future.delayed(
-                            const Duration(milliseconds: 500),
-                          );
+                            const Duration(milliseconds: 500));
 
                           if (mounted) {
                             Navigator.pop(context);
                             _savePaymentInfo();
                           }
                         },
-                  width: double.infinity,
-                ),
+                  width: double.infinity),
 
                 // Cancel button
                 TradeRepublicButton(
@@ -10625,12 +9141,8 @@ class _StripePaymentModalState extends State<_StripePaymentModal> {
                   tint: widget.isLight
                       ? CupertinoColors.black
                       : CupertinoColors.white,
-                  isSecondary: true,
-                ),
-          ],
-        ),
-      ),
-    );
+                  isSecondary: true),
+          ])));
   }
 
   Widget _buildGroupedField(
@@ -10648,17 +9160,14 @@ class _StripePaymentModalState extends State<_StripePaymentModal> {
       mainAxisSize: MainAxisSize.min,
       children: [
         Padding(
-          padding: const EdgeInsets.only(left: 4, bottom: 6),
+          padding: EdgeInsets.only(left: 4, bottom: 6),
           child: Text(
             label,
             style: TextStyle(
               fontSize: 13,
               fontWeight: FontWeight.w600,
               letterSpacing: -0.2,
-              color: TradeRepublicTheme.hintColor(context, opacity: 0.6),
-            ),
-          ),
-        ),
+              color: TradeRepublicTheme.hintColor(context, opacity: 0.6)))),
         TradeRepublicTextField(
           controller: controller,
           keyboardType: keyboardType,
@@ -10670,19 +9179,15 @@ class _StripePaymentModalState extends State<_StripePaymentModal> {
           style: TextStyle(
             fontSize: 17,
             fontWeight: FontWeight.w500,
-            color: TradeRepublicTheme.textColor(context),
-          ),
-        ),
-      ],
-    );
+            color: TradeRepublicTheme.textColor(context))),
+      ]);
   }
 
   Widget _buildGroupedTapField(
     String label,
     String value,
     IconData icon,
-    VoidCallback onTap,
-  ) {
+    VoidCallback onTap) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     return TradeRepublicTap(
       onTap: onTap,
@@ -10692,24 +9197,20 @@ class _StripePaymentModalState extends State<_StripePaymentModal> {
         mainAxisSize: MainAxisSize.min,
         children: [
           Padding(
-            padding: const EdgeInsets.only(left: 4, bottom: 6),
+            padding: EdgeInsets.only(left: 4, bottom: 6),
             child: Text(
               label,
               style: TextStyle(
                 fontSize: 13,
                 fontWeight: FontWeight.w600,
                 letterSpacing: -0.2,
-                color: TradeRepublicTheme.hintColor(context, opacity: 0.6),
-              ),
-            ),
-          ),
+                color: TradeRepublicTheme.hintColor(context, opacity: 0.6)))),
           Container(
             width: double.infinity,
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 18),
+            padding: EdgeInsets.symmetric(horizontal: 20, vertical: 18),
             decoration: BoxDecoration(
               color: isDark ? Colors.transparent : Colors.white,
-              borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius()),
-            ),
+              borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius())),
             child: Row(
               children: [
                 Expanded(
@@ -10718,21 +9219,13 @@ class _StripePaymentModalState extends State<_StripePaymentModal> {
                     style: TextStyle(
                       fontSize: 17,
                       fontWeight: FontWeight.w500,
-                      color: TradeRepublicTheme.textColor(context),
-                    ),
-                  ),
-                ),
+                      color: TradeRepublicTheme.textColor(context)))),
                 Icon(
                   CupertinoIcons.chevron_down,
                   size: 14,
-                  color: TradeRepublicTheme.hintColor(context, opacity: 0.4),
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
+                  color: TradeRepublicTheme.hintColor(context, opacity: 0.4)),
+              ])),
+        ]));
   }
 
   @override
@@ -10744,7 +9237,7 @@ class _StripePaymentModalState extends State<_StripePaymentModal> {
         children: [
           // ── Header ──────────────────────────────────────────────────────
           Padding(
-            padding: const EdgeInsets.only(bottom: 24),
+            padding: EdgeInsets.only(bottom: 24),
             child: Row(
               children: [
                 Container(
@@ -10752,15 +9245,12 @@ class _StripePaymentModalState extends State<_StripePaymentModal> {
                   height: 50,
                   decoration: BoxDecoration(
                     color: TradeRepublicTheme.textColor(context),
-                    borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius()),
-                  ),
+                    borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius())),
                   child: Icon(
                     CupertinoIcons.creditcard_fill,
                     color: TradeRepublicTheme.surfaceColor(context),
-                    size: 22,
-                  ),
-                ),
-                const SizedBox(width: 14),
+                    size: 22)),
+                SizedBox(width: 14),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -10772,29 +9262,22 @@ class _StripePaymentModalState extends State<_StripePaymentModal> {
                           fontSize: DesktopOptimizedWidgets.getFontSize() + 6,
                           fontWeight: FontWeight.w700,
                           letterSpacing: -0.5,
-                          color: TradeRepublicTheme.textColor(context),
-                        ),
-                      ),
-                      const SizedBox(height: 1),
+                          color: TradeRepublicTheme.textColor(context))),
+                      SizedBox(height: 1),
                       Text(
                         AppLocalizations.of(context)?.automaticPayouts ?? AppLocalizations.of(context)!.tr('Automatic monthly payouts'),
                         style: TextStyle(
                           fontSize: 13,
-                          color: TradeRepublicTheme.hintColor(context),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                const SizedBox(width: 10),
+                          color: TradeRepublicTheme.hintColor(context))),
+                    ])),
+                SizedBox(width: 10),
                 Container(
                   padding:
-                      const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                      EdgeInsets.symmetric(horizontal: 10, vertical: 6),
                   decoration: BoxDecoration(
                     color: const Color(0xFF34C759).withOpacity(0.12),
-                    borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-                  ),
-                  child: const Row(
+                    borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
+                  child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Icon(CupertinoIcons.lock_fill,
@@ -10805,23 +9288,16 @@ class _StripePaymentModalState extends State<_StripePaymentModal> {
                         style: TextStyle(
                           fontSize: 11,
                           fontWeight: FontWeight.w600,
-                          color: Color(0xFF34C759),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ),
+                          color: Color(0xFF34C759))),
+                    ])),
+              ])),
 
           // ── System Toggle ────────────────────────────────────────────────
           TradeRepublicSlider(
             labels: const ['🇺🇸  USA', '🇪🇺  SEPA'],
             selectedIndex: _isUSASystem ? 0 : 1,
-            onChanged: (i) => setState(() => _isUSASystem = i == 0),
-          ),
-          const SizedBox(height: 28),
+            onChanged: (i) => setState(() => _isUSASystem = i == 0)),
+          SizedBox(height: 28),
 
           // ── Scrollable Content ───────────────────────────────────────────
           Expanded(
@@ -10832,8 +9308,7 @@ class _StripePaymentModalState extends State<_StripePaymentModal> {
                   // Section: Account Details
                   TradeRepublicSectionHeader(
                     title: AppLocalizations.of(context)?.accountHolderName ?? AppLocalizations.of(context)!.tr('Account Details'),
-                    padding: const EdgeInsets.only(bottom: 8),
-                  ),
+                    padding: EdgeInsets.only(bottom: 8)),
 
                   // Form fields
                   Column(
@@ -10843,16 +9318,14 @@ class _StripePaymentModalState extends State<_StripePaymentModal> {
                         AppLocalizations.of(context)?.accountHolderName ?? AppLocalizations.of(context)!.tr('Account Holder Name'),
                         _accountHolderController,
                         CupertinoIcons.person,
-                        AppLocalizations.of(context)?.fullNameOnAccount ?? AppLocalizations.of(context)!.tr('Full name on account'),
-                      ),
+                        AppLocalizations.of(context)?.fullNameOnAccount ?? AppLocalizations.of(context)!.tr('Full name on account')),
                       if (_isUSASystem) ...[
                         SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                         _buildGroupedField(
                           AppLocalizations.of(context)?.bankName ?? AppLocalizations.of(context)!.tr('Bank Name'),
                           _bankNameController,
                           CupertinoIcons.building_2_fill,
-                          'Chase, Wells Fargo…',
-                        ),
+                          'Chase, Wells Fargo…'),
                         SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                         _buildGroupedTapField(
                           AppLocalizations.of(context)?.accountType ?? AppLocalizations.of(context)!.tr('Account Type'),
@@ -10862,8 +9335,7 @@ class _StripePaymentModalState extends State<_StripePaymentModal> {
                               : (AppLocalizations.of(context)
                                       ?.savingsAccount ?? AppLocalizations.of(context)!.tr('Savings Account')),
                           CupertinoIcons.person_crop_rectangle,
-                          _showAccountTypeSelector,
-                        ),
+                          _showAccountTypeSelector),
                         SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                         _buildGroupedField(
                           AppLocalizations.of(context)?.routingNumber ?? AppLocalizations.of(context)!.tr('Routing Number'),
@@ -10884,18 +9356,15 @@ class _StripePaymentModalState extends State<_StripePaymentModal> {
                                     _lastAutofilledBankName = detected;
                                   }
                                 }
-                              },
-                            ),
-                          ],
-                        ),
+                              }),
+                          ]),
                         SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                         _buildGroupedField(
                           AppLocalizations.of(context)?.accountNumber ?? AppLocalizations.of(context)!.tr('Account Number'),
                           _accountNumberController,
                           CupertinoIcons.creditcard,
                           AppLocalizations.of(context)?.yourAccountNumber ?? AppLocalizations.of(context)!.tr('Account number'),
-                          keyboardType: TextInputType.number,
-                        ),
+                          keyboardType: TextInputType.number),
                       ] else ...[
                         SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                         _buildGroupedField(
@@ -10904,8 +9373,7 @@ class _StripePaymentModalState extends State<_StripePaymentModal> {
                           CupertinoIcons.building_2_fill,
                           AppLocalizations.of(context)
                                   ?.eGDeutscheBankSparkasse ?? AppLocalizations.of(context)!.tr('e.g. Deutsche Bank'),
-                          readOnly: true,
-                        ),
+                          readOnly: true),
                         SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                         _buildGroupedField(
                           AppLocalizations.of(context)?.iban ?? AppLocalizations.of(context)!.tr('IBAN'),
@@ -10931,27 +9399,22 @@ class _StripePaymentModalState extends State<_StripePaymentModal> {
                                   });
                                   _lastAutofilledBic = bic;
                                 }
-                              },
-                            ),
-                          ],
-                        ),
+                              }),
+                          ]),
                         SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                         _buildGroupedField(
                           AppLocalizations.of(context)?.bicSwiftCode ?? AppLocalizations.of(context)!.tr('BIC / SWIFT'),
                           _bicController,
                           CupertinoIcons.number,
-                          'COBADEFFXXX',
-                        ),
+                          'COBADEFFXXX'),
                       ],
-                    ],
-                  ),
-                  const SizedBox(height: 28),
+                    ]),
+                  SizedBox(height: 28),
 
                   // Section: Payout Details
                   TradeRepublicSectionHeader(
                     title: AppLocalizations.of(context)?.payoutSchedule ?? AppLocalizations.of(context)!.tr('Payout Details'),
-                    padding: const EdgeInsets.only(bottom: 8),
-                  ),
+                    padding: EdgeInsets.only(bottom: 8)),
 
                   TradeRepublicCard(
                     padding: EdgeInsets.zero,
@@ -10959,16 +9422,15 @@ class _StripePaymentModalState extends State<_StripePaymentModal> {
                       children: [
                         // Row 1 – Security
                         Padding(
-                          padding: const EdgeInsets.symmetric(
+                          padding: EdgeInsets.symmetric(
                               horizontal: 16, vertical: 14),
                           child: Row(
                             children: [
-                              const Icon(
+                              Icon(
                                 CupertinoIcons.shield,
                                 size: 22,
-                                color: Color(0xFF34C759),
-                              ),
-                              const SizedBox(width: 14),
+                                color: Color(0xFF34C759)),
+                              SizedBox(width: 14),
                               Expanded(
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -10980,38 +9442,30 @@ class _StripePaymentModalState extends State<_StripePaymentModal> {
                                         fontSize: 15,
                                         fontWeight: FontWeight.w600,
                                         color:
-                                            TradeRepublicTheme.textColor(context),
-                                      ),
-                                    ),
-                                    const SizedBox(height: 2),
+                                            TradeRepublicTheme.textColor(context))),
+                                    SizedBox(height: 2),
                                     Text(
                                       AppLocalizations.of(context)
                                               ?.poweredByStripe ?? AppLocalizations.of(context)!.tr('Powered by Stripe · Fully encrypted'),
                                       style: TextStyle(
                                           fontSize: 12,
                                           color: TradeRepublicTheme.hintColor(
-                                              context)),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
+                                              context))),
+                                  ])),
+                            ])),
                         TradeRepublicDivider(
-                            margin: const EdgeInsets.only(left: 16)),
+                            margin: EdgeInsets.only(left: 16)),
                         // Row 2 – Schedule
                         Padding(
-                          padding: const EdgeInsets.symmetric(
+                          padding: EdgeInsets.symmetric(
                               horizontal: 16, vertical: 14),
                           child: Row(
                             children: [
                               Icon(
                                 CupertinoIcons.calendar,
                                 size: 22,
-                                color: TradeRepublicTheme.hintColor(context),
-                              ),
-                              const SizedBox(width: 14),
+                                color: TradeRepublicTheme.hintColor(context)),
+                              SizedBox(width: 14),
                               Expanded(
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -11023,38 +9477,30 @@ class _StripePaymentModalState extends State<_StripePaymentModal> {
                                         fontSize: 15,
                                         fontWeight: FontWeight.w600,
                                         color:
-                                            TradeRepublicTheme.textColor(context),
-                                      ),
-                                    ),
-                                    const SizedBox(height: 2),
+                                            TradeRepublicTheme.textColor(context))),
+                                    SizedBox(height: 2),
                                     Text(
                                       AppLocalizations.of(context)
                                               ?.monthlyPayoutsAtEndOfMonth ?? AppLocalizations.of(context)!.tr('Last day of each month · 1–3 business days'),
                                       style: TextStyle(
                                           fontSize: 12,
                                           color: TradeRepublicTheme.hintColor(
-                                              context)),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
+                                              context))),
+                                  ])),
+                            ])),
                         TradeRepublicDivider(
-                            margin: const EdgeInsets.only(left: 16)),
+                            margin: EdgeInsets.only(left: 16)),
                         // Row 3 – Earnings
                         Padding(
-                          padding: const EdgeInsets.symmetric(
+                          padding: EdgeInsets.symmetric(
                               horizontal: 16, vertical: 14),
                           child: Row(
                             children: [
                               Icon(
                                 CupertinoIcons.arrow_right_circle,
                                 size: 22,
-                                color: TradeRepublicTheme.hintColor(context),
-                              ),
-                              const SizedBox(width: 14),
+                                color: TradeRepublicTheme.hintColor(context)),
+                              SizedBox(width: 14),
                               Expanded(
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -11065,28 +9511,19 @@ class _StripePaymentModalState extends State<_StripePaymentModal> {
                                         fontSize: 15,
                                         fontWeight: FontWeight.w600,
                                         color:
-                                            TradeRepublicTheme.textColor(context),
-                                      ),
-                                    ),
-                                    const SizedBox(height: 2),
+                                            TradeRepublicTheme.textColor(context))),
+                                    SizedBox(height: 2),
                                     Text(
                                       AppLocalizations.of(context)
                                               ?.earningsExplanation ?? AppLocalizations.of(context)!.tr('Every delivery is accumulated automatically'),
                                       style: TextStyle(
                                           fontSize: 12,
                                           color: TradeRepublicTheme.hintColor(
-                                              context)),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(height: 28),
+                                              context))),
+                                  ])),
+                            ])),
+                      ])),
+                  SizedBox(height: 28),
 
                   // CTA Button
                   SizedBox(
@@ -11098,17 +9535,10 @@ class _StripePaymentModalState extends State<_StripePaymentModal> {
                       onPressed: _isLoading ? null : _showPasswordConfirmation,
                       tint: widget.isLight
                           ? CupertinoColors.black
-                          : CupertinoColors.white,
-                    ),
-                  ),
+                          : CupertinoColors.white)),
                   SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
-                ],
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
+                ]))),
+        ]));
   }
 }
 
@@ -11165,29 +9595,25 @@ class _BankDetailsModalState extends State<_BankDetailsModal> {
     if (_accountHolderController.text.trim().isEmpty) {
       TopNotification.error(
         context,
-        AppLocalizations.of(context)?.pleaseEnterAccountHolderName ?? AppLocalizations.of(context)!.tr('Please enter account holder name'),
-      );
+        AppLocalizations.of(context)?.pleaseEnterAccountHolderName ?? AppLocalizations.of(context)!.tr('Please enter account holder name'));
       return false;
     }
     if (_bankNameController.text.trim().isEmpty) {
       TopNotification.error(
         context,
-        AppLocalizations.of(context)?.pleaseEnterBankName ?? AppLocalizations.of(context)!.tr('Please enter bank name'),
-      );
+        AppLocalizations.of(context)?.pleaseEnterBankName ?? AppLocalizations.of(context)!.tr('Please enter bank name'));
       return false;
     }
     if (_ibanController.text.trim().isEmpty) {
       TopNotification.error(
         context,
-        AppLocalizations.of(context)?.pleaseEnterIban ?? AppLocalizations.of(context)!.tr('Please enter IBAN'),
-      );
+        AppLocalizations.of(context)?.pleaseEnterIban ?? AppLocalizations.of(context)!.tr('Please enter IBAN'));
       return false;
     }
     if (_bicController.text.trim().isEmpty) {
       TopNotification.error(
         context,
-        AppLocalizations.of(context)?.pleaseEnterBicSwiftCode ?? AppLocalizations.of(context)!.tr('Please enter BIC/SWIFT code'),
-      );
+        AppLocalizations.of(context)?.pleaseEnterBicSwiftCode ?? AppLocalizations.of(context)!.tr('Please enter BIC/SWIFT code'));
       return false;
     }
 
@@ -11196,8 +9622,7 @@ class _BankDetailsModalState extends State<_BankDetailsModal> {
     if (cleanIban.length < 15 || cleanIban.length > 34) {
       TopNotification.error(
         context,
-        AppLocalizations.of(context)?.pleaseEnterValidIban ?? AppLocalizations.of(context)!.tr('Please enter a valid IBAN (15-34 characters)'),
-      );
+        AppLocalizations.of(context)?.pleaseEnterValidIban ?? AppLocalizations.of(context)!.tr('Please enter a valid IBAN (15-34 characters)'));
       return false;
     }
 
@@ -11230,8 +9655,7 @@ class _BankDetailsModalState extends State<_BankDetailsModal> {
       if (mounted) {
         TopNotification.error(
           context,
-          '${AppLocalizations.of(context)?.errorSavingBankDetails ?? AppLocalizations.of(context)!.tr('Error saving bank details')}: $e',
-        );
+          '${AppLocalizations.of(context)?.errorSavingBankDetails ?? AppLocalizations.of(context)!.tr('Error saving bank details')}: $e');
       }
     } finally {
       if (mounted) {
@@ -11255,20 +9679,16 @@ class _BankDetailsModalState extends State<_BankDetailsModal> {
               Icon(
                 CupertinoIcons.creditcard,
                 size: 22,
-                color: isLight ? Colors.black : Colors.white,
-              ),
-              const SizedBox(width: 12),
+                color: isLight ? Colors.black : Colors.white),
+              SizedBox(width: 12),
               Text(
                 AppLocalizations.of(context)?.paymentInformation ?? AppLocalizations.of(context)!.tr('Payment Information'),
                 style: TextStyle(
                   fontSize: 22,
                   fontWeight: FontWeight.w700,
                   color: widget.isLight ? Colors.black : Colors.white,
-                  letterSpacing: -0.4,
-                ),
-              ),
-            ],
-          ),
+                  letterSpacing: -0.4)),
+            ]),
           SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
           Expanded(
@@ -11280,36 +9700,28 @@ class _BankDetailsModalState extends State<_BankDetailsModal> {
                   Container(
                     width: double.infinity,
                     padding: DesktopAppWrapper.getPagePadding(),
-                    margin: const EdgeInsets.only(bottom: 24),
+                    margin: EdgeInsets.only(bottom: 24),
                     decoration: BoxDecoration(
                       color: (widget.isLight ? Colors.black : Colors.white)
                           .withOpacity(0.05),
-                      borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-                    ),
+                      borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
                     child: Row(
                       children: [
                         Icon(
                           CupertinoIcons.info,
                           color: widget.isLight ? Colors.black : Colors.white,
-                          size: 20,
-                        ),
-                        const SizedBox(width: 12),
+                          size: 20),
+                        SizedBox(width: 12),
                         Expanded(
                           child: Text(
                             AppLocalizations.of(
-                                  context,
-                                )?.paymentProcessingInfo ?? AppLocalizations.of(context)!.tr('This information is used for payment processing. All data is encrypted and secure.'),
+                                  context)?.paymentProcessingInfo ?? AppLocalizations.of(context)!.tr('This information is used for payment processing. All data is encrypted and secure.'),
                             style: TextStyle(
                               color:
                                   (widget.isLight ? Colors.black : Colors.white)
                                       .withOpacity(0.7),
-                              fontSize: 13,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
+                              fontSize: 13))),
+                      ])),
 
                   // Account Holder Name
                   Text(
@@ -11317,19 +9729,15 @@ class _BankDetailsModalState extends State<_BankDetailsModal> {
                     style: TextStyle(
                       fontSize: DesktopOptimizedWidgets.getFontSize(),
                       fontWeight: FontWeight.w600,
-                      color: widget.isLight ? Colors.black : Colors.white,
-                    ),
-                  ),
+                      color: widget.isLight ? Colors.black : Colors.white)),
                   SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                   TradeRepublicTextField(
                     controller: _accountHolderController,
                     hintText:
                         AppLocalizations.of(
-                          context,
-                        )?.enterFullNameAsOnBankAccount ?? AppLocalizations.of(context)!.tr('Enter full name as on bank account'),
-                    prefixIcon: const Icon(CupertinoIcons.person),
-                  ),
-                  const SizedBox(height: 20),
+                          context)?.enterFullNameAsOnBankAccount ?? AppLocalizations.of(context)!.tr('Enter full name as on bank account'),
+                    prefixIcon: Icon(CupertinoIcons.person)),
+                  SizedBox(height: 20),
 
                   // Bank Name
                   Text(
@@ -11337,18 +9745,15 @@ class _BankDetailsModalState extends State<_BankDetailsModal> {
                     style: TextStyle(
                       fontSize: DesktopOptimizedWidgets.getFontSize(),
                       fontWeight: FontWeight.w600,
-                      color: widget.isLight ? Colors.black : Colors.white,
-                    ),
-                  ),
+                      color: widget.isLight ? Colors.black : Colors.white)),
                   SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                   TradeRepublicTextField(
                     controller: _bankNameController,
                     readOnly: true,
                     hintText:
                         AppLocalizations.of(context)?.eGDeutscheBankSparkasse ?? AppLocalizations.of(context)!.tr('e.g., Deutsche Bank, Sparkasse'),
-                    prefixIcon: const Icon(CupertinoIcons.building_2_fill),
-                  ),
-                  const SizedBox(height: 20),
+                    prefixIcon: Icon(CupertinoIcons.building_2_fill)),
+                  SizedBox(height: 20),
 
                   // IBAN
                   Text(
@@ -11356,14 +9761,12 @@ class _BankDetailsModalState extends State<_BankDetailsModal> {
                     style: TextStyle(
                       fontSize: DesktopOptimizedWidgets.getFontSize(),
                       fontWeight: FontWeight.w600,
-                      color: widget.isLight ? Colors.black : Colors.white,
-                    ),
-                  ),
+                      color: widget.isLight ? Colors.black : Colors.white)),
                   SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                   TradeRepublicTextField(
                     controller: _ibanController,
                     hintText: AppLocalizations.of(context)!.tr('DE89 3704 0044 0532 0130 00') ?? AppLocalizations.of(context)!.tr('DE89 3704 0044 0532 0130 00'),
-                    prefixIcon: const Icon(CupertinoIcons.creditcard),
+                    prefixIcon: Icon(CupertinoIcons.creditcard),
                     inputFormatters: [
                       IbanInputFormatter(
                         onBankDetected: (bankName) {
@@ -11379,11 +9782,9 @@ class _BankDetailsModalState extends State<_BankDetailsModal> {
                             setState(() => _bicController.text = bic);
                             _lastAutofilledBic = bic;
                           }
-                        },
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 20),
+                        }),
+                    ]),
+                  SizedBox(height: 20),
 
                   // BIC/SWIFT
                   Text(
@@ -11391,22 +9792,15 @@ class _BankDetailsModalState extends State<_BankDetailsModal> {
                     style: TextStyle(
                       fontSize: DesktopOptimizedWidgets.getFontSize(),
                       fontWeight: FontWeight.w600,
-                      color: widget.isLight ? Colors.black : Colors.white,
-                    ),
-                  ),
+                      color: widget.isLight ? Colors.black : Colors.white)),
                   SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                   TradeRepublicTextField(
                     controller: _bicController,
                     hintText: AppLocalizations.of(context)!.tr('COBADEFFXXX') ?? AppLocalizations.of(context)!.tr('COBADEFFXXX'),
-                    prefixIcon: const Icon(
-                      CupertinoIcons.chevron_left_slash_chevron_right,
-                    ),
-                  ),
-                  const SizedBox(height: 32),
-                ],
-              ),
-            ),
-          ),
+                    prefixIcon: Icon(
+                      CupertinoIcons.chevron_left_slash_chevron_right)),
+                  SizedBox(height: 32),
+                ]))),
 
           // Save Button
           SizedBox(
@@ -11418,12 +9812,8 @@ class _BankDetailsModalState extends State<_BankDetailsModal> {
               onPressed: _isLoading ? null : _saveBankDetails,
               tint: widget.isLight
                   ? CupertinoColors.black
-                  : CupertinoColors.white,
-            ),
-          ),
-        ],
-      ),
-    );
+                  : CupertinoColors.white)),
+        ]));
   }
 }
 
@@ -11568,13 +9958,11 @@ class _ProfileEditModalState extends State<_ProfileEditModal> {
             parsedDate = DateTime(
               int.parse(parts[2]),
               int.parse(parts[1]),
-              int.parse(parts[0]),
-            );
+              int.parse(parts[0]));
             _selectedDate = parsedDate;
             // Format using selected date format
             _dateOfBirthController = TextEditingController(
-              text: appSettings.formatDate(parsedDate),
-            );
+              text: appSettings.formatDate(parsedDate));
           } else {
             _dateOfBirthController = TextEditingController(text: dateOfBirth);
           }
@@ -11585,18 +9973,15 @@ class _ProfileEditModalState extends State<_ProfileEditModal> {
             parsedDate = DateTime(
               int.parse(parts[0]),
               int.parse(parts[1]),
-              int.parse(parts[2]),
-            );
+              int.parse(parts[2]));
             _selectedDate = parsedDate;
 
             // Format using selected date format
             _dateOfBirthController = TextEditingController(
-              text: appSettings.formatDate(parsedDate),
-            );
+              text: appSettings.formatDate(parsedDate));
 
             print(
-              '📅 Parsed birth date from DB: $dateOfBirth -> ${appSettings.formatDate(parsedDate)}',
-            );
+              '📅 Parsed birth date from DB: $dateOfBirth -> ${appSettings.formatDate(parsedDate)}');
           } else {
             // Fallback for other ISO formats
             parsedDate = DateTime.parse(dateOfBirth);
@@ -11604,11 +9989,9 @@ class _ProfileEditModalState extends State<_ProfileEditModal> {
 
             final appSettings = Provider.of<AppSettings>(
               context,
-              listen: false,
-            );
+              listen: false);
             _dateOfBirthController = TextEditingController(
-              text: appSettings.formatDate(parsedDate),
-            );
+              text: appSettings.formatDate(parsedDate));
           }
         } else if (dateOfBirth.contains('T') || dateOfBirth.contains('Z')) {
           // Legacy ISO timestamp format (should not be used anymore)
@@ -11619,8 +10002,7 @@ class _ProfileEditModalState extends State<_ProfileEditModal> {
           final month = parsedDate.month.toString().padLeft(2, '0');
           final year = parsedDate.year.toString();
           _dateOfBirthController = TextEditingController(
-            text: '$day.$month.$year',
-          );
+            text: '$day.$month.$year');
         } else {
           // Unknown format, use as is
           _dateOfBirthController = TextEditingController(text: dateOfBirth);
@@ -11636,8 +10018,7 @@ class _ProfileEditModalState extends State<_ProfileEditModal> {
 
     _streetController = TextEditingController(text: address['street'] ?? '');
     _streetNumberController = TextEditingController(
-      text: address['streetNumber'] ?? '',
-    );
+      text: address['streetNumber'] ?? '');
     _cityController = TextEditingController(text: address['city'] ?? '');
     _zipCodeController = TextEditingController(text: address['zipCode'] ?? '');
 
@@ -11672,11 +10053,9 @@ class _ProfileEditModalState extends State<_ProfileEditModal> {
     _backLicenseImageUrl = userData['license_back_image_url'];
     print('🪪 Loaded Driver\'s License photos from userData:');
     print(
-      '  license_front_image_url value: ${userData['license_front_image_url']}',
-    );
+      '  license_front_image_url value: ${userData['license_front_image_url']}');
     print(
-      '  license_back_image_url value: ${userData['license_back_image_url']}',
-    );
+      '  license_back_image_url value: ${userData['license_back_image_url']}');
     print('  _frontLicenseImageUrl: $_frontLicenseImageUrl');
     print('  _backLicenseImageUrl: $_backLicenseImageUrl');
 
@@ -11686,32 +10065,28 @@ class _ProfileEditModalState extends State<_ProfileEditModal> {
         _frontIdImageUrl!.contains('localhost:8080')) {
       _frontIdImageUrl = _frontIdImageUrl!.replaceAll(
         'http://localhost:8080',
-        '',
-      );
+        '');
       print('  ⚠️ Cleaned front ID URL: $_frontIdImageUrl');
     }
     if (_backIdImageUrl != null &&
         _backIdImageUrl!.contains('localhost:8080')) {
       _backIdImageUrl = _backIdImageUrl!.replaceAll(
         'http://localhost:8080',
-        '',
-      );
+        '');
       print('  ⚠️ Cleaned back ID URL: $_backIdImageUrl');
     }
     if (_frontLicenseImageUrl != null &&
         _frontLicenseImageUrl!.contains('localhost:8080')) {
       _frontLicenseImageUrl = _frontLicenseImageUrl!.replaceAll(
         'http://localhost:8080',
-        '',
-      );
+        '');
       print('  ⚠️ Cleaned front license URL: $_frontLicenseImageUrl');
     }
     if (_backLicenseImageUrl != null &&
         _backLicenseImageUrl!.contains('localhost:8080')) {
       _backLicenseImageUrl = _backLicenseImageUrl!.replaceAll(
         'http://localhost:8080',
-        '',
-      );
+        '');
       print('  ⚠️ Cleaned back license URL: $_backLicenseImageUrl');
     }
 
@@ -11721,27 +10096,23 @@ class _ProfileEditModalState extends State<_ProfileEditModal> {
     if (_frontIdImageUrl != null &&
         _frontIdImageUrl!.contains('arkadiydeiver1')) {
       print(
-        '  ⚠️ Front ID appears to be from localhost upload - will need re-upload',
-      );
+        '  ⚠️ Front ID appears to be from localhost upload - will need re-upload');
       // Don't clear it yet, let user see the error and re-upload manually
     }
     if (_backIdImageUrl != null &&
         _backIdImageUrl!.contains('arkadiydeiver1')) {
       print(
-        '  ⚠️ Back ID appears to be from localhost upload - will need re-upload',
-      );
+        '  ⚠️ Back ID appears to be from localhost upload - will need re-upload');
     }
     if (_frontLicenseImageUrl != null &&
         _frontLicenseImageUrl!.contains('arkadiydeiver1')) {
       print(
-        '  ⚠️ Front license appears to be from localhost upload - will need re-upload',
-      );
+        '  ⚠️ Front license appears to be from localhost upload - will need re-upload');
     }
     if (_backLicenseImageUrl != null &&
         _backLicenseImageUrl!.contains('arkadiydeiver1')) {
       print(
-        '  ⚠️ Back license appears to be from localhost upload - will need re-upload',
-      );
+        '  ⚠️ Back license appears to be from localhost upload - will need re-upload');
     }
   }
 
@@ -11764,8 +10135,7 @@ class _ProfileEditModalState extends State<_ProfileEditModal> {
     if (_dateOfBirthController.text.trim().isEmpty) {
       TopNotification.error(
         context,
-        AppLocalizations.of(context)?.dateOfBirthIsRequired ?? AppLocalizations.of(context)!.tr('Date of Birth is required'),
-      );
+        AppLocalizations.of(context)?.dateOfBirthIsRequired ?? AppLocalizations.of(context)!.tr('Date of Birth is required'));
       return;
     }
 
@@ -11869,26 +10239,22 @@ class _ProfileEditModalState extends State<_ProfileEditModal> {
         _buildTextField(
           AppLocalizations.of(context)?.firstName ?? AppLocalizations.of(context)!.tr('First Name'),
           _firstNameController,
-          CupertinoIcons.person,
-        ),
+          CupertinoIcons.person),
         SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
         _buildTextField(
           AppLocalizations.of(context)?.lastName ?? AppLocalizations.of(context)!.tr('Last Name'),
           _lastNameController,
-          CupertinoIcons.person,
-        ),
+          CupertinoIcons.person),
         SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
         _buildTextField(
           AppLocalizations.of(context)?.email ?? AppLocalizations.of(context)!.tr('Email'),
           _emailController,
-          CupertinoIcons.mail,
-        ),
+          CupertinoIcons.mail),
         SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
         _buildPhoneField(),
         SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
         _buildDateField(),
-      ],
-    );
+      ]);
   }
 
   // Step 2: Address
@@ -11902,20 +10268,15 @@ class _ProfileEditModalState extends State<_ProfileEditModal> {
               child: _buildTextField(
                 AppLocalizations.of(context)?.street ?? AppLocalizations.of(context)!.tr('Street'),
                 _streetController,
-                CupertinoIcons.house,
-              ),
-            ),
-            const SizedBox(width: 12),
+                CupertinoIcons.house)),
+            SizedBox(width: 12),
             Expanded(
               flex: 1,
               child: _buildTextField(
                 'No.',
                 _streetNumberController,
-                CupertinoIcons.number,
-              ),
-            ),
-          ],
-        ),
+                CupertinoIcons.number)),
+          ]),
         SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
         Row(
           children: [
@@ -11924,24 +10285,18 @@ class _ProfileEditModalState extends State<_ProfileEditModal> {
               child: _buildTextField(
                 AppLocalizations.of(context)?.zip ?? AppLocalizations.of(context)!.tr('ZIP'),
                 _zipCodeController,
-                CupertinoIcons.mail,
-              ),
-            ),
-            const SizedBox(width: 12),
+                CupertinoIcons.mail)),
+            SizedBox(width: 12),
             Expanded(
               flex: 2,
               child: _buildTextField(
                 AppLocalizations.of(context)?.city ?? AppLocalizations.of(context)!.tr('City'),
                 _cityController,
-                CupertinoIcons.building_2_fill,
-              ),
-            ),
-          ],
-        ),
+                CupertinoIcons.building_2_fill)),
+          ]),
         SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
         _buildCountryField(),
-      ],
-    );
+      ]);
   }
 
   // Step 3: Documents
@@ -11968,9 +10323,8 @@ class _ProfileEditModalState extends State<_ProfileEditModal> {
               'onTap': () => _captureIdPhoto('back'),
             },
           ],
-          icon: CupertinoIcons.person_badge_plus,
-        ),
-        const SizedBox(height: 20),
+          icon: CupertinoIcons.person_badge_plus),
+        SizedBox(height: 20),
 
         // Driver's License Card
         _buildDocumentCard(
@@ -11993,10 +10347,8 @@ class _ProfileEditModalState extends State<_ProfileEditModal> {
               'onTap': () => _captureLicensePhoto('back'),
             },
           ],
-          icon: CupertinoIcons.creditcard,
-        ),
-      ],
-    );
+          icon: CupertinoIcons.creditcard),
+      ]);
   }
 
   // Build modern minimalist document card with animations
@@ -12021,8 +10373,7 @@ class _ProfileEditModalState extends State<_ProfileEditModal> {
                 color: widget.isLight
                     ? Colors.white
                     : Colors.black.withOpacity(0.3),
-                borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-              ),
+                borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -12037,25 +10388,20 @@ class _ProfileEditModalState extends State<_ProfileEditModal> {
                           return Transform.scale(
                             scale: scaleValue,
                             child: Container(
-                              padding: const EdgeInsets.all(10),
+                              padding: EdgeInsets.all(10),
                               decoration: BoxDecoration(
                                 color: widget.isLight
                                     ? Colors.black
                                     : Colors.white,
-                                borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-                              ),
+                                borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
                               child: Icon(
                                 icon,
                                 color: widget.isLight
                                     ? Colors.white
                                     : Colors.black,
-                                size: 20,
-                              ),
-                            ),
-                          );
-                        },
-                      ),
-                      const SizedBox(width: 12),
+                                size: 20)));
+                        }),
+                      SizedBox(width: 12),
                       Expanded(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -12068,10 +10414,8 @@ class _ProfileEditModalState extends State<_ProfileEditModal> {
                                 color: widget.isLight
                                     ? Colors.black
                                     : Colors.white,
-                                letterSpacing: -0.3,
-                              ),
-                            ),
-                            const SizedBox(height: 2),
+                                letterSpacing: -0.3)),
+                            SizedBox(height: 2),
                             Text(
                               description,
                               style: TextStyle(
@@ -12080,40 +10424,27 @@ class _ProfileEditModalState extends State<_ProfileEditModal> {
                                     (widget.isLight
                                             ? Colors.black
                                             : Colors.white)
-                                        .withOpacity(0.5),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 20),
+                                        .withOpacity(0.5))),
+                          ])),
+                    ]),
+                  SizedBox(height: 20),
 
                   // Document upload buttons
                   Row(
                     children: [
                       for (int i = 0; i < documents.length; i++) ...[
-                        if (i > 0) const SizedBox(width: 12),
+                        if (i > 0) SizedBox(width: 12),
                         Expanded(
                           child: _buildMinimalDocumentUpload(
                             label: documents[i]['label'],
                             image: documents[i]['image'],
                             imageUrl: documents[i]['imageUrl'],
                             onTap: documents[i]['onTap'],
-                            delay: i * 100,
-                          ),
-                        ),
+                            delay: i * 100)),
                       ],
-                    ],
-                  ),
-                ],
-              ),
-            ),
-          ),
-        );
-      },
-    );
+                    ]),
+                ]))));
+      });
   }
 
   // Minimal document upload button with tap animation
@@ -12145,8 +10476,7 @@ class _ProfileEditModalState extends State<_ProfileEditModal> {
                 height: 140,
                 decoration: BoxDecoration(
                   color: widget.isLight ? Colors.white : Colors.black,
-                  borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-                ),
+                  borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
                 child: hasImage
                     ? Stack(
                         children: [
@@ -12170,14 +10500,12 @@ class _ProfileEditModalState extends State<_ProfileEditModal> {
                                             return child;
                                           }
                                           return Center(
-                                            child: CultiooLoadingIndicator(),
-                                          );
+                                            child: CultiooLoadingIndicator());
                                         },
                                         errorBuilder:
                                             (context, error, stackTrace) {
                                               print(
-                                                '❌ Error loading image: $imageUrl',
-                                              );
+                                                '❌ Error loading image: $imageUrl');
                                               print('❌ Error: $error');
                                               return Center(
                                                 child: Icon(
@@ -12186,15 +10514,9 @@ class _ProfileEditModalState extends State<_ProfileEditModal> {
                                                   color: widget.isLight
                                                       ? Colors.white
                                                       : Colors.black,
-                                                  size: 32,
-                                                ),
-                                              );
-                                            },
-                                      )
-                                    : Container(),
-                              ),
-                            ),
-                          ),
+                                                  size: 32));
+                                            })
+                                    : Container()))),
                           // Animated check mark
                           Positioned(
                             top: 8,
@@ -12207,23 +10529,17 @@ class _ProfileEditModalState extends State<_ProfileEditModal> {
                                 return Transform.scale(
                                   scale: checkValue,
                                   child: Container(
-                                    padding: const EdgeInsets.all(4),
+                                    padding: EdgeInsets.all(4),
                                     decoration: BoxDecoration(
                                       color: widget.isLight
                                           ? Colors.green
                                           : Colors.green[300],
-                                      shape: BoxShape.circle,
-                                    ),
+                                      shape: BoxShape.circle),
                                     child: Icon(
                                       CupertinoIcons.checkmark,
                                       color: Colors.white,
-                                      size: 14,
-                                    ),
-                                  ),
-                                );
-                              },
-                            ),
-                          ),
+                                      size: 14)));
+                              })),
                           // Label with slide-up animation
                           Positioned(
                             bottom: 0,
@@ -12239,9 +10555,8 @@ class _ProfileEditModalState extends State<_ProfileEditModal> {
                                   child: Opacity(
                                     opacity: slideValue,
                                     child: Container(
-                                      padding: const EdgeInsets.symmetric(
-                                        vertical: 8,
-                                      ),
+                                      padding: EdgeInsets.symmetric(
+                                        vertical: 8),
                                       decoration: BoxDecoration(
                                         gradient: LinearGradient(
                                           begin: Alignment.topCenter,
@@ -12249,30 +10564,19 @@ class _ProfileEditModalState extends State<_ProfileEditModal> {
                                           colors: [
                                             Colors.transparent,
                                             Colors.black.withOpacity(0.7),
-                                          ],
-                                        ),
-                                        borderRadius: const BorderRadius.only(
+                                          ]),
+                                        borderRadius: BorderRadius.only(
                                           bottomLeft: Radius.circular(20),
-                                          bottomRight: Radius.circular(20),
-                                        ),
-                                      ),
+                                          bottomRight: Radius.circular(20))),
                                       child: Text(
                                         label,
                                         textAlign: TextAlign.center,
-                                        style: const TextStyle(
+                                        style: TextStyle(
                                           color: Colors.white,
                                           fontSize: 13,
-                                          fontWeight: FontWeight.w600,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                );
-                              },
-                            ),
-                          ),
-                        ],
-                      )
+                                          fontWeight: FontWeight.w600)))));
+                              })),
+                        ])
                     : Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -12290,11 +10594,8 @@ class _ProfileEditModalState extends State<_ProfileEditModal> {
                                               ? Colors.black
                                               : Colors.white)
                                           .withOpacity(0.3),
-                                  size: 32,
-                                ),
-                              );
-                            },
-                          ),
+                                  size: 32));
+                            }),
                           SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                           Text(
                             label,
@@ -12303,17 +10604,9 @@ class _ProfileEditModalState extends State<_ProfileEditModal> {
                               fontWeight: FontWeight.w600,
                               color:
                                   (widget.isLight ? Colors.black : Colors.white)
-                                      .withOpacity(0.5),
-                            ),
-                          ),
-                        ],
-                      ),
-              ),
-            ),
-          ),
-        );
-      },
-    );
+                                      .withOpacity(0.5))),
+                        ])))));
+      });
   }
 
   // Next step
@@ -12351,13 +10644,9 @@ class _ProfileEditModalState extends State<_ProfileEditModal> {
               primary: widget.isLight ? Colors.black : Colors.white,
               onPrimary: widget.isLight ? Colors.white : Colors.black,
               surface: widget.isLight ? Colors.white : Colors.black,
-              onSurface: widget.isLight ? Colors.black : Colors.white,
-            ),
-          ),
-          child: child!,
-        );
-      },
-    );
+              onSurface: widget.isLight ? Colors.black : Colors.white)),
+          child: child!);
+      });
 
     if (picked != null) {
       setState(() {
@@ -12390,21 +10679,17 @@ class _ProfileEditModalState extends State<_ProfileEditModal> {
               Icon(
                 CupertinoIcons.calendar,
                 size: 22,
-                color: isLight ? Colors.black : Colors.white,
-              ),
-              const SizedBox(width: 12),
+                color: isLight ? Colors.black : Colors.white),
+              SizedBox(width: 12),
               Text(
                 AppLocalizations.of(context)?.dateOfBirth ?? AppLocalizations.of(context)!.tr('Date of Birth'),
                 style: TextStyle(
                   fontSize: 22,
                   fontWeight: FontWeight.w700,
                   color: widget.isLight ? Colors.black : Colors.white,
-                  letterSpacing: -0.4,
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 4),
+                  letterSpacing: -0.4)),
+            ]),
+          SizedBox(height: 4),
           Text(
             _selectedDate != null
                 ? '${_selectedDate!.day.toString().padLeft(2, '0')}.${_selectedDate!.month.toString().padLeft(2, '0')}.${_selectedDate!.year}'
@@ -12413,21 +10698,16 @@ class _ProfileEditModalState extends State<_ProfileEditModal> {
               fontSize: DesktopOptimizedWidgets.getFontSize(),
               fontWeight: FontWeight.w400,
               color: (widget.isLight ? Colors.black : Colors.white).withOpacity(
-                0.5,
-              ),
-              letterSpacing: -0.2,
-            ),
-          ),
-          const SizedBox(height: 20),
+                0.5),
+              letterSpacing: -0.2)),
+          SizedBox(height: 20),
 
           // Divider
           Container(
             height: 0.5,
-            margin: const EdgeInsets.symmetric(horizontal: 24),
+            margin: EdgeInsets.symmetric(horizontal: 24),
             color: (widget.isLight ? Colors.black : Colors.white).withOpacity(
-              0.08,
-            ),
-          ),
+              0.08)),
 
           // iOS Date Picker Wheels
           Expanded(
@@ -12438,10 +10718,7 @@ class _ProfileEditModalState extends State<_ProfileEditModal> {
                   dateTimePickerTextStyle: TextStyle(
                     fontSize: DesktopOptimizedWidgets.getFontSize() + 6,
                     fontWeight: FontWeight.w500,
-                    color: widget.isLight ? Colors.black : Colors.white,
-                  ),
-                ),
-              ),
+                    color: widget.isLight ? Colors.black : Colors.white))),
               child: CupertinoDatePicker(
                 mode: CupertinoDatePickerMode.date,
                 initialDateTime: tempDate,
@@ -12450,19 +10727,14 @@ class _ProfileEditModalState extends State<_ProfileEditModal> {
                 backgroundColor: Colors.transparent,
                 onDateTimeChanged: (DateTime newDate) {
                   tempDate = newDate;
-                },
-              ),
-            ),
-          ),
+                }))),
 
           // Divider
           Container(
             height: 0.5,
-            margin: const EdgeInsets.symmetric(horizontal: 24),
+            margin: EdgeInsets.symmetric(horizontal: 24),
             color: (widget.isLight ? Colors.black : Colors.white).withOpacity(
-              0.08,
-            ),
-          ),
+              0.08)),
           SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
           // Single confirm button - minimal Trade Republic style
@@ -12479,11 +10751,8 @@ class _ProfileEditModalState extends State<_ProfileEditModal> {
               });
               Navigator.pop(context);
             },
-            width: double.infinity,
-          ),
-        ],
-      ),
-    );
+            width: double.infinity),
+        ]));
   }
 
   void _showPhonePrefixSelector() {
@@ -12501,22 +10770,18 @@ class _ProfileEditModalState extends State<_ProfileEditModal> {
               Icon(
                 CupertinoIcons.phone,
                 size: 22,
-                color: isLight ? Colors.black : Colors.white,
-              ),
-              const SizedBox(width: 12),
+                color: isLight ? Colors.black : Colors.white),
+              SizedBox(width: 12),
               Text(
                 AppLocalizations.of(context)?.phonePrefix ?? AppLocalizations.of(context)!.tr('Phone Prefix'),
                 style: TextStyle(
                   fontSize: 22,
                   fontWeight: FontWeight.w700,
                   color: widget.isLight ? Colors.black : Colors.white,
-                  letterSpacing: -0.4,
-                ),
-              ),
-            ],
-          ),
+                  letterSpacing: -0.4)),
+            ]),
 
-            const SizedBox(height: 20),
+            SizedBox(height: 20),
 
             // Scrollable options
             Flexible(
@@ -12561,13 +10826,9 @@ class _ProfileEditModalState extends State<_ProfileEditModal> {
                       ['+7',   'Russia',         '🇷🇺'],
                     ])
                       Padding(
-                        padding: const EdgeInsets.only(bottom: 8),
-                        child: _buildPrefixOption(entry[0], entry[1], entry[2]),
-                      ),
-                  ],
-                ),
-              ),
-            ),
+                        padding: EdgeInsets.only(bottom: 8),
+                        child: _buildPrefixOption(entry[0], entry[1], entry[2])),
+                  ]))),
 
             SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
@@ -12581,11 +10842,8 @@ class _ProfileEditModalState extends State<_ProfileEditModal> {
               tint: widget.isLight
                   ? CupertinoColors.black
                   : CupertinoColors.white,
-              isSecondary: true,
-            ),
-          ],
-        ),
-    );
+              isSecondary: true),
+          ]));
   }
 
   Widget _buildPrefixOption(String prefix, String country, String flagIcon) {
@@ -12610,12 +10868,11 @@ class _ProfileEditModalState extends State<_ProfileEditModal> {
           color: isSelected
               ? (widget.isLight ? Colors.black : Colors.white)
               : Colors.transparent,
-          borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-        ),
+          borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
         child: Row(
           children: [
-            Text(flagIcon, style: TextStyle(fontSize: DesktopOptimizedWidgets.getFontSize() + 10,),
-            const SizedBox(width: 12),
+            Text(flagIcon, style: TextStyle(fontSize: DesktopOptimizedWidgets.getFontSize() + 10),
+            SizedBox(width: 12),
             Text(
               '$prefix $country',
               style: TextStyle(
@@ -12624,20 +10881,14 @@ class _ProfileEditModalState extends State<_ProfileEditModal> {
                 color: isSelected
                     ? (widget.isLight ? Colors.white : Colors.black)
                     : (widget.isLight ? Colors.black : Colors.white),
-                letterSpacing: -0.2,
-              ),
-            ),
+                letterSpacing: -0.2)),
             const Spacer(),
             if (isSelected)
               Icon(
                 CupertinoIcons.checkmark_circle_fill,
                 color: widget.isLight ? Colors.white : Colors.black,
-                size: 24,
-              ),
-          ],
-        ),
-      ),
-    );
+                size: 24),
+          ])));
   }
 
   void _showCountrySelector() {
@@ -12655,22 +10906,18 @@ class _ProfileEditModalState extends State<_ProfileEditModal> {
               Icon(
                 CupertinoIcons.globe,
                 size: 22,
-                color: isLight ? Colors.black : Colors.white,
-              ),
-              const SizedBox(width: 12),
+                color: isLight ? Colors.black : Colors.white),
+              SizedBox(width: 12),
               Text(
                 AppLocalizations.of(context)?.country ?? AppLocalizations.of(context)!.tr('Country'),
                 style: TextStyle(
                   fontSize: 22,
                   fontWeight: FontWeight.w700,
                   color: widget.isLight ? Colors.black : Colors.white,
-                  letterSpacing: -0.4,
-                ),
-              ),
-            ],
-          ),
+                  letterSpacing: -0.4)),
+            ]),
 
-            const SizedBox(height: 20),
+            SizedBox(height: 20),
 
             // Scrollable options
             Flexible(
@@ -12715,13 +10962,9 @@ class _ProfileEditModalState extends State<_ProfileEditModal> {
                       ['Russia',        '🇷🇺'],
                     ])
                       Padding(
-                        padding: const EdgeInsets.only(bottom: 8),
-                        child: _buildCountryOption(entry[0], entry[1]),
-                      ),
-                  ],
-                ),
-              ),
-            ),
+                        padding: EdgeInsets.only(bottom: 8),
+                        child: _buildCountryOption(entry[0], entry[1])),
+                  ]))),
 
             SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
@@ -12735,11 +10978,8 @@ class _ProfileEditModalState extends State<_ProfileEditModal> {
               tint: widget.isLight
                   ? CupertinoColors.black
                   : CupertinoColors.white,
-              isSecondary: true,
-            ),
-          ],
-        ),
-    );
+              isSecondary: true),
+          ]));
   }
 
   Widget _buildCountryOption(String country, String flagIcon) {
@@ -12764,12 +11004,11 @@ class _ProfileEditModalState extends State<_ProfileEditModal> {
           color: isSelected
               ? (widget.isLight ? Colors.black : Colors.white)
               : Colors.transparent,
-          borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-        ),
+          borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
         child: Row(
           children: [
-            Text(flagIcon, style: TextStyle(fontSize: DesktopOptimizedWidgets.getFontSize() + 10,),
-            const SizedBox(width: 12),
+            Text(flagIcon, style: TextStyle(fontSize: DesktopOptimizedWidgets.getFontSize() + 10),
+            SizedBox(width: 12),
             Expanded(
               child: Text(
                 country,
@@ -12779,20 +11018,13 @@ class _ProfileEditModalState extends State<_ProfileEditModal> {
                   color: isSelected
                       ? (widget.isLight ? Colors.white : Colors.black)
                       : (widget.isLight ? Colors.black : Colors.white),
-                  letterSpacing: -0.2,
-                ),
-              ),
-            ),
+                  letterSpacing: -0.2))),
             if (isSelected)
               Icon(
                 CupertinoIcons.checkmark_circle_fill,
                 color: widget.isLight ? Colors.white : Colors.black,
-                size: 24,
-              ),
-          ],
-        ),
-      ),
-    );
+                size: 24),
+          ])));
   }
 
   @override
@@ -12819,14 +11051,12 @@ class _ProfileEditModalState extends State<_ProfileEditModal> {
                             fontSize: 26,
                             fontWeight: FontWeight.w700,
                             color: widget.isLight ? Colors.black : Colors.white,
-                            letterSpacing: -0.5,
-                          ),
-                        ),
+                            letterSpacing: -0.5)),
                         // Step dots
                         Row(
                           children: List.generate(3, (index) {
                             return Container(
-                              margin: const EdgeInsets.only(left: 6),
+                              margin: EdgeInsets.only(left: 6),
                               width: _currentStep == index + 1 ? 24 : 8,
                               height: 8,
                               decoration: BoxDecoration(
@@ -12837,13 +11067,9 @@ class _ProfileEditModalState extends State<_ProfileEditModal> {
                                     : (widget.isLight
                                           ? Colors.black.withOpacity(0.2)
                                           : Colors.white.withOpacity(0.2)),
-                                borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-                              ),
-                            );
-                          }),
-                        ),
-                      ],
-                    ),
+                                borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)));
+                          })),
+                      ]),
                     SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
                     // Step Subtitle
@@ -12855,16 +11081,12 @@ class _ProfileEditModalState extends State<_ProfileEditModal> {
                           fontSize: 15,
                           color: widget.isLight
                               ? Colors.black.withOpacity(0.5)
-                              : Colors.white.withOpacity(0.5),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 32),
+                              : Colors.white.withOpacity(0.5)))),
+                    SizedBox(height: 32),
 
                     // Form Content
                     Expanded(
-                      child: SingleChildScrollView(child: _buildStepContent()),
-                    ),
+                      child: SingleChildScrollView(child: _buildStepContent())),
 
                     SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
@@ -12878,34 +11100,22 @@ class _ProfileEditModalState extends State<_ProfileEditModal> {
                                   AppLocalizations.of(context)?.back ?? AppLocalizations.of(context)!.tr('Back'),
                               onPressed: _previousStep,
                               tint: CupertinoColors.systemGrey,
-                              isSecondary: true,
-                            ),
-                          ),
-                        if (_currentStep > 1) const SizedBox(width: 12),
+                              isSecondary: true)),
+                        if (_currentStep > 1) SizedBox(width: 12),
                         Expanded(
                           flex: _currentStep == 1 ? 1 : 2,
                           child: TradeRepublicButton(
                             label: _currentStep == 3
                                 ? AppLocalizations.of(context)?.saveProfile ?? AppLocalizations.of(context)!.tr('Save Profile')
                                 : AppLocalizations.of(
-                                        context,
-                                      )?.continueAction ?? AppLocalizations.of(context)!.tr('Continue'),
+                                        context)?.continueAction ?? AppLocalizations.of(context)!.tr('Continue'),
                             onPressed: _nextStep,
                             tint: widget.isLight
                                 ? CupertinoColors.black
-                                : CupertinoColors.white,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
+                                : CupertinoColors.white)),
+                      ]),
+                  ]))),
+          ])));
   }
 
   Widget _buildPhoneField() {
@@ -12920,23 +11130,19 @@ class _ProfileEditModalState extends State<_ProfileEditModal> {
             color: widget.isLight
                 ? Colors.black.withOpacity(0.6)
                 : Colors.white.withOpacity(0.6),
-            letterSpacing: -0.2,
-          ),
-        ),
+            letterSpacing: -0.2)),
         SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
         Row(
           children: [
             TradeRepublicTap(
               onTap: _showPhonePrefixSelector,
               child: Container(
-                padding: const EdgeInsets.symmetric(
+                padding: EdgeInsets.symmetric(
                   horizontal: 16,
-                  vertical: 18,
-                ),
+                  vertical: 18),
                 decoration: BoxDecoration(
                   color: widget.isLight ? Colors.white : Colors.black,
-                  borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-                ),
+                  borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
                 child: Row(
                   children: [
                     Text(
@@ -12944,20 +11150,14 @@ class _ProfileEditModalState extends State<_ProfileEditModal> {
                       style: TextStyle(
                         fontSize: 17,
                         fontWeight: FontWeight.w500,
-                        color: widget.isLight ? Colors.black : Colors.white,
-                      ),
-                    ),
-                    const SizedBox(width: 4),
+                        color: widget.isLight ? Colors.black : Colors.white)),
+                    SizedBox(width: 4),
                     Icon(
                       CupertinoIcons.chevron_down,
                       color: widget.isLight ? Colors.black : Colors.white,
-                      size: 20,
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            const SizedBox(width: 12),
+                      size: 20),
+                  ]))),
+            SizedBox(width: 12),
             Expanded(
               child: TradeRepublicTextField(
                 useFormField: true,
@@ -12965,8 +11165,7 @@ class _ProfileEditModalState extends State<_ProfileEditModal> {
                 style: TextStyle(
                   color: widget.isLight ? Colors.black : Colors.white,
                   fontSize: 17,
-                  fontWeight: FontWeight.w500,
-                ),
+                  fontWeight: FontWeight.w500),
                 keyboardType: TextInputType.phone,
                 hintText:
                     AppLocalizations.of(context)?.enterPhoneNumber ?? AppLocalizations.of(context)!.tr('Enter phone number'),
@@ -12977,33 +11176,26 @@ class _ProfileEditModalState extends State<_ProfileEditModal> {
                     return AppLocalizations.of(context)?.phoneNumberRequired ?? AppLocalizations.of(context)!.tr('Phone number is required');
                   }
                   return null;
-                },
-              ),
-            ),
-          ],
-        ),
-      ],
-    );
+                })),
+          ]),
+      ]);
   }
 
   Widget _buildDateField() {
     return TradeRepublicTap(
       onTap: _selectDateIOS,
       child: Container(
-        padding: const EdgeInsets.all(18),
+        padding: EdgeInsets.all(18),
         decoration: BoxDecoration(
           color: widget.isLight ? Colors.white : Colors.black,
-          borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-        ),
+          borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
         child: Row(
           children: [
             Icon(
               CupertinoIcons.gift,
               color: (widget.isLight ? Colors.black : Colors.white).withOpacity(
-                0.7,
-              ),
-            ),
-            const SizedBox(width: 12),
+                0.7)),
+            SizedBox(width: 12),
             Expanded(
               child: Text(
                 _dateOfBirthController.text.isEmpty
@@ -13014,69 +11206,49 @@ class _ProfileEditModalState extends State<_ProfileEditModal> {
                   color: _dateOfBirthController.text.isEmpty
                       ? (widget.isLight ? Colors.black : Colors.white)
                             .withOpacity(0.7)
-                      : (widget.isLight ? Colors.black : Colors.white),
-                ),
-              ),
-            ),
+                      : (widget.isLight ? Colors.black : Colors.white)))),
             Icon(
               CupertinoIcons.calendar,
               color: (widget.isLight ? Colors.black : Colors.white).withOpacity(
-                0.7,
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
+                0.7)),
+          ])));
   }
 
   Widget _buildCountryField() {
     return TradeRepublicTap(
       onTap: _showCountrySelector,
       child: Container(
-        padding: const EdgeInsets.all(18),
+        padding: EdgeInsets.all(18),
         decoration: BoxDecoration(
           color: widget.isLight ? Colors.white : Colors.black,
-          borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-        ),
+          borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
         child: Row(
           children: [
             Icon(
               CupertinoIcons.globe,
               color: (widget.isLight ? Colors.black : Colors.white).withOpacity(
-                0.7,
-              ),
-            ),
-            const SizedBox(width: 12),
+                0.7)),
+            SizedBox(width: 12),
             Text(
               _countryToFlag(_selectedCountry),
-              style: const TextStyle(fontSize: 22),
-            ),
-            const SizedBox(width: 12),
+              style: TextStyle(fontSize: 22)),
+            SizedBox(width: 12),
             Expanded(
               child: Text(
                 _selectedCountry,
                 style: TextStyle(
                   fontSize: DesktopOptimizedWidgets.getFontSize(),
-                  color: widget.isLight ? Colors.black : Colors.white,
-                ),
-              ),
-            ),
+                  color: widget.isLight ? Colors.black : Colors.white))),
             Icon(
               CupertinoIcons.chevron_down,
-              color: widget.isLight ? Colors.black : Colors.white,
-            ),
-          ],
-        ),
-      ),
-    );
+              color: widget.isLight ? Colors.black : Colors.white),
+          ])));
   }
 
   Widget _buildTextField(
     String label,
     TextEditingController controller,
-    IconData icon,
-  ) {
+    IconData icon) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -13088,9 +11260,7 @@ class _ProfileEditModalState extends State<_ProfileEditModal> {
             color: widget.isLight
                 ? Colors.black.withOpacity(0.6)
                 : Colors.white.withOpacity(0.6),
-            letterSpacing: -0.2,
-          ),
-        ),
+            letterSpacing: -0.2)),
         SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
         TradeRepublicTextField(
           useFormField: true,
@@ -13098,8 +11268,7 @@ class _ProfileEditModalState extends State<_ProfileEditModal> {
           style: TextStyle(
             color: widget.isLight ? Colors.black : Colors.white,
             fontSize: 17,
-            fontWeight: FontWeight.w500,
-          ),
+            fontWeight: FontWeight.w500),
           hintText:
               '${AppLocalizations.of(context)?.enterLabel ?? AppLocalizations.of(context)!.tr('Enter')} $label',
           filled: true,
@@ -13109,10 +11278,8 @@ class _ProfileEditModalState extends State<_ProfileEditModal> {
               return '$label is required';
             }
             return null;
-          },
-        ),
-      ],
-    );
+          }),
+      ]);
   }
 
   // Capture ID photo (Front or Back)
@@ -13133,53 +11300,42 @@ class _ProfileEditModalState extends State<_ProfileEditModal> {
               Icon(
                 CupertinoIcons.camera,
                 size: 22,
-                color: isLight ? Colors.black : Colors.white,
-              ),
-              const SizedBox(width: 12),
+                color: isLight ? Colors.black : Colors.white),
+              SizedBox(width: 12),
               Text(
                 AppLocalizations.of(context)?.chooseSource ?? AppLocalizations.of(context)!.tr('Choose Source'),
                 style: TextStyle(
                   fontSize: 22,
                   fontWeight: FontWeight.w700,
                   color: widget.isLight ? Colors.black : Colors.white,
-                  letterSpacing: -0.4,
-                ),
-              ),
-            ],
-          ),
+                  letterSpacing: -0.4)),
+            ]),
           SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
           // Camera Option
           if (!Platform.isMacOS)
             Padding(
-              padding: const EdgeInsets.only(bottom: 8),
+              padding: EdgeInsets.only(bottom: 8),
               child: TradeRepublicListTile.navigation(
                 title: AppLocalizations.of(context)?.camera ?? AppLocalizations.of(context)!.tr('Camera'),
                 subtitle: AppLocalizations.of(context)?.takeANewPhoto ?? AppLocalizations.of(context)!.tr('Take a new photo'),
-                leading: const Icon(CupertinoIcons.camera, size: 22),
-                onTap: () => Navigator.pop(context, ImageSource.camera),
-              ),
-            ),
+                leading: Icon(CupertinoIcons.camera, size: 22),
+                onTap: () => Navigator.pop(context, ImageSource.camera))),
           // Gallery Option
           Padding(
-            padding: const EdgeInsets.only(bottom: 8),
+            padding: EdgeInsets.only(bottom: 8),
             child: TradeRepublicListTile.navigation(
               title: AppLocalizations.of(context)?.gallery ?? AppLocalizations.of(context)!.tr('Gallery'),
               subtitle: AppLocalizations.of(context)?.chooseFromLibrary ?? AppLocalizations.of(context)!.tr('Choose from library'),
-              leading: const Icon(CupertinoIcons.photo, size: 22),
-              onTap: () => Navigator.pop(context, ImageSource.gallery),
-            ),
-          ),
-        ],
-      ),
-    );
+              leading: Icon(CupertinoIcons.photo, size: 22),
+              onTap: () => Navigator.pop(context, ImageSource.gallery))),
+        ]));
 
     if (source == null) return;
 
     try {
       final XFile? pickedFile = await picker.pickImage(
         source: source,
-        imageQuality: 85,
-      );
+        imageQuality: 85);
 
       if (pickedFile != null) {
         setState(() {
@@ -13197,8 +11353,7 @@ class _ProfileEditModalState extends State<_ProfileEditModal> {
       print('❌ Error capturing ID photo: $e');
       TopNotification.error(
         context,
-        '${AppLocalizations.of(context)?.errorCapturingPhoto ?? AppLocalizations.of(context)!.tr('Error capturing photo')}: $e',
-      );
+        '${AppLocalizations.of(context)?.errorCapturingPhoto ?? AppLocalizations.of(context)!.tr('Error capturing photo')}: $e');
     }
   }
 
@@ -13209,17 +11364,14 @@ class _ProfileEditModalState extends State<_ProfileEditModal> {
 
       final request = http.MultipartRequest(
         'POST',
-        Uri.parse('${ApiConfig.baseUrl}/api/documents/upload-document'),
-      );
+        Uri.parse('${ApiConfig.baseUrl}/api/documents/upload-document'));
 
       // Backend expects 'image' as field name, not 'document'
       request.files.add(
         await http.MultipartFile.fromPath(
           'image', // Changed from 'document' to 'image'
           imageFile.path,
-          contentType: MediaType('image', 'jpeg'),
-        ),
-      );
+          contentType: MediaType('image', 'jpeg')));
 
       request.fields['documentType'] = position == 'front'
           ? 'front_id'
@@ -13266,8 +11418,7 @@ class _ProfileEditModalState extends State<_ProfileEditModal> {
         if (mounted) {
           TopNotification.success(
             context,
-            '${position == 'front' ? (AppLocalizations.of(context)?.front ?? AppLocalizations.of(context)!.tr('')) : (AppLocalizations.of(context)?.back ?? AppLocalizations.of(context)!.tr(''))} ${AppLocalizations.of(context)?.idUploadedSuccessfully ?? AppLocalizations.of(context)!.tr('')}',
-          );
+            '${position == 'front' ? (AppLocalizations.of(context)?.front ?? AppLocalizations.of(context)!.tr('')) : (AppLocalizations.of(context)?.back ?? AppLocalizations.of(context)!.tr(''))} ${AppLocalizations.of(context)?.idUploadedSuccessfully ?? AppLocalizations.of(context)!.tr('')}');
         }
       } else {
         final errorBody = response.body.isNotEmpty
@@ -13278,16 +11429,14 @@ class _ProfileEditModalState extends State<_ProfileEditModal> {
           errorBody['message'] ??
           (AppLocalizations.of(context)?.uploadFailed ?? AppLocalizations.of(context)!.tr(''));
         throw Exception(
-          'Upload failed: ${response.statusCode} - $errorMessage',
-        );
+          'Upload failed: ${response.statusCode} - $errorMessage');
       }
     } catch (e) {
       print('❌ Error uploading $position ID: $e');
       if (mounted) {
         TopNotification.error(
           context,
-          '${AppLocalizations.of(context)?.errorUploadingPhoto ?? AppLocalizations.of(context)!.tr('Error uploading photo')}: $e',
-        );
+          '${AppLocalizations.of(context)?.errorUploadingPhoto ?? AppLocalizations.of(context)!.tr('Error uploading photo')}: $e');
       }
     }
   }
@@ -13310,53 +11459,42 @@ class _ProfileEditModalState extends State<_ProfileEditModal> {
               Icon(
                 CupertinoIcons.camera,
                 size: 22,
-                color: isLight ? Colors.black : Colors.white,
-              ),
-              const SizedBox(width: 12),
+                color: isLight ? Colors.black : Colors.white),
+              SizedBox(width: 12),
               Text(
                 AppLocalizations.of(context)?.chooseSource ?? AppLocalizations.of(context)!.tr('Choose Source'),
                 style: TextStyle(
                   fontSize: 22,
                   fontWeight: FontWeight.w700,
                   color: widget.isLight ? Colors.black : Colors.white,
-                  letterSpacing: -0.4,
-                ),
-              ),
-            ],
-          ),
+                  letterSpacing: -0.4)),
+            ]),
           SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
           // Camera Option
           if (!Platform.isMacOS)
             Padding(
-              padding: const EdgeInsets.only(bottom: 8),
+              padding: EdgeInsets.only(bottom: 8),
               child: TradeRepublicListTile.navigation(
                 title: AppLocalizations.of(context)?.camera ?? AppLocalizations.of(context)!.tr('Camera'),
                 subtitle: AppLocalizations.of(context)?.takeANewPhoto ?? AppLocalizations.of(context)!.tr('Take a new photo'),
-                leading: const Icon(CupertinoIcons.camera, size: 22),
-                onTap: () => Navigator.pop(context, ImageSource.camera),
-              ),
-            ),
+                leading: Icon(CupertinoIcons.camera, size: 22),
+                onTap: () => Navigator.pop(context, ImageSource.camera))),
           // Gallery Option
           Padding(
-            padding: const EdgeInsets.only(bottom: 8),
+            padding: EdgeInsets.only(bottom: 8),
             child: TradeRepublicListTile.navigation(
               title: AppLocalizations.of(context)?.gallery ?? AppLocalizations.of(context)!.tr('Gallery'),
               subtitle: AppLocalizations.of(context)?.chooseFromLibrary ?? AppLocalizations.of(context)!.tr('Choose from library'),
-              leading: const Icon(CupertinoIcons.photo, size: 22),
-              onTap: () => Navigator.pop(context, ImageSource.gallery),
-            ),
-          ),
-        ],
-      ),
-    );
+              leading: Icon(CupertinoIcons.photo, size: 22),
+              onTap: () => Navigator.pop(context, ImageSource.gallery))),
+        ]));
 
     if (source == null) return;
 
     try {
       final XFile? pickedFile = await picker.pickImage(
         source: source,
-        imageQuality: 85,
-      );
+        imageQuality: 85);
 
       if (pickedFile != null) {
         setState(() {
@@ -13374,8 +11512,7 @@ class _ProfileEditModalState extends State<_ProfileEditModal> {
       print('❌ Error capturing driver\'s license photo: $e');
       TopNotification.error(
         context,
-        '${AppLocalizations.of(context)?.errorCapturingPhoto ?? AppLocalizations.of(context)!.tr('Error capturing photo')}: $e',
-      );
+        '${AppLocalizations.of(context)?.errorCapturingPhoto ?? AppLocalizations.of(context)!.tr('Error capturing photo')}: $e');
     }
   }
 
@@ -13386,16 +11523,13 @@ class _ProfileEditModalState extends State<_ProfileEditModal> {
 
       final request = http.MultipartRequest(
         'POST',
-        Uri.parse('${ApiConfig.baseUrl}/api/documents/upload-document'),
-      );
+        Uri.parse('${ApiConfig.baseUrl}/api/documents/upload-document'));
 
       request.files.add(
         await http.MultipartFile.fromPath(
           'image',
           imageFile.path,
-          contentType: MediaType('image', 'jpeg'),
-        ),
-      );
+          contentType: MediaType('image', 'jpeg')));
 
       request.fields['documentType'] = position == 'front'
           ? 'front_license'
@@ -13439,8 +11573,7 @@ class _ProfileEditModalState extends State<_ProfileEditModal> {
         if (mounted) {
           TopNotification.success(
             context,
-            '${position == 'front' ? (AppLocalizations.of(context)?.front ?? AppLocalizations.of(context)!.tr('')) : (AppLocalizations.of(context)?.back ?? AppLocalizations.of(context)!.tr(''))} ${AppLocalizations.of(context)?.licenseUploadedSuccessfully ?? AppLocalizations.of(context)!.tr('')}',
-          );
+            '${position == 'front' ? (AppLocalizations.of(context)?.front ?? AppLocalizations.of(context)!.tr('')) : (AppLocalizations.of(context)?.back ?? AppLocalizations.of(context)!.tr(''))} ${AppLocalizations.of(context)?.licenseUploadedSuccessfully ?? AppLocalizations.of(context)!.tr('')}');
         }
       } else {
         throw Exception('Upload failed with status: ${response.statusCode}');
@@ -13450,8 +11583,7 @@ class _ProfileEditModalState extends State<_ProfileEditModal> {
       if (mounted) {
         TopNotification.error(
           context,
-          '${AppLocalizations.of(context)?.errorUploadingPhoto ?? AppLocalizations.of(context)!.tr('Error uploading photo')}: $e',
-        );
+          '${AppLocalizations.of(context)?.errorUploadingPhoto ?? AppLocalizations.of(context)!.tr('Error uploading photo')}: $e');
       }
     }
   }
@@ -13478,10 +11610,8 @@ class _ProfileEditModalState extends State<_ProfileEditModal> {
               : subtitle,
           leading: Icon(
             hasImage ? CupertinoIcons.pen : CupertinoIcons.camera,
-            size: 22,
-          ),
-          onTap: onTap,
-        ),
+            size: 22),
+          onTap: onTap),
 
         // Image Preview (if exists)
         if (hasImage) ...[
@@ -13493,8 +11623,7 @@ class _ProfileEditModalState extends State<_ProfileEditModal> {
               height: 200,
               decoration: BoxDecoration(
                 color: isLight ? Colors.white : Colors.black,
-                borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-              ),
+                borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
               child: Stack(
                 children: [
                   // Image
@@ -13511,8 +11640,7 @@ class _ProfileEditModalState extends State<_ProfileEditModal> {
                               fit: BoxFit.cover,
                               errorBuilder: (context, error, stackTrace) {
                                 print(
-                                  '❌ Error loading image: ${ApiConfig.getImageUrl(imageUrl)}',
-                                );
+                                  '❌ Error loading image: ${ApiConfig.getImageUrl(imageUrl)}');
                                 print('❌ Error: $error');
                                 return Container(
                                   color: isLight ? Colors.white : Colors.black,
@@ -13522,57 +11650,39 @@ class _ProfileEditModalState extends State<_ProfileEditModal> {
                                       color: isLight
                                           ? Colors.black54
                                           : Colors.white54,
-                                      size: 48,
-                                    ),
-                                  ),
-                                );
-                              },
-                            )
-                          : Container(),
-                    ),
-                  ),
+                                      size: 48)));
+                              })
+                          : Container())),
 
                   // "Tap to enlarge" badge
                   Positioned(
                     bottom: 12,
                     right: 12,
                     child: Container(
-                      padding: const EdgeInsets.symmetric(
+                      padding: EdgeInsets.symmetric(
                         horizontal: 12,
-                        vertical: 6,
-                      ),
+                        vertical: 6),
                       decoration: BoxDecoration(
                         color: Colors.black.withOpacity(0.6),
-                        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-                      ),
+                        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
                       child: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           Icon(
                             CupertinoIcons.zoom_in,
                             color: Colors.white,
-                            size: 16,
-                          ),
-                          const SizedBox(width: 6),
+                            size: 16),
+                          SizedBox(width: 6),
                           Text(
                             AppLocalizations.of(context)?.tapToEnlarge ?? AppLocalizations.of(context)!.tr('Tap to enlarge'),
                             style: TextStyle(
                               color: Colors.white,
                               fontSize: 12,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
+                              fontWeight: FontWeight.w600)),
+                        ]))),
+                ]))),
         ],
-      ],
-    );
+      ]);
   }
 
   // Show full screen image viewer
@@ -13580,8 +11690,7 @@ class _ProfileEditModalState extends State<_ProfileEditModal> {
     BuildContext context,
     File? imageFile,
     String? imageUrl,
-    bool isLight,
-  ) {
+    bool isLight) {
     TradeRepublicBottomSheet.show(
       context: context,
       backgroundColor: Colors.black,
@@ -13610,43 +11719,28 @@ class _ProfileEditModalState extends State<_ProfileEditModal> {
                                   Icon(
                                     CupertinoIcons.exclamationmark_triangle,
                                     color: Colors.white54,
-                                    size: 64,
-                                  ),
+                                    size: 64),
                                   SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
                                   Text(
                                     AppLocalizations.of(
-                                          context,
-                                        )?.imageCouldNotBeLoaded ?? AppLocalizations.of(context)!.tr('Image could not be loaded'),
+                                          context)?.imageCouldNotBeLoaded ?? AppLocalizations.of(context)!.tr('Image could not be loaded'),
                                     style: TextStyle(
                                       color: Colors.white54,
-                                      fontSize: DesktopOptimizedWidgets.getFontSize(),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          );
-                        },
-                      )
-                    : Container(),
-              ),
-            ),
+                                      fontSize: DesktopOptimizedWidgets.getFontSize())),
+                                ])));
+                        })
+                    : Container())),
             Positioned(top: 30, left: 0, right: 0, child: DragHandle()),
             // Close button
             Positioned(
               top: 40,
               right: 20,
               child: TradeRepublicButton.icon(
-                icon: const Icon(CupertinoIcons.xmark, size: 22, color: Colors.white),
+                icon: Icon(CupertinoIcons.xmark, size: 22, color: Colors.white),
                 backgroundColor: Colors.black.withOpacity(0.5),
                 size: 44,
-                onPressed: () => Navigator.pop(context),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
+                onPressed: () => Navigator.pop(context))),
+          ])));
   }
 }
 
@@ -13722,8 +11816,7 @@ class _VehicleManagementModalState extends State<_VehicleManagementModal> {
       // Fetch vehicles from database
       final response = await http.get(
         Uri.parse('${ApiConfig.baseUrl}/api/delvioo/vehicles/$userId'),
-        headers: {'Content-Type': 'application/json'},
-      );
+        headers: {'Content-Type': 'application/json'});
 
       print('📡 Load vehicles response: ${response.statusCode}');
       print('📡 Response body: ${response.body}');
@@ -13810,8 +11903,7 @@ class _VehicleManagementModalState extends State<_VehicleManagementModal> {
         'vehicle_year':
             (int.tryParse(vehicleData['vehicleYear']?.toString() ?? AppLocalizations.of(context)!.tr('')) ??
                     int.tryParse(
-                      vehicleData['vehicle_year']?.toString() ?? AppLocalizations.of(context)!.tr(''),
-                    ) ??
+                      vehicleData['vehicle_year']?.toString() ?? AppLocalizations.of(context)!.tr('')) ??
                     DateTime.now().year)
                 .toString(),
         'license_plate':
@@ -13821,18 +11913,15 @@ class _VehicleManagementModalState extends State<_VehicleManagementModal> {
         'cargo_capacity':
             (double.tryParse(vehicleData['cargoCapacity']?.toString() ?? AppLocalizations.of(context)!.tr('')) ??
                     double.tryParse(
-                      vehicleData['cargo_capacity']?.toString() ?? AppLocalizations.of(context)!.tr(''),
-                    ))
+                      vehicleData['cargo_capacity']?.toString() ?? AppLocalizations.of(context)!.tr('')))
                 ?.toString(),
         'cargo_unit':
             vehicleData['cargoUnit'] ?? vehicleData['cargo_unit'] ?? AppLocalizations.of(context)!.tr('ft³'),
         'payload_capacity':
             (double.tryParse(
-                      vehicleData['payloadCapacity']?.toString() ?? AppLocalizations.of(context)!.tr(''),
-                    ) ??
+                      vehicleData['payloadCapacity']?.toString() ?? AppLocalizations.of(context)!.tr('')) ??
                     double.tryParse(
-                      vehicleData['payload_capacity']?.toString() ?? AppLocalizations.of(context)!.tr(''),
-                    ))
+                      vehicleData['payload_capacity']?.toString() ?? AppLocalizations.of(context)!.tr('')))
                 ?.toString(),
         'payload_unit':
             vehicleData['payloadUnit'] ?? vehicleData['payload_unit'] ?? AppLocalizations.of(context)!.tr('lbs'),
@@ -13888,8 +11977,7 @@ class _VehicleManagementModalState extends State<_VehicleManagementModal> {
         ...() {
           final minTemp =
               double.tryParse(
-                vehicleData['minTemperature']?.toString() ?? AppLocalizations.of(context)!.tr(''),
-              ) ??
+                vehicleData['minTemperature']?.toString() ?? AppLocalizations.of(context)!.tr('')) ??
               double.tryParse(vehicleData['min_temperature']?.toString() ?? AppLocalizations.of(context)!.tr(''));
           if (minTemp != null) {
             return {'minTemperature': minTemp.toString()};
@@ -13899,8 +11987,7 @@ class _VehicleManagementModalState extends State<_VehicleManagementModal> {
         ...() {
           final maxTemp =
               double.tryParse(
-                vehicleData['maxTemperature']?.toString() ?? AppLocalizations.of(context)!.tr(''),
-              ) ??
+                vehicleData['maxTemperature']?.toString() ?? AppLocalizations.of(context)!.tr('')) ??
               double.tryParse(vehicleData['max_temperature']?.toString() ?? AppLocalizations.of(context)!.tr(''));
           if (maxTemp != null) {
             return {'maxTemperature': maxTemp.toString()};
@@ -13958,25 +12045,20 @@ class _VehicleManagementModalState extends State<_VehicleManagementModal> {
       print('🌍 Country being saved to database: "${apiData['country']}"');
       print('📋 Complete API data: $apiData');
       print(
-        '📄 Document URLs - Registration: ${apiData['vehicle_registration_image_url']}, Insurance: ${apiData['insurance_proof_image_url']}',
-      );
+        '📄 Document URLs - Registration: ${apiData['vehicle_registration_image_url']}, Insurance: ${apiData['insurance_proof_image_url']}');
       print(
-        '📦 Sectional Loading - Enabled: ${apiData['sectionalLoadingEnabled']}, Sections: ${apiData['numberOfSections']}, Data: ${apiData['vehicleSections']}',
-      );
+        '📦 Sectional Loading - Enabled: ${apiData['sectionalLoadingEnabled']}, Sections: ${apiData['numberOfSections']}, Data: ${apiData['vehicleSections']}');
 
       final response = isNew
           ? await http.post(
               Uri.parse('${ApiConfig.baseUrl}/api/delvioo/vehicle'),
               headers: {'Content-Type': 'application/json'},
-              body: json.encode(apiData),
-            )
+              body: json.encode(apiData))
           : await http.put(
               Uri.parse(
-                '${ApiConfig.baseUrl}/api/delvioo/vehicle/${vehicleData['id']}',
-              ),
+                '${ApiConfig.baseUrl}/api/delvioo/vehicle/${vehicleData['id']}'),
               headers: {'Content-Type': 'application/json'},
-              body: json.encode(apiData),
-            );
+              body: json.encode(apiData));
 
       print('📡 Save vehicle response: ${response.statusCode}');
       print('📡 Response body: ${response.body}');
@@ -14000,8 +12082,7 @@ class _VehicleManagementModalState extends State<_VehicleManagementModal> {
                 context,
                 isNew
                     ? (AppLocalizations.of(context)?.vehicleAddedSuccessfully ?? AppLocalizations.of(context)!.tr('Vehicle added successfully!'))
-                    : (AppLocalizations.of(context)?.vehicleUpdatedSuccessfully ?? AppLocalizations.of(context)!.tr('Vehicle updated successfully!')),
-              );
+                    : (AppLocalizations.of(context)?.vehicleUpdatedSuccessfully ?? AppLocalizations.of(context)!.tr('Vehicle updated successfully!')));
             }
           }
         } else {
@@ -14018,8 +12099,7 @@ class _VehicleManagementModalState extends State<_VehicleManagementModal> {
         if (mounted) {
           TopNotification.error(
             context,
-            '${AppLocalizations.of(context)?.errorSavingVehicle ?? AppLocalizations.of(context)!.tr('Error saving vehicle')}: $e',
-          );
+            '${AppLocalizations.of(context)?.errorSavingVehicle ?? AppLocalizations.of(context)!.tr('Error saving vehicle')}: $e');
         }
       }
     }
@@ -14048,9 +12128,7 @@ class _VehicleManagementModalState extends State<_VehicleManagementModal> {
           onVehicleAdded: (newVehicle) async {
             await _saveVehicleToDatabase(newVehicle, isNew: true);
             _loadVehicles(); // Reload vehicles from database
-          },
-        ),
-      ).whenComplete(() {
+          })).whenComplete(() {
         // Show TabBar again when modal closes
         print('🚗 ADD VEHICLE: Setting bottomSheetOpenNotifier to FALSE');
         bottomSheetOpenNotifier.value = false;
@@ -14063,12 +12141,10 @@ class _VehicleManagementModalState extends State<_VehicleManagementModal> {
     final vehicleToEdit = vehicles[index];
     print('📝 Editing vehicle with data: $vehicleToEdit');
     print(
-      '📸 Front plate photo: ${vehicleToEdit['front_license_plate_photo']}',
-    );
+      '📸 Front plate photo: ${vehicleToEdit['front_license_plate_photo']}');
     print('📸 Rear plate photo: ${vehicleToEdit['rear_license_plate_photo']}');
     print(
-      '📄 Registration URL: ${vehicleToEdit['vehicle_registration_image_url']}',
-    );
+      '📄 Registration URL: ${vehicleToEdit['vehicle_registration_image_url']}');
     print('📄 Insurance URL: ${vehicleToEdit['insurance_proof_image_url']}');
 
     // Set GLOBAL flag to prevent resetting notifier
@@ -14101,9 +12177,7 @@ class _VehicleManagementModalState extends State<_VehicleManagementModal> {
             if (vehicles.isNotEmpty) {
               widget.onVehicleUpdated(vehicles.first);
             }
-          },
-        ),
-      ).whenComplete(() {
+          })).whenComplete(() {
         // Show TabBar again when modal closes
         print('🚗 EDIT VEHICLE: Setting bottomSheetOpenNotifier to FALSE');
         bottomSheetOpenNotifier.value = false;
@@ -14117,8 +12191,7 @@ class _VehicleManagementModalState extends State<_VehicleManagementModal> {
     if (vehicles.length <= 1) {
       TopNotification.info(
         context,
-        AppLocalizations.of(context)!.tr('You must have at least one vehicle registered.') ?? AppLocalizations.of(context)!.tr('You must have at least one vehicle registered.'),
-      );
+        AppLocalizations.of(context)!.tr('You must have at least one vehicle registered.') ?? AppLocalizations.of(context)!.tr('You must have at least one vehicle registered.'));
       return;
     }
 
@@ -14144,9 +12217,8 @@ class _VehicleManagementModalState extends State<_VehicleManagementModal> {
               Icon(
                 CupertinoIcons.delete,
                 size: 22,
-                color: isLight ? Colors.black : Colors.white,
-              ),
-              const SizedBox(width: 12),
+                color: isLight ? Colors.black : Colors.white),
+              SizedBox(width: 12),
               Expanded(
                 child: Text(
                   AppLocalizations.of(context)?.deleteVehicleQuestion ?? AppLocalizations.of(context)!.tr('Delete Vehicle?'),
@@ -14154,12 +12226,8 @@ class _VehicleManagementModalState extends State<_VehicleManagementModal> {
                     fontSize: 22,
                     fontWeight: FontWeight.w700,
                     color: widget.isLight ? Colors.black : Colors.white,
-                    letterSpacing: -0.4,
-                  ),
-                ),
-              ),
-            ],
-          ),
+                    letterSpacing: -0.4))),
+            ]),
 
             SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
@@ -14171,11 +12239,9 @@ class _VehicleManagementModalState extends State<_VehicleManagementModal> {
                 fontSize: 15,
                 fontWeight: FontWeight.w500,
                 color: (widget.isLight ? Colors.black : Colors.white)
-                    .withOpacity(0.6),
-              ),
-            ),
+                    .withOpacity(0.6))),
 
-            const SizedBox(height: 30),
+            SizedBox(height: 30),
 
             // Delete button
             TradeRepublicButton(
@@ -14186,8 +12252,7 @@ class _VehicleManagementModalState extends State<_VehicleManagementModal> {
                 _deleteVehicleFromDatabase(index);
               },
               isDestructive: true,
-              width: double.infinity,
-            ),
+              width: double.infinity),
 
             SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
@@ -14198,11 +12263,8 @@ class _VehicleManagementModalState extends State<_VehicleManagementModal> {
                 HapticFeedback.lightImpact();
                 Navigator.pop(context);
               },
-              isSecondary: true,
-            ),
-          ],
-        ),
-    );
+              isSecondary: true),
+          ]));
   }
 
   Future<void> _deleteVehicleFromDatabase(int index) async {
@@ -14218,8 +12280,7 @@ class _VehicleManagementModalState extends State<_VehicleManagementModal> {
 
       final response = await http.delete(
         Uri.parse('${ApiConfig.baseUrl}/api/delvioo/vehicle/$vehicleId'),
-        headers: {'Content-Type': 'application/json'},
-      );
+        headers: {'Content-Type': 'application/json'});
 
       print('📡 Delete vehicle response: ${response.statusCode}');
       print('📡 Response body: ${response.body}');
@@ -14236,8 +12297,7 @@ class _VehicleManagementModalState extends State<_VehicleManagementModal> {
 
         TopNotification.success(
           context,
-          AppLocalizations.of(context)?.vehicleDeletedSuccessfully ?? AppLocalizations.of(context)!.tr('Vehicle deleted successfully!'),
-        );
+          AppLocalizations.of(context)?.vehicleDeletedSuccessfully ?? AppLocalizations.of(context)!.tr('Vehicle deleted successfully!'));
         print('✅ Vehicle deleted from database successfully');
       } else {
         throw Exception('Failed to delete vehicle: ${response.statusCode}');
@@ -14246,8 +12306,7 @@ class _VehicleManagementModalState extends State<_VehicleManagementModal> {
       print('❌ Error deleting vehicle: $e');
       TopNotification.error(
         context,
-        '${AppLocalizations.of(context)?.errorDeletingVehicle ?? AppLocalizations.of(context)!.tr('Error deleting vehicle')}: $e',
-      );
+        '${AppLocalizations.of(context)?.errorDeletingVehicle ?? AppLocalizations.of(context)!.tr('Error deleting vehicle')}: $e');
     }
   }
 
@@ -14267,31 +12326,24 @@ class _VehicleManagementModalState extends State<_VehicleManagementModal> {
                   Icon(
                     CupertinoIcons.car_detailed,
                     size: 22,
-                    color: isLight ? Colors.black : Colors.white,
-                  ),
-                  const SizedBox(width: 12),
+                    color: isLight ? Colors.black : Colors.white),
+                  SizedBox(width: 12),
                   Text(
                     AppLocalizations.of(context)?.vehicleManagement ?? AppLocalizations.of(context)!.tr('Vehicle Management'),
                     style: TextStyle(
                       fontSize: 22,
                       fontWeight: FontWeight.w700,
                       color: isLight ? Colors.black : Colors.white,
-                      letterSpacing: -0.4,
-                    ),
-                  ),
-                ],
-              ),
+                      letterSpacing: -0.4)),
+                ]),
               TradeRepublicButton.icon(
                 icon: Icon(
                   CupertinoIcons.plus,
                   size: 20,
-                  color: isLight ? Colors.white : Colors.black,
-                ),
+                  color: isLight ? Colors.white : Colors.black),
                 onPressed: _addNewVehicle,
-                tint: isLight ? CupertinoColors.black : CupertinoColors.white,
-              ),
-            ],
-          ),
+                tint: isLight ? CupertinoColors.black : CupertinoColors.white),
+            ]),
           SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
           // Vehicles List
@@ -14307,8 +12359,7 @@ class _VehicleManagementModalState extends State<_VehicleManagementModal> {
                               CupertinoIcons.car,
                               size: 64,
                               color: (isLight ? Colors.black : Colors.white)
-                                  .withOpacity(0.2),
-                            ),
+                                  .withOpacity(0.2)),
                             SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
                             Text(
                               AppLocalizations.of(context)?.noVehiclesAddedYet ?? AppLocalizations.of(context)!.tr('No vehicles added yet'),
@@ -14316,32 +12367,22 @@ class _VehicleManagementModalState extends State<_VehicleManagementModal> {
                                 fontSize: 17,
                                 fontWeight: FontWeight.w600,
                                 color: (isLight ? Colors.black : Colors.white)
-                                    .withOpacity(0.6),
-                              ),
-                            ),
-                            const SizedBox(height: 6),
+                                    .withOpacity(0.6))),
+                            SizedBox(height: 6),
                             Text(
                               AppLocalizations.of(context)?.addFirstVehicle ?? AppLocalizations.of(context)!.tr('Tap + to add your first vehicle'),
                               style: TextStyle(
                                 fontSize: DesktopOptimizedWidgets.getFontSize(),
                                 color: (isLight ? Colors.black : Colors.white)
-                                    .withOpacity(0.4),
-                              ),
-                            ),
-                          ],
-                        ),
-                      )
+                                    .withOpacity(0.4))),
+                          ]))
                     : ListView.separated(
                         padding: EdgeInsets.zero,
                         itemCount: vehicles.length,
                         separatorBuilder: (_, __) => const TradeRepublicDivider(),
                         itemBuilder: (context, index) =>
-                            _buildVehicleCard(vehicles[index], index, isLight),
-                      ),
-          ),
-        ],
-      ),
-    );
+                            _buildVehicleCard(vehicles[index], index, isLight))),
+        ]));
   }
 
   Future<void> _setMainVehicle(int index) async {
@@ -14352,8 +12393,7 @@ class _VehicleManagementModalState extends State<_VehicleManagementModal> {
     try {
       final response = await http.put(
         Uri.parse('${ApiConfig.baseUrl}/api/delvioo/vehicle/$vehicleId/set-primary'),
-        headers: {'Content-Type': 'application/json'},
-      );
+        headers: {'Content-Type': 'application/json'});
 
       if (response.statusCode == 200) {
         final data = json.decode(response.body);
@@ -14364,15 +12404,13 @@ class _VehicleManagementModalState extends State<_VehicleManagementModal> {
           if (vehicles.isNotEmpty && mounted) {
             final primary = vehicles.firstWhere(
               (v) => v['is_primary_vehicle'] == 1 || v['is_primary_vehicle'] == true,
-              orElse: () => vehicles.first,
-            );
+              orElse: () => vehicles.first);
             widget.onVehicleUpdated(primary);
           }
           if (mounted) {
             TopNotification.success(
               context,
-              AppLocalizations.of(context)?.primaryVehicleSet ?? AppLocalizations.of(context)!.tr('Primary vehicle set ⭐'),
-            );
+              AppLocalizations.of(context)?.primaryVehicleSet ?? AppLocalizations.of(context)!.tr('Primary vehicle set ⭐'));
           }
         }
       } else {
@@ -14400,9 +12438,9 @@ class _VehicleManagementModalState extends State<_VehicleManagementModal> {
         vehicle['is_primary_vehicle']?.toString() == '1';
 
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 4),
+      padding: EdgeInsets.symmetric(vertical: 4),
       child: TradeRepublicCard(
-        padding: const EdgeInsets.all(12),
+        padding: EdgeInsets.all(12),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -14413,22 +12451,17 @@ class _VehicleManagementModalState extends State<_VehicleManagementModal> {
                   size: 20,
                   color: isPrimary
                       ? const Color(0xFF00C853)
-                      : (isLight ? Colors.black : Colors.white).withOpacity(0.7),
-                ),
-                const SizedBox(width: 8),
+                      : (isLight ? Colors.black : Colors.white).withOpacity(0.7)),
+                SizedBox(width: 8),
                 Expanded(
                   child: Text(
                     [year, make, model].join(' '),
                     style: TextStyle(
                       fontSize: DesktopOptimizedWidgets.getFontSize(),
                       fontWeight: FontWeight.w600,
-                      color: isLight ? Colors.black : Colors.white,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 4),
+                      color: isLight ? Colors.black : Colors.white))),
+              ]),
+            SizedBox(height: 4),
             Text(
               [
                 if (isPrimary) '⭐ ${AppLocalizations.of(context)?.activeToday ?? AppLocalizations.of(context)!.tr('Active today')}',
@@ -14437,9 +12470,7 @@ class _VehicleManagementModalState extends State<_VehicleManagementModal> {
               ].join(' · '),
               style: TextStyle(
                 fontSize: 13,
-                color: (isLight ? Colors.black : Colors.white).withOpacity(0.6),
-              ),
-            ),
+                color: (isLight ? Colors.black : Colors.white).withOpacity(0.6))),
             SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
             Row(
               children: [
@@ -14448,33 +12479,23 @@ class _VehicleManagementModalState extends State<_VehicleManagementModal> {
                     label: isPrimary ? 'Primary' : 'Set Primary',
                     onPressed: isPrimary ? null : () => _setMainVehicle(index),
                     isSecondary: true,
-                    height: 36,
-                  ),
-                ),
-                const SizedBox(width: 8),
+                    height: 36)),
+                SizedBox(width: 8),
                 Expanded(
                   child: TradeRepublicButton(
                     label: AppLocalizations.of(context)?.edit ?? AppLocalizations.of(context)!.tr('Edit'),
                     onPressed: () => _editVehicle(index),
                     isSecondary: true,
-                    height: 36,
-                  ),
-                ),
-                const SizedBox(width: 8),
+                    height: 36)),
+                SizedBox(width: 8),
                 Expanded(
                   child: TradeRepublicButton(
                     label: AppLocalizations.of(context)?.delete ?? AppLocalizations.of(context)!.tr('Delete'),
                     onPressed: () => _showDeleteVehicleConfirmation(index),
                     isDestructive: true,
-                    height: 36,
-                  ),
-                ),
-              ],
-            ),
-          ],
-        ),
-      ),
-    );
+                    height: 36)),
+              ]),
+          ])));
   }
 }
 
@@ -14861,8 +12882,7 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
     super.initState();
     _countrySlideController = AnimationController(
       duration: const Duration(milliseconds: 200),
-      vsync: this,
-    );
+      vsync: this);
   }
 
   @override
@@ -14880,8 +12900,7 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
   void _loadInitialData() {
     if (widget.vehicleData != null) {
       print(
-        '🚗 Loading vehicle data from delvioo_vehicles table: ${widget.vehicleData}',
-      );
+        '🚗 Loading vehicle data from delvioo_vehicles table: ${widget.vehicleData}');
 
       // Load vehicle data from new delvioo_vehicles table structure
       _selectedMake = widget.vehicleData!['vehicle_make'];
@@ -14904,28 +12923,24 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
       // Cargo capacity from delvioo_vehicles table - format using AppSettings
       double cargoValue =
           double.tryParse(
-            widget.vehicleData!['cargo_capacity']?.toString() ?? AppLocalizations.of(context)!.tr('0'),
-          ) ??
+            widget.vehicleData!['cargo_capacity']?.toString() ?? AppLocalizations.of(context)!.tr('0')) ??
           0.0;
       if (cargoValue > 0) {
         _cargoCapacityController.text = appSettings.formatNumber(
           cargoValue,
-          decimals: 2,
-        );
+          decimals: 2);
       }
       print('🚗 Cargo capacity loaded: "$cargoValue"');
 
       // Payload capacity from delvioo_vehicles table - format using AppSettings
       double payloadValue =
           double.tryParse(
-            widget.vehicleData!['payload_capacity']?.toString() ?? AppLocalizations.of(context)!.tr('0'),
-          ) ??
+            widget.vehicleData!['payload_capacity']?.toString() ?? AppLocalizations.of(context)!.tr('0')) ??
           0.0;
       if (payloadValue > 0) {
         _payloadCapacityController.text = appSettings.formatNumber(
           payloadValue,
-          decimals: 2,
-        );
+          decimals: 2);
       }
       print('🚗 Payload capacity loaded: "$payloadValue"');
 
@@ -14945,8 +12960,7 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
           widget.vehicleData!['rearLicensePlatePhoto'];
 
       print(
-        '📸 Photos loaded - Front: $_frontLicensePlatePhoto, Rear: $_rearLicensePlatePhoto',
-      );
+        '📸 Photos loaded - Front: $_frontLicensePlatePhoto, Rear: $_rearLicensePlatePhoto');
 
       // Load document URLs (Step 2)
       _vehicleRegistrationImageUrl =
@@ -14957,8 +12971,7 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
           widget.vehicleData!['insuranceProofImageUrl'];
 
       print(
-        '📄 Documents loaded - Registration: $_vehicleRegistrationImageUrl, Insurance: $_insuranceProofImageUrl',
-      );
+        '📄 Documents loaded - Registration: $_vehicleRegistrationImageUrl, Insurance: $_insuranceProofImageUrl');
 
       // Load Food Transport data (Step 3)
       // Dimensions
@@ -14996,8 +13009,7 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
           widget.vehicleData!['cargo_insurance_certificate_url'];
 
       print(
-        '🍔 Food Transport data loaded - isFoodSafe: $_isFoodSafe, hasHazmat: $_hasHazmatCertification, hasInsurance: $_hasCargoInsurance',
-      );
+        '🍔 Food Transport data loaded - isFoodSafe: $_isFoodSafe, hasHazmat: $_hasHazmatCertification, hasInsurance: $_hasCargoInsurance');
 
       // Average Fuel Consumption
       _averageFuelConsumptionController.text =
@@ -15006,8 +13018,7 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
           widget.vehicleData!['fuel_consumption_unit'] ?? AppLocalizations.of(context)!.tr('MPG');
 
       print(
-        '⛽ Fuel consumption loaded: ${_averageFuelConsumptionController.text} $_fuelConsumptionUnit',
-      );
+        '⛽ Fuel consumption loaded: ${_averageFuelConsumptionController.text} $_fuelConsumptionUnit');
 
       // Load Sectional Loading data (always enabled - mandatory feature)
       // Load number of sections
@@ -15019,8 +13030,7 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
           (index) => {
             'name': 'Section ${index + 1}',
             'percentage': (100 / numberOfSections).round(),
-          },
-        );
+          });
       }
 
       if (widget.vehicleData!['vehicle_sections'] != null) {
@@ -15028,15 +13038,13 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
           final sectionsData = widget.vehicleData!['vehicle_sections'];
           if (sectionsData is List) {
             _vehicleSections = List<Map<String, dynamic>>.from(
-              sectionsData.map((s) => Map<String, dynamic>.from(s)),
-            );
+              sectionsData.map((s) => Map<String, dynamic>.from(s)));
           } else if (sectionsData is String && sectionsData.isNotEmpty) {
             // Parse JSON string if stored as string
             final decoded = json.decode(sectionsData);
             if (decoded is List) {
               _vehicleSections = List<Map<String, dynamic>>.from(
-                decoded.map((s) => Map<String, dynamic>.from(s)),
-              );
+                decoded.map((s) => Map<String, dynamic>.from(s)));
             }
           }
           print('📦 Vehicle sections loaded: $_vehicleSections');
@@ -15084,12 +13092,10 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
       // Load license plate
       _licensePlateController.text = savedLicensePlate;
       print(
-        '🚗 License plate loaded: "$savedLicensePlate" for region: "$_selectedRegion"',
-      );
+        '🚗 License plate loaded: "$savedLicensePlate" for region: "$_selectedRegion"');
 
       print(
-        '🌍 Region loaded - Vehicle: "$vehicleCountry", Selected: "$_selectedRegion"',
-      );
+        '🌍 Region loaded - Vehicle: "$vehicleCountry", Selected: "$_selectedRegion"');
     } else {
       // Get country from user data for new vehicle
         String country = widget.userData?['country'] ??
@@ -15100,8 +13106,7 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
       _initializeDefaultSections();
 
       print(
-        '🌍 Region for new vehicle - User: "$country", Selected: "$_selectedRegion"',
-      );
+        '🌍 Region for new vehicle - User: "$country", Selected: "$_selectedRegion"');
     }
   }
 
@@ -15130,8 +13135,7 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
       // macOS: use file picker (no camera)
       final result = await FilePicker.platform.pickFiles(
         type: FileType.custom,
-        allowedExtensions: ['jpg', 'jpeg', 'png'],
-      );
+        allowedExtensions: ['jpg', 'jpeg', 'png']);
       if (result != null && result.files.single.path != null) {
         photo = XFile(result.files.single.path!);
       }
@@ -15140,8 +13144,7 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
       photo = await picker.pickImage(
         source: ImageSource.camera,
         preferredCameraDevice: CameraDevice.rear,
-        imageQuality: 90,
-      );
+        imageQuality: 90);
     }
 
     if (photo != null) {
@@ -15160,13 +13163,11 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
         context,
         message:
             'Uploading ${position == 'front' ? 'front' : 'rear'} license plate photo...',
-        type: NotificationType.info,
-      );
+        type: NotificationType.info);
 
       final String? uploadedUrl = await _uploadDocumentToServer(
         File(photo.path),
-        'license_plate_$position',
-      );
+        'license_plate_$position');
 
       if (uploadedUrl != null) {
         // Replace local path with server URL
@@ -15179,15 +13180,13 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
         });
         TopNotification.success(
           context,
-          '${position == 'front' ? (AppLocalizations.of(context)?.front ?? AppLocalizations.of(context)!.tr('')) : (AppLocalizations.of(context)?.rear ?? AppLocalizations.of(context)!.tr(''))} ${AppLocalizations.of(context)?.licensePlatePhotoUploadedSuccessfully ?? AppLocalizations.of(context)!.tr('')}',
-        );
+          '${position == 'front' ? (AppLocalizations.of(context)?.front ?? AppLocalizations.of(context)!.tr('')) : (AppLocalizations.of(context)?.rear ?? AppLocalizations.of(context)!.tr(''))} ${AppLocalizations.of(context)?.licensePlatePhotoUploadedSuccessfully ?? AppLocalizations.of(context)!.tr('')}');
         print('📸 License plate photo uploaded: $uploadedUrl');
       } else {
         TopNotification.show(
           context,
           message: AppLocalizations.of(context)?.photoSavedLocallyServerUnavailable ?? AppLocalizations.of(context)!.tr(''),
-          type: NotificationType.info,
-        );
+          type: NotificationType.info);
       }
     }
   }
@@ -15195,8 +13194,7 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
   // Upload document image to server (Step 2)
   Future<String?> _uploadDocumentToServer(
     File imageFile,
-    String documentType,
-  ) async {
+    String documentType) async {
     try {
       print('📤 Uploading $documentType document to server...');
 
@@ -15226,8 +13224,7 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
         fileStream,
         fileLength,
         filename: filename,
-        contentType: MediaType('image', 'jpeg'),
-      );
+        contentType: MediaType('image', 'jpeg'));
       request.files.add(multipartFile);
 
       print('📤 Sending upload request...');
@@ -15279,38 +13276,30 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
             style: TextStyle(
               color: fg,
               fontSize: DesktopOptimizedWidgets.getFontSize(),
-              fontWeight: FontWeight.w700,
-            ),
-          ),
+              fontWeight: FontWeight.w700)),
           SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
           ListTile(
             contentPadding: EdgeInsets.zero,
-            leading: const Icon(CupertinoIcons.camera),
+            leading: Icon(CupertinoIcons.camera),
             title: Text(AppLocalizations.of(context)?.camera ?? AppLocalizations.of(context)!.tr('Camera')),
-            onTap: () => Navigator.pop(context, ImageSource.camera),
-          ),
+            onTap: () => Navigator.pop(context, ImageSource.camera)),
           ListTile(
             contentPadding: EdgeInsets.zero,
-            leading: const Icon(CupertinoIcons.photo),
+            leading: Icon(CupertinoIcons.photo),
             title: Text(AppLocalizations.of(context)?.gallery ?? AppLocalizations.of(context)!.tr('Gallery')),
-            onTap: () => Navigator.pop(context, ImageSource.gallery),
-          ),
+            onTap: () => Navigator.pop(context, ImageSource.gallery)),
           SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
           ListTile(
             contentPadding: EdgeInsets.zero,
-            leading: const Icon(CupertinoIcons.xmark_circle),
+            leading: Icon(CupertinoIcons.xmark_circle),
             title: Text(AppLocalizations.of(context)?.cancel ?? AppLocalizations.of(context)!.tr('Cancel')),
-            onTap: () => Navigator.pop(context),
-          ),
-        ],
-      ),
-    );
+            onTap: () => Navigator.pop(context)),
+        ]));
     if (source == null) return null;
     return picker.pickImage(
       source: source,
       preferredCameraDevice: CameraDevice.rear,
-      imageQuality: imageQuality,
-    );
+      imageQuality: imageQuality);
   }
 
   // Capture vehicle registration document
@@ -15320,8 +13309,7 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
     if (Platform.isMacOS) {
       final result = await FilePicker.platform.pickFiles(
         type: FileType.custom,
-        allowedExtensions: ['jpg', 'jpeg', 'png', 'pdf'],
-      );
+        allowedExtensions: ['jpg', 'jpeg', 'png', 'pdf']);
       if (result != null && result.files.single.path != null) {
         pickedFile = XFile(result.files.single.path!);
       }
@@ -15338,13 +13326,11 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
         context,
         message:
             AppLocalizations.of(context)?.uploadingVehicleRegistration ?? AppLocalizations.of(context)!.tr('Uploading vehicle registration...'),
-        type: NotificationType.info,
-      );
+        type: NotificationType.info);
 
       final String? uploadedUrl = await _uploadDocumentToServer(
         File(pickedFile.path),
-        'vehicle_registration',
-      );
+        'vehicle_registration');
 
       if (uploadedUrl != null) {
         setState(() {
@@ -15355,16 +13341,14 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
           context,
           message:
               AppLocalizations.of(context)?.vehicleRegUploadedSuccess ?? AppLocalizations.of(context)!.tr('Vehicle registration uploaded successfully!'),
-          type: NotificationType.success,
-        );
+          type: NotificationType.success);
 
         print('✅ Vehicle registration uploaded: $uploadedUrl');
       } else {
         TopNotification.show(
           context,
           message: AppLocalizations.of(context)?.photoSavedLocallyServerUnavailable ?? AppLocalizations.of(context)!.tr(''),
-          type: NotificationType.info,
-        );
+          type: NotificationType.info);
       }
     }
   }
@@ -15376,8 +13360,7 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
     if (Platform.isMacOS) {
       final result = await FilePicker.platform.pickFiles(
         type: FileType.custom,
-        allowedExtensions: ['jpg', 'jpeg', 'png', 'pdf'],
-      );
+        allowedExtensions: ['jpg', 'jpeg', 'png', 'pdf']);
       if (result != null && result.files.single.path != null) {
         pickedFile = XFile(result.files.single.path!);
       }
@@ -15387,8 +13370,7 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
       pickedFile = await picker.pickImage(
         source: ImageSource.camera,
         preferredCameraDevice: CameraDevice.rear,
-        imageQuality: 90,
-      );
+        imageQuality: 90);
     }
 
     if (pickedFile != null) {
@@ -15400,13 +13382,11 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
         context,
         message:
             AppLocalizations.of(context)?.uploadingInsuranceProof ?? AppLocalizations.of(context)!.tr('Uploading insurance proof...'),
-        type: NotificationType.info,
-      );
+        type: NotificationType.info);
 
       final String? uploadedUrl = await _uploadDocumentToServer(
         File(pickedFile.path),
-        'insurance_proof',
-      );
+        'insurance_proof');
 
       if (uploadedUrl != null) {
         setState(() {
@@ -15417,16 +13397,14 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
           context,
           message:
               AppLocalizations.of(context)?.insuranceProofUploadedSuccess ?? AppLocalizations.of(context)!.tr('Insurance proof uploaded successfully!'),
-          type: NotificationType.success,
-        );
+          type: NotificationType.success);
 
         print('✅ Insurance proof uploaded: $uploadedUrl');
       } else {
         TopNotification.show(
           context,
           message: AppLocalizations.of(context)?.photoSavedLocallyServerUnavailable ?? AppLocalizations.of(context)!.tr(''),
-          type: NotificationType.info,
-        );
+          type: NotificationType.info);
       }
     }
   }
@@ -15440,8 +13418,7 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
     if (Platform.isMacOS) {
       final result = await FilePicker.platform.pickFiles(
         type: FileType.custom,
-        allowedExtensions: ['jpg', 'jpeg', 'png', 'pdf'],
-      );
+        allowedExtensions: ['jpg', 'jpeg', 'png', 'pdf']);
       if (result != null && result.files.single.path != null) {
         pickedFile = XFile(result.files.single.path!);
       }
@@ -15458,13 +13435,11 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
         context,
         message:
             AppLocalizations.of(context)?.uploadingHazmatCert ?? AppLocalizations.of(context)!.tr('Uploading hazmat certificate...'),
-        type: NotificationType.info,
-      );
+        type: NotificationType.info);
 
       final String? uploadedUrl = await _uploadDocumentToServer(
         File(pickedFile.path),
-        'hazmat_certificate',
-      );
+        'hazmat_certificate');
 
       if (uploadedUrl != null) {
         setState(() {
@@ -15475,15 +13450,13 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
           context,
           message:
               AppLocalizations.of(context)?.hazmatCertUploaded ?? AppLocalizations.of(context)!.tr('Hazmat certificate uploaded!'),
-          type: NotificationType.success,
-        );
+          type: NotificationType.success);
       } else {
         // Keep local file for preview
         TopNotification.show(
           context,
           message: AppLocalizations.of(context)?.photoSavedLocallyServerUnavailable ?? AppLocalizations.of(context)!.tr(''),
-          type: NotificationType.info,
-        );
+          type: NotificationType.info);
       }
     }
   }
@@ -15495,8 +13468,7 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
     if (Platform.isMacOS) {
       final result = await FilePicker.platform.pickFiles(
         type: FileType.custom,
-        allowedExtensions: ['jpg', 'jpeg', 'png', 'pdf'],
-      );
+        allowedExtensions: ['jpg', 'jpeg', 'png', 'pdf']);
       if (result != null && result.files.single.path != null) {
         pickedFile = XFile(result.files.single.path!);
       }
@@ -15513,13 +13485,11 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
         context,
         message:
             AppLocalizations.of(context)?.uploadingCargoInsurance ?? AppLocalizations.of(context)!.tr('Uploading cargo insurance...'),
-        type: NotificationType.info,
-      );
+        type: NotificationType.info);
 
       final String? uploadedUrl = await _uploadDocumentToServer(
         File(pickedFile.path),
-        'cargo_insurance',
-      );
+        'cargo_insurance');
 
       if (uploadedUrl != null) {
         setState(() {
@@ -15530,15 +13500,13 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
           context,
           message:
               AppLocalizations.of(context)?.cargoInsuranceUploaded ?? AppLocalizations.of(context)!.tr('Cargo insurance uploaded!'),
-          type: NotificationType.success,
-        );
+          type: NotificationType.success);
       } else {
         // Keep local file for preview
         TopNotification.show(
           context,
           message: AppLocalizations.of(context)?.photoSavedLocallyServerUnavailable ?? AppLocalizations.of(context)!.tr(''),
-          type: NotificationType.info,
-        );
+          type: NotificationType.info);
       }
     }
   }
@@ -15583,22 +13551,19 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
 
       if (!makeModelSelected) {
         _showErrorMessage(
-          AppLocalizations.of(context)?.pleaseSelectVehicleMakeAndModel ?? AppLocalizations.of(context)!.tr('Please select vehicle make and model'),
-        );
+          AppLocalizations.of(context)?.pleaseSelectVehicleMakeAndModel ?? AppLocalizations.of(context)!.tr('Please select vehicle make and model'));
         return;
       }
 
       if (!yearValid) {
         _showErrorMessage(
-          AppLocalizations.of(context)?.pleaseEnterVehicleYear ?? AppLocalizations.of(context)!.tr('Please enter the vehicle year'),
-        );
+          AppLocalizations.of(context)?.pleaseEnterVehicleYear ?? AppLocalizations.of(context)!.tr('Please enter the vehicle year'));
         return;
       }
 
       if (!vehicleTypeSelected) {
         _showErrorMessage(
-          AppLocalizations.of(context)?.pleaseSelectVehicleType ?? AppLocalizations.of(context)!.tr('Please select vehicle type'),
-        );
+          AppLocalizations.of(context)?.pleaseSelectVehicleType ?? AppLocalizations.of(context)!.tr('Please select vehicle type'));
         return;
       }
 
@@ -15613,15 +13578,13 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
 
       if (!photosProvided) {
         _showErrorMessage(
-          AppLocalizations.of(context)?.pleaseTakePhotosLicensePlates ?? AppLocalizations.of(context)!.tr('Please take photos of the front and rear license plates'),
-        );
+          AppLocalizations.of(context)?.pleaseTakePhotosLicensePlates ?? AppLocalizations.of(context)!.tr('Please take photos of the front and rear license plates'));
         return;
       }
 
       if (_vinController.text.trim().isEmpty) {
         _showErrorMessage(
-          AppLocalizations.of(context)?.pleaseEnterVin ?? AppLocalizations.of(context)!.tr('Please enter the VIN'),
-        );
+          AppLocalizations.of(context)?.pleaseEnterVin ?? AppLocalizations.of(context)!.tr('Please enter the VIN'));
         return;
       }
 
@@ -15629,8 +13592,7 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
       final isEditing = widget.vehicleData != null;
       if (!isEditing && _averageFuelConsumptionController.text.trim().isEmpty) {
         _showErrorMessage(
-          AppLocalizations.of(context)?.pleaseEnterFuelEconomy ?? AppLocalizations.of(context)!.tr('Please enter fuel economy'),
-        );
+          AppLocalizations.of(context)?.pleaseEnterFuelEconomy ?? AppLocalizations.of(context)!.tr('Please enter fuel economy'));
         return;
       }
 
@@ -15642,15 +13604,13 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
       // Validate Step 3 - Capacity
       if (_cargoCapacityController.text.trim().isEmpty) {
         _showErrorMessage(
-          AppLocalizations.of(context)?.pleaseEnterCargoCapacity ?? AppLocalizations.of(context)!.tr('Please enter cargo capacity'),
-        );
+          AppLocalizations.of(context)?.pleaseEnterCargoCapacity ?? AppLocalizations.of(context)!.tr('Please enter cargo capacity'));
         return;
       }
 
       if (_payloadCapacityController.text.trim().isEmpty) {
         _showErrorMessage(
-          AppLocalizations.of(context)?.pleaseEnterPayloadCapacity ?? AppLocalizations.of(context)!.tr('Please enter payload capacity'),
-        );
+          AppLocalizations.of(context)?.pleaseEnterPayloadCapacity ?? AppLocalizations.of(context)!.tr('Please enter payload capacity'));
         return;
       }
 
@@ -15660,8 +13620,7 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
             _widthController.text.trim().isEmpty ||
             _heightController.text.trim().isEmpty) {
           _showErrorMessage(
-            AppLocalizations.of(context)?.pleaseFillAllCargoDimensions ?? AppLocalizations.of(context)!.tr('Please fill in all cargo dimensions'),
-          );
+            AppLocalizations.of(context)?.pleaseFillAllCargoDimensions ?? AppLocalizations.of(context)!.tr('Please fill in all cargo dimensions'));
           return;
         }
       }
@@ -15689,14 +13648,12 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
 
       if (!hasVehicleRegistration) {
         _showErrorMessage(
-          AppLocalizations.of(context)?.pleaseCaptureVehicleRegistration ?? AppLocalizations.of(context)!.tr('Please capture your vehicle registration'),
-        );
+          AppLocalizations.of(context)?.pleaseCaptureVehicleRegistration ?? AppLocalizations.of(context)!.tr('Please capture your vehicle registration'));
         return;
       }
       if (!hasInsuranceProof) {
         _showErrorMessage(
-          AppLocalizations.of(context)?.pleaseCaptureInsuranceProof ?? AppLocalizations.of(context)!.tr('Please capture your insurance proof'),
-        );
+          AppLocalizations.of(context)?.pleaseCaptureInsuranceProof ?? AppLocalizations.of(context)!.tr('Please capture your insurance proof'));
         return;
       }
 
@@ -15719,14 +13676,12 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
     if (_currentStep == 4) {
       if (!_acceptTerms) {
         _showErrorMessage(
-          AppLocalizations.of(context)?.pleaseAcceptTermsAndPrivacy ?? AppLocalizations.of(context)!.tr('Please accept the Terms & Conditions and Privacy Policy'),
-        );
+          AppLocalizations.of(context)?.pleaseAcceptTermsAndPrivacy ?? AppLocalizations.of(context)!.tr('Please accept the Terms & Conditions and Privacy Policy'));
         return;
       }
       if (!_confirmDataAccuracy) {
         _showErrorMessage(
-          AppLocalizations.of(context)?.pleaseConfirmDataAccuracy ?? AppLocalizations.of(context)!.tr('Please confirm the accuracy of the provided data'),
-        );
+          AppLocalizations.of(context)?.pleaseConfirmDataAccuracy ?? AppLocalizations.of(context)!.tr('Please confirm the accuracy of the provided data'));
         return;
       }
     }
@@ -15784,11 +13739,9 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
       'licensePlate': _licensePlateController.text,
       'vin': _vinController.text,
       'cargoCapacity': GermanNumberFormatter.parseGermanNumber(
-        _cargoCapacityController.text,
-      ).toString(),
+        _cargoCapacityController.text).toString(),
       'payloadCapacity': GermanNumberFormatter.parseGermanNumber(
-        _payloadCapacityController.text,
-      ).toString(),
+        _payloadCapacityController.text).toString(),
       'cargoUnit': _cargoUnit,
       'payloadUnit': _payloadUnit,
       'usaState': _selectedUSAState,
@@ -15853,11 +13806,9 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
     // DEBUG: Verify document URLs are in vehicleData
     print('📄 Document URLs in vehicleData object:');
     print(
-      '   vehicleRegistrationImageUrl: ${vehicleData['vehicleRegistrationImageUrl']}',
-    );
+      '   vehicleRegistrationImageUrl: ${vehicleData['vehicleRegistrationImageUrl']}');
     print(
-      '   insuranceProofImageUrl: ${vehicleData['insuranceProofImageUrl']}',
-    );
+      '   insuranceProofImageUrl: ${vehicleData['insuranceProofImageUrl']}');
 
     // Add vehicle ID if editing existing vehicle (convert to string)
     if (widget.vehicleData != null) {
@@ -15903,20 +13854,18 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
               color: isLight
                   ? (hasImage ? Colors.green.withOpacity(0.15) : Colors.white)
                   : (hasImage ? Colors.green.withOpacity(0.25) : Colors.black),
-              borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-            ),
+              borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
             child: Row(
               children: [
                 Container(
-                  padding: const EdgeInsets.all(12),
+                  padding: EdgeInsets.all(12),
                   decoration: BoxDecoration(
                     color: hasImage
                         ? Colors.green.withOpacity(0.2)
                         : (isLight
                               ? Colors.black.withOpacity(0.2)
                               : Colors.black.withOpacity(0.3)),
-                    borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-                  ),
+                    borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
                   child: Icon(
                     hasImage
                         ? CupertinoIcons.checkmark_circle_fill
@@ -15924,10 +13873,8 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                     color: hasImage
                         ? Colors.green
                         : (isLight ? Colors.black : Colors.white),
-                    size: 24,
-                  ),
-                ),
-                const SizedBox(width: 16),
+                    size: 24)),
+                SizedBox(width: 16),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -15937,30 +13884,20 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                         style: TextStyle(
                           fontSize: DesktopOptimizedWidgets.getFontSize(),
                           fontWeight: FontWeight.w600,
-                          color: isLight ? Colors.black : Colors.white,
-                        ),
-                      ),
-                      const SizedBox(height: 4),
+                          color: isLight ? Colors.black : Colors.white)),
+                      SizedBox(height: 4),
                       Text(
                         hasImage
                             ? (AppLocalizations.of(context)?.tapToRetakePhoto ?? AppLocalizations.of(context)!.tr(''))
                             : subtitle,
                         style: TextStyle(
                           fontSize: 13,
-                          color: isLight ? Colors.black : Colors.white,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
+                          color: isLight ? Colors.black : Colors.white)),
+                    ])),
                 Icon(
                   CupertinoIcons.chevron_right,
-                  color: isLight ? Colors.white : Colors.black,
-                ),
-              ],
-            ),
-          ),
-        ),
+                  color: isLight ? Colors.white : Colors.black),
+              ]))),
 
         // Image Preview Container - Only shown when image exists
         if (hasImage) ...[
@@ -15973,8 +13910,7 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
               height: 120,
               decoration: BoxDecoration(
                 color: isLight ? Colors.white : Colors.black,
-                borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-              ),
+                borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                 child: Stack(
@@ -15990,8 +13926,7 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                         loadingBuilder: (context, child, loadingProgress) {
                           if (loadingProgress == null) return child;
                           return Center(
-                            child: CultiooLoadingIndicator(),
-                          );
+                            child: CultiooLoadingIndicator());
                         },
                         errorBuilder: (context, error, stackTrace) {
                           return Center(
@@ -16001,67 +13936,47 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                                 Icon(
                                   CupertinoIcons.xmark_circle,
                                   color: Colors.red,
-                                  size: 40,
-                                ),
+                                  size: 40),
                                 SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                                 Text(
                                   AppLocalizations.of(
-                                        context,
-                                      )?.failedToLoadImage ?? AppLocalizations.of(context)!.tr('Failed to load image'),
+                                        context)?.failedToLoadImage ?? AppLocalizations.of(context)!.tr('Failed to load image'),
                                   style: TextStyle(
                                     color: isLight
                                         ? Colors.black
-                                        : Colors.white,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          );
-                        },
-                      ),
+                                        : Colors.white)),
+                              ]));
+                        }),
 
                     // Tap to enlarge overlay
                     Positioned(
                       bottom: 12,
                       right: 12,
                       child: Container(
-                        padding: const EdgeInsets.symmetric(
+                        padding: EdgeInsets.symmetric(
                           horizontal: 12,
-                          vertical: 6,
-                        ),
+                          vertical: 6),
                         decoration: BoxDecoration(
                           color: Colors.black.withOpacity(0.7),
-                          borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-                        ),
+                          borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
                         child: Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [
                             Icon(
                               CupertinoIcons.zoom_in,
                               color: Colors.white,
-                              size: 16,
-                            ),
-                            const SizedBox(width: 4),
+                              size: 16),
+                            SizedBox(width: 4),
                             Text(
                               AppLocalizations.of(context)?.tapToEnlarge ?? AppLocalizations.of(context)!.tr('Tap to enlarge'),
                               style: TextStyle(
                                 color: Colors.white,
                                 fontSize: 12,
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ),
+                                fontWeight: FontWeight.w500)),
+                          ]))),
+                  ])))),
         ],
-      ],
-    );
+      ]);
   }
 
   // Show full screen image viewer
@@ -16069,8 +13984,7 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
     BuildContext context,
     File? imageFile,
     String? imageUrl,
-    bool isLight,
-  ) {
+    bool isLight) {
     TradeRepublicBottomSheet.show(
       context: context,
       backgroundColor: Colors.black,
@@ -16092,8 +14006,7 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                         loadingBuilder: (context, child, loadingProgress) {
                           if (loadingProgress == null) return child;
                           return Center(
-                            child: CultiooLoadingIndicator(),
-                          );
+                            child: CultiooLoadingIndicator());
                         },
                         errorBuilder: (context, error, stackTrace) {
                           return Center(
@@ -16103,26 +14016,17 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                                 Icon(
                                   CupertinoIcons.xmark_circle,
                                   color: Colors.white,
-                                  size: 48,
-                                ),
+                                  size: 48),
                                 SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
                                 Text(
                                   AppLocalizations.of(
-                                        context,
-                                      )?.failedToLoadImage ?? AppLocalizations.of(context)!.tr('Failed to load image'),
+                                        context)?.failedToLoadImage ?? AppLocalizations.of(context)!.tr('Failed to load image'),
                                   style: TextStyle(
                                     color: Colors.white,
-                                    fontSize: DesktopOptimizedWidgets.getFontSize(),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          );
-                        },
-                      )
-                    : Container(),
-              ),
-            ),
+                                    fontSize: DesktopOptimizedWidgets.getFontSize())),
+                              ]));
+                        })
+                    : Container())),
 
             // Close button
             Positioned(
@@ -16131,19 +14035,14 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
               child: TradeRepublicTap(
                 onTap: () => Navigator.of(context).pop(),
                 child: Container(
-                  padding: const EdgeInsets.all(12),
+                  padding: EdgeInsets.all(12),
                   decoration: BoxDecoration(
                     color: Colors.black.withOpacity(0.5),
-                    shape: BoxShape.circle,
-                  ),
+                    shape: BoxShape.circle),
                   child: Icon(
                     CupertinoIcons.xmark,
                     color: Colors.white,
-                    size: 24,
-                  ),
-                ),
-              ),
-            ),
+                    size: 24)))),
 
             // Pinch to zoom hint
             Positioned(
@@ -16152,29 +14051,19 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
               right: 0,
               child: Center(
                 child: Container(
-                  padding: const EdgeInsets.symmetric(
+                  padding: EdgeInsets.symmetric(
                     horizontal: 16,
-                    vertical: 8,
-                  ),
+                    vertical: 8),
                   decoration: BoxDecoration(
                     color: Colors.black.withOpacity(0.5),
-                    borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-                  ),
+                    borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
                   child: Text(
                     AppLocalizations.of(context)?.pinchToZoomDragToMove ?? AppLocalizations.of(context)!.tr('Pinch to zoom • Drag to move'),
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: DesktopOptimizedWidgets.getFontSize(),
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
+                      fontWeight: FontWeight.w500))))),
+          ])));
   }
 
   @override
@@ -16198,12 +14087,11 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                   child: Form(
                     key: _formKey,
                     child: SingleChildScrollView(
-                      padding: const EdgeInsets.fromLTRB(
+                      padding: EdgeInsets.fromLTRB(
                         0,
                         24,
                         0,
-                        140,
-                      ), // Extra bottom padding for floating button
+                        140), // Extra bottom padding for floating button
                       child: Column(
                         children: [
                           // Header - Compact and Clean
@@ -16214,8 +14102,7 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                                 DecoratedBox(
                                   decoration: BoxDecoration(
                                     color: isLight ? Colors.black : Colors.white,
-                                    borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-                                  ),
+                                    borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
                                   child: SizedBox(
                                     width: 56,
                                     height: 56,
@@ -16225,12 +14112,7 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                                         style: TextStyle(
                                           color: isLight ? Colors.white : Colors.black,
                                           fontSize: DesktopOptimizedWidgets.getFontSize() + 10,
-                                          fontWeight: FontWeight.w700,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ),
+                                          fontWeight: FontWeight.w700))))),
                                 SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
                                 // Step Title - Dynamic
@@ -16242,10 +14124,8 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                                         : Colors.white,
                                     fontSize: DesktopOptimizedWidgets.getFontSize() + 10,
                                     fontWeight: FontWeight.w700,
-                                    letterSpacing: -0.5,
-                                  ),
-                                ),
-                                const SizedBox(height: 6),
+                                    letterSpacing: -0.5)),
+                                SizedBox(height: 6),
 
                                 // Step Subtitle
                                 Text(
@@ -16254,11 +14134,9 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                                     color:
                                         (isLight ? Colors.black : Colors.white)
                                             .withOpacity(0.5),
-                                    fontSize: 15,
-                                  ),
-                                ),
+                                    fontSize: 15)),
 
-                                const SizedBox(height: 20),
+                                SizedBox(height: 20),
 
                                 // Progress Indicator - 4 Steps
                                 Row(
@@ -16271,11 +14149,9 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                                           color: _currentStep > i
                                               ? (isLight ? Colors.black : Colors.white)
                                               : (isLight ? Colors.white : Colors.black),
-                                          child: const SizedBox(width: 24, height: 2),
-                                        ),
+                                          child: SizedBox(width: 24, height: 2)),
                                     ],
-                                  ],
-                                ),
+                                  ]),
 
                                 SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
@@ -16287,12 +14163,8 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                                         ? Colors.white
                                         : Colors.white,
                                     fontSize: 13,
-                                    fontWeight: FontWeight.w500,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
+                                    fontWeight: FontWeight.w500)),
+                              ])),
 
                           SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
@@ -16305,8 +14177,7 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                               value: _selectedMake,
                               icon: CupertinoIcons.car,
                               isLight: isLight,
-                              onTap: () => _showMakeSelector(isLight),
-                            ),
+                              onTap: () => _showMakeSelector(isLight)),
 
                             SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
@@ -16319,8 +14190,7 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                               isLight: isLight,
                               onTap: _selectedMake != null
                                   ? () => _showModelSelector(isLight)
-                                  : null,
-                            ),
+                                  : null),
 
                             SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
@@ -16339,12 +14209,10 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                                     year < 1990 ||
                                     year > DateTime.now().year + 1) {
                                   return AppLocalizations.of(
-                                        context,
-                                      )?.enterValidYear ?? AppLocalizations.of(context)!.tr('Enter valid year');
+                                        context)?.enterValidYear ?? AppLocalizations.of(context)!.tr('Enter valid year');
                                 }
                                 return null;
-                              },
-                            ),
+                              }),
 
                             SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
@@ -16355,32 +14223,29 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                               value: _selectedVehicleType,
                               icon: CupertinoIcons.cube_box,
                               isLight: isLight,
-                              onTap: () => _showVehicleTypeSelector(isLight),
-                            ),
+                              onTap: () => _showVehicleTypeSelector(isLight)),
 
-                            const SizedBox(height: 80),
+                            SizedBox(height: 80),
                           ], // End of Step 1
                           // === STEP 2: LICENSE & DETAILS ===
                           if (_currentStep == 2) ...[
                             // LICENSE PLATE SECTION
                             _buildSectionHeader(
                               AppLocalizations.of(context)?.licensePlate ?? AppLocalizations.of(context)!.tr('License Plate'),
-                              isLight,
-                            ),
+                              isLight),
                             SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
                             // License Plate Field with Visual Design
                             _buildModernLicensePlateField(isLight),
 
-                            const SizedBox(height: 32),
+                            SizedBox(height: 32),
 
                             // VIN Field
                             _buildModernTextField(
                               controller: _vinController,
                               label:
                                   AppLocalizations.of(
-                                    context,
-                                  )?.vinVehicleIdentificationNumber ?? AppLocalizations.of(context)!.tr('VIN (Vehicle Identification Number)'),
+                                    context)?.vinVehicleIdentificationNumber ?? AppLocalizations.of(context)!.tr('VIN (Vehicle Identification Number)'),
                               icon: CupertinoIcons.ticket,
                               isLight: isLight,
                               textCapitalization: TextCapitalization.characters,
@@ -16388,38 +14253,32 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                               validator: (value) {
                                 if (value?.isEmpty ?? true) {
                                   return AppLocalizations.of(
-                                        context,
-                                      )?.vinRequired ?? AppLocalizations.of(context)!.tr('VIN is required');
+                                        context)?.vinRequired ?? AppLocalizations.of(context)!.tr('VIN is required');
                                 }
                                 final cleanVin = value!.replaceAll(
                                   RegExp(r'[^A-Z0-9]'),
-                                  '',
-                                );
+                                  '');
                                 if (cleanVin.length != 17) {
                                   return AppLocalizations.of(
-                                        context,
-                                      )?.vinMustBe17Characters ?? AppLocalizations.of(context)!.tr('VIN must be exactly 17 characters');
+                                        context)?.vinMustBe17Characters ?? AppLocalizations.of(context)!.tr('VIN must be exactly 17 characters');
                                 }
                                 return null;
-                              },
-                            ),
+                              }),
 
-                            const SizedBox(height: 32),
+                            SizedBox(height: 32),
 
                             // Fuel Economy Field in Step 2
                             _buildSectionHeader(
                               widget.vehicleData != null
                                   ? '${AppLocalizations.of(context)?.fuelEconomy ?? AppLocalizations.of(context)!.tr('Fuel Economy')} (optional)'
                                   : AppLocalizations.of(context)?.fuelEconomy ?? AppLocalizations.of(context)!.tr('Fuel Economy'),
-                              isLight,
-                            ),
+                              isLight),
                             SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
                             DecoratedBox(
                               decoration: BoxDecoration(
                                 color: isLight ? Colors.white : Colors.black,
-                                borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-                              ),
+                                borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
                               child: Padding(
                                 padding: DesktopAppWrapper.getPagePadding(),
                                 child: Row(
@@ -16434,11 +14293,8 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                                         style: TextStyle(
                                           color: isLight ? Colors.black : Colors.white,
                                           fontSize: DesktopOptimizedWidgets.getFontSize(),
-                                          fontWeight: FontWeight.w500,
-                                        ),
-                                        hintText: AppLocalizations.of(context)?.egWeight ?? AppLocalizations.of(context)!.tr('e.g., 25.5'),
-                                      ),
-                                    ),
+                                          fontWeight: FontWeight.w500),
+                                        hintText: AppLocalizations.of(context)?.egWeight ?? AppLocalizations.of(context)!.tr('e.g., 25.5'))),
                                     _buildUnitChip(
                                       label: _fuelConsumptionUnit,
                                       isLight: isLight,
@@ -16447,31 +14303,24 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                                         options: ['MPG', 'L/100km'],
                                         selectedOption: _fuelConsumptionUnit,
                                         onOptionSelected: (unit) => setState(() => _fuelConsumptionUnit = unit),
-                                        isLight: isLight,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
+                                        isLight: isLight)),
+                                  ]))),
 
-                            const SizedBox(height: 80),
+                            SizedBox(height: 80),
                           ], // End of Step 2
                           // === STEP 3: CAPACITY ===
                           if (_currentStep == 3) ...[
                             // Cargo Capacity Field
                             _buildSectionHeader(
                               AppLocalizations.of(context)?.cargoCapacity ?? AppLocalizations.of(context)!.tr('Cargo Capacity'),
-                              isLight,
-                            ),
+                              isLight),
                             SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
                             Padding(
-                              padding: const EdgeInsets.only(bottom: 16),
+                              padding: EdgeInsets.only(bottom: 16),
                               child: DecoratedBox(
                                 decoration: BoxDecoration(
                                   color: isLight ? Colors.white : Colors.black,
-                                  borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-                                ),
+                                  borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
                                 child: Padding(
                                   padding: DesktopAppWrapper.getPagePadding(),
                                   child: Row(
@@ -16486,11 +14335,8 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                                           style: TextStyle(
                                             color: isLight ? Colors.black : Colors.white,
                                             fontSize: DesktopOptimizedWidgets.getFontSize(),
-                                            fontWeight: FontWeight.w500,
-                                          ),
-                                          hintText: capacityHintText,
-                                        ),
-                                      ),
+                                            fontWeight: FontWeight.w500),
+                                          hintText: capacityHintText)),
                                       _buildUnitChip(
                                         label: _cargoUnit,
                                         isLight: isLight,
@@ -16499,30 +14345,22 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                                           options: ['ft³', 'm³'],
                                           selectedOption: _cargoUnit,
                                           onOptionSelected: (unit) => setState(() => _cargoUnit = unit),
-                                          isLight: isLight,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ),
+                                          isLight: isLight)),
+                                    ])))),
 
                             SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
                             // Payload Capacity Field
                             _buildSectionHeader(
                               AppLocalizations.of(context)?.payloadCapacity ?? AppLocalizations.of(context)!.tr('Payload Capacity'),
-                              isLight,
-                            ),
+                              isLight),
                             SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
                             Padding(
-                              padding: const EdgeInsets.only(bottom: 16),
+                              padding: EdgeInsets.only(bottom: 16),
                               child: DecoratedBox(
                                 decoration: BoxDecoration(
                                   color: isLight ? Colors.white : Colors.black,
-                                  borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-                                ),
+                                  borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
                                 child: Padding(
                                   padding: DesktopAppWrapper.getPagePadding(),
                                   child: Row(
@@ -16537,11 +14375,8 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                                           style: TextStyle(
                                             color: isLight ? Colors.black : Colors.white,
                                             fontSize: DesktopOptimizedWidgets.getFontSize(),
-                                            fontWeight: FontWeight.w500,
-                                          ),
-                                          hintText: capacityHintText,
-                                        ),
-                                      ),
+                                            fontWeight: FontWeight.w500),
+                                          hintText: capacityHintText)),
                                       _buildUnitChip(
                                         label: _payloadUnit,
                                         isLight: isLight,
@@ -16550,32 +14385,22 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                                           options: ['lbs', 'kg'],
                                           selectedOption: _payloadUnit,
                                           onOptionSelected: (unit) => setState(() => _payloadUnit = unit),
-                                          isLight: isLight,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ),
+                                          isLight: isLight)),
+                                    ])))),
 
                             SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
                             // Sectioned Loading Header
                             _buildSectionHeader(
                               AppLocalizations.of(context)?.sectionedLoading ?? AppLocalizations.of(context)!.tr('Sectioned Loading'),
-                              isLight,
-                            ),
+                              isLight),
                             SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                             Text(
                               AppLocalizations.of(
-                                    context,
-                                  )?.divideCargAreaIntoSections ?? AppLocalizations.of(context)!.tr('Divide cargo area into sections for partial loads'),
+                                    context)?.divideCargAreaIntoSections ?? AppLocalizations.of(context)!.tr('Divide cargo area into sections for partial loads'),
                               style: TextStyle(
                                 color: isLight ? Colors.black : Colors.white,
-                                fontSize: 13,
-                              ),
-                            ),
+                                fontSize: 13)),
 
                             // Sections UI (always shown - mandatory)
                             SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
@@ -16583,25 +14408,21 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
 
                             // Dimensions (if required)
                             if (_requiresDimensions()) ...[
-                              const SizedBox(height: 32),
+                              SizedBox(height: 32),
                               Row(
                                 children: [
                                   Expanded(
                                     child: _buildSectionHeader(
                                       AppLocalizations.of(context)?.cargoDimensions ?? AppLocalizations.of(context)!.tr('Cargo Dimensions'),
-                                      isLight,
-                                    ),
-                                  ),
+                                      isLight)),
                                   // Unit toggle — ft / m
                                   TradeRepublicSlider(
                                     labels: const ['ft', 'm'],
                                     selectedIndex: _dimensionUnit == 'ft' ? 0 : 1,
                                     height: 36,
                                     borderRadius: 12,
-                                    onChanged: (i) => setState(() => _dimensionUnit = i == 0 ? 'ft' : 'm'),
-                                  ),
-                                ],
-                              ),
+                                    onChanged: (i) => setState(() => _dimensionUnit = i == 0 ? 'ft' : 'm')),
+                                ]),
                               SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                               Row(
                                 children: [
@@ -16611,91 +14432,75 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                                       label: AppLocalizations.of(context)?.length ?? AppLocalizations.of(context)!.tr('Length'),
                                       icon: CupertinoIcons.arrow_left_right,
                                       isLight: isLight,
-                                      keyboardType: const TextInputType.numberWithOptions(decimal: true),
-                                    ),
-                                  ),
-                                  const SizedBox(width: 12),
+                                      keyboardType: const TextInputType.numberWithOptions(decimal: true))),
+                                  SizedBox(width: 12),
                                   Expanded(
                                     child: _buildModernTextField(
                                       controller: _widthController,
                                       label: AppLocalizations.of(context)?.width ?? AppLocalizations.of(context)!.tr('Width'),
                                       icon: CupertinoIcons.arrow_up_down,
                                       isLight: isLight,
-                                      keyboardType: const TextInputType.numberWithOptions(decimal: true),
-                                    ),
-                                  ),
-                                ],
-                              ),
+                                      keyboardType: const TextInputType.numberWithOptions(decimal: true))),
+                                ]),
                               SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                               _buildModernTextField(
                                 controller: _heightController,
                                 label: AppLocalizations.of(context)?.height ?? AppLocalizations.of(context)!.tr('Height'),
                                 icon: CupertinoIcons.arrow_up_down_circle,
                                 isLight: isLight,
-                                keyboardType: const TextInputType.numberWithOptions(decimal: true),
-                              ),
+                                keyboardType: const TextInputType.numberWithOptions(decimal: true)),
                             ],
 
                             // Temperature (if required)
                             if (_requiresTemperature()) ...[
-                              const SizedBox(height: 32),
+                              SizedBox(height: 32),
                               _buildTemperatureRangeWidget(isLight),
                             ],
 
-                            const SizedBox(height: 80),
+                            SizedBox(height: 80),
                           ], // End of Step 3
                           // === STEP 4: DOCUMENTS ===
                           if (_currentStep == 4) ...[
                             // Vehicle Registration
                             _buildSectionHeader(
                               AppLocalizations.of(
-                                    context,
-                                  )?.vehicleRegistration ?? AppLocalizations.of(context)!.tr('Vehicle Registration'),
-                              isLight,
-                            ),
+                                    context)?.vehicleRegistration ?? AppLocalizations.of(context)!.tr('Vehicle Registration'),
+                              isLight),
                             SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
                             _buildDocumentCapture(
                               title:
                                   AppLocalizations.of(
-                                    context,
-                                  )?.vehicleRegistration ?? AppLocalizations.of(context)!.tr('Vehicle Registration'),
+                                    context)?.vehicleRegistration ?? AppLocalizations.of(context)!.tr('Vehicle Registration'),
                               subtitle:
                                   AppLocalizations.of(
-                                    context,
-                                  )?.captureYourVehicleRegistration ?? AppLocalizations.of(context)!.tr('Capture your vehicle registration'),
+                                    context)?.captureYourVehicleRegistration ?? AppLocalizations.of(context)!.tr('Capture your vehicle registration'),
                               imageUrl: _vehicleRegistrationImageUrl,
                               image: _vehicleRegistrationImage,
                               isLight: isLight,
-                              onTap: _captureVehicleRegistration,
-                            ),
+                              onTap: _captureVehicleRegistration),
 
                             SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
                             // Insurance Proof
                             _buildSectionHeader(
                               AppLocalizations.of(context)?.insuranceProof ?? AppLocalizations.of(context)!.tr('Insurance Proof'),
-                              isLight,
-                            ),
+                              isLight),
                             SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
                             _buildDocumentCapture(
                               title:
                                   AppLocalizations.of(
-                                    context,
-                                  )?.insuranceProof ??
+                                    context)?.insuranceProof ??
                                   AppLocalizations.of(
-                                    context,
-                                  )?.insuranceProof ?? AppLocalizations.of(context)!.tr('Insurance Proof'),
+                                    context)?.insuranceProof ?? AppLocalizations.of(context)!.tr('Insurance Proof'),
                               subtitle:
                                   AppLocalizations.of(
-                                    context,
-                                  )?.captureYourInsuranceDocument ?? AppLocalizations.of(context)!.tr('Capture your insurance document'),
+                                    context)?.captureYourInsuranceDocument ?? AppLocalizations.of(context)!.tr('Capture your insurance document'),
                               imageUrl: _insuranceProofImageUrl,
                               image: _insuranceProofImage,
                               isLight: isLight,
-                              onTap: _captureInsuranceProof,
-                            ),
+                              onTap: _captureInsuranceProof),
 
-                            const SizedBox(height: 32),
+                            SizedBox(height: 32),
 
                             // Terms & Conditions
                             TradeRepublicTap(
@@ -16711,14 +14516,12 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                                   color: _acceptTerms
                                       ? (isLight ? Colors.black : Colors.white).withOpacity(0.05)
                                       : Colors.transparent,
-                                  borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-                                ),
+                                  borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
                                 child: Row(
                                   children: [
                                     AnimatedContainer(
                                       duration: const Duration(
-                                        milliseconds: 200,
-                                      ),
+                                        milliseconds: 200),
                                       width: 24,
                                       height: 24,
                                       decoration: BoxDecoration(
@@ -16727,19 +14530,16 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                                                   ? Colors.black
                                                   : Colors.white)
                                             : (isLight ? Colors.black : Colors.white).withOpacity(0.1),
-                                        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-                                      ),
+                                        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
                                       child: _acceptTerms
                                           ? Icon(
                                               CupertinoIcons.checkmark,
                                               size: 16,
                                               color: isLight
                                                   ? Colors.white
-                                                  : Colors.black,
-                                            )
-                                          : null,
-                                    ),
-                                    const SizedBox(width: 12),
+                                                  : Colors.black)
+                                          : null),
+                                    SizedBox(width: 12),
                                     Expanded(
                                       child: RichText(
                                         text: TextSpan(
@@ -16748,69 +14548,52 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                                             color: isLight
                                                 ? Colors.black
                                                 : Colors.white,
-                                            fontSize: DesktopOptimizedWidgets.getFontSize(),
-                                          ),
+                                            fontSize: DesktopOptimizedWidgets.getFontSize()),
                                           children: [
                                             TextSpan(
                                               text:
                                                   AppLocalizations.of(
-                                                    context,
-                                                  )?.termsConditions ?? AppLocalizations.of(context)!.tr('Terms & Conditions'),
+                                                    context)?.termsConditions ?? AppLocalizations.of(context)!.tr('Terms & Conditions'),
                                               style: TextStyle(
                                                 color: Colors.blue,
                                                 fontWeight: FontWeight.w600,
                                                 decoration:
-                                                    TextDecoration.underline,
-                                              ),
+                                                    TextDecoration.underline),
                                               recognizer: TapGestureRecognizer()
                                                 ..onTap = () async {
                                                   final url = Uri.parse(
-                                                    'https://cultioo.com/us/us_legal_app#delvioo_terms',
-                                                  );
+                                                    'https://cultioo.com/us/us_legal_app#delvioo_terms');
                                                   if (await canLaunchUrl(url)) {
                                                     await launchUrl(
                                                       url,
                                                       mode: LaunchMode
-                                                          .externalApplication,
-                                                    );
+                                                          .externalApplication);
                                                   }
-                                                },
-                                            ),
+                                                }),
                                             TextSpan(text: ' and '),
                                             TextSpan(
                                               text:
                                                   AppLocalizations.of(
-                                                    context,
-                                                  )?.privacyPolicy ?? AppLocalizations.of(context)!.tr('Privacy Policy'),
+                                                    context)?.privacyPolicy ?? AppLocalizations.of(context)!.tr('Privacy Policy'),
                                               style: TextStyle(
                                                 color: Colors.blue,
                                                 fontWeight: FontWeight.w600,
                                                 decoration:
-                                                    TextDecoration.underline,
-                                              ),
+                                                    TextDecoration.underline),
                                               recognizer: TapGestureRecognizer()
                                                 ..onTap = () async {
                                                   final url = Uri.parse(
-                                                    'https://cultioo.com/us/us_legal_app#delvioo_privacy',
-                                                  );
+                                                    'https://cultioo.com/us/us_legal_app#delvioo_privacy');
                                                   if (await canLaunchUrl(url)) {
                                                     await launchUrl(
                                                       url,
                                                       mode: LaunchMode
-                                                          .externalApplication,
-                                                    );
+                                                          .externalApplication);
                                                   }
-                                                },
-                                            ),
+                                                }),
                                             TextSpan(text: '.'),
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
+                                          ]))),
+                                  ]))),
 
                             SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
@@ -16828,14 +14611,12 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                                   color: _confirmDataAccuracy
                                       ? (isLight ? Colors.black : Colors.white).withOpacity(0.05)
                                       : Colors.transparent,
-                                  borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-                                ),
+                                  borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
                                 child: Row(
                                   children: [
                                     AnimatedContainer(
                                       duration: const Duration(
-                                        milliseconds: 200,
-                                      ),
+                                        milliseconds: 200),
                                       width: 24,
                                       height: 24,
                                       decoration: BoxDecoration(
@@ -16844,46 +14625,31 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                                                   ? Colors.black
                                                   : Colors.white)
                                             : (isLight ? Colors.black : Colors.white).withOpacity(0.1),
-                                        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-                                      ),
+                                        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
                                       child: _confirmDataAccuracy
                                           ? Icon(
                                               CupertinoIcons.checkmark,
                                               size: 16,
                                               color: isLight
                                                   ? Colors.white
-                                                  : Colors.black,
-                                            )
-                                          : null,
-                                    ),
-                                    const SizedBox(width: 12),
+                                                  : Colors.black)
+                                          : null),
+                                    SizedBox(width: 12),
                                     Expanded(
                                       child: Text(
                                         AppLocalizations.of(
-                                              context,
-                                            )?.iConfirmAllInformationIsAccurate ?? AppLocalizations.of(context)!.tr('I confirm all information is accurate'),
+                                              context)?.iConfirmAllInformationIsAccurate ?? AppLocalizations.of(context)!.tr('I confirm all information is accurate'),
                                         style: TextStyle(
                                           color: isLight
                                               ? Colors.black
                                               : Colors.white,
-                                          fontSize: DesktopOptimizedWidgets.getFontSize(),
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
+                                          fontSize: DesktopOptimizedWidgets.getFontSize()))),
+                                  ]))),
 
-                            const SizedBox(height: 80),
+                            SizedBox(height: 80),
                           ], // End of Step 4
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
+                        ])))),
+              ]),
 
             // Floating Navigation Buttons - Apple Style
             Positioned(
@@ -16893,10 +14659,9 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
               child: DecoratedBox(
                 decoration: BoxDecoration(
                   color: isLight ? Colors.white : Colors.black,
-                  borderRadius: const BorderRadius.all(Radius.circular(20)),
-                ),
+                  borderRadius: BorderRadius.all(Radius.circular(20))),
                 child: Padding(
-                  padding: const EdgeInsets.all(12),
+                  padding: EdgeInsets.all(12),
                   child: Row(
                   children: [
                     // Back Button (only show if step > 1)
@@ -16905,10 +14670,8 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                         child: TradeRepublicButton(
                           label: AppLocalizations.of(context)?.back ?? AppLocalizations.of(context)!.tr('Back'),
                           onPressed: _previousStep,
-                          isSecondary: true,
-                        ),
-                      ),
-                      const SizedBox(width: 12),
+                          isSecondary: true)),
+                      SizedBox(width: 12),
                     ],
 
                     // Continue/Save Button
@@ -16920,17 +14683,9 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                                   ? AppLocalizations.of(context)?.updateVehicle ?? AppLocalizations.of(context)!.tr('Update Vehicle')
                                   : AppLocalizations.of(context)?.addVehicle ?? AppLocalizations.of(context)!.tr('Add Vehicle')),
                         onPressed: _isSaving ? null : _nextStep,
-                        isLoading: _isSaving,
-                      ),
-                    ),
-                  ],
-                  ),
-                ),
-              ),
-            ),
-          ],
-        ),
-    );
+                        isLoading: _isSaving)),
+                  ])))),
+          ]));
   }
 
   // Section Header Widget - Apple Style
@@ -16943,10 +14698,7 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
           color: isLight ? Colors.black : Colors.white,
           fontSize: DesktopOptimizedWidgets.getFontSize() + 6,
           fontWeight: FontWeight.w700,
-          letterSpacing: -0.5,
-        ),
-      ),
-    );
+          letterSpacing: -0.5)));
   }
 
   // Modern Dropdown Widget
@@ -16967,10 +14719,9 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                     ? Colors.black.withOpacity(0.05)
                     : Colors.white.withOpacity(0.1))
               : (isLight ? Colors.white : Colors.black),
-          borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-        ),
+          borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+          padding: EdgeInsets.symmetric(horizontal: 20, vertical: 16),
           child: Row(
             children: [
               Icon(
@@ -16978,11 +14729,9 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                 color: value != null
                     ? (isLight ? Colors.black : Colors.white)
                     : ((isLight ? Colors.black : Colors.white).withOpacity(
-                        0.5,
-                      )),
-                size: 22,
-              ),
-              const SizedBox(width: 14),
+                        0.5)),
+                size: 22),
+              SizedBox(width: 14),
               Expanded(
                 child: Text(
                   value ??
@@ -16991,26 +14740,17 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                     color: value != null
                         ? (isLight ? Colors.black : Colors.white)
                         : ((isLight ? Colors.black : Colors.white).withOpacity(
-                            0.5,
-                          )),
+                            0.5)),
                     fontSize: 17,
                     fontWeight: value != null
                         ? FontWeight.w600
                         : FontWeight.w500,
-                    letterSpacing: -0.4,
-                  ),
-                ),
-              ),
+                    letterSpacing: -0.4))),
               Icon(
                 CupertinoIcons.chevron_right,
                 color: isLight ? Colors.white : Colors.black,
-                size: 22,
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
+                size: 22),
+            ]))));
   }
 
   // Modern Text Field Widget
@@ -17027,15 +14767,14 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
   }) {
     return AnimatedContainer(
       duration: const Duration(milliseconds: 200),
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+      padding: EdgeInsets.symmetric(horizontal: 12, vertical: 4),
       decoration: BoxDecoration(
         color: controller.text.isNotEmpty
             ? (isLight
                   ? Colors.black.withOpacity(0.05)
                   : Colors.white.withOpacity(0.1))
             : (isLight ? Colors.white : Colors.black),
-        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-      ),
+        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
       child: TradeRepublicTextField(
         useFormField: true,
         filled: false,
@@ -17050,19 +14789,15 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
           color: isLight ? Colors.black : Colors.white,
           fontSize: 17,
           fontWeight: FontWeight.w600,
-          letterSpacing: -0.4,
-        ),
+          letterSpacing: -0.4),
         hintText: label,
         prefixIcon: Icon(
           icon,
           color: controller.text.isNotEmpty
               ? (isLight ? Colors.black : Colors.white)
               : ((isLight ? Colors.black : Colors.white).withOpacity(0.5)),
-          size: 22,
-        ),
-        counterText: '',
-      ),
-    );
+          size: 22),
+        counterText: ''));
   }
 
   // Last Cleaning Date Field with iOS Date Picker
@@ -17083,8 +14818,7 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
     return DecoratedBox(
       decoration: BoxDecoration(
         color: isLight ? Colors.white : Colors.black,
-        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-      ),
+        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
       child: Padding(
         padding: DesktopAppWrapper.getPagePadding(),
         child: Column(
@@ -17100,10 +14834,7 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                       color: textColor,
                       fontSize: DesktopOptimizedWidgets.getFontSize(),
                       fontWeight: FontWeight.w700,
-                      letterSpacing: -0.3,
-                    ),
-                  ),
-                ),
+                      letterSpacing: -0.3))),
                 TradeRepublicSlider(
                   labels: const ['°C', '°F'],
                   selectedIndex: isF ? 1 : 0,
@@ -17133,10 +14864,8 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                       _minTemperatureController.text = _minTempValue.toStringAsFixed(0);
                       _maxTemperatureController.text = _maxTempValue.toStringAsFixed(0);
                     });
-                  },
-                ),
-              ],
-            ),
+                  }),
+              ]),
 
             SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
@@ -17147,19 +14876,15 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                 Row(
                   children: [
                     Icon(CupertinoIcons.snow, size: 15, color: subColor),
-                    const SizedBox(width: 6),
+                    SizedBox(width: 6),
                     Text(
                       AppLocalizations.of(context)?.minTemp ?? AppLocalizations.of(context)!.tr('Min Temp'),
-                      style: TextStyle(fontSize: 13, color: subColor, fontWeight: FontWeight.w500),
-                    ),
-                  ],
-                ),
+                      style: TextStyle(fontSize: 13, color: subColor, fontWeight: FontWeight.w500)),
+                  ]),
                 Text(
                   '${_minTempValue.toStringAsFixed(0)} $_temperatureUnit',
-                  style: TextStyle(fontSize: 15, color: textColor, fontWeight: FontWeight.w700),
-                ),
-              ],
-            ),
+                  style: TextStyle(fontSize: 15, color: textColor, fontWeight: FontWeight.w700)),
+              ]),
             SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
             TradeRepublicValueSlider(
               value: _minTempValue.clamp(minLow, minHigh),
@@ -17174,10 +14899,9 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                   _minTemperatureController.text = _minTempValue.toStringAsFixed(0);
                   _maxTemperatureController.text = _maxTempValue.toStringAsFixed(0);
                 });
-              },
-            ),
+              }),
 
-            const SizedBox(height: 20),
+            SizedBox(height: 20),
 
             // ── Max temp ──
             Row(
@@ -17186,19 +14910,15 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                 Row(
                   children: [
                     Icon(CupertinoIcons.thermometer, size: 15, color: subColor),
-                    const SizedBox(width: 6),
+                    SizedBox(width: 6),
                     Text(
                       AppLocalizations.of(context)?.maxTemp ?? AppLocalizations.of(context)!.tr('Max Temp'),
-                      style: TextStyle(fontSize: 13, color: subColor, fontWeight: FontWeight.w500),
-                    ),
-                  ],
-                ),
+                      style: TextStyle(fontSize: 13, color: subColor, fontWeight: FontWeight.w500)),
+                  ]),
                 Text(
                   '${_maxTempValue.toStringAsFixed(0)} $_temperatureUnit',
-                  style: TextStyle(fontSize: 15, color: textColor, fontWeight: FontWeight.w700),
-                ),
-              ],
-            ),
+                  style: TextStyle(fontSize: 15, color: textColor, fontWeight: FontWeight.w700)),
+              ]),
             SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
             TradeRepublicValueSlider(
               value: _maxTempValue.clamp(maxLow, maxHigh),
@@ -17213,12 +14933,8 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                   _minTemperatureController.text = _minTempValue.toStringAsFixed(0);
                   _maxTemperatureController.text = _maxTempValue.toStringAsFixed(0);
                 });
-              },
-            ),
-          ],
-        ),
-      ),
-    );
+              }),
+          ])));
   }
 
   // Get Step Title for current step
@@ -17265,8 +14981,7 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
         color: isActive
             ? (isLight ? Colors.black : Colors.white)
             : Colors.transparent,
-        shape: BoxShape.circle,
-      ),
+        shape: BoxShape.circle),
       child: Center(
         child: Text(
           '$step',
@@ -17275,11 +14990,7 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                 ? (isLight ? Colors.white : Colors.black)
                 : (isLight ? Colors.black : Colors.white),
             fontSize: DesktopOptimizedWidgets.getFontSize(),
-            fontWeight: FontWeight.w700,
-          ),
-        ),
-      ),
-    );
+            fontWeight: FontWeight.w700))));
   }
 
   // Unit Chip Builder — replaces Container+GestureDetector unit selectors
@@ -17291,16 +15002,15 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
     return TradeRepublicTap(
       onTap: onTap,
       child: Padding(
-        padding: const EdgeInsets.only(left: 8, right: 8),
+        padding: EdgeInsets.only(left: 8, right: 8),
         child: DecoratedBox(
           decoration: BoxDecoration(
             color: isLight
                 ? Colors.black.withOpacity(0.08)
                 : Colors.white.withOpacity(0.12),
-            borderRadius: BorderRadius.circular(14),
-          ),
+            borderRadius: BorderRadius.circular(14)),
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+            padding: EdgeInsets.symmetric(horizontal: 14, vertical: 10),
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
@@ -17310,21 +15020,13 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                     color: isLight ? Colors.black : Colors.white,
                     fontSize: DesktopOptimizedWidgets.getFontSize(),
                     fontWeight: FontWeight.w700,
-                    letterSpacing: -0.2,
-                  ),
-                ),
-                const SizedBox(width: 4),
+                    letterSpacing: -0.2)),
+                SizedBox(width: 4),
                 Icon(
                   CupertinoIcons.chevron_down,
                   color: isLight ? Colors.black : Colors.white,
-                  size: 14,
-                ),
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
+                  size: 14),
+              ])))));
   }
 
   // Unit Button Builder (reusable for both dimension and temperature)
@@ -17332,19 +15034,17 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
     String unit,
     bool isSelected,
     bool isLight,
-    Function(bool) onTap,
-  ) {
+    Function(bool) onTap) {
     return TradeRepublicTap(
       onTap: () => onTap(true),
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 200),
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+        padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
         decoration: BoxDecoration(
           color: isSelected
               ? (isLight ? Colors.black : Colors.white)
               : Colors.transparent,
-          borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-        ),
+          borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
         child: Text(
           unit,
           style: TextStyle(
@@ -17352,11 +15052,7 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                 ? (isLight ? Colors.white : Colors.black)
                 : (isLight ? Colors.black54 : Colors.white54),
             fontSize: DesktopOptimizedWidgets.getFontSize(),
-            fontWeight: FontWeight.w600,
-          ),
-        ),
-      ),
-    );
+            fontWeight: FontWeight.w600))));
   }
 
   // Modern Capacity Field with Unit Selector
@@ -17371,7 +15067,7 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
   }) {
     return AnimatedContainer(
       duration: const Duration(milliseconds: 200),
-      margin: const EdgeInsets.only(bottom: 16),
+      margin: EdgeInsets.only(bottom: 16),
       padding: DesktopAppWrapper.getPagePadding(),
       decoration: BoxDecoration(
         color: controller.text.isNotEmpty
@@ -17379,8 +15075,7 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                   ? Colors.black.withOpacity(0.05)
                   : Colors.white.withOpacity(0.1))
             : (isLight ? Colors.white : Colors.black),
-        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-      ),
+        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
       child: Row(
         children: [
           // Text Field
@@ -17390,25 +15085,19 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
               filled: false,
               controller: controller,
               keyboardType: const TextInputType.numberWithOptions(
-                decimal: true,
-              ),
+                decimal: true),
               inputFormatters: [
                 GermanNumberFormatter(
-                  Provider.of<AppSettings>(context, listen: false),
-                ),
+                  Provider.of<AppSettings>(context, listen: false)),
               ],
               validator: validator,
               labelText: label,
               prefixIcon: Icon(
                 icon,
-                color: isLight ? Colors.black : Colors.white,
-              ),
+                color: isLight ? Colors.black : Colors.white),
               style: TextStyle(
                 color: isLight ? Colors.black : Colors.white,
-                fontSize: DesktopOptimizedWidgets.getFontSize(),
-              ),
-            ),
-          ),
+                fontSize: DesktopOptimizedWidgets.getFontSize()))),
           // Unit Selector
           TradeRepublicTap(
             onTap: () => _showUnitSelector(
@@ -17418,11 +15107,10 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                   ? ['ft³', 'm³', 'L']
                   : ['lbs', 'kg', 'tons'],
               onOptionSelected: onUnitChanged,
-              isLight: isLight,
-            ),
+              isLight: isLight),
             child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-              decoration: const BoxDecoration(),
+              padding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+              decoration: BoxDecoration(),
               // No border - clean design
               child: Row(
                 children: [
@@ -17431,22 +15119,14 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                     style: TextStyle(
                       color: isLight ? Colors.black : Colors.white,
                       fontSize: DesktopOptimizedWidgets.getFontSize(),
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                  const SizedBox(width: 4),
+                      fontWeight: FontWeight.w500)),
+                  SizedBox(width: 4),
                   Icon(
                     CupertinoIcons.chevron_down,
                     color: isLight ? Colors.black : Colors.white,
-                    size: 16,
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
+                    size: 16),
+                ]))),
+        ]));
   }
 
   // License Plate Field with Visual Design
@@ -17478,20 +15158,16 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
             Icon(
               CupertinoIcons.creditcard,
               size: 20,
-              color: (isLight ? Colors.black : Colors.white).withOpacity(0.7),
-            ),
-            const SizedBox(width: 10),
+              color: (isLight ? Colors.black : Colors.white).withOpacity(0.7)),
+            SizedBox(width: 10),
             Text(
               AppLocalizations.of(context)?.licensePlate ?? AppLocalizations.of(context)!.tr('License Plate'),
               style: TextStyle(
                 color: isLight ? Colors.black : Colors.white,
                 fontSize: DesktopOptimizedWidgets.getFontSize(),
                 fontWeight: FontWeight.w600,
-                letterSpacing: -0.2,
-              ),
-            ),
-          ],
-        ),
+                letterSpacing: -0.2)),
+          ]),
         SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
         // Region toggle chips
@@ -17504,7 +15180,7 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
               final label = r.$3;
               final isSelected = activeChip == code;
               return Padding(
-                padding: const EdgeInsets.only(right: 8),
+                padding: EdgeInsets.only(right: 8),
                 child: TradeRepublicTap(
                   onTap: () {
                     HapticFeedback.selectionClick();
@@ -17520,18 +15196,17 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                   child: AnimatedContainer(
                     duration: const Duration(milliseconds: 200),
                     curve: Curves.easeOut,
-                    padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+                    padding: EdgeInsets.symmetric(horizontal: 14, vertical: 8),
                     decoration: BoxDecoration(
                       color: isSelected
                           ? (isLight ? Colors.black : Colors.white)
                           : (isLight ? Colors.black : Colors.white).withOpacity(0.06),
-                      borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-                    ),
+                      borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        Text(flag, style: const TextStyle(fontSize: 15)),
-                        const SizedBox(width: 6),
+                        Text(flag, style: TextStyle(fontSize: 15)),
+                        SizedBox(width: 6),
                         Text(
                           label,
                           style: TextStyle(
@@ -17540,18 +15215,10 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                             color: isSelected
                                 ? (isLight ? Colors.white : Colors.black)
                                 : (isLight ? Colors.black : Colors.white).withOpacity(0.55),
-                            letterSpacing: -0.1,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              );
-            }).toList(),
-          ),
-        ),
-        const SizedBox(height: 20),
+                            letterSpacing: -0.1)),
+                      ]))));
+            }).toList())),
+        SizedBox(height: 20),
 
         // License Plate Visual
         Center(child: _buildModernLicensePlateVisual(isLight)),
@@ -17567,10 +15234,8 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                 icon: CupertinoIcons.camera,
                 photoPath: _frontLicensePlatePhoto,
                 isLight: isLight,
-                onTap: () => _takeLicensePlatePhoto('front'),
-              ),
-            ),
-            const SizedBox(width: 12),
+                onTap: () => _takeLicensePlatePhoto('front'))),
+            SizedBox(width: 12),
             Expanded(
               child: _buildPhotoButton(
                 label: AppLocalizations.of(context)?.rear ?? AppLocalizations.of(context)!.tr('Rear'),
@@ -17578,11 +15243,8 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                 icon: CupertinoIcons.camera,
                 photoPath: _rearLicensePlatePhoto,
                 isLight: isLight,
-                onTap: () => _takeLicensePlatePhoto('rear'),
-              ),
-            ),
-          ],
-        ),
+                onTap: () => _takeLicensePlatePhoto('rear'))),
+          ]),
 
         SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
@@ -17591,8 +15253,7 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
           _buildUSAStateSelector(isLight)
         else if (_euCountries.containsKey(_selectedRegion))
           _buildEUCountrySelector(isLight),
-      ],
-    );
+      ]);
   }
 
   // License Plate Visual — each region has its own unique plate design
@@ -17625,10 +15286,8 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
           BoxShadow(
             color: Colors.black.withOpacity(0.22),
             blurRadius: 8,
-            offset: const Offset(0, 3),
-          ),
-        ],
-      ),
+            offset: const Offset(0, 3)),
+        ]),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(4.5),
         child: Column(
@@ -17637,36 +15296,28 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
             Container(
               height: 14,
               width: double.infinity,
-              decoration: const BoxDecoration(
+              decoration: BoxDecoration(
                 gradient: LinearGradient(
-                  colors: [Color(0xFF1B3A6B), Color(0xFF2A52A0)],
-                ),
-              ),
+                  colors: [Color(0xFF1B3A6B), Color(0xFF2A52A0)])),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Text(
+                  Text(
                     '✦',
-                    style: TextStyle(color: Color(0xFFFFD700), fontSize: 6.5),
-                  ),
-                  const SizedBox(width: 5),
+                    style: TextStyle(color: Color(0xFFFFD700), fontSize: 6.5)),
+                  SizedBox(width: 5),
                   Text(
                     _selectedUSAState.toUpperCase(),
-                    style: const TextStyle(
+                    style: TextStyle(
                       color: Colors.white,
                       fontSize: 7.5,
                       fontWeight: FontWeight.w800,
-                      letterSpacing: 2,
-                    ),
-                  ),
-                  const SizedBox(width: 5),
-                  const Text(
+                      letterSpacing: 2)),
+                  SizedBox(width: 5),
+                  Text(
                     '✦',
-                    style: TextStyle(color: Color(0xFFFFD700), fontSize: 6.5),
-                  ),
-                ],
-              ),
-            ),
+                    style: TextStyle(color: Color(0xFFFFD700), fontSize: 6.5)),
+                ])),
             // Plate number area
             Expanded(
               child: Center(
@@ -17676,29 +15327,21 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                   textAlign: TextAlign.center,
                   textCapitalization: TextCapitalization.characters,
                   maxLength: 8,
-                  style: const TextStyle(
+                  style: TextStyle(
                     color: Color(0xFF1A1A2E),
                     fontSize: 21,
                     fontWeight: FontWeight.w900,
-                    letterSpacing: 3,
-                  ),
+                    letterSpacing: 3),
                   hintText: AppLocalizations.of(context)?.licensePlateExampleUs ?? AppLocalizations.of(context)!.tr(''),
                   counterText: '',
                   validator: (value) {
                     if (value?.isEmpty ?? true) {
                       return AppLocalizations.of(
-                            context,
-                          )?.licensePlateRequired ?? AppLocalizations.of(context)!.tr('License plate required');
+                            context)?.licensePlateRequired ?? AppLocalizations.of(context)!.tr('License plate required');
                     }
                     return null;
-                  },
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
+                  }))),
+          ])));
   }
 
   // Modern EU License Plate Design
@@ -17714,10 +15357,8 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
           BoxShadow(
             color: Colors.black.withOpacity(0.18),
             blurRadius: 8,
-            offset: const Offset(0, 3),
-          ),
-        ],
-      ),
+            offset: const Offset(0, 3)),
+        ]),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(4.8),
         child: Row(
@@ -17730,46 +15371,36 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   // Stars arc (3×3 circle approximation)
-                  const Text(
+                  Text(
                     '★★★',
                     style: TextStyle(
                       color: Color(0xFFFFCC00),
                       fontSize: 5,
                       height: 1.2,
-                      letterSpacing: 1.5,
-                    ),
-                  ),
-                  const Text(
+                      letterSpacing: 1.5)),
+                  Text(
                     '★   ★',
                     style: TextStyle(
                       color: Color(0xFFFFCC00),
                       fontSize: 5,
-                      height: 1.2,
-                    ),
-                  ),
-                  const Text(
+                      height: 1.2)),
+                  Text(
                     '★★★',
                     style: TextStyle(
                       color: Color(0xFFFFCC00),
                       fontSize: 5,
                       height: 1.2,
-                      letterSpacing: 1.5,
-                    ),
-                  ),
-                  const SizedBox(height: 2),
+                      letterSpacing: 1.5)),
+                  SizedBox(height: 2),
                   Text(
                     _selectedRegion,
-                    style: const TextStyle(
+                    style: TextStyle(
                       color: Colors.white,
                       fontSize: 9,
                       fontWeight: FontWeight.w900,
                       letterSpacing: 0.5,
-                      height: 1.2,
-                    ),
-                  ),
-                ],
-              ),
-            ),
+                      height: 1.2)),
+                ])),
             // License Plate Input
             Expanded(
               child: Center(
@@ -17779,29 +15410,21 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                   textAlign: TextAlign.center,
                   textCapitalization: TextCapitalization.characters,
                   maxLength: 12,
-                  style: const TextStyle(
+                  style: TextStyle(
                     color: Color(0xFF111111),
                     fontSize: DesktopOptimizedWidgets.getFontSize() + 6,
                     fontWeight: FontWeight.w900,
-                    letterSpacing: 2,
-                  ),
+                    letterSpacing: 2),
                   hintText: _getEULicensePlateHint(),
                   counterText: '',
                   validator: (value) {
                     if (value?.isEmpty ?? true) {
                       return AppLocalizations.of(
-                            context,
-                          )?.licensePlateRequired ?? AppLocalizations.of(context)!.tr('License plate required');
+                            context)?.licensePlateRequired ?? AppLocalizations.of(context)!.tr('License plate required');
                     }
                     return null;
-                  },
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
+                  }))),
+          ])));
   }
 
   // 🇨🇦 Modern Canadian License Plate Design
@@ -17817,10 +15440,8 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
           BoxShadow(
             color: Colors.black.withOpacity(0.18),
             blurRadius: 8,
-            offset: const Offset(0, 3),
-          ),
-        ],
-      ),
+            offset: const Offset(0, 3)),
+        ]),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(4.5),
         child: Column(
@@ -17830,7 +15451,7 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
               height: 14,
               width: double.infinity,
               color: const Color(0xFFCC0000),
-              child: const Row(
+              child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text('🍁', style: TextStyle(fontSize: 8)),
@@ -17841,14 +15462,10 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                       color: Colors.white,
                       fontSize: 7.5,
                       fontWeight: FontWeight.w800,
-                      letterSpacing: 2,
-                    ),
-                  ),
+                      letterSpacing: 2)),
                   SizedBox(width: 5),
                   Text('🍁', style: TextStyle(fontSize: 8)),
-                ],
-              ),
-            ),
+                ])),
             // Plate number area
             Expanded(
               child: Center(
@@ -17858,12 +15475,11 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                   textAlign: TextAlign.center,
                   textCapitalization: TextCapitalization.characters,
                   maxLength: 8,
-                  style: const TextStyle(
+                  style: TextStyle(
                     color: Color(0xFF111111),
                     fontSize: 21,
                     fontWeight: FontWeight.w900,
-                    letterSpacing: 2.5,
-                  ),
+                    letterSpacing: 2.5),
                   hintText: AppLocalizations.of(context)?.licensePlateExampleDe ?? AppLocalizations.of(context)!.tr(''),
                   counterText: '',
                   validator: (value) {
@@ -17871,14 +15487,8 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                       return AppLocalizations.of(context)?.licensePlateRequired ?? AppLocalizations.of(context)!.tr('License plate required');
                     }
                     return null;
-                  },
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
+                  }))),
+          ])));
   }
 
   // 🇲🇽 Modern Mexican License Plate Design
@@ -17894,10 +15504,8 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
           BoxShadow(
             color: Colors.black.withOpacity(0.18),
             blurRadius: 8,
-            offset: const Offset(0, 3),
-          ),
-        ],
-      ),
+            offset: const Offset(0, 3)),
+        ]),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(4.8),
         child: Column(
@@ -17910,9 +15518,7 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                   Expanded(child: Container(color: const Color(0xFF006847))),
                   Expanded(child: Container(color: Colors.white)),
                   Expanded(child: Container(color: const Color(0xFFCE1126))),
-                ],
-              ),
-            ),
+                ])),
             // Plate number area
             Expanded(
               child: Center(
@@ -17922,12 +15528,11 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                   textAlign: TextAlign.center,
                   textCapitalization: TextCapitalization.characters,
                   maxLength: 10,
-                  style: const TextStyle(
+                  style: TextStyle(
                     color: Color(0xFF111111),
                     fontSize: 19,
                     fontWeight: FontWeight.w900,
-                    letterSpacing: 2,
-                  ),
+                    letterSpacing: 2),
                   hintText: AppLocalizations.of(context)?.licensePlateExampleEu ?? AppLocalizations.of(context)!.tr(''),
                   counterText: '',
                   validator: (value) {
@@ -17935,10 +15540,7 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                       return AppLocalizations.of(context)?.licensePlateRequired ?? AppLocalizations.of(context)!.tr('License plate required');
                     }
                     return null;
-                  },
-                ),
-              ),
-            ),
+                  }))),
             // MÉXICO bottom label
             Container(
               height: 9,
@@ -17951,15 +15553,8 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                     color: Color(0xFF555555),
                     fontSize: 5.5,
                     fontWeight: FontWeight.w700,
-                    letterSpacing: 2,
-                  ),
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
+                    letterSpacing: 2)))),
+          ])));
   }
 
   // 🇷🇺 Modern Russian License Plate Design
@@ -17975,10 +15570,8 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
           BoxShadow(
             color: Colors.black.withOpacity(0.22),
             blurRadius: 8,
-            offset: const Offset(0, 3),
-          ),
-        ],
-      ),
+            offset: const Offset(0, 3)),
+        ]),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(4.5),
         child: Row(
@@ -17992,12 +15585,11 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                   textAlign: TextAlign.center,
                   textCapitalization: TextCapitalization.characters,
                   maxLength: 9,
-                  style: const TextStyle(
+                  style: TextStyle(
                     color: Color(0xFF111111),
                     fontSize: DesktopOptimizedWidgets.getFontSize() + 6,
                     fontWeight: FontWeight.w900,
-                    letterSpacing: 2.5,
-                  ),
+                    letterSpacing: 2.5),
                   hintText: _getEULicensePlateHint(),
                   counterText: '',
                   validator: (value) {
@@ -18005,16 +15597,12 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                       return AppLocalizations.of(context)?.licensePlateRequired ?? AppLocalizations.of(context)!.tr('License plate required');
                     }
                     return null;
-                  },
-                ),
-              ),
-            ),
+                  }))),
             // GOST-style vertical divider
             Container(
               width: 1.5,
-              margin: const EdgeInsets.symmetric(vertical: 7),
-              color: const Color(0xFF1A1A1A),
-            ),
+              margin: EdgeInsets.symmetric(vertical: 7),
+              color: const Color(0xFF1A1A1A)),
             // Right region band: mini flag + RUS
             SizedBox(
               width: 46,
@@ -18028,34 +15616,23 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                     decoration: BoxDecoration(
                       border: Border.all(
                         color: Colors.black.withOpacity(0.3),
-                        width: 0.5,
-                      ),
-                    ),
+                        width: 0.5)),
                     child: Column(
                       children: [
                         Expanded(child: Container(color: Colors.white)),
                         Expanded(child: Container(color: const Color(0xFF0039A6))),
                         Expanded(child: Container(color: const Color(0xFFD52B1E))),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(height: 3),
-                  const Text(
+                      ])),
+                  SizedBox(height: 3),
+                  Text(
                     'RUS',
                     style: TextStyle(
                       color: Color(0xFF111111),
                       fontSize: 9,
                       fontWeight: FontWeight.w900,
-                      letterSpacing: 0.5,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
+                      letterSpacing: 0.5)),
+                ])),
+          ])));
   }
 
   // USA State Selector
@@ -18064,11 +15641,9 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
       leading: Icon(
         CupertinoIcons.location_solid,
         size: 18,
-        color: (isLight ? Colors.black : Colors.white).withOpacity(0.6),
-      ),
+        color: (isLight ? Colors.black : Colors.white).withOpacity(0.6)),
       title: '${AppLocalizations.of(context)?.stateLabel ?? AppLocalizations.of(context)!.tr('State')}: $_selectedUSAState',
-      onTap: () => _showStateSelector(isLight),
-    );
+      onTap: () => _showStateSelector(isLight));
   }
 
   // EU/International Country Selector
@@ -18078,11 +15653,9 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
       leading: Icon(
         CupertinoIcons.flag,
         size: 18,
-        color: (isLight ? Colors.black : Colors.white).withOpacity(0.6),
-      ),
+        color: (isLight ? Colors.black : Colors.white).withOpacity(0.6)),
       title: '$_selectedRegion — $countryName',
-      onTap: () => _showEUCountrySelector(isLight),
-    );
+      onTap: () => _showEUCountrySelector(isLight));
   }
 
   // Get hint text for EU license plate based on country
@@ -18160,48 +15733,38 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
       children: [
         // Section Header
         Padding(
-          padding: const EdgeInsets.only(left: 4, bottom: 16),
+          padding: EdgeInsets.only(left: 4, bottom: 16),
           child: Text(
             AppLocalizations.of(context)?.vehiclePhotos ?? AppLocalizations.of(context)!.tr('Vehicle Photos'),
             style: TextStyle(
               color: isLight ? Colors.black : Colors.white,
               fontSize: DesktopOptimizedWidgets.getFontSize(),
               fontWeight: FontWeight.w600,
-              letterSpacing: -0.2,
-            ),
-          ),
-        ),
+              letterSpacing: -0.2))),
 
         // Photo Instructions - Simplified
         Container(
           padding: DesktopAppWrapper.getPagePadding(),
           decoration: BoxDecoration(
             color: (isLight ? Colors.black : Colors.white).withOpacity(0.05),
-            borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-          ),
+            borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
           child: Row(
             children: [
               Icon(
                 CupertinoIcons.info,
                 color: isLight ? Colors.black : Colors.white,
-                size: 20,
-              ),
-              const SizedBox(width: 12),
+                size: 20),
+              SizedBox(width: 12),
               Expanded(
                 child: Text(
                   AppLocalizations.of(context)?.photoBothLicensePlatesClearly ?? AppLocalizations.of(context)!.tr('Photo both license plates clearly'),
                   style: TextStyle(
                     color: isLight ? Colors.black : Colors.white,
                     fontSize: DesktopOptimizedWidgets.getFontSize(),
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
+                    fontWeight: FontWeight.w500))),
+            ])),
 
-        const SizedBox(height: 20),
+        SizedBox(height: 20),
 
         // Photo Buttons Row
         Row(
@@ -18215,11 +15778,9 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                 icon: CupertinoIcons.camera,
                 photoPath: _frontLicensePlatePhoto,
                 isLight: isLight,
-                onTap: () => _takeLicensePlatePhoto('front'),
-              ),
-            ),
+                onTap: () => _takeLicensePlatePhoto('front'))),
 
-            const SizedBox(width: 16),
+            SizedBox(width: 16),
 
             // Rear License Plate Photo
             Expanded(
@@ -18230,24 +15791,20 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                 icon: CupertinoIcons.camera,
                 photoPath: _rearLicensePlatePhoto,
                 isLight: isLight,
-                onTap: () => _takeLicensePlatePhoto('rear'),
-              ),
-            ),
-          ],
-        ),
+                onTap: () => _takeLicensePlatePhoto('rear'))),
+          ]),
 
         // Show taken photos below buttons
         if (_frontLicensePlatePhoto != null ||
             _rearLicensePlatePhoto != null) ...[
-          const SizedBox(height: 20),
+          SizedBox(height: 20),
 
           // Photos Preview Section - Simplified
           Container(
-            padding: const EdgeInsets.all(14),
+            padding: EdgeInsets.all(14),
             decoration: BoxDecoration(
               color: isLight ? Colors.white : Colors.black,
-              borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-            ),
+              borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -18256,10 +15813,8 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                   style: TextStyle(
                     color: isLight ? Colors.black : Colors.white,
                     fontSize: 13,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-                const SizedBox(height: 10),
+                    fontWeight: FontWeight.w600)),
+                SizedBox(height: 10),
 
                 Row(
                   children: [
@@ -18267,129 +15822,97 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                     if (_frontLicensePlatePhoto != null) ...[
                       Expanded(
                         child: Container(
-                          padding: const EdgeInsets.all(10),
+                          padding: EdgeInsets.all(10),
                           decoration: BoxDecoration(
                             color: Colors.green.shade50,
-                            borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-                          ),
+                            borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
                           child: Column(
                             children: [
                               Icon(
                                 CupertinoIcons.checkmark_circle_fill,
                                 color: Colors.green,
-                                size: 20,
-                              ),
-                              const SizedBox(height: 4),
+                                size: 20),
+                              SizedBox(height: 4),
                               Text(
                                 AppLocalizations.of(context)?.frontCheck ?? AppLocalizations.of(context)!.tr('Front ✓'),
                                 style: TextStyle(
                                   color: Colors.green.shade800,
                                   fontSize: 11,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
+                                  fontWeight: FontWeight.w600)),
+                            ]))),
                     ] else ...[
                       Expanded(
                         child: Container(
-                          padding: const EdgeInsets.all(10),
+                          padding: EdgeInsets.all(10),
                           decoration: BoxDecoration(
                             color: Colors.white,
-                            borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-                          ),
+                            borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
                           child: Column(
                             children: [
                               Icon(
                                 CupertinoIcons.camera,
                                 color: Colors.white,
-                                size: 20,
-                              ),
-                              const SizedBox(height: 4),
+                                size: 20),
+                              SizedBox(height: 4),
                               Text(
                                 AppLocalizations.of(context)?.front ?? AppLocalizations.of(context)!.tr('Front'),
                                 style: TextStyle(
                                   color: Colors.black,
                                   fontSize: 11,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
+                                  fontWeight: FontWeight.w600)),
+                            ]))),
                     ],
 
-                    const SizedBox(width: 10),
+                    SizedBox(width: 10),
 
                     // Rear Photo Preview
                     if (_rearLicensePlatePhoto != null) ...[
                       Expanded(
                         child: Container(
-                          padding: const EdgeInsets.all(10),
+                          padding: EdgeInsets.all(10),
                           decoration: BoxDecoration(
                             color: Colors.green.shade50,
-                            borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-                          ),
+                            borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
                           child: Column(
                             children: [
                               Icon(
                                 CupertinoIcons.checkmark_circle_fill,
                                 color: Colors.green,
-                                size: 20,
-                              ),
-                              const SizedBox(height: 4),
+                                size: 20),
+                              SizedBox(height: 4),
                               Text(
                                 AppLocalizations.of(context)?.rearCheck ?? AppLocalizations.of(context)!.tr('Rear ✓'),
                                 style: TextStyle(
                                   color: Colors.green.shade800,
                                   fontSize: 11,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
+                                  fontWeight: FontWeight.w600)),
+                            ]))),
                     ] else ...[
                       Expanded(
                         child: Container(
-                          padding: const EdgeInsets.all(10),
+                          padding: EdgeInsets.all(10),
                           decoration: BoxDecoration(
                             color: Colors.white,
-                            borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-                          ),
+                            borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
                           child: Column(
                             children: [
                               Icon(
                                 CupertinoIcons.camera,
                                 color: Colors.white,
-                                size: 20,
-                              ),
-                              const SizedBox(height: 4),
+                                size: 20),
+                              SizedBox(height: 4),
                               Text(
                                 AppLocalizations.of(context)?.rear ?? AppLocalizations.of(context)!.tr('Rear'),
                                 style: TextStyle(
                                   color: Colors.black,
                                   fontSize: 11,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
+                                  fontWeight: FontWeight.w600)),
+                            ]))),
                     ],
-                  ],
-                ),
-              ],
-            ),
-          ),
+                  ]),
+              ])),
         ],
-      ],
-    );
+      ]);
   }
 
   // Photo Button Widget - Separate containers for button and preview
@@ -18416,29 +15939,25 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
               color: isLight
                   ? (hasPhoto ? Colors.green.withOpacity(0.15) : Colors.white)
                   : (hasPhoto ? Colors.green.withOpacity(0.25) : Colors.black),
-              borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-            ),
+              borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
             child: Row(
               children: [
                 Container(
-                  padding: const EdgeInsets.all(12),
+                  padding: EdgeInsets.all(12),
                   decoration: BoxDecoration(
                     color: hasPhoto
                         ? Colors.green.withOpacity(0.2)
                         : (isLight
                               ? Colors.black.withOpacity(0.2)
                               : Colors.black.withOpacity(0.3)),
-                    borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-                  ),
+                    borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
                   child: Icon(
                     hasPhoto ? CupertinoIcons.checkmark_circle_fill : icon,
                     color: hasPhoto
                         ? Colors.green
                         : (isLight ? Colors.black : Colors.white),
-                    size: 24,
-                  ),
-                ),
-                const SizedBox(width: 16),
+                    size: 24)),
+                SizedBox(width: 16),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -18448,30 +15967,20 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                         style: TextStyle(
                           fontSize: DesktopOptimizedWidgets.getFontSize(),
                           fontWeight: FontWeight.w600,
-                          color: isLight ? Colors.black : Colors.white,
-                        ),
-                      ),
-                      const SizedBox(height: 4),
+                          color: isLight ? Colors.black : Colors.white)),
+                      SizedBox(height: 4),
                       Text(
                         hasPhoto
                             ? (AppLocalizations.of(context)?.retake ?? AppLocalizations.of(context)!.tr('Retake'))
                             : subtitle,
                         style: TextStyle(
                           fontSize: 13,
-                          color: isLight ? Colors.black : Colors.white,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
+                          color: isLight ? Colors.black : Colors.white)),
+                    ])),
                 Icon(
                   CupertinoIcons.chevron_right,
-                  color: isLight ? Colors.white : Colors.black,
-                ),
-              ],
-            ),
-          ),
-        ),
+                  color: isLight ? Colors.white : Colors.black),
+              ]))),
 
         // Image Preview Container - Only shown when photo exists
         if (hasPhoto) ...[
@@ -18484,8 +15993,7 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
               height: 200,
               decoration: BoxDecoration(
                 color: isLight ? Colors.white : Colors.black,
-                borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-              ),
+                borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                 child: (photoPath.startsWith('/') || photoPath.startsWith('file://'))
@@ -18493,9 +16001,7 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                         File(photoPath),
                         fit: BoxFit.cover,
                         errorBuilder: (context, error, stackTrace) => const Center(
-                          child: Icon(CupertinoIcons.xmark_circle, color: Colors.red, size: 40),
-                        ),
-                      )
+                          child: Icon(CupertinoIcons.xmark_circle, color: Colors.red, size: 40)))
                     : Image.network(
                         ApiConfig.getImageUrl(photoPath),
                         fit: BoxFit.cover,
@@ -18504,15 +16010,9 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                           return Center(child: CultiooLoadingIndicator());
                         },
                         errorBuilder: (context, error, stackTrace) => const Center(
-                          child: Icon(CupertinoIcons.xmark_circle, color: Colors.red, size: 40),
-                        ),
-                      ),
-              ),
-            ),
-          ),
+                          child: Icon(CupertinoIcons.xmark_circle, color: Colors.red, size: 40)))))),
         ],
-      ],
-    );
+      ]);
   }
 
   // Show Unit Selector - Settings Style
@@ -18535,9 +16035,8 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
               Icon(
                 CupertinoIcons.list_bullet,
                 size: 22,
-                color: isLight ? Colors.black : Colors.white,
-              ),
-              const SizedBox(width: 12),
+                color: isLight ? Colors.black : Colors.white),
+              SizedBox(width: 12),
               Expanded(
                 child: Text(
                   title,
@@ -18545,19 +16044,15 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                     fontSize: 22,
                     fontWeight: FontWeight.w700,
                     color: isLight ? Colors.black : Colors.white,
-                    letterSpacing: -0.4,
-                  ),
-                ),
-              ),
-            ],
-          ),
+                    letterSpacing: -0.4))),
+            ]),
 
-            const SizedBox(height: 20),
+            SizedBox(height: 20),
 
             // Options - Settings Style
             ...options.map(
               (option) => Padding(
-                padding: const EdgeInsets.only(bottom: 8),
+                padding: EdgeInsets.only(bottom: 8),
                 child: _buildSettingsStyleOption(
                   option: option,
                   isSelected: selectedOption == option,
@@ -18565,10 +16060,7 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                     onOptionSelected(option);
                     Navigator.pop(context);
                   },
-                  isLight: isLight,
-                ),
-              ),
-            ),
+                  isLight: isLight))),
 
             SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
@@ -18579,11 +16071,8 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                 HapticFeedback.lightImpact();
                 Navigator.pop(context);
               },
-              isSecondary: true,
-            ),
-          ],
-        ),
-      );
+              isSecondary: true),
+          ]));
   }
 
   // === NEW: Dimension Unit Selector ===
@@ -18597,8 +16086,7 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
           _dimensionUnit = unit;
         });
       },
-      isLight: isLight,
-    );
+      isLight: isLight);
   }
 
   // === NEW: Temperature Unit Selector ===
@@ -18613,8 +16101,7 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
           _temperatureUnit = unit;
         });
       },
-      isLight: isLight,
-    );
+      isLight: isLight);
   }
 
   // Show Make Selector - Settings Style
@@ -18631,34 +16118,29 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
               Icon(
                 CupertinoIcons.car_detailed,
                 size: 22,
-                color: isLight ? Colors.black : Colors.white,
-              ),
-              const SizedBox(width: 12),
+                color: isLight ? Colors.black : Colors.white),
+              SizedBox(width: 12),
               Text(
                 AppLocalizations.of(context)?.vehicleMake ?? AppLocalizations.of(context)!.tr('Vehicle Make'),
                 style: TextStyle(
                   fontSize: 22,
                   fontWeight: FontWeight.w700,
                   color: isLight ? Colors.black : Colors.white,
-                  letterSpacing: -0.4,
-                ),
-              ),
-            ],
-          ),
+                  letterSpacing: -0.4)),
+            ]),
 
-            const SizedBox(height: 20),
+            SizedBox(height: 20),
 
             // Options - Settings Style
             Container(
               constraints: BoxConstraints(
-                maxHeight: MediaQuery.of(context).size.height * 0.5,
-              ),
+                maxHeight: MediaQuery.of(context).size.height * 0.5),
               child: SingleChildScrollView(
                 child: Column(
                   children: _vehicleData.keys.map((make) {
                     final isSelected = _selectedMake == make;
                     return Padding(
-                      padding: const EdgeInsets.only(bottom: 8),
+                      padding: EdgeInsets.only(bottom: 8),
                       child: _buildSettingsStyleOption(
                         option: make,
                         isSelected: isSelected,
@@ -18670,13 +16152,8 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                           });
                           Navigator.pop(context);
                         },
-                        isLight: isLight,
-                      ),
-                    );
-                  }).toList(),
-                ),
-              ),
-            ),
+                        isLight: isLight));
+                  }).toList()))),
 
             SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
@@ -18687,11 +16164,8 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                 HapticFeedback.lightImpact();
                 Navigator.pop(context);
               },
-              isSecondary: true,
-            ),
-          ],
-        ),
-      );
+              isSecondary: true),
+          ]));
   }
 
   // Settings Style Option Helper Method
@@ -18712,8 +16186,7 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
           color: isSelected
               ? (isLight ? Colors.black : Colors.white)
               : Colors.transparent,
-          borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-        ),
+          borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
         child: Row(
           children: [
             Expanded(
@@ -18725,20 +16198,13 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                   color: isSelected
                       ? (isLight ? Colors.white : Colors.black)
                       : (isLight ? Colors.black : Colors.white),
-                  letterSpacing: -0.2,
-                ),
-              ),
-            ),
+                  letterSpacing: -0.2))),
             if (isSelected)
               Icon(
                 CupertinoIcons.checkmark_circle_fill,
                 color: isLight ? Colors.white : Colors.black,
-                size: 24,
-              ),
-          ],
-        ),
-      ),
-    );
+                size: 24),
+          ])));
   }
 
   // Show Model Selector - Settings Style
@@ -18759,34 +16225,29 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
               Icon(
                 CupertinoIcons.car_detailed,
                 size: 22,
-                color: isLight ? Colors.black : Colors.white,
-              ),
-              const SizedBox(width: 12),
+                color: isLight ? Colors.black : Colors.white),
+              SizedBox(width: 12),
               Text(
                 '$_selectedMake Model',
                 style: TextStyle(
                   fontSize: 22,
                   fontWeight: FontWeight.w700,
                   color: isLight ? Colors.black : Colors.white,
-                  letterSpacing: -0.4,
-                ),
-              ),
-            ],
-          ),
+                  letterSpacing: -0.4)),
+            ]),
 
-            const SizedBox(height: 20),
+            SizedBox(height: 20),
 
             // Options - Settings Style
             Container(
               constraints: BoxConstraints(
-                maxHeight: MediaQuery.of(context).size.height * 0.5,
-              ),
+                maxHeight: MediaQuery.of(context).size.height * 0.5),
               child: SingleChildScrollView(
                 child: Column(
                   children: models.map((model) {
                     final isSelected = _selectedModel == model;
                     return Padding(
-                      padding: const EdgeInsets.only(bottom: 8),
+                      padding: EdgeInsets.only(bottom: 8),
                       child: _buildSettingsStyleOption(
                         option: model,
                         isSelected: isSelected,
@@ -18796,13 +16257,8 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                           });
                           Navigator.pop(context);
                         },
-                        isLight: isLight,
-                      ),
-                    );
-                  }).toList(),
-                ),
-              ),
-            ),
+                        isLight: isLight));
+                  }).toList()))),
 
             SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
@@ -18813,11 +16269,8 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                 HapticFeedback.lightImpact();
                 Navigator.pop(context);
               },
-              isSecondary: true,
-            ),
-          ],
-        ),
-      );
+              isSecondary: true),
+          ]));
   }
 
   // Show Vehicle Type Selector - Settings Style
@@ -18836,28 +16289,23 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
               Icon(
                 CupertinoIcons.car_detailed,
                 size: 22,
-                color: isLight ? Colors.black : Colors.white,
-              ),
-              const SizedBox(width: 12),
+                color: isLight ? Colors.black : Colors.white),
+              SizedBox(width: 12),
               Text(
                 AppLocalizations.of(context)?.vehicleType ?? AppLocalizations.of(context)!.tr('Vehicle Type'),
                 style: TextStyle(
                   fontSize: 22,
                   fontWeight: FontWeight.w700,
                   color: isLight ? Colors.black : Colors.white,
-                  letterSpacing: -0.4,
-                ),
-              ),
-            ],
-          ),
+                  letterSpacing: -0.4)),
+            ]),
 
-            const SizedBox(height: 20),
+            SizedBox(height: 20),
 
             // Options - Settings Style
             Container(
               constraints: BoxConstraints(
-                maxHeight: MediaQuery.of(context).size.height * 0.5,
-              ),
+                maxHeight: MediaQuery.of(context).size.height * 0.5),
               child: SingleChildScrollView(
                 child: Column(
                   children: vehicleTypes.map((type) {
@@ -18866,7 +16314,7 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                     final typeDescription = type['description']!;
                     final isSelected = _selectedVehicleType == type['id'];
                     return Padding(
-                      padding: const EdgeInsets.only(bottom: 8),
+                      padding: EdgeInsets.only(bottom: 8),
                       child: TradeRepublicTap(
                         onTap: () {
                           HapticFeedback.lightImpact();
@@ -18876,21 +16324,19 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                           Navigator.pop(context);
                         },
                         child: Container(
-                          padding: const EdgeInsets.all(18),
+                          padding: EdgeInsets.all(18),
                           decoration: BoxDecoration(
                             color: isSelected
                                 ? (isLight ? Colors.black : Colors.white)
                                 : Colors.transparent,
-                            borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-                          ),
+                            borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
                           child: Row(
                             children: [
                               // Icon
                               Text(
                                 typeIcon,
-                                style: TextStyle(fontSize: DesktopOptimizedWidgets.getFontSize() + 10,,
-                              ),
-                              const SizedBox(width: 16),
+                                style: TextStyle(fontSize: DesktopOptimizedWidgets.getFontSize() + 10),
+                              SizedBox(width: 16),
                               // Name and Description
                               Expanded(
                                 child: Column(
@@ -18910,10 +16356,8 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                                             : (isLight
                                                   ? Colors.black
                                                   : Colors.white),
-                                        letterSpacing: -0.3,
-                                      ),
-                                    ),
-                                    const SizedBox(height: 4),
+                                        letterSpacing: -0.3)),
+                                    SizedBox(height: 4),
                                     Text(
                                       typeDescription,
                                       style: TextStyle(
@@ -18922,39 +16366,23 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                                         color: isSelected
                                             ? (isLight
                                                   ? Colors.white.withOpacity(
-                                                      0.8,
-                                                    )
+                                                      0.8)
                                                   : Colors.black.withOpacity(
-                                                      0.6,
-                                                    ))
+                                                      0.6))
                                             : (isLight
                                                   ? Colors.black.withOpacity(
-                                                      0.5,
-                                                    )
+                                                      0.5)
                                                   : Colors.white.withOpacity(
-                                                      0.5,
-                                                    )),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
+                                                      0.5)))),
+                                  ])),
                               // Checkmark
                               if (isSelected)
                                 Icon(
                                   CupertinoIcons.checkmark_circle_fill,
                                   color: isLight ? Colors.white : Colors.black,
-                                  size: 24,
-                                ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    );
-                  }).toList(),
-                ),
-              ),
-            ),
+                                  size: 24),
+                            ]))));
+                  }).toList()))),
 
             SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
@@ -18965,11 +16393,8 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                 HapticFeedback.lightImpact();
                 Navigator.pop(context);
               },
-              isSecondary: true,
-            ),
-          ],
-        ),
-      );
+              isSecondary: true),
+          ]));
   }
 
   // Show State Selector - Settings Style
@@ -18986,34 +16411,29 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
               Icon(
                 CupertinoIcons.location,
                 size: 22,
-                color: isLight ? Colors.black : Colors.white,
-              ),
-              const SizedBox(width: 12),
+                color: isLight ? Colors.black : Colors.white),
+              SizedBox(width: 12),
               Text(
                 AppLocalizations.of(context)?.usaState ?? AppLocalizations.of(context)!.tr('USA State'),
                 style: TextStyle(
                   fontSize: 22,
                   fontWeight: FontWeight.w700,
                   color: isLight ? Colors.black : Colors.white,
-                  letterSpacing: -0.4,
-                ),
-              ),
-            ],
-          ),
+                  letterSpacing: -0.4)),
+            ]),
 
-            const SizedBox(height: 20),
+            SizedBox(height: 20),
 
             // Options - Settings Style
             Container(
               constraints: BoxConstraints(
-                maxHeight: MediaQuery.of(context).size.height * 0.6,
-              ),
+                maxHeight: MediaQuery.of(context).size.height * 0.6),
               child: SingleChildScrollView(
                 child: Column(
                   children: _usaStates.map((state) {
                     final isSelected = _selectedUSAState == state;
                     return Padding(
-                      padding: const EdgeInsets.only(bottom: 8),
+                      padding: EdgeInsets.only(bottom: 8),
                       child: _buildSettingsStyleOption(
                         option: state,
                         isSelected: isSelected,
@@ -19023,13 +16443,8 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                           });
                           Navigator.pop(context);
                         },
-                        isLight: isLight,
-                      ),
-                    );
-                  }).toList(),
-                ),
-              ),
-            ),
+                        isLight: isLight));
+                  }).toList()))),
 
             SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
@@ -19040,11 +16455,8 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                 HapticFeedback.lightImpact();
                 Navigator.pop(context);
               },
-              isSecondary: true,
-            ),
-          ],
-        ),
-      );
+              isSecondary: true),
+          ]));
   }
 
   // EU Country Selector - Settings Style
@@ -19061,28 +16473,23 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
               Icon(
                 CupertinoIcons.globe,
                 size: 22,
-                color: isLight ? Colors.black : Colors.white,
-              ),
-              const SizedBox(width: 12),
+                color: isLight ? Colors.black : Colors.white),
+              SizedBox(width: 12),
               Text(
                 AppLocalizations.of(context)?.euCountry ?? AppLocalizations.of(context)!.tr('EU Country'),
                 style: TextStyle(
                   fontSize: 22,
                   fontWeight: FontWeight.w700,
                   color: isLight ? Colors.black : Colors.white,
-                  letterSpacing: -0.4,
-                ),
-              ),
-            ],
-          ),
+                  letterSpacing: -0.4)),
+            ]),
 
-            const SizedBox(height: 20),
+            SizedBox(height: 20),
 
             // EU Countries List
             Container(
               constraints: BoxConstraints(
-                maxHeight: MediaQuery.of(context).size.height * 0.6,
-              ),
+                maxHeight: MediaQuery.of(context).size.height * 0.6),
               child: SingleChildScrollView(
                 child: Column(
                   children: _euCountries.entries.map((entry) {
@@ -19090,7 +16497,7 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                     final name = entry.value;
                     final isSelected = _selectedRegion == code;
                     return Padding(
-                      padding: const EdgeInsets.only(bottom: 8),
+                      padding: EdgeInsets.only(bottom: 8),
                       child: _buildSettingsStyleOption(
                         option: '$code - $name',
                         isSelected: isSelected,
@@ -19100,16 +16507,9 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                           });
                           Navigator.pop(context);
                         },
-                        isLight: isLight,
-                      ),
-                    );
-                  }).toList(),
-                ),
-              ),
-            ),
-          ],
-        ),
-      );
+                        isLight: isLight));
+                  }).toList()))),
+          ]));
   }
 
   // Build Transport Toggle Widget
@@ -19130,8 +16530,7 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                   ? Colors.black.withOpacity(0.05)
                   : Colors.white.withOpacity(0.1))
             : (isLight ? Colors.white : Colors.black),
-        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-      ),
+        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
       child: Padding(
         padding: DesktopAppWrapper.getPagePadding(),
         child: Row(
@@ -19143,15 +16542,12 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
               decoration: BoxDecoration(
                 color: (iconColor ?? (isLight ? Colors.black : Colors.white))
                     .withOpacity(0.1),
-                borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-              ),
+                borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
               child: Icon(
                 icon,
                 color: iconColor ?? (isLight ? Colors.black : Colors.white),
-                size: 20,
-              ),
-            ),
-            const SizedBox(width: 12),
+                size: 20)),
+            SizedBox(width: 12),
             // Text
             Expanded(
               child: Column(
@@ -19162,31 +16558,21 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                     style: TextStyle(
                       color: isLight ? Colors.black : Colors.white,
                       fontSize: 15,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                  const SizedBox(height: 2),
+                      fontWeight: FontWeight.w600)),
+                  SizedBox(height: 2),
                   Text(
                     subtitle,
                     style: TextStyle(
                       color: isLight ? Colors.black : Colors.white,
-                      fontSize: 13,
-                    ),
-                  ),
-                ],
-              ),
-            ),
+                      fontSize: 13)),
+                ])),
             // Toggle Switch
             TradeRepublicSwitch(
               value: value,
               onChanged: onChanged,
               selectedLabel: 'Y',
-              unselectedLabel: 'N',
-            ),
-          ],
-        ),
-      ),
-    );
+              unselectedLabel: 'N'),
+          ])));
   }
 
   // === SECTIONED LOADING METHODS ===
@@ -19248,8 +16634,7 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
     if (_vehicleSections.isEmpty) return 0.0;
     return _vehicleSections.fold(
       0.0,
-      (sum, section) => sum + (section['percentage'] as num).toDouble(),
-    );
+      (sum, section) => sum + (section['percentage'] as num).toDouble());
   }
 
   // Calculate absolute capacity for a section based on percentage
@@ -19276,8 +16661,7 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
     return Container(
       decoration: BoxDecoration(
         color: isLight ? Colors.white : Colors.black,
-        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-      ),
+        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
       child: Padding(
         padding: DesktopAppWrapper.getPagePadding(),
         child: Column(
@@ -19293,9 +16677,8 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                             ? CupertinoIcons.drop
                             : CupertinoIcons.cube_box),
                   color: isLight ? Colors.black : Colors.white,
-                  size: 24,
-                ),
-                const SizedBox(width: 12),
+                  size: 24),
+                SizedBox(width: 12),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -19303,8 +16686,7 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                       Text(
                         isHopper
                             ? (AppLocalizations.of(
-                                    context,
-                                  )?.hopperCompartments ?? AppLocalizations.of(context)!.tr('Hopper Compartments'))
+                                    context)?.hopperCompartments ?? AppLocalizations.of(context)!.tr('Hopper Compartments'))
                             : (isTanker
                                   ? AppLocalizations.of(context)?.tankCompartments ?? AppLocalizations.of(context)!.tr('Tank Compartments')
                                   : 'Cargo Sections'),
@@ -19312,9 +16694,7 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                           color: isLight ? Colors.black : Colors.white,
                           fontSize: DesktopOptimizedWidgets.getFontSize(),
                           fontWeight: FontWeight.w600,
-                          letterSpacing: -0.2,
-                        ),
-                      ),
+                          letterSpacing: -0.2)),
                       if (_vehicleSections.isNotEmpty)
                         Text(
                           '${AppLocalizations.of(context)?.totalCapacity ?? AppLocalizations.of(context)!.tr('Total')}: ${totalCargoCapacity.toStringAsFixed(0)} $unit (${totalPercentage.toStringAsFixed(0)}%)',
@@ -19323,12 +16703,8 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                                 ? Colors.orange
                                 : (isLight ? Colors.black : Colors.white),
                             fontSize: 13,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                    ],
-                  ),
-                ),
+                            fontWeight: FontWeight.w500)),
+                    ])),
                 // Add Section Button - Trade Republic style
                 TradeRepublicTap(
                   onTap: () {
@@ -19342,67 +16718,50 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                       color: isLight
                           ? Colors.black.withOpacity(0.05)
                           : Colors.white.withOpacity(0.08),
-                      shape: BoxShape.circle,
-                    ),
+                      shape: BoxShape.circle),
                     child: Icon(
                       CupertinoIcons.plus,
                       color: isLight ? Colors.black : Colors.white,
-                      size: 20,
-                    ),
-                  ),
-                ),
-              ],
-            ),
+                      size: 20))),
+              ]),
 
             // Warning if percentages don't add up to 100%
             if (_vehicleSections.isNotEmpty &&
                 (totalPercentage < 99 || totalPercentage > 101))
               Container(
-                margin: const EdgeInsets.only(top: 0, bottom: 20),
-                padding: const EdgeInsets.symmetric(
+                margin: EdgeInsets.only(top: 0, bottom: 20),
+                padding: EdgeInsets.symmetric(
                   horizontal: 16,
-                  vertical: 14,
-                ),
+                  vertical: 14),
                 decoration: BoxDecoration(
                   color: (isLight ? Colors.black : Colors.white).withOpacity(
-                    0.05,
-                  ),
-                  borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-                ),
+                    0.05),
+                  borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
                 child: Row(
                   children: [
                     Container(
-                      padding: const EdgeInsets.all(8),
+                      padding: EdgeInsets.all(8),
                       decoration: BoxDecoration(
                         color: (isLight ? Colors.black : Colors.white)
                             .withOpacity(0.1),
-                        shape: BoxShape.circle,
-                      ),
+                        shape: BoxShape.circle),
                       child: Icon(
                         CupertinoIcons.exclamationmark,
                         color: isLight ? Colors.black : Colors.white,
-                        size: 16,
-                      ),
-                    ),
-                    const SizedBox(width: 12),
+                        size: 16)),
+                    SizedBox(width: 12),
                     Expanded(
                       child: Text(
                         AppLocalizations.of(
-                              context,
-                            )?.sectionPercentagesWarning ?? AppLocalizations.of(context)!.tr('Section percentages should add up to 100%'),
+                              context)?.sectionPercentagesWarning ?? AppLocalizations.of(context)!.tr('Section percentages should add up to 100%'),
                         style: TextStyle(
                           color: isLight ? Colors.black : Colors.white,
                           fontSize: 13,
                           fontWeight: FontWeight.w600,
-                          letterSpacing: -0.2,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+                          letterSpacing: -0.2))),
+                  ])),
 
-            const SizedBox(height: 20),
+            SizedBox(height: 20),
 
             // Visual Vehicle Representation with sections INSIDE the truck
             _buildTruckWithSections(isLight, isHopper, isTanker),
@@ -19410,21 +16769,14 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
             if (_vehicleSections.isEmpty)
               Center(
                 child: Padding(
-                  padding: const EdgeInsets.all(0),
+                  padding: EdgeInsets.all(0),
                   child: Text(
                     AppLocalizations.of(context)?.tapAddToCreateSections ?? AppLocalizations.of(context)!.tr('Tap "Add" to create sections'),
                     style: TextStyle(
                       color: (isLight ? Colors.black : Colors.white)
                           .withOpacity(0.5),
-                      fontSize: DesktopOptimizedWidgets.getFontSize(),
-                    ),
-                  ),
-                ),
-              ),
-          ],
-        ),
-      ),
-    );
+                      fontSize: DesktopOptimizedWidgets.getFontSize())))),
+          ])));
   }
 
   // Minimalist Apple/Trade Republic style truck sections
@@ -19442,7 +16794,7 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
         // Minimalist truck visualization
         Container(
           height: 80,
-          margin: const EdgeInsets.only(bottom: 28),
+          margin: EdgeInsets.only(bottom: 28),
           child: Row(
             children: [
               // Cab - rounded left, flat right (like real truck)
@@ -19451,15 +16803,12 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                 height: 48,
                 decoration: BoxDecoration(
                   color: isLight ? Colors.white : Colors.black,
-                  borderRadius: const BorderRadius.only(
+                  borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(20),
                     bottomLeft: Radius.circular(20),
                     topRight: Radius.circular(20),
-                    bottomRight: Radius.circular(20),
-                  ),
-                ),
-              ),
-              const SizedBox(width: 6),
+                    bottomRight: Radius.circular(20)))),
+              SizedBox(width: 6),
               // Cargo - rounded on both sides
               Expanded(
                 child: Container(
@@ -19467,8 +16816,7 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                   clipBehavior: Clip.antiAlias,
                   padding: DesktopAppWrapper.getPagePadding(),
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-                  ),
+                    borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
                   child: Row(
                     children: _vehicleSections.asMap().entries.map((entry) {
                       final index = entry.key;
@@ -19488,8 +16836,7 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                               colors: [
                                 _getSectionColor(index),
                                 _getSectionColor(index).withOpacity(0.7),
-                              ],
-                            ),
+                              ]),
                             borderRadius: BorderRadius.only(
                               topLeft: isFirst
                                   ? const Radius.circular(20)
@@ -19502,29 +16849,17 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                                   : Radius.zero,
                               bottomRight: isLast
                                   ? const Radius.circular(20)
-                                  : Radius.zero,
-                            ),
-                          ),
+                                  : Radius.zero)),
                           child: Center(
                             child: Text(
                               '${percentage.toStringAsFixed(0)}%',
-                              style: const TextStyle(
+                              style: TextStyle(
                                 color: Colors.white,
                                 fontSize: DesktopOptimizedWidgets.getFontSize(),
                                 fontWeight: FontWeight.w800,
-                                letterSpacing: -0.3,
-                              ),
-                            ),
-                          ),
-                        ),
-                      );
-                    }).toList(),
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
+                                letterSpacing: -0.3)))));
+                    }).toList()))),
+            ])),
 
         // Section list - pure minimalist, NO containers - swipe left to edit
         ..._vehicleSections.asMap().entries.map((entry) {
@@ -19544,13 +16879,11 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
               label: AppLocalizations.of(context)?.deleteLabel ?? 'Delete',
               backgroundColor: const Color(0xFFFF3B30),
               foregroundColor: Colors.white,
-              onActivate: () => _confirmDeleteSection(index, isLight),
-            ),
+              onActivate: () => _confirmDeleteSection(index, isLight)),
             trailing: TradeRepublicSwipeSpec(
               icon: CupertinoIcons.pencil,
               label: AppLocalizations.of(context)?.editLabel ?? 'Edit',
-              onActivate: () => _showEditSectionModal(section, index, isLight),
-            ),
+              onActivate: () => _showEditSectionModal(section, index, isLight)),
             child: TradeRepublicTap(
               onTap: () {
                 HapticFeedback.selectionClick();
@@ -19563,7 +16896,7 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
               child: Column(
                 children: [
                   Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 14),
+                    padding: EdgeInsets.symmetric(vertical: 14),
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
@@ -19573,10 +16906,8 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                           height: 10,
                           decoration: BoxDecoration(
                             color: _getSectionColor(index),
-                            shape: BoxShape.circle,
-                          ),
-                        ),
-                        const SizedBox(width: 12),
+                            shape: BoxShape.circle)),
+                        SizedBox(width: 12),
                         // Name & capacity
                         Expanded(
                           child: Column(
@@ -19588,27 +16919,20 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                                   color: isLight ? Colors.black : Colors.white,
                                   fontSize: DesktopOptimizedWidgets.getFontSize(),
                                   fontWeight: FontWeight.w600,
-                                  letterSpacing: 0.5,
-                                ),
-                              ),
+                                  letterSpacing: 0.5)),
                               Text(
                                 '${absoluteCapacity.toStringAsFixed(0)} $unit',
                                 style: TextStyle(
                                   color: (isLight ? Colors.black : Colors.white)
                                       .withOpacity(0.5),
                                   fontSize: 12,
-                                  fontWeight: FontWeight.w400,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
+                                  fontWeight: FontWeight.w400)),
+                            ])),
                         // Percentage - solid with gradient
                         Container(
-                          padding: const EdgeInsets.symmetric(
+                          padding: EdgeInsets.symmetric(
                             horizontal: 12,
-                            vertical: 6,
-                          ),
+                            vertical: 6),
                           decoration: BoxDecoration(
                             gradient: LinearGradient(
                               begin: Alignment.topLeft,
@@ -19616,36 +16940,24 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                               colors: [
                                 _getSectionColor(index),
                                 _getSectionColor(index).withOpacity(0.7),
-                              ],
-                            ),
-                            borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-                          ),
+                              ]),
+                            borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
                           child: Text(
                             '${percentage.toStringAsFixed(0)}%',
-                            style: const TextStyle(
+                            style: TextStyle(
                               color: Colors.white,
                               fontSize: DesktopOptimizedWidgets.getFontSize(),
                               fontWeight: FontWeight.w700,
-                              letterSpacing: -0.3,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
+                              letterSpacing: -0.3))),
+                      ])),
                   // Subtle divider (not on last item)
                   if (!isLast)
                     Container(
                       height: 0.5,
-                      color: isLight ? Colors.white : Colors.black,
-                    ),
-                ],
-              ),
-            ),
-          );
+                      color: isLight ? Colors.white : Colors.black),
+                ])));
         }),
-      ],
-    );
+      ]);
   }
 
   Widget _buildVehicleTopView(bool isLight, bool isHopper, bool isTanker) {
@@ -19657,23 +16969,19 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
           end: Alignment.bottomRight,
           colors: isLight
               ? [Colors.white, Colors.white]
-              : [Colors.black, Colors.black],
-        ),
-        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-      ),
+              : [Colors.black, Colors.black]),
+        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
       child: Stack(
         children: [
           // Vehicle shape
           Center(
             child: Padding(
-              padding: const EdgeInsets.all(0),
+              padding: EdgeInsets.all(0),
               child: isHopper
                   ? _buildHopperTopView(isLight)
                   : (isTanker
                         ? _buildTankerTopView(isLight)
-                        : _buildTruckTopView(isLight)),
-            ),
-          ),
+                        : _buildTruckTopView(isLight)))),
 
           // Direction indicator
           Positioned(
@@ -19686,26 +16994,18 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                 Icon(
                   CupertinoIcons.chevron_left,
                   size: 12,
-                  color: isLight ? Colors.white : Colors.black,
-                ),
-                const SizedBox(width: 6),
+                  color: isLight ? Colors.white : Colors.black),
+                SizedBox(width: 6),
                 Text(
                   AppLocalizations.of(context)?.frontLabel ?? AppLocalizations.of(context)!.tr('FRONT'),
                   style: TextStyle(
                     color: (isLight ? Colors.black : Colors.white).withOpacity(
-                      0.5,
-                    ),
+                      0.5),
                     fontSize: 10,
                     fontWeight: FontWeight.w600,
-                    letterSpacing: 2,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
+                    letterSpacing: 2)),
+              ])),
+        ]));
   }
 
   Widget _buildHopperTopView(bool isLight) {
@@ -19726,17 +17026,13 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
               end: Alignment.bottomCenter,
               colors: isLight
                   ? [Colors.white, Colors.black]
-                  : [Colors.white, Colors.black],
-            ),
-            borderRadius: const BorderRadius.only(
+                  : [Colors.white, Colors.black]),
+            borderRadius: BorderRadius.only(
               topLeft: Radius.circular(20),
               topRight: Radius.circular(20),
               bottomLeft: Radius.circular(20),
-              bottomRight: Radius.circular(20),
-            ),
-          ),
-        ),
-        const SizedBox(width: 6),
+              bottomRight: Radius.circular(20)))),
+        SizedBox(width: 6),
         // Hopper Compartments
         ..._vehicleSections.asMap().entries.map((entry) {
           final index = entry.key;
@@ -19746,7 +17042,7 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
           final width = (percentage / 100 * 180).clamp(44.0, 100.0);
 
           return Container(
-            margin: const EdgeInsets.symmetric(horizontal: 3),
+            margin: EdgeInsets.symmetric(horizontal: 3),
             width: width,
             height: 70,
             decoration: BoxDecoration(
@@ -19756,39 +17052,29 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                 colors: [
                   _getSectionColor(index),
                   _getSectionColor(index).withOpacity(0.7),
-                ],
-              ),
-              borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-            ),
+                ]),
+              borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
             child: Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
                     '${percentage.toStringAsFixed(0)}%',
-                    style: const TextStyle(
+                    style: TextStyle(
                       color: Colors.white,
                       fontSize: 13,
                       fontWeight: FontWeight.w700,
-                      height: 1,
-                    ),
-                  ),
-                  const SizedBox(height: 2),
+                      height: 1)),
+                  SizedBox(height: 2),
                   Text(
                     '${absoluteCapacity.toStringAsFixed(0)} $unit',
-                    style: const TextStyle(
+                    style: TextStyle(
                       color: Colors.white70,
                       fontSize: 10,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          );
+                      fontWeight: FontWeight.w600)),
+                ])));
         }),
-      ],
-    );
+      ]);
   }
 
   Widget _buildTankerTopView(bool isLight) {
@@ -19809,17 +17095,13 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
               end: Alignment.bottomCenter,
               colors: isLight
                   ? [Colors.white, Colors.black]
-                  : [Colors.white, Colors.black],
-            ),
-            borderRadius: const BorderRadius.only(
+                  : [Colors.white, Colors.black]),
+            borderRadius: BorderRadius.only(
               topLeft: Radius.circular(20),
               topRight: Radius.circular(20),
               bottomLeft: Radius.circular(20),
-              bottomRight: Radius.circular(20),
-            ),
-          ),
-        ),
-        const SizedBox(width: 6),
+              bottomRight: Radius.circular(20)))),
+        SizedBox(width: 6),
         // Tank Compartments (cylindrical appearance)
         ..._vehicleSections.asMap().entries.map((entry) {
           final index = entry.key;
@@ -19829,7 +17111,7 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
           final width = (percentage / 100 * 180).clamp(40.0, 80.0);
 
           return Container(
-            margin: const EdgeInsets.symmetric(horizontal: 2),
+            margin: EdgeInsets.symmetric(horizontal: 2),
             width: width,
             height: 60,
             decoration: BoxDecoration(
@@ -19839,39 +17121,29 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                 colors: [
                   _getSectionColor(index),
                   _getSectionColor(index).withOpacity(0.6),
-                ],
-              ),
-              borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-            ),
+                ]),
+              borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
             child: Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
                     '${percentage.toStringAsFixed(0)}%',
-                    style: const TextStyle(
+                    style: TextStyle(
                       color: Colors.white,
                       fontSize: 12,
                       fontWeight: FontWeight.w700,
-                      height: 1,
-                    ),
-                  ),
-                  const SizedBox(height: 2),
+                      height: 1)),
+                  SizedBox(height: 2),
                   Text(
                     '${absoluteCapacity.toStringAsFixed(0)} $unit',
-                    style: const TextStyle(
+                    style: TextStyle(
                       color: Colors.white70,
                       fontSize: 9,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          );
+                      fontWeight: FontWeight.w600)),
+                ])));
         }),
-      ],
-    );
+      ]);
   }
 
   Widget _buildTruckTopView(bool isLight) {
@@ -19893,17 +17165,13 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
               end: Alignment.bottomCenter,
               colors: isLight
                   ? [Colors.white, Colors.black]
-                  : [Colors.white, Colors.black],
-            ),
-            borderRadius: const BorderRadius.only(
+                  : [Colors.white, Colors.black]),
+            borderRadius: BorderRadius.only(
               topLeft: Radius.circular(20),
               topRight: Radius.circular(20),
               bottomLeft: Radius.circular(20),
-              bottomRight: Radius.circular(20),
-            ),
-          ),
-        ),
-        const SizedBox(width: 8),
+              bottomRight: Radius.circular(20)))),
+        SizedBox(width: 8),
         // Cargo Area with sections
         Container(
           width: 200,
@@ -19930,46 +17198,31 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                       colors: [
                         _getSectionColor(index),
                         _getSectionColor(index).withOpacity(0.7),
-                      ],
-                    ),
+                      ]),
                     borderRadius: BorderRadius.horizontal(
                       left: isFirst ? const Radius.circular(20) : Radius.zero,
-                      right: isLast ? const Radius.circular(20) : Radius.zero,
-                    ),
-
-                  ),
+                      right: isLast ? const Radius.circular(20) : Radius.zero)),
                   child: Center(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
                           '${percentage.toStringAsFixed(0)}%',
-                          style: const TextStyle(
+                          style: TextStyle(
                             color: Colors.white,
                             fontSize: 12,
                             fontWeight: FontWeight.w700,
-                            height: 1,
-                          ),
-                        ),
-                        const SizedBox(height: 2),
+                            height: 1)),
+                        SizedBox(height: 2),
                         Text(
                           '${absoluteCapacity.toStringAsFixed(0)} $unit',
-                          style: const TextStyle(
+                          style: TextStyle(
                             color: Colors.white70,
                             fontSize: 9,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              );
-            }).toList(),
-          ),
-        ),
-      ],
-    );
+                            fontWeight: FontWeight.w600)),
+                      ]))));
+            }).toList())),
+      ]);
   }
 
   Color _getSectionColor(int index) {
@@ -19989,19 +17242,17 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
   Widget _buildSectionCard(
     Map<String, dynamic> section,
     int index,
-    bool isLight,
-  ) {
+    bool isLight) {
     final name = section['name'] as String;
     final percentage = (section['percentage'] as num).toDouble();
     final unit = _getSectionCapacityUnit();
     final absoluteCapacity = _getSectionAbsoluteCapacity(section);
 
     return Container(
-      margin: const EdgeInsets.only(bottom: 12),
+      margin: EdgeInsets.only(bottom: 12),
       decoration: BoxDecoration(
         color: isLight ? Colors.white : Colors.black,
-        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-      ),
+        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
       child: Padding(
         padding: DesktopAppWrapper.getPagePadding(),
         child: Row(
@@ -20012,20 +17263,15 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
               height: 44,
               decoration: BoxDecoration(
                 color: _getSectionColor(index),
-                borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-              ),
+                borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
               child: Center(
                 child: Text(
                   '${index + 1}',
-                  style: const TextStyle(
+                  style: TextStyle(
                     color: Colors.white,
                     fontSize: 17,
-                    fontWeight: FontWeight.w800,
-                  ),
-                ),
-              ),
-            ),
-            const SizedBox(width: 14),
+                    fontWeight: FontWeight.w800)))),
+            SizedBox(width: 14),
             // Section Info
             Expanded(
               child: Column(
@@ -20036,45 +17282,33 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                     style: TextStyle(
                       color: isLight ? Colors.black : Colors.white,
                       fontSize: DesktopOptimizedWidgets.getFontSize(),
-                      fontWeight: FontWeight.w700,
-                    ),
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                  const SizedBox(height: 4),
+                      fontWeight: FontWeight.w700),
+                    overflow: TextOverflow.ellipsis),
+                  SizedBox(height: 4),
                   Row(
                     children: [
                       Container(
-                        padding: const EdgeInsets.symmetric(
+                        padding: EdgeInsets.symmetric(
                           horizontal: 8,
-                          vertical: 2,
-                        ),
+                          vertical: 2),
                         decoration: BoxDecoration(
                           color: _getSectionColor(index).withOpacity(0.2),
-                          borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-                        ),
+                          borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
                         child: Text(
                           '${percentage.toStringAsFixed(1)}%',
                           style: TextStyle(
                             color: _getSectionColor(index),
                             fontSize: 13,
-                            fontWeight: FontWeight.w700,
-                          ),
-                        ),
-                      ),
-                      const SizedBox(width: 8),
+                            fontWeight: FontWeight.w700))),
+                      SizedBox(width: 8),
                       Text(
                         '= ${absoluteCapacity.toStringAsFixed(0)} $unit',
                         style: TextStyle(
                           color: isLight ? Colors.black : Colors.white,
                           fontSize: DesktopOptimizedWidgets.getFontSize(),
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
+                          fontWeight: FontWeight.w500)),
+                    ]),
+                ])),
             // Edit Button
             TradeRepublicButton.icon(
               icon: Icon(CupertinoIcons.pencil, size: 18),
@@ -20082,9 +17316,8 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
               backgroundColor: isLight ? Colors.white : Colors.black,
               foregroundColor: isLight ? Colors.black : Colors.white,
               size: 36,
-              isSecondary: true,
-            ),
-            const SizedBox(width: 8),
+              isSecondary: true),
+            SizedBox(width: 8),
             // Delete Button
             TradeRepublicButton.icon(
               icon: Icon(CupertinoIcons.xmark, size: 18),
@@ -20092,12 +17325,8 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
               backgroundColor: Colors.red.withOpacity(0.1),
               foregroundColor: Colors.red[400]!,
               size: 36,
-              isSecondary: true,
-            ),
-          ],
-        ),
-      ),
-    );
+              isSecondary: true),
+          ])));
   }
 
   void _showAddSectionModal(bool isLight) {
@@ -20140,8 +17369,7 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
         builder: (context, setModalState) {
           // Parse capacity using the appropriate number format
           final enteredCapacity = GermanNumberFormatter.parseGermanNumber(
-            capacityController.text,
-          );
+            capacityController.text);
           final calculatedPercentage = totalCapacity > 0
               ? (enteredCapacity / totalCapacity * 100)
               : 0.0;
@@ -20152,12 +17380,11 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
 
           return Padding(
             padding: EdgeInsets.only(
-              bottom: MediaQuery.of(context).viewInsets.bottom,
-            ),
+              bottom: MediaQuery.of(context).viewInsets.bottom),
             child: SafeArea(
               top: false,
               child: SingleChildScrollView(
-                  padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+                  padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
@@ -20172,9 +17399,7 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                           color: isLight ? Colors.black : Colors.white,
                           fontSize: 34,
                           fontWeight: FontWeight.w700,
-                          letterSpacing: -0.5,
-                        ),
-                      ),
+                          letterSpacing: -0.5)),
 
                       SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
@@ -20184,11 +17409,9 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                         style: TextStyle(
                           color: (isLight ? Colors.black : Colors.white).withOpacity(0.5),
                           fontSize: DesktopOptimizedWidgets.getFontSize(),
-                          fontWeight: FontWeight.w400,
-                        ),
-                      ),
+                          fontWeight: FontWeight.w400)),
 
-                      const SizedBox(height: 40),
+                      SizedBox(height: 40),
 
                       // Big capacity input
                       Row(
@@ -20212,22 +17435,16 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                                     : (isLight ? Colors.black : Colors.white),
                                 fontSize: 56,
                                 fontWeight: FontWeight.w600,
-                                letterSpacing: -2,
-                              ),
-                              hintText: hintText,
-                            ),
-                          ),
-                          const SizedBox(width: 8),
+                                letterSpacing: -2),
+                              hintText: hintText)),
+                          SizedBox(width: 8),
                           Text(
                             unit,
                             style: TextStyle(
                               color: (isLight ? Colors.black : Colors.white).withOpacity(0.6),
                               fontSize: DesktopOptimizedWidgets.getFontSize() + 10,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                        ],
-                      ),
+                              fontWeight: FontWeight.w500)),
+                        ]),
 
                       // Percentage indicator
                       AnimatedDefaultTextStyle(
@@ -20237,14 +17454,11 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                               ? Colors.red
                               : (isLight ? Colors.blue : Colors.blue[400]!),
                           fontSize: DesktopOptimizedWidgets.getFontSize() + 6,
-                          fontWeight: FontWeight.w600,
-                        ),
+                          fontWeight: FontWeight.w600),
                         child: Text(
-                          '${calculatedPercentage.toStringAsFixed(1)}%',
-                        ),
-                      ),
+                          '${calculatedPercentage.toStringAsFixed(1)}%')),
 
-                      const SizedBox(height: 32),
+                      SizedBox(height: 32),
 
                       // Name input
                       TradeRepublicTextField(
@@ -20254,11 +17468,9 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                         style: TextStyle(
                           color: isLight ? Colors.black : Colors.white,
                           fontSize: 17,
-                          fontWeight: FontWeight.w500,
-                        ),
+                          fontWeight: FontWeight.w500),
                         hintText:
-                            AppLocalizations.of(context)?.nameOptional ?? AppLocalizations.of(context)!.tr('Name (optional)'),
-                      ),
+                            AppLocalizations.of(context)?.nameOptional ?? AppLocalizations.of(context)!.tr('Name (optional)')),
 
                       // Error message
                       AnimatedSize(
@@ -20266,22 +17478,17 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                         curve: Curves.easeOut,
                         child: wouldExceed
                             ? Padding(
-                                padding: const EdgeInsets.only(top: 16),
+                                padding: EdgeInsets.only(top: 16),
                                 child: Text(
                                   AppLocalizations.of(
-                                        context,
-                                      )?.exceedsCapacity ?? AppLocalizations.of(context)!.tr('Exceeds capacity'),
+                                        context)?.exceedsCapacity ?? AppLocalizations.of(context)!.tr('Exceeds capacity'),
                                   style: TextStyle(
                                     color: Colors.red[400],
                                     fontSize: 15,
-                                    fontWeight: FontWeight.w500,
-                                  ),
-                                ),
-                              )
-                            : const SizedBox.shrink(),
-                      ),
+                                    fontWeight: FontWeight.w500)))
+                            : const SizedBox.shrink()),
 
-                      const SizedBox(height: 32),
+                      SizedBox(height: 32),
 
                       // Add button
                       TradeRepublicButton(
@@ -20302,8 +17509,7 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                                         : name,
                                     'percentage': calculatedPercentage.clamp(
                                       0.1,
-                                      100.0,
-                                    ),
+                                      100.0),
                                     'position': _vehicleSections.length,
                                   });
                                 });
@@ -20311,23 +17517,15 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                                 Navigator.pop(context);
                               }
                             : null,
-                        width: double.infinity,
-                      ),
-                    ],
-                  ),
-                ),
-            ),
-          );
-        },
-      ),
-    );
+                        width: double.infinity),
+                    ]))));
+        }));
   }
 
   void _showEditSectionModal(
     Map<String, dynamic> section,
     int index,
-    bool isLight,
-  ) {
+    bool isLight) {
     final appSettings = context.read<AppSettings>();
     final isEuropeanFormat = appSettings.effectiveNumberFormat == '1.234,56';
     final hintText = isEuropeanFormat ? '0,00' : '0.00';
@@ -20338,8 +17536,7 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
     final totalCapacity = _getTotalCargoCapacity();
     final currentCapacity = (currentPercentage / 100) * totalCapacity;
     final capacityController = TextEditingController(
-      text: appSettings.formatNumber(currentCapacity, decimals: 2),
-    );
+      text: appSettings.formatNumber(currentCapacity, decimals: 2));
 
     final isHopper =
         _selectedVehicleType?.toLowerCase().contains('hopper') ??
@@ -20360,8 +17557,7 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
         .fold(0.0, (sum, e) => sum + (e.value['percentage'] as num).toDouble());
     final maxAvailablePercentage = (100 - usedPercentageExcludingCurrent).clamp(
       0.0,
-      100.0,
-    );
+      100.0);
     final maxAvailableCapacity = (maxAvailablePercentage / 100) * totalCapacity;
 
     TradeRepublicBottomSheet.show(
@@ -20370,8 +17566,7 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
         builder: (context, setModalState) {
           // Parse capacity using German number format (1.234,56)
           final enteredCapacity = GermanNumberFormatter.parseGermanNumber(
-            capacityController.text,
-          );
+            capacityController.text);
           final calculatedPercentage = totalCapacity > 0
               ? (enteredCapacity / totalCapacity * 100)
               : 0.0;
@@ -20383,12 +17578,11 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
 
           return Padding(
             padding: EdgeInsets.only(
-              bottom: MediaQuery.of(context).viewInsets.bottom,
-            ),
+              bottom: MediaQuery.of(context).viewInsets.bottom),
             child: SafeArea(
               top: false,
               child: Padding(
-                padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+                padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
@@ -20399,11 +17593,9 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                         DecoratedBox(
                           decoration: BoxDecoration(
                             color: sectionColor,
-                            shape: BoxShape.circle,
-                          ),
-                          child: const SizedBox(width: 12, height: 12),
-                        ),
-                        const SizedBox(width: 12),
+                            shape: BoxShape.circle),
+                          child: SizedBox(width: 12, height: 12)),
+                        SizedBox(width: 12),
                         Text(
                           isHopper
                               ? (AppLocalizations.of(context)?.editHopper ?? AppLocalizations.of(context)!.tr('Edit Hopper'))
@@ -20414,11 +17606,8 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                             color: isLight ? Colors.black : Colors.white,
                             fontSize: 32,
                             fontWeight: FontWeight.w700,
-                            letterSpacing: -1,
-                          ),
-                        ),
-                      ],
-                    ),
+                            letterSpacing: -1)),
+                      ]),
 
                     SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
@@ -20428,11 +17617,9 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                       style: TextStyle(
                         color: (isLight ? Colors.black : Colors.white).withOpacity(0.5),
                         fontSize: DesktopOptimizedWidgets.getFontSize(),
-                        fontWeight: FontWeight.w400,
-                      ),
-                    ),
+                        fontWeight: FontWeight.w400)),
 
-                    const SizedBox(height: 40),
+                    SizedBox(height: 40),
 
                     // Big capacity input
                     Row(
@@ -20456,22 +17643,16 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                                   : (isLight ? Colors.black : Colors.white),
                               fontSize: 56,
                               fontWeight: FontWeight.w600,
-                              letterSpacing: -2,
-                            ),
-                            hintText: hintText,
-                          ),
-                        ),
-                        const SizedBox(width: 8),
+                              letterSpacing: -2),
+                            hintText: hintText)),
+                        SizedBox(width: 8),
                         Text(
                           unit,
                           style: TextStyle(
                             color: (isLight ? Colors.black : Colors.white).withOpacity(0.6),
                             fontSize: DesktopOptimizedWidgets.getFontSize() + 10,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                      ],
-                    ),
+                            fontWeight: FontWeight.w500)),
+                      ]),
 
                     // Percentage indicator
                     AnimatedDefaultTextStyle(
@@ -20479,14 +17660,11 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                       style: TextStyle(
                         color: wouldExceed ? Colors.red : sectionColor,
                         fontSize: DesktopOptimizedWidgets.getFontSize() + 6,
-                        fontWeight: FontWeight.w600,
-                      ),
+                        fontWeight: FontWeight.w600),
                       child: Text(
-                        '${calculatedPercentage.toStringAsFixed(1)}%',
-                      ),
-                    ),
+                        '${calculatedPercentage.toStringAsFixed(1)}%')),
 
-                    const SizedBox(height: 32),
+                    SizedBox(height: 32),
 
                     // Name input
                     DecoratedBox(
@@ -20494,20 +17672,16 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                         color: isLight
                             ? Colors.black.withOpacity(0.05)
                             : Colors.white.withOpacity(0.08),
-                        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius()),
-                      ),
+                        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius())),
                       child: TradeRepublicTextField(
                         controller: nameController,
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           color: isLight ? Colors.black : Colors.white,
                           fontSize: 17,
-                          fontWeight: FontWeight.w500,
-                        ),
+                          fontWeight: FontWeight.w500),
                         hintText:
-                            AppLocalizations.of(context)?.name ?? AppLocalizations.of(context)!.tr('Name'),
-                      ),
-                    ),
+                            AppLocalizations.of(context)?.name ?? AppLocalizations.of(context)!.tr('Name'))),
 
                     // Error message
                     AnimatedSize(
@@ -20515,22 +17689,17 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                       curve: Curves.easeOut,
                       child: wouldExceed
                           ? Padding(
-                              padding: const EdgeInsets.only(top: 16),
+                              padding: EdgeInsets.only(top: 16),
                               child: Text(
                                 AppLocalizations.of(
-                                      context,
-                                    )?.exceedsCapacity ?? AppLocalizations.of(context)!.tr('Exceeds capacity'),
+                                      context)?.exceedsCapacity ?? AppLocalizations.of(context)!.tr('Exceeds capacity'),
                                 style: TextStyle(
                                   color: Colors.red[400],
                                   fontSize: 15,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                            )
-                          : const SizedBox.shrink(),
-                    ),
+                                  fontWeight: FontWeight.w500)))
+                          : const SizedBox.shrink()),
 
-                    const SizedBox(height: 32),
+                    SizedBox(height: 32),
 
                     // Save button
                     TradeRepublicButton(
@@ -20550,24 +17719,16 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                                       : name,
                                   'percentage': calculatedPercentage.clamp(
                                     0.1,
-                                    100.0,
-                                  ),
+                                    100.0),
                                 };
                               });
                               HapticFeedback.lightImpact();
                               Navigator.pop(context);
                             }
                           : null,
-                      width: double.infinity,
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          );
-        },
-      ),
-    );
+                      width: double.infinity),
+                  ]))));
+        }));
   }
 
   // Edit section - wrapper for _showEditSectionModal
@@ -20598,20 +17759,16 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
               Icon(
                 CupertinoIcons.trash,
                 size: 22,
-                color: isLight ? Colors.black : Colors.white,
-              ),
-              const SizedBox(width: 12),
+                color: isLight ? Colors.black : Colors.white),
+              SizedBox(width: 12),
               Text(
                 AppLocalizations.of(context)?.deleteSection ?? AppLocalizations.of(context)!.tr('Delete Section?'),
                 style: TextStyle(
                   fontSize: 22,
                   fontWeight: FontWeight.w700,
                   color: isLight ? Colors.black : Colors.white,
-                  letterSpacing: -0.4,
-                ),
-              ),
-            ],
-          ),
+                  letterSpacing: -0.4)),
+            ]),
           SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
           // Description
@@ -20621,10 +17778,8 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
             style: TextStyle(
               color: isLight ? Colors.black : Colors.white,
               fontSize: DesktopOptimizedWidgets.getFontSize(),
-              height: 1.4,
-            ),
-          ),
-          const SizedBox(height: 32),
+              height: 1.4)),
+          SizedBox(height: 32),
 
           // Delete button
           TradeRepublicButton(
@@ -20635,8 +17790,7 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
               _deleteSection(index);
             },
             width: double.infinity,
-            isDestructive: true,
-          ),
+            isDestructive: true),
           SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
           // Cancel button
@@ -20646,11 +17800,8 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
               HapticFeedback.lightImpact();
               Navigator.pop(context);
             },
-            isSecondary: true,
-          ),
-        ],
-      ),
-    );
+            isSecondary: true),
+        ]));
   }
 
   void _deleteSection(int index) {
@@ -20734,8 +17885,7 @@ class _AccountSettingsModalState extends State<_AccountSettingsModal> {
     try {
       final response = await http.get(
         Uri.parse('${ApiConfig.baseUrl}/api/delvioo/driver/1/waiting-settings'),
-        headers: {'Content-Type': 'application/json'},
-      );
+        headers: {'Content-Type': 'application/json'});
 
       if (!mounted) return; // Check if still mounted
 
@@ -20762,16 +17912,14 @@ class _AccountSettingsModalState extends State<_AccountSettingsModal> {
         body: json.encode({
           'waiting_free_minutes': _waitingFreeMinutes,
           'waiting_rate_per_hour': _waitingRatePerHour,
-        }),
-      );
+        }));
 
       if (response.statusCode == 200) {
         final data = json.decode(response.body);
         if (data['success'] == true && mounted) {
           TopNotification.success(
             context,
-            AppLocalizations.of(context)?.waitingTimeSettingsSaved ?? AppLocalizations.of(context)!.tr('Waiting time settings saved!'),
-          );
+            AppLocalizations.of(context)?.waitingTimeSettingsSaved ?? AppLocalizations.of(context)!.tr('Waiting time settings saved!'));
         }
       } else {
         throw Exception('Failed to save settings');
@@ -20781,8 +17929,7 @@ class _AccountSettingsModalState extends State<_AccountSettingsModal> {
       if (mounted) {
         TopNotification.error(
           context,
-          AppLocalizations.of(context)?.failedToSaveWaitingTimeSettings ?? AppLocalizations.of(context)!.tr('Failed to save waiting time settings'),
-        );
+          AppLocalizations.of(context)?.failedToSaveWaitingTimeSettings ?? AppLocalizations.of(context)!.tr('Failed to save waiting time settings'));
       }
     }
   }
@@ -20806,31 +17953,25 @@ class _AccountSettingsModalState extends State<_AccountSettingsModal> {
                   Icon(
                     CupertinoIcons.clock,
                     size: 22,
-                    color: isLight ? Colors.black : Colors.white,
-                  ),
-                  const SizedBox(width: 12),
+                    color: isLight ? Colors.black : Colors.white),
+                  SizedBox(width: 12),
                   Text(
                     AppLocalizations.of(context)?.freeWaitingTime ?? AppLocalizations.of(context)!.tr('Free Waiting Time'),
                     style: TextStyle(
                       fontSize: 22,
                       fontWeight: FontWeight.w700,
                       color: widget.isLight ? Colors.black : Colors.white,
-                      letterSpacing: -0.4,
-                    ),
-                  ),
-                ],
-              ),
+                      letterSpacing: -0.4)),
+                ]),
               SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
               Text(
                 AppLocalizations.of(context)?.freeWaitingTimeQuestion ?? AppLocalizations.of(context)!.tr('How long will you wait for free at pickup/delivery?'),
                 style: TextStyle(
                   fontSize: DesktopOptimizedWidgets.getFontSize(),
                   color: (widget.isLight ? Colors.black : Colors.white)
-                      .withOpacity(0.6),
-                ),
-                textAlign: TextAlign.center,
-              ),
-              const SizedBox(height: 20),
+                      .withOpacity(0.6)),
+                textAlign: TextAlign.center),
+              SizedBox(height: 20),
               ...waitingOptions.map(
                 (minutes) => _buildWaitingOption(
                   minutes == 0
@@ -20843,15 +17984,9 @@ class _AccountSettingsModalState extends State<_AccountSettingsModal> {
                     });
                     Navigator.pop(context);
                     _saveWaitingTimeSettings();
-                  },
-                ),
-              ),
+                  })),
               SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
-            ],
-          ),
-        ),
-      ),
-    );
+            ]))));
   }
 
   void _showWaitingRateSelector() {
@@ -20873,31 +18008,25 @@ class _AccountSettingsModalState extends State<_AccountSettingsModal> {
                   Icon(
                     CupertinoIcons.clock,
                     size: 22,
-                    color: isLight ? Colors.black : Colors.white,
-                  ),
-                  const SizedBox(width: 12),
+                    color: isLight ? Colors.black : Colors.white),
+                  SizedBox(width: 12),
                   Text(
                     AppLocalizations.of(context)?.hourlyWaitingRate ?? AppLocalizations.of(context)!.tr('Hourly Waiting Rate'),
                     style: TextStyle(
                       fontSize: 22,
                       fontWeight: FontWeight.w700,
                       color: widget.isLight ? Colors.black : Colors.white,
-                      letterSpacing: -0.4,
-                    ),
-                  ),
-                ],
-              ),
+                      letterSpacing: -0.4)),
+                ]),
               SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
               Text(
                 AppLocalizations.of(context)?.waitingRateQuestion ?? AppLocalizations.of(context)!.tr('How much per hour after free waiting time?'),
                 style: TextStyle(
                   fontSize: DesktopOptimizedWidgets.getFontSize(),
                   color: (widget.isLight ? Colors.black : Colors.white)
-                      .withOpacity(0.6),
-                ),
-                textAlign: TextAlign.center,
-              ),
-              const SizedBox(height: 20),
+                      .withOpacity(0.6)),
+                textAlign: TextAlign.center),
+              SizedBox(height: 20),
               ...rateOptions.map(
                 (rate) => _buildWaitingOption(
                   rate == 0
@@ -20910,33 +18039,24 @@ class _AccountSettingsModalState extends State<_AccountSettingsModal> {
                     });
                     Navigator.pop(context);
                     _saveWaitingTimeSettings();
-                  },
-                ),
-              ),
+                  })),
               SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
-            ],
-          ),
-        ),
-      ),
-    );
+            ]))));
   }
 
   Widget _buildWaitingOption(
     String label,
     bool isSelected,
-    VoidCallback onTap,
-  ) {
+    VoidCallback onTap) {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 8),
+      padding: EdgeInsets.only(bottom: 8),
       child: TradeRepublicListTile(
         title: label,
         onTap: onTap,
         trailing: isSelected
-            ? const Icon(CupertinoIcons.checkmark, size: 16)
+            ? Icon(CupertinoIcons.checkmark, size: 16)
             : null,
-        padding: const EdgeInsets.symmetric(vertical: 14),
-      ),
-    );
+        padding: EdgeInsets.symmetric(vertical: 14)));
   }
   Future<void> _checkBiometricAvailability() async {
     try {
@@ -20994,31 +18114,25 @@ class _AccountSettingsModalState extends State<_AccountSettingsModal> {
                   Icon(
                     CupertinoIcons.location,
                     size: 22,
-                    color: isLight ? Colors.black : Colors.white,
-                  ),
-                  const SizedBox(width: 12),
+                    color: isLight ? Colors.black : Colors.white),
+                  SizedBox(width: 12),
                   Text(
                     AppLocalizations.of(context)?.searchRadius ?? AppLocalizations.of(context)!.tr('Search Radius'),
                     style: TextStyle(
                       fontSize: 22,
                       fontWeight: FontWeight.w700,
                       color: isLight ? Colors.black : Colors.white,
-                      letterSpacing: -0.4,
-                    ),
-                  ),
-                ],
-              ),
+                      letterSpacing: -0.4)),
+                ]),
               SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
               Text(
                 AppLocalizations.of(context)?.howFarSearchOrders ?? AppLocalizations.of(context)!.tr('How far should we search for open orders?'),
                 style: TextStyle(
                   fontSize: DesktopOptimizedWidgets.getFontSize(),
                   color: (isLight ? Colors.black : Colors.white)
-                      .withOpacity(0.6),
-                ),
-                textAlign: TextAlign.center,
-              ),
-              const SizedBox(height: 28),
+                      .withOpacity(0.6)),
+                textAlign: TextAlign.center),
+              SizedBox(height: 28),
 
               // Current value display
               Text(
@@ -21027,10 +18141,8 @@ class _AccountSettingsModalState extends State<_AccountSettingsModal> {
                   fontSize: 36,
                   fontWeight: FontWeight.w700,
                   color: isLight ? Colors.black : Colors.white,
-                  letterSpacing: -1,
-                ),
-              ),
-              const SizedBox(height: 20),
+                  letterSpacing: -1)),
+              SizedBox(height: 20),
 
               // Slider (works in user's unit)
               Padding(
@@ -21041,13 +18153,11 @@ class _AccountSettingsModalState extends State<_AccountSettingsModal> {
                   max: useMiles ? 150 : 200,
                   divisions: useMiles ? 149 : 199,
                   labelBuilder: (v) => fmtRadius(v),
-                  onChanged: (val) => setSheetState(() => tempDisplayRadius = val),
-                ),
-              ),
+                  onChanged: (val) => setSheetState(() => tempDisplayRadius = val))),
 
               // Min/Max labels
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 4),
+                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 4),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -21057,22 +18167,16 @@ class _AccountSettingsModalState extends State<_AccountSettingsModal> {
                         fontSize: 12,
                         fontWeight: FontWeight.w600,
                         color: (isLight ? Colors.black : Colors.white)
-                            .withOpacity(0.4),
-                      ),
-                    ),
+                            .withOpacity(0.4))),
                     Text(
                       fmtRadius(useMiles ? 150 : 200),
                       style: TextStyle(
                         fontSize: 12,
                         fontWeight: FontWeight.w600,
                         color: (isLight ? Colors.black : Colors.white)
-                            .withOpacity(0.4),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(height: 20),
+                            .withOpacity(0.4))),
+                  ])),
+              SizedBox(height: 20),
 
               // Quick select buttons
               Padding(
@@ -21082,7 +18186,7 @@ class _AccountSettingsModalState extends State<_AccountSettingsModal> {
                     final isSelected = tempDisplayRadius.round() == radius.round();
                     return Expanded(
                       child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 3),
+                        padding: EdgeInsets.symmetric(horizontal: 3),
                         child: TradeRepublicButton(
                           label: fmtRadius(radius),
                           onPressed: () {
@@ -21091,13 +18195,8 @@ class _AccountSettingsModalState extends State<_AccountSettingsModal> {
                             });
                           },
                           isSecondary: !isSelected,
-                          width: double.infinity,
-                        ),
-                      ),
-                    );
-                  }).toList(),
-                ),
-              ),
+                          width: double.infinity)));
+                  }).toList())),
               SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
               // Save button
@@ -21115,19 +18214,13 @@ class _AccountSettingsModalState extends State<_AccountSettingsModal> {
                     if (mounted) {
                       TopNotification.success(
                         context,
-                        '${AppLocalizations.of(context)?.radiusSetTo ?? AppLocalizations.of(context)!.tr('Search radius set to')} ${fmtRadius(tempDisplayRadius)}',
-                      );
+                        '${AppLocalizations.of(context)?.radiusSetTo ?? AppLocalizations.of(context)!.tr('Search radius set to')} ${fmtRadius(tempDisplayRadius)}');
                     }
                   },
-                  width: double.infinity,
-                ),
-              ),
+                  width: double.infinity)),
               SizedBox(height: 16 + bottomPadding),
-            ],
-          );
-        },
-      ),
-    );
+            ]);
+        }));
   }
 
   Future<void> _loadSettings() async {
@@ -21166,16 +18259,14 @@ class _AccountSettingsModalState extends State<_AccountSettingsModal> {
 
       print('🔑 Loading history for user: $userId');
       print(
-        '🌐 API URL: ${ApiConfig.baseUrl}/api/driver/$userId/login-history',
-      );
+        '🌐 API URL: ${ApiConfig.baseUrl}/api/driver/$userId/login-history');
 
       final response = await http.get(
         Uri.parse('${ApiConfig.baseUrl}/api/driver/$userId/login-history'),
         headers: {
           'Content-Type': 'application/json',
           'Authorization': 'Bearer $token',
-        },
-      );
+        });
 
       print('📡 Login history response: ${response.statusCode}');
       print('📡 Login history body: ${response.body}');
@@ -21233,8 +18324,7 @@ class _AccountSettingsModalState extends State<_AccountSettingsModal> {
       isEnabled: _is2FAEnabled,
       onSuccess: () {
         _loadSettings(); // Reload settings after successful change
-      },
-    );
+      });
 
     // Always reload settings after bottom sheet closes
     _loadSettings();
@@ -21245,8 +18335,7 @@ class _AccountSettingsModalState extends State<_AccountSettingsModal> {
       TopNotification.error(
         context,
         AppLocalizations.of(context)?.biometricNotAvailableOnDevice ?? AppLocalizations.of(context)!.tr('Biometric authentication is not available on this device'),
-        title: AppLocalizations.of(context)?.notAvailable ?? AppLocalizations.of(context)!.tr('Not Available'),
-      );
+        title: AppLocalizations.of(context)?.notAvailable ?? AppLocalizations.of(context)!.tr('Not Available'));
       return;
     }
 
@@ -21263,15 +18352,13 @@ class _AccountSettingsModalState extends State<_AccountSettingsModal> {
         TopNotification.success(
           context,
           AppLocalizations.of(context)?.biometricAuthEnabledSuccessfully ?? AppLocalizations.of(context)!.tr('Biometric authentication enabled successfully!'),
-          title: AppLocalizations.of(context)?.success ?? AppLocalizations.of(context)!.tr('Success'),
-        );
+          title: AppLocalizations.of(context)?.success ?? AppLocalizations.of(context)!.tr('Success'));
       } else {
         TopNotification.error(
           context,
           AppLocalizations.of(context)?.biometricVerificationFailed ?? AppLocalizations.of(context)!.tr('Biometric verification failed. Please try again.'),
           title:
-              AppLocalizations.of(context)?.verificationFailed ?? AppLocalizations.of(context)!.tr('Verification Failed'),
-        );
+              AppLocalizations.of(context)?.verificationFailed ?? AppLocalizations.of(context)!.tr('Verification Failed'));
       }
     } else {
       // Disable biometric authentication
@@ -21286,17 +18373,14 @@ class _AccountSettingsModalState extends State<_AccountSettingsModal> {
         TopNotification.success(
           context,
           AppLocalizations.of(context)?.biometricAuthDisabledSuccessfully ?? AppLocalizations.of(context)!.tr('Biometric authentication disabled successfully!'),
-          title: AppLocalizations.of(context)?.disabled ?? AppLocalizations.of(context)!.tr('Disabled'),
-        );
+          title: AppLocalizations.of(context)?.disabled ?? AppLocalizations.of(context)!.tr('Disabled'));
       } else {
         TopNotification.error(
           context,
           AppLocalizations.of(
-                context,
-              )?.biometricVerificationRequiredToDisable ?? AppLocalizations.of(context)!.tr('Biometric verification required to disable this feature'),
+                context)?.biometricVerificationRequiredToDisable ?? AppLocalizations.of(context)!.tr('Biometric verification required to disable this feature'),
           title:
-              AppLocalizations.of(context)?.verificationRequired ?? AppLocalizations.of(context)!.tr('Verification Required'),
-        );
+              AppLocalizations.of(context)?.verificationRequired ?? AppLocalizations.of(context)!.tr('Verification Required'));
       }
     }
   }
@@ -21321,9 +18405,7 @@ class _AccountSettingsModalState extends State<_AccountSettingsModal> {
         isLight: widget.isLight,
         onPasswordChanged: (oldPassword, newPassword) {
           _changePassword(oldPassword, newPassword);
-        },
-      ),
-    );
+        }));
   }
 
   Future<void> _changePassword(String oldPassword, String newPassword) async {
@@ -21334,13 +18416,11 @@ class _AccountSettingsModalState extends State<_AccountSettingsModal> {
       // In real app, would make HTTP request to change password
       TopNotification.success(
         context,
-        AppLocalizations.of(context)?.passwordChangedSuccessfully ?? AppLocalizations.of(context)!.tr('Password changed successfully!'),
-      );
+        AppLocalizations.of(context)?.passwordChangedSuccessfully ?? AppLocalizations.of(context)!.tr('Password changed successfully!'));
     } catch (e) {
       TopNotification.error(
         context,
-        '${AppLocalizations.of(context)?.errorChangingPassword ?? AppLocalizations.of(context)!.tr('Error changing password')}: $e',
-      );
+        '${AppLocalizations.of(context)?.errorChangingPassword ?? AppLocalizations.of(context)!.tr('Error changing password')}: $e');
     }
   }
 
@@ -21351,14 +18431,12 @@ class _AccountSettingsModalState extends State<_AccountSettingsModal> {
       TopNotification.success(
         context,
         AppLocalizations.of(context)?.biometricTestSuccessful ?? AppLocalizations.of(context)!.tr('Biometric test successful!'),
-        title: AppLocalizations.of(context)?.testPassed ?? AppLocalizations.of(context)!.tr('Test Passed'),
-      );
+        title: AppLocalizations.of(context)?.testPassed ?? AppLocalizations.of(context)!.tr('Test Passed'));
     } else {
       TopNotification.error(
         context,
         AppLocalizations.of(context)?.biometricTestFailed ?? AppLocalizations.of(context)!.tr('Biometric test failed'),
-        title: AppLocalizations.of(context)?.testFailed ?? AppLocalizations.of(context)!.tr('Test Failed'),
-      );
+        title: AppLocalizations.of(context)?.testFailed ?? AppLocalizations.of(context)!.tr('Test Failed'));
     }
   }
 
@@ -21372,9 +18450,7 @@ class _AccountSettingsModalState extends State<_AccountSettingsModal> {
         isLight: widget.isLight,
         currentCode: _generated2FACode,
         onToggle2FA: _handle2FAToggle,
-        isEnabled: _is2FAEnabled,
-      ),
-    );
+        isEnabled: _is2FAEnabled));
   }
 
   void _showLoginHistoryModal() {
@@ -21385,9 +18461,7 @@ class _AccountSettingsModalState extends State<_AccountSettingsModal> {
       showDragHandle: true,
       child: _LoginHistoryModal(
         isLight: widget.isLight,
-        loginHistory: _loginHistory,
-      ),
-    );
+        loginHistory: _loginHistory));
   }
 
   void _showDeleteAccountConfirmation(BuildContext parentContext) {
@@ -21417,14 +18491,11 @@ class _AccountSettingsModalState extends State<_AccountSettingsModal> {
                           padding: DesktopAppWrapper.getPagePadding(),
                           decoration: BoxDecoration(
                             color: Colors.red.withOpacity(0.1),
-                            shape: BoxShape.circle,
-                          ),
+                            shape: BoxShape.circle),
                           child: Icon(
                             CupertinoIcons.exclamationmark_triangle,
                             color: Colors.red,
-                            size: 48,
-                          ),
-                        ),
+                            size: 48)),
 
                         SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
@@ -21435,39 +18506,32 @@ class _AccountSettingsModalState extends State<_AccountSettingsModal> {
                             fontSize: 34,
                             fontWeight: FontWeight.w700,
                             color: widget.isLight ? Colors.black : Colors.white,
-                            letterSpacing: -0.5,
-                          ),
-                        ),
+                            letterSpacing: -0.5)),
 
                         SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
                         // Warning message
                         Text(
                           AppLocalizations.of(
-                                context,
-                              )?.permanentDeleteWarning ?? AppLocalizations.of(context)!.tr('This action is permanent and cannot be undone. All your data will be deleted from our servers.'),
+                                context)?.permanentDeleteWarning ?? AppLocalizations.of(context)!.tr('This action is permanent and cannot be undone. All your data will be deleted from our servers.'),
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             fontSize: 15,
                             color:
                                 (widget.isLight ? Colors.black : Colors.white)
                                     .withOpacity(0.6),
-                            height: 1.5,
-                          ),
-                        ),
+                            height: 1.5)),
 
-                        const SizedBox(height: 32),
+                        SizedBox(height: 32),
 
                         // Password field
                         Container(
-                          padding: const EdgeInsets.symmetric(
+                          padding: EdgeInsets.symmetric(
                             horizontal: 20,
-                            vertical: 4,
-                          ),
+                            vertical: 4),
                           decoration: BoxDecoration(
                             color: widget.isLight ? Colors.white : Colors.black,
-                            borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-                          ),
+                            borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
                           child: TradeRepublicTextField(
                             controller: passwordController,
                             filled: false,
@@ -21477,18 +18541,15 @@ class _AccountSettingsModalState extends State<_AccountSettingsModal> {
                               color: widget.isLight
                                   ? Colors.black
                                   : Colors.white,
-                              fontSize: DesktopOptimizedWidgets.getFontSize(),
-                            ),
+                              fontSize: DesktopOptimizedWidgets.getFontSize()),
                             hintText:
                                 AppLocalizations.of(
-                                  context,
-                                )?.enterYourPasswordToConfirm ?? AppLocalizations.of(context)!.tr('Enter your password to confirm'),
+                                  context)?.enterYourPasswordToConfirm ?? AppLocalizations.of(context)!.tr('Enter your password to confirm'),
                             prefixIcon: Icon(
                               CupertinoIcons.lock,
                               color:
                                   (widget.isLight ? Colors.black : Colors.white)
-                                      .withOpacity(0.6),
-                            ),
+                                      .withOpacity(0.6)),
                             suffixIcon: TradeRepublicButton.icon(
                               size: 36,
                               isSecondary: true,
@@ -21499,16 +18560,12 @@ class _AccountSettingsModalState extends State<_AccountSettingsModal> {
                               icon: Icon(
                                 isPasswordVisible
                                     ? CupertinoIcons.eye_slash
-                                    : CupertinoIcons.eye,
-                              ),
+                                    : CupertinoIcons.eye),
                               onPressed: () {
                                 setModalState(() {
                                   isPasswordVisible = !isPasswordVisible;
                                 });
-                              },
-                            ),
-                          ),
-                        ),
+                              }))),
 
                         SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
@@ -21517,58 +18574,39 @@ class _AccountSettingsModalState extends State<_AccountSettingsModal> {
                           padding: DesktopAppWrapper.getPagePadding(),
                           decoration: BoxDecoration(
                             color: Colors.red.withOpacity(0.05),
-                            borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-                          ),
+                            borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
                                 AppLocalizations.of(
-                                      context,
-                                    )?.whatWillBeDeleted ?? AppLocalizations.of(context)!.tr('What will be deleted:'),
+                                      context)?.whatWillBeDeleted ?? AppLocalizations.of(context)!.tr('What will be deleted:'),
                                 style: TextStyle(
                                   fontSize: 15,
                                   fontWeight: FontWeight.w700,
                                   color: widget.isLight
                                       ? Colors.black
-                                      : Colors.white,
-                                ),
-                              ),
+                                      : Colors.white)),
                               SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                               _buildDeletedItem(
                                 AppLocalizations.of(
-                                      context,
-                                    )?.allPersonalInformation ?? AppLocalizations.of(context)!.tr('All personal information'),
-                              ),
+                                      context)?.allPersonalInformation ?? AppLocalizations.of(context)!.tr('All personal information')),
                               _buildDeletedItem(
                                 AppLocalizations.of(
-                                      context,
-                                    )?.deliveryHistoryAndRecords ?? AppLocalizations.of(context)!.tr('Delivery history and records'),
-                              ),
+                                      context)?.deliveryHistoryAndRecords ?? AppLocalizations.of(context)!.tr('Delivery history and records')),
                               _buildDeletedItem(
                                 AppLocalizations.of(
-                                      context,
-                                    )?.vehicleAndPaymentInfo ?? AppLocalizations.of(context)!.tr('Vehicle and payment information'),
-                              ),
+                                      context)?.vehicleAndPaymentInfo ?? AppLocalizations.of(context)!.tr('Vehicle and payment information')),
                               _buildDeletedItem(
                                 AppLocalizations.of(
-                                      context,
-                                    )?.groupMemberships ?? AppLocalizations.of(context)!.tr('Group memberships'),
-                              ),
+                                      context)?.groupMemberships ?? AppLocalizations.of(context)!.tr('Group memberships')),
                               _buildDeletedItem(
                                 AppLocalizations.of(
-                                      context,
-                                    )?.loginCredentialsAndSettings ?? AppLocalizations.of(context)!.tr('Login credentials and settings'),
-                              ),
-                            ],
-                          ),
-                        ),
+                                      context)?.loginCredentialsAndSettings ?? AppLocalizations.of(context)!.tr('Login credentials and settings')),
+                            ])),
 
                         SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
-                      ],
-                    ),
-                  ),
-                ),
+                      ]))),
 
                 // Bottom buttons - fixed at bottom
                 Padding(
@@ -21588,9 +18626,7 @@ class _AccountSettingsModalState extends State<_AccountSettingsModal> {
                                   TopNotification.error(
                                     context,
                                     AppLocalizations.of(
-                                          context,
-                                        )?.pleaseEnterYourPassword ?? AppLocalizations.of(context)!.tr('Please enter your password'),
-                                  );
+                                          context)?.pleaseEnterYourPassword ?? AppLocalizations.of(context)!.tr('Please enter your password'));
                                   return;
                                 }
 
@@ -21601,14 +18637,12 @@ class _AccountSettingsModalState extends State<_AccountSettingsModal> {
                                 await _deleteAccount(
                                   passwordController.text.trim(),
                                   context,
-                                  parentContext,
-                                );
+                                  parentContext);
 
                                 setModalState(() {
                                   isLoading = false;
                                 });
-                              },
-                      ),
+                              }),
 
                       SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
@@ -21621,46 +18655,33 @@ class _AccountSettingsModalState extends State<_AccountSettingsModal> {
                                 HapticFeedback.lightImpact();
                                 Navigator.pop(context);
                               },
-                        isSecondary: true,
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          );
-        },
-      ),
-    );
+                        isSecondary: true),
+                    ])),
+              ]));
+        }));
   }
 
   Widget _buildDeletedItem(String text) {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 8),
+      padding: EdgeInsets.only(bottom: 8),
       child: Row(
         children: [
           Icon(CupertinoIcons.xmark, color: Colors.red, size: 16),
-          const SizedBox(width: 8),
+          SizedBox(width: 8),
           Expanded(
             child: Text(
               text,
               style: TextStyle(
                 fontSize: DesktopOptimizedWidgets.getFontSize(),
                 color: (widget.isLight ? Colors.black : Colors.white)
-                    .withOpacity(0.7),
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
+                    .withOpacity(0.7)))),
+        ]));
   }
 
   Future<void> _deleteAccount(
     String password,
     BuildContext modalContext,
-    BuildContext parentContext,
-  ) async {
+    BuildContext parentContext) async {
     try {
       final prefs = await SharedPreferences.getInstance();
       final token = prefs.getString('auth_token');
@@ -21680,8 +18701,7 @@ class _AccountSettingsModalState extends State<_AccountSettingsModal> {
           'Content-Type': 'application/json',
           'Authorization': 'Bearer $token',
         },
-        body: json.encode({'password': password}),
-      );
+        body: json.encode({'password': password}));
 
       print('🗑️ Delete account response status: ${response.statusCode}');
       print('🗑️ Response body: ${response.body}');
@@ -21697,8 +18717,7 @@ class _AccountSettingsModalState extends State<_AccountSettingsModal> {
         if (modalContext.mounted) {
           TopNotification.success(
             modalContext,
-            AppLocalizations.of(context)?.accountDeletedSuccessfully ?? AppLocalizations.of(context)!.tr('Account deleted successfully'),
-          );
+            AppLocalizations.of(context)?.accountDeletedSuccessfully ?? AppLocalizations.of(context)!.tr('Account deleted successfully'));
           Navigator.pop(modalContext); // Close delete confirmation modal
         }
 
@@ -21708,8 +18727,7 @@ class _AccountSettingsModalState extends State<_AccountSettingsModal> {
 
           // Navigate to login page (assuming you have a named route)
           Navigator.of(
-            parentContext,
-          ).pushNamedAndRemoveUntil('/login', (route) => false);
+            parentContext).pushNamedAndRemoveUntil('/login', (route) => false);
         }
       } else {
         final errorData = json.decode(response.body);
@@ -21723,13 +18741,11 @@ class _AccountSettingsModalState extends State<_AccountSettingsModal> {
       }
     } catch (e) {
       print(
-        '${AppLocalizations.of(context)?.errorDeletingAccount ?? AppLocalizations.of(context)!.tr('Error deleting account')}: $e',
-      );
+        '${AppLocalizations.of(context)?.errorDeletingAccount ?? AppLocalizations.of(context)!.tr('Error deleting account')}: $e');
       if (modalContext.mounted) {
         TopNotification.error(
           modalContext,
-          AppLocalizations.of(context)?.failedToDeleteAccountTryAgain ?? AppLocalizations.of(context)!.tr('Failed to delete account. Please try again.'),
-        );
+          AppLocalizations.of(context)?.failedToDeleteAccountTryAgain ?? AppLocalizations.of(context)!.tr('Failed to delete account. Please try again.'));
       }
     }
   }
@@ -21747,20 +18763,16 @@ class _AccountSettingsModalState extends State<_AccountSettingsModal> {
               Icon(
                 CupertinoIcons.settings,
                 size: 22,
-                color: isLight ? Colors.black : Colors.white,
-              ),
-              const SizedBox(width: 12),
+                color: isLight ? Colors.black : Colors.white),
+              SizedBox(width: 12),
               Text(
                 AppLocalizations.of(context)?.accountSettings ?? AppLocalizations.of(context)!.tr('Account Settings'),
                 style: TextStyle(
                   fontSize: 22,
                   fontWeight: FontWeight.w700,
                   color: widget.isLight ? Colors.black : Colors.white,
-                  letterSpacing: -0.4,
-                ),
-              ),
-            ],
-          ),
+                  letterSpacing: -0.4)),
+            ]),
           SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
           Expanded(
@@ -21769,8 +18781,7 @@ class _AccountSettingsModalState extends State<_AccountSettingsModal> {
                 children: [
                   // Security Section
                   _buildSectionHeader(
-                    AppLocalizations.of(context)?.securityAndAuthentication ?? AppLocalizations.of(context)!.tr('Security & Authentication'),
-                  ),
+                    AppLocalizations.of(context)?.securityAndAuthentication ?? AppLocalizations.of(context)!.tr('Security & Authentication')),
                   SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
                   // Biometric Authentication
@@ -21783,24 +18794,20 @@ class _AccountSettingsModalState extends State<_AccountSettingsModal> {
                           ? (AppLocalizations.of(context)?.enabledTapToTest ?? AppLocalizations.of(context)!.tr(''))
                               : 'Use fingerprint or face ID to unlock')
                         : AppLocalizations.of(
-                                context,
-                              )?.notAvailableOnThisDevice ?? AppLocalizations.of(context)!.tr('Not available on this device'),
+                                context)?.notAvailableOnThisDevice ?? AppLocalizations.of(context)!.tr('Not available on this device'),
                     trailing: _isBiometricAvailable
                         ? TradeRepublicSwitch(
                             value: _isBiometricEnabled,
                             onChanged: _toggleBiometric,
                             selectedLabel: 'Y',
-                            unselectedLabel: 'N',
-                          )
+                            unselectedLabel: 'N')
                         : Icon(
                             CupertinoIcons.nosign,
                             color: widget.isLight ? Colors.black : Colors.white,
-                            size: 20,
-                          ),
+                            size: 20),
                     onTap: _isBiometricEnabled && _isBiometricAvailable
                         ? _testBiometric
-                        : null,
-                  ),
+                        : null),
 
                   // Two Factor Authentication
                   _buildSettingsTile(
@@ -21814,10 +18821,8 @@ class _AccountSettingsModalState extends State<_AccountSettingsModal> {
                       CupertinoIcons.chevron_right,
                       color: (widget.isLight ? Colors.black : Colors.white)
                           .withOpacity(0.5),
-                      size: 16,
-                    ),
-                    onTap: _show2FAModal,
-                  ),
+                      size: 16),
+                    onTap: _show2FAModal),
 
                   // Change Password
                   _buildSettingsTile(
@@ -21830,17 +18835,14 @@ class _AccountSettingsModalState extends State<_AccountSettingsModal> {
                       CupertinoIcons.chevron_right,
                       color: (widget.isLight ? Colors.black : Colors.white)
                           .withOpacity(0.5),
-                      size: 16,
-                    ),
-                    onTap: _showChangePasswordModal,
-                  ),
+                      size: 16),
+                    onTap: _showChangePasswordModal),
 
-                  const SizedBox(height: 32),
+                  SizedBox(height: 32),
 
                   // Activity Section
                   _buildSectionHeader(
-                    AppLocalizations.of(context)?.accountActivity ?? AppLocalizations.of(context)!.tr('Account Activity'),
-                  ),
+                    AppLocalizations.of(context)?.accountActivity ?? AppLocalizations.of(context)!.tr('Account Activity')),
                   SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
                   // Login History
@@ -21850,23 +18852,19 @@ class _AccountSettingsModalState extends State<_AccountSettingsModal> {
                         AppLocalizations.of(context)?.loginHistory ?? AppLocalizations.of(context)!.tr('Login History'),
                     subtitle:
                         AppLocalizations.of(
-                          context,
-                        )?.viewRecentAccountActivity ?? AppLocalizations.of(context)!.tr('View recent account activity'),
+                          context)?.viewRecentAccountActivity ?? AppLocalizations.of(context)!.tr('View recent account activity'),
                     trailing: Icon(
                       CupertinoIcons.chevron_right,
                       color: (widget.isLight ? Colors.black : Colors.white)
                           .withOpacity(0.5),
-                      size: 16,
-                    ),
-                    onTap: _showLoginHistoryModal,
-                  ),
+                      size: 16),
+                    onTap: _showLoginHistoryModal),
 
-                  const SizedBox(height: 32),
+                  SizedBox(height: 32),
 
                   // Waiting Time Settings Section
                   _buildSectionHeader(
-                    AppLocalizations.of(context)?.waitingTimeCharges ?? AppLocalizations.of(context)!.tr('Waiting Time Charges'),
-                  ),
+                    AppLocalizations.of(context)?.waitingTimeCharges ?? AppLocalizations.of(context)!.tr('Waiting Time Charges')),
                   SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
                   // Free Waiting Time
@@ -21880,10 +18878,8 @@ class _AccountSettingsModalState extends State<_AccountSettingsModal> {
                       CupertinoIcons.chevron_right,
                       color: (widget.isLight ? Colors.black : Colors.white)
                           .withOpacity(0.5),
-                      size: 16,
-                    ),
-                    onTap: _showFreeWaitingTimeSelector,
-                  ),
+                      size: 16),
+                    onTap: _showFreeWaitingTimeSelector),
 
                   // Hourly Rate After Free Time
                   _buildSettingsTile(
@@ -21896,28 +18892,22 @@ class _AccountSettingsModalState extends State<_AccountSettingsModal> {
                       CupertinoIcons.chevron_right,
                       color: (widget.isLight ? Colors.black : Colors.white)
                           .withOpacity(0.5),
-                      size: 16,
-                    ),
-                    onTap: _showWaitingRateSelector,
-                  ),
+                      size: 16),
+                    onTap: _showWaitingRateSelector),
 
                   // Info text
                   Padding(
-                    padding: const EdgeInsets.symmetric(
+                    padding: EdgeInsets.symmetric(
                       horizontal: 8,
-                      vertical: 8,
-                    ),
+                      vertical: 8),
                     child: Text(
                       '${AppLocalizations.of(context)?.freeWaitingTimeQuestion ?? AppLocalizations.of(context)!.tr('Waiting time')}: $_waitingFreeMinutes min',
                       style: TextStyle(
                         fontSize: 13,
                         color: (widget.isLight ? Colors.black : Colors.white)
-                            .withOpacity(0.5),
-                      ),
-                    ),
-                  ),
+                            .withOpacity(0.5)))),
 
-                  const SizedBox(height: 32),
+                  SizedBox(height: 32),
 
                   // AI Order Suggestions Section
                   _buildSectionHeader(AppLocalizations.of(context)?.aiOrderSuggestions ?? AppLocalizations.of(context)!.tr('AI Order Suggestions')),
@@ -21928,7 +18918,7 @@ class _AccountSettingsModalState extends State<_AccountSettingsModal> {
                     builder: (context) {
                       final appSettings = Provider.of<AppSettings>(context);
                       return Padding(
-                        padding: const EdgeInsets.only(bottom: 12),
+                        padding: EdgeInsets.only(bottom: 12),
                         child: TradeRepublicListTile.toggle(
                           title: AppLocalizations.of(context)?.automaticSuggestions ?? AppLocalizations.of(context)!.tr('Automatic Suggestions'),
                           subtitle: appSettings.lastMileEnabled
@@ -21936,46 +18926,36 @@ class _AccountSettingsModalState extends State<_AccountSettingsModal> {
                               : AppLocalizations.of(context)?.noAutomaticSuggestions ?? AppLocalizations.of(context)!.tr('No automatic suggestions'),
                           leading: Icon(Icons.auto_awesome_rounded, size: 20),
                           value: appSettings.lastMileEnabled,
-                          onChanged: (val) => appSettings.setLastMileEnabled(val),
-                        ),
-                      );
-                    },
-                  ),
+                          onChanged: (val) => appSettings.setLastMileEnabled(val)));
+                    }),
 
                   // Radius Selector
                   Builder(
                     builder: (context) {
                       final appSettings = Provider.of<AppSettings>(context);
                       return Padding(
-                        padding: const EdgeInsets.only(bottom: 12),
+                        padding: EdgeInsets.only(bottom: 12),
                         child: TradeRepublicListTile.navigation(
                           title: AppLocalizations.of(context)?.searchRadius ?? AppLocalizations.of(context)!.tr('Search Radius'),
                           subtitle: appSettings.formatDistance(appSettings.aiSuggestionRadius),
                           leading: Icon(CupertinoIcons.location_circle, size: 20),
-                          onTap: () => _showAiRadiusSelector(),
-                        ),
-                      );
-                    },
-                  ),
+                          onTap: () => _showAiRadiusSelector()));
+                    }),
 
                   // Info text
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+                    padding: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
                     child: Text(
                       AppLocalizations.of(context)?.aiSuggestionInfoText ?? AppLocalizations.of(context)!.tr('During navigation, AI automatically suggests nearby open orders. You can place a bid directly.'),
                       style: TextStyle(
                         fontSize: 13,
-                        color: (widget.isLight ? Colors.black : Colors.white).withOpacity(0.5),
-                      ),
-                    ),
-                  ),
+                        color: (widget.isLight ? Colors.black : Colors.white).withOpacity(0.5)))),
 
-                  const SizedBox(height: 32),
+                  SizedBox(height: 32),
 
                   // Privacy Section
                   _buildSectionHeader(
-                    AppLocalizations.of(context)?.privacyAndData ?? AppLocalizations.of(context)!.tr('Privacy & Data'),
-                  ),
+                    AppLocalizations.of(context)?.privacyAndData ?? AppLocalizations.of(context)!.tr('Privacy & Data')),
                   SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
                   // Download Data
@@ -21985,21 +18965,17 @@ class _AccountSettingsModalState extends State<_AccountSettingsModal> {
                         AppLocalizations.of(context)?.downloadMyData ?? AppLocalizations.of(context)!.tr('Download My Data'),
                     subtitle:
                         AppLocalizations.of(
-                          context,
-                        )?.exportAllYourAccountData ?? AppLocalizations.of(context)!.tr('Export all your account data'),
+                          context)?.exportAllYourAccountData ?? AppLocalizations.of(context)!.tr('Export all your account data'),
                     trailing: Icon(
                       CupertinoIcons.chevron_right,
                       color: (widget.isLight ? Colors.black : Colors.white)
                           .withOpacity(0.5),
-                      size: 16,
-                    ),
+                      size: 16),
                     onTap: () {
                       TopNotification.info(
                         context,
-                        AppLocalizations.of(context)!.tr('Data export feature coming soon!') ?? AppLocalizations.of(context)!.tr('Data export feature coming soon!'),
-                      );
-                    },
-                  ),
+                        AppLocalizations.of(context)!.tr('Data export feature coming soon!') ?? AppLocalizations.of(context)!.tr('Data export feature coming soon!'));
+                    }),
 
                   // Delete Account
                   _buildSettingsTile(
@@ -22008,32 +18984,23 @@ class _AccountSettingsModalState extends State<_AccountSettingsModal> {
                         AppLocalizations.of(context)?.deleteAccount ?? AppLocalizations.of(context)!.tr('Delete Account'),
                     subtitle:
                         AppLocalizations.of(
-                          context,
-                        )?.permanentlyDeleteYourAccount ?? AppLocalizations.of(context)!.tr('Permanently delete your account'),
+                          context)?.permanentlyDeleteYourAccount ?? AppLocalizations.of(context)!.tr('Permanently delete your account'),
                     trailing: Icon(
                       CupertinoIcons.chevron_right,
                       color: Colors.red.withOpacity(0.7),
-                      size: 16,
-                    ),
+                      size: 16),
                     isDestructive: true,
                     onTap: () {
                       _showDeleteAccountConfirmation(context);
-                    },
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
+                    }),
+                ]))),
+        ]));
   }
 
   Widget _buildSectionHeader(String title) {
     return TradeRepublicSectionHeader(
       title: title,
-      padding: const EdgeInsets.only(bottom: 0),
-    );
+      padding: EdgeInsets.only(bottom: 0));
   }
 
   Widget _buildSettingsTile({
@@ -22045,21 +19012,18 @@ class _AccountSettingsModalState extends State<_AccountSettingsModal> {
     bool isDestructive = false,
   }) {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 12),
+      padding: EdgeInsets.only(bottom: 12),
       child: TradeRepublicListTile(
         title: title,
         subtitle: subtitle,
         leading: Icon(
           icon,
           size: 20,
-          color: isDestructive ? Colors.red : null,
-        ),
+          color: isDestructive ? Colors.red : null),
         trailing: trailing,
         onTap: onTap,
         titleColor: isDestructive ? TradeRepublicTheme.destructiveRed : null,
-        padding: const EdgeInsets.symmetric(vertical: 12),
-      ),
-    );
+        padding: EdgeInsets.symmetric(vertical: 12)));
   }
 }
 
@@ -22105,8 +19069,7 @@ class _ChangePasswordModalState extends State<_ChangePasswordModal> {
 
       widget.onPasswordChanged(
         _currentPasswordController.text,
-        _newPasswordController.text,
-      );
+        _newPasswordController.text);
 
       Navigator.pop(context);
     }
@@ -22127,20 +19090,16 @@ class _ChangePasswordModalState extends State<_ChangePasswordModal> {
                 Icon(
                   CupertinoIcons.lock,
                   size: 22,
-                  color: isLight ? Colors.black : Colors.white,
-                ),
-                const SizedBox(width: 12),
+                  color: isLight ? Colors.black : Colors.white),
+                SizedBox(width: 12),
                 Text(
                   AppLocalizations.of(context)?.changePassword ?? AppLocalizations.of(context)!.tr('Change Password'),
                   style: TextStyle(
                     fontSize: 22,
                     fontWeight: FontWeight.w700,
                     color: widget.isLight ? Colors.black : Colors.white,
-                    letterSpacing: -0.4,
-                  ),
-                ),
-              ],
-            ),
+                    letterSpacing: -0.4)),
+              ]),
             SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
             Expanded(
@@ -22153,9 +19112,8 @@ class _ChangePasswordModalState extends State<_ChangePasswordModal> {
                       _currentPasswordController,
                       _isCurrentPasswordVisible,
                       (value) =>
-                          setState(() => _isCurrentPasswordVisible = value),
-                    ),
-                    const SizedBox(height: 20),
+                          setState(() => _isCurrentPasswordVisible = value)),
+                    SizedBox(height: 20),
 
                     // New Password
                     _buildPasswordField(
@@ -22166,13 +19124,11 @@ class _ChangePasswordModalState extends State<_ChangePasswordModal> {
                       validator: (value) {
                         if (value == null || value.length < 8) {
                           return AppLocalizations.of(
-                                context,
-                              )?.passwordAtLeast8Characters ?? AppLocalizations.of(context)!.tr('Password must be at least 8 characters');
+                                context)?.passwordAtLeast8Characters ?? AppLocalizations.of(context)!.tr('Password must be at least 8 characters');
                         }
                         return null;
-                      },
-                    ),
-                    const SizedBox(height: 20),
+                      }),
+                    SizedBox(height: 20),
 
                     // Confirm Password
                     _buildPasswordField(
@@ -22184,54 +19140,39 @@ class _ChangePasswordModalState extends State<_ChangePasswordModal> {
                       validator: (value) {
                         if (value != _newPasswordController.text) {
                           return AppLocalizations.of(
-                                context,
-                              )?.passwordsDoNotMatch ?? AppLocalizations.of(context)!.tr('Passwords do not match');
+                                context)?.passwordsDoNotMatch ?? AppLocalizations.of(context)!.tr('Passwords do not match');
                         }
                         return null;
-                      },
-                    ),
-                    const SizedBox(height: 32),
+                      }),
+                    SizedBox(height: 32),
 
                     // Password Requirements
                     Container(
                       padding: DesktopAppWrapper.getPagePadding(),
                       decoration: BoxDecoration(
                         color: Colors.blue.withOpacity(0.1),
-                        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-                      ),
+                        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
                             AppLocalizations.of(
-                                  context,
-                                )?.passwordRequirements ?? AppLocalizations.of(context)!.tr('Password Requirements:'),
+                                  context)?.passwordRequirements ?? AppLocalizations.of(context)!.tr('Password Requirements:'),
                             style: TextStyle(
                               fontSize: DesktopOptimizedWidgets.getFontSize(),
                               fontWeight: FontWeight.w600,
-                              color: Colors.blue,
-                            ),
-                          ),
+                              color: Colors.blue)),
                           SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                           _buildRequirement('At least 8 characters long'),
                           _buildRequirement(
                             AppLocalizations.of(
-                                  context,
-                                )?.containsUppercaseLowercase ?? AppLocalizations.of(context)!.tr('Contains uppercase and lowercase letters'),
-                          ),
+                                  context)?.containsUppercaseLowercase ?? AppLocalizations.of(context)!.tr('Contains uppercase and lowercase letters')),
                           _buildRequirement('Contains at least one number'),
                           _buildRequirement(
                             AppLocalizations.of(
-                                  context,
-                                )?.containsSpecialCharacter ?? AppLocalizations.of(context)!.tr('Contains at least one special character'),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
+                                  context)?.containsSpecialCharacter ?? AppLocalizations.of(context)!.tr('Contains at least one special character')),
+                        ])),
+                  ]))),
 
             // Save Button
             SizedBox(
@@ -22240,13 +19181,8 @@ class _ChangePasswordModalState extends State<_ChangePasswordModal> {
                 label: _isLoading
                     ? 'Changing...'
                     : AppLocalizations.of(context)?.changePassword ?? AppLocalizations.of(context)!.tr('Change Password'),
-                onPressed: _isLoading ? null : _changePassword,
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
+                onPressed: _isLoading ? null : _changePassword)),
+          ])));
   }
 
   Widget _buildPasswordField(
@@ -22270,8 +19206,7 @@ class _ChangePasswordModalState extends State<_ChangePasswordModal> {
           },
       style: TextStyle(color: widget.isLight ? Colors.black : Colors.white),
       hintStyle: TextStyle(
-        color: (widget.isLight ? Colors.black : Colors.white).withOpacity(0.5),
-      ),
+        color: (widget.isLight ? Colors.black : Colors.white).withOpacity(0.5)),
       labelText: label,
       filled: true,
       fillColor: Colors.transparent,
@@ -22282,23 +19217,18 @@ class _ChangePasswordModalState extends State<_ChangePasswordModal> {
             .withOpacity(0.7),
         onPressed: () => onVisibilityToggle(!isVisible),
         icon: Icon(
-          isVisible ? CupertinoIcons.eye_slash : CupertinoIcons.eye,
-        ),
-      ),
-    );
+          isVisible ? CupertinoIcons.eye_slash : CupertinoIcons.eye)));
   }
 
   Widget _buildRequirement(String text) {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 4),
+      padding: EdgeInsets.only(bottom: 4),
       child: Row(
         children: [
           Icon(CupertinoIcons.checkmark_circle, color: Colors.blue, size: 16),
-          const SizedBox(width: 8),
+          SizedBox(width: 8),
           Text(text, style: TextStyle(fontSize: 12, color: Colors.blue)),
-        ],
-      ),
-    );
+        ]));
   }
 }
 
@@ -22334,9 +19264,8 @@ class _TwoFactorModalState extends State<_TwoFactorModal> {
             Icon(
               CupertinoIcons.shield,
               size: 22,
-              color: isLight ? Colors.black : Colors.white,
-            ),
-            const SizedBox(width: 12),
+              color: isLight ? Colors.black : Colors.white),
+            SizedBox(width: 12),
             Expanded(
               child: Text(
                 AppLocalizations.of(context)?.twoFactorAuthentication ?? AppLocalizations.of(context)!.tr('Two-Factor Authentication'),
@@ -22344,13 +19273,9 @@ class _TwoFactorModalState extends State<_TwoFactorModal> {
                   fontSize: 22,
                   fontWeight: FontWeight.w700,
                   color: widget.isLight ? Colors.black : Colors.white,
-                  letterSpacing: -0.4,
-                ),
-                overflow: TextOverflow.ellipsis,
-              ),
-            ),
-          ],
-        ),
+                  letterSpacing: -0.4),
+                overflow: TextOverflow.ellipsis)),
+          ]),
         SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
         // Status
@@ -22359,33 +19284,25 @@ class _TwoFactorModalState extends State<_TwoFactorModal> {
           padding: DesktopAppWrapper.getPagePadding(),
           decoration: BoxDecoration(
             color: (widget.isLight ? Colors.black : Colors.white).withOpacity(
-              0.05,
-            ),
-            borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-          ),
+              0.05),
+            borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
           child: Row(
             children: [
               Icon(
                 widget.isEnabled
                     ? CupertinoIcons.checkmark_circle_fill
                     : CupertinoIcons.shield,
-                color: widget.isLight ? Colors.black : Colors.white,
-              ),
-              const SizedBox(width: 12),
+                color: widget.isLight ? Colors.black : Colors.white),
+              SizedBox(width: 12),
               Expanded(
                 child: Text(
                   widget.isEnabled ? '2FA is enabled' : '2FA is disabled',
                   style: TextStyle(
                     fontSize: DesktopOptimizedWidgets.getFontSize(),
                     fontWeight: FontWeight.w600,
-                    color: widget.isLight ? Colors.black : Colors.white,
-                  ),
-                  overflow: TextOverflow.ellipsis,
-                ),
-              ),
-            ],
-          ),
-        ),
+                    color: widget.isLight ? Colors.black : Colors.white),
+                  overflow: TextOverflow.ellipsis)),
+            ])),
         SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
         // Action Button
@@ -22396,11 +19313,8 @@ class _TwoFactorModalState extends State<_TwoFactorModal> {
             onPressed: () {
               Navigator.of(context).pop();
               widget.onToggle2FA();
-            },
-          ),
-        ),
-      ],
-    );
+            })),
+      ]);
   }
 }
 
@@ -22429,20 +19343,16 @@ class _LoginHistoryModalState extends State<_LoginHistoryModal> {
               Icon(
                 CupertinoIcons.clock,
                 size: 22,
-                color: isLight ? Colors.black : Colors.white,
-              ),
-              const SizedBox(width: 12),
+                color: isLight ? Colors.black : Colors.white),
+              SizedBox(width: 12),
               Text(
                 AppLocalizations.of(context)?.loginHistory ?? AppLocalizations.of(context)!.tr('Login History'),
                 style: TextStyle(
                   fontSize: 22,
                   fontWeight: FontWeight.w700,
                   color: widget.isLight ? Colors.black : Colors.white,
-                  letterSpacing: -0.4,
-                ),
-              ),
-            ],
-          ),
+                  letterSpacing: -0.4)),
+            ]),
           SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
           // Subtitle
@@ -22452,10 +19362,7 @@ class _LoginHistoryModalState extends State<_LoginHistoryModal> {
               AppLocalizations.of(context)?.recentLoginActivity ?? AppLocalizations.of(context)!.tr('Recent login activity'),
               style: TextStyle(
                 fontSize: DesktopOptimizedWidgets.getFontSize(),
-                color: widget.isLight ? Colors.black : Colors.white,
-              ),
-            ),
-          ),
+                color: widget.isLight ? Colors.black : Colors.white))),
           SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
           // Login History List
@@ -22468,31 +19375,22 @@ class _LoginHistoryModalState extends State<_LoginHistoryModal> {
                         Icon(
                           CupertinoIcons.clock,
                           size: 64,
-                          color: widget.isLight ? Colors.white : Colors.black,
-                        ),
+                          color: widget.isLight ? Colors.white : Colors.black),
                         SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
                         Text(
                           AppLocalizations.of(context)?.noLoginHistory ?? AppLocalizations.of(context)!.tr('No login history'),
                           style: TextStyle(
                             fontSize: DesktopOptimizedWidgets.getFontSize(),
-                            color: widget.isLight ? Colors.black : Colors.white,
-                          ),
-                        ),
-                      ],
-                    ),
-                  )
+                            color: widget.isLight ? Colors.black : Colors.white)),
+                      ]))
                 : ListView.builder(
                     padding: EdgeInsets.zero,
                     itemCount: widget.loginHistory.length,
                     itemBuilder: (context, index) {
                       final login = widget.loginHistory[index];
                       return _buildLoginHistoryItem(login);
-                    },
-                  ),
-          ),
-        ],
-      ),
-    );
+                    })),
+        ]));
   }
 
   Widget _buildLoginHistoryItem(Map<String, dynamic> login) {
@@ -22511,27 +19409,23 @@ class _LoginHistoryModalState extends State<_LoginHistoryModal> {
 
     return Container(
       padding: DesktopAppWrapper.getPagePadding(),
-      margin: const EdgeInsets.only(bottom: 12),
+      margin: EdgeInsets.only(bottom: 12),
       decoration: BoxDecoration(
         color: widget.isLight ? Colors.white : Colors.black.withOpacity(0.3),
-        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-      ),
+        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
       child: Row(
         children: [
           // Device Icon
           Container(
-            padding: const EdgeInsets.all(10),
+            padding: EdgeInsets.all(10),
             decoration: BoxDecoration(
               color: widget.isLight ? Colors.white : Colors.black,
-              borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-            ),
+              borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
             child: Icon(
               _getDeviceIcon(userAgent),
               color: widget.isLight ? Colors.black87 : Colors.white70,
-              size: 20,
-            ),
-          ),
-          const SizedBox(width: 16),
+              size: 20)),
+          SizedBox(width: 16),
 
           // Login Details
           Expanded(
@@ -22547,52 +19441,36 @@ class _LoginHistoryModalState extends State<_LoginHistoryModal> {
                           fontSize: 15,
                           fontWeight: FontWeight.w600,
                           color: widget.isLight ? Colors.black : Colors.white,
-                          letterSpacing: -0.2,
-                        ),
-                      ),
-                    ),
+                          letterSpacing: -0.2))),
                     if (isAutoLogin)
                       Container(
-                        padding: const EdgeInsets.symmetric(
+                        padding: EdgeInsets.symmetric(
                           horizontal: 8,
-                          vertical: 4,
-                        ),
+                          vertical: 4),
                         decoration: BoxDecoration(
                           color: Colors.blue.withOpacity(0.1),
-                          borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-                        ),
+                          borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
                         child: Text(
                           AppLocalizations.of(context)?.autoMode ?? AppLocalizations.of(context)!.tr('Auto'),
                           style: TextStyle(
                             fontSize: 11,
                             fontWeight: FontWeight.w600,
-                            color: Colors.blue.shade700,
-                          ),
-                        ),
-                      ),
-                  ],
-                ),
-                const SizedBox(height: 4),
+                            color: Colors.blue.shade700))),
+                  ]),
+                SizedBox(height: 4),
                 Text(
                   _formatTimestamp(loginTime),
                   style: TextStyle(
                     fontSize: 13,
-                    color: widget.isLight ? Colors.black : Colors.white,
-                  ),
-                ),
-              ],
-            ),
-          ),
+                    color: widget.isLight ? Colors.black : Colors.white)),
+              ])),
 
           // Success indicator
           Icon(
             CupertinoIcons.checkmark_circle_fill,
             color: Colors.green,
-            size: 20,
-          ),
-        ],
-      ),
-    );
+            size: 20),
+        ]));
   }
 
   IconData _getDeviceIcon(String userAgent) {
@@ -22691,8 +19569,7 @@ class _ProfileImageUploadModalState extends State<_ProfileImageUploadModal> {
       if (mounted) {
         TopNotification.info(
           context,
-          AppLocalizations.of(context)!.tr('Camera is not available on macOS. Please use Gallery.') ?? AppLocalizations.of(context)!.tr('Camera is not available on macOS. Please use Gallery.'),
-        );
+          AppLocalizations.of(context)!.tr('Camera is not available on macOS. Please use Gallery.') ?? AppLocalizations.of(context)!.tr('Camera is not available on macOS. Please use Gallery.'));
       }
       return;
     }
@@ -22703,8 +19580,7 @@ class _ProfileImageUploadModalState extends State<_ProfileImageUploadModal> {
         maxWidth: 512,
         maxHeight: 512,
         imageQuality: 85,
-        preferredCameraDevice: CameraDevice.rear,
-      );
+        preferredCameraDevice: CameraDevice.rear);
 
       if (image != null) {
         print('📸 Camera image selected: ${image.path}');
@@ -22716,8 +19592,7 @@ class _ProfileImageUploadModalState extends State<_ProfileImageUploadModal> {
       if (mounted) {
         TopNotification.error(
           context,
-          '${AppLocalizations.of(context)?.cameraAccessFailed ?? AppLocalizations.of(context)!.tr('Camera access failed')}: $e',
-        );
+          '${AppLocalizations.of(context)?.cameraAccessFailed ?? AppLocalizations.of(context)!.tr('Camera access failed')}: $e');
       }
     }
   }
@@ -22728,8 +19603,7 @@ class _ProfileImageUploadModalState extends State<_ProfileImageUploadModal> {
         source: ImageSource.gallery,
         maxWidth: 512,
         maxHeight: 512,
-        imageQuality: 85,
-      );
+        imageQuality: 85);
 
       if (image != null) {
         print('📸 Gallery image selected: ${image.path}');
@@ -22741,8 +19615,7 @@ class _ProfileImageUploadModalState extends State<_ProfileImageUploadModal> {
       if (mounted) {
         TopNotification.error(
           context,
-          '${AppLocalizations.of(context)?.galleryAccessFailed ?? AppLocalizations.of(context)!.tr('Gallery access failed')}: $e',
-        );
+          '${AppLocalizations.of(context)?.galleryAccessFailed ?? AppLocalizations.of(context)!.tr('Gallery access failed')}: $e');
       }
     }
   }
@@ -22773,8 +19646,7 @@ class _ProfileImageUploadModalState extends State<_ProfileImageUploadModal> {
       // Create multipart request
       var request = http.MultipartRequest(
         'POST',
-        Uri.parse('${ApiConfig.baseUrl}/api/delvioo/profile-image'),
-      );
+        Uri.parse('${ApiConfig.baseUrl}/api/delvioo/profile-image'));
 
       // Add headers (don't set Content-Type manually for multipart)
       request.headers.addAll({'Authorization': 'Bearer $token'});
@@ -22806,8 +19678,7 @@ class _ProfileImageUploadModalState extends State<_ProfileImageUploadModal> {
         imagePath,
         filename:
             'profile_${username}_${DateTime.now().millisecondsSinceEpoch}.$fileExtension',
-        contentType: MediaType.parse(contentType),
-      );
+        contentType: MediaType.parse(contentType));
 
       request.files.add(multipartFile);
 
@@ -22827,8 +19698,7 @@ class _ProfileImageUploadModalState extends State<_ProfileImageUploadModal> {
           if (mounted) {
             TopNotification.success(
               context,
-              AppLocalizations.of(context)?.profileImageUpdated ?? AppLocalizations.of(context)!.tr('Profile image updated successfully!'),
-            );
+              AppLocalizations.of(context)?.profileImageUpdated ?? AppLocalizations.of(context)!.tr('Profile image updated successfully!'));
             widget.onImageUploaded(imageUrl);
             Navigator.pop(context);
           }
@@ -22844,8 +19714,7 @@ class _ProfileImageUploadModalState extends State<_ProfileImageUploadModal> {
       if (mounted) {
         TopNotification.error(
           context,
-          '${AppLocalizations.of(context)?.failedToUploadImage ?? AppLocalizations.of(context)!.tr('Failed to upload image')}: $e',
-        );
+          '${AppLocalizations.of(context)?.failedToUploadImage ?? AppLocalizations.of(context)!.tr('Failed to upload image')}: $e');
       }
     } finally {
       if (mounted) {
@@ -22886,8 +19755,7 @@ class _ProfileImageUploadModalState extends State<_ProfileImageUploadModal> {
           'Content-Type': 'application/json',
           'Authorization': 'Bearer $token',
         },
-        body: json.encode({'userId': userId}),
-      );
+        body: json.encode({'userId': userId}));
 
       print('📡 Remove profile image response: ${response.statusCode}');
 
@@ -22895,8 +19763,7 @@ class _ProfileImageUploadModalState extends State<_ProfileImageUploadModal> {
         if (mounted) {
           TopNotification.success(
             context,
-            AppLocalizations.of(context)?.profileImageRemoved ?? AppLocalizations.of(context)!.tr('Profile image removed successfully!'),
-          );
+            AppLocalizations.of(context)?.profileImageRemoved ?? AppLocalizations.of(context)!.tr('Profile image removed successfully!'));
           widget.onImageUploaded(''); // Empty string means no image
           Navigator.pop(context);
         }
@@ -22909,8 +19776,7 @@ class _ProfileImageUploadModalState extends State<_ProfileImageUploadModal> {
       if (mounted) {
         TopNotification.error(
           context,
-          '${AppLocalizations.of(context)?.failedToRemoveImage ?? AppLocalizations.of(context)!.tr('Failed to remove image')}: $e',
-        );
+          '${AppLocalizations.of(context)?.failedToRemoveImage ?? AppLocalizations.of(context)!.tr('Failed to remove image')}: $e');
       }
     } finally {
       if (mounted) {
@@ -22933,20 +19799,16 @@ class _ProfileImageUploadModalState extends State<_ProfileImageUploadModal> {
             Icon(
               CupertinoIcons.camera,
               size: 22,
-              color: isLight ? Colors.black : Colors.white,
-            ),
-            const SizedBox(width: 12),
+              color: isLight ? Colors.black : Colors.white),
+            SizedBox(width: 12),
             Text(
               AppLocalizations.of(context)?.profilePhoto ?? AppLocalizations.of(context)!.tr('Profile Photo'),
               style: TextStyle(
                 fontSize: 22,
                 fontWeight: FontWeight.w700,
                 color: widget.isLight ? Colors.black : Colors.white,
-                letterSpacing: -0.4,
-              ),
-            ),
-          ],
-        ),
+                letterSpacing: -0.4)),
+          ]),
 
         SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
@@ -22962,10 +19824,9 @@ class _ProfileImageUploadModalState extends State<_ProfileImageUploadModal> {
                       AppLocalizations.of(context)?.takePhoto ?? AppLocalizations.of(context)!.tr('Take Photo'),
                   subtitle:
                       AppLocalizations.of(context)?.useCameraToTakeANewPhoto ?? AppLocalizations.of(context)!.tr('Use camera to take a new photo'),
-                  onTap: _isUploading ? null : _pickImageFromCamera,
-                ),
+                  onTap: _isUploading ? null : _pickImageFromCamera),
 
-                const SizedBox(height: 6),
+                SizedBox(height: 6),
 
                 // Gallery option
                 _buildImageOption(
@@ -22974,24 +19835,21 @@ class _ProfileImageUploadModalState extends State<_ProfileImageUploadModal> {
                       AppLocalizations.of(context)?.chooseFromGallery ?? AppLocalizations.of(context)!.tr('Choose from Gallery'),
                   subtitle:
                       AppLocalizations.of(context)?.selectAnExistingPhoto ?? AppLocalizations.of(context)!.tr('Select an existing photo'),
-                  onTap: _isUploading ? null : _pickImageFromGallery,
-                ),
+                  onTap: _isUploading ? null : _pickImageFromGallery),
 
                 // Remove option (only if user has profile image)
                 if (widget.userData?['profileImage'] != null &&
                     widget.userData!['profileImage'].toString().isNotEmpty) ...[
-                  const SizedBox(height: 6),
+                  SizedBox(height: 6),
                   _buildImageOption(
                     icon: CupertinoIcons.delete,
                     title:
                         AppLocalizations.of(context)?.removePhoto ?? AppLocalizations.of(context)!.tr('Remove Photo'),
                     subtitle:
                         AppLocalizations.of(
-                          context,
-                        )?.removeCurrentProfilePhoto ?? AppLocalizations.of(context)!.tr('Remove current profile photo'),
+                          context)?.removeCurrentProfilePhoto ?? AppLocalizations.of(context)!.tr('Remove current profile photo'),
                     onTap: _isUploading ? null : _removeProfileImage,
-                    isDestructive: true,
-                  ),
+                    isDestructive: true),
                 ],
 
                 // Loading indicator
@@ -23008,17 +19866,10 @@ class _ProfileImageUploadModalState extends State<_ProfileImageUploadModal> {
                           style: TextStyle(
                             fontSize: DesktopOptimizedWidgets.getFontSize(),
                             fontWeight: FontWeight.w600,
-                            color: widget.isLight ? Colors.black : Colors.white,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
+                            color: widget.isLight ? Colors.black : Colors.white)),
+                      ])),
                 ],
-              ],
-            ),
-          ),
-        ),
+              ]))),
 
         SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
@@ -23031,10 +19882,8 @@ class _ProfileImageUploadModalState extends State<_ProfileImageUploadModal> {
                   HapticFeedback.lightImpact();
                   Navigator.of(context).pop();
                 },
-          isSecondary: true,
-        ),
-      ],
-    );
+          isSecondary: true),
+      ]);
   }
 
   Widget _buildImageOption({
@@ -23055,28 +19904,24 @@ class _ProfileImageUploadModalState extends State<_ProfileImageUploadModal> {
         padding: DesktopAppWrapper.getPagePadding(),
         decoration: BoxDecoration(
           color: Colors.transparent,
-          borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-        ),
+          borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
         child: Row(
           children: [
             Container(
-              padding: const EdgeInsets.all(12),
+              padding: EdgeInsets.all(12),
               decoration: BoxDecoration(
                 color: isDestructive
                     ? Colors.red.withOpacity(0.1)
                     : (widget.isLight ? Colors.white : Colors.black),
-                borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-              ),
+                borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
               child: Icon(
                 icon,
                 size: 20,
                 color: isDestructive
                     ? Colors.red
                     : (widget.isLight ? Colors.black : Colors.white)
-                          .withOpacity(0.8),
-              ),
-            ),
-            const SizedBox(width: 16),
+                          .withOpacity(0.8))),
+            SizedBox(width: 16),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -23089,33 +19934,22 @@ class _ProfileImageUploadModalState extends State<_ProfileImageUploadModal> {
                       color: isDestructive
                           ? Colors.red
                           : (widget.isLight ? Colors.black : Colors.white),
-                      letterSpacing: -0.2,
-                    ),
-                  ),
-                  const SizedBox(height: 4),
+                      letterSpacing: -0.2)),
+                  SizedBox(height: 4),
                   Text(
                     subtitle,
                     style: TextStyle(
                       fontSize: 13,
                       fontWeight: FontWeight.w500,
                       color: (widget.isLight ? Colors.black : Colors.white)
-                          .withOpacity(0.5),
-                    ),
-                  ),
-                ],
-              ),
-            ),
+                          .withOpacity(0.5))),
+                ])),
             Icon(
               CupertinoIcons.chevron_right,
               size: 16,
               color: (widget.isLight ? Colors.black : Colors.white).withOpacity(
-                0.3,
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
+                0.3)),
+          ])));
   }
 }
 
@@ -23152,12 +19986,10 @@ class _AnimatedDocumentButtonState extends State<_AnimatedDocumentButton>
     super.initState();
     _scaleController = AnimationController(
       duration: const Duration(milliseconds: 100),
-      vsync: this,
-    );
+      vsync: this);
     _scaleAnimation = Tween<double>(
       begin: 1.0,
-      end: 0.96,
-    ).animate(CurvedAnimation(parent: _scaleController, curve: Curves.easeOut));
+      end: 0.96).animate(CurvedAnimation(parent: _scaleController, curve: Curves.easeOut));
   }
 
   @override
@@ -23190,11 +20022,8 @@ class _AnimatedDocumentButtonState extends State<_AnimatedDocumentButton>
         builder: (context, child) {
           return Transform.scale(
             scale: _scaleAnimation.value,
-            child: widget.child,
-          );
-        },
-      ),
-    );
+            child: widget.child);
+        }));
   }
 }
 // ============================================================================
@@ -23309,8 +20138,7 @@ class _CarbonFootprintModalState extends State<_CarbonFootprintModal> {
     } else {
       TopNotification.error(
         context,
-        AppLocalizations.of(context)?.endValueMustBeGreater ?? AppLocalizations.of(context)!.tr('End value must be greater than start value.'),
-      );
+        AppLocalizations.of(context)?.endValueMustBeGreater ?? AppLocalizations.of(context)!.tr('End value must be greater than start value.'));
     }
   }
 
@@ -23328,8 +20156,7 @@ class _CarbonFootprintModalState extends State<_CarbonFootprintModal> {
     if (months.isEmpty) {
       TopNotification.warning(
         context,
-        AppLocalizations.of(context)?.noCertificateData ?? AppLocalizations.of(context)!.tr('No data available to generate certificate.'),
-      );
+        AppLocalizations.of(context)?.noCertificateData ?? AppLocalizations.of(context)!.tr('No data available to generate certificate.'));
       return;
     }
 
@@ -23382,11 +20209,8 @@ class _CarbonFootprintModalState extends State<_CarbonFootprintModal> {
                       fontSize: 10,
                       fontWeight: pw.FontWeight.bold,
                       letterSpacing: 1.2,
-                      color: grey500,
-                    ),
-                  ),
-                ],
-              ),
+                      color: grey500)),
+                ]),
 
               pw.SizedBox(height: 32),
 
@@ -23397,14 +20221,11 @@ class _CarbonFootprintModalState extends State<_CarbonFootprintModal> {
                   fontSize: 52,
                   fontWeight: pw.FontWeight.bold,
                   color: black,
-                  letterSpacing: -2,
-                ),
-              ),
+                  letterSpacing: -2)),
               pw.SizedBox(height: 4),
               pw.Text(
                 '${loc?.distanceDriven ?? AppLocalizations.of(context)!.tr('Distance Driven')}  ·  ${_formatMonth(months.first, loc)} – ${_formatMonth(months.last, loc)}',
-                style: pw.TextStyle(fontSize: 12, color: grey500),
-              ),
+                style: pw.TextStyle(fontSize: 12, color: grey500)),
 
               pw.SizedBox(height: 28),
               pw.Divider(color: grey300, thickness: 0.5),
@@ -23420,8 +20241,7 @@ class _CarbonFootprintModalState extends State<_CarbonFootprintModal> {
                   _pdfKpi(loc?.treesPerYear ?? AppLocalizations.of(context)!.tr('Trees/Year*'), trees.toStringAsFixed(1), grey700, grey100),
                   _pdfKpiDivider(grey300),
                   _pdfKpi(loc?.monthsRecorded ?? AppLocalizations.of(context)!.tr('Months Recorded'), '${months.length}', grey700, grey100),
-                ],
-              ),
+                ]),
 
               pw.SizedBox(height: 28),
               pw.Divider(color: grey300, thickness: 0.5),
@@ -23434,9 +20254,7 @@ class _CarbonFootprintModalState extends State<_CarbonFootprintModal> {
                   fontSize: 9,
                   fontWeight: pw.FontWeight.bold,
                   letterSpacing: 1.4,
-                  color: grey500,
-                ),
-              ),
+                  color: grey500)),
               pw.SizedBox(height: 10),
 
               // ── TABLE ────────────────────────────────────────────────────
@@ -23452,16 +20270,14 @@ class _CarbonFootprintModalState extends State<_CarbonFootprintModal> {
                   // Header
                   pw.TableRow(
                     decoration: pw.BoxDecoration(
-                      border: pw.Border(bottom: pw.BorderSide(color: black, width: 1)),
-                    ),
+                      border: pw.Border(bottom: pw.BorderSide(color: black, width: 1))),
                     children: [
                       _pdfTh(loc?.tableHeaderMonth ?? AppLocalizations.of(context)!.tr('Month')),
                       _pdfTh(loc?.tableHeaderStart ?? AppLocalizations.of(context)!.tr('Start (km)')),
                       _pdfTh(loc?.tableHeaderEnd ?? AppLocalizations.of(context)!.tr('End (km)')),
                       _pdfTh(loc?.tableHeaderDistance ?? AppLocalizations.of(context)!.tr('Distance (km)')),
                       _pdfTh(loc?.co2Kg ?? AppLocalizations.of(context)!.tr('CO₂ (kg)')),
-                    ],
-                  ),
+                    ]),
                   // Data rows
                   ...months.asMap().entries.map((entry) {
                     final idx = entry.key;
@@ -23478,24 +20294,20 @@ class _CarbonFootprintModalState extends State<_CarbonFootprintModal> {
                         _pdfTd(e['endKm']!.toStringAsFixed(0), grey700),
                         _pdfTd(km.toStringAsFixed(0), black, bold: true),
                         _pdfTd(co2.toStringAsFixed(1), black, bold: true),
-                      ],
-                    );
+                      ]);
                   }),
                   // Totals row
                   pw.TableRow(
                     decoration: pw.BoxDecoration(
-                      border: pw.Border(top: pw.BorderSide(color: black, width: 0.8)),
-                    ),
+                      border: pw.Border(top: pw.BorderSide(color: black, width: 0.8))),
                     children: [
                       _pdfTd(loc?.total ?? AppLocalizations.of(context)!.tr('Total'), black, bold: true),
                       _pdfTd('', grey500),
                       _pdfTd('', grey500),
                       _pdfTd('${totalKm.toStringAsFixed(0)} km', black, bold: true),
                       _pdfTd('${totalCo2.toStringAsFixed(1)} kg', black, bold: true),
-                    ],
-                  ),
-                ],
-              ),
+                    ]),
+                ]),
 
               pw.Spacer(),
 
@@ -23505,10 +20317,8 @@ class _CarbonFootprintModalState extends State<_CarbonFootprintModal> {
               pw.Text(
                 loc?.calculationMethod ??
                     AppLocalizations.of(context)!.tr(
-                      'Calculation method: Ø 8.5 L/100 km · CO₂ factor 2.31 kg/L Diesel · * 30% estimated empty run savings through Delvioo · * 21 kg CO₂ absorption per tree/year',
-                    ),
-                style: pw.TextStyle(fontSize: 8, color: grey500),
-              ),
+                      'Calculation method: Ø 8.5 L/100 km · CO₂ factor 2.31 kg/L Diesel · * 30% estimated empty run savings through Delvioo · * 21 kg CO₂ absorption per tree/year'),
+                style: pw.TextStyle(fontSize: 8, color: grey500)),
               pw.SizedBox(height: 6),
 
               // ── FOOTER ───────────────────────────────────────────────────
@@ -23517,25 +20327,18 @@ class _CarbonFootprintModalState extends State<_CarbonFootprintModal> {
                 children: [
                   pw.Text(
                     '${loc?.issuedOn ?? AppLocalizations.of(context)!.tr('Issued on')} $dateStr · ${loc?.autoGeneratedByApp ?? AppLocalizations.of(context)!.tr('Automatically generated by the Delvioo app')}',
-                    style: pw.TextStyle(fontSize: 8, color: grey500),
-                  ),
+                    style: pw.TextStyle(fontSize: 8, color: grey500)),
                   pw.Text(
                     '© ${now.year} Delvioo',
-                    style: pw.TextStyle(fontSize: 8, color: grey500),
-                  ),
-                ],
-              ),
-            ],
-          );
-        },
-      ),
-    );
+                    style: pw.TextStyle(fontSize: 8, color: grey500)),
+                ]),
+            ]);
+        }));
 
     // ── Share / Save ─────────────────────────────────────────────────────────
     await Printing.sharePdf(
       bytes: await doc.save(),
-      filename: 'CO2-Zertifikat_Delvioo_${months.first}_${months.last}.pdf',
-    );
+      filename: 'CO2-Zertifikat_Delvioo_${months.first}_${months.last}.pdf');
   }
 
   // ── PDF helper widgets ────────────────────────────────────────────────────
@@ -23554,18 +20357,12 @@ class _CarbonFootprintModalState extends State<_CarbonFootprintModal> {
                 fontSize: DesktopOptimizedWidgets.getFontSize() + 4,
                 fontWeight: pw.FontWeight.bold,
                 color: PdfColors.black,
-                letterSpacing: -0.5,
-              ),
-            ),
+                letterSpacing: -0.5)),
             pw.SizedBox(height: 3),
             pw.Text(
               label,
-              style: pw.TextStyle(fontSize: 8, color: textColor),
-            ),
-          ],
-        ),
-      ),
-    );
+              style: pw.TextStyle(fontSize: 8, color: textColor)),
+          ])));
   }
 
   pw.Widget _pdfKpiDivider(PdfColor color) {
@@ -23581,10 +20378,7 @@ class _CarbonFootprintModalState extends State<_CarbonFootprintModal> {
           fontSize: 9,
           fontWeight: pw.FontWeight.bold,
           color: PdfColors.black,
-          letterSpacing: 0.3,
-        ),
-      ),
-    );
+          letterSpacing: 0.3)));
   }
 
   pw.Widget _pdfTd(String text, PdfColor color, {bool bold = false}) {
@@ -23595,10 +20389,7 @@ class _CarbonFootprintModalState extends State<_CarbonFootprintModal> {
         style: pw.TextStyle(
           fontSize: 10,
           fontWeight: bold ? pw.FontWeight.bold : pw.FontWeight.normal,
-          color: color,
-        ),
-      ),
-    );
+          color: color)));
   }
 
 
@@ -23625,7 +20416,7 @@ class _CarbonFootprintModalState extends State<_CarbonFootprintModal> {
 
     return Column(
       children: [
-        const SizedBox(height: 4),
+        SizedBox(height: 4),
 
         // Title row
         Row(
@@ -23635,15 +20426,12 @@ class _CarbonFootprintModalState extends State<_CarbonFootprintModal> {
                 height: 44,
                 decoration: BoxDecoration(
                   color: const Color(0xFF10B981).withOpacity(0.12),
-                  borderRadius: BorderRadius.circular(14),
-                ),
-                child: const Icon(
+                  borderRadius: BorderRadius.circular(14)),
+                child: Icon(
                   CupertinoIcons.leaf_arrow_circlepath,
                   color: Color(0xFF10B981),
-                  size: 22,
-                ),
-              ),
-              const SizedBox(width: 14),
+                  size: 22)),
+              SizedBox(width: 14),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -23654,29 +20442,22 @@ class _CarbonFootprintModalState extends State<_CarbonFootprintModal> {
                         fontSize: 22,
                         fontWeight: FontWeight.w700,
                         color: fg,
-                        letterSpacing: -0.5,
-                      ),
-                    ),
+                        letterSpacing: -0.5)),
                     Text(
                       loc?.monthlyOdometerEntry ?? AppLocalizations.of(context)!.tr('Enter Monthly Mileage'),
-                      style: TextStyle(fontSize: 13, color: fg.withOpacity(0.5)),
-                    ),
-                  ],
-                ),
-              ),
-            ],
-        ),
+                      style: TextStyle(fontSize: 13, color: fg.withOpacity(0.5))),
+                  ])),
+            ]),
 
-        const SizedBox(height: 20),
+        SizedBox(height: 20),
 
         // CO2 summary card
         Container(
             width: double.infinity,
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+            padding: EdgeInsets.symmetric(horizontal: 20, vertical: 16),
             decoration: BoxDecoration(
               color: const Color(0xFF10B981).withOpacity(0.08),
-              borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius()),
-            ),
+              borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius())),
             child: Row(
               children: [
                 Expanded(
@@ -23685,35 +20466,27 @@ class _CarbonFootprintModalState extends State<_CarbonFootprintModal> {
                     children: [
                       Text(
                         loc?.totalCo2_12months ?? AppLocalizations.of(context)!.tr('Total CO₂ (12 Months)'),
-                        style: TextStyle(fontSize: 12, color: fg.withOpacity(0.55)),
-                      ),
-                      const SizedBox(height: 4),
+                        style: TextStyle(fontSize: 12, color: fg.withOpacity(0.55))),
+                      SizedBox(height: 4),
                       Text(
                         '${totalCo2.toStringAsFixed(1)} kg',
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: 28,
                           fontWeight: FontWeight.w700,
                           color: Color(0xFF10B981),
-                          letterSpacing: -1,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
+                          letterSpacing: -1)),
+                    ])),
                 // Download certificate — TR button
                 TradeRepublicButton(
                   label: loc?.certificate ?? AppLocalizations.of(context)!.tr('Certificate'),
-                  icon: const Icon(CupertinoIcons.doc_text, size: 15),
+                  icon: Icon(CupertinoIcons.doc_text, size: 15),
                   backgroundColor: const Color(0xFF10B981),
                   foregroundColor: Colors.white,
                   height: 40,
                   borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius()),
-                  padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 0),
-                  onPressed: _downloadCertificate,
-                ),
-              ],
-            ),
-          ),
+                  padding: EdgeInsets.symmetric(horizontal: 14, vertical: 0),
+                  onPressed: _downloadCertificate),
+              ])),
 
         SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
@@ -23723,9 +20496,7 @@ class _CarbonFootprintModalState extends State<_CarbonFootprintModal> {
             fontSize: DesktopOptimizedWidgets.getFontSize(),
             fontWeight: FontWeight.w600,
             color: fg.withOpacity(0.45),
-            letterSpacing: 0.4,
-          ),
-        ),
+            letterSpacing: 0.4)),
 
         SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
@@ -23746,7 +20517,7 @@ class _CarbonFootprintModalState extends State<_CarbonFootprintModal> {
               final co2 = widget.co2ForKm(km);
 
               return Padding(
-                padding: const EdgeInsets.only(bottom: 10),
+                padding: EdgeInsets.only(bottom: 10),
                 child: AnimatedContainer(
                   duration: const Duration(milliseconds: 250),
                   padding: DesktopAppWrapper.getPagePadding(),
@@ -23754,8 +20525,7 @@ class _CarbonFootprintModalState extends State<_CarbonFootprintModal> {
                     color: isEditing
                         ? const Color(0xFF10B981).withOpacity(0.10)
                         : fg.withOpacity(0.04),
-                    borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius()),
-                  ),
+                    borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius())),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -23775,31 +20545,23 @@ class _CarbonFootprintModalState extends State<_CarbonFootprintModal> {
                                         style: TextStyle(
                                           fontSize: DesktopOptimizedWidgets.getFontSize(),
                                           fontWeight: FontWeight.w600,
-                                          color: fg,
-                                        ),
-                                        overflow: TextOverflow.ellipsis,
-                                      ),
-                                    ),
+                                          color: fg),
+                                        overflow: TextOverflow.ellipsis)),
                                     if (isCurrent) ...[
-                                      const SizedBox(width: 8),
+                                      SizedBox(width: 8),
                                       Container(
-                                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                                        padding: EdgeInsets.symmetric(horizontal: 8, vertical: 2),
                                         decoration: BoxDecoration(
                                           color: const Color(0xFF10B981).withOpacity(0.15),
-                                          borderRadius: BorderRadius.circular(6),
-                                        ),
+                                          borderRadius: BorderRadius.circular(6)),
                                         child: Text(
                                           loc?.current ?? AppLocalizations.of(context)!.tr('Current'),
                                           style: TextStyle(
                                             fontSize: 11,
                                             fontWeight: FontWeight.w600,
-                                            color: Color(0xFF10B981),
-                                          ),
-                                        ),
-                                      ),
+                                            color: Color(0xFF10B981)))),
                                     ],
-                                  ],
-                                ),
+                                  ]),
                                 if (entry != null && !isEditing)
                                   Text(
                                     () {
@@ -23810,26 +20572,21 @@ class _CarbonFootprintModalState extends State<_CarbonFootprintModal> {
                                       return '$s → $e $distUnit  ·  $d $distUnit  ·  ${co2.toStringAsFixed(1)} kg CO₂';
                                     }(),
                                     style: TextStyle(fontSize: 12, color: fg.withOpacity(0.5)),
-                                    overflow: TextOverflow.ellipsis,
-                                  )
+                                    overflow: TextOverflow.ellipsis)
                                 else if (entry == null && !isEditing)
                                   Text(
                                     loc?.notEnteredYet ?? AppLocalizations.of(context)!.tr('Not yet recorded'),
-                                    style: TextStyle(fontSize: 13, color: fg.withOpacity(0.3)),
-                                  ),
-                              ],
-                            ),
-                          ),
+                                    style: TextStyle(fontSize: 13, color: fg.withOpacity(0.3))),
+                              ])),
                           // Action buttons — TR widgets
                           if (!isEditing) ...[
                             if (entry != null) ...[
                               TradeRepublicButton.icon(
-                                icon: const Icon(CupertinoIcons.trash, size: 16, color: Colors.red),
+                                icon: Icon(CupertinoIcons.trash, size: 16, color: Colors.red),
                                 onPressed: () => _deleteMonth(key),
                                 isSecondary: true,
-                                size: 36,
-                              ),
-                              const SizedBox(width: 6),
+                                size: 36),
+                              SizedBox(width: 6),
                             ],
                             TradeRepublicButton(
                               label: entry != null ? (loc?.edit ?? AppLocalizations.of(context)!.tr('Edit')) : (loc?.enterLabel ?? AppLocalizations.of(context)!.tr('Enter')),
@@ -23842,23 +20599,20 @@ class _CarbonFootprintModalState extends State<_CarbonFootprintModal> {
                                   ? const Color(0xFF10B981)
                                   : null,
                               borderRadius: BorderRadius.circular(10),
-                              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 0),
-                              onPressed: () => _startEditing(key, useMiles: useMiles),
-                            ),
+                              padding: EdgeInsets.symmetric(horizontal: 12, vertical: 0),
+                              onPressed: () => _startEditing(key, useMiles: useMiles)),
                           ] else ...[
                             TradeRepublicButton.icon(
                               icon: Icon(CupertinoIcons.xmark, size: 16, color: fg.withOpacity(0.5)),
                               onPressed: () => setState(() => _editingMonth = null),
                               isSecondary: true,
-                              size: 36,
-                            ),
+                              size: 36),
                           ],
-                        ],
-                      ),
+                        ]),
 
                       // Inline edit form
                       if (isEditing) ...[
-                        const SizedBox(height: 14),
+                        SizedBox(height: 14),
                         Row(
                           children: [
                             Expanded(
@@ -23866,20 +20620,15 @@ class _CarbonFootprintModalState extends State<_CarbonFootprintModal> {
                                 label: '${loc?.odometerStart ?? AppLocalizations.of(context)!.tr('Start Reading')} ($distUnit)',
                                 controller: _startController,
                                 keyboardType: const TextInputType.numberWithOptions(decimal: true),
-                                hintText: useMiles ? '${loc?.egAbbr ?? AppLocalizations.of(context)!.tr('e.g.')} 77000' : '${loc?.egAbbr ?? AppLocalizations.of(context)!.tr('e.g.')} 125000',
-                              ),
-                            ),
-                            const SizedBox(width: 12),
+                                hintText: useMiles ? '${loc?.egAbbr ?? AppLocalizations.of(context)!.tr('e.g.')} 77000' : '${loc?.egAbbr ?? AppLocalizations.of(context)!.tr('e.g.')} 125000')),
+                            SizedBox(width: 12),
                             Expanded(
                               child: TradeRepublicTextField.withLabel(
                                 label: '${loc?.odometerEnd ?? AppLocalizations.of(context)!.tr('End Reading')} ($distUnit)',
                                 controller: _endController,
                                 keyboardType: const TextInputType.numberWithOptions(decimal: true),
-                                hintText: useMiles ? '${loc?.egAbbr ?? AppLocalizations.of(context)!.tr('e.g.')} 78100' : '${loc?.egAbbr ?? AppLocalizations.of(context)!.tr('e.g.')} 126800',
-                              ),
-                            ),
-                          ],
-                        ),
+                                hintText: useMiles ? '${loc?.egAbbr ?? AppLocalizations.of(context)!.tr('e.g.')} 78100' : '${loc?.egAbbr ?? AppLocalizations.of(context)!.tr('e.g.')} 126800')),
+                          ]),
                         SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                         TradeRepublicButton(
                           label: AppLocalizations.of(context)?.save ?? AppLocalizations.of(context)!.tr('Save'),
@@ -23888,17 +20637,10 @@ class _CarbonFootprintModalState extends State<_CarbonFootprintModal> {
                           backgroundColor: const Color(0xFF10B981),
                           foregroundColor: Colors.white,
                           borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius()),
-                          onPressed: () => _saveMonth(key, useMiles: useMiles),
-                        ),
+                          onPressed: () => _saveMonth(key, useMiles: useMiles)),
                       ],
-                    ],
-                  ),
-                ),
-              );
-            },
-          ),
-        ),
-      ],
-    );
+                    ])));
+            })),
+      ]);
   }
 }

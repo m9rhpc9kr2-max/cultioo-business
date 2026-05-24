@@ -27,9 +27,7 @@ class DesktopAppWrapper {
     return Center(
       child: ConstrainedBox(
         constraints: const BoxConstraints(maxWidth: maxContentWidth),
-        child: child,
-      ),
-    );
+        child: child));
   }
 
   /// Get adaptive font scale for desktop
@@ -37,8 +35,8 @@ class DesktopAppWrapper {
 
   /// Get adaptive padding for pages
   static EdgeInsets getPagePadding() {
-    if (!isDesktop) return const EdgeInsets.all(16);
-    return const EdgeInsets.all(24);
+    if (!isDesktop) return EdgeInsets.all(16);
+    return EdgeInsets.all(24);
   }
 
   /// Get adaptive horizontal padding
@@ -65,8 +63,7 @@ class DesktopAppWrapper {
         appBar: appBar,
         body: body,
         floatingActionButton: floatingActionButton,
-        floatingActionButtonLocation: floatingActionButtonLocation,
-      );
+        floatingActionButtonLocation: floatingActionButtonLocation);
     }
 
     return Scaffold(
@@ -74,8 +71,7 @@ class DesktopAppWrapper {
       appBar: appBar,
       body: wrapPage(body),
       floatingActionButton: floatingActionButton,
-      floatingActionButtonLocation: floatingActionButtonLocation,
-    );
+      floatingActionButtonLocation: floatingActionButtonLocation);
   }
 
   /// Build desktop-optimized app bar
@@ -93,8 +89,7 @@ class DesktopAppWrapper {
         title: Text(title),
         actions: actions,
         leading: leading,
-        centerTitle: centerTitle,
-      );
+        centerTitle: centerTitle);
     }
 
     return AppBar(
@@ -103,15 +98,12 @@ class DesktopAppWrapper {
         style: TextStyle(
           fontSize: 18,
           fontWeight: FontWeight.w600,
-          color: isDark ? Colors.white : Colors.black,
-        ),
-      ),
+          color: isDark ? Colors.white : Colors.black)),
       actions: actions,
       leading: leading,
       centerTitle: centerTitle,
       elevation: 0,
-      backgroundColor: isDark ? Colors.black : Colors.white,
-    );
+      backgroundColor: isDark ? Colors.black : Colors.white);
   }
 
   /// Build desktop-optimized text field
@@ -136,10 +128,8 @@ class DesktopAppWrapper {
           style: DesktopOptimizedWidgets.getDesktopTextStyle(
             color: isDark ? Colors.white : Colors.black,
             fontSize: 13,
-            fontWeight: FontWeight.w600,
-          ),
-        ),
-        const SizedBox(height: 8),
+            fontWeight: FontWeight.w600)),
+        SizedBox(height: 8),
         TextField(
           controller: controller,
           maxLines: maxLines,
@@ -151,17 +141,11 @@ class DesktopAppWrapper {
             suffixIcon: suffixIcon,
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(
-                DesktopOptimizedWidgets.getBorderRadius(),
-              ),
-            ),
+                DesktopOptimizedWidgets.getBorderRadius())),
             contentPadding: EdgeInsets.symmetric(
               horizontal: DesktopOptimizedWidgets.getPadding(),
-              vertical: DesktopOptimizedWidgets.getPadding() / 2,
-            ),
-          ),
-        ),
-      ],
-    );
+              vertical: DesktopOptimizedWidgets.getPadding() / 2))),
+      ]);
   }
 
   /// Build desktop-optimized button
@@ -187,24 +171,16 @@ class DesktopAppWrapper {
           foregroundColor: isPrimary ? Colors.white : Colors.black,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(
-              DesktopOptimizedWidgets.getBorderRadius(),
-            ),
-          ),
-        ),
+              DesktopOptimizedWidgets.getBorderRadius()))),
         child: isLoading
-            ? const SizedBox(
+            ? SizedBox(
                 height: 20,
                 width: 20,
-                child: CircularProgressIndicator(strokeWidth: 2),
-              )
+                child: CircularProgressIndicator(strokeWidth: 2))
             : Text(
                 label,
                 style: DesktopOptimizedWidgets.getDesktopButtonStyle(
-                  color: isPrimary ? Colors.white : Colors.black,
-                ),
-              ),
-      ),
-    );
+                  color: isPrimary ? Colors.white : Colors.black))));
   }
 
   /// Build desktop-optimized card
@@ -219,24 +195,18 @@ class DesktopAppWrapper {
     return Material(
       color: isDark ? Colors.grey[900] : Colors.white,
       borderRadius: BorderRadius.circular(
-        DesktopOptimizedWidgets.getBorderRadius(),
-      ),
+        DesktopOptimizedWidgets.getBorderRadius()),
       child: InkWell(
         onTap: onTap,
         borderRadius: BorderRadius.circular(
-          DesktopOptimizedWidgets.getBorderRadius(),
-        ),
+          DesktopOptimizedWidgets.getBorderRadius()),
         child: Container(
           decoration: DesktopOptimizedWidgets.getDesktopBoxDecoration(
             backgroundColor: isDark ? Colors.grey[900]! : Colors.white,
-            borderRadius: DesktopOptimizedWidgets.getBorderRadius(),
-          ),
+            borderRadius: DesktopOptimizedWidgets.getBorderRadius()),
           padding: padding ??
               DesktopOptimizedWidgets.getDesktopCardPadding(),
-          child: child,
-        ),
-      ),
-    );
+          child: child)));
   }
 
   /// Build desktop-optimized list item
@@ -260,8 +230,7 @@ class DesktopAppWrapper {
         child: Padding(
           padding: EdgeInsets.symmetric(
             vertical: DesktopOptimizedWidgets.getSpacing(),
-            horizontal: DesktopOptimizedWidgets.getPadding(),
-          ),
+            horizontal: DesktopOptimizedWidgets.getPadding()),
           child: Row(
             children: [
               if (leading != null) ...[
@@ -276,32 +245,22 @@ class DesktopAppWrapper {
                       title,
                       style: DesktopOptimizedWidgets.getDesktopTextStyle(
                         color: isDark ? Colors.white : Colors.black,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
+                        fontWeight: FontWeight.w500)),
                     if (subtitle != null) ...[
-                      const SizedBox(height: 4),
+                      SizedBox(height: 4),
                       Text(
                         subtitle,
                         style: DesktopOptimizedWidgets.getDesktopTextStyle(
                           color: isDark ? Colors.grey[400]! : Colors.grey[600]!,
                           fontSize:
-                              DesktopOptimizedWidgets.getFontSize() - 1,
-                        ),
-                      ),
+                              DesktopOptimizedWidgets.getFontSize() - 1)),
                     ],
-                  ],
-                ),
-              ),
+                  ])),
               if (trailing != null) ...[
                 SizedBox(width: DesktopOptimizedWidgets.getSpacing()),
                 trailing,
               ],
-            ],
-          ),
-        ),
-      ),
-    );
+            ]))));
   }
 
   /// Build desktop-optimized dialog
@@ -326,9 +285,7 @@ class DesktopAppWrapper {
             backgroundColor: isDark ? Colors.grey[900] : Colors.white,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(
-                DesktopOptimizedWidgets.getBorderRadius(),
-              ),
-            ),
+                DesktopOptimizedWidgets.getBorderRadius())),
             child: ConstrainedBox(
               constraints: const BoxConstraints(maxWidth: 500),
               child: Padding(
@@ -341,25 +298,16 @@ class DesktopAppWrapper {
                       title,
                       style: DesktopOptimizedWidgets.getDesktopHeadingStyle(
                         color: isDark ? Colors.white : Colors.black,
-                        fontSize: 18,
-                      ),
-                    ),
-                    const SizedBox(height: 16),
+                        fontSize: 18)),
+                    SizedBox(height: 16),
                     content,
                     if (actions != null) ...[
-                      const SizedBox(height: 24),
+                      SizedBox(height: 24),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.end,
-                        children: actions,
-                      ),
+                        children: actions),
                     ],
-                  ],
-                ),
-              ),
-            ),
-          ),
-        );
-      },
-    );
+                  ])))));
+      });
   }
 }

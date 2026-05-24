@@ -53,8 +53,7 @@ final ValueNotifier<int> mapsBottomSwipeDirectionNotifier =
 
 // Global ValueNotifier to track navigation modal state - hide CNTabBar when navigation is open
 final ValueNotifier<bool> navigationModalOpenNotifier = ValueNotifier<bool>(
-  false,
-);
+  false);
 
 // Global ValueNotifier to refresh user profile data across all Delvioo pages
 final ValueNotifier<int> refreshUserDataNotifier = ValueNotifier<int>(0);
@@ -114,32 +113,27 @@ class _DelviooMainPageState extends State<DelviooMainPage> {
       icon: CupertinoIcons.house,
       activeIcon: CupertinoIcons.house_fill,
       symbol: 'house',
-      label: AppLocalizations.of(context)?.home ?? AppLocalizations.of(context)!.tr('Home'),
-    ),
+      label: AppLocalizations.of(context)?.home ?? AppLocalizations.of(context)!.tr('Home')),
     NavItem(
       icon: CupertinoIcons.map,
       activeIcon: CupertinoIcons.map_fill,
       symbol: 'map',
-      label: AppLocalizations.of(context)?.maps ?? AppLocalizations.of(context)!.tr('Maps'),
-    ),
+      label: AppLocalizations.of(context)?.maps ?? AppLocalizations.of(context)!.tr('Maps')),
     NavItem(
       icon: CupertinoIcons.cube_box,
       activeIcon: CupertinoIcons.cube_box_fill,
       symbol: 'shippingbox',
-      label: AppLocalizations.of(context)?.orders ?? AppLocalizations.of(context)!.tr('Orders'),
-    ),
+      label: AppLocalizations.of(context)?.orders ?? AppLocalizations.of(context)!.tr('Orders')),
     NavItem(
       icon: CupertinoIcons.chat_bubble,
       activeIcon: CupertinoIcons.chat_bubble_fill,
       symbol: 'message',
-      label: AppLocalizations.of(context)?.messages ?? AppLocalizations.of(context)!.tr('Messages'),
-    ),
+      label: AppLocalizations.of(context)?.messages ?? AppLocalizations.of(context)!.tr('Messages')),
     NavItem(
       icon: CupertinoIcons.person,
       activeIcon: CupertinoIcons.person_fill,
       symbol: 'person',
-      label: AppLocalizations.of(context)?.account ?? AppLocalizations.of(context)!.tr('Account'),
-    ),
+      label: AppLocalizations.of(context)?.account ?? AppLocalizations.of(context)!.tr('Account')),
   ];
 
   @override
@@ -175,13 +169,11 @@ class _DelviooMainPageState extends State<DelviooMainPage> {
     // Start AI order suggestion background polling (every 2 minutes)
     _aiSuggestionTimer = Timer.periodic(
       const Duration(minutes: 2),
-      (_) => _checkAiOrderSuggestions(),
-    );
+      (_) => _checkAiOrderSuggestions());
     // Run one initial check after 15 seconds
     Future.delayed(
       const Duration(seconds: 15),
-      _checkAiOrderSuggestions,
-    );
+      _checkAiOrderSuggestions);
   }
 
   void _onActiveOrderChanged() {
@@ -190,8 +182,7 @@ class _DelviooMainPageState extends State<DelviooMainPage> {
       print('🎯 Active order changed: $activeOrder');
       if (activeOrder != null) {
         print(
-          '📱 Bottom sheet will show automatically via ValueListenableBuilder',
-        );
+          '📱 Bottom sheet will show automatically via ValueListenableBuilder');
         // Set bottom sheet open state to hide dock
         bottomSheetOpenNotifier.value = true;
       } else {
@@ -204,8 +195,7 @@ class _DelviooMainPageState extends State<DelviooMainPage> {
   void _onDockVisibilityChanged() {
     if (mounted) {
       print(
-        '🎯 MAIN PAGE: Dock visibility changed - bottomSheetOpen: ${bottomSheetOpenNotifier.value}, hideDock: ${hideDockNotifier.value}',
-      );
+        '🎯 MAIN PAGE: Dock visibility changed - bottomSheetOpen: ${bottomSheetOpenNotifier.value}, hideDock: ${hideDockNotifier.value}');
       setState(() {}); // Rebuild when dock visibility changes
     }
   }
@@ -290,8 +280,7 @@ class _DelviooMainPageState extends State<DelviooMainPage> {
             final user = users.firstWhere(
               (u) =>
                   u['email']?.toString().toLowerCase() == email.toLowerCase(),
-              orElse: () => null,
-            );
+              orElse: () => null);
 
             if (user != null && mounted) {
               print('✅ User found by email: ${user['username']}');
@@ -352,8 +341,7 @@ class _DelviooMainPageState extends State<DelviooMainPage> {
     activeOrderNotifier.removeListener(_onActiveOrderChanged);
     refreshUserDataNotifier.removeListener(_onRefreshUserData);
     mapsBottomSwipeDirectionNotifier.removeListener(
-      _onMapsBottomSwipeNavigation,
-    );
+      _onMapsBottomSwipeNavigation);
     _aiSuggestionTimer?.cancel();
     _pageController.dispose();
     super.dispose();
@@ -391,8 +379,7 @@ class _DelviooMainPageState extends State<DelviooMainPage> {
                 _currentIndex = index;
               });
             },
-            children: _pages,
-          ),
+            children: _pages),
 
           // Zeit/Distanz-Container oben links - only show on maps page when route active
           if (_currentIndex == 1) // Maps page index
@@ -408,10 +395,8 @@ class _DelviooMainPageState extends State<DelviooMainPage> {
                 return Positioned(
                   top: MediaQuery.of(context).padding.top + 16,
                   left: 20,
-                  child: _buildRouteTimeContainer(isLight, activeOrder),
-                );
-              },
-            ),
+                  child: _buildRouteTimeContainer(isLight, activeOrder));
+              }),
 
           // Close button top right - only show on maps page when route active
           if (_currentIndex == 1)
@@ -438,11 +423,8 @@ class _DelviooMainPageState extends State<DelviooMainPage> {
                         ? Colors.white.withOpacity(0.95)
                         : Colors.black.withOpacity(0.95),
                     foregroundColor: isLight ? Colors.black : Colors.white,
-                    size: 44,
-                  ),
-                );
-              },
-            ),
+                    size: 44));
+              }),
 
           // Swipe Accept Bottom Sheet - shows when activeOrderNotifier has a value
           ValueListenableBuilder<Map<String, dynamic>?>(
@@ -462,8 +444,7 @@ class _DelviooMainPageState extends State<DelviooMainPage> {
                     _showVehicleSelectionSheet(
                       context,
                       isLight,
-                      activeOrder['shipping_type'],
-                    );
+                      activeOrder['shipping_type']);
                   },
                   onVehicleChanged: (vehicle) {
                     setState(() {
@@ -473,11 +454,8 @@ class _DelviooMainPageState extends State<DelviooMainPage> {
                   onClose: () {
                     clearRouteNotifier.value = !clearRouteNotifier.value;
                     activeOrderNotifier.value = null;
-                  },
-                ),
-              );
-            },
-          ),
+                  }));
+            }),
 
           // PageIndicator at bottom - hide when bottom sheet, navigation modal or dock hidden
           ValueListenableBuilder<bool>(
@@ -504,23 +482,15 @@ class _DelviooMainPageState extends State<DelviooMainPage> {
                           child: PageIndicator(
                             currentPage: _currentIndex,
                             pageCount: _navItems.length,
-                            pageController: _pageController,
-                          ),
-                        ),
-                      );
-                    },
-                  );
-                },
-              );
-            },
-          ),
+                            pageController: _pageController)));
+                    });
+                });
+            }),
 
           // Edge swipe zones – allow page navigation on maps page where PageView
           // swiping is disabled so Apple Maps can receive pan/zoom gestures.
           ..._buildEdgeSwipeZones(),
-        ],
-      ),
-    );
+        ]));
   }
 
   Widget _buildCustomDockInterface(bool isLight) {
@@ -540,8 +510,7 @@ class _DelviooMainPageState extends State<DelviooMainPage> {
                 _currentIndex = index;
               });
             },
-            children: _pages,
-          ),
+            children: _pages),
 
           // Zeit/Distanz-Container oben links - only show on maps page when route active
           if (_currentIndex == 1)
@@ -557,10 +526,8 @@ class _DelviooMainPageState extends State<DelviooMainPage> {
                 return Positioned(
                   top: MediaQuery.of(context).padding.top + 16,
                   left: 20,
-                  child: _buildRouteTimeContainer(isLight, activeOrder),
-                );
-              },
-            ),
+                  child: _buildRouteTimeContainer(isLight, activeOrder));
+              }),
 
           // Close button top right - only show on maps page when route active
           if (_currentIndex == 1)
@@ -587,11 +554,8 @@ class _DelviooMainPageState extends State<DelviooMainPage> {
                         ? Colors.white.withOpacity(0.95)
                         : Colors.black.withOpacity(0.95),
                     foregroundColor: isLight ? Colors.black : Colors.white,
-                    size: 44,
-                  ),
-                );
-              },
-            ),
+                    size: 44));
+              }),
 
           // Swipe Accept Bottom Sheet - shows when activeOrderNotifier has a value
           ValueListenableBuilder<Map<String, dynamic>?>(
@@ -611,8 +575,7 @@ class _DelviooMainPageState extends State<DelviooMainPage> {
                     _showVehicleSelectionSheet(
                       context,
                       isLight,
-                      activeOrder['shipping_type'],
-                    );
+                      activeOrder['shipping_type']);
                   },
                   onVehicleChanged: (vehicle) {
                     setState(() {
@@ -622,11 +585,8 @@ class _DelviooMainPageState extends State<DelviooMainPage> {
                   onClose: () {
                     clearRouteNotifier.value = !clearRouteNotifier.value;
                     activeOrderNotifier.value = null;
-                  },
-                ),
-              );
-            },
-          ),
+                  }));
+            }),
 
           // PageIndicator on Android/custom dock - hide when bottom sheet,
           // navigation modal, or dock is hidden
@@ -654,24 +614,16 @@ class _DelviooMainPageState extends State<DelviooMainPage> {
                           child: PageIndicator(
                             currentPage: _currentIndex,
                             pageCount: _navItems.length,
-                            pageController: _pageController,
-                          ),
-                        ),
-                      );
-                    },
-                  );
-                },
-              );
-            },
-          ),
+                            pageController: _pageController)));
+                    });
+                });
+            }),
 
           // Edge swipe zones – allow page navigation on maps page where PageView
           // swiping is disabled so Apple Maps can receive pan/zoom gestures.
           ..._buildEdgeSwipeZones(),
-        ],
-      ),
-      extendBody: false,
-    );
+        ]),
+      extendBody: false);
   }
 
   Widget _buildCustomDock(bool isLight) {
@@ -682,9 +634,7 @@ class _DelviooMainPageState extends State<DelviooMainPage> {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: List.generate(_navItems.length, (index) {
           return _buildDockItem(index, isLight);
-        }),
-      ),
-    );
+        })));
   }
 
   Widget _buildDockItem(int index, bool isLight) {
@@ -706,12 +656,7 @@ class _DelviooMainPageState extends State<DelviooMainPage> {
               size: 22,
               color: isSelected
                   ? (isLight ? Colors.black : Colors.white)
-                  : (isLight ? Colors.white : Colors.black),
-            ),
-          ),
-        ),
-      ),
-    );
+                  : (isLight ? Colors.white : Colors.black))))));
   }
 
   /// Returns two invisible 30 px-wide Positioned strips on the left and right
@@ -734,9 +679,7 @@ class _DelviooMainPageState extends State<DelviooMainPage> {
             if ((details.primaryVelocity ?? 0) > 200 && _currentIndex > 0) {
               _navigateToPage(_currentIndex - 1, animate: true);
             }
-          },
-        ),
-      ),
+          })),
       // Right edge → go to next page
       Positioned(
         right: 0,
@@ -750,9 +693,7 @@ class _DelviooMainPageState extends State<DelviooMainPage> {
                 _currentIndex < _pages.length - 1) {
               _navigateToPage(_currentIndex + 1, animate: true);
             }
-          },
-        ),
-      ),
+          })),
     ];
   }
 
@@ -772,8 +713,7 @@ class _DelviooMainPageState extends State<DelviooMainPage> {
         _pageController.animateToPage(
           index,
           duration: const Duration(milliseconds: 280),
-          curve: Curves.easeOutCubic,
-        );
+          curve: Curves.easeOutCubic);
       } else {
         // Keep immediate switch for tap-based nav where CNTabBar animates itself.
         _pageController.jumpToPage(index);
@@ -817,90 +757,72 @@ class _DelviooMainPageState extends State<DelviooMainPage> {
     }
 
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
+      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 14),
       decoration: BoxDecoration(
         color: isLight ? Colors.white : Colors.black,
-        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-      ),
+        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
           // Distance with icon
           Container(
-            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+            padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
             decoration: BoxDecoration(
               color: const Color(0xFF007AFF).withOpacity(0.1),
-              borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-            ),
+              borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                const Icon(
+                Icon(
                   CupertinoIcons.location,
                   color: Color(0xFF007AFF),
-                  size: 18,
-                ),
-                const SizedBox(width: 6),
+                  size: 18),
+                SizedBox(width: 6),
                 Text(
                   formattedDistance,
                   style: TextStyle(
                     fontSize: 15,
                     fontWeight: FontWeight.w700,
                     color: isLight ? Colors.black : Colors.white,
-                    letterSpacing: -0.3,
-                  ),
-                ),
-              ],
-            ),
-          ),
-          const SizedBox(width: 10),
+                    letterSpacing: -0.3)),
+              ])),
+          SizedBox(width: 10),
           // Duration with icon
           Container(
-            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+            padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
             decoration: BoxDecoration(
               color: const Color(0xFF34C759).withOpacity(0.1),
-              borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-            ),
+              borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                const Icon(
+                Icon(
                   CupertinoIcons.clock,
                   color: Color(0xFF34C759),
-                  size: 18,
-                ),
-                const SizedBox(width: 6),
+                  size: 18),
+                SizedBox(width: 6),
                 Text(
                   formattedTime,
                   style: TextStyle(
                     fontSize: 15,
                     fontWeight: FontWeight.w700,
                     color: isLight ? Colors.black : Colors.white,
-                    letterSpacing: -0.3,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
+                    letterSpacing: -0.3)),
+              ])),
+        ]));
   }
 
   // Show vehicle selection bottom sheet
   void _showVehicleSelectionSheet(
     BuildContext context,
     bool isLight,
-    String? shippingType,
-  ) async {
+    String? shippingType) async {
     final selectedVehicle = await TradeRepublicBottomSheet.show<Map<String, dynamic>>(
       context: context,
       child: _VehicleSelectionSheet(
         isLight: isLight,
         currentSelectedVehicle: _selectedVehicle,
-        requiredShippingType: shippingType,
-      ),
-    );
+        requiredShippingType: shippingType));
 
     if (selectedVehicle != null) {
       setState(() {
@@ -924,8 +846,7 @@ class _DelviooMainPageState extends State<DelviooMainPage> {
             curve: Curves.easeOutCubic,
             width: _sidebarWidth,
             decoration: BoxDecoration(
-              color: isLight ? Colors.white : Colors.black,
-            ),
+              color: isLight ? Colors.white : Colors.black),
             child: SafeArea(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -933,8 +854,7 @@ class _DelviooMainPageState extends State<DelviooMainPage> {
                   // Logo Section - bigger logo
                   Padding(
                     padding: EdgeInsets.fromLTRB(
-                      showLabels ? 20 : 12, 24, showLabels ? 20 : 12, 16,
-                    ),
+                      showLabels ? 20 : 12, 24, showLabels ? 20 : 12, 16),
                     child: AnimatedContainer(
                       duration: const Duration(milliseconds: 200),
                       curve: Curves.easeOutCubic,
@@ -950,18 +870,13 @@ class _DelviooMainPageState extends State<DelviooMainPage> {
                                     : 'assets/images/cultioo_logo_light.png',
                                 key: const ValueKey('full_logo'),
                                 height: 110,
-                                fit: BoxFit.contain,
-                              )
+                                fit: BoxFit.contain)
                             : Image.asset(
                                 'logo/cultioo_logo.png',
                                 key: const ValueKey('leaf_logo'),
                                 height: 48,
                                 fit: BoxFit.contain,
-                                color: isLight ? Colors.black : Colors.white,
-                              ),
-                      ),
-                    ),
-                  ),
+                                color: isLight ? Colors.black : Colors.white)))),
 
                   // Navigation Items - Trade Republic Style
                   Expanded(
@@ -969,22 +884,18 @@ class _DelviooMainPageState extends State<DelviooMainPage> {
                       padding: EdgeInsets.symmetric(horizontal: showLabels ? 12 : 8),
                       children: List.generate(
                         _navItems.length,
-                        (index) => _buildSidebarItem(index, isLight),
-                      ),
-                    ),
-                  ),
+                        (index) => _buildSidebarItem(index, isLight)))),
 
                   // Profile Section - Trade Republic minimal bottom (only when expanded)
                   if (showLabels)
                     Container(
-                    margin: const EdgeInsets.all(12),
-                    padding: const EdgeInsets.all(12),
+                    margin: EdgeInsets.all(12),
+                    padding: EdgeInsets.all(12),
                     decoration: BoxDecoration(
                       color: isLight
                           ? Colors.black.withOpacity(0.04)
                           : Colors.white.withOpacity(0.04),
-                      borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-                    ),
+                      borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
                     child: Row(
                       children: [
                         // Profile Image - Trade Republic square style
@@ -993,8 +904,7 @@ class _DelviooMainPageState extends State<DelviooMainPage> {
                           height: 40,
                           decoration: BoxDecoration(
                             color: isLight ? Colors.black : Colors.white,
-                            borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-                          ),
+                            borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
                           child: Builder(
                             builder: (context) {
                               final fallbackLetter = (appSettings.userName?.isNotEmpty == true)
@@ -1006,10 +916,7 @@ class _DelviooMainPageState extends State<DelviooMainPage> {
                                   style: TextStyle(
                                     fontSize: DesktopOptimizedWidgets.getFontSize(),
                                     fontWeight: FontWeight.w600,
-                                    color: isLight ? Colors.white : Colors.black,
-                                  ),
-                                ),
-                              );
+                                    color: isLight ? Colors.white : Colors.black)));
                               final rawUrl = userData?['profile_image']?.toString() ?? AppLocalizations.of(context)!.tr('');
                               if (rawUrl.isEmpty || rawUrl.startsWith('<svg')) {
                                 return fallbackWidget;
@@ -1023,9 +930,7 @@ class _DelviooMainPageState extends State<DelviooMainPage> {
                                     child: Image.memory(
                                       bytes,
                                       width: 40, height: 40, fit: BoxFit.cover,
-                                      errorBuilder: (_, __, ___) => fallbackWidget,
-                                    ),
-                                  );
+                                      errorBuilder: (_, __, ___) => fallbackWidget));
                                 } catch (_) {
                                   return fallbackWidget;
                                 }
@@ -1037,13 +942,9 @@ class _DelviooMainPageState extends State<DelviooMainPage> {
                                 child: Image.network(
                                   fullUrl,
                                   width: 40, height: 40, fit: BoxFit.cover,
-                                  errorBuilder: (_, __, ___) => fallbackWidget,
-                                ),
-                              );
-                            },
-                          ),
-                        ),
-                        const SizedBox(width: 12),
+                                  errorBuilder: (_, __, ___) => fallbackWidget));
+                            })),
+                        SizedBox(width: 12),
                         // Name - Trade Republic typography
                         Expanded(
                           child: Column(
@@ -1058,12 +959,10 @@ class _DelviooMainPageState extends State<DelviooMainPage> {
                                 style: TextStyle(
                                   fontSize: DesktopOptimizedWidgets.getFontSize(),
                                   fontWeight: FontWeight.w600,
-                                  color: isLight ? Colors.black : Colors.white,
-                                ),
+                                  color: isLight ? Colors.black : Colors.white),
                                 maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                              const SizedBox(height: 2),
+                                overflow: TextOverflow.ellipsis),
+                              SizedBox(height: 2),
                               Text(
                                 AppLocalizations.of(context)?.driverLabel ?? AppLocalizations.of(context)!.tr('Driver'),
                                 style: TextStyle(
@@ -1071,27 +970,17 @@ class _DelviooMainPageState extends State<DelviooMainPage> {
                                   fontWeight: FontWeight.w400,
                                   color: isLight
                                       ? Colors.black.withOpacity(0.5)
-                                      : Colors.white.withOpacity(0.5),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
+                                      : Colors.white.withOpacity(0.5))),
+                            ])),
                         // Chevron
                         Icon(
                           CupertinoIcons.chevron_right,
                           size: 14,
                           color: isLight
                               ? Colors.black.withOpacity(0.3)
-                              : Colors.white.withOpacity(0.3),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
+                              : Colors.white.withOpacity(0.3)),
+                      ])),
+                ]))),
 
           // Draggable Resize Handle
           _buildSidebarResizeHandle(isLight),
@@ -1111,13 +1000,8 @@ class _DelviooMainPageState extends State<DelviooMainPage> {
                     _currentIndex = index;
                   });
                 },
-                children: _pages,
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
+                children: _pages))),
+        ]));
   }
 
   Widget _buildSidebarItem(int index, bool isLight) {
@@ -1126,7 +1010,7 @@ class _DelviooMainPageState extends State<DelviooMainPage> {
     final showLabels = _sidebarWidth > 140;
 
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 2),
+      padding: EdgeInsets.symmetric(vertical: 2),
       child: Material(
         color: Colors.transparent,
         child: TradeRepublicTap(
@@ -1145,14 +1029,13 @@ class _DelviooMainPageState extends State<DelviooMainPage> {
             duration: const Duration(milliseconds: 200),
             curve: Curves.easeOutCubic,
             padding: showLabels
-                ? const EdgeInsets.symmetric(horizontal: 14, vertical: 12)
-                : const EdgeInsets.symmetric(vertical: 12),
+                ? EdgeInsets.symmetric(horizontal: 14, vertical: 12)
+                : EdgeInsets.symmetric(vertical: 12),
             decoration: BoxDecoration(
               color: isSelected
                   ? (isLight ? Colors.black : Colors.white)
                   : Colors.transparent,
-              borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-            ),
+              borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
             child: Row(
               mainAxisAlignment: showLabels ? MainAxisAlignment.start : MainAxisAlignment.center,
               children: [
@@ -1166,11 +1049,9 @@ class _DelviooMainPageState extends State<DelviooMainPage> {
                         ? (isLight ? Colors.white : Colors.black)
                         : (isLight
                               ? Colors.black.withOpacity(0.7)
-                              : Colors.white.withOpacity(0.7)),
-                  ),
-                ),
+                              : Colors.white.withOpacity(0.7)))),
                 if (showLabels) ...[
-                  const SizedBox(width: 12),
+                  SizedBox(width: 12),
                   Flexible(
                     child: AnimatedOpacity(
                       duration: const Duration(milliseconds: 150),
@@ -1182,20 +1063,11 @@ class _DelviooMainPageState extends State<DelviooMainPage> {
                           fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500,
                           color: isSelected
                               ? (isLight ? Colors.white : Colors.black)
-                              : (isLight ? Colors.black : Colors.white),
-                        ),
+                              : (isLight ? Colors.black : Colors.white)),
                         overflow: TextOverflow.ellipsis,
-                        maxLines: 1,
-                      ),
-                    ),
-                  ),
+                        maxLines: 1))),
                 ],
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
+              ])))));
   }
 
   bool _isResizeHandleHovered = false;
@@ -1247,13 +1119,7 @@ class _DelviooMainPageState extends State<DelviooMainPage> {
                 color: _isResizeHandleHovered
                     ? (isLight ? Colors.black.withOpacity(0.25) : Colors.white.withOpacity(0.4))
                     : (isLight ? Colors.black.withOpacity(0.08) : Colors.white.withOpacity(0.08)),
-                borderRadius: BorderRadius.circular(2),
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
+                borderRadius: BorderRadius.circular(2)))))));
   }
 
   // ─── AI Order Suggestion Background Polling ───────────────────────────────
@@ -1314,8 +1180,7 @@ class _DelviooMainPageState extends State<DelviooMainPage> {
       late final Position position;
       try {
         position = await Geolocator.getCurrentPosition(
-          desiredAccuracy: LocationAccuracy.medium,
-        ).timeout(const Duration(seconds: 8));
+          desiredAccuracy: LocationAccuracy.medium).timeout(const Duration(seconds: 8));
       } catch (e) {
         if (_isExpectedAiLocationFailure(e)) {
           return;
@@ -1338,9 +1203,7 @@ class _DelviooMainPageState extends State<DelviooMainPage> {
         final vehiclesResponse = await http
             .get(
               Uri.parse(
-                '${ApiConfig.baseUrl}/api/delvioo/vehicles/$driverId',
-              ),
-            )
+                '${ApiConfig.baseUrl}/api/delvioo/vehicles/$driverId'))
             .timeout(const Duration(seconds: 6));
         if (vehiclesResponse.statusCode == 200) {
           final vData = json.decode(vehiclesResponse.body);
@@ -1359,9 +1222,7 @@ class _DelviooMainPageState extends State<DelviooMainPage> {
               '?driver_id=$driverId'
               '&lat=${position.latitude}'
               '&lng=${position.longitude}'
-              '&radius=$radiusMeters',
-            ),
-          )
+              '&radius=$radiusMeters'))
           .timeout(const Duration(seconds: 8));
 
       if (response.statusCode != 200) {
@@ -1406,12 +1267,10 @@ class _DelviooMainPageState extends State<DelviooMainPage> {
 
           final distToPickup = _calcDistanceMeters(
             position.latitude, position.longitude,
-            pickupLat.toDouble(), pickupLng.toDouble(),
-          );
+            pickupLat.toDouble(), pickupLng.toDouble());
           final pickupToDelivery = _calcDistanceMeters(
             pickupLat.toDouble(), pickupLng.toDouble(),
-            deliveryLat.toDouble(), deliveryLng.toDouble(),
-          );
+            deliveryLat.toDouble(), deliveryLng.toDouble());
 
           double score = 0;
           if (distToPickup < 2000) {
@@ -1482,8 +1341,7 @@ class _DelviooMainPageState extends State<DelviooMainPage> {
 
   /// Haversine distance in meters between two lat/lng points.
   double _calcDistanceMeters(
-    double lat1, double lon1, double lat2, double lon2,
-  ) {
+    double lat1, double lon1, double lat2, double lon2) {
     const r = 6371000.0;
     final dLat = (lat2 - lat1) * pi / 180;
     final dLon = (lon2 - lon1) * pi / 180;
@@ -1498,8 +1356,7 @@ class _DelviooMainPageState extends State<DelviooMainPage> {
   /// Shows the automatic AI order suggestion as a TradeRepublicBottomSheet.
   Future<void> _showAiOrderSuggestionSheet(
     Map<String, dynamic> order,
-    Map<String, dynamic>? vehicle,
-  ) async {
+    Map<String, dynamic>? vehicle) async {
     if (!mounted) return;
     final appSettings = Provider.of<AppSettings>(context, listen: false);
     final isLight = appSettings.isLightMode(context);
@@ -1560,22 +1417,18 @@ class _DelviooMainPageState extends State<DelviooMainPage> {
                 Row(
                   children: [
                     Container(
-                      padding: const EdgeInsets.all(10),
+                      padding: EdgeInsets.all(10),
                       decoration: BoxDecoration(
                         gradient: const LinearGradient(
                           colors: [Color(0xFF007AFF), Color(0xFF5856D6)],
                           begin: Alignment.topLeft,
-                          end: Alignment.bottomRight,
-                        ),
-                        borderRadius: BorderRadius.circular(14),
-                      ),
-                      child: const Icon(
+                          end: Alignment.bottomRight),
+                        borderRadius: BorderRadius.circular(14)),
+                      child: Icon(
                         Icons.auto_awesome_rounded,
                         color: Colors.white,
-                        size: 20,
-                      ),
-                    ),
-                    const SizedBox(width: 12),
+                        size: 20)),
+                    SizedBox(width: 12),
                     Expanded(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -1586,48 +1439,36 @@ class _DelviooMainPageState extends State<DelviooMainPage> {
                               fontSize: DesktopOptimizedWidgets.getFontSize() + 6,
                               fontWeight: FontWeight.w700,
                               color: isLight ? Colors.black : Colors.white,
-                              letterSpacing: -0.4,
-                            ),
-                          ),
+                              letterSpacing: -0.4)),
                           Text(
                             'Order #$orderId · ${appSettings.formatCurrency(orderValue)}',
                             style: TextStyle(
                               fontSize: 13,
                               color: (isLight ? Colors.black : Colors.white)
-                                  .withOpacity(0.55),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
+                                  .withOpacity(0.55))),
+                        ])),
                     Container(
-                      padding: const EdgeInsets.symmetric(
+                      padding: EdgeInsets.symmetric(
                           horizontal: 10, vertical: 5),
                       decoration: BoxDecoration(
                         color: const Color(0xFF34C759).withOpacity(0.15),
-                        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-                      ),
+                        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
                       child: Text(
                         appSettings.formatCurrency(orderValue),
                         style: TextStyle(fontSize: DesktopOptimizedWidgets.getFontSize(),
                           fontWeight: FontWeight.w700,
-                          color: Color(0xFF34C759),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
+                          color: Color(0xFF34C759)))),
+                  ]),
                 SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
                 // ── Route card ───────────────────────────────────────────────
                 Container(
-                  padding: const EdgeInsets.all(14),
+                  padding: EdgeInsets.all(14),
                   decoration: BoxDecoration(
                     color: isLight
                         ? Colors.grey.withOpacity(0.06)
                         : Colors.white.withOpacity(0.06),
-                    borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius()),
-                  ),
+                    borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius())),
                   child: Column(
                     children: [
                       // Pickup row
@@ -1640,19 +1481,15 @@ class _DelviooMainPageState extends State<DelviooMainPage> {
                                 height: 10,
                                 decoration: BoxDecoration(
                                   color: const Color(0xFF34C759),
-                                  borderRadius: BorderRadius.circular(5),
-                                ),
-                              ),
+                                  borderRadius: BorderRadius.circular(5))),
                               Container(
                                 width: 2,
                                 height: 28,
-                                margin: const EdgeInsets.symmetric(vertical: 3),
+                                margin: EdgeInsets.symmetric(vertical: 3),
                                 color: (isLight ? Colors.black : Colors.white)
-                                    .withOpacity(0.12),
-                              ),
-                            ],
-                          ),
-                          const SizedBox(width: 10),
+                                    .withOpacity(0.12)),
+                            ]),
+                          SizedBox(width: 10),
                           Expanded(
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -1663,9 +1500,7 @@ class _DelviooMainPageState extends State<DelviooMainPage> {
                                     fontSize: 10,
                                     fontWeight: FontWeight.w700,
                                     color: const Color(0xFF34C759),
-                                    letterSpacing: 0.6,
-                                  ),
-                                ),
+                                    letterSpacing: 0.6)),
                                 Text(
                                   pickupAddr.isNotEmpty
                                       ? pickupAddr
@@ -1675,22 +1510,17 @@ class _DelviooMainPageState extends State<DelviooMainPage> {
                                     fontWeight: FontWeight.w600,
                                     color: isLight
                                         ? Colors.black
-                                        : Colors.white,
-                                  ),
+                                        : Colors.white),
                                   maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                              ],
-                            ),
-                          ),
+                                  overflow: TextOverflow.ellipsis),
+                              ])),
                           Container(
-                            padding: const EdgeInsets.symmetric(
+                            padding: EdgeInsets.symmetric(
                                 horizontal: 8, vertical: 3),
                             decoration: BoxDecoration(
                               color: (isLight ? Colors.black : Colors.white)
                                   .withOpacity(0.07),
-                              borderRadius: BorderRadius.circular(8),
-                            ),
+                              borderRadius: BorderRadius.circular(8)),
                             child: Text(
                               appSettings
                                   .formatDistance(distanceToPickup / 1000),
@@ -1698,12 +1528,8 @@ class _DelviooMainPageState extends State<DelviooMainPage> {
                                 fontSize: 12,
                                 fontWeight: FontWeight.w600,
                                 color: (isLight ? Colors.black : Colors.white)
-                                    .withOpacity(0.6),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
+                                    .withOpacity(0.6)))),
+                        ]),
                       // Delivery row
                       Row(
                         children: [
@@ -1712,10 +1538,8 @@ class _DelviooMainPageState extends State<DelviooMainPage> {
                             height: 10,
                             decoration: BoxDecoration(
                               color: const Color(0xFFFF3B30),
-                              borderRadius: BorderRadius.circular(5),
-                            ),
-                          ),
-                          const SizedBox(width: 10),
+                              borderRadius: BorderRadius.circular(5))),
+                          SizedBox(width: 10),
                           Expanded(
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -1726,9 +1550,7 @@ class _DelviooMainPageState extends State<DelviooMainPage> {
                                     fontSize: 10,
                                     fontWeight: FontWeight.w700,
                                     color: const Color(0xFFFF3B30),
-                                    letterSpacing: 0.6,
-                                  ),
-                                ),
+                                    letterSpacing: 0.6)),
                                 Text(
                                   deliveryAddr.isNotEmpty
                                       ? deliveryAddr
@@ -1738,22 +1560,17 @@ class _DelviooMainPageState extends State<DelviooMainPage> {
                                     fontWeight: FontWeight.w600,
                                     color: isLight
                                         ? Colors.black
-                                        : Colors.white,
-                                  ),
+                                        : Colors.white),
                                   maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                              ],
-                            ),
-                          ),
+                                  overflow: TextOverflow.ellipsis),
+                              ])),
                           Container(
-                            padding: const EdgeInsets.symmetric(
+                            padding: EdgeInsets.symmetric(
                                 horizontal: 8, vertical: 3),
                             decoration: BoxDecoration(
                               color: (isLight ? Colors.black : Colors.white)
                                   .withOpacity(0.07),
-                              borderRadius: BorderRadius.circular(8),
-                            ),
+                              borderRadius: BorderRadius.circular(8)),
                             child: Text(
                               appSettings
                                   .formatDistance(pickupToDelivery / 1000),
@@ -1761,16 +1578,10 @@ class _DelviooMainPageState extends State<DelviooMainPage> {
                                 fontSize: 12,
                                 fontWeight: FontWeight.w600,
                                 color: (isLight ? Colors.black : Colors.white)
-                                    .withOpacity(0.6),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-                const SizedBox(height: 10),
+                                    .withOpacity(0.6)))),
+                        ]),
+                    ])),
+                SizedBox(height: 10),
 
                 // ── Distance chips ───────────────────────────────────────────
                 Row(
@@ -1781,10 +1592,8 @@ class _DelviooMainPageState extends State<DelviooMainPage> {
                         label: appSettings
                             .formatDistance(distanceToPickup / 1000),
                         subtitle: AppLocalizations.of(context)?.toPickup ?? AppLocalizations.of(context)!.tr(''),
-                        isLight: isLight,
-                      ),
-                    ),
-                    const SizedBox(width: 8),
+                        isLight: isLight)),
+                    SizedBox(width: 8),
                     Expanded(
                       child: _buildAiInfoChip(
                         icon: Icons.local_shipping_rounded,
@@ -1792,11 +1601,9 @@ class _DelviooMainPageState extends State<DelviooMainPage> {
                             .formatDistance(pickupToDelivery / 1000),
                         subtitle:
                           AppLocalizations.of(context)?.tripDistance ?? AppLocalizations.of(context)!.tr(''),
-                        isLight: isLight,
-                      ),
-                    ),
+                        isLight: isLight)),
                     if (vehicleName.isNotEmpty) ...[
-                      const SizedBox(width: 8),
+                      SizedBox(width: 8),
                       Expanded(
                         child: _buildAiInfoChip(
                           icon: _getVehicleIcon(vehicleType),
@@ -1805,12 +1612,9 @@ class _DelviooMainPageState extends State<DelviooMainPage> {
                               ? licensePlate
                               : vehicleType,
                           isLight: isLight,
-                          color: const Color(0xFF007AFF),
-                        ),
-                      ),
+                          color: const Color(0xFF007AFF))),
                     ],
-                  ],
-                ),
+                  ]),
                 SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
                 // ── Bid price input ──────────────────────────────────────────
@@ -1827,8 +1631,7 @@ class _DelviooMainPageState extends State<DelviooMainPage> {
                       distanceToPickup,
                       pickupToDelivery,
                       orderValue,
-                      orderId,
-                    );
+                      orderId);
                   },
                   child: Container(
                     padding: DesktopAppWrapper.getPagePadding(),
@@ -1839,9 +1642,7 @@ class _DelviooMainPageState extends State<DelviooMainPage> {
                       borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius()),
                       border: Border.all(
                         color: (isLight ? Colors.black : Colors.white)
-                            .withOpacity(0.1),
-                      ),
-                    ),
+                            .withOpacity(0.1))),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -1850,18 +1651,12 @@ class _DelviooMainPageState extends State<DelviooMainPage> {
                           style: TextStyle(
                             fontSize: 15,
                             color: (isLight ? Colors.black : Colors.white)
-                                .withOpacity(0.45),
-                          ),
-                        ),
+                                .withOpacity(0.45))),
                         Icon(
                           CupertinoIcons.money_dollar_circle,
                           color: const Color(0xFF34C759),
-                          size: 22,
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
+                          size: 22),
+                      ]))),
                 SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
                 // ── Action buttons ───────────────────────────────────────────
@@ -1871,15 +1666,13 @@ class _DelviooMainPageState extends State<DelviooMainPage> {
                       child: TradeRepublicButton(
                         label: AppLocalizations.of(context)?.skip ?? AppLocalizations.of(context)!.tr(''),
                         isSecondary: true,
-                        onPressed: () => Navigator.pop(ctx),
-                      ),
-                    ),
-                    const SizedBox(width: 12),
+                        onPressed: () => Navigator.pop(ctx))),
+                    SizedBox(width: 12),
                     Expanded(
                       flex: 2,
                       child: TradeRepublicButton(
                         label: AppLocalizations.of(context)?.placeBid ?? AppLocalizations.of(context)!.tr(''),
-                        icon: const Icon(Icons.gavel_rounded, size: 18),
+                        icon: Icon(Icons.gavel_rounded, size: 18),
                         tint: const Color(0xFF007AFF),
                         onPressed: () {
                           Navigator.pop(ctx);
@@ -1893,22 +1686,13 @@ class _DelviooMainPageState extends State<DelviooMainPage> {
                             distanceToPickup,
                             pickupToDelivery,
                             orderValue,
-                            orderId,
-                          );
-                        },
-                      ),
-                    ),
-                  ],
-                ),
+                            orderId);
+                        })),
+                  ]),
                 SizedBox(
-                  height: 12 + MediaQuery.of(ctx).padding.bottom,
-                ),
-              ],
-            ),
-          );
-        },
-      ),
-    );
+                  height: 12 + MediaQuery.of(ctx).padding.bottom),
+              ]));
+        }));
   }
 
   /// Helper chip widget used in the AI suggestion bottom sheet.
@@ -1920,43 +1704,36 @@ class _DelviooMainPageState extends State<DelviooMainPage> {
     Color? color,
   }) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+      padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
       decoration: BoxDecoration(
         color: isLight
             ? Colors.grey.withOpacity(0.06)
             : Colors.white.withOpacity(0.06),
-        borderRadius: BorderRadius.circular(14),
-      ),
+        borderRadius: BorderRadius.circular(14)),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
           Icon(icon,
               size: 18,
               color: color ?? (isLight ? Colors.black : Colors.white)),
-          const SizedBox(height: 4),
+          SizedBox(height: 4),
           Text(
             label,
             style: TextStyle(
               fontSize: 13,
               fontWeight: FontWeight.w700,
-              color: color ?? (isLight ? Colors.black : Colors.white),
-            ),
+              color: color ?? (isLight ? Colors.black : Colors.white)),
             maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-          ),
+            overflow: TextOverflow.ellipsis),
           Text(
             subtitle,
             style: TextStyle(
               fontSize: 10,
               color:
-                  (isLight ? Colors.black : Colors.white).withOpacity(0.45),
-            ),
+                  (isLight ? Colors.black : Colors.white).withOpacity(0.45)),
             maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-          ),
-        ],
-      ),
-    );
+            overflow: TextOverflow.ellipsis),
+        ]));
   }
 
   /// Shows the bid numpad bottom sheet and submits the bid on confirm.
@@ -1970,8 +1747,7 @@ class _DelviooMainPageState extends State<DelviooMainPage> {
     double distanceToPickup,
     double pickupToDelivery,
     double orderValue,
-    dynamic orderId,
-  ) {
+    dynamic orderId) {
     int bidCents = 0;
     final appSettings = Provider.of<AppSettings>(context, listen: false);
 
@@ -1994,12 +1770,7 @@ class _DelviooMainPageState extends State<DelviooMainPage> {
                     style: TextStyle(
                       fontSize: 22,
                       fontWeight: FontWeight.w600,
-                      color: isLight ? Colors.black : Colors.white,
-                    ),
-                  ),
-                ),
-              ),
-            );
+                      color: isLight ? Colors.black : Colors.white)))));
           }
 
           void addDigit(int d) {
@@ -2024,10 +1795,8 @@ class _DelviooMainPageState extends State<DelviooMainPage> {
                       height: 8,
                       decoration: BoxDecoration(
                         color: const Color(0xFF34C759),
-                        borderRadius: BorderRadius.circular(4),
-                      ),
-                    ),
-                    const SizedBox(width: 8),
+                        borderRadius: BorderRadius.circular(4))),
+                    SizedBox(width: 8),
                     Expanded(
                       child: Text(
                         pickupAddr.isNotEmpty ? pickupAddr : 'Pickup',
@@ -2035,24 +1804,18 @@ class _DelviooMainPageState extends State<DelviooMainPage> {
                           fontSize: 13,
                           color:
                               (isLight ? Colors.black : Colors.white)
-                                  .withOpacity(0.7),
-                        ),
+                                  .withOpacity(0.7)),
                         maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ),
+                        overflow: TextOverflow.ellipsis)),
                     Text(
                       appSettings.formatDistance(distanceToPickup / 1000),
                       style: TextStyle(
                         fontSize: 12,
                         color:
                             (isLight ? Colors.black : Colors.white)
-                                .withOpacity(0.45),
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 4),
+                                .withOpacity(0.45))),
+                  ]),
+                SizedBox(height: 4),
                 Row(
                   children: [
                     Container(
@@ -2060,10 +1823,8 @@ class _DelviooMainPageState extends State<DelviooMainPage> {
                       height: 8,
                       decoration: BoxDecoration(
                         color: const Color(0xFFFF3B30),
-                        borderRadius: BorderRadius.circular(4),
-                      ),
-                    ),
-                    const SizedBox(width: 8),
+                        borderRadius: BorderRadius.circular(4))),
+                    SizedBox(width: 8),
                     Expanded(
                       child: Text(
                         deliveryAddr.isNotEmpty ? deliveryAddr : 'Delivery',
@@ -2071,24 +1832,18 @@ class _DelviooMainPageState extends State<DelviooMainPage> {
                           fontSize: 13,
                           color:
                               (isLight ? Colors.black : Colors.white)
-                                  .withOpacity(0.7),
-                        ),
+                                  .withOpacity(0.7)),
                         maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ),
+                        overflow: TextOverflow.ellipsis)),
                     Text(
                       appSettings.formatDistance(pickupToDelivery / 1000),
                       style: TextStyle(
                         fontSize: 12,
                         color:
                             (isLight ? Colors.black : Colors.white)
-                                .withOpacity(0.45),
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 20),
+                                .withOpacity(0.45))),
+                  ]),
+                SizedBox(height: 20),
 
                 // Big bid display
                 Text(
@@ -2100,19 +1855,15 @@ class _DelviooMainPageState extends State<DelviooMainPage> {
                     color: bidCents == 0
                         ? (isLight ? Colors.black : Colors.white)
                             .withOpacity(0.25)
-                        : const Color(0xFF34C759),
-                  ),
-                ),
+                        : const Color(0xFF34C759))),
                 Text(
                   'Your Bid  ·  Order value ${appSettings.formatCurrency(orderValue)}',
                   style: TextStyle(
                     fontSize: 13,
                     color:
                         (isLight ? Colors.black : Colors.white)
-                            .withOpacity(0.45),
-                  ),
-                ),
-                const SizedBox(height: 20),
+                            .withOpacity(0.45))),
+                SizedBox(height: 20),
 
                 // Numpad
                 for (final row in [
@@ -2128,8 +1879,7 @@ class _DelviooMainPageState extends State<DelviooMainPage> {
                         return numKey(k, onTap: deleteDigit);
                       }
                       return numKey(k, onTap: () => addDigit(int.parse(k)));
-                    }).toList(),
-                  ),
+                    }).toList()),
                 SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
                 // Submit
@@ -2144,23 +1894,17 @@ class _DelviooMainPageState extends State<DelviooMainPage> {
                           await _submitAiBid(order, vehicle, bidAmount);
                         },
                   width: double.infinity,
-                  tint: bidCents == 0 ? null : const Color(0xFF34C759),
-                ),
+                  tint: bidCents == 0 ? null : const Color(0xFF34C759)),
                 SizedBox(height: 12 + MediaQuery.of(ctx).padding.bottom),
-              ],
-            ),
-          );
-        },
-      ),
-    );
+              ]));
+        }));
   }
 
   /// Submits a bid or directly accepts the order from the AI suggestion.
   Future<void> _submitAiBid(
     Map<String, dynamic> order,
     Map<String, dynamic>? vehicle,
-    double bidAmount,
-  ) async {
+    double bidAmount) async {
     final orderId = order['order_id'];
     if (!mounted) return;
     final appSettings = Provider.of<AppSettings>(context, listen: false);
@@ -2177,8 +1921,7 @@ class _DelviooMainPageState extends State<DelviooMainPage> {
       final auctionsResponse = await http.get(
         Uri.parse(
             '${ApiConfig.baseUrl}/api/delvioo/auctions?status=open'),
-        headers: {if (token != null) 'Authorization': 'Bearer $token'},
-      ).timeout(const Duration(seconds: 6));
+        headers: {if (token != null) 'Authorization': 'Bearer $token'}).timeout(const Duration(seconds: 6));
 
       int? auctionId;
       if (auctionsResponse.statusCode == 200) {
@@ -2212,15 +1955,13 @@ class _DelviooMainPageState extends State<DelviooMainPage> {
             'price_mode': 'total',
             'vehicle_type': vehicle?['vehicle_type'] ?? AppLocalizations.of(context)!.tr('truck'),
             'message': 'AI suggestion',
-          }),
-        );
+          }));
         if (res.statusCode == 200 || res.statusCode == 201) {
           if (mounted) {
             HapticFeedback.heavyImpact();
             TopNotification.success(
               context,
-              'Bid submitted for Order #$orderId  ${appSettings.formatCurrency(bidAmount)} 🎯',
-            );
+              'Bid submitted for Order #$orderId  ${appSettings.formatCurrency(bidAmount)} 🎯');
           }
         } else {
           throw Exception('HTTP ${res.statusCode}');
@@ -2238,15 +1979,13 @@ class _DelviooMainPageState extends State<DelviooMainPage> {
             'driver_id': driverId,
             'accepted_via': 'ai_suggestion_background',
             'bid_amount': bidAmount,
-          }),
-        );
+          }));
         if (res.statusCode == 200) {
           if (mounted) {
             HapticFeedback.heavyImpact();
             TopNotification.success(
               context,
-              'Order #$orderId accepted! ${appSettings.formatCurrency(bidAmount)} 🎯',
-            );
+              'Order #$orderId accepted! ${appSettings.formatCurrency(bidAmount)} 🎯');
           }
         } else {
           throw Exception('HTTP ${res.statusCode}');
@@ -2256,8 +1995,7 @@ class _DelviooMainPageState extends State<DelviooMainPage> {
       if (mounted) {
         TopNotification.error(
           context,
-          '${AppLocalizations.of(context)!.tr('Bid failed')}: $e',
-        );
+          '${AppLocalizations.of(context)!.tr('Bid failed')}: $e');
       }
     }
   }
@@ -2315,18 +2053,15 @@ class _SwipeToAcceptSliderState extends State<_SwipeToAcceptSlider>
     super.initState();
     _pulseController = AnimationController(
       duration: const Duration(milliseconds: 1500),
-      vsync: this,
-    );
+      vsync: this);
     // Don't auto-repeat - only animate when needed
     _shimmerController = AnimationController(
       duration: const Duration(milliseconds: 2000),
-      vsync: this,
-    );
+      vsync: this);
     // Don't auto-repeat - only animate when needed
     _successController = AnimationController(
       duration: const Duration(milliseconds: 400),
-      vsync: this,
-    );
+      vsync: this);
   }
 
   @override
@@ -2346,8 +2081,7 @@ class _SwipeToAcceptSliderState extends State<_SwipeToAcceptSlider>
         final dragPercentage = (_dragPosition / maxDrag).clamp(0.0, 1.0);
         if (_dragPosition > 0) {
           print(
-            '📊 Drag: ${dragPercentage.toStringAsFixed(2)} | BorderRadius: ${(10 + dragPercentage * 15).toStringAsFixed(1)}px',
-          );
+            '📊 Drag: ${dragPercentage.toStringAsFixed(2)} | BorderRadius: ${(10 + dragPercentage * 15).toStringAsFixed(1)}px');
         }
         return TradeRepublicTap(
           onHorizontalDragStart: (details) {
@@ -2360,8 +2094,7 @@ class _SwipeToAcceptSliderState extends State<_SwipeToAcceptSlider>
               setState(() {
                 _dragPosition = (_dragPosition + details.delta.dx).clamp(
                   0.0,
-                  maxDrag,
-                );
+                  maxDrag);
               });
               if (dragPercentage >= 0.2 && dragPercentage < 0.22) {
                 HapticFeedback.selectionClick();
@@ -2401,8 +2134,7 @@ class _SwipeToAcceptSliderState extends State<_SwipeToAcceptSlider>
             height: 60,
             decoration: BoxDecoration(
               color: Colors.transparent,
-              borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-            ),
+              borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
             child: Stack(
               alignment: Alignment.centerLeft,
               children: [
@@ -2421,27 +2153,19 @@ class _SwipeToAcceptSliderState extends State<_SwipeToAcceptSlider>
                             : (widget.isLight
                                   ? Colors.transparent
                                   : Colors.black),
-                        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-                      ),
-                    ),
-                  ),
+                        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)))),
 
                 // UBER-STYLE: Centered bold text
                 Positioned.fill(
                   child: Padding(
-                    padding: const EdgeInsets.only(left: 80),
+                    padding: EdgeInsets.only(left: 80),
                     child: Align(
                       alignment: Alignment.centerLeft,
                       child: AnimatedSwitcher(
                         duration: const Duration(milliseconds: 200),
                         child: _buildUberTextForProgress(
                           dragPercentage,
-                          widget.isLight,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
+                          widget.isLight))))),
 
                 // COOL ANIMATION: Rectangle → Circle with green border
                 Positioned(
@@ -2456,11 +2180,9 @@ class _SwipeToAcceptSliderState extends State<_SwipeToAcceptSlider>
                           ? Color.lerp(
                               widget.isLight ? Colors.black : Colors.white,
                               const Color(0xFF34C759).withOpacity(0.15),
-                              dragPercentage,
-                            )!
+                              dragPercentage)!
                           : (widget.isLight ? Colors.black : Colors.white),
-                      borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-                    ),
+                      borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
                     child: Center(
                       child: AnimatedSwitcher(
                         duration: const Duration(milliseconds: 200),
@@ -2476,18 +2198,9 @@ class _SwipeToAcceptSliderState extends State<_SwipeToAcceptSlider>
                                     : (widget.isLight
                                           ? Colors.white
                                           : Colors.black)),
-                          size: 24,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        );
-      },
-    );
+                          size: 24))))),
+              ])));
+      });
   }
 
   Widget _buildUberTextForProgress(double progress, bool isLight) {
@@ -2500,9 +2213,7 @@ class _SwipeToAcceptSliderState extends State<_SwipeToAcceptSlider>
           fontSize: 17,
           fontWeight: FontWeight.w600,
           color: isLight ? Colors.white : Colors.black,
-          letterSpacing: -0.5,
-        ),
-      );
+          letterSpacing: -0.5));
     }
 
     // Text color based on mode and progress
@@ -2521,9 +2232,7 @@ class _SwipeToAcceptSliderState extends State<_SwipeToAcceptSlider>
           fontSize: 17,
           fontWeight: FontWeight.w700,
           color: textColor,
-          letterSpacing: -0.5,
-        ),
-      );
+          letterSpacing: -0.5));
     } else if (progress >= 0.85) {
       return Text(
         AppLocalizations.of(context)?.releaseToAccept ?? AppLocalizations.of(context)!.tr('Release to Accept'),
@@ -2532,9 +2241,7 @@ class _SwipeToAcceptSliderState extends State<_SwipeToAcceptSlider>
           fontSize: 17,
           fontWeight: FontWeight.w700,
           color: textColor,
-          letterSpacing: -0.5,
-        ),
-      );
+          letterSpacing: -0.5));
     } else if (progress >= 0.3) {
       return Text(
         AppLocalizations.of(context)?.keepSliding ?? AppLocalizations.of(context)!.tr('Keep Sliding...'),
@@ -2543,9 +2250,7 @@ class _SwipeToAcceptSliderState extends State<_SwipeToAcceptSlider>
           fontSize: 17,
           fontWeight: FontWeight.w600,
           color: textColor.withOpacity(0.9),
-          letterSpacing: -0.5,
-        ),
-      );
+          letterSpacing: -0.5));
     } else {
       return Text(
         AppLocalizations.of(context)?.slideToAccept ?? AppLocalizations.of(context)!.tr('Slide to Accept'),
@@ -2554,9 +2259,7 @@ class _SwipeToAcceptSliderState extends State<_SwipeToAcceptSlider>
           fontSize: 17,
           fontWeight: FontWeight.w600,
           color: textColor.withOpacity(0.7),
-          letterSpacing: -0.5,
-        ),
-      );
+          letterSpacing: -0.5));
     }
   }
 
@@ -2589,12 +2292,10 @@ class _SwipeToAcceptSliderState extends State<_SwipeToAcceptSlider>
       print('🚚 Checking shipping type compatibility...');
       print('   Order requires: $orderShippingType');
       print(
-        '   Selected vehicle: ${selectedVehicle?['vehicle_make']} ${selectedVehicle?['vehicle_model']}',
-      );
+        '   Selected vehicle: ${selectedVehicle?['vehicle_make']} ${selectedVehicle?['vehicle_model']}');
       print('   Vehicle capabilities:');
       print(
-        '     - standard_shipping: ${selectedVehicle?['standard_shipping']}',
-      );
+        '     - standard_shipping: ${selectedVehicle?['standard_shipping']}');
       print('     - cold_shipping: ${selectedVehicle?['cold_shipping']}');
       print('     - express_shipping: ${selectedVehicle?['express_shipping']}');
 
@@ -2672,8 +2373,7 @@ class _SwipeToAcceptSliderState extends State<_SwipeToAcceptSlider>
 
       print('✅ Vehicle is compatible with $orderShippingType shipping');
       print(
-        '✅ Selected vehicle: ${selectedVehicle?['vehicle_make']} ${selectedVehicle?['vehicle_model']} (ID: ${selectedVehicle?['id']})',
-      );
+        '✅ Selected vehicle: ${selectedVehicle?['vehicle_make']} ${selectedVehicle?['vehicle_model']} (ID: ${selectedVehicle?['id']})');
 
       // Get driver ID from SharedPreferences
       final prefs = await SharedPreferences.getInstance();
@@ -2697,8 +2397,7 @@ class _SwipeToAcceptSliderState extends State<_SwipeToAcceptSlider>
         requestBody['driverStartLat'] = widget.order['driverStartLat'];
         requestBody['driverStartLng'] = widget.order['driverStartLng'];
         print(
-          '📍 Sending driver start location: ${widget.order['driverStartLat']}, ${widget.order['driverStartLng']}',
-        );
+          '📍 Sending driver start location: ${widget.order['driverStartLat']}, ${widget.order['driverStartLng']}');
       }
 
       // Add pickup location if available
@@ -2707,8 +2406,7 @@ class _SwipeToAcceptSliderState extends State<_SwipeToAcceptSlider>
         requestBody['pickupLat'] = widget.order['pickupLat'];
         requestBody['pickupLng'] = widget.order['pickupLng'];
         print(
-          '📍 Sending pickup location: ${widget.order['pickupLat']}, ${widget.order['pickupLng']}',
-        );
+          '📍 Sending pickup location: ${widget.order['pickupLat']}, ${widget.order['pickupLng']}');
       }
 
       // Add delivery location if available
@@ -2717,15 +2415,13 @@ class _SwipeToAcceptSliderState extends State<_SwipeToAcceptSlider>
         requestBody['deliveryLat'] = widget.order['deliveryLat'];
         requestBody['deliveryLng'] = widget.order['deliveryLng'];
         print(
-          '📍 Sending delivery location: ${widget.order['deliveryLat']}, ${widget.order['deliveryLng']}',
-        );
+          '📍 Sending delivery location: ${widget.order['deliveryLat']}, ${widget.order['deliveryLng']}');
       }
 
       final response = await http.post(
         Uri.parse('${ApiConfig.baseUrl}/api/delvioo/accept-order'),
         headers: {'Content-Type': 'application/json'},
-        body: json.encode(requestBody),
-      );
+        body: json.encode(requestBody));
 
       print('📥 Response: ${response.statusCode} - ${response.body}');
 
@@ -2737,8 +2433,7 @@ class _SwipeToAcceptSliderState extends State<_SwipeToAcceptSlider>
           if (mounted) {
             TopNotification.success(
               context,
-              'Order #$orderId accepted successfully!',
-            );
+              'Order #$orderId accepted successfully!');
           }
 
           // Wait a moment then clear
@@ -2766,8 +2461,7 @@ class _SwipeToAcceptSliderState extends State<_SwipeToAcceptSlider>
               context,
                 result['message'] ??
                   (AppLocalizations.of(context)
-                      ?.pleaseRegisterYourVehicleFirst ?? AppLocalizations.of(context)!.tr('')),
-            );
+                      ?.pleaseRegisterYourVehicleFirst ?? AppLocalizations.of(context)!.tr('')));
           }
         } else {
           throw Exception(result['message'] ?? AppLocalizations.of(context)!.tr('Failed to accept order'));
@@ -2788,8 +2482,7 @@ class _SwipeToAcceptSliderState extends State<_SwipeToAcceptSlider>
       if (mounted) {
         TopNotification.error(
           context,
-          'Failed to accept order: ${e.toString()}',
-        );
+          'Failed to accept order: ${e.toString()}');
 
         setState(() {
           _isAccepting = false;
@@ -2837,12 +2530,10 @@ class _SwipeAcceptBottomSheetState extends State<_SwipeAcceptBottomSheet>
     super.initState();
     _slideController = AnimationController(
       duration: const Duration(milliseconds: 350),
-      vsync: this,
-    );
+      vsync: this);
     _slideAnimation = CurvedAnimation(
       parent: _slideController,
-      curve: Curves.easeOutCubic,
-    );
+      curve: Curves.easeOutCubic);
   }
 
   @override
@@ -2947,10 +2638,8 @@ class _SwipeAcceptBottomSheetState extends State<_SwipeAcceptBottomSheet>
           return Container(
             decoration: BoxDecoration(
               color: widget.isLight ? Colors.white : Colors.black,
-              borderRadius: const BorderRadius.vertical(
-                top: Radius.circular(20),
-              ),
-            ),
+              borderRadius: BorderRadius.vertical(
+                top: Radius.circular(20))),
             child: SafeArea(
               bottom: true, // Ensure content respects safe area at bottom
               child: AnimatedSize(
@@ -2958,13 +2647,8 @@ class _SwipeAcceptBottomSheetState extends State<_SwipeAcceptBottomSheet>
                 curve: Curves.easeOutCubic,
                 child: _isMinimized
                     ? _buildMinimizedContent()
-                    : _buildExpandedContent(),
-              ),
-            ),
-          );
-        },
-      ),
-    );
+                    : _buildExpandedContent())));
+        }));
   }
 
   // Minimized state - only swipe slider visible
@@ -2976,15 +2660,13 @@ class _SwipeAcceptBottomSheetState extends State<_SwipeAcceptBottomSheet>
         Container(
           width: 30,
           height: 8,
-          margin: const EdgeInsets.only(top: 0, bottom: 20),
+          margin: EdgeInsets.only(top: 0, bottom: 20),
           decoration: BoxDecoration(
             color: widget.isLight ? Colors.black : Colors.white,
-            borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-          ),
-        ),
+            borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8))),
         // Swipe slider
         Padding(
-          padding: const EdgeInsets.fromLTRB(20, 0, 20, 16),
+          padding: EdgeInsets.fromLTRB(20, 0, 20, 16),
           child: _SwipeToAcceptSlider(
             isLight: widget.isLight,
             order: widget.order,
@@ -2994,11 +2676,8 @@ class _SwipeAcceptBottomSheetState extends State<_SwipeAcceptBottomSheet>
               setState(() {
                 _isSliderActive = isActive;
               });
-            },
-          ),
-        ),
-      ],
-    );
+            })),
+      ]);
   }
 
   // Expanded state - full content
@@ -3010,7 +2689,7 @@ class _SwipeAcceptBottomSheetState extends State<_SwipeAcceptBottomSheet>
         // Trade Republic Handle bar
         const DragHandle(),
         Padding(
-          padding: const EdgeInsets.fromLTRB(20, 0, 20, 20),
+          padding: EdgeInsets.fromLTRB(20, 0, 20, 20),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -3020,21 +2699,17 @@ class _SwipeAcceptBottomSheetState extends State<_SwipeAcceptBottomSheet>
                   Icon(
                     CupertinoIcons.cube_box,
                     size: 22,
-                    color: isLight ? Colors.black : Colors.white,
-                  ),
-                  const SizedBox(width: 12),
+                    color: isLight ? Colors.black : Colors.white),
+                  SizedBox(width: 12),
                   Text(
                     '${AppLocalizations.of(context)?.orderNumber ?? AppLocalizations.of(context)!.tr('Order #')}${widget.order['order_id'] ?? widget.order['id']}',
                     style: TextStyle(
                       fontSize: 22,
                       fontWeight: FontWeight.w700,
                       letterSpacing: -0.4,
-                      color: widget.isLight ? Colors.black : Colors.white,
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 20),
+                      color: widget.isLight ? Colors.black : Colors.white)),
+                ]),
+              SizedBox(height: 20),
 
               // Modern Required Shipping Type Card
               Container(
@@ -3046,34 +2721,25 @@ class _SwipeAcceptBottomSheetState extends State<_SwipeAcceptBottomSheet>
                     end: Alignment.bottomRight,
                     colors: [
                       _getShippingTypeColor(
-                        widget.order['shipping_type'],
-                      ).withOpacity(0.12),
+                        widget.order['shipping_type']).withOpacity(0.12),
                       _getShippingTypeColor(
-                        widget.order['shipping_type'],
-                      ).withOpacity(0.05),
-                    ],
-                  ),
-                ),
+                        widget.order['shipping_type']).withOpacity(0.05),
+                    ])),
                 child: Row(
                   children: [
                     // Icon container with modern styling
                     Container(
-                      padding: const EdgeInsets.all(14),
+                      padding: EdgeInsets.all(14),
                       decoration: BoxDecoration(
                         color: _getShippingTypeColor(
-                          widget.order['shipping_type'],
-                        ).withOpacity(0.15),
-                        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-                      ),
+                          widget.order['shipping_type']).withOpacity(0.15),
+                        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
                       child: Icon(
                         _getShippingTypeIcon(widget.order['shipping_type']),
                         color: _getShippingTypeColor(
-                          widget.order['shipping_type'],
-                        ),
-                        size: 28,
-                      ),
-                    ),
-                    const SizedBox(width: 16),
+                          widget.order['shipping_type']),
+                        size: 28)),
+                    SizedBox(width: 16),
                     Expanded(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -3086,10 +2752,8 @@ class _SwipeAcceptBottomSheetState extends State<_SwipeAcceptBottomSheet>
                               letterSpacing: 0.5,
                               color:
                                   (widget.isLight ? Colors.black : Colors.white)
-                                      .withOpacity(0.5),
-                            ),
-                          ),
-                          const SizedBox(height: 4),
+                                      .withOpacity(0.5))),
+                          SizedBox(height: 4),
                           Text(
                             _getShippingTypeName(widget.order['shipping_type']),
                             style: TextStyle(
@@ -3098,63 +2762,49 @@ class _SwipeAcceptBottomSheetState extends State<_SwipeAcceptBottomSheet>
                               color: widget.isLight
                                   ? Colors.black
                                   : Colors.white,
-                              height: 1.2,
-                            ),
-                          ),
-                          const SizedBox(height: 4),
+                              height: 1.2)),
+                          SizedBox(height: 4),
                           Text(
                             _getShippingTypeDescription(
-                              widget.order['shipping_type'],
-                            ),
+                              widget.order['shipping_type']),
                             style: TextStyle(
                               fontSize: 12,
                               fontWeight: FontWeight.w500,
                               color:
                                   (widget.isLight ? Colors.black : Colors.white)
-                                      .withOpacity(0.6),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+                                      .withOpacity(0.6))),
+                        ])),
+                  ])),
               SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
               // Vehicle selection button
               TradeRepublicTap(
                 onTap: widget.onVehicleSelect,
                 child: Container(
-                  padding: const EdgeInsets.symmetric(
+                  padding: EdgeInsets.symmetric(
                     horizontal: 20,
-                    vertical: 16,
-                  ),
+                    vertical: 16),
                   decoration: BoxDecoration(
                     color: widget.isLight
                         ? Colors.transparent
                         : Colors.transparent,
-                    borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-                  ),
+                    borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
                   child: Row(
                     children: [
                       Container(
-                        padding: const EdgeInsets.all(12),
+                        padding: EdgeInsets.all(12),
                         decoration: BoxDecoration(
                           color: widget.selectedVehicle == null
                               ? const Color(0xFFFF3B30).withOpacity(0.1)
                               : const Color(0xFF007AFF).withOpacity(0.1),
-                          borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-                        ),
+                          borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
                         child: Icon(
                           CupertinoIcons.cube_box,
                           color: widget.selectedVehicle == null
                               ? const Color(0xFFFF3B30)
                               : const Color(0xFF007AFF),
-                          size: 24,
-                        ),
-                      ),
-                      const SizedBox(width: 16),
+                          size: 24)),
+                      SizedBox(width: 16),
                       Expanded(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -3170,10 +2820,8 @@ class _SwipeAcceptBottomSheetState extends State<_SwipeAcceptBottomSheet>
                                     ? const Color(0xFFFF3B30)
                                     : (widget.isLight
                                           ? Colors.black
-                                          : Colors.white),
-                              ),
-                            ),
-                            const SizedBox(height: 4),
+                                          : Colors.white))),
+                            SizedBox(height: 4),
                             Text(
                               widget.selectedVehicle == null
                                   ? AppLocalizations.of(context)?.requiredToAcceptOrder ?? AppLocalizations.of(context)!.tr('Required to accept order')
@@ -3184,21 +2832,13 @@ class _SwipeAcceptBottomSheetState extends State<_SwipeAcceptBottomSheet>
                                     ? const Color(0xFFFF3B30).withOpacity(0.7)
                                     : (widget.isLight
                                           ? Colors.black
-                                          : Colors.white),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
+                                          : Colors.white))),
+                          ])),
                       Icon(
                         CupertinoIcons.chevron_right,
-                        color: widget.isLight ? Colors.white : Colors.black,
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              const SizedBox(height: 20),
+                        color: widget.isLight ? Colors.white : Colors.black),
+                    ]))),
+              SizedBox(height: 20),
 
               // Modern swipe slider - only enabled if vehicle is selected
               _SwipeToAcceptSlider(
@@ -3210,13 +2850,9 @@ class _SwipeAcceptBottomSheetState extends State<_SwipeAcceptBottomSheet>
                   setState(() {
                     _isSliderActive = isActive;
                   });
-                },
-              ),
-            ],
-          ),
-        ),
-      ],
-    );
+                }),
+            ])),
+      ]);
   }
 
   // Helper methods for shipping type display
@@ -3309,12 +2945,10 @@ class _VehicleSelectionSheetState extends State<_VehicleSelectionSheet> {
 
       print('🚗 Loading vehicles from API...');
       print(
-        '📍 API URL: ${ApiConfig.baseUrl}/api/delvioo/vehicles/$driverUsername',
-      );
+        '📍 API URL: ${ApiConfig.baseUrl}/api/delvioo/vehicles/$driverUsername');
 
       final response = await http.get(
-        Uri.parse('${ApiConfig.baseUrl}/api/delvioo/vehicles/$driverUsername'),
-      );
+        Uri.parse('${ApiConfig.baseUrl}/api/delvioo/vehicles/$driverUsername'));
       print('📥 Response status: ${response.statusCode}');
       print('📥 Response body: ${response.body}');
 
@@ -3324,8 +2958,7 @@ class _VehicleSelectionSheetState extends State<_VehicleSelectionSheet> {
 
         if (result['success'] && result['vehicles'] != null) {
           final vehiclesList = List<Map<String, dynamic>>.from(
-            result['vehicles'],
-          );
+            result['vehicles']);
           print('✅ Found ${vehiclesList.length} vehicles total');
 
           // Filter vehicles based on required shipping type
@@ -3373,18 +3006,15 @@ class _VehicleSelectionSheetState extends State<_VehicleSelectionSheet> {
               }
 
               print(
-                '  🚗 ${vehicle['vehicle_make']} ${vehicle['vehicle_model']}: $isCompatible',
-              );
+                '  🚗 ${vehicle['vehicle_make']} ${vehicle['vehicle_model']}: $isCompatible');
               print(
-                '     standard: ${vehicle['standard_shipping']}, cold: ${vehicle['cold_shipping']}, express: ${vehicle['express_shipping']}',
-              );
+                '     standard: ${vehicle['standard_shipping']}, cold: ${vehicle['cold_shipping']}, express: ${vehicle['express_shipping']}');
 
               return isCompatible;
             }).toList();
 
             print(
-              '✅ ${compatibleVehicles.length} compatible vehicles for $requiredType shipping',
-            );
+              '✅ ${compatibleVehicles.length} compatible vehicles for $requiredType shipping');
           }
 
           setState(() {
@@ -3402,8 +3032,7 @@ class _VehicleSelectionSheetState extends State<_VehicleSelectionSheet> {
         if (mounted) {
           TopNotification.error(
             context,
-            'Failed to load vehicles: Server returned ${response.statusCode}',
-          );
+            'Failed to load vehicles: Server returned ${response.statusCode}');
         }
         setState(() {
           _isLoading = false;
@@ -3416,8 +3045,7 @@ class _VehicleSelectionSheetState extends State<_VehicleSelectionSheet> {
       if (mounted) {
         TopNotification.error(
           context,
-          'Failed to load vehicles: ${e.toString()}',
-        );
+          'Failed to load vehicles: ${e.toString()}');
       }
 
       setState(() {
@@ -3436,31 +3064,26 @@ class _VehicleSelectionSheetState extends State<_VehicleSelectionSheet> {
           const DragHandle(),
           // ── Sheet header: Icon left + Title ──
           Padding(
-            padding: const EdgeInsets.fromLTRB(20, 8, 20, 0),
+            padding: EdgeInsets.fromLTRB(20, 8, 20, 0),
             child: Row(
               children: [
                 Icon(
                   CupertinoIcons.car_detailed,
                   size: 22,
-                  color: isLight ? Colors.black : Colors.white,
-                ),
-                const SizedBox(width: 12),
+                  color: isLight ? Colors.black : Colors.white),
+                SizedBox(width: 12),
                 Text(
                   AppLocalizations.of(context)?.selectVehicle ?? AppLocalizations.of(context)!.tr('Select Vehicle'),
                   style: TextStyle(
                     fontSize: 22,
                     fontWeight: FontWeight.w700,
                     color: widget.isLight ? Colors.black : Colors.white,
-                    letterSpacing: -0.4,
-                  ),
-                ),
-              ],
-            ),
-          ),
+                    letterSpacing: -0.4)),
+              ])),
 
             // Liability Notice - Minimal Design
             Padding(
-              padding: const EdgeInsets.fromLTRB(20, 12, 20, 8),
+              padding: EdgeInsets.fromLTRB(20, 12, 20, 8),
               child: Text(
                 AppLocalizations.of(context)?.youAreLiableForSafeDelivery ?? AppLocalizations.of(context)!.tr('You are liable for safe delivery and maintaining product quality'),
                 textAlign: TextAlign.center,
@@ -3468,39 +3091,32 @@ class _VehicleSelectionSheetState extends State<_VehicleSelectionSheet> {
                   fontSize: 12,
                   color: widget.isLight
                       ? Colors.black.withOpacity(0.5)
-                      : Colors.white.withOpacity(0.5),
-                ),
-              ),
-            ),
+                      : Colors.white.withOpacity(0.5)))),
 
             // Content
             if (_isLoading)
-              const Padding(
+              Padding(
                 padding: EdgeInsets.all(40),
-                child: Center(child: CultiooLoadingIndicator()),
-              )
+                child: Center(child: CultiooLoadingIndicator()))
             else if (_vehicles.isEmpty)
               Padding(
-                padding: const EdgeInsets.all(40),
+                padding: EdgeInsets.all(40),
                 child: Column(
                   children: [
                     // Minimal icon container
                     Container(
-                      padding: const EdgeInsets.all(28),
+                      padding: EdgeInsets.all(28),
                       decoration: BoxDecoration(
                         color: (widget.isLight ? Colors.black : Colors.white)
                             .withOpacity(0.08),
-                        shape: BoxShape.circle,
-                      ),
+                        shape: BoxShape.circle),
                       child: Icon(
                         widget.requiredShippingType != null
                             ? CupertinoIcons.cube_box
                             : CupertinoIcons.car,
                         size: 72,
                         color: (widget.isLight ? Colors.black : Colors.white)
-                            .withOpacity(0.6),
-                      ),
-                    ),
+                            .withOpacity(0.6))),
                     SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
                     Text(
                       widget.requiredShippingType != null
@@ -3510,9 +3126,7 @@ class _VehicleSelectionSheetState extends State<_VehicleSelectionSheet> {
                         fontSize: 22,
                         fontWeight: FontWeight.w700,
                         color: widget.isLight ? Colors.black : Colors.white,
-                        letterSpacing: -0.5,
-                      ),
-                    ),
+                        letterSpacing: -0.5)),
                     SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                     Text(
                       widget.requiredShippingType != null
@@ -3524,10 +3138,8 @@ class _VehicleSelectionSheetState extends State<_VehicleSelectionSheet> {
                         color: widget.isLight
                             ? Colors.black.withOpacity(0.6)
                             : Colors.white.withOpacity(0.6),
-                        height: 1.4,
-                      ),
-                    ),
-                    const SizedBox(height: 32),
+                        height: 1.4)),
+                    SizedBox(height: 32),
                     // Minimal button
                     TradeRepublicButton(
                       label: AppLocalizations.of(context)?.registerVehicle ?? AppLocalizations.of(context)!.tr('Register Vehicle'),
@@ -3539,18 +3151,14 @@ class _VehicleSelectionSheetState extends State<_VehicleSelectionSheet> {
                       },
                       backgroundColor: widget.isLight ? Colors.black : Colors.white,
                       foregroundColor: widget.isLight ? Colors.white : Colors.black,
-                      width: double.infinity,
-                    ),
-                  ],
-                ),
-              )
+                      width: double.infinity),
+                  ]))
             else
               ListView.builder(
                 shrinkWrap: true,
-                padding: const EdgeInsets.symmetric(
+                padding: EdgeInsets.symmetric(
                   horizontal: 16,
-                  vertical: 12,
-                ),
+                  vertical: 12),
                 itemCount: _vehicles.length,
                 itemBuilder: (context, index) {
                   final vehicle = _vehicles[index];
@@ -3605,26 +3213,24 @@ class _VehicleSelectionSheetState extends State<_VehicleSelectionSheet> {
                                   HapticFeedback.lightImpact();
                                   TopNotification.error(
                                     context,
-                                    'This vehicle does not support the required shipping type: $shippingName',
-                                  );
+                                    'This vehicle does not support the required shipping type: $shippingName');
                                 })
                         : null,
                     child: Container(
-                      margin: const EdgeInsets.only(bottom: 12),
-                      padding: const EdgeInsets.all(18),
+                      margin: EdgeInsets.only(bottom: 12),
+                      padding: EdgeInsets.all(18),
                       decoration: BoxDecoration(
                         color: isSelected
                             ? (widget.isLight ? Colors.black : Colors.white)
                             : (widget.isLight
                                   ? Colors.transparent
                                   : Colors.transparent),
-                        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-                      ),
+                        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
                       child: Row(
                         children: [
                           // Minimal vehicle icon
                           Container(
-                            padding: const EdgeInsets.all(14),
+                            padding: EdgeInsets.all(14),
                             decoration: BoxDecoration(
                               color: isSelected
                                   ? (widget.isLight
@@ -3634,8 +3240,7 @@ class _VehicleSelectionSheetState extends State<_VehicleSelectionSheet> {
                                             ? Colors.black
                                             : Colors.white)
                                         .withOpacity(0.08),
-                              borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-                            ),
+                              borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
                             child: Icon(
                               _getVehicleIcon(vehicle['vehicle_type']),
                               color: isSelected
@@ -3645,10 +3250,8 @@ class _VehicleSelectionSheetState extends State<_VehicleSelectionSheet> {
                                   : (widget.isLight
                                         ? Colors.black.withOpacity(0.7)
                                         : Colors.white.withOpacity(0.7)),
-                              size: 28,
-                            ),
-                          ),
-                          const SizedBox(width: 16),
+                              size: 28)),
+                          SizedBox(width: 16),
                           // Vehicle info
                           Expanded(
                             child: Column(
@@ -3669,30 +3272,23 @@ class _VehicleSelectionSheetState extends State<_VehicleSelectionSheet> {
                                               : (widget.isLight
                                                     ? Colors.black
                                                     : Colors.white),
-                                          letterSpacing: -0.5,
-                                        ),
-                                      ),
-                                    ),
+                                          letterSpacing: -0.5))),
                                     if (isSelected)
                                       Container(
-                                        padding: const EdgeInsets.all(6),
+                                        padding: EdgeInsets.all(6),
                                         decoration: BoxDecoration(
                                           color: widget.isLight
                                               ? Colors.white
                                               : Colors.black,
-                                          shape: BoxShape.circle,
-                                        ),
+                                          shape: BoxShape.circle),
                                         child: Icon(
                                           CupertinoIcons.checkmark,
                                           color: widget.isLight
                                               ? Colors.black
                                               : Colors.white,
-                                          size: 16,
-                                        ),
-                                      ),
-                                  ],
-                                ),
-                                const SizedBox(height: 6),
+                                          size: 16)),
+                                  ]),
+                                SizedBox(height: 6),
                                 Row(
                                   children: [
                                     Icon(
@@ -3706,10 +3302,8 @@ class _VehicleSelectionSheetState extends State<_VehicleSelectionSheet> {
                                           : (widget.isLight
                                                 ? Colors.black.withOpacity(0.5)
                                                 : Colors.white.withOpacity(
-                                                    0.5,
-                                                  )),
-                                    ),
-                                    const SizedBox(width: 6),
+                                                    0.5))),
+                                    SizedBox(width: 6),
                                     Text(
                                       vehicle['vehicle_year'].toString(),
                                       style: TextStyle(
@@ -3722,14 +3316,10 @@ class _VehicleSelectionSheetState extends State<_VehicleSelectionSheet> {
                                                   .withOpacity(0.9)
                                             : (widget.isLight
                                                   ? Colors.black.withOpacity(
-                                                      0.7,
-                                                    )
+                                                      0.7)
                                                   : Colors.white.withOpacity(
-                                                      0.7,
-                                                    )),
-                                      ),
-                                    ),
-                                    const SizedBox(width: 12),
+                                                      0.7)))),
+                                    SizedBox(width: 12),
                                     Icon(
                                       CupertinoIcons.location,
                                       size: 13,
@@ -3741,10 +3331,8 @@ class _VehicleSelectionSheetState extends State<_VehicleSelectionSheet> {
                                           : (widget.isLight
                                                 ? Colors.black.withOpacity(0.5)
                                                 : Colors.white.withOpacity(
-                                                    0.5,
-                                                  )),
-                                    ),
-                                    const SizedBox(width: 6),
+                                                    0.5))),
+                                    SizedBox(width: 6),
                                     Text(
                                         vehicle['license_plate'] ??
                                           (AppLocalizations.of(context)
@@ -3759,26 +3347,20 @@ class _VehicleSelectionSheetState extends State<_VehicleSelectionSheet> {
                                                   .withOpacity(0.9)
                                             : (widget.isLight
                                                   ? Colors.black.withOpacity(
-                                                      0.7,
-                                                    )
+                                                      0.7)
                                                   : Colors.white.withOpacity(
-                                                      0.7,
-                                                    )),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                const SizedBox(height: 10),
+                                                      0.7)))),
+                                  ]),
+                                SizedBox(height: 10),
                                 Wrap(
                                   spacing: 8,
                                   runSpacing: 8,
                                   children: [
                                     // Status Badge
                                     Container(
-                                      padding: const EdgeInsets.symmetric(
+                                      padding: EdgeInsets.symmetric(
                                         horizontal: 10,
-                                        vertical: 6,
-                                      ),
+                                        vertical: 6),
                                       decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                                         gradient: isActive
@@ -3787,18 +3369,14 @@ class _VehicleSelectionSheetState extends State<_VehicleSelectionSheet> {
                                                 end: Alignment.bottomRight,
                                                 colors: [
                                                   const Color(
-                                                    0xFF34C759,
-                                                  ).withOpacity(0.2),
+                                                    0xFF34C759).withOpacity(0.2),
                                                   const Color(
-                                                    0xFF34C759,
-                                                  ).withOpacity(0.1),
-                                                ],
-                                              )
+                                                    0xFF34C759).withOpacity(0.1),
+                                                ])
                                             : null,
                                         color: !isActive
                                             ? Colors.black.withOpacity(0.15)
-                                            : null,
-                                      ),
+                                            : null),
                                       child: Row(
                                         mainAxisSize: MainAxisSize.min,
                                         children: [
@@ -3811,10 +3389,8 @@ class _VehicleSelectionSheetState extends State<_VehicleSelectionSheet> {
                                                   : widget.isLight
                                                   ? Colors.black
                                                   : Colors.white,
-                                              shape: BoxShape.circle,
-                                            ),
-                                          ),
-                                          const SizedBox(width: 6),
+                                              shape: BoxShape.circle)),
+                                          SizedBox(width: 6),
                                           Text(
                                             isActive ? AppLocalizations.of(context)?.active ?? AppLocalizations.of(context)!.tr('Active') : 'Inactive',
                                             style: TextStyle(
@@ -3824,18 +3400,13 @@ class _VehicleSelectionSheetState extends State<_VehicleSelectionSheet> {
                                                   ? const Color(0xFF34C759)
                                                   : widget.isLight
                                                   ? Colors.black
-                                                  : Colors.white,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
+                                                  : Colors.white)),
+                                        ])),
                                     // Vehicle Type Badge
                                     Container(
-                                      padding: const EdgeInsets.symmetric(
+                                      padding: EdgeInsets.symmetric(
                                         horizontal: 10,
-                                        vertical: 6,
-                                      ),
+                                        vertical: 6),
                                       decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                                         gradient: LinearGradient(
@@ -3850,17 +3421,13 @@ class _VehicleSelectionSheetState extends State<_VehicleSelectionSheet> {
                                                     ? Colors.black
                                                     : Colors.white)
                                                 .withOpacity(0.03),
-                                          ],
-                                        ),
-                                      ),
+                                          ])),
                                       child: Text(
                                         wagonLabelFromType(
                                           vehicle['vehicle_type']?.toString(),
                                           AppLocalizations.of(context) ??
                                               AppLocalizations(
-                                                const Locale('en'),
-                                              ),
-                                        ),
+                                                const Locale('en'))),
                                         style: TextStyle(
                                           fontSize: 12,
                                           fontWeight: FontWeight.w600,
@@ -3871,20 +3438,14 @@ class _VehicleSelectionSheetState extends State<_VehicleSelectionSheet> {
                                                     .withOpacity(0.8)
                                               : (widget.isLight
                                                     ? Colors.black.withOpacity(
-                                                        0.7,
-                                                      )
+                                                        0.7)
                                                     : Colors.white.withOpacity(
-                                                        0.7,
-                                                      )),
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
+                                                        0.7))))),
+                                  ]),
                                 SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                                 // Modern compatibility banner
                                 Container(
-                                  padding: const EdgeInsets.all(12),
+                                  padding: EdgeInsets.all(12),
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                                     gradient: compatible
@@ -3893,42 +3454,31 @@ class _VehicleSelectionSheetState extends State<_VehicleSelectionSheet> {
                                             end: Alignment.bottomRight,
                                             colors: [
                                               const Color(
-                                                0xFF34C759,
-                                              ).withOpacity(0.15),
+                                                0xFF34C759).withOpacity(0.15),
                                               const Color(
-                                                0xFF34C759,
-                                              ).withOpacity(0.05),
-                                            ],
-                                          )
+                                                0xFF34C759).withOpacity(0.05),
+                                            ])
                                         : LinearGradient(
                                             begin: Alignment.topLeft,
                                             end: Alignment.bottomRight,
                                             colors: [
                                               const Color(
-                                                0xFFFF3B30,
-                                              ).withOpacity(0.12),
+                                                0xFFFF3B30).withOpacity(0.12),
                                               const Color(
-                                                0xFFFF3B30,
-                                              ).withOpacity(0.04),
-                                            ],
-                                          ),
-                                  ),
+                                                0xFFFF3B30).withOpacity(0.04),
+                                            ])),
                                   child: Row(
                                     children: [
                                       Container(
-                                        padding: const EdgeInsets.all(8),
+                                        padding: EdgeInsets.all(8),
                                         decoration: BoxDecoration(
                                           color: compatible
                                               ? const Color(
-                                                  0xFF34C759,
-                                                ).withOpacity(0.2)
+                                                  0xFF34C759).withOpacity(0.2)
                                               : const Color(
-                                                  0xFFFF3B30,
-                                                ).withOpacity(0.2),
+                                                  0xFFFF3B30).withOpacity(0.2),
                                           borderRadius: BorderRadius.circular(
-                                            25,
-                                          ),
-                                        ),
+                                            25)),
                                         child: Icon(
                                           compatible
                                               ? CupertinoIcons.checkmark_circle
@@ -3937,10 +3487,8 @@ class _VehicleSelectionSheetState extends State<_VehicleSelectionSheet> {
                                           size: 18,
                                           color: compatible
                                               ? const Color(0xFF34C759)
-                                              : const Color(0xFFFF3B30),
-                                        ),
-                                      ),
-                                      const SizedBox(width: 12),
+                                              : const Color(0xFFFF3B30))),
+                                      SizedBox(width: 12),
                                       Expanded(
                                         child: Column(
                                           crossAxisAlignment:
@@ -3955,11 +3503,9 @@ class _VehicleSelectionSheetState extends State<_VehicleSelectionSheet> {
                                                 fontWeight: FontWeight.w700,
                                                 color: compatible
                                                     ? const Color(0xFF34C759)
-                                                    : const Color(0xFFFF3B30),
-                                              ),
-                                            ),
+                                                    : const Color(0xFFFF3B30))),
                                             if (!compatible) ...[
-                                              const SizedBox(height: 2),
+                                              SizedBox(height: 2),
                                               Text(
                                                 '${AppLocalizations.of(context)?.requiresShipping ?? AppLocalizations.of(context)!.tr('Requires')} $shippingName',
                                                 style: TextStyle(
@@ -3968,28 +3514,14 @@ class _VehicleSelectionSheetState extends State<_VehicleSelectionSheet> {
                                                       ? Colors.black
                                                             .withOpacity(0.6)
                                                       : Colors.white
-                                                            .withOpacity(0.6),
-                                                ),
-                                              ),
+                                                            .withOpacity(0.6))),
                                             ],
-                                          ],
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  );
-                },
-              ),
-        ],
-      ),
-    );
+                                          ])),
+                                    ])),
+                              ])),
+                        ])));
+                }),
+        ]));
   }
 
   IconData _getVehicleIcon(String? vehicleType) {

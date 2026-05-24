@@ -43,15 +43,12 @@ class GlassContainer extends StatelessWidget {
                 color: Colors.black.withOpacity(0.1),
                 blurRadius: 20,
                 offset: const Offset(0, 8),
-                spreadRadius: -2,
-              ),
+                spreadRadius: -2),
               BoxShadow(
                 color: Colors.black.withOpacity(0.05),
                 blurRadius: 10,
-                offset: const Offset(0, 4),
-              ),
-            ],
-      ),
+                offset: const Offset(0, 4)),
+            ]),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(20),
         child: BackdropFilter(
@@ -73,14 +70,8 @@ class GlassContainer extends StatelessWidget {
                     : [
                         Colors.black.withOpacity(0.3),
                         Colors.black.withOpacity(0.2),
-                      ],
-              ),
-            ),
-            child: child,
-          ),
-        ),
-      ),
-    );
+                      ])),
+            child: child))));
   }
 }
 
@@ -96,8 +87,8 @@ class GlassCard extends StatelessWidget {
     super.key,
     required this.child,
     required this.isLight,
-    this.padding = const EdgeInsets.all(20),
-    this.margin = const EdgeInsets.only(bottom: 16),
+    this.padding = EdgeInsets.all(20),
+    this.margin = EdgeInsets.only(bottom: 16),
     this.accentColor,
     this.onTap,
   });
@@ -109,8 +100,7 @@ class GlassCard extends StatelessWidget {
       padding: padding,
       margin: margin,
       color: accentColor,
-      child: child,
-    );
+      child: child);
 
     if (onTap != null) {
       return TradeRepublicTap(onTap: onTap, child: cardWidget);

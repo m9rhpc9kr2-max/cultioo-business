@@ -56,9 +56,7 @@ Future<void> showQRScannerSheet({
       scanSuccessScaleAnimation: scanSuccessScaleAnimation,
       scanSuccessFadeAnimation: scanSuccessFadeAnimation,
       isLoadingNotifier: isLoadingNotifier,
-      resultNotifier: resultNotifier,
-    ),
-  );
+      resultNotifier: resultNotifier));
 }
 
 // ─── Internal full-screen sheet content ──────────────────────────────────────
@@ -99,17 +97,14 @@ class _QRScannerSheetContent extends StatelessWidget {
                     color: Theme.of(context).brightness == Brightness.dark
                         ? Colors.white.withOpacity(0.08)
                         : Colors.black.withOpacity(0.06),
-                    borderRadius: BorderRadius.circular(12),
-                  ),
+                    borderRadius: BorderRadius.circular(12)),
                   child: Icon(
                     Icons.qr_code_scanner_rounded,
                     color: Theme.of(context).brightness == Brightness.dark
                         ? Colors.white
                         : Colors.black87,
-                    size: 20,
-                  ),
-                ),
-                const SizedBox(width: 14),
+                    size: 20)),
+                SizedBox(width: 14),
                 Expanded(
                   child: Text(
                     AppLocalizations.of(context)?.openQrScanner ?? 'Scan QR Code',
@@ -120,13 +115,9 @@ class _QRScannerSheetContent extends StatelessWidget {
                       fontSize: 20,
                       fontWeight: FontWeight.w700,
                       letterSpacing: -0.5,
-                      fontFamily: 'Poppins',
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 16),
+                      fontFamily: 'Poppins'))),
+              ]),
+            SizedBox(height: 16),
 
             // ── Camera + overlays ─────────────────────────────────────
             SizedBox(
@@ -157,9 +148,7 @@ class _QRScannerSheetContent extends StatelessWidget {
                             color: Colors.black,
                             child: MobileScanner(
                               controller: controller,
-                              onDetect: onDetect,
-                            ),
-                          ),
+                              onDetect: onDetect)),
 
                           // Vignette
                           IgnorePointer(
@@ -171,20 +160,14 @@ class _QRScannerSheetContent extends StatelessWidget {
                                   colors: [
                                     Colors.transparent,
                                     Colors.black.withOpacity(0.45),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ),
+                                  ])))),
 
                           // Scan-frame corners (idle state)
                           if (isIdle)
                             Center(
                               child: SizedBox(
                                 width: 240, height: 240,
-                                child: CustomPaint(painter: _ScanFramePainter()),
-                              ),
-                            ),
+                                child: CustomPaint(painter: _ScanFramePainter()))),
 
                           // Validating overlay
                           if (isLoading && !isSuccess)
@@ -195,26 +178,20 @@ class _QRScannerSheetContent extends StatelessWidget {
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
                                     const CultiooLoadingIndicator(size: 28),
-                                    const SizedBox(height: 16),
+                                    SizedBox(height: 16),
                                     Text(
                                       AppLocalizations.of(ctx)?.validating ?? 'Validating...',
-                                      style: const TextStyle(
+                                      style: TextStyle(
                                         color: Colors.white,
                                         fontSize: 17,
-                                        fontWeight: FontWeight.w600,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
+                                        fontWeight: FontWeight.w600)),
+                                  ]))),
 
                           // Success animation overlay
                           if (isSuccess)
                             Container(
                               color: Colors.black.withOpacity(
-                                0.65 * scanSuccessFadeAnimation.value,
-                              ),
+                                0.65 * scanSuccessFadeAnimation.value),
                               child: Center(
                                 child: Transform.scale(
                                   scale: scanSuccessScaleAnimation.value,
@@ -227,34 +204,25 @@ class _QRScannerSheetContent extends StatelessWidget {
                                         BoxShadow(
                                           color: const Color(0xFFFFFFFF).withOpacity(0.35),
                                           blurRadius: 32,
-                                          spreadRadius: 8,
-                                        ),
-                                      ],
-                                    ),
-                                    child: const Icon(
+                                          spreadRadius: 8),
+                                      ]),
+                                    child: Icon(
                                       Icons.check_rounded,
                                       color: Colors.black,
-                                      size: 58,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
+                                      size: 58))))),
 
                           // Error / success result pill
                           if (result.isNotEmpty && !isSuccess)
                             Positioned(
                               bottom: 20, left: 20, right: 20,
                               child: Container(
-                                padding: const EdgeInsets.symmetric(
-                                  horizontal: 20, vertical: 14,
-                                ),
+                                padding: EdgeInsets.symmetric(
+                                  horizontal: 20, vertical: 14),
                                 decoration: BoxDecoration(
                                   color: result.startsWith('❌')
                                       ? Colors.black.withOpacity(0.90)
                                       : Colors.white.withOpacity(0.90),
-                                  borderRadius: BorderRadius.circular(16),
-                                ),
+                                  borderRadius: BorderRadius.circular(16)),
                                 child: Text(
                                   result,
                                   textAlign: TextAlign.center,
@@ -263,22 +231,13 @@ class _QRScannerSheetContent extends StatelessWidget {
                                         ? Colors.white
                                         : Colors.black,
                                     fontSize: 15,
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                ),
-                              ),
-                            ),
-                        ],
-                      );
-                    },
-                  ),
-                ),
-              ),
-            ),
+                                    fontWeight: FontWeight.w600)))),
+                        ]);
+                    })))),
 
             // ── Instruction ──────────────────────────────────────────
             Padding(
-              padding: const EdgeInsets.fromLTRB(0, 16, 0, 4),
+              padding: EdgeInsets.fromLTRB(0, 16, 0, 4),
               child: Text(
                 AppLocalizations.of(context)?.scanQrCodeFromBusiness ??
                     'Hold the QR code in front of the camera',
@@ -288,12 +247,8 @@ class _QRScannerSheetContent extends StatelessWidget {
                       ? Colors.white
                       : Colors.black).withOpacity(0.35),
                   fontSize: 14,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-            ),
-          ],
-        );
+                  fontWeight: FontWeight.w500))),
+          ]);
   }
 }
 
