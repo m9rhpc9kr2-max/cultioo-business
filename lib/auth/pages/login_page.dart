@@ -14,7 +14,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter_web_auth_2/flutter_web_auth_2.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:flutter/cupertino.dart';
 import '../../shared/services/app_settings.dart';
 import '../../shared/services/api_service.dart';
 import '../../shared/widgets/top_notification.dart';
@@ -2681,8 +2681,8 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                               Expanded(
                                 child: _buildSocialButton(
                                   onTap: _isLoading ? null : _signInWithGoogle,
-                                  icon: FaIcon(
-                                    FontAwesomeIcons.google,
+                                  icon: Icon(
+                                    CupertinoIcons.globe,
                                     size: 20,
                                     color: isLight
                                         ? Colors.black
@@ -2701,8 +2701,8 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                                 Expanded(
                                   child: _buildSocialButton(
                                     onTap: _isLoading ? null : _signInWithApple,
-                                    icon: FaIcon(
-                                      FontAwesomeIcons.apple,
+                                    icon: Icon(
+                                      CupertinoIcons.home,
                                       size: 24,
                                       color: isLight
                                           ? Colors.black
