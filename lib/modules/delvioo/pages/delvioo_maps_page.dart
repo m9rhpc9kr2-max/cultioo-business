@@ -11975,7 +11975,7 @@ class _DelviooMapsPageState extends State<DelviooMapsPage>
       final ep = TextPainter(
         text: const TextSpan(
           text: '!',
-          style: TextStyle(color: Colors.white, fontSize: DesktopOptimizedWidgets.getFontSize(), fontWeight: FontWeight.w900)),
+          style: TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.w900)),
         textDirection: ui.TextDirection.ltr)..layout();
       ep.paint(canvas, bCenter - Offset(ep.width / 2, ep.height / 2));
     }

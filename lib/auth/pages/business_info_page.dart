@@ -139,7 +139,7 @@ class _BusinessInfoPageState extends State<BusinessInfoPage>
                                 style: TextStyle(
                                   color: Colors.white,
                                   fontWeight: FontWeight.w700,
-                                  fontSize: DesktopOptimizedWidgets.getFontSize())))),
+                                  fontSize: 14)))),
                         ]),
 
                       SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
