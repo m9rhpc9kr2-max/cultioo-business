@@ -1609,8 +1609,7 @@ class _DelviooMainPageState extends State<DelviooMainPage> {
                       ),
                       child: Text(
                         appSettings.formatCurrency(orderValue),
-                        style: const TextStyle(
-                          fontSize: DesktopOptimizedWidgets.getFontSize(),
+                        style: TextStyle(fontSize: DesktopOptimizedWidgets.getFontSize(),
                           fontWeight: FontWeight.w700,
                           color: Color(0xFF34C759),
                         ),
@@ -1618,7 +1617,7 @@ class _DelviooMainPageState extends State<DelviooMainPage> {
                     ),
                   ],
                 ),
-                const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+                SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
                 // ── Route card ───────────────────────────────────────────────
                 Container(
@@ -1812,7 +1811,7 @@ class _DelviooMainPageState extends State<DelviooMainPage> {
                     ],
                   ],
                 ),
-                const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+                SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
                 // ── Bid price input ──────────────────────────────────────────
                 TradeRepublicTap(
@@ -1863,7 +1862,7 @@ class _DelviooMainPageState extends State<DelviooMainPage> {
                     ),
                   ),
                 ),
-                const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+                SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
                 // ── Action buttons ───────────────────────────────────────────
                 Row(
@@ -2131,7 +2130,7 @@ class _DelviooMainPageState extends State<DelviooMainPage> {
                       return numKey(k, onTap: () => addDigit(int.parse(k)));
                     }).toList(),
                   ),
-                const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+                SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
                 // Submit
                 TradeRepublicButton(
@@ -3121,7 +3120,7 @@ class _SwipeAcceptBottomSheetState extends State<_SwipeAcceptBottomSheet>
                   ],
                 ),
               ),
-              const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+              SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
               // Vehicle selection button
               TradeRepublicTap(
@@ -3502,7 +3501,7 @@ class _VehicleSelectionSheetState extends State<_VehicleSelectionSheet> {
                             .withOpacity(0.6),
                       ),
                     ),
-                    const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+                    SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
                     Text(
                       widget.requiredShippingType != null
                           ? AppLocalizations.of(context)?.noCompatibleVehicles ?? AppLocalizations.of(context)!.tr('No Compatible Vehicles')
@@ -3514,7 +3513,7 @@ class _VehicleSelectionSheetState extends State<_VehicleSelectionSheet> {
                         letterSpacing: -0.5,
                       ),
                     ),
-                    const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+                    SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                     Text(
                       widget.requiredShippingType != null
                           ? 'None of your vehicles support\n${_getShippingTypeName(widget.requiredShippingType)} delivery.\nPlease update your vehicle capabilities.'
@@ -3882,7 +3881,7 @@ class _VehicleSelectionSheetState extends State<_VehicleSelectionSheet> {
                                     ),
                                   ],
                                 ),
-                                const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+                                SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                                 // Modern compatibility banner
                                 Container(
                                   padding: const EdgeInsets.all(12),

@@ -1049,7 +1049,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                     color: light ? Colors.black : Colors.white, letterSpacing: -0.4),
               ),
             ]),
-            const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+            SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
             Text(
               AppLocalizations.of(ctx)?.confirmPayoutDetailsDesc ?? 'Confirm your payout details',
               style: TextStyle(fontSize: 15,
@@ -1083,7 +1083,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                         color: light ? Colors.black : Colors.white),
                   ),
                   Text('${AppSettings().currencySymbol}${pendingPayout.toStringAsFixed(2)}',
-                      style: const TextStyle(fontSize: DesktopOptimizedWidgets.getFontSize(), fontWeight: FontWeight.w700,
+                      style: TextStyle(fontSize: DesktopOptimizedWidgets.getFontSize(), fontWeight: FontWeight.w700,
                           color: Color(0xFF34C759))),
                 ]),
               ]),
@@ -1102,7 +1102,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
               height: 50,
               onPressed: () { HapticFeedback.lightImpact(); Navigator.of(ctx).pop(true); },
             ),
-            const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+            SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
             TradeRepublicButton(
               label: AppLocalizations.of(ctx)?.cancel ?? 'Cancel',
               isSecondary: true,
@@ -1125,7 +1125,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
       child: Column(mainAxisSize: MainAxisSize.min, children: [
         const DragHandle(),
         const CultiooLoadingIndicator(size: 20),
-        const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+        SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
         Text(
           AppLocalizations.of(context)?.processingInstantPayoutMsg ?? 'Processing instant payout...',
           style: TextStyle(
@@ -1538,7 +1538,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                     child: _buildAppSettingsSection(isLight),
                   ),
 
-                  const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+                  SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
                   // 11. Sign Out Button - at the very bottom
                   _buildAnimatedSection(
@@ -1555,7 +1555,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                     ),
                   ),
 
-                  const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+                  SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
                 ],
               ),
             ),
@@ -1754,7 +1754,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                     0.3,
                   ),
                 ),
-                const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+                SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
                 Text(
                   AppLocalizations.of(context)?.noGroup ?? AppLocalizations.of(context)!.tr('No Group'),
                   style: TextStyle(
@@ -1777,7 +1777,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
             ),
           ),
         ],
-        const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+        SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
       ],
     );
   }
@@ -2068,7 +2068,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
           ),
         ),
 
-        const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+        SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
         // Driver Name
         Text(
@@ -2093,7 +2093,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
           textAlign: TextAlign.center,
         ),
 
-        const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+        SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
         // Edit Profile + Status row
         Row(
@@ -2144,7 +2144,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
           ],
         ),
 
-        const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+        SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
       ],
     );
   }
@@ -2450,7 +2450,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                   ),
                 ],
               ),
-              const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+              SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
               Row(
                 children: [
                   Expanded(
@@ -2476,7 +2476,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                   ),
                 ],
               ),
-              const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+              SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
               // Next Payout Info
               Container(
@@ -2528,7 +2528,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
         // WAITING CHARGE CREDITS 
         // ═══════════════════════════════════════════
         if (waitingChargeCredits.isNotEmpty) ...[
-          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+          SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
           Padding(
             padding: const EdgeInsets.only(left: 4),
             child: Row(
@@ -2565,7 +2565,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
               ),
             ),
           ),
-          const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+          SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
           // Total credits summary
           Container(
@@ -2597,7 +2597,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
               ],
             ),
           ),
-          const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+          SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
           // Individual credit entries
           ...waitingChargeCredits.map((charge) {
@@ -2744,7 +2744,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const DragHandle(),
-                const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+                SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                 Row(
                   children: [
                     Container(
@@ -2762,7 +2762,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                         children: [
                           Text(
                             AppLocalizations.of(context)?.tr('Waiting Charges Receipt') ?? 'Waiting Charges Receipt',
-                            style: const TextStyle(fontSize: DesktopOptimizedWidgets.getFontSize() + 4, fontWeight: FontWeight.w700),
+                            style: TextStyle(fontSize: DesktopOptimizedWidgets.getFontSize() + 4, fontWeight: FontWeight.w700),
                           ),
                           Text(
                             '${AppLocalizations.of(context)?.orderNumber ?? 'Order #'}$orderId',
@@ -2784,7 +2784,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                     ),
                   ],
                 ),
-                const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+                SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
                 _buildDriverInvoiceRow(isLight, AppLocalizations.of(context)?.tr('Date') ?? 'Date',
                   orderDate != null ? '${orderDate.day.toString().padLeft(2,'0')}.${orderDate.month.toString().padLeft(2,'0')}.${orderDate.year}' : '—'),
                 _buildDriverInvoiceRow(isLight, AppLocalizations.of(context)?.tr('Seller') ?? 'Seller', sellerName),
@@ -2804,7 +2804,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                         style: const TextStyle(fontSize: 22, fontWeight: FontWeight.w800, color: Colors.green)),
                   ],
                 ),
-                const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+                SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                 Text(
                   AppLocalizations.of(context)?.tr('This amount was transferred to you for waiting beyond the free waiting time.') ?? 'This amount was transferred to you for waiting beyond the free waiting time.',
                   style: TextStyle(fontSize: 12, color: (isLight ? Colors.black : Colors.white).withOpacity(0.38), height: 1.4),
@@ -2848,7 +2848,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Icon(icon, color: isLight ? Colors.black : Colors.white, size: 22),
-          const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+          SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
           Text(
             subtitle,
             style: TextStyle(
@@ -3047,7 +3047,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                       // ═══════════════════════════════════════════
                       // BALANCE SECTION - Hero Element
                       // ═══════════════════════════════════════════
-                      const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+                      SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
                       // Balance label
                       Center(
@@ -3061,7 +3061,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                           ),
                         ),
                       ),
-                      const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+                      SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
                       // Big Balance Number - centered
                       Center(
@@ -3083,7 +3083,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                         ),
                       ),
 
-                      const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+                      SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
                       // Stats Row - pill style
                       Wrap(
@@ -3196,7 +3196,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                                 .withOpacity(0.4),
                           ),
                         ),
-                        const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+                        SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                         Container(
                           width: double.infinity,
                           padding: DesktopAppWrapper.getPagePadding(),
@@ -3250,7 +3250,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                           letterSpacing: -0.3,
                         ),
                       ),
-                      const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+                      SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
                       // Payout Info Card - clean
                       Container(
@@ -3287,7 +3287,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                                 ),
                               ],
                             ),
-                            const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+                            SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                             Text(
                               AppLocalizations.of(context)?.automaticMonthlyPayout ?? AppLocalizations.of(context)!.tr('Automatic monthly payout on the 1st'),
                               style: TextStyle(
@@ -3311,7 +3311,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                         ),
                       ),
 
-                      const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+                      SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
                       // Instant Payout Button
                       TradeRepublicButton(
@@ -3347,7 +3347,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                               .withOpacity(0.4),
                         ),
                       ),
-                      const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+                      SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
                       // Existing payment info (if available) - Modern Bank Card Design
                       // Check multiple sources for payment data
@@ -3489,7 +3489,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                           ),
                         ),
                       ),
-                      const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+                      SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
                       // Payout History List - Trade Republic Style
                       FutureBuilder<List<Map<String, dynamic>>>(
@@ -3542,7 +3542,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                               child: Column(
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
-                                  const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+                                  SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
                                   Container(
                                     width: 56,
                                     height: 56,
@@ -3580,7 +3580,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                                           .withOpacity(0.4),
                                     ),
                                   ),
-                                  const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+                                  SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
                                 ],
                               ),
                             );
@@ -3783,7 +3783,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
             ],
           ),
 
-          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+          SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
             // Description
             Text(
@@ -3831,7 +3831,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
               width: double.infinity,
             ),
 
-            const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+            SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
             // Cancel Button
             TradeRepublicButton(
@@ -3841,7 +3841,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
               width: double.infinity,
             ),
 
-            const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+            SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
           ],
         ),
     );
@@ -4155,7 +4155,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
             ],
           ),
 
-          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+          SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
           // Description
           Text(
@@ -4187,7 +4187,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
             width: double.infinity,
           ),
 
-          const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+          SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
           // Secondary cancel button
           TradeRepublicButton(
@@ -4477,7 +4477,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                                           : Colors.white.withOpacity(0.4),
                                     ),
                                   ),
-                                  const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+                                  SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
                                   Text(
                                     AppLocalizations.of(
                                           context,
@@ -4491,7 +4491,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                                       letterSpacing: -0.5,
                                     ),
                                   ),
-                                  const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+                                  SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                                   Text(
                                     AppLocalizations.of(
                                           context,
@@ -5063,7 +5063,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                             color: (isLight ? Colors.black : Colors.white)
                                 .withOpacity(0.3),
                           ),
-                          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+                          SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
                           Text(
                             AppLocalizations.of(context)?.noReviewsYet ?? AppLocalizations.of(context)!.tr('No reviews yet'),
                             style: TextStyle(
@@ -5072,7 +5072,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                               color: isLight ? Colors.black : Colors.white,
                             ),
                           ),
-                          const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+                          SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                           Text(
                             AppLocalizations.of(
                                   context,
@@ -5350,7 +5350,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                               fontWeight: FontWeight.w700,
                             ),
                           ),
-                          const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+                          SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: List.generate(5, (index) {
@@ -5372,7 +5372,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                       ),
                     ),
 
-                    const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+                    SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
                     // Customer
                     Row(
@@ -5403,7 +5403,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                     ),
 
                     if (comment.isNotEmpty) ...[
-                      const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+                      SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
                       // Comment
                       Container(
@@ -5441,7 +5441,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                                 ),
                               ],
                             ),
-                            const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+                            SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                             Text(
                               comment,
                               style: TextStyle(
@@ -5507,7 +5507,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                       ],
                     ),
 
-                    const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+                    SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
                     Expanded(
                       child: SingleChildScrollView(
@@ -5857,7 +5857,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                 ),
               ],
             ),
-            const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+            SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 24),
               child: TradeRepublicTextField(
@@ -5880,7 +5880,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                 filled: false,
               ),
             ),
-            const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+            SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 24),
               child: TradeRepublicButton(
@@ -6295,7 +6295,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
               ),
             ],
           ),
-          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+          SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
           Column(
             children: options.entries.map((entry) {
@@ -6367,7 +6367,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
             }).toList(),
           ),
 
-          const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+          SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
           TradeRepublicButton(
             label: AppLocalizations.of(context)?.cancel ?? AppLocalizations.of(context)!.tr('Cancel'),
@@ -6375,7 +6375,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
             height: 50,
             onPressed: () => Navigator.pop(context),
           ),
-          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+          SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
         ],
       ),
     );
@@ -6421,7 +6421,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
               ),
             ],
           ),
-          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+          SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
           Column(
             children: options.map((opt) {
@@ -6491,7 +6491,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
             }).toList(),
           ),
 
-          const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+          SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
           TradeRepublicButton(
             label: AppLocalizations.of(context)?.cancel ?? AppLocalizations.of(context)!.tr('Cancel'),
@@ -6501,7 +6501,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
               Navigator.pop(context);
             },
           ),
-          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+          SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
         ],
       ),
     );
@@ -6553,7 +6553,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
                 ),
               ],
             ),
-            const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+            SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
             Expanded(
               child: SingleChildScrollView(
@@ -6645,7 +6645,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
               ),
             ),
 
-            const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+            SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
             TradeRepublicButton(
               label: AppLocalizations.of(context)?.cancel ?? AppLocalizations.of(context)!.tr('Cancel'),
@@ -6653,7 +6653,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
               height: 50,
               onPressed: () => Navigator.pop(context),
             ),
-            const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+            SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
           ],
         ),
       ),
@@ -6697,7 +6697,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
         ),
         child: Row(
           children: [
-            Text(flag, style: const TextStyle(fontSize: DesktopOptimizedWidgets.getFontSize() + 10,),
+            Text(flag, style: TextStyle(fontSize: DesktopOptimizedWidgets.getFontSize() + 10,),
             const SizedBox(width: 14),
             Expanded(
               child: Column(
@@ -6913,7 +6913,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
               ),
             ],
           ),
-          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+          SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
           Text(
             AppLocalizations.of(context)?.deleteNavigationSessionsConfirm ?? AppLocalizations.of(context)!.tr('This will delete all saved multi-order navigation sessions. This action cannot be undone.'),
             textAlign: TextAlign.center,
@@ -6930,14 +6930,14 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
             width: double.infinity,
             onPressed: () => Navigator.of(ctx).pop(true),
           ),
-          const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+          SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
           TradeRepublicButton(
             label: AppLocalizations.of(context)?.cancel ?? AppLocalizations.of(context)!.tr('Cancel'),
             isSecondary: true,
             width: double.infinity,
             onPressed: () => Navigator.of(ctx).pop(false),
           ),
-          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+          SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
         ],
       ),
     );
@@ -7147,7 +7147,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
             ],
           ),
 
-            const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+            SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
             Text(
               AppLocalizations.of(context)?.removePaymentMethodConfirm ?? AppLocalizations.of(context)!.tr('Are you sure you want to remove this payment method? This action cannot be undone.'),
@@ -7171,7 +7171,7 @@ class _DelviooAccountPageState extends State<DelviooAccountPage>
               width: double.infinity,
             ),
 
-            const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+            SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
             // Cancel button
             TradeRepublicButton(
@@ -7477,7 +7477,7 @@ class _VerificationCenterModalState extends State<_VerificationCenterModal> {
               ),
             ],
           ),
-          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+          SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
           // Scrollable Content
           Expanded(
@@ -7550,7 +7550,7 @@ class _VerificationCenterModalState extends State<_VerificationCenterModal> {
                                               .withOpacity(0.7),
                                     ),
                                   ),
-                                  const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+                                  SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                                   Container(
                                     padding: const EdgeInsets.symmetric(
                                       horizontal: 12,
@@ -7582,7 +7582,7 @@ class _VerificationCenterModalState extends State<_VerificationCenterModal> {
                             ),
                           ],
                         ),
-                        const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+                        SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
                         const TradeRepublicDivider(),
                         const SizedBox(height: 20),
 
@@ -7598,7 +7598,7 @@ class _VerificationCenterModalState extends State<_VerificationCenterModal> {
                             color: widget.isLight ? Colors.black : Colors.white,
                           ),
                         ),
-                        const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+                        SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
                         _buildVerificationItem(
                           AppLocalizations.of(context)?.identityDocument ?? AppLocalizations.of(context)!.tr('Identity Document'),
                           verification['idDocumentVerified'] == true,
@@ -7623,7 +7623,7 @@ class _VerificationCenterModalState extends State<_VerificationCenterModal> {
                           widget.isLight,
                         ),
 
-                        const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+                        SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
                         const TradeRepublicDivider(),
                         const SizedBox(height: 20),
 
@@ -7637,7 +7637,7 @@ class _VerificationCenterModalState extends State<_VerificationCenterModal> {
                             color: widget.isLight ? Colors.black : Colors.white,
                           ),
                         ),
-                        const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+                        SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
                         _buildVerificationItem(
                           AppLocalizations.of(
                                 context,
@@ -7662,7 +7662,7 @@ class _VerificationCenterModalState extends State<_VerificationCenterModal> {
                           widget.isLight,
                         ),
 
-                        const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+                        SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
                         const TradeRepublicDivider(),
                         const SizedBox(height: 20),
 
@@ -7678,7 +7678,7 @@ class _VerificationCenterModalState extends State<_VerificationCenterModal> {
                             color: widget.isLight ? Colors.black : Colors.white,
                           ),
                         ),
-                        const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+                        SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
                         _buildVerificationItem(
                           AppLocalizations.of(
                                 context,
@@ -7809,7 +7809,7 @@ class _VerificationCenterModalState extends State<_VerificationCenterModal> {
                     ),
                   ),
 
-                  const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+                  SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
                   // Action Buttons
                   Row(
@@ -8094,7 +8094,7 @@ class _CreateGroupModalState extends State<_CreateGroupModal> {
                 ),
               ],
             ),
-            const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+            SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
             if (!Platform.isMacOS)
               _buildImageSourceOption(
                 icon: CupertinoIcons.camera,
@@ -8103,7 +8103,7 @@ class _CreateGroupModalState extends State<_CreateGroupModal> {
                     AppLocalizations.of(context)?.takeANewPhoto ?? AppLocalizations.of(context)!.tr('Take a new photo'),
                 onTap: () => Navigator.pop(context, ImageSource.camera),
               ),
-            if (!Platform.isMacOS) const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+            if (!Platform.isMacOS) SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
             _buildImageSourceOption(
               icon: CupertinoIcons.photo,
               title: AppLocalizations.of(context)?.gallery ?? AppLocalizations.of(context)!.tr('Gallery'),
@@ -8111,7 +8111,7 @@ class _CreateGroupModalState extends State<_CreateGroupModal> {
                   AppLocalizations.of(context)?.chooseFromYourPhotos ?? AppLocalizations.of(context)!.tr('Choose from your photos'),
               onTap: () => Navigator.pop(context, ImageSource.gallery),
             ),
-            const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+            SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
             TradeRepublicButton(
               label: AppLocalizations.of(context)?.cancel ?? AppLocalizations.of(context)!.tr('Cancel'),
               onPressed: () => Navigator.pop(context),
@@ -8590,7 +8590,7 @@ class _CreateGroupModalState extends State<_CreateGroupModal> {
           width: double.infinity,
         ),
 
-        const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+        SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
         // Cancel link
         TradeRepublicButton(
@@ -8600,7 +8600,7 @@ class _CreateGroupModalState extends State<_CreateGroupModal> {
           width: double.infinity,
         ),
 
-          const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+          SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
         ],
       ),
     );
@@ -8862,7 +8862,7 @@ class _JoinGroupModalState extends State<_JoinGroupModal> {
           width: double.infinity,
         ),
 
-        const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+        SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
         // Cancel
         TradeRepublicButton(
@@ -8872,7 +8872,7 @@ class _JoinGroupModalState extends State<_JoinGroupModal> {
           width: double.infinity,
         ),
 
-          const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+          SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
         ],
       ),
     );
@@ -9015,7 +9015,7 @@ class _GroupSettingsModalState extends State<_GroupSettingsModal> {
               ),
             ],
           ),
-          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+          SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
           // Content
           Expanded(
@@ -9030,7 +9030,7 @@ class _GroupSettingsModalState extends State<_GroupSettingsModal> {
                       color: widget.isLight ? Colors.black : Colors.white,
                     ),
                   ),
-                  const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+                  SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
                   // Members List
                   ...eligibleMembers.map(
@@ -9151,7 +9151,7 @@ class _GroupSettingsModalState extends State<_GroupSettingsModal> {
             ],
           ),
 
-          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+          SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
           // Minimal description
           Text(
@@ -9182,7 +9182,7 @@ class _GroupSettingsModalState extends State<_GroupSettingsModal> {
             ),
           ),
 
-          const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+          SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
           // Secondary cancel button
           SizedBox(
@@ -9286,7 +9286,7 @@ class _GroupSettingsModalState extends State<_GroupSettingsModal> {
               ),
             ],
           ),
-          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+          SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
           Expanded(
             child: SingleChildScrollView(
@@ -9297,7 +9297,7 @@ class _GroupSettingsModalState extends State<_GroupSettingsModal> {
                   _buildSectionHeader(
                     AppLocalizations.of(context)?.groupInformation ?? AppLocalizations.of(context)!.tr('Group Information'),
                   ),
-                  const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+                  SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
                   // Group Name
                   _buildSettingsTile(
@@ -9381,7 +9381,7 @@ class _GroupSettingsModalState extends State<_GroupSettingsModal> {
                   _buildSectionHeader(
                     AppLocalizations.of(context)?.groupMembers ?? AppLocalizations.of(context)!.tr('Group Members'),
                   ),
-                  const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+                  SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
                   // Members List
                   ...members.map((member) => _buildMemberTile(member)),
@@ -9392,7 +9392,7 @@ class _GroupSettingsModalState extends State<_GroupSettingsModal> {
                   _buildSectionHeader(
                     AppLocalizations.of(context)?.groupActions ?? AppLocalizations.of(context)!.tr('Group Actions'),
                   ),
-                  const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+                  SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
                   // Share Group Code
                   _buildSettingsTile(
@@ -9447,7 +9447,7 @@ class _GroupSettingsModalState extends State<_GroupSettingsModal> {
                   _buildSectionHeader(
                     AppLocalizations.of(context)?.dangerZone ?? AppLocalizations.of(context)!.tr('Danger Zone'),
                   ),
-                  const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+                  SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
                   // Leave Group
                   _buildSettingsTile(
@@ -9497,7 +9497,7 @@ class _GroupSettingsModalState extends State<_GroupSettingsModal> {
                                         ],
                                       ),
 
-                                      const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+                                      SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
                                       // Minimal description
                                       Padding(
@@ -9539,7 +9539,7 @@ class _GroupSettingsModalState extends State<_GroupSettingsModal> {
                                         ),
                                       ),
 
-                                      const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+                                      SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
                                       // Secondary cancel button - Platform check
                                       SizedBox(
@@ -9924,7 +9924,7 @@ class _AddAccountModalState extends State<_AddAccountModal> {
                 ),
               ],
             ),
-            const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+            SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
             Expanded(
               child: Column(
@@ -9936,7 +9936,7 @@ class _AddAccountModalState extends State<_AddAccountModal> {
                     hintText: AppLocalizations.of(context)?.email ?? AppLocalizations.of(context)!.tr('Email'),
                     keyboardType: TextInputType.emailAddress,
                   ),
-                  const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+                  SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
                   // Password Field
                   TradeRepublicTextField.password(
@@ -10004,7 +10004,7 @@ class _AddAccountModalState extends State<_AddAccountModal> {
               ),
             ],
           ),
-          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+          SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
           Expanded(
             child: Column(
@@ -10020,7 +10020,7 @@ class _AddAccountModalState extends State<_AddAccountModal> {
                     color: widget.isLight ? Colors.black : Colors.white,
                   ),
                 ),
-                const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+                SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
                 // Current Account Card
                 TradeRepublicCard(
@@ -10413,13 +10413,13 @@ class _StripePaymentModalState extends State<_StripePaymentModal> {
               'checking',
               AppLocalizations.of(context)?.checkingAccount ?? AppLocalizations.of(context)!.tr('Checking Account'),
             ),
-            const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+            SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
             _buildAccountTypeOption(
               'savings',
               AppLocalizations.of(context)?.savingsAccount ?? AppLocalizations.of(context)!.tr('Savings Account'),
             ),
 
-            const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+            SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
             // Cancel button
             TradeRepublicButton(
@@ -10518,7 +10518,7 @@ class _StripePaymentModalState extends State<_StripePaymentModal> {
                   ],
                 ),
 
-                const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+                SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
                 Text(
                   AppLocalizations.of(
@@ -10846,14 +10846,14 @@ class _StripePaymentModalState extends State<_StripePaymentModal> {
                         AppLocalizations.of(context)?.fullNameOnAccount ?? AppLocalizations.of(context)!.tr('Full name on account'),
                       ),
                       if (_isUSASystem) ...[
-                        const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+                        SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                         _buildGroupedField(
                           AppLocalizations.of(context)?.bankName ?? AppLocalizations.of(context)!.tr('Bank Name'),
                           _bankNameController,
                           CupertinoIcons.building_2_fill,
                           'Chase, Wells Fargo…',
                         ),
-                        const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+                        SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                         _buildGroupedTapField(
                           AppLocalizations.of(context)?.accountType ?? AppLocalizations.of(context)!.tr('Account Type'),
                           _selectedAccountType == 'checking'
@@ -10864,7 +10864,7 @@ class _StripePaymentModalState extends State<_StripePaymentModal> {
                           CupertinoIcons.person_crop_rectangle,
                           _showAccountTypeSelector,
                         ),
-                        const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+                        SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                         _buildGroupedField(
                           AppLocalizations.of(context)?.routingNumber ?? AppLocalizations.of(context)!.tr('Routing Number'),
                           _routingNumberController,
@@ -10888,7 +10888,7 @@ class _StripePaymentModalState extends State<_StripePaymentModal> {
                             ),
                           ],
                         ),
-                        const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+                        SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                         _buildGroupedField(
                           AppLocalizations.of(context)?.accountNumber ?? AppLocalizations.of(context)!.tr('Account Number'),
                           _accountNumberController,
@@ -10897,7 +10897,7 @@ class _StripePaymentModalState extends State<_StripePaymentModal> {
                           keyboardType: TextInputType.number,
                         ),
                       ] else ...[
-                        const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+                        SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                         _buildGroupedField(
                           AppLocalizations.of(context)?.bankName ?? AppLocalizations.of(context)!.tr('Bank Name'),
                           _bankNameController,
@@ -10906,7 +10906,7 @@ class _StripePaymentModalState extends State<_StripePaymentModal> {
                                   ?.eGDeutscheBankSparkasse ?? AppLocalizations.of(context)!.tr('e.g. Deutsche Bank'),
                           readOnly: true,
                         ),
-                        const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+                        SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                         _buildGroupedField(
                           AppLocalizations.of(context)?.iban ?? AppLocalizations.of(context)!.tr('IBAN'),
                           _ibanController,
@@ -10935,7 +10935,7 @@ class _StripePaymentModalState extends State<_StripePaymentModal> {
                             ),
                           ],
                         ),
-                        const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+                        SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                         _buildGroupedField(
                           AppLocalizations.of(context)?.bicSwiftCode ?? AppLocalizations.of(context)!.tr('BIC / SWIFT'),
                           _bicController,
@@ -11101,7 +11101,7 @@ class _StripePaymentModalState extends State<_StripePaymentModal> {
                           : CupertinoColors.white,
                     ),
                   ),
-                  const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+                  SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
                 ],
               ),
             ),
@@ -11269,7 +11269,7 @@ class _BankDetailsModalState extends State<_BankDetailsModal> {
               ),
             ],
           ),
-          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+          SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
           Expanded(
             child: SingleChildScrollView(
@@ -11320,7 +11320,7 @@ class _BankDetailsModalState extends State<_BankDetailsModal> {
                       color: widget.isLight ? Colors.black : Colors.white,
                     ),
                   ),
-                  const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+                  SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                   TradeRepublicTextField(
                     controller: _accountHolderController,
                     hintText:
@@ -11340,7 +11340,7 @@ class _BankDetailsModalState extends State<_BankDetailsModal> {
                       color: widget.isLight ? Colors.black : Colors.white,
                     ),
                   ),
-                  const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+                  SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                   TradeRepublicTextField(
                     controller: _bankNameController,
                     readOnly: true,
@@ -11359,7 +11359,7 @@ class _BankDetailsModalState extends State<_BankDetailsModal> {
                       color: widget.isLight ? Colors.black : Colors.white,
                     ),
                   ),
-                  const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+                  SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                   TradeRepublicTextField(
                     controller: _ibanController,
                     hintText: AppLocalizations.of(context)!.tr('DE89 3704 0044 0532 0130 00') ?? AppLocalizations.of(context)!.tr('DE89 3704 0044 0532 0130 00'),
@@ -11394,7 +11394,7 @@ class _BankDetailsModalState extends State<_BankDetailsModal> {
                       color: widget.isLight ? Colors.black : Colors.white,
                     ),
                   ),
-                  const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+                  SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                   TradeRepublicTextField(
                     controller: _bicController,
                     hintText: AppLocalizations.of(context)!.tr('COBADEFFXXX') ?? AppLocalizations.of(context)!.tr('COBADEFFXXX'),
@@ -11871,21 +11871,21 @@ class _ProfileEditModalState extends State<_ProfileEditModal> {
           _firstNameController,
           CupertinoIcons.person,
         ),
-        const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+        SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
         _buildTextField(
           AppLocalizations.of(context)?.lastName ?? AppLocalizations.of(context)!.tr('Last Name'),
           _lastNameController,
           CupertinoIcons.person,
         ),
-        const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+        SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
         _buildTextField(
           AppLocalizations.of(context)?.email ?? AppLocalizations.of(context)!.tr('Email'),
           _emailController,
           CupertinoIcons.mail,
         ),
-        const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+        SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
         _buildPhoneField(),
-        const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+        SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
         _buildDateField(),
       ],
     );
@@ -11916,7 +11916,7 @@ class _ProfileEditModalState extends State<_ProfileEditModal> {
             ),
           ],
         ),
-        const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+        SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
         Row(
           children: [
             Expanded(
@@ -11938,7 +11938,7 @@ class _ProfileEditModalState extends State<_ProfileEditModal> {
             ),
           ],
         ),
-        const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+        SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
         _buildCountryField(),
       ],
     );
@@ -12295,7 +12295,7 @@ class _ProfileEditModalState extends State<_ProfileEditModal> {
                               );
                             },
                           ),
-                          const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+                          SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                           Text(
                             label,
                             style: TextStyle(
@@ -12463,7 +12463,7 @@ class _ProfileEditModalState extends State<_ProfileEditModal> {
               0.08,
             ),
           ),
-          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+          SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
           // Single confirm button - minimal Trade Republic style
           TradeRepublicButton(
@@ -12569,7 +12569,7 @@ class _ProfileEditModalState extends State<_ProfileEditModal> {
               ),
             ),
 
-            const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+            SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
             // Cancel button
             TradeRepublicButton(
@@ -12614,7 +12614,7 @@ class _ProfileEditModalState extends State<_ProfileEditModal> {
         ),
         child: Row(
           children: [
-            Text(flagIcon, style: const TextStyle(fontSize: DesktopOptimizedWidgets.getFontSize() + 10,),
+            Text(flagIcon, style: TextStyle(fontSize: DesktopOptimizedWidgets.getFontSize() + 10,),
             const SizedBox(width: 12),
             Text(
               '$prefix $country',
@@ -12723,7 +12723,7 @@ class _ProfileEditModalState extends State<_ProfileEditModal> {
               ),
             ),
 
-            const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+            SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
             // Cancel button
             TradeRepublicButton(
@@ -12768,7 +12768,7 @@ class _ProfileEditModalState extends State<_ProfileEditModal> {
         ),
         child: Row(
           children: [
-            Text(flagIcon, style: const TextStyle(fontSize: DesktopOptimizedWidgets.getFontSize() + 10,),
+            Text(flagIcon, style: TextStyle(fontSize: DesktopOptimizedWidgets.getFontSize() + 10,),
             const SizedBox(width: 12),
             Expanded(
               child: Text(
@@ -12844,7 +12844,7 @@ class _ProfileEditModalState extends State<_ProfileEditModal> {
                         ),
                       ],
                     ),
-                    const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+                    SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
                     // Step Subtitle
                     Align(
@@ -12866,7 +12866,7 @@ class _ProfileEditModalState extends State<_ProfileEditModal> {
                       child: SingleChildScrollView(child: _buildStepContent()),
                     ),
 
-                    const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+                    SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
                     // Navigation Buttons
                     Row(
@@ -12923,7 +12923,7 @@ class _ProfileEditModalState extends State<_ProfileEditModal> {
             letterSpacing: -0.2,
           ),
         ),
-        const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+        SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
         Row(
           children: [
             TradeRepublicTap(
@@ -13091,7 +13091,7 @@ class _ProfileEditModalState extends State<_ProfileEditModal> {
             letterSpacing: -0.2,
           ),
         ),
-        const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+        SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
         TradeRepublicTextField(
           useFormField: true,
           controller: controller,
@@ -13147,7 +13147,7 @@ class _ProfileEditModalState extends State<_ProfileEditModal> {
               ),
             ],
           ),
-          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+          SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
           // Camera Option
           if (!Platform.isMacOS)
             Padding(
@@ -13324,7 +13324,7 @@ class _ProfileEditModalState extends State<_ProfileEditModal> {
               ),
             ],
           ),
-          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+          SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
           // Camera Option
           if (!Platform.isMacOS)
             Padding(
@@ -13485,7 +13485,7 @@ class _ProfileEditModalState extends State<_ProfileEditModal> {
 
         // Image Preview (if exists)
         if (hasImage) ...[
-          const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+          SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
           TradeRepublicTap(
             onTap: () =>
                 _showFullScreenImage(context, image, imageUrl, isLight),
@@ -13612,7 +13612,7 @@ class _ProfileEditModalState extends State<_ProfileEditModal> {
                                     color: Colors.white54,
                                     size: 64,
                                   ),
-                                  const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+                                  SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
                                   Text(
                                     AppLocalizations.of(
                                           context,
@@ -14161,7 +14161,7 @@ class _VehicleManagementModalState extends State<_VehicleManagementModal> {
             ],
           ),
 
-            const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+            SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
             // Description
             Text(
@@ -14189,7 +14189,7 @@ class _VehicleManagementModalState extends State<_VehicleManagementModal> {
               width: double.infinity,
             ),
 
-            const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+            SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
             // Cancel button
             TradeRepublicButton(
@@ -14292,7 +14292,7 @@ class _VehicleManagementModalState extends State<_VehicleManagementModal> {
               ),
             ],
           ),
-          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+          SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
           // Vehicles List
           Expanded(
@@ -14309,7 +14309,7 @@ class _VehicleManagementModalState extends State<_VehicleManagementModal> {
                               color: (isLight ? Colors.black : Colors.white)
                                   .withOpacity(0.2),
                             ),
-                            const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+                            SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
                             Text(
                               AppLocalizations.of(context)?.noVehiclesAddedYet ?? AppLocalizations.of(context)!.tr('No vehicles added yet'),
                               style: TextStyle(
@@ -14440,7 +14440,7 @@ class _VehicleManagementModalState extends State<_VehicleManagementModal> {
                 color: (isLight ? Colors.black : Colors.white).withOpacity(0.6),
               ),
             ),
-            const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+            SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
             Row(
               children: [
                 Expanded(
@@ -15282,7 +15282,7 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
               fontWeight: FontWeight.w700,
             ),
           ),
-          const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+          SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
           ListTile(
             contentPadding: EdgeInsets.zero,
             leading: const Icon(CupertinoIcons.camera),
@@ -15295,7 +15295,7 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
             title: Text(AppLocalizations.of(context)?.gallery ?? AppLocalizations.of(context)!.tr('Gallery')),
             onTap: () => Navigator.pop(context, ImageSource.gallery),
           ),
-          const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+          SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
           ListTile(
             contentPadding: EdgeInsets.zero,
             leading: const Icon(CupertinoIcons.xmark_circle),
@@ -15964,7 +15964,7 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
 
         // Image Preview Container - Only shown when image exists
         if (hasImage) ...[
-          const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+          SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
           TradeRepublicTap(
             onTap: () =>
                 _showFullScreenImage(context, image, imageUrl, isLight),
@@ -16003,7 +16003,7 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                                   color: Colors.red,
                                   size: 40,
                                 ),
-                                const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+                                SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                                 Text(
                                   AppLocalizations.of(
                                         context,
@@ -16105,7 +16105,7 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                                   color: Colors.white,
                                   size: 48,
                                 ),
-                                const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+                                SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
                                 Text(
                                   AppLocalizations.of(
                                         context,
@@ -16231,7 +16231,7 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                                     ),
                                   ),
                                 ),
-                                const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+                                SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
                                 // Step Title - Dynamic
                                 Text(
@@ -16277,7 +16277,7 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                                   ],
                                 ),
 
-                                const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+                                SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
                                 // Step Labels
                                 Text(
@@ -16294,7 +16294,7 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                             ),
                           ),
 
-                          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+                          SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
                           // === STEP 1: BASIC INFO ===
                           if (_currentStep == 1) ...[
@@ -16308,7 +16308,7 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                               onTap: () => _showMakeSelector(isLight),
                             ),
 
-                            const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+                            SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
                             // Model Selector
                             _buildModernDropdown(
@@ -16322,7 +16322,7 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                                   : null,
                             ),
 
-                            const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+                            SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
                             // Year Field
                             _buildModernTextField(
@@ -16346,7 +16346,7 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                               },
                             ),
 
-                            const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+                            SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
                             // Vehicle Type Selector
                             _buildModernDropdown(
@@ -16367,7 +16367,7 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                               AppLocalizations.of(context)?.licensePlate ?? AppLocalizations.of(context)!.tr('License Plate'),
                               isLight,
                             ),
-                            const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+                            SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
                             // License Plate Field with Visual Design
                             _buildModernLicensePlateField(isLight),
@@ -16413,7 +16413,7 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                                   : AppLocalizations.of(context)?.fuelEconomy ?? AppLocalizations.of(context)!.tr('Fuel Economy'),
                               isLight,
                             ),
-                            const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+                            SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
                             DecoratedBox(
                               decoration: BoxDecoration(
@@ -16464,7 +16464,7 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                               AppLocalizations.of(context)?.cargoCapacity ?? AppLocalizations.of(context)!.tr('Cargo Capacity'),
                               isLight,
                             ),
-                            const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+                            SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
                             Padding(
                               padding: const EdgeInsets.only(bottom: 16),
                               child: DecoratedBox(
@@ -16508,14 +16508,14 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                               ),
                             ),
 
-                            const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+                            SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
                             // Payload Capacity Field
                             _buildSectionHeader(
                               AppLocalizations.of(context)?.payloadCapacity ?? AppLocalizations.of(context)!.tr('Payload Capacity'),
                               isLight,
                             ),
-                            const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+                            SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
                             Padding(
                               padding: const EdgeInsets.only(bottom: 16),
                               child: DecoratedBox(
@@ -16559,14 +16559,14 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                               ),
                             ),
 
-                            const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+                            SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
                             // Sectioned Loading Header
                             _buildSectionHeader(
                               AppLocalizations.of(context)?.sectionedLoading ?? AppLocalizations.of(context)!.tr('Sectioned Loading'),
                               isLight,
                             ),
-                            const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+                            SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                             Text(
                               AppLocalizations.of(
                                     context,
@@ -16578,7 +16578,7 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                             ),
 
                             // Sections UI (always shown - mandatory)
-                            const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+                            SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
                             _buildVehicleSectionsUI(isLight),
 
                             // Dimensions (if required)
@@ -16602,7 +16602,7 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                                   ),
                                 ],
                               ),
-                              const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+                              SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                               Row(
                                 children: [
                                   Expanded(
@@ -16626,7 +16626,7 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                                   ),
                                 ],
                               ),
-                              const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+                              SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                               _buildModernTextField(
                                 controller: _heightController,
                                 label: AppLocalizations.of(context)?.height ?? AppLocalizations.of(context)!.tr('Height'),
@@ -16653,7 +16653,7 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                                   )?.vehicleRegistration ?? AppLocalizations.of(context)!.tr('Vehicle Registration'),
                               isLight,
                             ),
-                            const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+                            SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
                             _buildDocumentCapture(
                               title:
                                   AppLocalizations.of(
@@ -16669,14 +16669,14 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                               onTap: _captureVehicleRegistration,
                             ),
 
-                            const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+                            SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
                             // Insurance Proof
                             _buildSectionHeader(
                               AppLocalizations.of(context)?.insuranceProof ?? AppLocalizations.of(context)!.tr('Insurance Proof'),
                               isLight,
                             ),
-                            const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+                            SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
                             _buildDocumentCapture(
                               title:
                                   AppLocalizations.of(
@@ -16812,7 +16812,7 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                               ),
                             ),
 
-                            const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+                            SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
                             // Data Accuracy Confirmation
                             TradeRepublicTap(
@@ -17138,7 +17138,7 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
               ],
             ),
 
-            const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+            SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
             // ── Min temp ──
             Row(
@@ -17160,7 +17160,7 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                 ),
               ],
             ),
-            const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+            SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
             TradeRepublicValueSlider(
               value: _minTempValue.clamp(minLow, minHigh),
               min: minLow,
@@ -17199,7 +17199,7 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                 ),
               ],
             ),
-            const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+            SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
             TradeRepublicValueSlider(
               value: _maxTempValue.clamp(maxLow, maxHigh),
               min: maxLow,
@@ -17492,7 +17492,7 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
             ),
           ],
         ),
-        const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+        SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
         // Region toggle chips
         SingleChildScrollView(
@@ -17555,7 +17555,7 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
 
         // License Plate Visual
         Center(child: _buildModernLicensePlateVisual(isLight)),
-        const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+        SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
         // Front + Rear photo buttons — directly below the plate
         Row(
@@ -17584,7 +17584,7 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
           ],
         ),
 
-        const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+        SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
         // State/Country selector (only USA has states, only EU has sub-countries)
         if (_selectedRegion == 'USA')
@@ -18475,7 +18475,7 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
 
         // Image Preview Container - Only shown when photo exists
         if (hasPhoto) ...[
-          const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+          SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
           TradeRepublicTap(
             onTap: () =>
                 _showFullScreenImage(context, null, photoPath, isLight),
@@ -18570,7 +18570,7 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
               ),
             ),
 
-            const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+            SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
             // Cancel button - Settings Style
             TradeRepublicButton(
@@ -18678,7 +18678,7 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
               ),
             ),
 
-            const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+            SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
             // Cancel button - Settings Style
             TradeRepublicButton(
@@ -18804,7 +18804,7 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
               ),
             ),
 
-            const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+            SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
             // Cancel button - Settings Style
             TradeRepublicButton(
@@ -18888,7 +18888,7 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                               // Icon
                               Text(
                                 typeIcon,
-                                style: const TextStyle(fontSize: DesktopOptimizedWidgets.getFontSize() + 10,,
+                                style: TextStyle(fontSize: DesktopOptimizedWidgets.getFontSize() + 10,,
                               ),
                               const SizedBox(width: 16),
                               // Name and Description
@@ -18956,7 +18956,7 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
               ),
             ),
 
-            const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+            SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
             // Cancel button - Settings Style
             TradeRepublicButton(
@@ -19031,7 +19031,7 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
               ),
             ),
 
-            const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+            SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
             // Cancel button - Settings Style
             TradeRepublicButton(
@@ -20176,7 +20176,7 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                         ),
                       ),
 
-                      const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+                      SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
                       // Subtitle
                       Text(
@@ -20420,7 +20420,7 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
                       ],
                     ),
 
-                    const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+                    SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
                     // Subtitle
                     Text(
@@ -20612,7 +20612,7 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
               ),
             ],
           ),
-          const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+          SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
           // Description
           Text(
@@ -20637,7 +20637,7 @@ class _AddVehicleModalState extends State<_AddVehicleModal>
             width: double.infinity,
             isDestructive: true,
           ),
-          const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+          SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
           // Cancel button
           TradeRepublicButton(
@@ -20820,7 +20820,7 @@ class _AccountSettingsModalState extends State<_AccountSettingsModal> {
                   ),
                 ],
               ),
-              const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+              SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
               Text(
                 AppLocalizations.of(context)?.freeWaitingTimeQuestion ?? AppLocalizations.of(context)!.tr('How long will you wait for free at pickup/delivery?'),
                 style: TextStyle(
@@ -20846,7 +20846,7 @@ class _AccountSettingsModalState extends State<_AccountSettingsModal> {
                   },
                 ),
               ),
-              const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+              SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
             ],
           ),
         ),
@@ -20887,7 +20887,7 @@ class _AccountSettingsModalState extends State<_AccountSettingsModal> {
                   ),
                 ],
               ),
-              const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+              SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
               Text(
                 AppLocalizations.of(context)?.waitingRateQuestion ?? AppLocalizations.of(context)!.tr('How much per hour after free waiting time?'),
                 style: TextStyle(
@@ -20913,7 +20913,7 @@ class _AccountSettingsModalState extends State<_AccountSettingsModal> {
                   },
                 ),
               ),
-              const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+              SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
             ],
           ),
         ),
@@ -21008,7 +21008,7 @@ class _AccountSettingsModalState extends State<_AccountSettingsModal> {
                   ),
                 ],
               ),
-              const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+              SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
               Text(
                 AppLocalizations.of(context)?.howFarSearchOrders ?? AppLocalizations.of(context)!.tr('How far should we search for open orders?'),
                 style: TextStyle(
@@ -21098,7 +21098,7 @@ class _AccountSettingsModalState extends State<_AccountSettingsModal> {
                   }).toList(),
                 ),
               ),
-              const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+              SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
               // Save button
               Padding(
@@ -21426,7 +21426,7 @@ class _AccountSettingsModalState extends State<_AccountSettingsModal> {
                           ),
                         ),
 
-                        const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+                        SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
                         // Title
                         Text(
@@ -21439,7 +21439,7 @@ class _AccountSettingsModalState extends State<_AccountSettingsModal> {
                           ),
                         ),
 
-                        const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+                        SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
                         // Warning message
                         Text(
@@ -21510,7 +21510,7 @@ class _AccountSettingsModalState extends State<_AccountSettingsModal> {
                           ),
                         ),
 
-                        const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+                        SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
                         // Warning checklist
                         Container(
@@ -21534,7 +21534,7 @@ class _AccountSettingsModalState extends State<_AccountSettingsModal> {
                                       : Colors.white,
                                 ),
                               ),
-                              const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+                              SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                               _buildDeletedItem(
                                 AppLocalizations.of(
                                       context,
@@ -21564,7 +21564,7 @@ class _AccountSettingsModalState extends State<_AccountSettingsModal> {
                           ),
                         ),
 
-                        const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+                        SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
                       ],
                     ),
                   ),
@@ -21610,7 +21610,7 @@ class _AccountSettingsModalState extends State<_AccountSettingsModal> {
                               },
                       ),
 
-                      const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+                      SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
                       // Cancel button
                       TradeRepublicButton(
@@ -21761,7 +21761,7 @@ class _AccountSettingsModalState extends State<_AccountSettingsModal> {
               ),
             ],
           ),
-          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+          SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
           Expanded(
             child: SingleChildScrollView(
@@ -21771,7 +21771,7 @@ class _AccountSettingsModalState extends State<_AccountSettingsModal> {
                   _buildSectionHeader(
                     AppLocalizations.of(context)?.securityAndAuthentication ?? AppLocalizations.of(context)!.tr('Security & Authentication'),
                   ),
-                  const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+                  SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
                   // Biometric Authentication
                   _buildSettingsTile(
@@ -21841,7 +21841,7 @@ class _AccountSettingsModalState extends State<_AccountSettingsModal> {
                   _buildSectionHeader(
                     AppLocalizations.of(context)?.accountActivity ?? AppLocalizations.of(context)!.tr('Account Activity'),
                   ),
-                  const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+                  SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
                   // Login History
                   _buildSettingsTile(
@@ -21867,7 +21867,7 @@ class _AccountSettingsModalState extends State<_AccountSettingsModal> {
                   _buildSectionHeader(
                     AppLocalizations.of(context)?.waitingTimeCharges ?? AppLocalizations.of(context)!.tr('Waiting Time Charges'),
                   ),
-                  const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+                  SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
                   // Free Waiting Time
                   _buildSettingsTile(
@@ -21921,7 +21921,7 @@ class _AccountSettingsModalState extends State<_AccountSettingsModal> {
 
                   // AI Order Suggestions Section
                   _buildSectionHeader(AppLocalizations.of(context)?.aiOrderSuggestions ?? AppLocalizations.of(context)!.tr('AI Order Suggestions')),
-                  const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+                  SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
                   // Enable/Disable AI Suggestions
                   Builder(
@@ -21976,7 +21976,7 @@ class _AccountSettingsModalState extends State<_AccountSettingsModal> {
                   _buildSectionHeader(
                     AppLocalizations.of(context)?.privacyAndData ?? AppLocalizations.of(context)!.tr('Privacy & Data'),
                   ),
-                  const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+                  SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
                   // Download Data
                   _buildSettingsTile(
@@ -22141,7 +22141,7 @@ class _ChangePasswordModalState extends State<_ChangePasswordModal> {
                 ),
               ],
             ),
-            const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+            SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
             Expanded(
               child: SingleChildScrollView(
@@ -22212,7 +22212,7 @@ class _ChangePasswordModalState extends State<_ChangePasswordModal> {
                               color: Colors.blue,
                             ),
                           ),
-                          const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+                          SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                           _buildRequirement('At least 8 characters long'),
                           _buildRequirement(
                             AppLocalizations.of(
@@ -22351,7 +22351,7 @@ class _TwoFactorModalState extends State<_TwoFactorModal> {
             ),
           ],
         ),
-        const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+        SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
         // Status
         Container(
@@ -22386,7 +22386,7 @@ class _TwoFactorModalState extends State<_TwoFactorModal> {
             ],
           ),
         ),
-        const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+        SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
         // Action Button
         SizedBox(
@@ -22443,7 +22443,7 @@ class _LoginHistoryModalState extends State<_LoginHistoryModal> {
               ),
             ],
           ),
-          const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+          SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
           // Subtitle
           Align(
@@ -22456,7 +22456,7 @@ class _LoginHistoryModalState extends State<_LoginHistoryModal> {
               ),
             ),
           ),
-          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+          SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
           // Login History List
           Expanded(
@@ -22470,7 +22470,7 @@ class _LoginHistoryModalState extends State<_LoginHistoryModal> {
                           size: 64,
                           color: widget.isLight ? Colors.white : Colors.black,
                         ),
-                        const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+                        SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
                         Text(
                           AppLocalizations.of(context)?.noLoginHistory ?? AppLocalizations.of(context)!.tr('No login history'),
                           style: TextStyle(
@@ -22948,7 +22948,7 @@ class _ProfileImageUploadModalState extends State<_ProfileImageUploadModal> {
           ],
         ),
 
-        const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+        SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
         // Scrollable content
         Flexible(
@@ -22996,13 +22996,13 @@ class _ProfileImageUploadModalState extends State<_ProfileImageUploadModal> {
 
                 // Loading indicator
                 if (_isUploading) ...[
-                  const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+                  SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
                   Container(
                     padding: DesktopAppWrapper.getPagePadding(),
                     child: Column(
                       children: [
                         CultiooLoadingIndicator(),
-                        const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+                        SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                         Text(
                           AppLocalizations.of(context)?.uploadingImage ?? AppLocalizations.of(context)!.tr('Uploading image...'),
                           style: TextStyle(
@@ -23020,7 +23020,7 @@ class _ProfileImageUploadModalState extends State<_ProfileImageUploadModal> {
           ),
         ),
 
-        const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+        SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
         // Cancel button - Settings Style
         TradeRepublicButton(
@@ -23715,7 +23715,7 @@ class _CarbonFootprintModalState extends State<_CarbonFootprintModal> {
             ),
           ),
 
-        const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+        SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
         Text(
           loc?.last12Months ?? AppLocalizations.of(context)!.tr('Last 12 Months'),
@@ -23727,7 +23727,7 @@ class _CarbonFootprintModalState extends State<_CarbonFootprintModal> {
           ),
         ),
 
-        const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+        SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
         // Monthly list
         Expanded(
@@ -23880,7 +23880,7 @@ class _CarbonFootprintModalState extends State<_CarbonFootprintModal> {
                             ),
                           ],
                         ),
-                        const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+                        SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                         TradeRepublicButton(
                           label: AppLocalizations.of(context)?.save ?? AppLocalizations.of(context)!.tr('Save'),
                           width: double.infinity,

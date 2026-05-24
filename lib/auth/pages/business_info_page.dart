@@ -159,7 +159,7 @@ class _BusinessInfoPageState extends State<BusinessInfoPage>
                         ],
                       ),
 
-                      const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+                      SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
                       Text(
                         AppLocalizations.of(context)?.businessInformation ?? 'Business Information',
@@ -170,7 +170,7 @@ class _BusinessInfoPageState extends State<BusinessInfoPage>
                         ),
                       ),
 
-                      const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+                      SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                       Text(
                         AppLocalizations.of(context)?.completeBusinessProfile ?? 'Complete your business profile',
                         style: TextStyle(
@@ -190,7 +190,7 @@ class _BusinessInfoPageState extends State<BusinessInfoPage>
                         isLight,
                       ),
 
-                      const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+                      SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
                       // Business Email
                       _buildTextField(
@@ -201,7 +201,7 @@ class _BusinessInfoPageState extends State<BusinessInfoPage>
                         keyboardType: TextInputType.emailAddress,
                       ),
 
-                      const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+                      SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
                       // Business Size Selection
                       _buildSelectionField(
@@ -211,7 +211,7 @@ class _BusinessInfoPageState extends State<BusinessInfoPage>
                         isLight,
                       ),
 
-                      const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+                      SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
                       // Country Selection
                       _buildSelectionField(
@@ -221,17 +221,17 @@ class _BusinessInfoPageState extends State<BusinessInfoPage>
                         isLight,
                       ),
 
-                      const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+                      SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
                       // Business Phone with Country Code
                       _buildPhoneField(isLight),
 
-                      const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+                      SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
                       // Business Address
                       _buildAddressField(isLight),
 
-                      const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+                      SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
                       // Business Description
                       _buildTextField(
@@ -242,7 +242,7 @@ class _BusinessInfoPageState extends State<BusinessInfoPage>
                         maxLines: 3,
                       ),
 
-                      const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+                      SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
                       // Business Website
                       _buildTextField(
@@ -253,7 +253,7 @@ class _BusinessInfoPageState extends State<BusinessInfoPage>
                         keyboardType: TextInputType.url,
                       ),
 
-                      const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+                      SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
                       // Tax ID Number
                       _buildTextField(
@@ -263,7 +263,7 @@ class _BusinessInfoPageState extends State<BusinessInfoPage>
                         isLight,
                       ),
 
-                      const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+                      SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
                       // Business Logo Upload
                       _buildLogoUploadField(isLight),
@@ -381,7 +381,7 @@ class _BusinessInfoPageState extends State<BusinessInfoPage>
             fontWeight: FontWeight.w500,
           ),
         ),
-        const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+        SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
         TradeRepublicTextField(
           controller: controller,
           hintText: hint,
@@ -409,7 +409,7 @@ class _BusinessInfoPageState extends State<BusinessInfoPage>
             fontWeight: FontWeight.w500,
           ),
         ),
-        const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+        SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
         Container(
           decoration: BoxDecoration(borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
           child: TradeRepublicTap(
@@ -458,7 +458,7 @@ class _BusinessInfoPageState extends State<BusinessInfoPage>
             fontWeight: FontWeight.w500,
           ),
         ),
-        const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+        SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
         Container(
           decoration: BoxDecoration(borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
           child: Row(
@@ -529,7 +529,7 @@ class _BusinessInfoPageState extends State<BusinessInfoPage>
             fontWeight: FontWeight.w500,
           ),
         ),
-        const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+        SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
         Container(
           padding: DesktopAppWrapper.getPagePadding(),
           decoration: BoxDecoration(borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
@@ -839,7 +839,7 @@ class _BusinessInfoPageState extends State<BusinessInfoPage>
             fontWeight: FontWeight.w500,
           ),
         ),
-        const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+        SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
         Container(
           decoration: BoxDecoration(borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
           child: TradeRepublicTap(
@@ -886,7 +886,7 @@ class _BusinessInfoPageState extends State<BusinessInfoPage>
                                         color: Colors.blue,
                                         size: 32,
                                       ),
-                                      const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+                                      SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                                       Text(
                                         AppLocalizations.of(context)?.logoSelected ?? 'Logo Selected',
                                         style: TextStyle(
@@ -936,7 +936,7 @@ class _BusinessInfoPageState extends State<BusinessInfoPage>
                               .withOpacity(0.5),
                           size: 32,
                         ),
-                        const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+                        SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                         Text(
                           AppLocalizations.of(context)?.uploadBusinessLogo ?? 'Upload Business Logo',
                           style: TextStyle(
@@ -1011,7 +1011,7 @@ class _BusinessInfoPageState extends State<BusinessInfoPage>
                             color: Colors.blue,
                             size: 32,
                           ),
-                          const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+                          SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                           Text(
                             AppLocalizations.of(context)?.gallery ?? 'Gallery',
                             style: TextStyle(
@@ -1046,7 +1046,7 @@ class _BusinessInfoPageState extends State<BusinessInfoPage>
                                   color: Colors.blue,
                                   size: 32,
                                 ),
-                          const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+                          SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                           Text(
                             AppLocalizations.of(context)?.camera ?? 'Camera',
                             style: TextStyle(
@@ -1062,7 +1062,7 @@ class _BusinessInfoPageState extends State<BusinessInfoPage>
                 ),
               ],
             ),
-            const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+            SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
           ],
         ),
     );
@@ -1526,7 +1526,7 @@ class _BusinessInfoPageState extends State<BusinessInfoPage>
                   );
                 }).toList(),
               ),
-              const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+              SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
             ],
           ),
       );

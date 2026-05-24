@@ -1227,7 +1227,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
               ),
             ],
           ),
-          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+          SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
           Text(
             message,
             textAlign: TextAlign.center,
@@ -1236,7 +1236,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
               color: (isLight ? Colors.black : Colors.white).withOpacity(0.7),
             ),
           ),
-          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+          SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
           SizedBox(
             width: double.infinity,
             child: TradeRepublicButton(
@@ -1291,7 +1291,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                 ),
               ],
             ),
-            const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+            SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
             Text(
               AppLocalizations.of(context)?.pleaseEnter2faCodeToContinue ??
@@ -1302,7 +1302,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                 color: (isLight ? Colors.black : Colors.white).withOpacity(0.7),
               ),
             ),
-            const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+            SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
             // 2FA Code Input
             TradeRepublicTextField(
@@ -1312,7 +1312,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
               textAlign: TextAlign.center,
               hintText: '00000000',
             ),
-            const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+            SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
             // Verify Button
             SizedBox(
@@ -1526,7 +1526,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                     ),
             ),
 
-            const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+            SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
             // Cancel Button
             Platform.isIOS
@@ -1544,7 +1544,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                     },
                   ),
 
-            const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+            SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
           ],
         ),
       ),
@@ -1594,7 +1594,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                 ),
               ],
             ),
-            const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+            SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
             Text(
               isStaticStep
@@ -1608,7 +1608,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                 color: (isLight ? Colors.black : Colors.white).withOpacity(0.7),
               ),
             ),
-            const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+            SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
             // 2FA Code Input - Trade Republic Style
             TradeRepublicTextField(
@@ -1619,7 +1619,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
               textAlign: TextAlign.center,
               hintText: '00000000',
             ),
-            const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+            SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
             // Verify Button
             TradeRepublicButton(
@@ -1786,7 +1786,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                     },
             ),
 
-            const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+            SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
             // Resend Email Button (only for email step)
             if (!isStaticStep) ...[
@@ -1884,7 +1884,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                         }
                       },
                     ),
-              const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+              SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
             ],
 
             // Cancel Button
@@ -1905,7 +1905,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                     },
                   ),
 
-            const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+            SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
           ],
         ),
       ),
@@ -2530,7 +2530,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                             ),
                           ),
 
-                          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+                          SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
                           // Title
                           Text(
@@ -2582,7 +2582,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                             forceLowercase: true,
                           ),
 
-                          const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+                          SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
                           // Password Input
                           _buildInputField(
@@ -2623,7 +2623,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                             ),
                           ),
 
-                          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+                          SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
                           // Sign In Button
                           _buildPrimaryButton(
@@ -2741,7 +2741,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                                       .withOpacity(0.45),
                                 ),
                               ),
-                              const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+                              SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                               _buildSecondaryButton(
                                 label: _isDelviooMode
                                     ? AppLocalizations.of(
@@ -2851,7 +2851,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                       onTap: () => _selectMode(0),
                     ),
 
-                    const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+                    SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
                     // Delvioo Card
                     _buildModeCard(
@@ -3121,7 +3121,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
             color: isLight ? Colors.black : Colors.white,
           ),
         ),
-        const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+        SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
         TradeRepublicTextField(
           controller: controller,
           hintText: hint,
@@ -3245,7 +3245,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                           ),
                         ],
                       ),
-                      const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+                      SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
                       Text(
                         AppLocalizations.of(
@@ -3259,7 +3259,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                               .withOpacity(0.7),
                         ),
                       ),
-                      const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+                      SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
                       SizedBox(
                         width: double.infinity,
@@ -3286,7 +3286,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                                 },
                               ),
                       ),
-                      const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+                      SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
                     ],
                   );
                 },
@@ -3368,7 +3368,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                               size: 40,
                               color: isLight ? Colors.black : Colors.white,
                             ),
-                            const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+                            SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                             Text(
                               AppLocalizations.of(context)?.camera ?? 'Camera',
                               style: TextStyle(
@@ -3405,7 +3405,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                               size: 40,
                               color: isLight ? Colors.black : Colors.white,
                             ),
-                            const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+                            SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                             Text(
                               AppLocalizations.of(context)?.gallery ??
                                   'Gallery',
@@ -3513,7 +3513,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                 ),
               ],
             ),
-            const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+            SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
             Expanded(
               child: ListView.builder(
@@ -3623,7 +3623,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                 ),
               ],
             ),
-            const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+            SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
             Expanded(
               child: ListView.builder(
@@ -3727,7 +3727,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                             color: isLight ? Colors.black : Colors.white,
                           ),
                         ),
-                        const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+                        SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
                         Text(
                           AppLocalizations.of(context)?.emailVerification ??
@@ -3738,7 +3738,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                             color: isLight ? Colors.black : Colors.white,
                           ),
                         ),
-                        const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+                        SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
                         Text(
                           AppLocalizations.of(
@@ -3752,7 +3752,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                                 .withOpacity(0.7),
                           ),
                         ),
-                        const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+                        SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
                         // Email Input Field
                         Column(
@@ -3767,7 +3767,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                                 color: isLight ? Colors.black : Colors.white,
                               ),
                             ),
-                            const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+                            SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                             TradeRepublicTextField(
                               controller: _emailVerificationController,
                               hintText:
@@ -3827,7 +3827,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                               }
                             },
                     ),
-                    const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+                    SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
                     // Cancel Button
                     Platform.isIOS
@@ -3844,7 +3844,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                             isSecondary: true,
                             onPressed: () => Navigator.of(context).pop(),
                           ),
-                    const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+                    SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                   ],
                 ),
               ],
@@ -3924,7 +3924,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                 child: SingleChildScrollView(
                   child: Column(
                     children: [
-                      const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+                      SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
                       Text(
                         AppLocalizations.of(context)?.weSentVerificationCode ??
@@ -4011,8 +4011,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                               child: Text(
                                 AppLocalizations.of(context)?.sendNewCode ??
                                     'Resend',
-                                style: const TextStyle(
-                                  fontSize: DesktopOptimizedWidgets.getFontSize(),
+                                style: TextStyle(fontSize: DesktopOptimizedWidgets.getFontSize(),
                                   fontWeight: FontWeight.w600,
                                   color: Colors.green,
                                 ),
@@ -4057,7 +4056,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                         }
                       },
               ),
-              const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+              SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
               TradeRepublicButton(
                 label:
@@ -4068,7 +4067,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                   _showUpgradeModal();
                 },
               ),
-              const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+              SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
             ],
           ),
         );
@@ -4385,7 +4384,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
               ),
             ],
           ),
-          const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+          SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
         ],
       ),
     );
@@ -4516,7 +4515,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                     borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                     child: Text(
                       _countryToFlag(_selectedCountry),
-                      style: const TextStyle(fontSize: DesktopOptimizedWidgets.getFontSize() + 6,,
+                      style: TextStyle(fontSize: DesktopOptimizedWidgets.getFontSize() + 6,,
                     ),
                   ),
                   const SizedBox(width: 12),
@@ -4648,7 +4647,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                   ),
           ),
         ),
-        const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+        SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
         Text(
           AppLocalizations.of(context)?.businessLogoOptional ??
               'Business Logo (Optional)',
@@ -4798,7 +4797,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                     ),
                   ],
                 ),
-                const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+                SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
                 Text(
                   '${AppLocalizations.of(context)?.verificationCodeSent ?? "Verification code sent"}: $email',
@@ -4810,7 +4809,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                     ),
                   ),
                 ),
-                const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+                SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
                 // Email Code Input
                 TradeRepublicTextField(
@@ -4820,7 +4819,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                   textAlign: TextAlign.center,
                   hintText: '••••••••',
                 ),
-                const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+                SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
                 // Verify Button
                 SizedBox(
@@ -4883,7 +4882,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                   ),
                 ),
 
-                const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+                SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
                 // Resend Code Button
                 TradeRepublicButton(
@@ -4924,7 +4923,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                         },
                 ),
 
-                const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+                SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
               ],
             ),
           );
@@ -5048,7 +5047,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                       ),
                     ],
                   ),
-                const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+                SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
                 // Subtitle
                 Text(
@@ -5063,7 +5062,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                   textAlign: TextAlign.center,
                 ),
 
-                const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+                SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
                 // Email Code Input
                 TradeRepublicTextField.code(
@@ -5077,7 +5076,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                   },
                 ),
 
-                const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+                SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
                 // Verify Button
                 TradeRepublicButton(
@@ -5181,7 +5180,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                         },
                 ),
 
-                const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+                SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
                 // Resend Email Button
                 TradeRepublicButton(
@@ -5279,7 +5278,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                       ),
                     ],
                   ),
-                  const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+                  SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
                   // Subtitle
                   Text(
@@ -5293,7 +5292,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                       ),
                     ),
                   ),
-                  const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+                  SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
                   // Email Input
                   TradeRepublicTextField(
@@ -5304,7 +5303,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                     keyboardType: TextInputType.emailAddress,
                     prefixIcon: const Icon(Icons.email),
                   ),
-                  const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+                  SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
                   // Send Button
                   TradeRepublicButton(
@@ -5377,7 +5376,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                           },
                   ),
 
-                  const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+                  SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
                   // Cancel Button
                   TradeRepublicButton(
@@ -5385,7 +5384,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                     isSecondary: true,
                     onPressed: () => Navigator.of(context).pop(),
                   ),
-                  const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+                  SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
                 ],
               ),
             ),
@@ -5437,7 +5436,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                       ),
                     ],
                   ),
-                  const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+                  SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
                   // Subtitle
                   Text(
@@ -5449,7 +5448,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                           .withOpacity(0.6),
                     ),
                   ),
-                  const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+                  SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
                   // Code Input
                   TradeRepublicTextField.code(
@@ -5457,7 +5456,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                     hintText: '12345678',
                     maxLength: 8,
                   ),
-                  const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+                  SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
                   // Verify Button
                   TradeRepublicButton(
@@ -5545,7 +5544,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                           },
                   ),
 
-                  const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+                  SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
                   // Cancel Button
                   TradeRepublicButton(
@@ -5553,7 +5552,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                     isSecondary: true,
                     onPressed: () => Navigator.of(context).pop(),
                   ),
-                  const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+                  SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
                 ],
               ),
             ),
@@ -5608,7 +5607,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                       ),
                     ],
                   ),
-                  const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+                  SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
                   // Subtitle
                   Text(
@@ -5621,7 +5620,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                           .withOpacity(0.7),
                     ),
                   ),
-                  const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+                  SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
                   // New Password Input
                   TradeRepublicTextField.password(
@@ -5631,7 +5630,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                         'New Password',
                     prefixIcon: const Icon(Icons.lock_outline),
                   ),
-                  const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+                  SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
                   // Confirm Password Input
                   TradeRepublicTextField.password(
@@ -5641,7 +5640,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                         'Confirm New Password',
                     prefixIcon: const Icon(Icons.lock_outline),
                   ),
-                  const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+                  SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
                   // Reset Button
                   TradeRepublicButton(
@@ -5743,7 +5742,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                           },
                   ),
 
-                  const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+                  SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
                   // Cancel Button
                   TradeRepublicButton(
@@ -5751,7 +5750,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                     isSecondary: true,
                     onPressed: () => Navigator.of(context).pop(),
                   ),
-                  const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+                  SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
                 ],
               ),
             ),

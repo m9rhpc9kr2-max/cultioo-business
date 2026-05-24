@@ -366,7 +366,7 @@ class _BusinessHomePageState extends State<BusinessHomePage>
             isLight,
           ),
 
-          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+          SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
         ],
       ),
     );
@@ -565,7 +565,7 @@ class _BusinessHomePageState extends State<BusinessHomePage>
               fontWeight: FontWeight.w400,
             ),
           ),
-          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+          SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
           // Period selector row
           TradeRepublicCard(
             onTap: () => _showPeriodSelectionModal(isLight),
@@ -702,7 +702,7 @@ class _BusinessHomePageState extends State<BusinessHomePage>
             fontFamily: 'Poppins',
           ),
         ),
-        const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+        SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
         Text(
           username,
           style: TextStyle(
@@ -783,7 +783,7 @@ class _BusinessHomePageState extends State<BusinessHomePage>
                 ),
               ],
             ),
-            const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+            SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
             Text(
               AppLocalizations.of(context)?.totalRevenue ?? AppLocalizations.of(context)!.tr('Total Revenue'),
               style: const TextStyle(
@@ -897,7 +897,7 @@ class _BusinessHomePageState extends State<BusinessHomePage>
         children: [
           Text(
             value,
-            style: const TextStyle(fontSize: DesktopOptimizedWidgets.getFontSize() + 4, fontWeight: FontWeight.w600),
+            style: TextStyle(fontSize: DesktopOptimizedWidgets.getFontSize() + 4, fontWeight: FontWeight.w600),
           ),
           if (onTap != null) ...[
             const SizedBox(width: 8),
@@ -999,7 +999,7 @@ class _BusinessHomePageState extends State<BusinessHomePage>
               letterSpacing: -1,
             ),
           ),
-          const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+          SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
           Text(
             title,
             style: TextStyle(
@@ -1042,7 +1042,7 @@ class _BusinessHomePageState extends State<BusinessHomePage>
                     letterSpacing: -1,
                   ),
                 ),
-                const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+                SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                 Text(
                   title,
                   style: TextStyle(
@@ -1117,7 +1117,7 @@ class _BusinessHomePageState extends State<BusinessHomePage>
                 : Colors.white.withOpacity(0.15),
             size: 48,
           ),
-          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+          SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
           Text(
             AppLocalizations.of(context)?.noProductsYet ?? AppLocalizations.of(context)!.tr('No Products Yet'),
             style: TextStyle(
@@ -1126,7 +1126,7 @@ class _BusinessHomePageState extends State<BusinessHomePage>
               fontWeight: FontWeight.w600,
             ),
           ),
-          const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+          SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
           Text(
             AppLocalizations.of(context)?.addFirstProductToGetStarted ?? AppLocalizations.of(context)!.tr('Add your first product to get started'),
             style: TextStyle(
@@ -1521,7 +1521,7 @@ class _ChartModalContentState extends State<_ChartModalContent> {
             widget.title.toUpperCase(),
             style: TextStyle(fontSize: 11, fontWeight: FontWeight.w600, letterSpacing: 1.4, color: dim),
           ),
-          const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+          SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
           Row(
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [

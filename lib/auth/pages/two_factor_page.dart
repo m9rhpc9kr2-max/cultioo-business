@@ -99,7 +99,7 @@ class _TwoFactorPageState extends State<TwoFactorPage> {
         mainAxisSize: MainAxisSize.min,
         children: [
           const Icon(CupertinoIcons.exclamationmark_circle, size: 48, color: Colors.red),
-          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+          SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
           Text(
             title,
             style: TextStyle(
@@ -108,7 +108,7 @@ class _TwoFactorPageState extends State<TwoFactorPage> {
               fontWeight: FontWeight.w700,
             ),
           ),
-          const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+          SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
           Text(
             message,
             style: TextStyle(
@@ -116,7 +116,7 @@ class _TwoFactorPageState extends State<TwoFactorPage> {
             ),
             textAlign: TextAlign.center,
           ),
-          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+          SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
           SizedBox(
             width: double.infinity,
             child: TradeRepublicButton(
@@ -171,7 +171,7 @@ class _TwoFactorPageState extends State<TwoFactorPage> {
                     ),
                   ),
 
-                  const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+                  SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
                   // Title
                   Text(
@@ -185,7 +185,7 @@ class _TwoFactorPageState extends State<TwoFactorPage> {
                     textAlign: TextAlign.center,
                   ),
 
-                  const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+                  SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
                   // Subtitle
                   Text(
@@ -232,7 +232,7 @@ class _TwoFactorPageState extends State<TwoFactorPage> {
                     ),
                   ),
 
-                  const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+                  SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
                   // Back Button
                   SizedBox(

@@ -725,7 +725,7 @@ class _MessengerPageState extends State<MessengerPage>
       children: [
         // CullyAI — always pinned at top
         _buildCullyAiCard(isLight),
-        const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+        SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
         ...uniqueConversations.asMap().entries.map((entry) {
           final index = entry.key + 1;
           final conversation = entry.value;
@@ -829,7 +829,7 @@ class _MessengerPageState extends State<MessengerPage>
                   ? Colors.black.withOpacity(0.3)
                   : Colors.white.withOpacity(0.3),
             ),
-            const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+            SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
             Text(
               AppLocalizations.of(context)?.noMessages ?? AppLocalizations.of(context)!.tr('No Messages'),
               style: TextStyle(
@@ -2298,7 +2298,7 @@ class _MessengerPageState extends State<MessengerPage>
                     isLight: isLight,
                   ),
 
-                  const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+                  SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
                   // Cancel button
                   TradeRepublicButton(
@@ -2733,7 +2733,7 @@ class _MessengerPageState extends State<MessengerPage>
             ),
           ),
 
-          const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+          SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
           TradeRepublicButton(
             label: AppLocalizations.of(context)?.cancel ?? AppLocalizations.of(context)!.tr('Cancel'),
@@ -3227,7 +3227,7 @@ class _MessengerPageState extends State<MessengerPage>
                             size: 64,
                             color: Colors.white,
                           ),
-                          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+                          SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
                           Text(
                             AppLocalizations.of(context)?.failedToLoadImage ?? AppLocalizations.of(context)!.tr('Failed to load image'),
                             style: const TextStyle(
@@ -3326,7 +3326,7 @@ class _MessengerPageState extends State<MessengerPage>
             ],
           ),
 
-          const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+          SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
           // Content
           Text(
@@ -3340,7 +3340,7 @@ class _MessengerPageState extends State<MessengerPage>
             ),
           ),
 
-          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+          SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
           // Action buttons - Trade Republic Style
           Row(
@@ -3406,7 +3406,7 @@ class _MessengerPageState extends State<MessengerPage>
             ],
           ),
 
-          const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+          SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
           // Content
           Text(
@@ -3420,7 +3420,7 @@ class _MessengerPageState extends State<MessengerPage>
             ),
           ),
 
-          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+          SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
           // Action buttons - Trade Republic Style
           Row(
@@ -3486,7 +3486,7 @@ class _MessengerPageState extends State<MessengerPage>
               ),
             ],
           ),
-          const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+          SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
           TradeRepublicCard(
             backgroundColor: isLight ? null : Colors.transparent,
@@ -3517,7 +3517,7 @@ class _MessengerPageState extends State<MessengerPage>
             ),
           ),
 
-          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+          SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
           // Cancel button - Trade Republic Style
           TradeRepublicButton(
@@ -3658,7 +3658,7 @@ class _MessengerPageState extends State<MessengerPage>
               ),
             ],
           ),
-          const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+          SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
           // ── Options ──
           TradeRepublicListTile.navigation(
@@ -3713,7 +3713,7 @@ class _MessengerPageState extends State<MessengerPage>
             },
           ),
 
-          const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+          SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
           // ── Cancel ──
           TradeRepublicButton(
@@ -3784,7 +3784,7 @@ class _MessengerPageState extends State<MessengerPage>
               color: (isLight ? Colors.black : Colors.white).withOpacity(0.7),
             ),
           ),
-          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+          SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
           TradeRepublicButton(
             label: AppLocalizations.of(context)?.delete ?? AppLocalizations.of(context)!.tr('Delete'),
             onPressed: () async {
@@ -3891,7 +3891,7 @@ class _MessengerPageState extends State<MessengerPage>
                               color: (isLight ? Colors.black : Colors.white)
                                   .withOpacity(0.2),
                             ),
-                            const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+                            SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
                             Text(
                               AppLocalizations.of(context)?.noBlockedUsers ?? AppLocalizations.of(context)!.tr('No Blocked Users'),
                               style: TextStyle(
@@ -3900,7 +3900,7 @@ class _MessengerPageState extends State<MessengerPage>
                                 color: isLight ? Colors.black : Colors.white,
                               ),
                             ),
-                            const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+                            SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                             Text(
                               AppLocalizations.of(
                                     context,
@@ -4098,7 +4098,7 @@ class _MessengerPageState extends State<MessengerPage>
             ],
           ),
 
-          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+          SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
           // Empty state for now
           Expanded(
@@ -4113,7 +4113,7 @@ class _MessengerPageState extends State<MessengerPage>
                       0.2,
                     ),
                   ),
-                  const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+                  SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
                   Text(
                     AppLocalizations.of(context)?.noDeletedUsers ?? AppLocalizations.of(context)!.tr('No deleted users'),
                     style: TextStyle(
@@ -4122,7 +4122,7 @@ class _MessengerPageState extends State<MessengerPage>
                       color: isLight ? Colors.black : Colors.white,
                     ),
                   ),
-                  const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+                  SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                   Text(
                     AppLocalizations.of(context)?.deletedUsersWillAppearHere ?? AppLocalizations.of(context)!.tr('Deleted users will appear here'),
                     style: TextStyle(
@@ -4131,7 +4131,7 @@ class _MessengerPageState extends State<MessengerPage>
                           .withOpacity(0.4),
                     ),
                   ),
-                  const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+                  SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                   Text(
                     AppLocalizations.of(context)?.deletedUsersWillAppearHere ?? AppLocalizations.of(context)!.tr('Deleted users will appear here'),
                     style: TextStyle(
@@ -4929,7 +4929,7 @@ class _MessengerPageState extends State<MessengerPage>
                   ],
                 ),
 
-                const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+                SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
                 // Content
                 Text(
@@ -4942,7 +4942,7 @@ class _MessengerPageState extends State<MessengerPage>
                   ),
                 ),
 
-                const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+                SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
                 // Buttons Row - Trade Republic Style
                 Row(
@@ -5166,7 +5166,7 @@ class _CullyAiChatPageState extends State<_CullyAiChatPage>
               ),
             ),
           ),
-          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+          SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
           TradeRepublicButton(
             label: AppLocalizations.of(context)?.delete ?? AppLocalizations.of(context)!.tr('Delete'),
             onPressed: () async {
@@ -5940,7 +5940,7 @@ class _AnimatedWelcomeState extends State<_AnimatedWelcome>
                 ),
               ),
             ),
-            const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+            SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
             FadeTransition(
               opacity: _fades[2],
               child: SlideTransition(

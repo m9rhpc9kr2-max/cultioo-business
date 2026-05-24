@@ -108,7 +108,7 @@ class _CountryPickerButton extends StatelessWidget {
           borderRadius: BorderRadius.circular(TradeRepublicTheme.radiusMedium),
         ),
         child: Row(mainAxisSize: MainAxisSize.min, children: [
-          Text(selected.flag, style: const TextStyle(fontSize: DesktopOptimizedWidgets.getFontSize() + 6,),
+          Text(selected.flag, style: TextStyle(fontSize: DesktopOptimizedWidgets.getFontSize() + 6,),
           const SizedBox(width: 6),
           Text(
               String.fromCharCode(40) + selected.code + String.fromCharCode(41),
@@ -149,7 +149,7 @@ class _CountryPickerSheet extends StatelessWidget {
                 style: TextStyle(fontSize: 17, fontWeight: FontWeight.w700, color: fg)),
           ),
         ),
-        const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+        SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
         Expanded(
           child: ListView.builder(
             padding: const EdgeInsets.symmetric(horizontal: 12),
@@ -181,7 +181,7 @@ class _CountryPickerSheet extends StatelessWidget {
             },
           ),
         ),
-        const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+        SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
       ]),
     );
   }
@@ -388,7 +388,7 @@ class _StepPage extends StatelessWidget {
           Text(subtitle, style: TextStyle(fontSize: DesktopOptimizedWidgets.getFontSize(), color: sub)),
           SizedBox(height: isDesktop ? 36 : 28),
           ...children,
-          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+          SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
         ],
       ),
     );
@@ -1055,7 +1055,7 @@ class _RegisterPageState extends State<RegisterPage> {
                             child: Center(child: _buildUsernameStatus(fg)),
                           ),
                         ]),
-                        const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+                        SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                         Row(children: [
                           Expanded(
                             child: TradeRepublicTextField(
@@ -1082,7 +1082,7 @@ class _RegisterPageState extends State<RegisterPage> {
                             ),
                           ),
                         ]),
-                        const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+                        SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                         Stack(children: [
                           TradeRepublicTextField(
                             controller: _emailCtrl,
@@ -1096,7 +1096,7 @@ class _RegisterPageState extends State<RegisterPage> {
                             child: Center(child: _buildEmailStatus(fg)),
                           ),
                         ]),
-                        const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+                        SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                         TradeRepublicTap(
                           onTap: _pickBirthdate,
                           child: AbsorbPointer(
@@ -1108,7 +1108,7 @@ class _RegisterPageState extends State<RegisterPage> {
                             ),
                           ),
                         ),
-                        const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+                        SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                         TradeRepublicTextField(
                           controller: _passwordCtrl,
                           hintText: AppLocalizations.of(context)!.tr('Password  (min. 8 characters)') ?? AppLocalizations.of(context)!.tr('Password  (min. 8 characters)'),
@@ -1135,7 +1135,7 @@ class _RegisterPageState extends State<RegisterPage> {
                           textInputAction: TextInputAction.next,
                           prefixIcon: Icon(CupertinoIcons.briefcase, size: 18, color: sub),
                         ),
-                        const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+                        SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                         TradeRepublicTextField(
                           controller: _businessDescriptionCtrl,
                           hintText: AppLocalizations.of(context)!.tr('Business description (optional)') ?? AppLocalizations.of(context)!.tr('Business description (optional)'),
@@ -1143,7 +1143,7 @@ class _RegisterPageState extends State<RegisterPage> {
                           textInputAction: TextInputAction.next,
                           prefixIcon: Icon(CupertinoIcons.doc_plaintext, size: 18, color: sub),
                         ),
-                        const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+                        SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                         Row(children: [
                           Expanded(
                             flex: 3,
@@ -1165,7 +1165,7 @@ class _RegisterPageState extends State<RegisterPage> {
                             ),
                           ),
                         ]),
-                        const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+                        SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                         Row(children: [
                           Expanded(
                             flex: 2,
@@ -1187,14 +1187,14 @@ class _RegisterPageState extends State<RegisterPage> {
                             ),
                           ),
                         ]),
-                        const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+                        SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                         TradeRepublicTextField(
                           controller: _stateCtrl,
                           hintText: AppLocalizations.of(context)!.tr('State / Region (optional)') ?? AppLocalizations.of(context)!.tr('State / Region (optional)'),
                           textCapitalization: TextCapitalization.words,
                           textInputAction: TextInputAction.next,
                         ),
-                        const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+                        SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                         Row(children: [
                           Expanded(
                             child: TradeRepublicTap(
@@ -1222,7 +1222,7 @@ class _RegisterPageState extends State<RegisterPage> {
                             ),
                           ),
                         ]),
-                        const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+                        SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                         TradeRepublicTextField(
                           controller: _websiteCtrl,
                           hintText: AppLocalizations.of(context)!.tr('Website  (optional)') ?? AppLocalizations.of(context)!.tr('Website  (optional)'),
@@ -1230,7 +1230,7 @@ class _RegisterPageState extends State<RegisterPage> {
                           textInputAction: TextInputAction.next,
                           prefixIcon: Icon(CupertinoIcons.globe, size: 18, color: sub),
                         ),
-                        const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+                        SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                         // Phone row (Pflichtfeld)
                         Row(children: [
                           _CountryPickerButton(
@@ -1249,7 +1249,7 @@ class _RegisterPageState extends State<RegisterPage> {
                             ),
                           ),
                         ]),
-                        const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+                        SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                         TradeRepublicTextField(
                           controller: _einCtrl,
                           hintText: AppLocalizations.of(context)!.tr('EIN / Tax ID  (optional)') ?? AppLocalizations.of(context)!.tr('EIN / Tax ID  (optional)'),
@@ -1306,7 +1306,7 @@ class _RegisterPageState extends State<RegisterPage> {
                             ],
                           ),
                         ),
-                        const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+                        SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
                         // Terms checkbox
                         TradeRepublicTap(
                           onTap: () => setState(() => _acceptTerms = !_acceptTerms),

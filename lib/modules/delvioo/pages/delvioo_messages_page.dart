@@ -547,7 +547,7 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
                 ],
               ),
 
-              const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+              SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
               // Subtitle
               Text(
@@ -1375,7 +1375,7 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
             ),
           ),
 
-          const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+          SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
           TradeRepublicButton(
             label: AppLocalizations.of(context)?.cancel ?? 'Cancel',
@@ -1427,7 +1427,7 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
                 color: Colors.white,
                 size: 64,
               ),
-              const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+              SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
               Text(
                 AppLocalizations.of(context)?.imageNotAvailable ??
                     'Image not available',
@@ -1462,7 +1462,7 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
                   color: Colors.white,
                   size: 64,
                 ),
-                const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+                SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
                 Text(
                   AppLocalizations.of(context)?.imageNotAvailable ??
                       'Image not available',
@@ -1987,7 +1987,7 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
               ),
               textAlign: TextAlign.center,
             ),
-            const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+            SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
             Text(
               AppLocalizations.of(context)?.startConversation ??
                   'Start a conversation with customers and group members',
@@ -2930,7 +2930,7 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
                                   color: isLight ? Colors.white : Colors.black,
                                 ),
                               ),
-                              const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+                              SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
                               Text(
                                 AppLocalizations.of(context)?.groupChat ??
                                     'Group Chat',
@@ -2941,7 +2941,7 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
                                   letterSpacing: -0.5,
                                 ),
                               ),
-                              const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+                              SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                               Text(
                                 AppLocalizations.of(
                                       context,
@@ -3448,7 +3448,7 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
                                                     : Colors.white)
                                                 .withOpacity(0.15),
                                       ),
-                                      const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+                                      SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
                                       Text(
                                         AppLocalizations.of(
                                               context,
@@ -3928,7 +3928,7 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
             ],
           ),
 
-          const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+          SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
           Text(
             AppLocalizations.of(context)?.theyWontBeAbleToSend ??
@@ -4018,7 +4018,7 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
             ),
           ),
 
-          const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+          SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
           TradeRepublicButton(
             label: AppLocalizations.of(context)?.cancel ?? 'Cancel',
@@ -4731,7 +4731,7 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
                         height: 40,
                         child: CultiooLoadingIndicator(size: 24),
                       ),
-                      const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+                      SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                       Text(
                         progress != null
                             ? '${(progress * 100).toStringAsFixed(0)}%'
@@ -4776,7 +4776,7 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
                       size: 48,
                       color: Colors.red.withOpacity(0.7),
                     ),
-                    const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+                    SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                     Text(
                       AppLocalizations.of(context)?.imageUnavailable ??
                           'Image unavailable',
@@ -4786,7 +4786,7 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
                         fontWeight: FontWeight.w600,
                       ),
                     ),
-                    const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+                    SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                     Text(
                       error.toString().contains('SocketException')
                           ? 'Network error'
@@ -5266,7 +5266,7 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
             ),
           ),
 
-          const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+          SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
           TradeRepublicButton(
             label: AppLocalizations.of(context)?.cancel ?? 'Cancel',
@@ -5323,7 +5323,7 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
                 fontWeight: FontWeight.w400,
               ),
             ),
-            const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+            SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
             // Tiles — no card wrapper, no extra background
             TradeRepublicListTile.navigation(
               title:
@@ -5457,7 +5457,7 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
             ),
           ),
 
-          const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+          SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
           TradeRepublicButton(
             label: AppLocalizations.of(context)?.cancel ?? 'Cancel',
@@ -5616,7 +5616,7 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
                           size: 56,
                           color: TradeRepublicTheme.hintColor(context),
                         ),
-                        const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+                        SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                         Text(
                           AppLocalizations.of(context)?.noPinnedChats ??
                               'No pinned chats',
@@ -5740,7 +5740,7 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
                             size: 56,
                             color: TradeRepublicTheme.hintColor(context),
                           ),
-                          const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+                          SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                           Text(
                             AppLocalizations.of(context)?.noBlockedUsers ??
                                 'No blocked users',
@@ -5861,7 +5861,7 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
                             size: 56,
                             color: TradeRepublicTheme.hintColor(context),
                           ),
-                          const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+                          SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                           Text(
                             AppLocalizations.of(context)?.noDeletedChats ??
                                 'No deleted chats',
@@ -6045,7 +6045,7 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
                         ),
                       ),
 
-                      const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+                      SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
                       // Results
                       Expanded(
@@ -6430,7 +6430,7 @@ class _DelviooMessagesPageState extends State<DelviooMessagesPage>
                                 color: (isLight ? Colors.black : Colors.white)
                                     .withOpacity(0.2),
                               ),
-                              const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+                              SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
                               Text(
                                 AppLocalizations.of(context)?.noMessagesYet ??
                                     'No messages yet',
@@ -6883,7 +6883,7 @@ class _CullyAiChatPageState extends State<_CullyAiChatPage>
                   ),
                 ],
               ),
-              const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+              SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
               Text(
                 AppLocalizations.of(context)?.deleteCullyHistoryConfirm ??
                     'Delete all CullyAI conversation history? This cannot be undone.',
@@ -6904,7 +6904,7 @@ class _CullyAiChatPageState extends State<_CullyAiChatPage>
                 isSecondary: true,
                 width: double.infinity,
               ),
-              const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+              SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
             ],
           ),
         ) ??
@@ -7495,7 +7495,7 @@ class _AnimatedWelcomeState extends State<_AnimatedWelcome>
                 ),
               ),
             ),
-            const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+            SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
             FadeTransition(
               opacity: _fades[2],
               child: SlideTransition(

@@ -257,7 +257,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
         mainAxisSize: MainAxisSize.min,
         children: [
           CultiooLoadingIndicator(),
-          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+          SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
           Text(
             AppLocalizations.of(context)?.downloadingInvoice ?? AppLocalizations.of(context)!.tr('Downloading invoice...'),
             style: TextStyle(color: isLight ? Colors.black : Colors.white),
@@ -335,7 +335,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
         mainAxisSize: MainAxisSize.min,
         children: [
           CultiooLoadingIndicator(),
-          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+          SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
           Text(
             AppLocalizations.of(context)?.downloadingInvoice ?? AppLocalizations.of(context)!.tr('Downloading document...'),
             style: TextStyle(color: isLight ? Colors.black : Colors.white),
@@ -543,7 +543,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
               ),
             ],
           ),
-          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+          SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
           Container(
             padding: const EdgeInsets.all(14),
             decoration: BoxDecoration(
@@ -622,7 +622,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
             ),
           ),
           if (errorMessage != null && errorMessage.isNotEmpty) ...[
-            const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+            SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
             Container(
               padding: const EdgeInsets.all(12),
               decoration: BoxDecoration(
@@ -2570,7 +2570,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                 color: (isLight ? Colors.black : Colors.white).withOpacity(0.4),
               ),
             ),
-          const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+          SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
           // Active badge
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
@@ -2651,7 +2651,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
               ],
             ),
 
-            const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+            SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
             Expanded(
               child: SingleChildScrollView(
@@ -3243,7 +3243,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                 ),
               ],
             ),
-            const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+            SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
             Expanded(
               child: SingleChildScrollView(
@@ -3336,7 +3336,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
               ),
             ),
 
-            const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+            SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
             // Cancel Button
             TradeRepublicButton(
@@ -3347,7 +3347,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                 closeLanguageAndSettings();
               },
             ),
-            const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+            SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
           ],
         ),
       ),
@@ -3393,7 +3393,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
         ),
         child: Row(
           children: [
-            Text(flag, style: const TextStyle(fontSize: DesktopOptimizedWidgets.getFontSize() + 10,),
+            Text(flag, style: TextStyle(fontSize: DesktopOptimizedWidgets.getFontSize() + 10,),
             const SizedBox(width: 14),
             Expanded(
               child: Column(
@@ -3487,7 +3487,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
             ],
           ),
 
-          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+          SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
           const SizedBox(height: 20),
 
@@ -3572,7 +3572,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
             }).toList(),
           ),
 
-          const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+          SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
           TradeRepublicButton(
             label: AppLocalizations.of(context)?.cancel ?? AppLocalizations.of(context)!.tr('Cancel'),
@@ -3583,7 +3583,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
               Navigator.pop(ctx);
             },
           ),
-          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+          SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
         ],
       ),
     ).whenComplete(() {
@@ -3636,7 +3636,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
             ],
           ),
 
-          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+          SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
           const SizedBox(height: 20),
 
@@ -3721,7 +3721,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
             }).toList(),
           ),
 
-          const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+          SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
           // Cancel Button - Trade Republic Style
           TradeRepublicButton(
@@ -3733,7 +3733,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
               Navigator.pop(ctx); // Close app settings modal
             },
           ),
-          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+          SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
         ],
       ),
     ).whenComplete(() {
@@ -3823,7 +3823,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                     ),
                 ],
               ),
-              const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+              SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
               // Current Group Status
               _buildCurrentGroupStatus(isLight),
@@ -3950,7 +3950,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                       overflow: TextOverflow.ellipsis,
                     ),
                     if (isInGroup) ...[
-                      const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+                      SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                       Wrap(
                         spacing: 8,
                         runSpacing: 8,
@@ -4038,7 +4038,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Icon(icon, color: isLight ? Colors.black : Colors.white, size: 22),
-          const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+          SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
           Text(
             title.toUpperCase(),
             style: TextStyle(
@@ -4319,7 +4319,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
 
         // Show recent followers if any
         if (followers.isNotEmpty) ...[
-          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+          SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
           TradeRepublicCard(
             padding: DesktopAppWrapper.getPagePadding(),
             child: Column(
@@ -4335,7 +4335,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                     ),
                   ),
                 ),
-                const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+                SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                 SizedBox(
                   height: 60,
                   child: ListView.builder(
@@ -4568,7 +4568,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
             ),
           ),
 
-          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+          SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
           // Status Badge - Delvioo style
           Container(
@@ -4609,7 +4609,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
             ),
           ),
 
-          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+          SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
           // Information Box - Delvioo style
           Container(
@@ -4654,7 +4654,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
             ),
           ),
 
-          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+          SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
           // Action Button - Delvioo style
           TradeRepublicButton(
@@ -4800,7 +4800,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
             ],
           ),
 
-          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+          SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
           const SizedBox(height: 32),
 
@@ -4840,7 +4840,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                   ),
           ),
 
-          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+          SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
           // Description
           Text(
@@ -4865,7 +4865,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
             },
           ),
 
-          const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+          SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
           // Camera button - minimalist secondary
           TradeRepublicButton(
@@ -4880,7 +4880,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
 
           if (userData?['profilePic'] != null &&
               userData!['profilePic'].toString().trim().isNotEmpty) ...[
-            const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+            SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
             // Remove button - minimalist red
             TradeRepublicButton(
@@ -5124,7 +5124,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                   ],
                 ),
 
-                const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+                SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
                 const SizedBox(height: 32),
 
@@ -5148,7 +5148,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                                 color: isLight ? Colors.black : Colors.white,
                               ),
                             ),
-                            const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+                            SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
                             _buildEditableBusinessField(
                               AppLocalizations.of(context)?.businessName ??
                                   AppLocalizations.of(context)?.businessName ?? AppLocalizations.of(context)!.tr('Business Name'),
@@ -5180,7 +5180,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                           ],
                         ),
 
-                        const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+                        SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
                         // Business Address Section
                         Column(
@@ -5194,7 +5194,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                                 color: isLight ? Colors.black : Colors.white,
                               ),
                             ),
-                            const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+                            SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
                             // Street and House Number
                             Row(
@@ -5278,7 +5278,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                                                     .withOpacity(0.8),
                                           ),
                                         ),
-                                        const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+                                        SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                                         TradeRepublicTap(
                                           onTap: () {
                                             _showCountrySelection(
@@ -5345,7 +5345,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                           ],
                         ),
 
-                        const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+                        SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
                         // Business Size Section
                         Column(
@@ -5359,7 +5359,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                                 color: isLight ? Colors.black : Colors.white,
                               ),
                             ),
-                            const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+                            SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
                             TradeRepublicTap(
                               onTap: () {
                                 _showBusinessSizeSelection(
@@ -5408,7 +5408,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                           ],
                         ),
 
-                        const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+                        SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
                         // Privacy & Visibility Settings Section - Header
                         Padding(
@@ -5427,7 +5427,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                                 ),
                               ),
 
-                              const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+                              SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
                               Text(
                                 AppLocalizations.of(
@@ -5952,7 +5952,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                           ),
                         ],
                       ),
-                      const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+                      SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                       Expanded(
                         child: CupertinoTheme(
                           data: CupertinoThemeData(
@@ -6007,7 +6007,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                   ),
                 ],
               ),
-              const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+              SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
               Text(
                 currentEditPage == 0
                     ? 'Personal details'
@@ -6022,7 +6022,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                   ),
                 ),
               ),
-              const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+              SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: List.generate(3, (index) {
@@ -6063,14 +6063,14 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                             CupertinoIcons.person_fill,
                             isLight,
                           ),
-                          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+                          SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
                           _buildEditableTextField(
                             AppLocalizations.of(context)?.lastName ?? AppLocalizations.of(context)!.tr('Last Name'),
                             lastNameController,
                             CupertinoIcons.person,
                             isLight,
                           ),
-                          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+                          SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
                           _buildEditableTextField(
                             AppLocalizations.of(context)?.email ?? AppLocalizations.of(context)!.tr('Email'),
                             emailController,
@@ -6078,7 +6078,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                             isLight,
                             keyboardType: TextInputType.emailAddress,
                           ),
-                          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+                          SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
                           TradeRepublicTap(
                             onTap: openBirthdatePicker,
                             child: AbsorbPointer(
@@ -6090,7 +6090,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                               ),
                             ),
                           ),
-                          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+                          SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
                           Container(
                             padding: DesktopAppWrapper.getPagePadding(),
                             decoration: BoxDecoration(
@@ -6110,7 +6110,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                                             .withOpacity(0.5),
                                   ),
                                 ),
-                                const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+                                SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                                 Row(
                                   children: [
                                     Flexible(
@@ -6153,8 +6153,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                                                   orElse: () =>
                                                       countryCodes.first,
                                                 )['flag']!,
-                                                style: const TextStyle(
-                                                  fontSize: DesktopOptimizedWidgets.getFontSize() + 6,
+                                                style: TextStyle(fontSize: DesktopOptimizedWidgets.getFontSize() + 6,
                                                 ),
                                               ),
                                               const SizedBox(width: 8),
@@ -6218,14 +6217,14 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                             CupertinoIcons.building_2_fill,
                             isLight,
                           ),
-                          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+                          SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
                           _buildEditableTextField(
                             AppLocalizations.of(context)?.businessDescription ?? AppLocalizations.of(context)!.tr('Business Description'),
                             businessDescriptionController,
                             Icons.description,
                             isLight,
                           ),
-                          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+                          SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
                           _buildEditableTextField(
                             AppLocalizations.of(context)?.businessWebsite ?? AppLocalizations.of(context)!.tr('Business Website'),
                             businessWebsiteController,
@@ -6233,7 +6232,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                             isLight,
                             keyboardType: TextInputType.url,
                           ),
-                          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+                          SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
                           Row(
                             children: [
                               Expanded(
@@ -6257,7 +6256,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                               ),
                             ],
                           ),
-                          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+                          SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
                           Row(
                             children: [
                               Expanded(
@@ -6279,14 +6278,14 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                               ),
                             ],
                           ),
-                          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+                          SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
                           _buildEditableTextField(
                             AppLocalizations.of(context)?.state ?? AppLocalizations.of(context)!.tr('State / Region'),
                             stateController,
                             Icons.map_outlined,
                             isLight,
                           ),
-                          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+                          SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
                           TradeRepublicTap(
                             onTap: () {
                               _showCountrySelection(
@@ -6359,7 +6358,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                               ),
                             ),
                           ),
-                          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+                          SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
                           TradeRepublicTap(
                             onTap: () {
                               _showBusinessSizeSelection(
@@ -6676,7 +6675,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
               color: (isLight ? Colors.black : Colors.white).withOpacity(0.5),
             ),
           ),
-          const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+          SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
           TradeRepublicTextField(
             controller: controller,
             keyboardType: keyboardType,
@@ -6730,7 +6729,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
             ],
           ),
 
-          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+          SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
           const SizedBox(height: 20),
 
@@ -6765,7 +6764,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                       children: [
                         Text(
                           country['flag']!,
-                          style: const TextStyle(fontSize: DesktopOptimizedWidgets.getFontSize() + 10,,
+                          style: TextStyle(fontSize: DesktopOptimizedWidgets.getFontSize() + 10,,
                         ),
                         const SizedBox(width: 16),
                         Text(
@@ -6856,7 +6855,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                       ],
                     ),
 
-                    const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+                    SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
                     const SizedBox(height: 20),
 
@@ -6870,7 +6869,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                             .withOpacity(0.5),
                       ),
                     ),
-                    const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+                    SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
                     _buildSecurityToggle(
                       AppLocalizations.of(context)?.twoFactorAuthentication ??
@@ -6919,7 +6918,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                             .withOpacity(0.5),
                       ),
                     ),
-                    const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+                    SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
                     _buildSecurityActionItem(
                       AppLocalizations.of(context)?.activeSessions ?? AppLocalizations.of(context)!.tr('Active Sessions'),
@@ -6948,7 +6947,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                         color: Colors.red.withOpacity(0.8),
                       ),
                     ),
-                    const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+                    SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
                     _buildSecurityActionItem(
                       AppLocalizations.of(context)?.deleteAccount ?? AppLocalizations.of(context)!.tr('Delete Account'),
@@ -6959,7 +6958,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                       isDestructive: true,
                     ),
 
-                    const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+                    SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
                   ],
                 ),
               ),
@@ -7000,7 +6999,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
             height: 24,
             child: CultiooLoadingIndicator(size: 20),
           ),
-          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+          SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
           Text(
             AppLocalizations.of(context)?.loading ?? AppLocalizations.of(context)!.tr('Loading...'),
             style: TextStyle(
@@ -7009,7 +7008,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
               fontWeight: FontWeight.w500,
             ),
           ),
-          const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+          SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
         ],
       ),
     );
@@ -7067,7 +7066,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                         ),
                       ],
                     ),
-                    const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+                    SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                     Container(
                       padding: const EdgeInsets.symmetric(
                         horizontal: 12,
@@ -7131,7 +7130,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                       ),
                     ),
 
-                    const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+                    SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
                     // Stats Row - minimalist
                     Row(
@@ -7196,7 +7195,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                           letterSpacing: -0.2,
                         ),
                       ),
-                      const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+                      SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
                       // Total deductions summary
                       Container(
@@ -7232,7 +7231,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                           ],
                         ),
                       ),
-                      const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+                      SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
                       // Individual deduction entries
                       ...waitingChargeDeductions.map((charge) {
@@ -7386,7 +7385,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                           letterSpacing: -0.2,
                         ),
                       ),
-                      const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+                      SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
                       FutureBuilder<List<Map<String, dynamic>>>(
                         future: _loadGroupMemberEarnings(),
                         builder: (context, snapshot) {
@@ -7582,7 +7581,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                         letterSpacing: -0.2,
                       ),
                     ),
-                    const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+                    SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
                     // Option 1: Saved Bank Account / Card
                     (() {
@@ -7649,7 +7648,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                             enabled: hasBankFallback,
                           ),
                           if (!hasBankFallback) ...[
-                            const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+                            SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                             Padding(
                               padding: const EdgeInsets.symmetric(horizontal: 4),
                               child: Row(
@@ -7707,7 +7706,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                       ),
                     ),
 
-                    const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+                    SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
                     // Payout Schedule - TradeRepublicSlider Style
                     TradeRepublicSliderExpanded(
@@ -7746,7 +7745,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                       horizontalPadding: 0,
                     ),
 
-                    const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+                    SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
                     // Description for selected schedule
                     Padding(
@@ -7805,7 +7804,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                       ],
                     ),
 
-                    const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+                    SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
                     // Animated content transition
                     AnimatedSwitcher(
@@ -7922,7 +7921,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                               letterSpacing: -0.2,
                             ),
                           ),
-                          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+                          SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
                           if (shippingPayments.isEmpty)
                             Container(
                               padding: DesktopAppWrapper.getPagePadding(),
@@ -8064,7 +8063,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                                 ),
                               );
                             }),
-                          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+                          SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
                         ],
                       );
                     })(),
@@ -8109,7 +8108,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                       ),
                     ),
 
-                    const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+                    SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
                     // Bank Account Card (max 1, for payouts)
                     FutureBuilder<List<Map<String, dynamic>>>(
@@ -8303,7 +8302,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                                               maskedNumber,
                                               style: const TextStyle(fontSize: 22, fontWeight: FontWeight.w600, color: Colors.white, letterSpacing: 2.5),
                                             ),
-                                            const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+                                            SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                                             Row(
                                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                               children: [
@@ -8317,7 +8316,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                                                     const SizedBox(height: 2),
                                                     Text(
                                                       bankName.toUpperCase(),
-                                                      style: const TextStyle(fontSize: DesktopOptimizedWidgets.getFontSize(), fontWeight: FontWeight.w600, color: Colors.white, letterSpacing: 0.5),
+                                                      style: TextStyle(fontSize: DesktopOptimizedWidgets.getFontSize(), fontWeight: FontWeight.w600, color: Colors.white, letterSpacing: 0.5),
                                                     ),
                                                   ],
                                                 ),
@@ -8426,7 +8425,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                       ),
                     ),
 
-                    const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+                    SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
                     // Cards List
                     FutureBuilder<List<Map<String, dynamic>>>(
@@ -8659,7 +8658,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                   color: textColor.withOpacity(0.07),
                   margin: EdgeInsets.zero,
                 ),
-                const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+                SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
                 Text(
                   l10n.tr('walletRecentLabel'),
                   style: TextStyle(
@@ -8674,7 +8673,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                     .take(4)
                     .map((tx) => _buildWalletTxRow(tx, isLight)),
               ] else ...[
-                const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+                SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
                 Center(
                   child: Text(
                     l10n.tr('walletNoTransactionsYet'),
@@ -9115,8 +9114,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                       ),
                       Text(
                         _formatCurrency(_walletBalance),
-                        style: const TextStyle(
-                          fontSize: DesktopOptimizedWidgets.getFontSize() + 6,
+                        style: TextStyle(fontSize: DesktopOptimizedWidgets.getFontSize() + 6,
                           fontWeight: FontWeight.w700,
                           color: Color(0xFF22C55E),
                           letterSpacing: -0.5,
@@ -9128,7 +9126,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
 
                 if (sheetState == 'browser_opened') ...[
                   // ── State: browser opened, waiting for payment ──────────
-                  const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+                  SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
                   TradeRepublicCard(
                     backgroundColor: const Color(0xFF22C55E).withOpacity(0.06),
                     padding: DesktopAppWrapper.getPagePadding(),
@@ -9139,7 +9137,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                           size: 40,
                           color: Color(0xFF22C55E),
                         ),
-                        const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+                        SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                         Text(
                           l10n.tr('walletPaymentOpenedTitle'),
                           style: TextStyle(
@@ -9149,7 +9147,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                           ),
                           textAlign: TextAlign.center,
                         ),
-                        const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+                        SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                         Text(
                           l10n.tr('walletPaymentOpenedSubtitle'),
                           style: TextStyle(
@@ -9162,7 +9160,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                       ],
                     ),
                   ),
-                  const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+                  SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
                   Row(
                     children: [
                       Expanded(
@@ -9239,7 +9237,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                       isFormattingAmount = false;
                     },
                   ),
-                  const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+                  SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
                   // Quick amounts
                   Row(
@@ -9431,7 +9429,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                                         ),
                                     ],
                                   ),
-                                  const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+                                  SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                                   Text(
                                     label,
                                     style: TextStyle(
@@ -9582,7 +9580,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                     ),
                   ),
                 ],
-                const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+                SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
               ],
             ),
           );
@@ -9614,7 +9612,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
               size: 44,
               color: Colors.orange.shade500,
             ),
-            const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+            SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
             Text(
               l10n.tr('walletAuthorizeShippingTitle'),
               style: TextStyle(
@@ -9648,7 +9646,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                     : Colors.red.shade400,
               ),
             ),
-            const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+            SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
             Row(
               children: [
                 Expanded(
@@ -9972,7 +9970,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
               size: 40,
               color: isLight ? Colors.black : Colors.white,
             ),
-            const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+            SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
             Text(
               title,
               textAlign: TextAlign.center,
@@ -10288,7 +10286,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                         ),
                       ],
                     ),
-                    const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+                    SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                     Text(
                       AppLocalizations.of(context)?.confirmPayoutDetailsDesc ?? AppLocalizations.of(context)!.tr('Confirm your payout details'),
                       style: TextStyle(
@@ -10369,7 +10367,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                       },
                     ),
 
-                    const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+                    SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
                     // Cancel button
                     TradeRepublicButton(
@@ -10636,7 +10634,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                         isLight,
                       ),
 
-                    const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+                    SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
                     // Time Breakdown Section
                     Text(
@@ -10682,7 +10680,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                       _invoiceRow('Check-Out', fmtTime(checkOut), isLight),
                     ],
 
-                    const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+                    SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
                     // Cost Calculation Section
                     Text(
@@ -10711,9 +10709,9 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                       isLight,
                     ),
 
-                    const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+                    SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                     const TradeRepublicDivider(),
-                    const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+                    SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
                     // Total
                     Row(
@@ -10739,7 +10737,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                       ],
                     ),
 
-                    const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+                    SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
                     // Info note
                     Container(
@@ -10869,8 +10867,8 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                   ],
                 ),
 
-                const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
-                const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+                SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+                SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                 Text(
                   AppLocalizations.of(context)?.withdrawYourBalance ?? AppLocalizations.of(context)!.tr('Withdraw your available balance now'),
                   style: TextStyle(
@@ -10916,12 +10914,12 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                           ),
                         ],
                       ),
-                      const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+                      SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
                       TradeRepublicDivider(
                         color: (isLight ? Colors.black : Colors.white)
                             .withOpacity(0.1),
                       ),
-                      const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+                      SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
                       // Fee
                       Row(
@@ -10947,12 +10945,12 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                           ),
                         ],
                       ),
-                      const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+                      SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
                       TradeRepublicDivider(
                         color: (isLight ? Colors.black : Colors.white)
                             .withOpacity(0.1),
                       ),
-                      const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+                      SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
                       // Net Amount
                       Row(
@@ -11013,7 +11011,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                   ),
                 ),
 
-                const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+                SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
                 // Payout Button
                 TradeRepublicButton(
@@ -11029,7 +11027,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                       : null,
                 ),
 
-                const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+                SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
               ],
             ),
           ),
@@ -11215,7 +11213,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                     ),
                   ),
                 ),
-                const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+                SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
                 Text(
                   AppLocalizations.of(context)?.noBankAccounts ?? AppLocalizations.of(context)!.tr('No Bank Accounts'),
                   style: TextStyle(
@@ -11224,7 +11222,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                     color: isLight ? Colors.black : Colors.white,
                   ),
                 ),
-                const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+                SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                 Text(
                   AppLocalizations.of(context)?.addBankAccountDesc ?? AppLocalizations.of(context)!.tr('Add a bank account to receive your earnings'),
                   textAlign: TextAlign.center,
@@ -11589,7 +11587,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                       ],
                     ),
 
-                    const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+                    SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
                     Text(
                       AppLocalizations.of(context)?.addBankAccountForPayouts ?? AppLocalizations.of(context)!.tr('Add or update your payout bank account'),
                       style: TextStyle(
@@ -11682,7 +11680,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                                     ),
                                   ],
                                 ),
-                                const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+                                SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
                                 // ACH/SEPA Toggle
                                 TradeRepublicSlider(
@@ -11723,7 +11721,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                                     color: isLight ? Colors.black : Colors.white,
                                   ),
                                 ),
-                                const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+                                SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
                                 // USA System Fields
                                 if (isUSASystem) ...[
@@ -11852,7 +11850,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                                     color: isLight ? Colors.black : Colors.white,
                                   ),
                                 ),
-                                const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+                                SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
                                 _buildPaymentField(
                                   'Card Number',
                                   '1234 5678 9012 3456',
@@ -11932,7 +11930,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                               ],
                             ),
                           ),
-                          const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+                          SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                         ],
 
                         // Security Notice
@@ -12043,7 +12041,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
               color: (isLight ? Colors.black : Colors.white).withOpacity(0.7),
             ),
           ),
-          const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+          SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
           TradeRepublicTextField(
             controller: controller,
             keyboardType: keyboardType,
@@ -12646,7 +12644,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
               ],
             ),
 
-            const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+            SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
             // Explanation
             Container(
@@ -12678,7 +12676,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                       height: 1.45,
                     ),
                   ),
-                  const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+                  SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                   Text(
                     AppLocalizations.of(context)!.tr('Was wird benötigt:'),
                     style: TextStyle(
@@ -12908,7 +12906,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
             ],
           ),
 
-          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+          SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
           const SizedBox(height: 32),
 
@@ -13025,7 +13023,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                         _completeTaxFormViaStripe('w9', stripeAccountId),
                   ),
 
-                  const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+                  SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
                   // W-8BEN Form
                   _buildTaxFormOption(
@@ -13044,7 +13042,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                         _completeTaxFormViaStripe('w8ben', stripeAccountId),
                   ),
 
-                  const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+                  SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
                   // W-8BEN-E Form
                   _buildTaxFormOption(
@@ -13074,7 +13072,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                       color: isLight ? Colors.black : Colors.white,
                     ),
                   ),
-                  const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+                  SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                   Text(
                     AppLocalizations.of(context)?.irsRequiresTaxInfo ?? AppLocalizations.of(context)!.tr('The IRS requires tax information for all businesses receiving payments. This form helps determine your tax obligations and ensures compliance with U.S. tax laws.\\\\n\\\\n• W-9: For U.S. taxpayers (SSN or EIN)\\\\n• W-8BEN: For foreign individuals\\\\n• W-8BEN-E: For foreign companies'),
                     style: TextStyle(
@@ -13085,7 +13083,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                     ),
                   ),
 
-                  const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+                  SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
                   // Powered by Stripe
                   Center(
@@ -13318,7 +13316,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
             ],
           ),
 
-          const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+          SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
           // Description
           Text(
@@ -13330,7 +13328,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
             textAlign: TextAlign.center,
           ),
 
-          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+          SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
           // URL Container
           Container(
@@ -13359,7 +13357,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
             ),
           ),
 
-          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+          SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
           // Action Button - minimalist
           TradeRepublicButton(
@@ -13400,7 +13398,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
             },
           ),
 
-          const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+          SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
           // Cancel Button - minimalist
           TradeRepublicButton(
@@ -13413,7 +13411,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
             },
           ),
 
-          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+          SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
         ],
       ),
     ).whenComplete(() => NavigationVisibility.show());
@@ -13577,7 +13575,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                   ),
                   textAlign: TextAlign.center,
                 ),
-                const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+                SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
                 Text(
                   state == 'success'
@@ -13601,7 +13599,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
 
                 // ── Issues list ──────────────────────────────────────────
                 if (state == 'incomplete' && issues.isNotEmpty) ...[
-                  const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+                  SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
                   Container(
                     width: double.infinity,
                     padding: DesktopAppWrapper.getPagePadding(),
@@ -13666,7 +13664,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                       ],
                     ),
                   ),
-                  const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+                  SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                   Text(
                     loc?.stripeEmailSentHint ?? AppLocalizations.of(context)!.tr('An email with these details was sent to your address.'),
                     style: TextStyle(
@@ -13678,7 +13676,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                   ),
                 ],
 
-                const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+                SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
                 // ── Buttons ──────────────────────────────────────────────
                 if (state == 'success') ...[
@@ -13823,9 +13821,9 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                   ],
                 ),
 
-                const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+                SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
-                const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+                SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
                 // Stats Row
                 Row(
@@ -13896,7 +13894,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                   ],
                 ),
 
-                const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+                SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
                 // Followers List with swipe-to-remove
                 Expanded(
@@ -13911,7 +13909,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                                 color: (isLight ? Colors.black : Colors.white)
                                     .withOpacity(0.2),
                               ),
-                              const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+                              SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
                               Text(
                                 AppLocalizations.of(context)?.noFollowersYet ?? AppLocalizations.of(context)!.tr('No followers yet'),
                                 style: TextStyle(
@@ -13921,7 +13919,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                                       .withOpacity(0.5),
                                 ),
                               ),
-                              const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+                              SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                               Text(
                                 AppLocalizations.of(
                                       context,
@@ -14043,8 +14041,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
         child: Center(
           child: Text(
             initial,
-            style: const TextStyle(
-              fontSize: DesktopOptimizedWidgets.getFontSize() + 6,
+            style: TextStyle(fontSize: DesktopOptimizedWidgets.getFontSize() + 6,
               fontWeight: FontWeight.w700,
               color: Colors.white,
             ),
@@ -14085,8 +14082,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
             child: Center(
               child: Text(
                 initial,
-                style: const TextStyle(
-                  fontSize: DesktopOptimizedWidgets.getFontSize() + 6,
+                style: TextStyle(fontSize: DesktopOptimizedWidgets.getFontSize() + 6,
                   fontWeight: FontWeight.w700,
                   color: Colors.white,
                 ),
@@ -14266,7 +14262,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                   ],
                 ),
 
-                const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+                SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
                 const SizedBox(height: 32),
 
@@ -14279,7 +14275,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                   size: 64,
                 ),
 
-                const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+                SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
                 // Description
                 Text(
@@ -14308,7 +14304,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                   },
                 ),
 
-                const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+                SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
                 // Cancel button - minimalist
                 TradeRepublicButton(
@@ -14451,7 +14447,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
               color: (isLight ? Colors.black : Colors.white).withOpacity(0.8),
             ),
           ),
-          const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+          SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
           TradeRepublicTextField(
             controller: controller,
             maxLines: maxLines,
@@ -14620,7 +14616,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
             ],
           ),
 
-          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+          SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
           const SizedBox(height: 4),
           Expanded(
@@ -14728,9 +14724,9 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
             ],
           ),
 
-          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+          SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
-          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+          SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
           Expanded(
             child: ListView.builder(
               itemCount: sizeOptions.length,
@@ -15306,7 +15302,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                 ],
               ),
 
-              const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+              SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
               Flexible(
                 child: SingleChildScrollView(
@@ -15327,7 +15323,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                         ),
                       ),
 
-                      const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+                      SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
                       // New Password
                       _buildPasswordField(
@@ -15341,7 +15337,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                         ),
                       ),
 
-                      const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+                      SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
                       // Confirm Password
                       _buildPasswordField(
@@ -15356,7 +15352,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                         ),
                       ),
 
-                      const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+                      SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
                       // Requirements - minimalist
                       Text(
@@ -15373,7 +15369,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                 ),
               ),
 
-              const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+              SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
               // Change button - minimalist
               TradeRepublicButton(
@@ -15390,7 +15386,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                 },
               ),
 
-              const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+              SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
               // Cancel button - minimalist
               TradeRepublicButton(
@@ -15430,7 +15426,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
             color: (isLight ? Colors.black : Colors.white).withOpacity(0.5),
           ),
         ),
-        const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+        SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
         TradeRepublicTextField(
           controller: controller,
           obscureText: obscureText,
@@ -15631,7 +15627,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                 ],
               ),
 
-              const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+              SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
               const SizedBox(height: 6),
 
@@ -15669,7 +15665,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                                 size: 40,
                                 color: Colors.red,
                               ),
-                              const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+                              SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
                               Text(
                                 AppLocalizations.of(
                                       context,
@@ -15697,7 +15693,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                                 color: (isLight ? Colors.black : Colors.white)
                                     .withOpacity(0.3),
                               ),
-                              const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+                              SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
                               Text(
                                 AppLocalizations.of(
                                       context,
@@ -16295,7 +16291,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
             ],
           ),
 
-          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+          SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
           const SizedBox(height: 6),
 
@@ -16470,9 +16466,9 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                 ],
               ),
 
-              const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+              SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
-              const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+              SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
               // Subtitle
               Text(
@@ -16521,7 +16517,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                         ),
                       ),
 
-                      const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+                      SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
                       TradeRepublicTextField(
                         controller: passwordController,
@@ -16556,7 +16552,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                 ),
               ),
 
-              const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+              SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
               // Delete button - minimalist red
               TradeRepublicButton(
@@ -16570,7 +16566,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                 },
               ),
 
-              const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+              SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
               // Cancel button - minimalist
               TradeRepublicButton(
@@ -16737,7 +16733,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                     ],
                   ),
 
-                  const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+                  SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
                   Text(
                     AppLocalizations.of(context)?.addExtraLayerSecurity ?? AppLocalizations.of(context)!.tr('Add an extra layer of security to your account.'),
@@ -16760,7 +16756,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                           .withOpacity(0.7),
                     ),
                   ),
-                  const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+                  SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                   TradeRepublicTextField(
                     controller: twoFACodeController,
                     keyboardType: TextInputType.number,
@@ -16790,7 +16786,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                           .withOpacity(0.7),
                     ),
                   ),
-                  const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+                  SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                   TradeRepublicTextField(
                     controller: passwordController,
                     obscureText: obscurePassword,
@@ -16840,7 +16836,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                     },
                   ),
 
-                  const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+                  SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
                   // Cancel button
                   TradeRepublicButton(
@@ -17310,7 +17306,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
             ],
           ),
 
-          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+          SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
           const SizedBox(height: 20),
 
@@ -17448,7 +17444,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                       isLight,
                     ),
 
-                    const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+                    SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                   ],
 
                   // Cancel button (like in settings)
@@ -17496,7 +17492,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
             highlight: isOwner,
           ),
 
-          const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+          SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
           // Group Name with Role
           Row(
@@ -17538,7 +17534,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
             ],
           ),
 
-          const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+          SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
           // Group Code and Member Count
           Row(
@@ -17764,7 +17760,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
             ],
           ),
 
-          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+          SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
           const SizedBox(height: 20),
 
@@ -17968,7 +17964,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
             ],
           ),
 
-          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+          SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
           const SizedBox(height: 20),
 
@@ -18049,7 +18045,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
               ],
             ),
 
-            const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+            SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
             const SizedBox(height: 32),
 
@@ -18066,7 +18062,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                             .withOpacity(0.7),
                       ),
                     ),
-                    const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+                    SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
                     ...eligibleMembers.map((member) {
                       final usernameHandle = _formatUsernameHandle(
                         member['username'] ?? member['userId'],
@@ -18144,7 +18140,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
               ),
             ),
 
-            const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+            SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
             // Cancel button
             TradeRepublicButton(
@@ -18195,9 +18191,9 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
               ],
             ),
 
-            const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+            SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
-            const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+            SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
             // Subtitle
             Text(
@@ -18218,7 +18214,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
               size: 64,
             ),
 
-            const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+            SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
             // Description
             Text(
@@ -18246,7 +18242,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
               },
             ),
 
-            const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+            SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
             // Cancel button - minimalist
             TradeRepublicButton(
@@ -18395,7 +18391,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                 ],
               ),
 
-              const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+              SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
               const SizedBox(height: 32),
 
@@ -18431,7 +18427,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                             : null,
                       ),
 
-                      const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+                      SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
                       _buildGroupInputField(
                         controller: groupNameController,
@@ -18508,7 +18504,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                         },
                       ),
 
-                      const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+                      SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
                       // Cancel button - minimalist
                       TradeRepublicButton(
@@ -18564,7 +18560,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
               ],
             ),
 
-            const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+            SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
             const SizedBox(height: 20),
 
@@ -18590,7 +18586,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
               },
             ),
 
-            const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+            SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
             // Cancel button - minimalist
             TradeRepublicButton(
@@ -18637,7 +18633,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
             ],
           ),
 
-          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+          SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
           const SizedBox(height: 20),
 
@@ -18653,7 +18649,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                       0.3,
                     ),
                   ),
-                  const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+                  SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
                   Text(
                     AppLocalizations.of(context)?.comingSoon ?? AppLocalizations.of(context)!.tr('Coming Soon!'),
                     style: TextStyle(
@@ -18662,7 +18658,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                       color: isLight ? Colors.black : Colors.white,
                     ),
                   ),
-                  const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+                  SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                   Text(
                     AppLocalizations.of(context)?.groupDiscoveryComingSoon ?? AppLocalizations.of(context)!.tr('Group discovery feature will be available soon.'),
                     textAlign: TextAlign.center,
@@ -18723,9 +18719,9 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
               ],
             ),
 
-            const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+            SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
-            const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+            SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
             // Group name
             Text(
@@ -18746,7 +18742,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
               size: 64,
             ),
 
-            const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+            SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
             // Description
             Text(
@@ -18773,7 +18769,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
               },
             ),
 
-            const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+            SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
             // Cancel button - minimalist
             TradeRepublicButton(
@@ -18827,7 +18823,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
               ],
             ),
 
-            const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+            SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
             const SizedBox(height: 32),
 
@@ -18845,7 +18841,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
               },
             ),
 
-            const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+            SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
             // Gallery Option
             _buildGroupModalOption(
@@ -18862,7 +18858,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
               },
             ),
 
-            const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+            SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
             // Cancel button
             TradeRepublicButton(
@@ -18963,9 +18959,9 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                 ],
               ),
 
-              const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+              SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
-              const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+              SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
               // Content
               Text(
@@ -19178,9 +19174,9 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                 ],
               ),
 
-              const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+              SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
-              const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+              SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
               // Content
               Text(
@@ -19445,7 +19441,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                   ),
                 ),
 
-                const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+                SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
                 // Group Code Display
                 Column(
@@ -19482,7 +19478,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                   ],
                 ),
 
-                const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+                SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
                 // Action Button - minimalist
                 TradeRepublicButton(
@@ -19494,7 +19490,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                   },
                 ),
 
-                const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+                SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
               ],
             ),
           ),
@@ -19593,7 +19589,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                   : (isLight ? Colors.black : Colors.white).withOpacity(0.5),
             ),
           ),
-          const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+          SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
           TradeRepublicTextField(
             controller: controller,
             maxLines: maxLines,
@@ -19668,7 +19664,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
               ],
             ),
 
-            const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+            SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
             const SizedBox(height: 32),
 
@@ -19679,7 +19675,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
               color: Colors.red.withOpacity(0.8),
             ),
 
-            const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+            SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
             Text(
               AppLocalizations.of(context)?.deleteBankAccountConfirm ?? AppLocalizations.of(context)!.tr('Are you sure you want to delete this bank account?\\\\nThis action cannot be undone.'),
@@ -19707,7 +19703,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
               },
             ),
 
-            const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+            SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
             // Cancel button - minimalist
             TradeRepublicButton(
@@ -19757,7 +19753,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
               ],
             ),
 
-            const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+            SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
             // Description
             Text(
@@ -19974,8 +19970,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                       ),
                       child: Text(
                         '+${_formatCurrency(amount)}',
-                        style: const TextStyle(
-                          fontSize: DesktopOptimizedWidgets.getFontSize(),
+                        style: TextStyle(fontSize: DesktopOptimizedWidgets.getFontSize(),
                           fontWeight: FontWeight.w800,
                           color: Colors.white,
                           letterSpacing: -0.3,
@@ -19984,7 +19979,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                     ),
                   ],
                 ),
-                const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+                SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                 Text(
                   description,
                   style: TextStyle(
@@ -20121,7 +20116,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                             .withOpacity(0.7),
                       ),
                     ),
-                    const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+                    SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                     Text(
                       _formatCurrency(
                         earningsData['totalEarnings'] is String
@@ -20146,7 +20141,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
             ),
           ),
 
-          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+          SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
           // Earnings list
           Expanded(
@@ -20161,7 +20156,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                           color: (isLight ? Colors.black : Colors.white)
                               .withOpacity(0.3),
                         ),
-                        const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+                        SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
                         Text(
                           AppLocalizations.of(context)?.noEarningsYet ?? AppLocalizations.of(context)!.tr('No earnings yet'),
                           style: TextStyle(
@@ -20171,7 +20166,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                                 .withOpacity(0.5),
                           ),
                         ),
-                        const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+                        SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                         Text(
                           '${AppLocalizations.of(context)?.earningsWillAppearHere ?? AppLocalizations.of(context)!.tr('Your earnings will appear here')}\n${AppLocalizations.of(context)?.onceYouStartDeliveries ?? AppLocalizations.of(context)!.tr('once you start making deliveries')}',
                           textAlign: TextAlign.center,
@@ -20194,7 +20189,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
                   ),
           ),
 
-          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+          SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
         ],
       ),
     ).whenComplete(() => NavigationVisibility.show());
@@ -20231,7 +20226,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
               color: isLight ? Colors.black : Colors.white,
             ),
           ),
-          const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+          SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
           Text(
             AppLocalizations.of(context)?.sessionExpiredDesc ?? AppLocalizations.of(context)!.tr('Your session has expired for security reasons. Please log in again to continue.'),
             textAlign: TextAlign.center,
@@ -20240,7 +20235,7 @@ class _BusinessAccountPageState extends State<BusinessAccountPage>
               color: (isLight ? Colors.black : Colors.white).withOpacity(0.6),
             ),
           ),
-          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+          SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
           SizedBox(
             width: double.infinity,
             child: TradeRepublicButton(

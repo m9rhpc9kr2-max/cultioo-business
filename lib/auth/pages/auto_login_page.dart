@@ -250,7 +250,7 @@ class _AutoLoginPageState extends State<AutoLoginPage> {
               )),
             ],
           ),
-          const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+          SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
           // Subtitle with Account Type
           Text(
@@ -345,7 +345,7 @@ class _AutoLoginPageState extends State<AutoLoginPage> {
             ],
           ),
 
-          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+          SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
           // Action buttons - Uber/Trade Republic Style
           Row(
@@ -407,7 +407,7 @@ class _AutoLoginPageState extends State<AutoLoginPage> {
               ),
             ],
           ),
-          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+          SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
         ],
       ),
     );
@@ -577,7 +577,7 @@ class _AutoLoginPageState extends State<AutoLoginPage> {
                   )),
                 ],
               ),
-              const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+              SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
               Text(
                 AppLocalizations.of(context)?.authenticateWithPassword ?? 'Authenticate with your password',
@@ -589,7 +589,7 @@ class _AutoLoginPageState extends State<AutoLoginPage> {
                   ),
                 ),
               ),
-              const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+              SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
               TradeRepublicTextField.password(
                 controller: _passwordController,
@@ -602,7 +602,7 @@ class _AutoLoginPageState extends State<AutoLoginPage> {
                   }
                 },
               ),
-              const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+              SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
               Row(
                 children: [
@@ -684,7 +684,7 @@ class _AutoLoginPageState extends State<AutoLoginPage> {
                 )),
               ],
             ),
-            const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+            SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
             Text(
               AppLocalizations.of(context)?.enterYour8Digit2faCode ?? 'Enter your 8-digit 2FA code',
@@ -694,7 +694,7 @@ class _AutoLoginPageState extends State<AutoLoginPage> {
                 color: (isLight ? Colors.black : Colors.white).withOpacity(0.5),
               ),
             ),
-            const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+            SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
             TradeRepublicTextField.code(
               controller: _twoFactorController,
@@ -702,7 +702,7 @@ class _AutoLoginPageState extends State<AutoLoginPage> {
               maxLength: 8,
               autofocus: true,
             ),
-            const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+            SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
             Row(
               children: [
@@ -1185,7 +1185,7 @@ class _AutoLoginModalContentState extends State<_AutoLoginModalContent> {
                   )),
                 ],
               ),
-              const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+              SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
               Text(
                 AppLocalizations.of(context)?.authenticateWithPassword ?? 'Authenticate with your password',
                 style: TextStyle(
@@ -1195,7 +1195,7 @@ class _AutoLoginModalContentState extends State<_AutoLoginModalContent> {
                       .withOpacity(0.5),
                 ),
               ),
-              const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+              SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
               TradeRepublicTextField.password(
                 controller: _passwordController,
                 hintText: AppLocalizations.of(context)?.password ?? 'Password',
@@ -1207,7 +1207,7 @@ class _AutoLoginModalContentState extends State<_AutoLoginModalContent> {
                   }
                 },
               ),
-              const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+              SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
               Row(
                 children: [
                   Expanded(
@@ -1375,11 +1375,11 @@ class _AutoLoginModalContentState extends State<_AutoLoginModalContent> {
                 )),
               ],
             ),
-            const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+            SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
             Text(
               AppLocalizations.of(context)?.pleaseEnterValid8DigitCode ?? 'Please enter your 8-digit 2FA code',
             ),
-            const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+            SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
             Row(
               children: [
                 Expanded(
@@ -1439,7 +1439,7 @@ class _AutoLoginModalContentState extends State<_AutoLoginModalContent> {
                 )),
               ],
             ),
-            const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+            SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
             Text(
               AppLocalizations.of(context)?.pleaseEnterValid8DigitCode ?? 'Please enter your 8-digit 2FA code',
             ),
@@ -1499,7 +1499,7 @@ class _AutoLoginModalContentState extends State<_AutoLoginModalContent> {
                 ),
               ),
             ),
-            const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+            SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
             // Hidden TextField for input
             Opacity(
               opacity: 0.0,
@@ -1885,7 +1885,7 @@ class _AutoLoginModalContentState extends State<_AutoLoginModalContent> {
                                     )),
                                   ],
                                 ),
-                                const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+                                SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                                 Text(
                                   AppLocalizations.of(context)?.enterYour8Digit2faCode ?? 'Enter your 8-digit 2FA code',
                                   style: TextStyle(
@@ -1898,14 +1898,14 @@ class _AutoLoginModalContentState extends State<_AutoLoginModalContent> {
                                             .withOpacity(0.5),
                                   ),
                                 ),
-                                const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+                                SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
                                 TradeRepublicTextField.code(
                                   controller: _twoFactorController,
                                   hintText: '12345678',
                                   maxLength: 8,
                                   autofocus: true,
                                 ),
-                                const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+                                SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
                                 Row(
                                   children: [
                                     Expanded(
@@ -1966,7 +1966,7 @@ class _AutoLoginModalContentState extends State<_AutoLoginModalContent> {
                   ),
                 ],
               ),
-              const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+              SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
               // Action buttons - Trade Republic Style (text only)
               Row(
                 children: [
@@ -2024,7 +2024,7 @@ class _AutoLoginModalContentState extends State<_AutoLoginModalContent> {
                   ),
                 ],
               ),
-              const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+              SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
             ],
           ),
         ),
@@ -2438,7 +2438,7 @@ class _SuccessAnimationWidgetState extends State<_SuccessAnimationWidget>
                               ),
                               textAlign: TextAlign.center,
                             ),
-                            const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+                            SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                             Container(
                               padding: const EdgeInsets.symmetric(
                                 horizontal: 20,

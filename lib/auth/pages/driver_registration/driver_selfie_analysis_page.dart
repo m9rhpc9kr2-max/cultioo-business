@@ -322,7 +322,7 @@ class _DriverSelfieAnalysisPageState extends State<DriverSelfieAnalysisPage>
             letterSpacing: -0.4,
           ),
         ),
-        const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+        SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
         Text(
           loc?.aiAnalyzingFace ?? AppLocalizations.of(context)!.tr('AI is analyzing your face and comparing with your ID'),
           textAlign: TextAlign.center,
@@ -361,7 +361,7 @@ class _DriverSelfieAnalysisPageState extends State<DriverSelfieAnalysisPage>
                 color: _allPassed ? Colors.green : Colors.red,
               ),
             ),
-            const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+            SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
             Text(
               _allPassed
                   ? (loc?.verificationPassed ?? AppLocalizations.of(context)!.tr('Verification Passed'))
@@ -373,7 +373,7 @@ class _DriverSelfieAnalysisPageState extends State<DriverSelfieAnalysisPage>
                 letterSpacing: -0.4,
               ),
             ),
-            const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+            SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
             Text(
               _allPassed
                   ? (loc?.allChecksPassed ?? AppLocalizations.of(context)!.tr('All checks passed successfully.'))

@@ -158,31 +158,30 @@ class _BiometricTestPageState extends State<BiometricTestPage> {
                   children: [
                     Text(
                       AppLocalizations.of(context)?.biometricStatus ?? 'Biometric Status',
-                      style: const TextStyle(
-                        fontSize: DesktopOptimizedWidgets.getFontSize() + 4,
+                      style: TextStyle(fontSize: DesktopOptimizedWidgets.getFontSize() + 4,
                         fontWeight: FontWeight.w700,
                       ),
                     ),
-                    const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+                    SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                     _buildStatusRow(AppLocalizations.of(context)?.deviceSupported ?? 'Device Supported', _isDeviceSupported),
                     _buildStatusRow(AppLocalizations.of(context)?.biometricEnabled ?? 'Biometric Enabled', _isBiometricEnabled),
-                    const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+                    SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                     Text(
                       'Available Biometrics: ${_availableBiometrics.map((e) => e.toString().split('.').last).join(', ')}',
-                      style: const TextStyle(fontSize: DesktopOptimizedWidgets.getFontSize(),,
+                      style: TextStyle(fontSize: DesktopOptimizedWidgets.getFontSize(),,
                     ),
                   ],
                 ),
               ),
             ),
-            const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+            SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
             // Test Buttons
             Text(
               AppLocalizations.of(context)?.testActions ?? 'Test Actions',
-              style: const TextStyle(fontSize: DesktopOptimizedWidgets.getFontSize() + 4, fontWeight: FontWeight.w700),
+              style: TextStyle(fontSize: DesktopOptimizedWidgets.getFontSize() + 4, fontWeight: FontWeight.w700),
             ),
-            const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+            SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
             // Refresh Status
             SizedBox(
@@ -194,7 +193,7 @@ class _BiometricTestPageState extends State<BiometricTestPage> {
                 isSecondary: true,
               ),
             ),
-            const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+            SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
             // Enable Biometric
             SizedBox(
@@ -208,7 +207,7 @@ class _BiometricTestPageState extends State<BiometricTestPage> {
                 icon: const Icon(Icons.fingerprint),
               ),
             ),
-            const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+            SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
             // Test Biometric Login
             SizedBox(
@@ -221,7 +220,7 @@ class _BiometricTestPageState extends State<BiometricTestPage> {
                 icon: const Icon(Icons.login),
               ),
             ),
-            const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+            SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
             // Disable Biometric
             SizedBox(
@@ -252,7 +251,7 @@ class _BiometricTestPageState extends State<BiometricTestPage> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(label, style: const TextStyle(fontSize: DesktopOptimizedWidgets.getFontSize(),),
+          Text(label, style: TextStyle(fontSize: DesktopOptimizedWidgets.getFontSize(),),
           Icon(
             status ? Icons.check_circle : Icons.cancel,
             color: status ? Colors.green : Colors.red,

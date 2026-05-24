@@ -78,7 +78,7 @@ class MyAccountPage extends StatelessWidget {
                             fontSize: DesktopOptimizedWidgets.getFontSize(),
                           ),
                         ),
-                        const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+                        SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                         Container(
                           padding: const EdgeInsets.symmetric(
                             horizontal: 12,
@@ -138,7 +138,7 @@ class MyAccountPage extends StatelessWidget {
                             ),
                           ],
                         ),
-                        const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+                        SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                         Text(
                           AppLocalizations.of(context)?.upgradeToBusinessInfo ?? 'To upgrade to Business features, you need a regular Cultioo account from the Cultioo App or Website. Drivers can register directly without a Cultioo account.',
                           style: TextStyle(
@@ -228,7 +228,7 @@ class MyAccountPage extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Icon(icon, size: 32, color: color),
-          const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+          SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
           Text(
             title,
             style: TextStyle(

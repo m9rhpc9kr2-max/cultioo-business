@@ -336,7 +336,7 @@ class _ChatViewPageState extends State<ChatViewPage> {
                       ),
                       if (content.toString().trim().isNotEmpty &&
                           !content.toString().contains('uploads/')) ...[
-                        const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+                        SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                         Text(
                           content.toString(),
                           style: TextStyle(

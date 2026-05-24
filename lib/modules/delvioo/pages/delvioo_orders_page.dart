@@ -579,7 +579,7 @@ class _DelviooOrdersPageState extends State<DelviooOrdersPage>
                       ),
                     ],
                   ),
-                  const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+                  SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                   Text(
                     'Transport pricing is stored in database as price per kilometer.',
                     style: TextStyle(
@@ -637,7 +637,7 @@ class _DelviooOrdersPageState extends State<DelviooOrdersPage>
                       ],
                     ),
                   ),
-                  const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+                  SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                   TradeRepublicCard(
                     padding: const EdgeInsets.all(14),
                     child: Column(
@@ -661,7 +661,7 @@ class _DelviooOrdersPageState extends State<DelviooOrdersPage>
                       ],
                     ),
                   ),
-                  const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+                  SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
                   TradeRepublicButton(
                     label: AppLocalizations.of(context)!.tr('Save') ?? AppLocalizations.of(context)!.tr('Save'),
                     isLoading: isSaving,
@@ -2563,7 +2563,7 @@ class _DelviooOrdersPageState extends State<DelviooOrdersPage>
             ],
           ),
           if (pickupAddress.isNotEmpty) ...[
-            const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+            SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
             Row(
               children: [
                 Icon(
@@ -2794,8 +2794,7 @@ class _DelviooOrdersPageState extends State<DelviooOrdersPage>
                             children: [
                               Text(
                                 '+ ${appSettings.formatCurrency(appSettings.convertCurrency(earnings.abs()))}',
-                                style: const TextStyle(
-                                  fontSize: DesktopOptimizedWidgets.getFontSize() + 6,
+                                style: TextStyle(fontSize: DesktopOptimizedWidgets.getFontSize() + 6,
                                   fontWeight: FontWeight.w700,
                                   color: Color(0xFF34C759),
                                   letterSpacing: -0.3,
@@ -3320,7 +3319,7 @@ class _DelviooOrdersPageState extends State<DelviooOrdersPage>
             ],
           ),
           if (!hasUploadedCertificate) ...[
-            const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+            SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
             Text(
               isRequired
                   ? (AppLocalizations.of(context)?.cleaningCertificateRequired ?? AppLocalizations.of(context)!.tr('The buyer requires a cleaning certificate for this delivery. Please upload a photo.'))
@@ -3409,7 +3408,7 @@ class _DelviooOrdersPageState extends State<DelviooOrdersPage>
               ),
             ],
           ),
-          const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+          SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
           Text(
             AppLocalizations.of(context)?.whatWasCleaned ?? AppLocalizations.of(context)!.tr('What was cleaned?'),
             textAlign: TextAlign.center,
@@ -3418,7 +3417,7 @@ class _DelviooOrdersPageState extends State<DelviooOrdersPage>
               color: (isLight ? Colors.black : Colors.white).withOpacity(0.6),
             ),
           ),
-          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+          SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
           // Full truck option
           _buildCertificatePickerOption(
             icon: CupertinoIcons.cube_box,
@@ -3436,7 +3435,7 @@ class _DelviooOrdersPageState extends State<DelviooOrdersPage>
               );
             },
           ),
-          const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+          SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
           // Single section option
           _buildCertificatePickerOption(
             icon: CupertinoIcons.rectangle_split_3x1,
@@ -3492,7 +3491,7 @@ class _DelviooOrdersPageState extends State<DelviooOrdersPage>
               ),
             ],
           ),
-          const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+          SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
           Text(
             AppLocalizations.of(context)?.takePhotoOrSelectCleaningCert ?? AppLocalizations.of(context)!.tr('Take a photo or select an image of your cleaning certificate'),
             textAlign: TextAlign.center,
@@ -3503,7 +3502,7 @@ class _DelviooOrdersPageState extends State<DelviooOrdersPage>
                   : Colors.white.withOpacity(0.6),
             ),
           ),
-          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+          SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
           // Camera Button
           _buildCertificatePickerOption(
             icon: CupertinoIcons.camera,
@@ -3523,7 +3522,7 @@ class _DelviooOrdersPageState extends State<DelviooOrdersPage>
               );
             },
           ),
-          const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+          SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
           // Gallery Button
           _buildCertificatePickerOption(
             icon: CupertinoIcons.photo,
@@ -3698,7 +3697,7 @@ class _DelviooOrdersPageState extends State<DelviooOrdersPage>
               ),
             ],
           ),
-          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+          SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
           // Image
           Expanded(
             child: InteractiveViewer(
@@ -3718,7 +3717,7 @@ class _DelviooOrdersPageState extends State<DelviooOrdersPage>
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             CultiooLoadingIndicator(size: 24),
-                            const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+                            SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
                             Text(
                               AppLocalizations.of(
                                     context,
@@ -3754,7 +3753,7 @@ class _DelviooOrdersPageState extends State<DelviooOrdersPage>
                                 ),
                               ),
                             ),
-                            const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+                            SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
                             Text(
                               AppLocalizations.of(context)?.failedToLoadImage ?? AppLocalizations.of(context)!.tr('Failed to load image'),
                               style: TextStyle(
@@ -3763,7 +3762,7 @@ class _DelviooOrdersPageState extends State<DelviooOrdersPage>
                                 color: isLight ? Colors.black : Colors.white,
                               ),
                             ),
-                            const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+                            SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                             Text(
                               AppLocalizations.of(
                                     context,
@@ -3865,7 +3864,7 @@ class _DelviooOrdersPageState extends State<DelviooOrdersPage>
               ),
               textAlign: TextAlign.center,
             ),
-            const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+            SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
             Text(
               message,
               style: TextStyle(
@@ -4768,7 +4767,7 @@ class _DelviooOrdersPageState extends State<DelviooOrdersPage>
             color: isLight ? Colors.white : Colors.black,
           ),
 
-          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+          SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
           Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -4824,7 +4823,7 @@ class _DelviooOrdersPageState extends State<DelviooOrdersPage>
                     ],
                   ),
                 ),
-                const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+                SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
                 // Info card
                 TradeRepublicCard(
@@ -4854,7 +4853,7 @@ class _DelviooOrdersPageState extends State<DelviooOrdersPage>
                     ],
                   ),
                 ),
-                const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+                SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
                 // Modern action buttons
                 Row(
@@ -4887,7 +4886,7 @@ class _DelviooOrdersPageState extends State<DelviooOrdersPage>
                     ),
                   ],
                 ),
-                const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+                SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
               ],
           ),
           SizedBox(height: MediaQuery.of(context).viewInsets.bottom),
@@ -5002,7 +5001,7 @@ class _DelviooOrdersPageState extends State<DelviooOrdersPage>
             color: isLight ? Colors.white : Colors.black,
           ),
 
-          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+          SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
           Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -5064,7 +5063,7 @@ class _DelviooOrdersPageState extends State<DelviooOrdersPage>
                     ),
                   );
                 }),
-                const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+                SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
                 // Info card
                 TradeRepublicCard(
@@ -5094,7 +5093,7 @@ class _DelviooOrdersPageState extends State<DelviooOrdersPage>
                     ],
                   ),
                 ),
-                const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+                SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
                 // Modern action buttons
                 Row(
@@ -5131,7 +5130,7 @@ class _DelviooOrdersPageState extends State<DelviooOrdersPage>
                     ),
                   ],
                 ),
-                const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+                SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
               ],
           ),
           SizedBox(height: MediaQuery.of(context).viewInsets.bottom),
@@ -5318,7 +5317,7 @@ class _DelviooOrdersPageState extends State<DelviooOrdersPage>
               ),
             ],
           ),
-          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+          SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
           // Scrollable content
           Expanded(
             child: SingleChildScrollView(
@@ -6637,7 +6636,7 @@ class _DelviooOrdersPageState extends State<DelviooOrdersPage>
                                   ),
                                 ),
                               ),
-                              const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+                              SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
                               Text(
                                 AppLocalizations.of(context)?.noMessagesYet ?? AppLocalizations.of(context)!.tr('No messages yet'),
                                 style: TextStyle(
@@ -6668,7 +6667,7 @@ class _DelviooOrdersPageState extends State<DelviooOrdersPage>
                   ),
                 ),
 
-                const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+                SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
                 // Input row at bottom
                 Row(
@@ -7017,9 +7016,9 @@ class _DelviooOrdersPageState extends State<DelviooOrdersPage>
               ),
             ],
           ),
-          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+          SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
-          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+          SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
           // Issue list (no border on cards)
           ListView.builder(
@@ -7066,7 +7065,7 @@ class _DelviooOrdersPageState extends State<DelviooOrdersPage>
             },
           ),
 
-          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+          SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
         ],
       ),
     );
@@ -7145,7 +7144,7 @@ class _DelviooOrdersPageState extends State<DelviooOrdersPage>
               ),
             ],
           ),
-          const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+          SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
                 // Order badge
                 DecoratedBox(
@@ -7186,7 +7185,7 @@ class _DelviooOrdersPageState extends State<DelviooOrdersPage>
                       )?.customerNotifiedAboutAccident ?? AppLocalizations.of(context)!.tr('The customer will be automatically notified about the accident'),
                   isLight: isLight,
                 ),
-                const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+                SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
                 // Card 2: Order will be reposted
                 _buildInfoCard(
@@ -7200,7 +7199,7 @@ class _DelviooOrdersPageState extends State<DelviooOrdersPage>
                       )?.orderAvailableForOtherDrivers ?? AppLocalizations.of(context)!.tr('The order will be made available for other drivers to accept'),
                   isLight: isLight,
                 ),
-                const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+                SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
                 // Card 3: Pickup location updated
                 _buildInfoCard(
@@ -7236,7 +7235,7 @@ class _DelviooOrdersPageState extends State<DelviooOrdersPage>
                     debugPrint('✅ _processTruckAccident completed');
                   },
                 ),
-                const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+                SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
                 // Cancel Button
                 TradeRepublicButton(
@@ -7464,7 +7463,7 @@ class _DelviooOrdersPageState extends State<DelviooOrdersPage>
                   ),
                 ],
               ),
-              const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+              SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
               const SizedBox(height: 32),
 
@@ -7491,7 +7490,7 @@ class _DelviooOrdersPageState extends State<DelviooOrdersPage>
                 ),
               ),
 
-              const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+              SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
               // Info hint
               Row(
@@ -7556,7 +7555,7 @@ class _DelviooOrdersPageState extends State<DelviooOrdersPage>
                       },
               ),
 
-              const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+              SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
               // Cancel link
               TradeRepublicButton(
@@ -7565,7 +7564,7 @@ class _DelviooOrdersPageState extends State<DelviooOrdersPage>
                 onPressed: isLoading ? null : () => Navigator.pop(context),
               ),
 
-                const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+                SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
               ],
             ),
           );
@@ -7777,7 +7776,7 @@ class _DelviooOrdersPageState extends State<DelviooOrdersPage>
               ),
             ],
           ),
-          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+          SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
           // Info message
           TradeRepublicCard(
             padding: const EdgeInsets.all(12),
@@ -7835,7 +7834,7 @@ class _DelviooOrdersPageState extends State<DelviooOrdersPage>
           ),
           // Upload button — show when certificate not yet uploaded (required OR optional)
           if (!hasCertificate) ...[
-            const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+            SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
             SizedBox(
               width: double.infinity,
               child: TradeRepublicButton(

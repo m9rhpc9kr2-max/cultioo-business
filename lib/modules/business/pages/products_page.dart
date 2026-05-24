@@ -806,7 +806,7 @@ class _ProductsPageState extends State<ProductsPage>
               ),
               textAlign: TextAlign.center,
             ),
-            const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+            SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
             Row(
               children: [
                 Expanded(
@@ -1294,7 +1294,7 @@ class _ProductsPageState extends State<ProductsPage>
               height: 1.1,
             ),
           ),
-          const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+          SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
           // Title - bold
           Text(
             title,
@@ -1377,7 +1377,7 @@ class _ProductsPageState extends State<ProductsPage>
               size: 32,
             ),
           ),
-          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+          SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
           Text(
             title,
             style: TextStyle(
@@ -1678,7 +1678,7 @@ class _ProductsPageState extends State<ProductsPage>
               fontWeight: FontWeight.w600,
             ),
           ),
-          const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+          SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
           Text(
             AppLocalizations.of(context)?.addFirstProductToGetStarted ?? AppLocalizations.of(context)!.tr('Add your first product to get started'),
             textAlign: TextAlign.center,
@@ -1735,7 +1735,7 @@ class _ProductsPageState extends State<ProductsPage>
                 ),
               ],
             ),
-            const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+            SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
             // Product Name
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
@@ -1754,7 +1754,7 @@ class _ProductsPageState extends State<ProductsPage>
                 textAlign: TextAlign.center,
               ),
             ),
-            const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+            SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
             // Warning Message
             Text(
               AppLocalizations.of(context)?.deleteProductWarning ?? AppLocalizations.of(context)!.tr('This action cannot be undone. All product data, variants, and images will be permanently deleted.'),
@@ -1764,7 +1764,7 @@ class _ProductsPageState extends State<ProductsPage>
               ),
               textAlign: TextAlign.center,
             ),
-            const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+            SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
             // Action Buttons
             Row(
               children: [
@@ -1889,7 +1889,7 @@ class _ProductsPageState extends State<ProductsPage>
               ],
             ),
 
-            const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+            SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
             Expanded(
               child: SingleChildScrollView(
@@ -1926,7 +1926,7 @@ class _ProductsPageState extends State<ProductsPage>
                               height: 1.45,
                             ),
                           ),
-                          const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+                          SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                           Text(
                             AppLocalizations.of(context)!.tr('What is required:'),
                             style: TextStyle(
@@ -1991,7 +1991,7 @@ class _ProductsPageState extends State<ProductsPage>
                       isLight,
                     ),
 
-                    const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+                    SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
                     // Status box
                     Container(
@@ -2018,7 +2018,7 @@ class _ProductsPageState extends State<ProductsPage>
                       ),
                     ),
 
-                    const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+                    SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
                     // Action Button
                     TradeRepublicButton(
@@ -2308,7 +2308,7 @@ class _ProductsPageState extends State<ProductsPage>
               }
             },
           ),
-          const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+          SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
           _buildFilterOption(
             AppLocalizations.of(context)?.publishedLabel ?? AppLocalizations.of(context)!.tr('Published'),
             CupertinoIcons.checkmark_circle_fill,
@@ -2329,7 +2329,7 @@ class _ProductsPageState extends State<ProductsPage>
               }
             },
           ),
-          const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+          SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
           _buildFilterOption(
             AppLocalizations.of(context)?.draftLabel ?? AppLocalizations.of(context)!.tr('Draft'),
             Icons.drafts,
@@ -2347,7 +2347,7 @@ class _ProductsPageState extends State<ProductsPage>
               }
             },
           ),
-          const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+          SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
           // Cancel Button
           TradeRepublicButton(
             label: AppLocalizations.of(context)?.cancel ?? AppLocalizations.of(context)!.tr('Cancel'),
@@ -2411,7 +2411,7 @@ class _ProductsPageState extends State<ProductsPage>
               ),
             ],
           ),
-          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+          SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
           // Sort Options
           _buildSortOption(
             AppLocalizations.of(context)?.nameAZ ?? AppLocalizations.of(context)!.tr('Name (A-Z)'),
@@ -3040,7 +3040,7 @@ class _MultiStepProductModalState extends State<MultiStepProductModal> {
             ),
           ),
 
-          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+          SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
           // Progress Bar
           Column(
@@ -3067,7 +3067,7 @@ class _MultiStepProductModalState extends State<MultiStepProductModal> {
                   ),
                 ],
               ),
-              const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+              SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
               ClipRRect(
                 borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
                 child: LinearProgressIndicator(
@@ -3168,20 +3168,20 @@ class _MultiStepProductModalState extends State<MultiStepProductModal> {
             ],
           ),
 
-          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+          SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
           // Variant 1 is always shown (automatically created in initState)
           _buildVariantCard(variants[0], 0),
 
           // Weitere Varianten anzeigen (falls vorhanden)
           if (variants.length > 1) ...[
-            const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+            SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
             _buildVariantCard(variants[1], 1),
           ],
 
           // Add Variant 2 Button (only if we don't have a second variant yet)
           if (variants.length == 1) ...[
-            const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+            SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
             TradeRepublicTap(
               onTap: () {
                 setState(() {
@@ -3229,7 +3229,7 @@ class _MultiStepProductModalState extends State<MultiStepProductModal> {
 
           // Add More Variants Button (ab der 3. Variante)
           if (variants.length >= 2) ...[
-            const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+            SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
             TradeRepublicTap(
               onTap: () {
                 setState(() {
@@ -3374,7 +3374,7 @@ class _MultiStepProductModalState extends State<MultiStepProductModal> {
                 variant['title'] ?? AppLocalizations.of(context)!.tr(''),
                 (value) => variant['title'] = value,
               ),
-              const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+              SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
               // Subtitle
               _buildVariantFormField(
@@ -3383,11 +3383,11 @@ class _MultiStepProductModalState extends State<MultiStepProductModal> {
                 variant['subtitle'] ?? AppLocalizations.of(context)!.tr(''),
                 (value) => variant['subtitle'] = value,
               ),
-              const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+              SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
               // Kategorie
               _buildVariantCategoryDropdown(variant, categories),
-              const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+              SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
               // Beschreibung
               _buildVariantFormField(
@@ -3397,7 +3397,7 @@ class _MultiStepProductModalState extends State<MultiStepProductModal> {
                 (value) => variant['description'] = value,
                 maxLines: 3,
               ),
-              const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+              SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
             ],
           ),
         ],
@@ -3448,7 +3448,7 @@ class _MultiStepProductModalState extends State<MultiStepProductModal> {
             fontWeight: FontWeight.w600,
           ),
         ),
-        const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+        SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
         TradeRepublicTap(
           onTap: () => _showCategoryBottomSheet(variant, categories),
           child: Container(
@@ -3529,7 +3529,7 @@ class _MultiStepProductModalState extends State<MultiStepProductModal> {
             ],
           ),
 
-          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+          SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
           // Show images for each variant
           if (variants.isNotEmpty) ...[
@@ -3599,7 +3599,7 @@ class _MultiStepProductModalState extends State<MultiStepProductModal> {
             ],
           ),
 
-          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+          SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
           // Image Grid
           GridView.builder(
@@ -3695,7 +3695,7 @@ class _MultiStepProductModalState extends State<MultiStepProductModal> {
           ),
 
           if (images.isEmpty) ...[
-            const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+            SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
             Container(
               width: double.infinity,
               padding: DesktopAppWrapper.getPagePadding(),
@@ -3710,7 +3710,7 @@ class _MultiStepProductModalState extends State<MultiStepProductModal> {
                     size: 32,
                     color: widget.isLight ? Colors.black54 : Colors.white54,
                   ),
-                  const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+                  SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                   Text(
                     AppLocalizations.of(context)?.noImagesAddedYet ?? AppLocalizations.of(context)!.tr('No images added yet'),
                     style: TextStyle(
@@ -3911,7 +3911,7 @@ class _MultiStepProductModalState extends State<MultiStepProductModal> {
                 ),
               ],
             ),
-            const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+            SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
             Row(
               children: [
                 Expanded(
@@ -4182,7 +4182,7 @@ class _MultiStepProductModalState extends State<MultiStepProductModal> {
             ],
           ),
 
-          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+          SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
           // Variant Header
           if (variants.length > 1) ...[
@@ -4272,7 +4272,7 @@ class _MultiStepProductModalState extends State<MultiStepProductModal> {
             ],
           ),
 
-          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+          SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
           // Show pricing for each variant
           if (variants.isNotEmpty) ...[
@@ -4370,11 +4370,11 @@ class _MultiStepProductModalState extends State<MultiStepProductModal> {
                   Expanded(child: _buildUnitDropdown(variant, units)),
                 ],
               ),
-              const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+              SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
               // Always Available Toggle
               _buildAlwaysAvailableToggle(variant),
-              const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+              SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
               // Stock Row (Stock = 0 if always available, disabled if always available)
               Column(
@@ -4388,7 +4388,7 @@ class _MultiStepProductModalState extends State<MultiStepProductModal> {
                       fontWeight: FontWeight.w600,
                     ),
                   ),
-                  const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+                  SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                   Container(
                     padding: const EdgeInsets.symmetric(
                       horizontal: 12,
@@ -4423,7 +4423,7 @@ class _MultiStepProductModalState extends State<MultiStepProductModal> {
                   ),
                 ],
               ),
-              const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+              SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
               // Daily Production (only shown if Always Available is enabled)
               if (variant['alwaysAvailable'] ?? false) ...[
@@ -4463,7 +4463,7 @@ class _MultiStepProductModalState extends State<MultiStepProductModal> {
                         ),
                       ],
                     ),
-                    const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+                    SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                     _buildPricingFormField(
                       AppLocalizations.of(context)?.dailyProduction ?? AppLocalizations.of(context)!.tr('Daily Production'),
                       '0.00',
@@ -4491,7 +4491,7 @@ class _MultiStepProductModalState extends State<MultiStepProductModal> {
                     ),
                   ],
                 ),
-                const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+                SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
               ],
 
               // Minimum Order Quantity
@@ -4524,7 +4524,7 @@ class _MultiStepProductModalState extends State<MultiStepProductModal> {
                           fontWeight: FontWeight.w600,
                         ),
                       ),
-                      const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+                      SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -4579,7 +4579,7 @@ class _MultiStepProductModalState extends State<MultiStepProductModal> {
                           ),
                         ),
                         if ((variant['dailyProduction'] ?? 0.0) > 0) ...[
-                          const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+                          SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
@@ -4726,7 +4726,7 @@ class _MultiStepProductModalState extends State<MultiStepProductModal> {
             fontWeight: FontWeight.w600,
           ),
         ),
-        const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+        SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
         TradeRepublicTap(
           onTap: () => _showUnitBottomSheet(variant, units),
           child: Container(
@@ -4856,7 +4856,7 @@ class _MultiStepProductModalState extends State<MultiStepProductModal> {
               ),
             ],
           ),
-          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+          SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
           // Message
           Text(
             message,
@@ -4866,7 +4866,7 @@ class _MultiStepProductModalState extends State<MultiStepProductModal> {
             ),
             textAlign: TextAlign.center,
           ),
-          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+          SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
           // OK Button
           SizedBox(
             width: double.infinity,
@@ -5105,7 +5105,7 @@ class _MultiStepProductModalState extends State<MultiStepProductModal> {
               ),
             ],
           ),
-          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+          SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
           // Show message if nutrition is disabled
           if (isNutritionDisabled) ...[
@@ -5162,7 +5162,7 @@ class _MultiStepProductModalState extends State<MultiStepProductModal> {
                 ),
               ],
             ),
-            const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+            SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
             // Fat and Saturated Fat
             Row(
@@ -5187,7 +5187,7 @@ class _MultiStepProductModalState extends State<MultiStepProductModal> {
                 ),
               ],
             ),
-            const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+            SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
             // Carbs and Sugar
             Row(
@@ -5211,7 +5211,7 @@ class _MultiStepProductModalState extends State<MultiStepProductModal> {
                 ),
               ],
             ),
-            const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+            SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
             // Protein and Salt
             Row(
@@ -5289,7 +5289,7 @@ class _MultiStepProductModalState extends State<MultiStepProductModal> {
               ),
             ],
           ),
-          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+          SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
           // Origin and Bio Control Number
           Row(
@@ -5315,7 +5315,7 @@ class _MultiStepProductModalState extends State<MultiStepProductModal> {
               ),
             ],
           ),
-          const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+          SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
           // Features
           _buildAdditionalField(
@@ -5325,7 +5325,7 @@ class _MultiStepProductModalState extends State<MultiStepProductModal> {
             (value) => variant['additionalDetails']['features'] = value,
             maxLines: 3,
           ),
-          const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+          SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
           // Ingredients
           _buildAdditionalField(
@@ -5335,7 +5335,7 @@ class _MultiStepProductModalState extends State<MultiStepProductModal> {
             (value) => variant['additionalDetails']['ingredients'] = value,
             maxLines: 3,
           ),
-          const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+          SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
           // Allergens
           _buildAdditionalField(
@@ -5345,7 +5345,7 @@ class _MultiStepProductModalState extends State<MultiStepProductModal> {
             (value) => variant['additionalDetails']['allergens'] = value,
             maxLines: 2,
           ),
-          const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+          SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
 
           _buildAdditionalField(
             AppLocalizations.of(context)?.terpenesLabel ?? AppLocalizations.of(context)!.tr('Terpenes'),
@@ -5353,7 +5353,7 @@ class _MultiStepProductModalState extends State<MultiStepProductModal> {
             variant['additionalDetails']['terpenes'] ?? AppLocalizations.of(context)!.tr(''),
             (value) => variant['additionalDetails']['terpenes'] = value,
           ),
-          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+          SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
           // Quality Toggle - Only Organic
           _buildQualityToggle(
@@ -5747,7 +5747,7 @@ class _MultiStepProductModalState extends State<MultiStepProductModal> {
                 ),
               ],
             ),
-            const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+            SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
             // Options
             Flexible(
               child: SingleChildScrollView(
@@ -5785,7 +5785,7 @@ class _MultiStepProductModalState extends State<MultiStepProductModal> {
                             children: [
                               Text(
                                 country['flag']!,
-                                style: const TextStyle(fontSize: DesktopOptimizedWidgets.getFontSize() + 10,,
+                                style: TextStyle(fontSize: DesktopOptimizedWidgets.getFontSize() + 10,,
                               ),
                               const SizedBox(width: 12),
                               Expanded(
@@ -5891,7 +5891,7 @@ class _MultiStepProductModalState extends State<MultiStepProductModal> {
                 ),
               ],
             ),
-            const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+            SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
             // Options
             Flexible(
               child: SingleChildScrollView(
@@ -6145,7 +6145,7 @@ class _MultiStepProductModalState extends State<MultiStepProductModal> {
               ),
             ],
           ),
-          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+          SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
           Text(
             AppLocalizations.of(context)?.fillAmountHelp ?? AppLocalizations.of(context)!.tr('How much product is in one package. For example:\\\\n\\\\n• 100 (for 100g bag)\\\\n• 1000 (for 1kg bag)\\\\n• 500 (for a 500ml bottle)\\\\n• 24 (for 24 pieces in a box)\\\\n• 50 (for 50 units on a pallet)'),
             style: TextStyle(
@@ -6154,7 +6154,7 @@ class _MultiStepProductModalState extends State<MultiStepProductModal> {
               height: 1.5,
             ),
           ),
-          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+          SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
           SizedBox(
             width: double.infinity,
             child: TradeRepublicButton(
@@ -6202,7 +6202,7 @@ class _MultiStepProductModalState extends State<MultiStepProductModal> {
               ),
             ],
           ),
-          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+          SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
           Text(
             AppLocalizations.of(context)?.fillUnitHelp ?? AppLocalizations.of(context)!.tr('The unit of measurement for the fill amount. For example:\\\\n\\\\n• g (grams)\\\\n• kg (kilograms)\\\\n• ml (milliliters)\\\\n• L (liters)\\\\n• pcs (pieces)\\\\n• bags\\\\n• boxes\\\\n• pallets'),
             style: TextStyle(
@@ -6211,7 +6211,7 @@ class _MultiStepProductModalState extends State<MultiStepProductModal> {
               height: 1.5,
             ),
           ),
-          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+          SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
           SizedBox(
             width: double.infinity,
             child: TradeRepublicButton(
@@ -6497,7 +6497,7 @@ class _MultiStepProductModalState extends State<MultiStepProductModal> {
                     ),
                   ],
                 ),
-                const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+                SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                 Text(
                   widget.isEditMode
                       ? AppLocalizations.of(context)?.chooseHowToSave ?? AppLocalizations.of(context)!.tr('Choose how to save your changes')
@@ -6531,7 +6531,7 @@ class _MultiStepProductModalState extends State<MultiStepProductModal> {
                     fontWeight: FontWeight.w600,
                   ),
                 ),
-                const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+                SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
                 // Publish Option
                 TradeRepublicTap(
@@ -6623,7 +6623,7 @@ class _MultiStepProductModalState extends State<MultiStepProductModal> {
                   ),
                 ),
 
-                const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+                SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
                 // Draft Option
                 TradeRepublicTap(
@@ -6823,11 +6823,11 @@ class _MultiStepProductModalState extends State<MultiStepProductModal> {
               ),
             ],
           ),
-          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+          SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
           // Incoterm Selector
           _buildIncotermSelector(shipping),
-          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+          SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
 
           // Delivery Time with info button
           Column(
@@ -6860,7 +6860,7 @@ class _MultiStepProductModalState extends State<MultiStepProductModal> {
                   ),
                 ],
               ),
-              const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+              SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
               Row(
                 children: [
                   Expanded(
@@ -6915,19 +6915,19 @@ class _MultiStepProductModalState extends State<MultiStepProductModal> {
               ),
             ],
           ),
-          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+          SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
           // Wagon Type Selector
           // TODO: Implement _buildWagonTypeSelector
-          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+          SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
           // Cleaning Certificate Toggle
           // TODO: Implement _buildCleaningCertificateToggle
-          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+          SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
           // Tracking Toggle + Warning
           // TODO: Implement _buildTrackingAvailabilityToggle
-          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+          SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
           // Delivery Instructions
           TradeRepublicTextField(
@@ -6937,11 +6937,11 @@ class _MultiStepProductModalState extends State<MultiStepProductModal> {
             maxLines: 3,
             onChanged: (value) => shipping['delivery_instructions'] = value,
           ),
-          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+          SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
           // Special Handling Requirements Selector
           // TODO: Implement _buildSpecialHandlingSelector
-          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+          SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
 
           // Temperature Requirements with Min/Max Sliders
           Column(
@@ -6994,7 +6994,7 @@ class _MultiStepProductModalState extends State<MultiStepProductModal> {
                   ),
                 ],
               ),
-              const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+              SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
               // Slider container
               Container(
                 padding: DesktopAppWrapper.getPagePadding(),
@@ -7154,7 +7154,7 @@ class _MultiStepProductModalState extends State<MultiStepProductModal> {
             color: widget.isLight ? Colors.black : Colors.white,
           ),
         ),
-        const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+        SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
         TradeRepublicTextField(
           useFormField: true,
           initialValue: location['city'] ?? '',
@@ -7164,7 +7164,7 @@ class _MultiStepProductModalState extends State<MultiStepProductModal> {
             variants.first['location'] = location;
           },
         ),
-        const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+        SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
         TradeRepublicTextField(
           useFormField: true,
           initialValue: location['address'] ?? '',
@@ -7204,7 +7204,7 @@ class _MultiStepProductModalState extends State<MultiStepProductModal> {
             color: widget.isLight ? Colors.black : Colors.white,
           ),
         ),
-        const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+        SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
         TradeRepublicTap(
           onTap: () {
             TradeRepublicBottomSheet.show(
@@ -7241,7 +7241,7 @@ class _MultiStepProductModalState extends State<MultiStepProductModal> {
                         ),
                       ),
                     )),
-                    const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+                    SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
                   ],
                 ),
               ),

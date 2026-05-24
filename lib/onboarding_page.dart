@@ -316,7 +316,7 @@ Driver Registration: Free to go! No Cultioo account required - just register as 
                           ),
                         ),
                       ),
-                      const SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+                      SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
                       Text(
                         step.subtitle,
                         style: TextStyle(
@@ -328,7 +328,7 @@ Driver Registration: Free to go! No Cultioo account required - just register as 
                           letterSpacing: -0.2,
                         ),
                       ),
-                      const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+                      SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
                       SlideTransition(
                         position: _slideAnimation,
                         child: Container(
@@ -417,7 +417,7 @@ Driver Registration: Free to go! No Cultioo account required - just register as 
             textAlign: TextAlign.center,
           ),
         ),
-        const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+        SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
         Text(
           step.subtitle,
           style: TextStyle(
@@ -572,7 +572,7 @@ Driver Registration: Free to go! No Cultioo account required - just register as 
             Icons.business_center,
             isLight,
           ),
-          const SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+          SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
           _buildAccountOption(
             AppLocalizations.of(context)?.driverAccount ?? 'Driver Account',
             AppLocalizations.of(context)?.registerDirectlyAsDriver ??
