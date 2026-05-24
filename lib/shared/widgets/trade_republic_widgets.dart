@@ -16,4 +16,5 @@ export 'trade_republic_swipe_action.dart';
 export 'drag_handle.dart';
 export 'top_notification.dart';
 export 'desktop_optimized_widgets.dart';
+export 'desktop_app_wrapper.dart';
 export 'cultioo_desktop_layout.dart';
