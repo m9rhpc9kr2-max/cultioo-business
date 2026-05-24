@@ -2680,12 +2680,15 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                               Expanded(
                                 child: _buildSocialButton(
                                   onTap: _isLoading ? null : _signInWithGoogle,
-                                  icon: Icon(
-                                    CupertinoIcons.search,
-                                    size: 20,
-                                    color: isLight
-                                        ? Colors.black
-                                        : Colors.white,
+                                  icon: Text(
+                                    'G',
+                                    style: TextStyle(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold,
+                                      color: isLight
+                                          ? Colors.black
+                                          : Colors.white,
+                                    ),
                                   ),
                                   label: isDesktop
                                       ? (AppLocalizations.of(context)?.googleLabel ?? '')
@@ -2708,8 +2711,8 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                                           : Colors.white,
                                     ),
                                     label: isDesktop
-                                      ? (AppLocalizations.of(context)?.appleLabel ?? '')
-                                      : null,
+                                        ? (AppLocalizations.of(context)?.appleLabel ?? '')
+                                        : null,
                                     isLight: isLight,
                                     height: buttonHeight,
                                   ),
