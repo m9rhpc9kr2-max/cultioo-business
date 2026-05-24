@@ -44,9 +44,7 @@ dependencies:
   firebase_auth: ^5.0.0
   open_filex: ^4.5.0
   google_generative_ai: ^0.4.7
-  
-  # Social Icons
-  font_awesome_flutter: 10.6.0
+  flutter_svg: ^2.0.0
   
   # macOS-spezifische Packages
   macos_ui: ^2.1.0  # Native macOS UI Components
