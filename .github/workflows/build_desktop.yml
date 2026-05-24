@@ -6,25 +6,6 @@ on:
   workflow_dispatch:
 
 jobs:
-  build-macos:
-    runs-on: macos-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: subosito/flutter-action@v2
-        with:
-          flutter-version: '3.29.0'
-          channel: 'stable'
-      - run: flutter pub get
-      - run: flutter build macos --release
-      - name: Zip macOS app
-        run: |
-          cd build/macos/Build/Products/Release
-          zip -r ../../../cultioo_business_macos.zip cultioo_business.app
-      - uses: actions/upload-artifact@v4
-        with:
-          name: macos-app
-          path: build/cultioo_business_macos.zip
-
   build-windows:
     runs-on: windows-latest
     steps:
@@ -61,50 +42,3 @@ jobs:
         with:
           name: windows-app
           path: build/cultioo_business_setup.exe
-
-  build-web:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: subosito/flutter-action@v2
-        with:
-          flutter-version: '3.29.0'
-          channel: 'stable'
-      - run: flutter pub get
-      - run: flutter build web --release
-      - name: Zip web build
-        run: |
-          cd build
-          zip -r cultioo_business_web.zip web/
-      - uses: actions/upload-artifact@v4
-        with:
-          name: web-app
-          path: build/cultioo_business_web.zip
-
-  release:
-    needs: [build-macos, build-windows, build-web]
-    runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
-    steps:
-      - uses: actions/download-artifact@v4
-        with:
-          name: macos-app
-          path: ./release/
-      - uses: actions/download-artifact@v4
-        with:
-          name: windows-app
-          path: ./release/
-      - uses: actions/download-artifact@v4
-        with:
-          name: web-app
-          path: ./release/
-      - name: Create Release
-        uses: softprops/action-gh-release@v2
-        with:
-          tag_name: v${{ github.run_number }}
-          name: Release v${{ github.run_number }}
-          files: ./release/*
-          draft: false
-          prerelease: false
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
