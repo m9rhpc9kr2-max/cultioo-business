@@ -37,10 +37,11 @@ class TradeRepublicPeriodSegmented extends StatelessWidget {
     final track = accent.withOpacity(0.06);
 
     return Container(
-      padding: EdgeInsets.all(4),
+      padding: const EdgeInsets.all(4),
       decoration: BoxDecoration(
         color: track,
-        borderRadius: BorderRadius.circular(14)),
+        borderRadius: BorderRadius.circular(14),
+      ),
       child: Row(
         children: options.map((opt) {
           final isSelected = opt == selected;
@@ -54,10 +55,11 @@ class TradeRepublicPeriodSegmented extends StatelessWidget {
               child: AnimatedContainer(
                 duration: const Duration(milliseconds: 200),
                 curve: Curves.easeOut,
-                padding: EdgeInsets.symmetric(vertical: 10),
+                padding: const EdgeInsets.symmetric(vertical: 10),
                 decoration: BoxDecoration(
                   color: isSelected ? accent : Colors.transparent,
-                  borderRadius: BorderRadius.circular(10)),
+                  borderRadius: BorderRadius.circular(10),
+                ),
                 alignment: Alignment.center,
                 child: Text(
                   _shortLabel(opt),
@@ -65,8 +67,15 @@ class TradeRepublicPeriodSegmented extends StatelessWidget {
                     fontSize: 13,
                     fontWeight: FontWeight.w700,
                     letterSpacing: -0.2,
-                    color: isSelected ? inverse : accent.withOpacity(0.55))))));
-        }).toList()));
+                    color: isSelected ? inverse : accent.withOpacity(0.55),
+                  ),
+                ),
+              ),
+            ),
+          );
+        }).toList(),
+      ),
+    );
   }
 }
 
@@ -143,7 +152,9 @@ class _TradeRepublicBarChartState extends State<TradeRepublicBarChart> {
       return Center(
         child: Text(
           'No data',
-          style: TextStyle(color: accent.withOpacity(0.4), fontSize: 13)));
+          style: TextStyle(color: accent.withOpacity(0.4), fontSize: 13),
+        ),
+      );
     }
 
     final bars = _aggregate(widget.data, widget.maxBars);
@@ -169,16 +180,21 @@ class _TradeRepublicBarChartState extends State<TradeRepublicBarChart> {
                 fontSize: 22,
                 fontWeight: FontWeight.w800,
                 letterSpacing: -0.6,
-                color: accent)),
+                color: accent,
+              ),
+            ),
             if (selectedIdx != null)
               GestureDetector(
                 onTap: () => setState(() => _selected = null),
                 child: Icon(
                   CupertinoIcons.xmark_circle_fill,
                   size: 16,
-                  color: dim)),
-          ]),
-        SizedBox(height: 16),
+                  color: dim,
+                ),
+              ),
+          ],
+        ),
+        const SizedBox(height: 16),
 
         // ── Bars area.
         Expanded(
@@ -193,7 +209,9 @@ class _TradeRepublicBarChartState extends State<TradeRepublicBarChart> {
                     bottom: 0,
                     child: Container(
                       height: 0.5,
-                      color: accent.withOpacity(0.08))),
+                      color: accent.withOpacity(0.08),
+                    ),
+                  ),
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: List.generate(bars.length, (i) {
@@ -216,7 +234,7 @@ class _TradeRepublicBarChartState extends State<TradeRepublicBarChart> {
                           },
                           child: Padding(
                             padding:
-                                EdgeInsets.symmetric(horizontal: 1.5),
+                                const EdgeInsets.symmetric(horizontal: 1.5),
                             child: Align(
                               alignment: Alignment.bottomCenter,
                               child: AnimatedContainer(
@@ -225,11 +243,23 @@ class _TradeRepublicBarChartState extends State<TradeRepublicBarChart> {
                                 height: constraints.maxHeight * factor,
                                 decoration: BoxDecoration(
                                   color: color,
-                                  borderRadius: BorderRadius.vertical(
-                                    top: Radius.circular(2))))))));
-                    })),
-                ]);
-            })),
-      ]);
+                                  borderRadius: const BorderRadius.vertical(
+                                    top: Radius.circular(2),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      );
+                    }),
+                  ),
+                ],
+              );
+            },
+          ),
+        ),
+      ],
+    );
   }
 }

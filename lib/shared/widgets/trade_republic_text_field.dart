@@ -140,7 +140,8 @@ class TradeRepublicTextField extends StatefulWidget {
       validator: validator,
       focusNode: focusNode,
       fillColor: fillColor,
-      useFormField: useFormField);
+      useFormField: useFormField,
+    );
   }
 
   /// Search field with search icon prefix
@@ -159,8 +160,9 @@ class TradeRepublicTextField extends StatefulWidget {
       onChanged: onChanged,
       focusNode: focusNode,
       autofocus: autofocus,
-      prefixIcon: Icon(CupertinoIcons.search),
-      textInputAction: TextInputAction.search);
+      prefixIcon: const Icon(CupertinoIcons.search),
+      textInputAction: TextInputAction.search,
+    );
   }
 
   /// Password field with visibility toggle
@@ -188,7 +190,8 @@ class TradeRepublicTextField extends StatefulWidget {
       autofocus: autofocus,
       validator: validator,
       prefixIcon: prefixIcon,
-      useFormField: useFormField);
+      useFormField: useFormField,
+    );
   }
 
   /// Multiline / message input field
@@ -213,7 +216,8 @@ class TradeRepublicTextField extends StatefulWidget {
       onChanged: onChanged,
       focusNode: focusNode,
       textCapitalization: textCapitalization,
-      contentPadding: EdgeInsets.all(18));
+      contentPadding: const EdgeInsets.all(18),
+    );
   }
 
   /// Large currency / price input
@@ -241,16 +245,19 @@ class TradeRepublicTextField extends StatefulWidget {
       inputFormatters: inputFormatters,
       textAlign: TextAlign.center,
       suffixIcon: suffixIcon,
-      style: TextStyle(
+      style: const TextStyle(
         fontSize: 32,
         fontWeight: FontWeight.w700,
-        letterSpacing: -1),
-      hintStyle: TextStyle(
+        letterSpacing: -1,
+      ),
+      hintStyle: const TextStyle(
         fontSize: 32,
         fontWeight: FontWeight.w700,
-        letterSpacing: -1),
-      contentPadding: EdgeInsets.symmetric(vertical: 20),
-      filled: false);
+        letterSpacing: -1,
+      ),
+      contentPadding: const EdgeInsets.symmetric(vertical: 20),
+      filled: false,
+    );
   }
 
   /// Verification code input (centered, letter-spaced)
@@ -277,15 +284,18 @@ class TradeRepublicTextField extends StatefulWidget {
       inputFormatters: [FilteringTextInputFormatter.digitsOnly],
       textAlign: TextAlign.center,
       counterText: '',
-      style: TextStyle(
+      style: const TextStyle(
         fontSize: 24,
         fontWeight: FontWeight.w700,
-        letterSpacing: 8),
-      hintStyle: TextStyle(
+        letterSpacing: 8,
+      ),
+      hintStyle: const TextStyle(
         fontSize: 24,
         fontWeight: FontWeight.w700,
-        letterSpacing: 8),
-      contentPadding: EdgeInsets.symmetric(vertical: 20));
+        letterSpacing: 8,
+      ),
+      contentPadding: const EdgeInsets.symmetric(vertical: 20),
+    );
   }
 
   @override
@@ -313,7 +323,8 @@ class _TradeRepublicTextFieldState extends State<TradeRepublicTextField>
     // Initialize animations - minimalistic, no scale
     _focusController = AnimationController(
       duration: const Duration(milliseconds: 200),
-      vsync: this);
+      vsync: this,
+    );
     
     // Listen to focus changes
     (widget.focusNode ?? _internalFocusNode)?.addListener(_onFocusChange);
@@ -365,12 +376,14 @@ class _TradeRepublicTextFieldState extends State<TradeRepublicTextField>
         TradeRepublicTheme.inputHintStyle(context).copyWith(
           fontSize: effectiveStyle.fontSize,
           fontWeight: effectiveStyle.fontWeight,
-          letterSpacing: effectiveStyle.letterSpacing);
+          letterSpacing: effectiveStyle.letterSpacing,
+        );
 
     final EdgeInsets effectivePadding = widget.contentPadding ??
-        EdgeInsets.symmetric(
+        const EdgeInsets.symmetric(
           horizontal: 16.0,
-          vertical: 14.0);
+          vertical: 14.0,
+        );
 
     // Build suffix icon (may include visibility toggle)
     Widget? effectiveSuffix = widget.suffixIcon;
@@ -382,8 +395,10 @@ class _TradeRepublicTextFieldState extends State<TradeRepublicTextField>
         foregroundColor: defaultIconColor,
         icon: Icon(
           _obscureText ? CupertinoIcons.eye_slash_fill : CupertinoIcons.eye_fill,
-          size: iconBtnSize),
-        onPressed: () => setState(() => _obscureText = !_obscureText));
+          size: iconBtnSize,
+        ),
+        onPressed: () => setState(() => _obscureText = !_obscureText),
+      );
     }
 
     // Style prefix icon with correct color
@@ -392,7 +407,8 @@ class _TradeRepublicTextFieldState extends State<TradeRepublicTextField>
       effectivePrefix = Icon(
         (effectivePrefix).icon,
         size: (effectivePrefix).size ?? 20.0,
-        color: (effectivePrefix).color ?? defaultIconColor);
+        color: (effectivePrefix).color ?? defaultIconColor,
+      );
     }
 
     // Let icons share the full input height so they stay vertically centered
@@ -400,7 +416,8 @@ class _TradeRepublicTextFieldState extends State<TradeRepublicTextField>
     final iconSlotConstraints = BoxConstraints(
       minWidth: 40.0,
       minHeight: 0,
-      maxHeight: double.infinity);
+      maxHeight: double.infinity,
+    );
     // Icons should not be wrapped in Center() for proper alignment
     // InputDecoration handles icon positioning via prefixIcon/suffixIcon
 
@@ -427,7 +444,8 @@ class _TradeRepublicTextFieldState extends State<TradeRepublicTextField>
       suffixIconConstraints: iconSlotConstraints,
       suffixIconColor: defaultIconColor,
       suffixText: widget.suffixText,
-      suffixStyle: widget.suffixStyle);
+      suffixStyle: widget.suffixStyle,
+    );
 
     // Minimal animated container - only border transitions, no shadows
     final field = AnimatedContainer(
@@ -444,15 +462,19 @@ class _TradeRepublicTextFieldState extends State<TradeRepublicTextField>
               : _isHovered
                   ? (isLight ? Colors.black : Colors.white).withValues(alpha: 0.2)
                   : Colors.transparent,
-          width: 1.5)),
-      child: _buildTextField(decoration, effectiveStyle, _obscureText));
+          width: 1.5,
+        ),
+      ),
+      child: _buildTextField(decoration, effectiveStyle, _obscureText),
+    );
     return field;
   }
 
   Widget _buildTextField(
     InputDecoration decoration,
     TextStyle effectiveStyle,
-    bool obscureText) {
+    bool obscureText,
+  ) {
     final focusNode = widget.focusNode ?? _internalFocusNode;
 
     final singleLine = (widget.obscureText ? 1 : (widget.maxLines ?? 1)) == 1 &&
@@ -502,7 +524,9 @@ class _TradeRepublicTextFieldState extends State<TradeRepublicTextField>
             style: effectiveStyle,
             decoration: decoration.copyWith(
               filled: false,
-              fillColor: Colors.transparent))
+              fillColor: Colors.transparent,
+            ),
+          )
         : TextField(
             controller: widget.controller,
             obscureText: obscureText,
@@ -524,7 +548,9 @@ class _TradeRepublicTextFieldState extends State<TradeRepublicTextField>
             style: effectiveStyle,
             decoration: decoration.copyWith(
               filled: false,
-              fillColor: Colors.transparent));
+              fillColor: Colors.transparent,
+            ),
+          );
   }
 }
 
@@ -573,17 +599,22 @@ class _TradeRepublicLabeledTextFieldState
       mainAxisSize: MainAxisSize.min,
       children: [
         Padding(
-          padding: EdgeInsets.only(
+          padding: const EdgeInsets.only(
             left: 4,
-            bottom: 8),
+            bottom: 8,
+          ),
           child: Text(
             label,
             style: TextStyle(
               fontSize: 13,
               fontWeight: FontWeight.w600,
               letterSpacing: -0.2,
-              color: TradeRepublicTheme.hintColor(context, opacity: 0.6)))),
+              color: TradeRepublicTheme.hintColor(context, opacity: 0.6),
+            ),
+          ),
+        ),
         super.build(context),
-      ]);
+      ],
+    );
   }
 }

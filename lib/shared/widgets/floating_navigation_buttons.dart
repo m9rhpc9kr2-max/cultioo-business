@@ -60,21 +60,26 @@ class FloatingNavigationButtons extends StatelessWidget {
       child: Container(
         decoration: BoxDecoration(
           color: (isLight ? Colors.white : Colors.black).withOpacity(0.95),
-          borderRadius: BorderRadius.circular(20)),
-        padding: EdgeInsets.all(16),
+          borderRadius: BorderRadius.circular(20),
+        ),
+        padding: const EdgeInsets.all(16),
         child: Row(
           children: [
             // Back Button (conditional)
             if (showBackButton && onBack != null) ...[
               Expanded(child: SizedBox(height: 56, child: Container())),
-              SizedBox(width: 16),
+              const SizedBox(width: 16),
             ],
 
             // Next Button
             Expanded(
               flex: showBackButton ? 2 : 1,
-              child: SizedBox(height: 56, child: Container())),
-          ])));
+              child: SizedBox(height: 56, child: Container()),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }
 
@@ -107,8 +112,9 @@ class FloatingContinueButton extends StatelessWidget {
       child: Container(
         decoration: BoxDecoration(
           color: (isLight ? Colors.white : Colors.black).withOpacity(0.95),
-          borderRadius: BorderRadius.circular(20)),
-        padding: EdgeInsets.all(16),
+          borderRadius: BorderRadius.circular(20),
+        ),
+        padding: const EdgeInsets.all(16),
         child: Container(
           width: double.infinity,
           height: 56,
@@ -119,6 +125,11 @@ class FloatingContinueButton extends StatelessWidget {
                   ? [Colors.black, Colors.black.withOpacity(0.7)]
                   : [Colors.white, Colors.white.withOpacity(0.15)],
               begin: Alignment.topLeft,
-              end: Alignment.bottomRight)))));
+              end: Alignment.bottomRight,
+            ),
+          ),
+        ),
+      ),
+    );
   }
 }

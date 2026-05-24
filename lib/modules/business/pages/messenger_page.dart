@@ -27,8 +27,6 @@ import '../../../shared/widgets/top_notification.dart';
 import '../../../shared/services/app_localizations.dart';
 import '../../../shared/widgets/cultioo_spinner.dart';
 import '../../../shared/widgets/trade_republic_tap.dart';
-import 'package:cultioo_business/shared/widgets/desktop_app_wrapper.dart';
-import 'package:cultioo_business/shared/widgets/desktop_optimized_widgets.dart';
 
 class MessengerPage extends StatefulWidget {
   const MessengerPage({super.key});
@@ -126,10 +124,12 @@ class _MessengerPageState extends State<MessengerPage>
 
       // Check if sender is current user (any variation)
       bool senderIsCurrentUser = currentUserVariations.any(
-        (v) => v.toLowerCase() == senderLower);
+        (v) => v.toLowerCase() == senderLower,
+      );
       // Check if receiver is current user (any variation)
       bool receiverIsCurrentUser = currentUserVariations.any(
-        (v) => v.toLowerCase() == receiverLower);
+        (v) => v.toLowerCase() == receiverLower,
+      );
 
       if (senderIsCurrentUser) {
         otherPerson = receiver;
@@ -168,12 +168,14 @@ class _MessengerPageState extends State<MessengerPage>
           // otherPerson sent this message, use sender_type
           userType = message['sender_type'] ?? AppLocalizations.of(context)!.tr('user');
           print(
-            '🎯 Setting userType for $otherPerson from sender_type: $userType');
+            '🎯 Setting userType for $otherPerson from sender_type: $userType',
+          );
         } else if (receiver == otherPerson) {
           // otherPerson received this message, use receiver_type
           userType = message['receiver_type'] ?? AppLocalizations.of(context)!.tr('user');
           print(
-            '🎯 Setting userType for $otherPerson from receiver_type: $userType');
+            '🎯 Setting userType for $otherPerson from receiver_type: $userType',
+          );
         }
 
         conversationMap[conversationKey] = {
@@ -213,7 +215,8 @@ class _MessengerPageState extends State<MessengerPage>
         if (messageTime.isNotEmpty &&
             (currentTime.isEmpty ||
                 DateTime.parse(
-                  messageTime).isAfter(DateTime.parse(currentTime)))) {
+                  messageTime,
+                ).isAfter(DateTime.parse(currentTime)))) {
           conversationMap[conversationKey]!['lastMessage'] =
               message['message'] ?? message['message_text'] ?? AppLocalizations.of(context)!.tr('');
           conversationMap[conversationKey]!['lastMessageTime'] = messageTime;
@@ -274,15 +277,19 @@ class _MessengerPageState extends State<MessengerPage>
     // Initialize modern animation controllers
     _headerAnimController = AnimationController(
       duration: const Duration(milliseconds: 400),
-      vsync: this);
+      vsync: this,
+    );
     _headerSlideAnim = Tween<double>(begin: -20, end: 0).animate(
-      CurvedAnimation(parent: _headerAnimController, curve: Curves.easeOut));
+      CurvedAnimation(parent: _headerAnimController, curve: Curves.easeOut),
+    );
     _headerFadeAnim = Tween<double>(begin: 0, end: 1).animate(
-      CurvedAnimation(parent: _headerAnimController, curve: Curves.easeOut));
+      CurvedAnimation(parent: _headerAnimController, curve: Curves.easeOut),
+    );
 
     _contentAnimController = AnimationController(
       duration: const Duration(milliseconds: 800),
-      vsync: this);
+      vsync: this,
+    );
 
     // Start header animation immediately
     _headerAnimController.forward();
@@ -346,7 +353,8 @@ class _MessengerPageState extends State<MessengerPage>
       await prefs.setString('cached_messages', messagesJson);
       await prefs.setString(
         'messages_cache_time',
-        DateTime.now().toIso8601String());
+        DateTime.now().toIso8601String(),
+      );
       print('💾 Messages saved to local storage: ${messages.length} messages');
     } catch (e) {
       print('❌ Error saving messages to local: $e');
@@ -392,7 +400,8 @@ class _MessengerPageState extends State<MessengerPage>
           bool isRead = msg['isRead'] == true || msg['isRead'] == 1;
           return !isRead &&
               currentUserVariations.any(
-                (v) => v.toLowerCase() == receiver.toLowerCase());
+                (v) => v.toLowerCase() == receiver.toLowerCase(),
+              );
         }).length;
         isLoading = false;
       });
@@ -412,13 +421,16 @@ class _MessengerPageState extends State<MessengerPage>
               headers: {
                 'Content-Type': 'application/json',
                 if (token != null) 'Authorization': 'Bearer $token',
-              })
+              },
+            )
             .timeout(
               const Duration(seconds: 30),
               onTimeout: () {
                 throw TimeoutException(
-                  'Loading messages is taking longer than expected. Please try again.');
-              });
+                  'Loading messages is taking longer than expected. Please try again.',
+                );
+              },
+            );
 
         print('💬 Trying endpoint: $endpoint - Status: ${response.statusCode}');
 
@@ -428,7 +440,8 @@ class _MessengerPageState extends State<MessengerPage>
           if (responseData['success'] == true &&
               responseData['messages'] != null) {
             final rawMessages = List<Map<String, dynamic>>.from(
-              responseData['messages']);
+              responseData['messages'],
+            );
 
             // Debug: Check if type field exists in messages
             final driverMessages = rawMessages
@@ -437,7 +450,8 @@ class _MessengerPageState extends State<MessengerPage>
             print('🔍 Found ${driverMessages.length} delvioo messages');
             if (driverMessages.isNotEmpty) {
               print(
-                '🔍 First message type field: ${driverMessages.first['type']}');
+                '🔍 First message type field: ${driverMessages.first['type']}',
+              );
               print('🔍 Message keys: ${driverMessages.first.keys.toList()}');
             }
 
@@ -478,7 +492,8 @@ class _MessengerPageState extends State<MessengerPage>
                 .toList();
 
             print(
-              '[SUCCESS] Messages loaded: ${messages.length} messages (delvioo messages filtered out)');
+              '[SUCCESS] Messages loaded: ${messages.length} messages (delvioo messages filtered out)',
+            );
 
             // Save messages to local storage for offline access
             await _saveMessagesToLocal(messages);
@@ -502,7 +517,8 @@ class _MessengerPageState extends State<MessengerPage>
         // Only count unread messages where current user is the receiver (using getter)
         return !isRead &&
             currentUserVariations.any(
-              (v) => v.toLowerCase() == receiver.toLowerCase());
+              (v) => v.toLowerCase() == receiver.toLowerCase(),
+            );
       }).length;
 
       // Rebuild conversations list with updated messages
@@ -516,7 +532,8 @@ class _MessengerPageState extends State<MessengerPage>
       }
 
       print(
-        '✅ Messages loaded successfully: $totalMessages total, $unreadCount unread for $currentUser');
+        '✅ Messages loaded successfully: $totalMessages total, $unreadCount unread for $currentUser',
+      );
       print('Current user variations: $currentUserVariations');
       print('Conversations: ${conversations.length}');
     } catch (e) {
@@ -550,7 +567,8 @@ class _MessengerPageState extends State<MessengerPage>
               alignment: Alignment.topCenter,
               child: ConstrainedBox(
                 constraints: BoxConstraints(
-                  maxWidth: isDesktop ? 1080 : double.infinity),
+                  maxWidth: isDesktop ? 1080 : double.infinity,
+                ),
                 child: Scrollbar(
                   controller: _scrollController,
                   thumbVisibility: isDesktop,
@@ -559,7 +577,8 @@ class _MessengerPageState extends State<MessengerPage>
                   child: CustomScrollView(
                     controller: _scrollController,
                     physics: const BouncingScrollPhysics(
-                      parent: AlwaysScrollableScrollPhysics()),
+                      parent: AlwaysScrollableScrollPhysics(),
+                    ),
                     slivers: [
                       CultiooSliverRefreshControl(onRefresh: _loadMessages),
                       SliverPadding(
@@ -569,7 +588,8 @@ class _MessengerPageState extends State<MessengerPage>
                               ? 32.0
                               : MediaQuery.of(context).padding.top + 20.0,
                           horizontalPadding,
-                          MediaQuery.of(context).padding.bottom + 120.0),
+                          MediaQuery.of(context).padding.bottom + 120.0,
+                        ),
                         sliver: SliverToBoxAdapter(
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -580,17 +600,28 @@ class _MessengerPageState extends State<MessengerPage>
                                 slideFromBottom: false,
                                 child: _buildTradeRepublicHeader(
                                   isLight,
-                                  isDesktop: isDesktop)),
+                                  isDesktop: isDesktop,
+                                ),
+                              ),
 
-                              SizedBox(height: 32),
+                              const SizedBox(height: 32),
 
                               // Conversations list — CullyAI always at top
                               _buildAnimatedSection(
                                 delay: 1,
                                 slideFromBottom: true,
-                                child: _buildConversationsList(isLight)),
-                            ]))),
-                    ])))));
+                                child: _buildConversationsList(isLight),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+    );
   }
 
   Widget _buildTradeRepublicHeader(bool isLight, {bool isDesktop = false}) {
@@ -603,7 +634,8 @@ class _MessengerPageState extends State<MessengerPage>
             builder: (context, child) {
               return Transform.translate(
                 offset: Offset(0, _headerSlideAnim.value),
-                child: Opacity(opacity: _headerFadeAnim.value, child: child));
+                child: Opacity(opacity: _headerFadeAnim.value, child: child),
+              );
             },
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -614,36 +646,49 @@ class _MessengerPageState extends State<MessengerPage>
                     color: isLight ? Colors.black : Colors.white,
                     fontSize: isDesktop ? 40 : 34,
                     fontWeight: FontWeight.w700,
-                    letterSpacing: -0.5)),
-                SizedBox(height: 4),
+                    letterSpacing: -0.5,
+                  ),
+                ),
+                const SizedBox(height: 4),
                 Text(
                   '${_getUniqueConversations().length} Conversations',
                   style: TextStyle(
                     color: (isLight ? Colors.black : Colors.white).withOpacity(
-                      0.5),
+                      0.5,
+                    ),
                     fontSize: isDesktop ? 16 : 15,
-                    fontWeight: FontWeight.w400)),
-              ]))),
+                    fontWeight: FontWeight.w400,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
         if (unreadCount > 0) ...[
           Container(
-            padding: EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
             decoration: BoxDecoration(
               color: isLight ? Colors.black : Colors.white,
-              borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
+              borderRadius: BorderRadius.circular(20),
+            ),
             child: Text(
               '$unreadCount',
               style: TextStyle(
                 color: isLight ? Colors.white : Colors.black,
                 fontSize: 15,
-                fontWeight: FontWeight.w600))),
-          SizedBox(width: 12),
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          ),
+          const SizedBox(width: 12),
         ],
         if (!_isChatModalOpen) ...[
           TradeRepublicButton.icon(
             icon: Icon(
               CupertinoIcons.person_crop_circle_badge_minus,
               size: isDesktop ? 20 : 22,
-              color: isLight ? Colors.black : Colors.white),
+              color: isLight ? Colors.black : Colors.white,
+            ),
             size: isDesktop ? 40 : 44,
             backgroundColor: (isLight ? Colors.black : Colors.white)
                 .withOpacity(0.05),
@@ -651,20 +696,24 @@ class _MessengerPageState extends State<MessengerPage>
             onPressed: () {
               HapticFeedback.lightImpact();
               _showBlockedUsersBottomSheet(isLight);
-            }),
-          SizedBox(width: 8),
+            },
+          ),
+          const SizedBox(width: 8),
           TradeRepublicButton.icon(
             icon: Icon(
               CupertinoIcons.slider_horizontal_3,
               size: isDesktop ? 20 : 22,
-              color: isLight ? Colors.black : Colors.white),
+              color: isLight ? Colors.black : Colors.white,
+            ),
             size: isDesktop ? 40 : 44,
             backgroundColor: (isLight ? Colors.black : Colors.white)
                 .withOpacity(0.05),
             foregroundColor: isLight ? Colors.black : Colors.white,
-            onPressed: () => _showMessengerSettingsBottomSheet(isLight)),
+            onPressed: () => _showMessengerSettingsBottomSheet(isLight),
+          ),
         ],
-      ]);
+      ],
+    );
   }
 
   Widget _buildConversationsList(bool isLight) {
@@ -674,16 +723,18 @@ class _MessengerPageState extends State<MessengerPage>
       children: [
         // CullyAI — always pinned at top
         _buildCullyAiCard(isLight),
-        SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+        const SizedBox(height: 8),
         ...uniqueConversations.asMap().entries.map((entry) {
           final index = entry.key + 1;
           final conversation = entry.value;
           return _buildAnimatedSection(
             delay: index,
-            child: _buildConversationCard(conversation, isLight));
+            child: _buildConversationCard(conversation, isLight),
+          );
         }),
-        SizedBox(height: 20),
-      ]);
+        const SizedBox(height: 20),
+      ],
+    );
   }
 
   // Modern Staggered Animation Widget - Delvioo Style
@@ -698,17 +749,20 @@ class _MessengerPageState extends State<MessengerPage>
         final delayFactor = delay * 0.15;
         final delayedValue = (_contentAnimController.value - delayFactor).clamp(
           0.0,
-          1.0);
+          1.0,
+        );
         final remainingRange = (1.0 - delayFactor).clamp(0.1, 1.0);
         final curvedValue = Curves.easeOutCubic.transform(
           delayedValue > 0
               ? (delayedValue / remainingRange).clamp(0.0, 1.0)
-              : 0.0);
+              : 0.0,
+        );
 
         return Transform.translate(
           offset: Offset(
             0,
-            slideFromBottom ? 30 * (1 - curvedValue) : -30 * (1 - curvedValue)),
+            slideFromBottom ? 30 * (1 - curvedValue) : -30 * (1 - curvedValue),
+          ),
           child: Opacity(
             opacity: curvedValue,
             child: Transform.scale(
@@ -716,8 +770,12 @@ class _MessengerPageState extends State<MessengerPage>
               alignment: slideFromBottom
                   ? Alignment.bottomCenter
                   : Alignment.topCenter,
-              child: child)));
-      });
+              child: child,
+            ),
+          ),
+        );
+      },
+    );
   }
 
   Widget _buildMessagesSummary(bool isLight) {
@@ -729,13 +787,14 @@ class _MessengerPageState extends State<MessengerPage>
     int visibleMessagesCount = 0;
     for (var conversation in conversations) {
       final conversationMessages = List<Map<String, dynamic>>.from(
-        conversation['messages'] ?? []);
+        conversation['messages'] ?? [],
+      );
       visibleMessagesCount += conversationMessages.length;
     }
 
     return Container(
       width: double.infinity,
-      padding: EdgeInsets.symmetric(vertical: 24, horizontal: 0),
+      padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -746,14 +805,18 @@ class _MessengerPageState extends State<MessengerPage>
               fontSize: 12,
               fontWeight: FontWeight.w700,
               color: isLight ? Colors.black : Colors.white,
-              letterSpacing: 1)),
-        ]));
+              letterSpacing: 1,
+            ),
+          ),
+        ],
+      ),
+    );
   }
 
   Widget _buildEmptyState(bool isLight) {
     return Center(
       child: Padding(
-        padding: EdgeInsets.symmetric(vertical: 60),
+        padding: const EdgeInsets.symmetric(vertical: 60),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -762,24 +825,32 @@ class _MessengerPageState extends State<MessengerPage>
               size: 48,
               color: isLight
                   ? Colors.black.withOpacity(0.3)
-                  : Colors.white.withOpacity(0.3)),
-            SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+                  : Colors.white.withOpacity(0.3),
+            ),
+            const SizedBox(height: 16),
             Text(
               AppLocalizations.of(context)?.noMessages ?? AppLocalizations.of(context)!.tr('No Messages'),
               style: TextStyle(
                 fontSize: 17,
                 fontWeight: FontWeight.w600,
-                color: isLight ? Colors.black : Colors.white)),
-            SizedBox(height: 4),
+                color: isLight ? Colors.black : Colors.white,
+              ),
+            ),
+            const SizedBox(height: 4),
             Text(
               AppLocalizations.of(context)?.yourConversationsWillAppearHere ?? AppLocalizations.of(context)!.tr('Your conversations will appear here'),
               style: TextStyle(
-                fontSize: DesktopOptimizedWidgets.getFontSize(),
+                fontSize: 14,
                 fontWeight: FontWeight.w400,
                 color: isLight
                     ? Colors.black.withOpacity(0.5)
-                    : Colors.white.withOpacity(0.5))),
-          ])));
+                    : Colors.white.withOpacity(0.5),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 
   Widget _buildMessagesList(bool isLight) {
@@ -792,7 +863,8 @@ class _MessengerPageState extends State<MessengerPage>
       ...conversations.asMap().entries.map((entry) {
         return _buildAnimatedSection(
           delay: entry.key + 1,
-          child: _buildConversationCard(entry.value, isLight));
+          child: _buildConversationCard(entry.value, isLight),
+        );
       }),
     ];
 
@@ -800,7 +872,8 @@ class _MessengerPageState extends State<MessengerPage>
       return Column(
         children: [
           _buildAnimatedSection(delay: 0, child: _buildCullyAiCard(isLight)),
-        ]);
+        ],
+      );
     }
 
     return Column(children: items);
@@ -814,10 +887,11 @@ class _MessengerPageState extends State<MessengerPage>
       },
       child: Container(
         width: double.infinity,
-        padding: EdgeInsets.symmetric(horizontal: 18, vertical: 16),
+        padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 16),
         decoration: BoxDecoration(
           color: isLight ? Colors.transparent : const Color(0xFF0A0A0A),
-          borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius())),
+          borderRadius: BorderRadius.circular(16),
+        ),
         child: Row(
           children: [
             // CullyAI Avatar
@@ -827,8 +901,10 @@ class _MessengerPageState extends State<MessengerPage>
                 isLight ? 'logo/cully_light.png' : 'logo/cully_dark.png',
                 width: 56,
                 height: 56,
-                fit: BoxFit.cover)),
-            SizedBox(width: 14),
+                fit: BoxFit.cover,
+              ),
+            ),
+            const SizedBox(width: 14),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -838,42 +914,58 @@ class _MessengerPageState extends State<MessengerPage>
                       Text(
                         'CullyAI',
                         style: TextStyle(
-                          fontSize: DesktopOptimizedWidgets.getFontSize(),
+                          fontSize: 16,
                           fontWeight: FontWeight.w700,
                           color: isLight ? Colors.black : Colors.white,
-                          letterSpacing: -0.3)),
-                      SizedBox(width: 6),
+                          letterSpacing: -0.3,
+                        ),
+                      ),
+                      const SizedBox(width: 6),
                       Container(
-                        padding: EdgeInsets.symmetric(
+                        padding: const EdgeInsets.symmetric(
                           horizontal: 7,
-                          vertical: 2),
+                          vertical: 2,
+                        ),
                         decoration: BoxDecoration(
                           color: isLight ? Colors.black : Colors.white,
-                          borderRadius: BorderRadius.circular(6)),
+                          borderRadius: BorderRadius.circular(6),
+                        ),
                         child: Text(
                           'AI',
                           style: TextStyle(
                             fontSize: 10,
                             fontWeight: FontWeight.w800,
                             letterSpacing: 0.4,
-                            color: isLight ? Colors.white : Colors.black))),
-                    ]),
-                  SizedBox(height: 4),
+                            color: isLight ? Colors.white : Colors.black,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 4),
                   Text(
                     'Your intelligent assistant — tap to chat',
                     style: TextStyle(
-                      fontSize: DesktopOptimizedWidgets.getFontSize(),
+                      fontSize: 14,
                       fontWeight: FontWeight.w400,
                       color: (isLight ? Colors.black : Colors.white)
-                          .withOpacity(0.5)),
+                          .withOpacity(0.5),
+                    ),
                     maxLines: 1,
-                    overflow: TextOverflow.ellipsis),
-                ])),
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ],
+              ),
+            ),
             Icon(
               CupertinoIcons.chevron_right,
               size: 16,
-              color: (isLight ? Colors.black : Colors.white).withOpacity(0.2)),
-          ])));
+              color: (isLight ? Colors.black : Colors.white).withOpacity(0.2),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 
   void _openCullyAiChat(bool isLight) {
@@ -883,23 +975,28 @@ class _MessengerPageState extends State<MessengerPage>
     Navigator.of(context)
         .push(
           CupertinoPageRoute(
-            builder: (context) => _CullyAiChatPage(isLight: isLight)))
+            builder: (context) => _CullyAiChatPage(isLight: isLight),
+          ),
+        )
         .then(
           (_) => setState(() {
             _isChatModalOpen = false;
-          }));
+          }),
+        );
   }
 
   Widget _buildConversationCard(
     Map<String, dynamic> conversation,
-    bool isLight) {
+    bool isLight,
+  ) {
     final otherPerson =
       conversation['otherPerson'] ?? (AppLocalizations.of(context)?.unknown ?? AppLocalizations.of(context)!.tr(''));
     final lastMessage = conversation['lastMessage'] ?? AppLocalizations.of(context)!.tr('');
     final lastMessageTime = conversation['lastMessageTime'] ?? AppLocalizations.of(context)!.tr('');
     final unreadCount = conversation['unreadCount'] ?? 0;
     final messages = List<Map<String, dynamic>>.from(
-      conversation['messages'] ?? []);
+      conversation['messages'] ?? [],
+    );
     final hasUnread = unreadCount > 0;
     final conversationId = conversation['id'] ?? otherPerson;
     final isPinned = _pinnedChats.contains(conversationId);
@@ -920,7 +1017,8 @@ class _MessengerPageState extends State<MessengerPage>
         activeLabel: AppLocalizations.of(context)?.unpin ?? 'Unpin',
         isActive: isPinned,
         iconRotation: -0.5,
-        onActivate: () => _togglePinChat(conversationId)),
+        onActivate: () => _togglePinChat(conversationId),
+      ),
       trailing: TradeRepublicSwipeSpec(
         icon: CupertinoIcons.delete_solid,
         label: AppLocalizations.of(context)?.delete ?? 'Delete',
@@ -932,19 +1030,21 @@ class _MessengerPageState extends State<MessengerPage>
           if (confirmed) {
             _deleteChatWithUser(otherPerson);
           }
-        }),
+        },
+      ),
       onTap: () {
         HapticFeedback.lightImpact();
         _openChatView(otherPerson, messages, isLight);
       },
       child: Container(
         width: double.infinity,
-        padding: EdgeInsets.symmetric(horizontal: 18, vertical: 16),
+        padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 16),
         decoration: BoxDecoration(
           color: isLight
               ? Colors.transparent
               : const Color.fromARGB(255, 0, 0, 0),
-          borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius())),
+          borderRadius: BorderRadius.circular(16),
+        ),
         child: Row(
           children: [
             // Avatar - Modern Circle Stylse
@@ -954,13 +1054,18 @@ class _MessengerPageState extends State<MessengerPage>
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(28),
                 color: (isLight ? Colors.black : Colors.white).withOpacity(
-                  0.06)),
+                  0.06,
+                ),
+              ),
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(28),
                 child: _buildConversationProfileImage(
                   otherPerson,
-                  userType: userType))),
-            SizedBox(width: 14),
+                  userType: userType,
+                ),
+              ),
+            ),
+            const SizedBox(width: 14),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -974,77 +1079,105 @@ class _MessengerPageState extends State<MessengerPage>
                               child: Text(
                                 otherPerson,
                                 style: TextStyle(
-                                  fontSize: DesktopOptimizedWidgets.getFontSize(),
+                                  fontSize: 16,
                                   fontWeight: FontWeight.w600,
                                   color: isLight ? Colors.black : Colors.white,
-                                  letterSpacing: -0.3),
+                                  letterSpacing: -0.3,
+                                ),
                                 maxLines: 1,
-                                overflow: TextOverflow.ellipsis)),
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ),
                             if (isPinned)
                               Padding(
-                                padding: EdgeInsets.only(left: 6),
+                                padding: const EdgeInsets.only(left: 6),
                                 child: Container(
-                                  padding: EdgeInsets.all(4),
+                                  padding: const EdgeInsets.all(4),
                                   decoration: BoxDecoration(
                                     color:
                                         (isLight ? Colors.black : Colors.white)
                                             .withOpacity(0.1),
-                                    borderRadius: BorderRadius.circular(6)),
+                                    borderRadius: BorderRadius.circular(6),
+                                  ),
                                   child: Icon(
                                     CupertinoIcons.pin_fill,
                                     color: isLight
                                         ? Colors.black
                                         : Colors.white,
-                                    size: 10))),
-                          ])),
+                                    size: 10,
+                                  ),
+                                ),
+                              ),
+                          ],
+                        ),
+                      ),
                       Text(
                         _formatTime(lastMessageTime),
                         style: TextStyle(
                           fontSize: 12,
                           fontWeight: FontWeight.w500,
                           color: (isLight ? Colors.black : Colors.white)
-                              .withOpacity(0.4))),
-                    ]),
-                  SizedBox(height: 4),
+                              .withOpacity(0.4),
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 4),
                   Row(
                     children: [
                       Expanded(
                         child: Text(
                           lastMessage,
                           style: TextStyle(
-                            fontSize: DesktopOptimizedWidgets.getFontSize(),
+                            fontSize: 14,
                             fontWeight: hasUnread
                                 ? FontWeight.w600
                                 : FontWeight.w400,
                             color: (isLight ? Colors.black : Colors.white)
-                                .withOpacity(hasUnread ? 0.9 : 0.5)),
+                                .withOpacity(hasUnread ? 0.9 : 0.5),
+                          ),
                           maxLines: 1,
-                          overflow: TextOverflow.ellipsis)),
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
                       if (hasUnread)
                         Container(
-                          margin: EdgeInsets.only(left: 10),
-                          padding: EdgeInsets.symmetric(
+                          margin: const EdgeInsets.only(left: 10),
+                          padding: const EdgeInsets.symmetric(
                             horizontal: 8,
-                            vertical: 4),
+                            vertical: 4,
+                          ),
                           decoration: BoxDecoration(
                             color: isLight ? Colors.black : Colors.white,
-                            borderRadius: BorderRadius.circular(10)),
+                            borderRadius: BorderRadius.circular(10),
+                          ),
                           child: Text(
                             unreadCount > 99 ? '99+' : unreadCount.toString(),
                             style: TextStyle(
                               fontSize: 11,
                               fontWeight: FontWeight.w600,
-                              color: isLight ? Colors.white : Colors.black))),
-                    ]),
-                ])),
+                              color: isLight ? Colors.white : Colors.black,
+                            ),
+                          ),
+                        ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
             // Chevron indicator
             Padding(
-              padding: EdgeInsets.only(left: 8),
+              padding: const EdgeInsets.only(left: 8),
               child: Icon(
                 CupertinoIcons.chevron_right,
                 size: 16,
-                color: (isLight ? Colors.black : Colors.white).withOpacity(0.2))),
-          ])));
+                color: (isLight ? Colors.black : Colors.white).withOpacity(0.2),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 
   String _formatTime(String? dateString) {
@@ -1073,7 +1206,8 @@ class _MessengerPageState extends State<MessengerPage>
   Future<void> _sendDirectMessage(
     String otherPerson,
     dynamic orderId,
-    String text) async {
+    String text,
+  ) async {
     if (text.trim().isEmpty) return;
     try {
       final prefs = await SharedPreferences.getInstance();
@@ -1111,7 +1245,9 @@ class _MessengerPageState extends State<MessengerPage>
                       'receiver_id': otherPerson,
                       'order_id': 0,
                       'message': text,
-                    }))
+                    },
+            ),
+          )
           .timeout(const Duration(seconds: 10));
     } catch (e) {
       print('❌ Error sending direct message: $e');
@@ -1121,7 +1257,8 @@ class _MessengerPageState extends State<MessengerPage>
   void _openChatView(
     String otherPerson,
     List<Map<String, dynamic>> messages,
-    bool isLight) {
+    bool isLight,
+  ) {
     // Get order_id from the first message to load complete chat history
     final orderId = messages.isNotEmpty ? messages.first['order_id'] : null;
 
@@ -1143,7 +1280,10 @@ class _MessengerPageState extends State<MessengerPage>
                   ? orderId
                   : int.tryParse('${orderId ?? ''}'),
               onSendMessage: (text) =>
-                  _sendDirectMessage(otherPerson, orderId, text))))
+                  _sendDirectMessage(otherPerson, orderId, text),
+            ),
+          ),
+        )
         .then((_) {
           // Show CNPopupMenuButton again when chat modal closes
           setState(() {
@@ -1151,7 +1291,8 @@ class _MessengerPageState extends State<MessengerPage>
           });
           // Reload messages when returning from chat to update unread counts
           print(
-            '🔄 Reloading messages after chat closed to update unread counts');
+            '🔄 Reloading messages after chat closed to update unread counts',
+          );
           _loadMessages();
         });
   }
@@ -1160,7 +1301,8 @@ class _MessengerPageState extends State<MessengerPage>
     String otherPerson,
     List<Map<String, dynamic>> initialMessages,
     int? orderId,
-    bool isLight) {
+    bool isLight,
+  ) {
     // Create controllers outside of builder to persist
     final TextEditingController messageController = TextEditingController();
     final FocusNode messageFocusNode = FocusNode();
@@ -1282,9 +1424,11 @@ class _MessengerPageState extends State<MessengerPage>
 
             // Special case: if otherPerson is exactly the current user (shouldn't happen but let's be safe)
             if (currentUserVariations.any(
-              (v) => v.toLowerCase() == otherPerson.toLowerCase())) {
+              (v) => v.toLowerCase() == otherPerson.toLowerCase(),
+            )) {
               print(
-                '⚠️ Cannot mark messages as read: otherPerson is current user ($otherPerson)');
+                '⚠️ Cannot mark messages as read: otherPerson is current user ($otherPerson)',
+              );
               return;
             }
 
@@ -1294,7 +1438,8 @@ class _MessengerPageState extends State<MessengerPage>
                 : orderId;
 
             print(
-              '🔄 Marking messages as read ONCE: sender=$requestSender, receiver=$requestReceiver, order_id=$actualOrderId');
+              '🔄 Marking messages as read ONCE: sender=$requestSender, receiver=$requestReceiver, order_id=$actualOrderId',
+            );
 
             final response = await http.put(
               Uri.parse('${ApiConfig.baseUrl}/api/messages/mark-read'),
@@ -1307,10 +1452,12 @@ class _MessengerPageState extends State<MessengerPage>
                 'receiver': requestReceiver,
                 if (actualOrderId != null)
                   'order_id': actualOrderId, // Only include if not null
-              }));
+              }),
+            );
 
             print(
-              '📤 Mark-read request body: ${json.encode({'sender': requestSender, 'receiver': requestReceiver, if (actualOrderId != null) 'order_id': actualOrderId})}');
+              '📤 Mark-read request body: ${json.encode({'sender': requestSender, 'receiver': requestReceiver, if (actualOrderId != null) 'order_id': actualOrderId})}',
+            );
 
             if (response.statusCode == 200) {
               final data = json.decode(response.body);
@@ -1333,7 +1480,8 @@ class _MessengerPageState extends State<MessengerPage>
               }
             } else {
               print(
-                '⚠️ Failed to mark messages as read: ${response.statusCode}');
+                '⚠️ Failed to mark messages as read: ${response.statusCode}',
+              );
               print('Response: ${response.body}');
             }
           } catch (e) {
@@ -1369,9 +1517,11 @@ class _MessengerPageState extends State<MessengerPage>
               String senderLower = sender.toLowerCase();
               String receiverLower = receiver.toLowerCase();
               bool senderIsCurrentUser = currentUserVariations.any(
-                (v) => v.toLowerCase() == senderLower);
+                (v) => v.toLowerCase() == senderLower,
+              );
               bool receiverIsCurrentUser = currentUserVariations.any(
-                (v) => v.toLowerCase() == receiverLower);
+                (v) => v.toLowerCase() == receiverLower,
+              );
 
               // Check if this message is part of this conversation
               bool isPartOfConversation = false;
@@ -1461,7 +1611,8 @@ class _MessengerPageState extends State<MessengerPage>
                 currentUser;
 
             print(
-              '👤 Sender username: $senderUsername (full name: $currentUser)');
+              '👤 Sender username: $senderUsername (full name: $currentUser)',
+            );
 
             // Add message immediately to UI for better UX
             setModalState(() {
@@ -1497,7 +1648,8 @@ class _MessengerPageState extends State<MessengerPage>
 
             print('📍 Endpoint: $endpoint');
             print(
-              '📦 Payload: sender=$senderUsername, receiver=$otherPerson, orderId=$orderId, isOrderConversation=$isOrderConversation');
+              '📦 Payload: sender=$senderUsername, receiver=$otherPerson, orderId=$orderId, isOrderConversation=$isOrderConversation',
+            );
 
             print('🚀 Sending HTTP POST request...');
             final response = await http
@@ -1526,13 +1678,16 @@ class _MessengerPageState extends State<MessengerPage>
                             'receiver_id': otherPerson,
                             'order_id': 0,
                             'message': messageText,
-                          }))
+                          },
+                  ),
+                )
                 .timeout(
                   const Duration(seconds: 10),
                   onTimeout: () {
                     print('⏰ Request timed out after 10 seconds');
                     throw Exception('Request timeout');
-                  });
+                  },
+                );
 
             print('📬 Server response: ${response.statusCode}');
             if (response.statusCode == 200 || response.statusCode == 201) {
@@ -1608,7 +1763,8 @@ class _MessengerPageState extends State<MessengerPage>
 
             print('🚀 Starting upload to: $uploadUrl');
             print(
-              '🚀 orderId: $orderId, otherPerson: $otherPerson, isOrderChat: $isOrderChat');
+              '🚀 orderId: $orderId, otherPerson: $otherPerson, isOrderChat: $isOrderChat',
+            );
 
             final request = http.MultipartRequest('POST', Uri.parse(uploadUrl));
 
@@ -1623,10 +1779,12 @@ class _MessengerPageState extends State<MessengerPage>
             request.fields['receiver_type'] = receiverType;
 
             print(
-              '📤 Image upload fields: sender=$senderUsername, receiver=$otherPerson, receiver_type=$receiverType');
+              '📤 Image upload fields: sender=$senderUsername, receiver=$otherPerson, receiver_type=$receiverType',
+            );
 
             request.files.add(
-              http.MultipartFile.fromBytes('file', bytes, filename: fileName));
+              http.MultipartFile.fromBytes('file', bytes, filename: fileName),
+            );
 
             final response = await request.send();
             final responseBody = await response.stream.bytesToString();
@@ -1644,7 +1802,8 @@ class _MessengerPageState extends State<MessengerPage>
               if (isMounted) {
                 setModalState(() {
                   chatMessages.removeWhere(
-                    (msg) => msg['id'].toString().startsWith('uploading_'));
+                    (msg) => msg['id'].toString().startsWith('uploading_'),
+                  );
                 });
                 loadCompleteChat();
               }
@@ -1656,7 +1815,8 @@ class _MessengerPageState extends State<MessengerPage>
               if (isMounted) {
                 setModalState(() {
                   chatMessages.removeWhere(
-                    (msg) => msg['id'].toString().startsWith('uploading_'));
+                    (msg) => msg['id'].toString().startsWith('uploading_'),
+                  );
                   chatMessages.add({
                     'id': DateTime.now().millisecondsSinceEpoch,
                     'sender': currentUser,
@@ -1680,7 +1840,8 @@ class _MessengerPageState extends State<MessengerPage>
             if (isMounted) {
               setModalState(() {
                 chatMessages.removeWhere(
-                  (msg) => msg['id'].toString().startsWith('uploading_'));
+                  (msg) => msg['id'].toString().startsWith('uploading_'),
+                );
                 chatMessages.add({
                   'id': DateTime.now().millisecondsSinceEpoch,
                   'sender': currentUser,
@@ -1700,7 +1861,8 @@ class _MessengerPageState extends State<MessengerPage>
         // Handle file attachment
         Future<void> handleFileAttachment(
           PlatformFile file,
-          String type) async {
+          String type,
+        ) async {
           try {
             final fileName = file.name;
             final fileSize = file.size;
@@ -1730,7 +1892,8 @@ class _MessengerPageState extends State<MessengerPage>
 
             // Upload file to server - support both order and general chats
             print(
-              '🔍 Debug file bytes: file.bytes = ${file.bytes != null ? "NOT NULL (${file.bytes!.length} bytes)" : "NULL"}');
+              '🔍 Debug file bytes: file.bytes = ${file.bytes != null ? "NOT NULL (${file.bytes!.length} bytes)" : "NULL"}',
+            );
             print('🔍 Debug file path: file.path = ${file.path}');
             print('🔍 Debug file size: file.size = ${file.size}');
 
@@ -1751,7 +1914,8 @@ class _MessengerPageState extends State<MessengerPage>
                 if (exists) {
                   fileBytes = await fileFromPath.readAsBytes();
                   print(
-                    '🔍 Successfully read ${fileBytes.length} bytes from path');
+                    '🔍 Successfully read ${fileBytes.length} bytes from path',
+                  );
                 } else {
                   print('❌ File does not exist at path: ${file.path}');
                 }
@@ -1764,7 +1928,8 @@ class _MessengerPageState extends State<MessengerPage>
             }
 
             print(
-              '🔍 Final fileBytes: ${fileBytes != null ? "${fileBytes.length} bytes" : "NULL"}');
+              '🔍 Final fileBytes: ${fileBytes != null ? "${fileBytes.length} bytes" : "NULL"}',
+            );
 
             if (fileBytes != null) {
               final token = await _getStoredToken();
@@ -1778,11 +1943,13 @@ class _MessengerPageState extends State<MessengerPage>
 
               print('🚀 Starting file upload to: $uploadUrl');
               print(
-                '🚀 File: $fileName, type: $type, orderId: $orderId, isOrderChat: $isOrderChat');
+                '🚀 File: $fileName, type: $type, orderId: $orderId, isOrderChat: $isOrderChat',
+              );
 
               final request = http.MultipartRequest(
                 'POST',
-                Uri.parse(uploadUrl));
+                Uri.parse(uploadUrl),
+              );
 
               request.headers.addAll({
                 if (token != null) 'Authorization': 'Bearer $token',
@@ -1796,13 +1963,16 @@ class _MessengerPageState extends State<MessengerPage>
               request.fields['file_name'] = fileName;
 
               print(
-                '📤 File upload fields: sender=$senderUsername, receiver=$otherPerson, type=$type, receiver_type=$receiverType');
+                '📤 File upload fields: sender=$senderUsername, receiver=$otherPerson, type=$type, receiver_type=$receiverType',
+              );
 
               request.files.add(
                 http.MultipartFile.fromBytes(
                   'file',
                   fileBytes,
-                  filename: fileName));
+                  filename: fileName,
+                ),
+              );
 
               final response = await request.send();
               final responseBody = await response.stream.bytesToString();
@@ -1819,7 +1989,8 @@ class _MessengerPageState extends State<MessengerPage>
                 if (isMounted) {
                   setModalState(() {
                     chatMessages.removeWhere(
-                      (msg) => msg['id'].toString().startsWith('uploading_'));
+                      (msg) => msg['id'].toString().startsWith('uploading_'),
+                    );
                   });
                   loadCompleteChat();
                 }
@@ -1831,7 +2002,8 @@ class _MessengerPageState extends State<MessengerPage>
                 if (isMounted) {
                   setModalState(() {
                     chatMessages.removeWhere(
-                      (msg) => msg['id'].toString().startsWith('uploading_'));
+                      (msg) => msg['id'].toString().startsWith('uploading_'),
+                    );
                     chatMessages.add({
                       'id': DateTime.now().millisecondsSinceEpoch,
                       'sender': currentUser,
@@ -1862,7 +2034,8 @@ class _MessengerPageState extends State<MessengerPage>
             if (isMounted) {
               setModalState(() {
                 chatMessages.removeWhere(
-                  (msg) => msg['id'].toString().startsWith('uploading_'));
+                  (msg) => msg['id'].toString().startsWith('uploading_'),
+                );
                 chatMessages.add({
                   'id': DateTime.now().millisecondsSinceEpoch,
                   'sender': currentUser,
@@ -1882,7 +2055,8 @@ class _MessengerPageState extends State<MessengerPage>
         // Send selected attachment
         Future<void> sendSelectedAttachment() async {
           print(
-            '🔴 _sendSelectedAttachment called - Image: ${getSelectedImage() != null}, File: ${getSelectedFile() != null}');
+            '🔴 _sendSelectedAttachment called - Image: ${getSelectedImage() != null}, File: ${getSelectedFile() != null}',
+          );
 
           if (getSelectedImage() != null) {
             print('🔴 Handling image attachment: ${getSelectedImage()!.name}');
@@ -1895,7 +2069,8 @@ class _MessengerPageState extends State<MessengerPage>
             print('🔴 Handling file attachment: ${getSelectedFile()!.name}');
             await handleFileAttachment(
               getSelectedFile()!,
-              getPreviewType() ?? AppLocalizations.of(context)!.tr('file'));
+              getPreviewType() ?? AppLocalizations.of(context)!.tr('file'),
+            );
             setModalState(() {
               updateSelectedFile(null);
               updatePreviewType(null);
@@ -1919,7 +2094,8 @@ class _MessengerPageState extends State<MessengerPage>
           try {
             final picker = ImagePicker();
             final XFile? image = await picker.pickImage(
-              source: ImageSource.camera);
+              source: ImageSource.camera,
+            );
             if (image != null) {
               setModalState(() {
                 updateSelectedImage(image);
@@ -1937,7 +2113,8 @@ class _MessengerPageState extends State<MessengerPage>
           try {
             final picker = ImagePicker();
             final XFile? image = await picker.pickImage(
-              source: ImageSource.gallery);
+              source: ImageSource.gallery,
+            );
             if (image != null) {
               setModalState(() {
                 updateSelectedImage(image);
@@ -1955,7 +2132,8 @@ class _MessengerPageState extends State<MessengerPage>
           try {
             FilePickerResult? result = await FilePicker.platform.pickFiles(
               type: FileType.custom,
-              allowedExtensions: ['pdf']);
+              allowedExtensions: ['pdf'],
+            );
 
             if (result != null && result.files.isNotEmpty) {
               setModalState(() {
@@ -2000,7 +2178,7 @@ class _MessengerPageState extends State<MessengerPage>
               onTap();
             },
             child: Container(
-              padding: EdgeInsets.symmetric(vertical: 16),
+              padding: const EdgeInsets.symmetric(vertical: 16),
               decoration: BoxDecoration(color: Colors.transparent),
               child: Row(
                 children: [
@@ -2009,12 +2187,15 @@ class _MessengerPageState extends State<MessengerPage>
                     height: 44,
                     decoration: BoxDecoration(
                       color: isLight ? Colors.white : Colors.black,
-                      borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
+                      borderRadius: BorderRadius.circular(20),
+                    ),
                     child: Icon(
                       icon,
                       size: 20,
-                      color: isLight ? Colors.black : Colors.white)),
-                  SizedBox(width: 16),
+                      color: isLight ? Colors.black : Colors.white,
+                    ),
+                  ),
+                  const SizedBox(width: 16),
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -2022,23 +2203,33 @@ class _MessengerPageState extends State<MessengerPage>
                         Text(
                           title,
                           style: TextStyle(
-                            fontSize: DesktopOptimizedWidgets.getFontSize(),
+                            fontSize: 16,
                             fontWeight: FontWeight.w500,
                             color: isLight ? Colors.black : Colors.white,
-                            letterSpacing: -0.2)),
-                        SizedBox(height: 2),
+                            letterSpacing: -0.2,
+                          ),
+                        ),
+                        const SizedBox(height: 2),
                         Text(
                           subtitle,
                           style: TextStyle(
                             fontSize: 13,
                             fontWeight: FontWeight.w400,
-                            color: isLight ? Colors.black : Colors.white)),
-                      ])),
+                            color: isLight ? Colors.black : Colors.white,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
                   Icon(
                     CupertinoIcons.chevron_right,
                     size: 16,
-                    color: isLight ? Colors.black : Colors.white),
-                ])));
+                    color: isLight ? Colors.black : Colors.white,
+                  ),
+                ],
+              ),
+            ),
+          );
         }
 
         // Show attachment options
@@ -2058,8 +2249,9 @@ class _MessengerPageState extends State<MessengerPage>
                       Icon(
                         CupertinoIcons.paperclip,
                         size: 22,
-                        color: isLight ? Colors.black : Colors.white),
-                      SizedBox(width: 12),
+                        color: isLight ? Colors.black : Colors.white,
+                      ),
+                      const SizedBox(width: 12),
                       Flexible(
                         child: Text(
                           AppLocalizations.of(context)?.sendAttachment ?? AppLocalizations.of(context)!.tr('Attachment'),
@@ -2067,8 +2259,12 @@ class _MessengerPageState extends State<MessengerPage>
                             fontSize: 22,
                             fontWeight: FontWeight.w700,
                             color: isLight ? Colors.black : Colors.white,
-                            letterSpacing: -0.4))),
-                    ]),
+                            letterSpacing: -0.4,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
 
                   // Options
                   buildAttachmentOption(
@@ -2077,7 +2273,8 @@ class _MessengerPageState extends State<MessengerPage>
                     subtitle:
                         AppLocalizations.of(context)?.takeAPhoto ?? AppLocalizations.of(context)!.tr('Take a photo'),
                     onTap: () => pickImageFromCamera(context),
-                    isLight: isLight),
+                    isLight: isLight,
+                  ),
 
                   buildAttachmentOption(
                     icon: CupertinoIcons.photo_on_rectangle,
@@ -2086,7 +2283,8 @@ class _MessengerPageState extends State<MessengerPage>
                     subtitle:
                         AppLocalizations.of(context)?.chooseFromGallery ?? AppLocalizations.of(context)!.tr('Choose from gallery'),
                     onTap: () => pickImageFromGallery(context),
-                    isLight: isLight),
+                    isLight: isLight,
+                  ),
 
                   buildAttachmentOption(
                     icon: CupertinoIcons.doc_text,
@@ -2095,9 +2293,10 @@ class _MessengerPageState extends State<MessengerPage>
                     subtitle:
                         AppLocalizations.of(context)?.uploadPdfFile ?? AppLocalizations.of(context)!.tr('Upload PDF file'),
                     onTap: () => pickPdfFile(context),
-                    isLight: isLight),
+                    isLight: isLight,
+                  ),
 
-                  SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+                  const SizedBox(height: 12),
 
                   // Cancel button
                   TradeRepublicButton(
@@ -2106,8 +2305,12 @@ class _MessengerPageState extends State<MessengerPage>
                       HapticFeedback.lightImpact();
                       Navigator.pop(context);
                     },
-                    isSecondary: true),
-                ])));
+                    isSecondary: true,
+                  ),
+                ],
+              ),
+            ),
+          );
         }
 
         // Track if the modal is still mounted
@@ -2136,7 +2339,8 @@ class _MessengerPageState extends State<MessengerPage>
                     Container(
                       padding: EdgeInsets.fromLTRB(20, topPadding + 16, 20, 14),
                       decoration: BoxDecoration(
-                        color: isLight ? Colors.white : Colors.black),
+                        color: isLight ? Colors.white : Colors.black,
+                      ),
                       child: Row(
                         children: [
                           // Back button
@@ -2144,29 +2348,35 @@ class _MessengerPageState extends State<MessengerPage>
                             icon: Icon(
                               CupertinoIcons.chevron_back,
                               size: 18,
-                              color: isLight ? Colors.black : Colors.white),
+                              color: isLight ? Colors.black : Colors.white,
+                            ),
                             isSecondary: true,
                             width: 44,
                             height: 44,
                             padding: EdgeInsets.zero,
                             borderRadius: BorderRadius.circular(25),
-                            onPressed: () => Navigator.pop(context)),
-                          SizedBox(width: 14),
+                            onPressed: () => Navigator.pop(context),
+                          ),
+                          const SizedBox(width: 14),
                           // Name - Trade Republic style
                           Expanded(
                             child: Text(
                               otherPerson,
                               style: TextStyle(
                                 color: isLight ? Colors.black : Colors.white,
-                                fontSize: DesktopOptimizedWidgets.getFontSize() + 6,
+                                fontSize: 20,
                                 fontWeight: FontWeight.w700,
-                                letterSpacing: -0.5))),
+                                letterSpacing: -0.5,
+                              ),
+                            ),
+                          ),
                           // Menu button
                           TradeRepublicButton(
                             icon: Icon(
                               CupertinoIcons.ellipsis,
                               size: 18,
-                              color: isLight ? Colors.black : Colors.white),
+                              color: isLight ? Colors.black : Colors.white,
+                            ),
                             isSecondary: true,
                             width: 44,
                             height: 44,
@@ -2175,8 +2385,12 @@ class _MessengerPageState extends State<MessengerPage>
                             onPressed: () => _showChatMenuBottomSheet(
                               context,
                               otherPerson,
-                              isLight)),
-                        ])),
+                              isLight,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
 
                     // Messages list
                     Expanded(
@@ -2184,11 +2398,12 @@ class _MessengerPageState extends State<MessengerPage>
                           ? Center(child: CultiooLoadingIndicator(size: 20))
                           : ListView.builder(
                               reverse: true, // Start from bottom (last message)
-                              padding: EdgeInsets.fromLTRB(
+                              padding: const EdgeInsets.fromLTRB(
                                 20,
                                 16,
                                 20,
-                                100),
+                                100,
+                              ),
                               addAutomaticKeepAlives:
                                   true, // Cache widgets to prevent rebuilds
                               itemCount: chatMessages.length,
@@ -2201,25 +2416,30 @@ class _MessengerPageState extends State<MessengerPage>
                                 // Use dynamic currentUserVariations instead of hardcoded 'arkadiy'
                                 final isFromMe = currentUserVariations.any(
                                   (v) =>
-                                      v.toLowerCase() == sender.toLowerCase());
+                                      v.toLowerCase() == sender.toLowerCase(),
+                                );
 
                                 // Direct render without animation for better performance
                                 return _buildMessageBubble(message, isLight);
-                              })),
+                              },
+                            ),
+                    ),
 
                     // File preview section - Trade Republic Style
                     if (getSelectedImage() != null || getSelectedFile() != null)
                       Container(
-                        margin: EdgeInsets.symmetric(
+                        margin: const EdgeInsets.symmetric(
                           horizontal: 20,
-                          vertical: 8),
+                          vertical: 8,
+                        ),
                         width: double.infinity,
-                        padding: EdgeInsets.all(14),
+                        padding: const EdgeInsets.all(14),
                         decoration: BoxDecoration(
                           color: isLight
                               ? Colors.transparent
                               : Colors.transparent,
-                          borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius())),
+                          borderRadius: BorderRadius.circular(16),
+                        ),
                         child: Row(
                           children: [
                             // Preview thumbnail - Trade Republic Style
@@ -2228,10 +2448,11 @@ class _MessengerPageState extends State<MessengerPage>
                               height: 64,
                               decoration: BoxDecoration(
                                 color: isLight ? Colors.black : Colors.white,
-                                borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
+                                borderRadius: BorderRadius.circular(20),
+                              ),
                               child: getSelectedImage() != null
                                   ? ClipRRect(
-                                      borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
+                                      borderRadius: BorderRadius.circular(20),
                                       child: Image.file(
                                         File(getSelectedImage()!.path),
                                         fit: BoxFit.cover,
@@ -2243,8 +2464,11 @@ class _MessengerPageState extends State<MessengerPage>
                                                     .exclamationmark_triangle,
                                                 color: isLight
                                                     ? Colors.black
-                                                    : Colors.white);
-                                            }))
+                                                    : Colors.white,
+                                              );
+                                            },
+                                      ),
+                                    )
                                   : Icon(
                                       getPreviewType() == 'pdf'
                                           ? Icons.picture_as_pdf
@@ -2252,8 +2476,10 @@ class _MessengerPageState extends State<MessengerPage>
                                       color: isLight
                                           ? Colors.black
                                           : Colors.white,
-                                      size: 24)),
-                            SizedBox(width: 12),
+                                      size: 24,
+                                    ),
+                            ),
+                            const SizedBox(width: 12),
 
                             // File info
                             Expanded(
@@ -2264,34 +2490,43 @@ class _MessengerPageState extends State<MessengerPage>
                                     getSelectedImage()?.name ??
                                         getSelectedFile()?.name ??
                                         AppLocalizations.of(
-                                          context)?.unknownFile ?? AppLocalizations.of(context)!.tr('Unknown file'),
+                                          context,
+                                        )?.unknownFile ?? AppLocalizations.of(context)!.tr('Unknown file'),
                                     style: TextStyle(
                                       fontWeight: FontWeight.w600,
                                       color: isLight
                                           ? Colors.black
-                                          : Colors.white),
+                                          : Colors.white,
+                                    ),
                                     maxLines: 1,
-                                    overflow: TextOverflow.ellipsis),
-                                  SizedBox(height: 4),
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                  const SizedBox(height: 4),
                                   Text(
                                     getSelectedImage() != null
                                         ? AppLocalizations.of(
-                                                context)?.imageReadyToSend ?? AppLocalizations.of(context)!.tr('Image • Ready to send')
+                                                context,
+                                              )?.imageReadyToSend ?? AppLocalizations.of(context)!.tr('Image • Ready to send')
                                         : '${getPreviewType()?.toUpperCase()} • ${(getSelectedFile()?.size ?? 0) > 0 ? formatFileSize(getSelectedFile()!.size) : 'Unknown size'}',
                                     style: TextStyle(
                                       fontSize: 12,
                                       fontWeight: FontWeight.w500,
                                       color: isLight
                                           ? Colors.black
-                                          : Colors.white)),
-                                ])),
+                                          : Colors.white,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
 
                             // Remove button
                             TradeRepublicButton.icon(
-                              icon: Icon(
+                              icon: const Icon(
                                 CupertinoIcons.xmark,
                                 size: 16,
-                                color: Colors.red),
+                                color: Colors.red,
+                              ),
                               size: 36,
                               backgroundColor: Colors.red.withValues(alpha: 0.1),
                               onPressed: () {
@@ -2299,8 +2534,11 @@ class _MessengerPageState extends State<MessengerPage>
                                 setModalState(() {
                                   clearSelectedAttachment();
                                 });
-                              }),
-                          ])),
+                              },
+                            ),
+                          ],
+                        ),
+                      ),
 
                     // Input bar - Trade Republic Style
                     Container(
@@ -2308,14 +2546,16 @@ class _MessengerPageState extends State<MessengerPage>
                         20,
                         12,
                         20,
-                        MediaQuery.of(context).padding.bottom + 12),
+                        MediaQuery.of(context).padding.bottom + 12,
+                      ),
                       decoration: BoxDecoration(
-                        color: isLight ? Colors.white : Colors.black),
+                        color: isLight ? Colors.white : Colors.black,
+                      ),
                       child: Row(
                         children: [
                           // Attachment button
                           Padding(
-                            padding: EdgeInsets.only(right: 10),
+                            padding: const EdgeInsets.only(right: 10),
                             child: TradeRepublicButton.icon(
                               icon: Icon(CupertinoIcons.plus, size: 20),
                               onPressed: () => _showAttachmentOptions(
@@ -2327,14 +2567,17 @@ class _MessengerPageState extends State<MessengerPage>
                                 getSelectedFile,
                                 updateSelectedImage,
                                 updateSelectedFile,
-                                updatePreviewType),
+                                updatePreviewType,
+                              ),
                               backgroundColor:
                                   (isLight ? Colors.black : Colors.white)
                                       .withValues(alpha: 0.06),
                               foregroundColor: isLight
                                   ? Colors.black
                                   : Colors.white,
-                              size: 40)),
+                              size: 40,
+                            ),
+                          ),
 
                           // Input field
                           Expanded(
@@ -2345,15 +2588,18 @@ class _MessengerPageState extends State<MessengerPage>
                                   AppLocalizations.of(context)?.message ?? AppLocalizations.of(context)!.tr('Message'),
                               maxLines: null,
                               textCapitalization: TextCapitalization.sentences,
-                              onChanged: (value) => setModalState(() {}))),
+                              onChanged: (value) => setModalState(() {}),
+                            ),
+                          ),
 
-                          SizedBox(width: 10),
+                          const SizedBox(width: 10),
 
                           // Send button
                           TradeRepublicButton.icon(
-                            icon: Icon(
+                            icon: const Icon(
                               CupertinoIcons.arrow_up,
-                              size: 18),
+                              size: 18,
+                            ),
                             size: 40,
                             onPressed:
                                 (messageController.text.trim().isEmpty &&
@@ -2374,11 +2620,19 @@ class _MessengerPageState extends State<MessengerPage>
                                             await sendMessage(message, 'text');
                                           }
                                         }());
-                                      }),
-                        ])),
-                  ]));
-            }));
-      });
+                                      },
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            },
+          ),
+        );
+      },
+    );
   }
 
   // Show attachment options with iOS-style design
@@ -2391,7 +2645,8 @@ class _MessengerPageState extends State<MessengerPage>
     PlatformFile? Function() getSelectedFile,
     void Function(XFile?) updateSelectedImage,
     void Function(PlatformFile?) updateSelectedFile,
-    void Function(String?) updatePreviewType) {
+    void Function(String?) updatePreviewType,
+  ) {
     TradeRepublicBottomSheet.show(
       context: context,
       bottomPadding: 20.0,
@@ -2406,7 +2661,9 @@ class _MessengerPageState extends State<MessengerPage>
             leading: Icon(
               CupertinoIcons.paperclip,
               size: 20,
-              color: TradeRepublicTheme.textColor(context))),
+              color: TradeRepublicTheme.textColor(context),
+            ),
+          ),
 
           TradeRepublicCard(
             backgroundColor: isLight ? null : Colors.transparent,
@@ -2420,7 +2677,8 @@ class _MessengerPageState extends State<MessengerPage>
                   leading: Icon(
                     CupertinoIcons.camera,
                     size: 20,
-                    color: TradeRepublicTheme.textColor(context)),
+                    color: TradeRepublicTheme.textColor(context),
+                  ),
                   onTap: () async {
                     HapticFeedback.lightImpact();
                     Navigator.pop(context);
@@ -2428,7 +2686,8 @@ class _MessengerPageState extends State<MessengerPage>
                     final picker = ImagePicker();
                     final XFile? image = await picker.pickImage(
                       source: ImageSource.gallery,
-                      imageQuality: 70);
+                      imageQuality: 70,
+                    );
 
                     if (image != null) {
                       setModalState(() {
@@ -2437,7 +2696,8 @@ class _MessengerPageState extends State<MessengerPage>
                         updateSelectedFile(null);
                       });
                     }
-                  }),
+                  },
+                ),
                 const TradeRepublicDivider(),
                 TradeRepublicListTile.navigation(
                   title:
@@ -2447,14 +2707,16 @@ class _MessengerPageState extends State<MessengerPage>
                   leading: Icon(
                     CupertinoIcons.doc,
                     size: 20,
-                    color: TradeRepublicTheme.textColor(context)),
+                    color: TradeRepublicTheme.textColor(context),
+                  ),
                   onTap: () async {
                     HapticFeedback.lightImpact();
                     Navigator.pop(context);
 
                     final result = await FilePicker.platform.pickFiles(
                       type: FileType.custom,
-                      allowedExtensions: ['pdf']);
+                      allowedExtensions: ['pdf'],
+                    );
 
                     if (result != null && result.files.isNotEmpty) {
                       setModalState(() {
@@ -2463,10 +2725,13 @@ class _MessengerPageState extends State<MessengerPage>
                         updateSelectedImage(null);
                       });
                     }
-                  }),
-              ])),
+                  },
+                ),
+              ],
+            ),
+          ),
 
-          SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+          const SizedBox(height: 12),
 
           TradeRepublicButton(
             label: AppLocalizations.of(context)?.cancel ?? AppLocalizations.of(context)!.tr('Cancel'),
@@ -2475,8 +2740,11 @@ class _MessengerPageState extends State<MessengerPage>
               HapticFeedback.lightImpact();
               Navigator.pop(context);
             },
-            isSecondary: true),
-        ]));
+            isSecondary: true,
+          ),
+        ],
+      ),
+    );
   }
 
   Widget _buildMessageBubble(Map<String, dynamic> message, bool isLight) {
@@ -2487,7 +2755,8 @@ class _MessengerPageState extends State<MessengerPage>
     final timestamp = message['sentAt'] ?? AppLocalizations.of(context)!.tr('');
     // Use dynamic currentUserVariations instead of hardcoded 'arkadiy'
     final isFromMe = currentUserVariations.any(
-      (v) => v.toLowerCase() == sender.toLowerCase());
+      (v) => v.toLowerCase() == sender.toLowerCase(),
+    );
     final messageType = message['message_type'] ?? AppLocalizations.of(context)!.tr('text');
     final orderId = message['order_id'];
     final hasOrderId = orderId != null && orderId != 0;
@@ -2540,7 +2809,7 @@ class _MessengerPageState extends State<MessengerPage>
 
     // Trade Republic Style Message Bubble - Modern & Bold
     return Container(
-      margin: EdgeInsets.only(bottom: 12),
+      margin: const EdgeInsets.only(bottom: 12),
       child: Column(
         crossAxisAlignment: isFromMe
             ? CrossAxisAlignment.end
@@ -2555,15 +2824,17 @@ class _MessengerPageState extends State<MessengerPage>
               // Profile picture for received messages (left side)
               if (!isFromMe) ...[
                 Padding(
-                  padding: EdgeInsets.only(right: 10, bottom: 2),
-                  child: _buildChatProfileImage(sender)),
+                  padding: const EdgeInsets.only(right: 10, bottom: 2),
+                  child: _buildChatProfileImage(sender),
+                ),
               ],
               // ── IMAGE bubble ─────────────────────────────────────────
               if (isImageUrl)
                 TradeRepublicTap(
                   onTap: () => _openImageViewer(
                     imageUrl!,
-                    AppLocalizations.of(context)?.image ?? AppLocalizations.of(context)!.tr('Image')),
+                    AppLocalizations.of(context)?.image ?? AppLocalizations.of(context)!.tr('Image'),
+                  ),
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(22),
                     child: Stack(
@@ -2573,7 +2844,8 @@ class _MessengerPageState extends State<MessengerPage>
                             maxWidth: 240,
                             maxHeight: 240,
                             minWidth: 120,
-                            minHeight: 80),
+                            minHeight: 80,
+                          ),
                           child: Image.network(
                             imageUrl!,
                             fit: BoxFit.cover,
@@ -2586,7 +2858,9 @@ class _MessengerPageState extends State<MessengerPage>
                                     ? Colors.transparent
                                     : Colors.transparent,
                                 child: Center(
-                                  child: CultiooLoadingIndicator(size: 20)));
+                                  child: CultiooLoadingIndicator(size: 20),
+                                ),
+                              );
                             },
                             errorBuilder: (context, _, __) => Container(
                               width: 200,
@@ -2598,26 +2872,38 @@ class _MessengerPageState extends State<MessengerPage>
                                 CupertinoIcons.photo,
                                 size: 32,
                                 color: (isLight ? Colors.black : Colors.white)
-                                    .withOpacity(0.3)))), // Image.network
+                                    .withOpacity(0.3),
+                              ),
+                            ),
+                          ), // Image.network
                         ), // ConstrainedBox
                         if (timeString.isNotEmpty)
                           Positioned(
                             bottom: 8,
                             right: 10,
                             child: Container(
-                              padding: EdgeInsets.symmetric(
+                              padding: const EdgeInsets.symmetric(
                                 horizontal: 7,
-                                vertical: 3),
+                                vertical: 3,
+                              ),
                               decoration: BoxDecoration(
                                 color: Colors.black.withOpacity(0.45),
-                                borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
+                                borderRadius: BorderRadius.circular(20),
+                              ),
                               child: Text(
                                 timeString,
-                                style: TextStyle(
+                                style: const TextStyle(
                                   fontSize: 10,
                                   fontWeight: FontWeight.w600,
-                                  color: Colors.white)))),
-                      ])))
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ),
+                          ),
+                      ],
+                    ),
+                  ),
+                )
               // ── FILE / PDF bubble ─────────────────────────────────────
               else if (isFileUrl)
                 TradeRepublicTap(
@@ -2636,16 +2922,18 @@ class _MessengerPageState extends State<MessengerPage>
                   },
                   child: Container(
                     constraints: const BoxConstraints(maxWidth: 260),
-                    padding: EdgeInsets.symmetric(
+                    padding: const EdgeInsets.symmetric(
                       horizontal: 16,
-                      vertical: 14),
+                      vertical: 14,
+                    ),
                     decoration: BoxDecoration(
                       color: isFromMe
                           ? (isLight ? Colors.black : Colors.white)
                           : (isLight
                                 ? Colors.transparent
                                 : Colors.transparent),
-                      borderRadius: BorderRadius.circular(22)),
+                      borderRadius: BorderRadius.circular(22),
+                    ),
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
@@ -2663,7 +2951,8 @@ class _MessengerPageState extends State<MessengerPage>
                                               ? Colors.black
                                               : Colors.white))
                                     .withOpacity(0.12),
-                            borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius())),
+                            borderRadius: BorderRadius.circular(12),
+                          ),
                           child: Icon(
                             messageType == 'pdf'
                                 ? CupertinoIcons.doc_text_fill
@@ -2671,8 +2960,10 @@ class _MessengerPageState extends State<MessengerPage>
                             size: 18,
                             color: isFromMe
                                 ? (isLight ? Colors.white : Colors.black)
-                                : (isLight ? Colors.black : Colors.white))),
-                        SizedBox(width: 12),
+                                : (isLight ? Colors.black : Colors.white),
+                          ),
+                        ),
+                        const SizedBox(width: 12),
                         Flexible(
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -2687,7 +2978,8 @@ class _MessengerPageState extends State<MessengerPage>
                                   if (fname.isEmpty || !fname.contains('.')) {
                                     return messageType == 'pdf'
                                         ? (AppLocalizations.of(
-                                                context)?.pdfDocument ?? AppLocalizations.of(context)!.tr('PDF Document'))
+                                                context,
+                                              )?.pdfDocument ?? AppLocalizations.of(context)!.tr('PDF Document'))
                                         : 'File';
                                   }
                                   return fname.length > 22
@@ -2695,15 +2987,17 @@ class _MessengerPageState extends State<MessengerPage>
                                       : fname;
                                 }(),
                                 style: TextStyle(
-                                  fontSize: DesktopOptimizedWidgets.getFontSize(),
+                                  fontSize: 14,
                                   fontWeight: FontWeight.w600,
                                   letterSpacing: -0.3,
                                   color: isFromMe
                                       ? (isLight ? Colors.white : Colors.black)
-                                      : (isLight ? Colors.black : Colors.white)),
+                                      : (isLight ? Colors.black : Colors.white),
+                                ),
                                 maxLines: 1,
-                                overflow: TextOverflow.ellipsis),
-                              SizedBox(height: 2),
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                              const SizedBox(height: 2),
                               Text(
                                 AppLocalizations.of(context)?.tapToDownload ?? AppLocalizations.of(context)!.tr('Tap to download'),
                                 style: TextStyle(
@@ -2717,9 +3011,13 @@ class _MessengerPageState extends State<MessengerPage>
                                               : (isLight
                                                     ? Colors.black
                                                     : Colors.white))
-                                          .withOpacity(0.5))),
-                            ])),
-                        SizedBox(width: 10),
+                                          .withOpacity(0.5),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        const SizedBox(width: 10),
                         Icon(
                           CupertinoIcons.arrow_down_circle_fill,
                           size: 20,
@@ -2727,22 +3025,28 @@ class _MessengerPageState extends State<MessengerPage>
                               (isFromMe
                                       ? (isLight ? Colors.white : Colors.black)
                                       : (isLight ? Colors.black : Colors.white))
-                                  .withOpacity(0.4)),
-                      ])))
+                                  .withOpacity(0.4),
+                        ),
+                      ],
+                    ),
+                  ),
+                )
               // ── TEXT bubble ───────────────────────────────────────────
               else
                 Flexible(
                   child: Container(
-                    padding: EdgeInsets.symmetric(
+                    padding: const EdgeInsets.symmetric(
                       horizontal: 16,
-                      vertical: 12),
+                      vertical: 12,
+                    ),
                     decoration: BoxDecoration(
                       color: isFromMe
                           ? (isLight ? Colors.black : Colors.white)
                           : (isLight
                                 ? Colors.transparent
                                 : Colors.transparent),
-                      borderRadius: BorderRadius.circular(22)),
+                      borderRadius: BorderRadius.circular(22),
+                    ),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisSize: MainAxisSize.min,
@@ -2750,10 +3054,11 @@ class _MessengerPageState extends State<MessengerPage>
                         // Order badge
                         if (hasOrderId)
                           Container(
-                            margin: EdgeInsets.only(bottom: 6),
-                            padding: EdgeInsets.symmetric(
+                            margin: const EdgeInsets.only(bottom: 6),
+                            padding: const EdgeInsets.symmetric(
                               horizontal: 8,
-                              vertical: 3),
+                              vertical: 3,
+                            ),
                             decoration: BoxDecoration(
                               color:
                                   (isFromMe
@@ -2764,7 +3069,8 @@ class _MessengerPageState extends State<MessengerPage>
                                                 ? Colors.black
                                                 : Colors.white))
                                       .withOpacity(0.12),
-                              borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
+                              borderRadius: BorderRadius.circular(20),
+                            ),
                             child: Row(
                               mainAxisSize: MainAxisSize.min,
                               children: [
@@ -2773,8 +3079,9 @@ class _MessengerPageState extends State<MessengerPage>
                                   size: 10,
                                   color: isFromMe
                                       ? (isLight ? Colors.white : Colors.black)
-                                      : (isLight ? Colors.black : Colors.white)),
-                                SizedBox(width: 4),
+                                      : (isLight ? Colors.black : Colors.white),
+                                ),
+                                const SizedBox(width: 4),
                                 Text(
                                   '#$orderId',
                                   style: TextStyle(
@@ -2786,8 +3093,12 @@ class _MessengerPageState extends State<MessengerPage>
                                               : Colors.black)
                                         : (isLight
                                               ? Colors.black
-                                              : Colors.white))),
-                              ])),
+                                              : Colors.white),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
                         // Text + inline time
                         Row(
                           mainAxisSize: MainAxisSize.min,
@@ -2803,11 +3114,14 @@ class _MessengerPageState extends State<MessengerPage>
                                   fontSize: 15,
                                   fontWeight: FontWeight.w400,
                                   height: 1.45,
-                                  letterSpacing: -0.2))),
+                                  letterSpacing: -0.2,
+                                ),
+                              ),
+                            ),
                             if (timeString.isNotEmpty) ...[
-                              SizedBox(width: 8),
+                              const SizedBox(width: 8),
                               Padding(
-                                padding: EdgeInsets.only(bottom: 1),
+                                padding: const EdgeInsets.only(bottom: 1),
                                 child: Text(
                                   timeString,
                                   style: TextStyle(
@@ -2822,12 +3136,22 @@ class _MessengerPageState extends State<MessengerPage>
                                                 : (isLight
                                                       ? Colors.black
                                                       : Colors.white))
-                                            .withOpacity(0.45)))),
+                                            .withOpacity(0.45),
+                                  ),
+                                ),
+                              ),
                             ],
-                          ]),
-                      ]))),
-            ]),
-        ]));
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+            ],
+          ),
+        ],
+      ),
+    );
   }
 
   String _formatMessageTime(String? dateString) {
@@ -2842,7 +3166,8 @@ class _MessengerPageState extends State<MessengerPage>
       final messageDate = DateTime(
         localDate.year,
         localDate.month,
-        localDate.day);
+        localDate.day,
+      );
 
       // Check if the message is from today
       if (messageDate == today) {
@@ -2884,7 +3209,8 @@ class _MessengerPageState extends State<MessengerPage>
                       width: 300,
                       height: 300,
                       color: Colors.black,
-                      child: const Center(child: CultiooLoadingIndicator()));
+                      child: const Center(child: CultiooLoadingIndicator()),
+                    );
                   },
                   errorBuilder: (context, error, stackTrace) {
                     return Container(
@@ -2894,20 +3220,31 @@ class _MessengerPageState extends State<MessengerPage>
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Icon(
+                          const Icon(
                             CupertinoIcons.exclamationmark_triangle,
                             size: 64,
-                            color: Colors.white),
-                          SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+                            color: Colors.white,
+                          ),
+                          const SizedBox(height: 16),
                           Text(
                             AppLocalizations.of(context)?.failedToLoadImage ?? AppLocalizations.of(context)!.tr('Failed to load image'),
-                            style: TextStyle(
+                            style: const TextStyle(
                               color: Colors.white,
-                              fontSize: DesktopOptimizedWidgets.getFontSize(),
-                              fontWeight: FontWeight.w500)),
-                        ]));
-                  }))),
-          ])));
+                              fontSize: 16,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ],
+                      ),
+                    );
+                  },
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 
   // Download file function
@@ -2956,7 +3293,8 @@ class _MessengerPageState extends State<MessengerPage>
   void _showDeleteUserDialog(
     BuildContext context,
     String userName,
-    bool isLight) {
+    bool isLight,
+  ) {
     TradeRepublicBottomSheet.show(
       context: context,
       bottomPadding: 20.0,
@@ -2971,18 +3309,22 @@ class _MessengerPageState extends State<MessengerPage>
               Icon(
                 CupertinoIcons.trash,
                 size: 22,
-                color: isLight ? Colors.black : Colors.white),
-              SizedBox(width: 12),
+                color: isLight ? Colors.black : Colors.white,
+              ),
+              const SizedBox(width: 12),
               Text(
                 AppLocalizations.of(context)?.deleteUser ?? AppLocalizations.of(context)!.tr('Delete User'),
                 style: TextStyle(
                   fontSize: 22,
                   fontWeight: FontWeight.w700,
                   color: isLight ? Colors.black : Colors.white,
-                  letterSpacing: -0.4)),
-            ]),
+                  letterSpacing: -0.4,
+                ),
+              ),
+            ],
+          ),
 
-          SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+          const SizedBox(height: 12),
 
           // Content
           Text(
@@ -2992,9 +3334,11 @@ class _MessengerPageState extends State<MessengerPage>
               color: isLight ? Colors.black : Colors.white,
               fontSize: 15,
               fontWeight: FontWeight.w400,
-              height: 1.4)),
+              height: 1.4,
+            ),
+          ),
 
-          SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+          const SizedBox(height: 24),
 
           // Action buttons - Trade Republic Style
           Row(
@@ -3003,8 +3347,10 @@ class _MessengerPageState extends State<MessengerPage>
                 child: TradeRepublicButton(
                   label: AppLocalizations.of(context)?.cancel ?? AppLocalizations.of(context)!.tr('Cancel'),
                   onPressed: () => Navigator.of(context).pop(),
-                  isSecondary: true)),
-              SizedBox(width: 12),
+                  isSecondary: true,
+                ),
+              ),
+              const SizedBox(width: 12),
               Expanded(
                 child: TradeRepublicButton(
                   label: AppLocalizations.of(context)?.delete ?? AppLocalizations.of(context)!.tr('Delete'),
@@ -3013,16 +3359,22 @@ class _MessengerPageState extends State<MessengerPage>
                     Navigator.of(context).pop(); // Close chat
                     _deleteUser(userName);
                   },
-                  isDestructive: true)),
-            ]),
-        ]));
+                  isDestructive: true,
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
   }
 
   // Show block user confirmation bottom sheet
   void _showBlockUserDialog(
     BuildContext context,
     String userName,
-    bool isLight) {
+    bool isLight,
+  ) {
     TradeRepublicBottomSheet.show(
       context: context,
       bottomPadding: 20.0,
@@ -3037,18 +3389,22 @@ class _MessengerPageState extends State<MessengerPage>
               Icon(
                 CupertinoIcons.hand_raised,
                 size: 22,
-                color: isLight ? Colors.black : Colors.white),
-              SizedBox(width: 12),
+                color: isLight ? Colors.black : Colors.white,
+              ),
+              const SizedBox(width: 12),
               Text(
                 AppLocalizations.of(context)?.blockUser ?? AppLocalizations.of(context)!.tr('Block User'),
                 style: TextStyle(
                   fontSize: 22,
                   fontWeight: FontWeight.w700,
                   color: isLight ? Colors.black : Colors.white,
-                  letterSpacing: -0.4)),
-            ]),
+                  letterSpacing: -0.4,
+                ),
+              ),
+            ],
+          ),
 
-          SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+          const SizedBox(height: 12),
 
           // Content
           Text(
@@ -3058,9 +3414,11 @@ class _MessengerPageState extends State<MessengerPage>
               color: isLight ? Colors.black : Colors.white,
               fontSize: 15,
               fontWeight: FontWeight.w400,
-              height: 1.4)),
+              height: 1.4,
+            ),
+          ),
 
-          SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+          const SizedBox(height: 24),
 
           // Action buttons - Trade Republic Style
           Row(
@@ -3069,8 +3427,10 @@ class _MessengerPageState extends State<MessengerPage>
                 child: TradeRepublicButton(
                   label: AppLocalizations.of(context)?.cancel ?? AppLocalizations.of(context)!.tr('Cancel'),
                   onPressed: () => Navigator.of(context).pop(),
-                  isSecondary: true)),
-              SizedBox(width: 12),
+                  isSecondary: true,
+                ),
+              ),
+              const SizedBox(width: 12),
               Expanded(
                 child: TradeRepublicButton(
                   label: AppLocalizations.of(context)?.block ?? AppLocalizations.of(context)!.tr('Block'),
@@ -3079,16 +3439,22 @@ class _MessengerPageState extends State<MessengerPage>
                     Navigator.of(context).pop(); // Close chat
                     _blockUser(userName);
                   },
-                  isDestructive: true)),
-            ]),
-        ]));
+                  isDestructive: true,
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
   }
 
   // Show chat menu bottom sheet
   void _showChatMenuBottomSheet(
     BuildContext context,
     String userName,
-    bool isLight) {
+    bool isLight,
+  ) {
     TradeRepublicBottomSheet.show(
       context: context,
       bottomPadding: 20.0,
@@ -3102,8 +3468,9 @@ class _MessengerPageState extends State<MessengerPage>
               Icon(
                 CupertinoIcons.person_crop_circle,
                 size: 22,
-                color: isLight ? Colors.black : Colors.white),
-              SizedBox(width: 12),
+                color: isLight ? Colors.black : Colors.white,
+              ),
+              const SizedBox(width: 12),
               Flexible(
                 child: Text(
                   userName,
@@ -3111,9 +3478,13 @@ class _MessengerPageState extends State<MessengerPage>
                     fontSize: 22,
                     fontWeight: FontWeight.w700,
                     color: isLight ? Colors.black : Colors.white,
-                    letterSpacing: -0.4))),
-            ]),
-          SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+                    letterSpacing: -0.4,
+                  ),
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 12),
 
           TradeRepublicCard(
             backgroundColor: isLight ? null : Colors.transparent,
@@ -3128,18 +3499,23 @@ class _MessengerPageState extends State<MessengerPage>
                 alignment: Alignment.center,
                 decoration: BoxDecoration(
                   color: Colors.red,
-                  borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
-                child: Icon(
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: const Icon(
                   CupertinoIcons.hand_raised_fill,
                   size: 18,
-                  color: Colors.white)),
+                  color: Colors.white,
+                ),
+              ),
               onTap: () {
                 HapticFeedback.lightImpact();
                 Navigator.pop(context);
                 _showBlockUserDialog(context, userName, isLight);
-              })),
+              },
+            ),
+          ),
 
-          SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+          const SizedBox(height: 24),
 
           // Cancel button - Trade Republic Style
           TradeRepublicButton(
@@ -3148,8 +3524,11 @@ class _MessengerPageState extends State<MessengerPage>
               HapticFeedback.lightImpact();
               Navigator.pop(context);
             },
-            isSecondary: true),
-        ]));
+            isSecondary: true,
+          ),
+        ],
+      ),
+    );
   }
 
   Widget _buildChatMenuOption(
@@ -3158,9 +3537,10 @@ class _MessengerPageState extends State<MessengerPage>
     VoidCallback onTap,
     bool isLight,
     IconData icon,
-    Color iconColor) {
+    Color iconColor,
+  ) {
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 16, vertical: 6),
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
       child: TradeRepublicButton(
         label: option,
         onPressed: onTap,
@@ -3170,7 +3550,9 @@ class _MessengerPageState extends State<MessengerPage>
         isDestructive:
             option ==
                 (AppLocalizations.of(context)?.deleteChat ?? AppLocalizations.of(context)!.tr('Delete Chat')) ||
-            option == (AppLocalizations.of(context)?.blockUser ?? AppLocalizations.of(context)!.tr('Block User'))));
+            option == (AppLocalizations.of(context)?.blockUser ?? AppLocalizations.of(context)!.tr('Block User')),
+      ),
+    );
   }
 
   // Delete user function
@@ -3184,12 +3566,14 @@ class _MessengerPageState extends State<MessengerPage>
         headers: {
           'Content-Type': 'application/json',
           if (token != null) 'Authorization': 'Bearer $token',
-        });
+        },
+      );
 
       if (response.statusCode == 200) {
         TopNotification.success(
           context,
-          '${AppLocalizations.of(context)?.userSuccessfullyDeleted ?? AppLocalizations.of(context)!.tr('User successfully deleted')}: "$userName"');
+          '${AppLocalizations.of(context)?.userSuccessfullyDeleted ?? AppLocalizations.of(context)!.tr('User successfully deleted')}: "$userName"',
+        );
 
         // Reload messages to reflect changes
         _loadMessages();
@@ -3201,7 +3585,8 @@ class _MessengerPageState extends State<MessengerPage>
 
       TopNotification.error(
         context,
-        '${AppLocalizations.of(context)?.errorDeletingUser ?? AppLocalizations.of(context)!.tr('Error deleting user')}: "$userName"');
+        '${AppLocalizations.of(context)?.errorDeletingUser ?? AppLocalizations.of(context)!.tr('Error deleting user')}: "$userName"',
+      );
     }
   }
 
@@ -3217,12 +3602,14 @@ class _MessengerPageState extends State<MessengerPage>
           'Content-Type': 'application/json',
           if (token != null) 'Authorization': 'Bearer $token',
         },
-        body: json.encode({'blocked_username': userName}));
+        body: json.encode({'blocked_username': userName}),
+      );
 
       if (response.statusCode == 200) {
         TopNotification.warning(
           context,
-          '${AppLocalizations.of(context)?.userSuccessfullyBlocked ?? AppLocalizations.of(context)!.tr('User successfully blocked')}: "$userName"');
+          '${AppLocalizations.of(context)?.userSuccessfullyBlocked ?? AppLocalizations.of(context)!.tr('User successfully blocked')}: "$userName"',
+        );
 
         // Reload messages to reflect changes
         _loadMessages();
@@ -3234,7 +3621,8 @@ class _MessengerPageState extends State<MessengerPage>
 
       TopNotification.error(
         context,
-        '${AppLocalizations.of(context)?.errorBlockingUser ?? AppLocalizations.of(context)!.tr('Error blocking user')}: "$userName"');
+        '${AppLocalizations.of(context)?.errorBlockingUser ?? AppLocalizations.of(context)!.tr('Error blocking user')}: "$userName"',
+      );
     }
   }
 
@@ -3254,17 +3642,21 @@ class _MessengerPageState extends State<MessengerPage>
               Icon(
                 CupertinoIcons.settings,
                 size: 22,
-                color: isLight ? Colors.black : Colors.white),
-              SizedBox(width: 12),
+                color: isLight ? Colors.black : Colors.white,
+              ),
+              const SizedBox(width: 12),
               Text(
                 AppLocalizations.of(context)?.settings ?? AppLocalizations.of(context)!.tr('Settings'),
                 style: TextStyle(
                   fontSize: 22,
                   fontWeight: FontWeight.w700,
                   color: isLight ? Colors.black : Colors.white,
-                  letterSpacing: -0.4)),
-            ]),
-          SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+                  letterSpacing: -0.4,
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 12),
 
           // ── Options ──
           TradeRepublicListTile.navigation(
@@ -3272,14 +3664,16 @@ class _MessengerPageState extends State<MessengerPage>
                 AppLocalizations.of(context)?.blockedUsers ?? AppLocalizations.of(context)!.tr('Blocked Users'),
             subtitle:
                 AppLocalizations.of(context)?.manageBlockedContacts ?? AppLocalizations.of(context)!.tr('Manage blocked contacts'),
-            leading: Icon(
+            leading: const Icon(
               CupertinoIcons.hand_raised_fill,
               size: 18,
-              color: Color(0xFFFF3B30)),
+              color: Color(0xFFFF3B30),
+            ),
             onTap: () {
               Navigator.pop(context);
               _showBlockedUsersBottomSheet(isLight);
-            }),
+            },
+          ),
 
           const TradeRepublicDivider(),
 
@@ -3288,14 +3682,16 @@ class _MessengerPageState extends State<MessengerPage>
                 AppLocalizations.of(context)?.deletedUsers ?? AppLocalizations.of(context)!.tr('Deleted Users'),
             subtitle:
                 AppLocalizations.of(context)?.viewRecentlyDeletedChats ?? AppLocalizations.of(context)!.tr('View recently deleted chats'),
-            leading: Icon(
+            leading: const Icon(
               CupertinoIcons.trash,
               size: 18,
-              color: Color(0xFFFF9500)),
+              color: Color(0xFFFF9500),
+            ),
             onTap: () {
               Navigator.pop(context);
               _showDeletedUsersBottomSheet(isLight);
-            }),
+            },
+          ),
 
           const TradeRepublicDivider(),
 
@@ -3304,23 +3700,28 @@ class _MessengerPageState extends State<MessengerPage>
                 AppLocalizations.of(context)?.clearAllChats ?? AppLocalizations.of(context)!.tr('Clear All Chats'),
             subtitle:
                 AppLocalizations.of(context)?.deleteAllMessageHistory ?? AppLocalizations.of(context)!.tr('Delete all message history'),
-            leading: Icon(
+            leading: const Icon(
               CupertinoIcons.delete_solid,
               size: 18,
-              color: Color(0xFFFF3B30)),
+              color: Color(0xFFFF3B30),
+            ),
             onTap: () {
               Navigator.pop(context);
               _showClearAllChatsBottomSheet(isLight);
-            }),
+            },
+          ),
 
-          SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+          const SizedBox(height: 12),
 
           // ── Cancel ──
           TradeRepublicButton(
             label: AppLocalizations.of(context)?.cancel ?? AppLocalizations.of(context)!.tr('Cancel'),
             onPressed: () => Navigator.pop(context),
-            isSecondary: true),
-        ]));
+            isSecondary: true,
+          ),
+        ],
+      ),
+    );
   }
 
   Future<void> _clearAllChats() async {
@@ -3341,7 +3742,8 @@ class _MessengerPageState extends State<MessengerPage>
 
     TopNotification.success(
       context,
-      AppLocalizations.of(context)?.chatDeleted ?? AppLocalizations.of(context)!.tr('Chat history deleted'));
+      AppLocalizations.of(context)?.chatDeleted ?? AppLocalizations.of(context)!.tr('Chat history deleted'),
+    );
   }
 
   void _showClearAllChatsBottomSheet(bool isLight) {
@@ -3357,24 +3759,30 @@ class _MessengerPageState extends State<MessengerPage>
               Icon(
                 CupertinoIcons.delete_solid,
                 size: 22,
-                color: isLight ? Colors.black : Colors.white),
-              SizedBox(width: 12),
+                color: isLight ? Colors.black : Colors.white,
+              ),
+              const SizedBox(width: 12),
               Text(
                 AppLocalizations.of(context)?.clearAllChats ?? AppLocalizations.of(context)!.tr('Clear All Chats'),
                 style: TextStyle(
                   fontSize: 22,
                   fontWeight: FontWeight.w700,
                   color: isLight ? Colors.black : Colors.white,
-                  letterSpacing: -0.4)),
-            ]),
-          SizedBox(height: 10),
+                  letterSpacing: -0.4,
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 10),
           Text(
             AppLocalizations.of(context)?.deleteAllMessageHistory ?? AppLocalizations.of(context)!.tr('Delete all message history'),
             style: TextStyle(
-              fontSize: DesktopOptimizedWidgets.getFontSize(),
+              fontSize: 14,
               height: 1.4,
-              color: (isLight ? Colors.black : Colors.white).withOpacity(0.7))),
-          SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+              color: (isLight ? Colors.black : Colors.white).withOpacity(0.7),
+            ),
+          ),
+          const SizedBox(height: 24),
           TradeRepublicButton(
             label: AppLocalizations.of(context)?.delete ?? AppLocalizations.of(context)!.tr('Delete'),
             onPressed: () async {
@@ -3384,8 +3792,9 @@ class _MessengerPageState extends State<MessengerPage>
             },
             backgroundColor: const Color(0xFFFF3B30),
             foregroundColor: Colors.white,
-            width: double.infinity),
-          SizedBox(height: 10),
+            width: double.infinity,
+          ),
+          const SizedBox(height: 10),
           TradeRepublicButton(
             label: AppLocalizations.of(context)?.cancel ?? AppLocalizations.of(context)!.tr('Cancel'),
             onPressed: () {
@@ -3393,9 +3802,12 @@ class _MessengerPageState extends State<MessengerPage>
               Navigator.pop(context);
             },
             isSecondary: true,
-            width: double.infinity),
-          SizedBox(height: 6),
-        ]));
+            width: double.infinity,
+          ),
+          const SizedBox(height: 6),
+        ],
+      ),
+    );
   }
 
   Widget _buildMessengerSettingsOption(
@@ -3404,11 +3816,13 @@ class _MessengerPageState extends State<MessengerPage>
     VoidCallback onTap,
     bool isLight,
     IconData icon,
-    Color iconColor) {
+    Color iconColor,
+  ) {
     return TradeRepublicButton(
       label: option,
       onPressed: onTap,
-      isSecondary: true);
+      isSecondary: true,
+    );
   }
 
   // Show blocked users bottom sheet
@@ -3443,18 +3857,22 @@ class _MessengerPageState extends State<MessengerPage>
                   Icon(
                     CupertinoIcons.nosign,
                     size: 22,
-                    color: isLight ? Colors.black : Colors.white),
-                  SizedBox(width: 12),
+                    color: isLight ? Colors.black : Colors.white,
+                  ),
+                  const SizedBox(width: 12),
                   Text(
                     AppLocalizations.of(context)?.blockedUsers ?? AppLocalizations.of(context)!.tr('Blocked Users'),
                     style: TextStyle(
                       fontSize: 22,
                       fontWeight: FontWeight.w700,
                       color: isLight ? Colors.black : Colors.white,
-                      letterSpacing: -0.4)),
-                ]),
+                      letterSpacing: -0.4,
+                    ),
+                  ),
+                ],
+              ),
 
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
 
               // Content
               Expanded(
@@ -3469,23 +3887,31 @@ class _MessengerPageState extends State<MessengerPage>
                               CupertinoIcons.nosign,
                               size: 48,
                               color: (isLight ? Colors.black : Colors.white)
-                                  .withOpacity(0.2)),
-                            SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+                                  .withOpacity(0.2),
+                            ),
+                            const SizedBox(height: 16),
                             Text(
                               AppLocalizations.of(context)?.noBlockedUsers ?? AppLocalizations.of(context)!.tr('No Blocked Users'),
                               style: TextStyle(
                                 fontSize: 17,
                                 fontWeight: FontWeight.w600,
-                                color: isLight ? Colors.black : Colors.white)),
-                            SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+                                color: isLight ? Colors.black : Colors.white,
+                              ),
+                            ),
+                            const SizedBox(height: 8),
                             Text(
                               AppLocalizations.of(
-                                    context)?.usersYouBlockWillAppearHere ?? AppLocalizations.of(context)!.tr('Users you block will appear here'),
+                                    context,
+                                  )?.usersYouBlockWillAppearHere ?? AppLocalizations.of(context)!.tr('Users you block will appear here'),
                               style: TextStyle(
-                                fontSize: DesktopOptimizedWidgets.getFontSize(),
+                                fontSize: 14,
                                 fontWeight: FontWeight.w400,
-                                color: isLight ? Colors.black : Colors.white)),
-                          ]))
+                                color: isLight ? Colors.black : Colors.white,
+                              ),
+                            ),
+                          ],
+                        ),
+                      )
                     : ListView.builder(
                         itemCount: blockedUsers.length,
                         itemBuilder: (context, index) {
@@ -3508,24 +3934,32 @@ class _MessengerPageState extends State<MessengerPage>
                                 });
                               }
                             },
-                            isLight);
-                        })),
-            ]);
-        }));
+                            isLight,
+                          );
+                        },
+                      ),
+              ),
+            ],
+          );
+        },
+      ),
+    );
   }
 
   Widget _buildBlockedUserItem(
     String userName,
     String blockedAt,
     VoidCallback onUnblock,
-    bool isLight) {
+    bool isLight,
+  ) {
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 6),
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 6),
       child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
         decoration: BoxDecoration(
           color: Colors.transparent,
-          borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius())),
+          borderRadius: BorderRadius.circular(16),
+        ),
         child: Row(
           children: [
             Container(
@@ -3533,15 +3967,20 @@ class _MessengerPageState extends State<MessengerPage>
               height: 44,
               decoration: BoxDecoration(
                 color: isLight ? Colors.black : Colors.white,
-                borderRadius: BorderRadius.circular(22)),
+                borderRadius: BorderRadius.circular(22),
+              ),
               child: Center(
                 child: Text(
                   userName.isNotEmpty ? userName[0].toUpperCase() : 'U',
                   style: TextStyle(
                     color: isLight ? Colors.white : Colors.black,
                     fontSize: 17,
-                    fontWeight: FontWeight.w600)))),
-            SizedBox(width: 14),
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ),
+            ),
+            const SizedBox(width: 14),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -3549,42 +3988,58 @@ class _MessengerPageState extends State<MessengerPage>
                   Text(
                     userName,
                     style: TextStyle(
-                      fontSize: DesktopOptimizedWidgets.getFontSize(),
+                      fontSize: 16,
                       fontWeight: FontWeight.w600,
                       color: isLight ? Colors.black : Colors.white,
-                      letterSpacing: -0.3)),
+                      letterSpacing: -0.3,
+                    ),
+                  ),
                   if (blockedAt.isNotEmpty)
                     Padding(
-                      padding: EdgeInsets.only(top: 2),
+                      padding: const EdgeInsets.only(top: 2),
                       child: Text(
                         'Blocked ${_formatBlockedTime(blockedAt)}',
                         style: TextStyle(
-                          fontSize: DesktopOptimizedWidgets.getFontSize(),
+                          fontSize: 14,
                           fontWeight: FontWeight.w400,
                           color: (isLight ? Colors.black : Colors.white)
-                              .withOpacity(0.5)))),
-                ])),
-            SizedBox(width: 12),
+                              .withOpacity(0.5),
+                        ),
+                      ),
+                    ),
+                ],
+              ),
+            ),
+            const SizedBox(width: 12),
             TradeRepublicTap(
               onTap: () {
                 HapticFeedback.lightImpact();
                 onUnblock();
               },
               child: Container(
-                padding: EdgeInsets.symmetric(
+                padding: const EdgeInsets.symmetric(
                   horizontal: 16,
-                  vertical: 8),
+                  vertical: 8,
+                ),
                 decoration: BoxDecoration(
                   color: const Color(0xFF007AFF),
-                  borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius())),
+                  borderRadius: BorderRadius.circular(12),
+                ),
                 child: Text(
                   AppLocalizations.of(context)?.unblock ?? AppLocalizations.of(context)!.tr('Unblock'),
                   style: TextStyle(
                     fontSize: 15,
                     fontWeight: FontWeight.w600,
                     color: Colors.white,
-                    letterSpacing: -0.3)))),
-          ])));
+                    letterSpacing: -0.3,
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 
   Future<List<Map<String, dynamic>>> _loadBlockedUsers() async {
@@ -3596,7 +4051,8 @@ class _MessengerPageState extends State<MessengerPage>
         headers: {
           'Content-Type': 'application/json',
           if (token != null) 'Authorization': 'Bearer $token',
-        });
+        },
+      );
 
       if (response.statusCode == 200) {
         final data = json.decode(response.body);
@@ -3625,18 +4081,22 @@ class _MessengerPageState extends State<MessengerPage>
               Icon(
                 CupertinoIcons.trash,
                 size: 22,
-                color: isLight ? Colors.black : Colors.white),
-              SizedBox(width: 12),
+                color: isLight ? Colors.black : Colors.white,
+              ),
+              const SizedBox(width: 12),
               Text(
                 AppLocalizations.of(context)?.deletedUsers ?? AppLocalizations.of(context)!.tr('Deleted Users'),
                 style: TextStyle(
                   fontSize: 22,
                   fontWeight: FontWeight.w700,
                   color: isLight ? Colors.black : Colors.white,
-                  letterSpacing: -0.4)),
-            ]),
+                  letterSpacing: -0.4,
+                ),
+              ),
+            ],
+          ),
 
-          SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+          const SizedBox(height: 24),
 
           // Empty state for now
           Expanded(
@@ -3648,30 +4108,43 @@ class _MessengerPageState extends State<MessengerPage>
                     CupertinoIcons.tray,
                     size: 48,
                     color: (isLight ? Colors.black : Colors.white).withOpacity(
-                      0.2)),
-                  SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+                      0.2,
+                    ),
+                  ),
+                  const SizedBox(height: 16),
                   Text(
                     AppLocalizations.of(context)?.noDeletedUsers ?? AppLocalizations.of(context)!.tr('No deleted users'),
                     style: TextStyle(
                       fontSize: 17,
                       fontWeight: FontWeight.w600,
-                      color: isLight ? Colors.black : Colors.white)),
-                  SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+                      color: isLight ? Colors.black : Colors.white,
+                    ),
+                  ),
+                  const SizedBox(height: 8),
                   Text(
                     AppLocalizations.of(context)?.deletedUsersWillAppearHere ?? AppLocalizations.of(context)!.tr('Deleted users will appear here'),
                     style: TextStyle(
-                      fontSize: DesktopOptimizedWidgets.getFontSize(),
+                      fontSize: 14,
                       color: (isLight ? Colors.black : Colors.white)
-                          .withOpacity(0.4))),
-                  SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+                          .withOpacity(0.4),
+                    ),
+                  ),
+                  const SizedBox(height: 8),
                   Text(
                     AppLocalizations.of(context)?.deletedUsersWillAppearHere ?? AppLocalizations.of(context)!.tr('Deleted users will appear here'),
                     style: TextStyle(
-                      fontSize: DesktopOptimizedWidgets.getFontSize(),
+                      fontSize: 14,
                       color: (isLight ? Colors.black : Colors.white)
-                          .withOpacity(0.4))),
-                ]))),
-        ]));
+                          .withOpacity(0.4),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
   }
 
   Future<void> _unblockUser(String userName) async {
@@ -3684,12 +4157,14 @@ class _MessengerPageState extends State<MessengerPage>
           'Content-Type': 'application/json',
           if (token != null) 'Authorization': 'Bearer $token',
         },
-        body: json.encode({'blocked_username': userName}));
+        body: json.encode({'blocked_username': userName}),
+      );
 
       if (response.statusCode == 200) {
         TopNotification.success(
           context,
-          '${AppLocalizations.of(context)?.userSuccessfullyUnblocked ?? AppLocalizations.of(context)!.tr('User successfully unblocked')}: "$userName"');
+          '${AppLocalizations.of(context)?.userSuccessfullyUnblocked ?? AppLocalizations.of(context)!.tr('User successfully unblocked')}: "$userName"',
+        );
 
         // Reload messages to reflect changes
         _loadMessages();
@@ -3701,7 +4176,8 @@ class _MessengerPageState extends State<MessengerPage>
 
       TopNotification.error(
         context,
-        '${AppLocalizations.of(context)?.errorUnblockingUser ?? AppLocalizations.of(context)!.tr('Error unblocking user')}: "$userName"');
+        '${AppLocalizations.of(context)?.errorUnblockingUser ?? AppLocalizations.of(context)!.tr('Error unblocking user')}: "$userName"',
+      );
     }
   }
 
@@ -3753,18 +4229,24 @@ class _MessengerPageState extends State<MessengerPage>
             ? (isLight
                   ? Colors.black.withOpacity(0.06)
                   : Colors.white.withOpacity(0.06))
-            : null),
+            : null,
+      ),
       child: imageToShow != null
           ? ClipRRect(
               borderRadius: BorderRadius.circular(22),
-              child: _buildProfileImageFromData(imageToShow, userName))
+              child: _buildProfileImageFromData(imageToShow, userName),
+            )
           : Center(
               child: Text(
                 _getInitials(userName, firstName, lastName),
                 style: TextStyle(
                   color: isLight ? Colors.black : Colors.white,
-                  fontSize: DesktopOptimizedWidgets.getFontSize(),
-                  fontWeight: FontWeight.w500))));
+                  fontSize: 16,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+            ),
+    );
   }
 
   // Build profile image widget with correct business/personal profile
@@ -3793,22 +4275,28 @@ class _MessengerPageState extends State<MessengerPage>
       width: 40,
       height: 40,
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
+        borderRadius: BorderRadius.circular(20),
         color: imageToShow == null
             ? (isLight ? Colors.black : Colors.white)
-            : null),
+            : null,
+      ),
       child: imageToShow != null
           ? ClipRRect(
-              borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-              child: _buildProfileImageFromData(imageToShow, userName))
+              borderRadius: BorderRadius.circular(20),
+              child: _buildProfileImageFromData(imageToShow, userName),
+            )
           : Center(
               child: Text(
                 _getInitials(userName, firstName, lastName),
                 style: TextStyle(
                   color: isLight ? Colors.white : Colors.black,
-                  fontSize: DesktopOptimizedWidgets.getFontSize(),
+                  fontSize: 16,
                   fontWeight: FontWeight.w600,
-                  letterSpacing: -0.5))));
+                  letterSpacing: -0.5,
+                ),
+              ),
+            ),
+    );
   }
 
   // Build profile image for chat messages (smaller size)
@@ -3837,14 +4325,16 @@ class _MessengerPageState extends State<MessengerPage>
       width: 32,
       height: 32,
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
+        borderRadius: BorderRadius.circular(20),
         color: imageToShow == null
             ? (isLight ? Colors.black : Colors.white)
-            : null),
+            : null,
+      ),
       child: imageToShow != null
           ? ClipRRect(
-              borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
-              child: _buildChatProfileImageFromData(imageToShow, userName))
+              borderRadius: BorderRadius.circular(20),
+              child: _buildChatProfileImageFromData(imageToShow, userName),
+            )
           : Center(
               child: Text(
                 _getInitials(userName, firstName, lastName),
@@ -3852,7 +4342,11 @@ class _MessengerPageState extends State<MessengerPage>
                   color: isLight ? Colors.white : Colors.black,
                   fontSize: 12,
                   fontWeight: FontWeight.w600,
-                  letterSpacing: -0.5))));
+                  letterSpacing: -0.5,
+                ),
+              ),
+            ),
+    );
   }
 
   // Build profile image from SVG data or URL for chat messages
@@ -3873,7 +4367,8 @@ class _MessengerPageState extends State<MessengerPage>
         height: 32,
         errorBuilder: (context, error, stackTrace) {
           print(
-            '❌ Failed to load chat profile image: $imageData - Error: $error');
+            '❌ Failed to load chat profile image: $imageData - Error: $error',
+          );
           return _buildChatFallbackAvatar(userName);
         },
         loadingBuilder: (context, child, loadingProgress) {
@@ -3885,15 +4380,19 @@ class _MessengerPageState extends State<MessengerPage>
             child: SizedBox(
               width: 16,
               height: 16,
-              child: CultiooLoadingIndicator(size: 20)));
-        });
+              child: CultiooLoadingIndicator(size: 20),
+            ),
+          );
+        },
+      );
     } else if (imageData.startsWith('/')) {
       // Relative path - convert to GCS
       final filename = imageData.split('/').last;
       final gcsUrl =
           'https://storage.googleapis.com/cultioo-uploads/profile-images/$filename';
       print(
-        '🖼️ Loading chat profile from relative path, converted to GCS: $gcsUrl');
+        '🖼️ Loading chat profile from relative path, converted to GCS: $gcsUrl',
+      );
 
       return Image.network(
         gcsUrl,
@@ -3910,8 +4409,11 @@ class _MessengerPageState extends State<MessengerPage>
             child: SizedBox(
               width: 16,
               height: 16,
-              child: CultiooLoadingIndicator(size: 20)));
-        });
+              child: CultiooLoadingIndicator(size: 20),
+            ),
+          );
+        },
+      );
     } else if (imageData.isNotEmpty) {
       // Just a filename - use GCS URL
       final imageUrl =
@@ -3933,8 +4435,11 @@ class _MessengerPageState extends State<MessengerPage>
             child: SizedBox(
               width: 16,
               height: 16,
-              child: CultiooLoadingIndicator(size: 20)));
-        });
+              child: CultiooLoadingIndicator(size: 20),
+            ),
+          );
+        },
+      );
     } else {
       // Unknown format - use fallback
       print('⚠️ Empty or unknown image data for $userName');
@@ -3949,7 +4454,8 @@ class _MessengerPageState extends State<MessengerPage>
     try {
       // Extract letter from SVG
       final textMatch = RegExp(
-        r'<text[^>]*>([^<]+)</text>').firstMatch(svgData);
+        r'<text[^>]*>([^<]+)</text>',
+      ).firstMatch(svgData);
       String letter = userName.isNotEmpty ? userName[0].toUpperCase() : 'U';
 
       if (textMatch != null) {
@@ -3961,7 +4467,8 @@ class _MessengerPageState extends State<MessengerPage>
         height: 32,
         decoration: BoxDecoration(
           color: isLight ? Colors.black : Colors.white,
-          borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
+          borderRadius: BorderRadius.circular(20),
+        ),
         child: Center(
           child: Text(
             letter,
@@ -3969,7 +4476,11 @@ class _MessengerPageState extends State<MessengerPage>
               color: isLight ? Colors.white : Colors.black,
               fontSize: 12,
               fontWeight: FontWeight.w600,
-              letterSpacing: -0.5))));
+              letterSpacing: -0.5,
+            ),
+          ),
+        ),
+      );
     } catch (e) {
       print('❌ Error parsing SVG for chat $userName: $e');
       return _buildChatFallbackAvatar(userName);
@@ -3985,7 +4496,8 @@ class _MessengerPageState extends State<MessengerPage>
       height: 32,
       decoration: BoxDecoration(
         color: isLight ? Colors.black : Colors.white,
-        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
+        borderRadius: BorderRadius.circular(20),
+      ),
       child: Center(
         child: Text(
           userName.isNotEmpty ? userName[0].toUpperCase() : 'U',
@@ -3993,7 +4505,11 @@ class _MessengerPageState extends State<MessengerPage>
             color: isLight ? Colors.white : Colors.black,
             fontSize: 12,
             fontWeight: FontWeight.w600,
-            letterSpacing: -0.5))));
+            letterSpacing: -0.5,
+          ),
+        ),
+      ),
+    );
   }
 
   // Build profile image from SVG data or URL
@@ -4014,7 +4530,8 @@ class _MessengerPageState extends State<MessengerPage>
       } else if (imageData.contains('localhost:3006')) {
         imageUrl = imageData.replaceAll(
           'http://localhost:3006',
-          ApiConfig.baseUrl);
+          ApiConfig.baseUrl,
+        );
       }
 
       print('🖼️ Loading profile image from: $imageUrl');
@@ -4033,7 +4550,8 @@ class _MessengerPageState extends State<MessengerPage>
             return child;
           }
           return Center(child: CultiooLoadingIndicator(size: 20));
-        });
+        },
+      );
     } else if (imageData.startsWith('/')) {
       // Relative path - try GCS URL
       final filename = imageData.split('/').last;
@@ -4050,7 +4568,8 @@ class _MessengerPageState extends State<MessengerPage>
         loadingBuilder: (context, child, loadingProgress) {
           if (loadingProgress == null) return child;
           return _buildFallbackAvatar(userName);
-        });
+        },
+      );
     } else if (imageData.isNotEmpty) {
       // Just a filename - use GCS URL instead of server URL
       final imageUrl =
@@ -4065,7 +4584,8 @@ class _MessengerPageState extends State<MessengerPage>
         loadingBuilder: (context, child, loadingProgress) {
           if (loadingProgress == null) return child;
           return _buildFallbackAvatar(userName);
-        });
+        },
+      );
     } else {
       // Unknown format - use fallback
       return _buildFallbackAvatar(userName);
@@ -4079,7 +4599,8 @@ class _MessengerPageState extends State<MessengerPage>
     try {
       // Extract letter from SVG
       final textMatch = RegExp(
-        r'<text[^>]*>([^<]+)</text>').firstMatch(svgData);
+        r'<text[^>]*>([^<]+)</text>',
+      ).firstMatch(svgData);
       String letter = userName.isNotEmpty ? userName[0].toUpperCase() : 'U';
 
       if (textMatch != null) {
@@ -4091,15 +4612,20 @@ class _MessengerPageState extends State<MessengerPage>
         height: 40,
         decoration: BoxDecoration(
           color: isLight ? Colors.black : Colors.white,
-          borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
+          borderRadius: BorderRadius.circular(20),
+        ),
         child: Center(
           child: Text(
             letter,
             style: TextStyle(
               color: isLight ? Colors.white : Colors.black,
-              fontSize: DesktopOptimizedWidgets.getFontSize(),
+              fontSize: 16,
               fontWeight: FontWeight.w600,
-              letterSpacing: -0.5))));
+              letterSpacing: -0.5,
+            ),
+          ),
+        ),
+      );
     } catch (e) {
       print('❌ Error parsing SVG for $userName: $e');
       return _buildFallbackAvatar(userName);
@@ -4115,15 +4641,20 @@ class _MessengerPageState extends State<MessengerPage>
       height: 40,
       decoration: BoxDecoration(
         color: isLight ? Colors.black : Colors.white,
-        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
+        borderRadius: BorderRadius.circular(20),
+      ),
       child: Center(
         child: Text(
           userName.isNotEmpty ? userName[0].toUpperCase() : 'U',
           style: TextStyle(
             color: isLight ? Colors.white : Colors.black,
-            fontSize: DesktopOptimizedWidgets.getFontSize(),
+            fontSize: 16,
             fontWeight: FontWeight.w600,
-            letterSpacing: -0.5))));
+            letterSpacing: -0.5,
+          ),
+        ),
+      ),
+    );
   }
 
   // Get initials for display
@@ -4224,7 +4755,8 @@ class _MessengerPageState extends State<MessengerPage>
       // Try driver endpoint first
       var response = await http.get(
         Uri.parse('${ApiConfig.baseUrl}/api/driver/user-data/$userName'),
-        headers: {'Content-Type': 'application/json'});
+        headers: {'Content-Type': 'application/json'},
+      );
 
       print('📡 Driver API response for $userName: ${response.statusCode}');
 
@@ -4255,7 +4787,8 @@ class _MessengerPageState extends State<MessengerPage>
             };
           });
           print(
-            '✅ Loaded driver profile for $userName with image: ${profilePicUrl != null}');
+            '✅ Loaded driver profile for $userName with image: ${profilePicUrl != null}',
+          );
           return;
         }
       }
@@ -4263,7 +4796,8 @@ class _MessengerPageState extends State<MessengerPage>
       // If driver endpoint fails, try business users endpoint
       response = await http.get(
         Uri.parse('${ApiConfig.baseUrl}/api/business/profile/$userName'),
-        headers: {'Content-Type': 'application/json'});
+        headers: {'Content-Type': 'application/json'},
+      );
 
       print('📡 Business API response for $userName: ${response.statusCode}');
 
@@ -4304,7 +4838,8 @@ class _MessengerPageState extends State<MessengerPage>
             };
           });
           print(
-            '✅ Loaded business profile for $userName with image: ${profilePicUrl != null || businessLogoUrl != null}');
+            '✅ Loaded business profile for $userName with image: ${profilePicUrl != null || businessLogoUrl != null}',
+          );
           return;
         }
       }
@@ -4361,7 +4896,8 @@ class _MessengerPageState extends State<MessengerPage>
   // Show delete chat confirmation dialog
   Future<bool> _showDeleteChatConfirmation(
     String userName,
-    bool isLight) async {
+    bool isLight,
+  ) async {
     return await TradeRepublicBottomSheet.show<bool>(
           context: context,
           child: SafeArea(
@@ -4376,18 +4912,22 @@ class _MessengerPageState extends State<MessengerPage>
                     Icon(
                       CupertinoIcons.trash_fill,
                       size: 22,
-                      color: isLight ? Colors.black : Colors.white),
-                    SizedBox(width: 12),
+                      color: isLight ? Colors.black : Colors.white,
+                    ),
+                    const SizedBox(width: 12),
                     Text(
                       AppLocalizations.of(context)?.deleteChat ?? AppLocalizations.of(context)!.tr('Delete Chat'),
                       style: TextStyle(
                         fontSize: 22,
                         fontWeight: FontWeight.w700,
                         color: isLight ? Colors.black : Colors.white,
-                        letterSpacing: -0.4)),
-                  ]),
+                        letterSpacing: -0.4,
+                      ),
+                    ),
+                  ],
+                ),
 
-                SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+                const SizedBox(height: 24),
 
                 // Content
                 Text(
@@ -4396,9 +4936,11 @@ class _MessengerPageState extends State<MessengerPage>
                   style: TextStyle(
                     fontSize: 15,
                     color: isLight ? Colors.black : Colors.white,
-                    height: 1.4)),
+                    height: 1.4,
+                  ),
+                ),
 
-                SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+                const SizedBox(height: 24),
 
                 // Buttons Row - Trade Republic Style
                 Row(
@@ -4411,9 +4953,11 @@ class _MessengerPageState extends State<MessengerPage>
                         onPressed: () {
                           HapticFeedback.lightImpact();
                           Navigator.of(context).pop(false);
-                        })),
+                        },
+                      ),
+                    ),
 
-                    SizedBox(width: 12),
+                    const SizedBox(width: 12),
 
                     // Delete button
                     Expanded(
@@ -4423,9 +4967,15 @@ class _MessengerPageState extends State<MessengerPage>
                         onPressed: () {
                           HapticFeedback.lightImpact();
                           Navigator.of(context).pop(true);
-                        })),
-                  ]),
-              ]))) ??
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ) ??
         false;
   }
 
@@ -4441,9 +4991,11 @@ class _MessengerPageState extends State<MessengerPage>
           String receiverLower = receiver.toLowerCase();
 
           bool senderIsCurrentUser = currentUserVariations.any(
-            (v) => v.toLowerCase() == senderLower);
+            (v) => v.toLowerCase() == senderLower,
+          );
           bool receiverIsCurrentUser = currentUserVariations.any(
-            (v) => v.toLowerCase() == receiverLower);
+            (v) => v.toLowerCase() == receiverLower,
+          );
 
           return (sender == userName || receiver == userName) ||
               (senderIsCurrentUser && receiver == userName) ||
@@ -4455,7 +5007,8 @@ class _MessengerPageState extends State<MessengerPage>
       // Show success message
       TopNotification.success(
         context,
-        '${AppLocalizations.of(context)?.chatDeleted ?? AppLocalizations.of(context)!.tr('Chat Deleted')} - $userName');
+        '${AppLocalizations.of(context)?.chatDeleted ?? AppLocalizations.of(context)!.tr('Chat Deleted')} - $userName',
+      );
 
       // Optional: Also delete from server
       // await _deleteUserMessagesFromServer(userName);
@@ -4464,7 +5017,8 @@ class _MessengerPageState extends State<MessengerPage>
 
       TopNotification.error(
         context,
-        '${AppLocalizations.of(context)?.errorDeletingChatWith ?? AppLocalizations.of(context)!.tr('Error deleting chat with')} "$userName"');
+        '${AppLocalizations.of(context)?.errorDeletingChatWith ?? AppLocalizations.of(context)!.tr('Error deleting chat with')} "$userName"',
+      );
     }
   }
 }
@@ -4528,7 +5082,8 @@ class _CullyAiChatPageState extends State<_CullyAiChatPage>
           _messages.addAll(
             history.length > 100
                 ? history.sublist(history.length - 100)
-                : history);
+                : history,
+          );
         });
         print('📦 Loaded ${_messages.length} CullyAI messages from local');
         WidgetsBinding.instance.addPostFrameCallback((_) => _scrollToBottom());
@@ -4567,7 +5122,8 @@ class _CullyAiChatPageState extends State<_CullyAiChatPage>
 
     TopNotification.success(
       context,
-      AppLocalizations.of(context)?.deleted ?? AppLocalizations.of(context)!.tr('Chat history deleted'));
+      AppLocalizations.of(context)?.deleted ?? AppLocalizations.of(context)!.tr('Chat history deleted'),
+    );
   }
 
   void _confirmClearCullyMessages() {
@@ -4583,25 +5139,32 @@ class _CullyAiChatPageState extends State<_CullyAiChatPage>
               Icon(
                 CupertinoIcons.trash,
                 size: 22,
-                color: widget.isLight ? Colors.black : Colors.white),
-              SizedBox(width: 12),
+                color: widget.isLight ? Colors.black : Colors.white,
+              ),
+              const SizedBox(width: 12),
               Text(
                 AppLocalizations.of(context)?.deleteChat ?? AppLocalizations.of(context)!.tr('Delete Chat'),
                 style: TextStyle(
                   fontSize: 22,
                   fontWeight: FontWeight.w700,
                   color: widget.isLight ? Colors.black : Colors.white,
-                  letterSpacing: -0.4)),
-            ]),
-          SizedBox(height: 10),
+                  letterSpacing: -0.4,
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 10),
           Text(
             AppLocalizations.of(context)?.thisActionCannotBeUndone ?? AppLocalizations.of(context)!.tr('This action cannot be undone.'),
             style: TextStyle(
-              fontSize: DesktopOptimizedWidgets.getFontSize(),
+              fontSize: 14,
               height: 1.4,
               color: (widget.isLight ? Colors.black : Colors.white).withOpacity(
-                0.7))),
-          SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+                0.7,
+              ),
+            ),
+          ),
+          const SizedBox(height: 24),
           TradeRepublicButton(
             label: AppLocalizations.of(context)?.delete ?? AppLocalizations.of(context)!.tr('Delete'),
             onPressed: () async {
@@ -4611,8 +5174,9 @@ class _CullyAiChatPageState extends State<_CullyAiChatPage>
             },
             backgroundColor: const Color(0xFFFF3B30),
             foregroundColor: Colors.white,
-            width: double.infinity),
-          SizedBox(height: 10),
+            width: double.infinity,
+          ),
+          const SizedBox(height: 10),
           TradeRepublicButton(
             label: AppLocalizations.of(context)?.cancel ?? AppLocalizations.of(context)!.tr('Cancel'),
             onPressed: () {
@@ -4620,9 +5184,12 @@ class _CullyAiChatPageState extends State<_CullyAiChatPage>
               Navigator.of(context).pop(false);
             },
             isSecondary: true,
-            width: double.infinity),
-          SizedBox(height: 6),
-        ]));
+            width: double.infinity,
+          ),
+          const SizedBox(height: 6),
+        ],
+      ),
+    );
   }
 
   @override
@@ -4675,7 +5242,8 @@ class _CullyAiChatPageState extends State<_CullyAiChatPage>
               'language': langCode,
               'currency': _appSettings.currencySymbol,
               'assistant_mode': 'business',
-            }))
+            }),
+          )
           .timeout(const Duration(seconds: 30));
 
       if (response.statusCode == 200) {
@@ -4732,7 +5300,8 @@ class _CullyAiChatPageState extends State<_CullyAiChatPage>
         _scrollController.animateTo(
           _scrollController.position.maxScrollExtent,
           duration: const Duration(milliseconds: 300),
-          curve: Curves.easeOut);
+          curve: Curves.easeOut,
+        );
       }
     });
   }
@@ -4769,19 +5338,22 @@ class _CullyAiChatPageState extends State<_CullyAiChatPage>
                           : Center(
                               child: ConstrainedBox(
                                 constraints: BoxConstraints(
-                                  maxWidth: chatMaxWidth),
+                                  maxWidth: chatMaxWidth,
+                                ),
                                 child: ListView.builder(
                                   controller: _scrollController,
                                   padding: EdgeInsets.symmetric(
                                     horizontal: isDesktop ? 24 : 16,
-                                    vertical: isDesktop ? 20 : 12),
+                                    vertical: isDesktop ? 20 : 12,
+                                  ),
                                   itemCount:
                                       _messages.length + (_isLoading ? 1 : 0),
                                   itemBuilder: (context, i) {
                                     if (i == _messages.length) {
                                       return _buildTypingIndicator(
                                         cardBg,
-                                        chatMaxWidth);
+                                        chatMaxWidth,
+                                      );
                                     }
                                     final msg = _messages[i];
                                     return _buildBubble(
@@ -4790,15 +5362,22 @@ class _CullyAiChatPageState extends State<_CullyAiChatPage>
                                       cardBg,
                                       textColor,
                                       i,
-                                      chatMaxWidth);
-                                  })))),
+                                      chatMaxWidth,
+                                    );
+                                  },
+                                ),
+                              ),
+                            ),
+                    ),
                     _buildInputBar(
                       isLight,
                       bg,
                       textColor,
                       chatMaxWidth,
-                      isDesktop: isDesktop),
-                  ]);
+                      isDesktop: isDesktop,
+                    ),
+                  ],
+                );
 
                 if (!isDesktop) {
                   return content;
@@ -4808,16 +5387,23 @@ class _CullyAiChatPageState extends State<_CullyAiChatPage>
                   child: ConstrainedBox(
                     constraints: BoxConstraints(maxWidth: shellMaxWidth),
                     child: Padding(
-                      padding: EdgeInsets.all(24),
-                      child: content)));
-              })));
+                      padding: const EdgeInsets.all(24),
+                      child: content,
+                    ),
+                  ),
+                );
+              },
+        ),
+      ),
+    );
   }
 
   Widget _buildHeader(bool isLight, Color textColor, {bool isDesktop = false}) {
     return Padding(
       padding: EdgeInsets.symmetric(
         horizontal: isDesktop ? 24 : 16,
-        vertical: isDesktop ? 18 : 12),
+        vertical: isDesktop ? 18 : 12,
+      ),
       child: Row(
         children: [
           TradeRepublicButton.icon(
@@ -4830,16 +5416,19 @@ class _CullyAiChatPageState extends State<_CullyAiChatPage>
             onPressed: () {
               HapticFeedback.lightImpact();
               Navigator.of(context).pop();
-            }),
-          SizedBox(width: 12),
+            },
+          ),
+          const SizedBox(width: 12),
           ClipRRect(
-            borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
+            borderRadius: BorderRadius.circular(20),
             child: Image.asset(
               isLight ? 'logo/cully_light.png' : 'logo/cully_dark.png',
               width: isDesktop ? 44 : 40,
               height: isDesktop ? 44 : 40,
-              fit: BoxFit.cover)),
-          SizedBox(width: 10),
+              fit: BoxFit.cover,
+            ),
+          ),
+          const SizedBox(width: 10),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -4851,11 +5440,13 @@ class _CullyAiChatPageState extends State<_CullyAiChatPage>
                   style: TextStyle(
                     fontSize: isDesktop ? 18 : 16,
                     fontWeight: FontWeight.w700,
-                    color: textColor)),
+                    color: textColor,
+                  ),
+                ),
                 Row(
                   children: [
                     const _PulsingDot(),
-                    SizedBox(width: 5),
+                    const SizedBox(width: 5),
                     Flexible(
                       child: Text(
                         AppLocalizations.of(context)?.online ?? AppLocalizations.of(context)!.tr('Online'),
@@ -4865,10 +5456,16 @@ class _CullyAiChatPageState extends State<_CullyAiChatPage>
                           fontSize: 12,
                           color: textColor.withOpacity(0.55),
                           fontWeight: FontWeight.w500,
-                          letterSpacing: -0.1))),
-                  ]),
-              ])),
-          SizedBox(width: 12),
+                          letterSpacing: -0.1,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(width: 12),
           TradeRepublicButton.icon(
             icon: Icon(CupertinoIcons.trash, color: textColor, size: 19),
             size: isDesktop ? 44 : 40,
@@ -4879,15 +5476,20 @@ class _CullyAiChatPageState extends State<_CullyAiChatPage>
             onPressed: () {
               HapticFeedback.lightImpact();
               _confirmClearCullyMessages();
-            }),
-        ]));
+            },
+          ),
+        ],
+      ),
+    );
   }
 
   Widget _buildWelcome(Color textColor, {double? maxWidth}) {
     return Center(
       child: ConstrainedBox(
         constraints: BoxConstraints(maxWidth: (maxWidth ?? 680) * 0.9),
-        child: _AnimatedWelcome(textColor: textColor, isLight: widget.isLight)));
+        child: _AnimatedWelcome(textColor: textColor, isLight: widget.isLight),
+      ),
+    );
   }
 
   Widget _buildBubble(
@@ -4896,7 +5498,8 @@ class _CullyAiChatPageState extends State<_CullyAiChatPage>
     Color cardBg,
     Color textColor,
     int index,
-    double availableWidth) {
+    double availableWidth,
+  ) {
     // Trade Republic flat bubble style:
     // - User: solid accent (black on light, white on dark) with inverse text
     // - AI:   subtle 5% accent overlay, fully flat, symmetric corners
@@ -4911,15 +5514,17 @@ class _CullyAiChatPageState extends State<_CullyAiChatPage>
     final bubble = Align(
       alignment: isUser ? Alignment.centerRight : Alignment.centerLeft,
       child: Container(
-        margin: EdgeInsets.only(bottom: 8),
-        padding: EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+        margin: const EdgeInsets.only(bottom: 8),
+        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
         constraints: BoxConstraints(
           maxWidth: availableWidth > 820
               ? 620
-              : availableWidth * (availableWidth > 600 ? 0.72 : 0.78)),
+              : availableWidth * (availableWidth > 600 ? 0.72 : 0.78),
+        ),
         decoration: BoxDecoration(
           color: isUser ? accent : aiBg,
-          borderRadius: BorderRadius.circular(18)),
+          borderRadius: BorderRadius.circular(18),
+        ),
         child: (index == _animatingIndex && !isUser)
             ? TweenAnimationBuilder<double>(
                 tween: Tween<double>(begin: 0.98, end: 1.0),
@@ -4928,17 +5533,21 @@ class _CullyAiChatPageState extends State<_CullyAiChatPage>
                 builder: (context, value, child) => Transform.scale(
                   scale: value,
                   alignment: Alignment.centerLeft,
-                  child: child),
+                  child: child,
+                ),
                 child: _TypewriterText(
                   text: text,
                   style: TextStyle(
                     fontSize: 15,
                     color: aiText,
                     height: 1.4,
-                    letterSpacing: -0.1),
+                    letterSpacing: -0.1,
+                  ),
                   onDone: () {
                     if (mounted) setState(() => _animatingIndex = null);
-                  }))
+                  },
+                ),
+              )
             : Text(
                 text,
                 style: TextStyle(
@@ -4946,14 +5555,19 @@ class _CullyAiChatPageState extends State<_CullyAiChatPage>
                   color: isUser ? userText : aiText,
                   height: 1.4,
                   letterSpacing: -0.1,
-                  fontWeight: FontWeight.w500))));
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+      ),
+    );
     if (_newBubbleIndices.contains(index)) {
       return _AnimatedBubble(
         isUser: isUser,
         onDone: () {
           if (mounted) setState(() => _newBubbleIndices.remove(index));
         },
-        child: bubble);
+        child: bubble,
+      );
     }
     return bubble;
   }
@@ -4965,25 +5579,31 @@ class _CullyAiChatPageState extends State<_CullyAiChatPage>
     return Align(
       alignment: Alignment.centerLeft,
       child: Container(
-        margin: EdgeInsets.only(bottom: 8),
-        padding: EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+        margin: const EdgeInsets.only(bottom: 8),
+        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
         constraints: BoxConstraints(
           maxWidth: availableWidth > 820
               ? 620
-              : availableWidth * (availableWidth > 600 ? 0.72 : 0.78)),
+              : availableWidth * (availableWidth > 600 ? 0.72 : 0.78),
+        ),
         decoration: BoxDecoration(
           color: aiBg,
-          borderRadius: BorderRadius.circular(18)),
+          borderRadius: BorderRadius.circular(18),
+        ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
           children: [
             Row(
               mainAxisSize: MainAxisSize.min,
-              children: List.generate(3, (i) => _AiDot(delay: i * 200))),
-            SizedBox(height: 6),
+              children: List.generate(3, (i) => _AiDot(delay: i * 200)),
+            ),
+            const SizedBox(height: 6),
             _ThinkingText(isLight: widget.isLight),
-          ])));
+          ],
+        ),
+      ),
+    );
   }
 
   Widget _buildInputBar(
@@ -4999,9 +5619,11 @@ class _CullyAiChatPageState extends State<_CullyAiChatPage>
         left: isDesktop ? 24 : 16,
         right: isDesktop ? 24 : 16,
         top: isDesktop ? 16 : 8,
-        bottom: MediaQuery.of(context).viewInsets.bottom + (isDesktop ? 18 : 8)),
+        bottom: MediaQuery.of(context).viewInsets.bottom + (isDesktop ? 18 : 8),
+      ),
       decoration: BoxDecoration(
-        color: cardBg),
+        color: cardBg,
+      ),
       child: Center(
         child: ConstrainedBox(
           constraints: BoxConstraints(maxWidth: maxWidth),
@@ -5017,9 +5639,11 @@ class _CullyAiChatPageState extends State<_CullyAiChatPage>
                   minLines: 1,
                   textInputAction: TextInputAction.send,
                   onSubmitted: (_) => _sendMessage(),
-                  textCapitalization: TextCapitalization.sentences)),
+                  textCapitalization: TextCapitalization.sentences,
+                ),
+              ),
               if (!keyboardOpen) ...[
-                SizedBox(width: 10),
+                const SizedBox(width: 10),
                 AnimatedScale(
                   duration: const Duration(milliseconds: 180),
                   curve: Curves.easeOutBack,
@@ -5029,7 +5653,8 @@ class _CullyAiChatPageState extends State<_CullyAiChatPage>
                       duration: const Duration(milliseconds: 220),
                       transitionBuilder: (child, animation) => ScaleTransition(
                         scale: animation,
-                        child: FadeTransition(opacity: animation, child: child)),
+                        child: FadeTransition(opacity: animation, child: child),
+                      ),
                       child: _isLoading
                           ? SizedBox(
                               key: const ValueKey('cully_loading'),
@@ -5037,18 +5662,28 @@ class _CullyAiChatPageState extends State<_CullyAiChatPage>
                               height: 20,
                               child: CircularProgressIndicator(
                                 strokeWidth: 2,
-                                color: isLight ? Colors.white : Colors.black))
+                                color: isLight ? Colors.white : Colors.black,
+                              ),
+                            )
                           : Icon(
                               CupertinoIcons.arrow_up,
                               key: const ValueKey('cully_send'),
                               color: isLight ? Colors.white : Colors.black,
-                              size: 20)),
+                              size: 20,
+                            ),
+                    ),
                     size: 50,
                     backgroundColor: isLight ? Colors.black : Colors.white,
                     foregroundColor: isLight ? Colors.white : Colors.black,
-                    onPressed: _isLoading ? null : _sendMessage)),
+                    onPressed: _isLoading ? null : _sendMessage,
+                  ),
+                ),
               ],
-            ]))));
+            ],
+          ),
+        ),
+      ),
+    );
   }
 }
 
@@ -5070,7 +5705,8 @@ class _AiDotState extends State<_AiDot> with SingleTickerProviderStateMixin {
     super.initState();
     _ctrl = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 600))..repeat(reverse: true);
+      duration: const Duration(milliseconds: 600),
+    )..repeat(reverse: true);
     _anim = CurvedAnimation(parent: _ctrl, curve: Curves.easeInOut);
     Future.delayed(Duration(milliseconds: widget.delay), () {
       if (mounted) _ctrl.forward();
@@ -5092,10 +5728,13 @@ class _AiDotState extends State<_AiDot> with SingleTickerProviderStateMixin {
       builder: (_, __) => Container(
         width: 6,
         height: 6,
-        margin: EdgeInsets.symmetric(horizontal: 3),
+        margin: const EdgeInsets.symmetric(horizontal: 3),
         decoration: BoxDecoration(
           color: accent.withOpacity(0.25 + 0.5 * _anim.value),
-          borderRadius: BorderRadius.circular(3))));
+          borderRadius: BorderRadius.circular(3),
+        ),
+      ),
+    );
   }
 }
 
@@ -5117,10 +5756,12 @@ class _ThinkingTextState extends State<_ThinkingText>
     super.initState();
     _controller = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 900))..repeat(reverse: true);
+      duration: const Duration(milliseconds: 900),
+    )..repeat(reverse: true);
     _opacity = Tween<double>(
       begin: 0.45,
-      end: 1.0).animate(CurvedAnimation(parent: _controller, curve: Curves.easeInOut));
+      end: 1.0,
+    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeInOut));
   }
 
   @override
@@ -5139,7 +5780,10 @@ class _ThinkingTextState extends State<_ThinkingText>
         style: TextStyle(
           fontSize: 12,
           fontWeight: FontWeight.w500,
-          color: textColor.withOpacity(0.55))));
+          color: textColor.withOpacity(0.55),
+        ),
+      ),
+    );
   }
 }
 
@@ -5183,7 +5827,8 @@ class _TypewriterTextState extends State<_TypewriterText> {
   Widget build(BuildContext context) {
     return Text(
       widget.text.substring(0, _charCount.clamp(0, widget.text.length)),
-      style: widget.style);
+      style: widget.style,
+    );
   }
 }
 
@@ -5209,25 +5854,31 @@ class _AnimatedWelcomeState extends State<_AnimatedWelcome>
     _ctrls = [
       AnimationController(
         vsync: this,
-        duration: const Duration(milliseconds: 800)),
+        duration: const Duration(milliseconds: 800),
+      ),
       AnimationController(
         vsync: this,
-        duration: const Duration(milliseconds: 500)),
+        duration: const Duration(milliseconds: 500),
+      ),
       AnimationController(
         vsync: this,
-        duration: const Duration(milliseconds: 500)),
+        duration: const Duration(milliseconds: 500),
+      ),
     ];
     _fades = _ctrls
         .map(
           (c) =>
               CurvedAnimation(parent: c, curve: Curves.easeOut)
-                  as Animation<double>)
+                  as Animation<double>,
+        )
         .toList();
     _slides = _ctrls
         .map(
           (c) => Tween<Offset>(
             begin: const Offset(0, 0.18),
-            end: Offset.zero).animate(CurvedAnimation(parent: c, curve: Curves.easeOut)))
+            end: Offset.zero,
+          ).animate(CurvedAnimation(parent: c, curve: Curves.easeOut)),
+        )
         .toList();
     for (int i = 0; i < 3; i++) {
       Future.delayed(Duration(milliseconds: 60 + i * 160), () {
@@ -5248,7 +5899,7 @@ class _AnimatedWelcomeState extends State<_AnimatedWelcome>
   Widget build(BuildContext context) {
     return Center(
       child: Padding(
-        padding: EdgeInsets.all(32),
+        padding: const EdgeInsets.all(32),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -5256,7 +5907,8 @@ class _AnimatedWelcomeState extends State<_AnimatedWelcome>
               opacity: _fades[0],
               child: ScaleTransition(
                 scale: Tween<double>(begin: 0.4, end: 1.0).animate(
-                  CurvedAnimation(parent: _ctrls[0], curve: Curves.elasticOut)),
+                  CurvedAnimation(parent: _ctrls[0], curve: Curves.elasticOut),
+                ),
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(40),
                   child: Image.asset(
@@ -5265,8 +5917,12 @@ class _AnimatedWelcomeState extends State<_AnimatedWelcome>
                         : 'logo/cully_dark.png',
                     width: 80,
                     height: 80,
-                    fit: BoxFit.cover)))),
-            SizedBox(height: 20),
+                    fit: BoxFit.cover,
+                  ),
+                ),
+              ),
+            ),
+            const SizedBox(height: 20),
             FadeTransition(
               opacity: _fades[1],
               child: SlideTransition(
@@ -5277,8 +5933,12 @@ class _AnimatedWelcomeState extends State<_AnimatedWelcome>
                   style: TextStyle(
                     fontSize: 22,
                     fontWeight: FontWeight.w700,
-                    color: widget.textColor)))),
-            SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+                    color: widget.textColor,
+                  ),
+                ),
+              ),
+            ),
+            const SizedBox(height: 8),
             FadeTransition(
               opacity: _fades[2],
               child: SlideTransition(
@@ -5288,8 +5948,15 @@ class _AnimatedWelcomeState extends State<_AnimatedWelcome>
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 15,
-                    color: widget.textColor.withOpacity(0.5))))),
-          ])));
+                    color: widget.textColor.withOpacity(0.5),
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }
 
@@ -5319,11 +5986,13 @@ class _AnimatedBubbleState extends State<_AnimatedBubble>
     super.initState();
     _ctrl = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 380));
+      duration: const Duration(milliseconds: 380),
+    );
     _fade = CurvedAnimation(parent: _ctrl, curve: Curves.easeOut);
     _slide = Tween<Offset>(
       begin: Offset(widget.isUser ? 0.12 : -0.12, 0),
-      end: Offset.zero).animate(CurvedAnimation(parent: _ctrl, curve: Curves.easeOut));
+      end: Offset.zero,
+    ).animate(CurvedAnimation(parent: _ctrl, curve: Curves.easeOut));
     _ctrl.forward().then((_) => widget.onDone?.call());
   }
 
@@ -5337,7 +6006,8 @@ class _AnimatedBubbleState extends State<_AnimatedBubble>
   Widget build(BuildContext context) {
     return FadeTransition(
       opacity: _fade,
-      child: SlideTransition(position: _slide, child: widget.child));
+      child: SlideTransition(position: _slide, child: widget.child),
+    );
   }
 }
 
@@ -5359,10 +6029,12 @@ class _PulsingDotState extends State<_PulsingDot>
     super.initState();
     _ctrl = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 900))..repeat(reverse: true);
+      duration: const Duration(milliseconds: 900),
+    )..repeat(reverse: true);
     _scale = Tween<double>(
       begin: 0.7,
-      end: 1.4).animate(CurvedAnimation(parent: _ctrl, curve: Curves.easeInOut));
+      end: 1.4,
+    ).animate(CurvedAnimation(parent: _ctrl, curve: Curves.easeInOut));
   }
 
   @override
@@ -5381,6 +6053,9 @@ class _PulsingDotState extends State<_PulsingDot>
         height: 6,
         decoration: BoxDecoration(
           color: (isLight ? Colors.black : Colors.white).withOpacity(0.55),
-          shape: BoxShape.circle)));
+          shape: BoxShape.circle,
+        ),
+      ),
+    );
   }
 }

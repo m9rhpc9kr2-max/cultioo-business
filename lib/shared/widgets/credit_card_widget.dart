@@ -26,19 +26,23 @@ class _CardShell extends StatelessWidget {
           borderRadius: BorderRadius.circular(18),
           border: Border.all(
             color: Colors.white.withValues(alpha: 0.08),
-            width: 0.5),
+            width: 0.5,
+          ),
           boxShadow: [
             BoxShadow(
               color: Colors.black.withValues(alpha: isDark ? 0.7 : 0.35),
               blurRadius: 30,
               spreadRadius: -4,
-              offset: const Offset(0, 12)),
+              offset: const Offset(0, 12),
+            ),
             BoxShadow(
               color: Colors.white.withValues(alpha: isDark ? 0.04 : 0.0),
               blurRadius: 0,
               spreadRadius: 0,
-              offset: Offset.zero),
-          ]),
+              offset: Offset.zero,
+            ),
+          ],
+        ),
         child: ClipRRect(
           borderRadius: BorderRadius.circular(17.5),
           child: Stack(
@@ -60,14 +64,22 @@ class _CardShell extends StatelessWidget {
                       colors: [
                         Colors.white.withValues(alpha: 0.06),
                         Colors.transparent,
-                      ])))),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
 
               // ── Diagonal shimmer band ──────────────────────────────────────
               CustomPaint(painter: _ShimmerBandPainter()),
 
               // ── Content ────────────────────────────────────────────────────
               child,
-            ]))));
+            ],
+          ),
+        ),
+      ),
+    );
   }
 }
 
@@ -123,7 +135,7 @@ class CreditCardWidget extends StatelessWidget {
       isDark: isDark,
       patternPainter: _CrosshatchPainter(),
       child: Padding(
-        padding: EdgeInsets.fromLTRB(22, 20, 22, 20),
+        padding: const EdgeInsets.fromLTRB(22, 20, 22, 20),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -137,14 +149,15 @@ class CreditCardWidget extends StatelessWidget {
                   _CardBadge(label: 'DEFAULT')
                 else
                   const SizedBox.shrink(),
-              ]),
+              ],
+            ),
 
             const Spacer(),
 
             // ── Card number ───────────────────────────────────────────────
             _CardNumber(last4: last4),
 
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
 
             // ── Bottom row ────────────────────────────────────────────────
             Row(
@@ -155,14 +168,16 @@ class CreditCardWidget extends StatelessWidget {
                     child: _LabeledValue(
                       label: 'CARDHOLDER',
                       value: cardholderName.toUpperCase(),
-                      maxLines: 1)),
-                  SizedBox(width: 16),
+                      maxLines: 1,
+                    ),
+                  ),
+                  const SizedBox(width: 16),
                   _LabeledValue(label: 'EXPIRES', value: _expiry),
                 ] else ...[
                   _LabeledValue(label: 'EXPIRES', value: _expiry),
                   const Spacer(),
                 ],
-                SizedBox(width: 16),
+                const SizedBox(width: 16),
                 Text(
                   _brandLabel,
                   style: TextStyle(
@@ -170,9 +185,15 @@ class CreditCardWidget extends StatelessWidget {
                     fontSize: 11,
                     fontWeight: FontWeight.w800,
                     letterSpacing: 2.0,
-                    height: 1)),
-              ]),
-          ])));
+                    height: 1,
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }
 
@@ -225,7 +246,7 @@ class BankAccountWidget extends StatelessWidget {
       isDark: isDark,
       patternPainter: _DotGridPainter(),
       child: Padding(
-        padding: EdgeInsets.fromLTRB(22, 20, 22, 20),
+        padding: const EdgeInsets.fromLTRB(22, 20, 22, 20),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -243,27 +264,33 @@ class BankAccountWidget extends StatelessWidget {
                     borderRadius: BorderRadius.circular(9),
                     border: Border.all(
                       color: Colors.white.withValues(alpha: 0.12),
-                      width: 0.5)),
+                      width: 0.5,
+                    ),
+                  ),
                   child: Icon(
                     _icon,
                     color: Colors.white.withValues(alpha: 0.55),
-                    size: 16)),
+                    size: 16,
+                  ),
+                ),
                 Row(
                   children: [
                     if (isDefault) ...[
                       _CardBadge(label: 'DEFAULT'),
-                      SizedBox(width: 6),
+                      const SizedBox(width: 6),
                     ],
                     _CardBadge(label: _typeLabel, filled: true),
-                  ]),
-              ]),
+                  ],
+                ),
+              ],
+            ),
 
             const Spacer(),
 
             // ── Masked account number ─────────────────────────────────────
             _CardNumber(last4: maskedNumber),
 
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
 
             // ── Bottom row ────────────────────────────────────────────────
             Row(
@@ -275,16 +302,23 @@ class BankAccountWidget extends StatelessWidget {
                     value: accountHolderName.isEmpty
                         ? '–'
                         : accountHolderName.toUpperCase(),
-                    maxLines: 1)),
+                    maxLines: 1,
+                  ),
+                ),
                 if (routingOrSwift != null && routingOrSwift!.isNotEmpty) ...[
-                  SizedBox(width: 12),
+                  const SizedBox(width: 12),
                   _LabeledValue(
                     label: _routingLabel,
                     value: routingOrSwift!,
-                    align: TextAlign.right),
+                    align: TextAlign.right,
+                  ),
                 ],
-              ]),
-          ])));
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }
 
@@ -300,10 +334,11 @@ class _CardNumber extends StatelessWidget {
   Widget build(BuildContext context) {
     return RichText(
       text: TextSpan(
-        style: TextStyle(
+        style: const TextStyle(
           color: Colors.white,
           fontFamily: 'monospace',
-          height: 1),
+          height: 1,
+        ),
         children: [
           TextSpan(
             text: '••••  ••••  ••••  ',
@@ -311,15 +346,21 @@ class _CardNumber extends StatelessWidget {
               fontSize: 15,
               fontWeight: FontWeight.w300,
               letterSpacing: 3.5,
-              color: Colors.white.withValues(alpha: 0.55))),
+              color: Colors.white.withValues(alpha: 0.55),
+            ),
+          ),
           TextSpan(
             text: last4.isEmpty ? '••••' : last4,
-            style: TextStyle(
+            style: const TextStyle(
               fontSize: 17,
               fontWeight: FontWeight.w600,
               letterSpacing: 3.5,
-              color: Colors.white)),
-        ]));
+              color: Colors.white,
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }
 
@@ -352,20 +393,25 @@ class _LabeledValue extends StatelessWidget {
             fontSize: 7,
             fontWeight: FontWeight.w700,
             letterSpacing: 1.6,
-            height: 1)),
-        SizedBox(height: 4),
+            height: 1,
+          ),
+        ),
+        const SizedBox(height: 4),
         Text(
           value,
           textAlign: align,
           maxLines: maxLines,
           overflow: TextOverflow.ellipsis,
-          style: TextStyle(
+          style: const TextStyle(
             color: Colors.white,
             fontSize: 11.5,
             fontWeight: FontWeight.w500,
             letterSpacing: 0.5,
-            height: 1)),
-      ]);
+            height: 1,
+          ),
+        ),
+      ],
+    );
   }
 }
 
@@ -377,7 +423,7 @@ class _CardBadge extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 8, vertical: 3.5),
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3.5),
       decoration: BoxDecoration(
         color: filled
             ? Colors.white.withValues(alpha: 0.10)
@@ -387,7 +433,9 @@ class _CardBadge extends StatelessWidget {
             ? null
             : Border.all(
                 color: Colors.white.withValues(alpha: 0.18),
-                width: 0.5)),
+                width: 0.5,
+              ),
+      ),
       child: Text(
         label,
         style: TextStyle(
@@ -395,7 +443,10 @@ class _CardBadge extends StatelessWidget {
           fontSize: 7,
           fontWeight: FontWeight.w800,
           letterSpacing: 1.4,
-          height: 1)));
+          height: 1,
+        ),
+      ),
+    );
   }
 }
 
@@ -416,15 +467,19 @@ class _ChipWidget extends StatelessWidget {
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
           colors: [Color(0xFFD4AF37), Color(0xFFEECC60), Color(0xFFB8962E)],
-          stops: [0.0, 0.5, 1.0]),
+          stops: [0.0, 0.5, 1.0],
+        ),
         borderRadius: BorderRadius.circular(5),
         boxShadow: [
           BoxShadow(
             color: const Color(0xFFD4AF37).withValues(alpha: 0.3),
             blurRadius: 6,
-            offset: const Offset(0, 2)),
-        ]),
-      child: CustomPaint(painter: _ChipLinePainter()));
+            offset: const Offset(0, 2),
+          ),
+        ],
+      ),
+      child: CustomPaint(painter: _ChipLinePainter()),
+    );
   }
 }
 
@@ -519,11 +574,13 @@ class _ShimmerBandPainter extends CustomPainter {
         Colors.white.withValues(alpha: 0.0),
         Colors.transparent,
       ],
-      stops: const [0.0, 0.35, 0.50, 0.65, 1.0]).createShader(rect);
+      stops: const [0.0, 0.35, 0.50, 0.65, 1.0],
+    ).createShader(rect);
 
     canvas.drawRect(
       rect,
-      Paint()..shader = shader);
+      Paint()..shader = shader,
+    );
   }
 
   @override

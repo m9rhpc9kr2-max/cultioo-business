@@ -6,7 +6,8 @@ import 'package:flutter/services.dart';
 /// Provides access to native macOS UI elements and effects
 class MacOSNativeService {
   static const MethodChannel _channel = MethodChannel(
-    'cupertino_native_better/macos');
+    'cupertino_native_better/macos',
+  );
 
   /// Check if platform is macOS
   static bool get isMacOS => !kIsWeb && Platform.isMacOS;

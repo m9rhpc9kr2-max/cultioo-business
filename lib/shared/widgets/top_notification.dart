@@ -41,7 +41,9 @@ class TopNotification {
         title: title,
         customIcon: customIcon,
         onDismiss: () {},
-        onDismissAnimated: (callback) => _currentDismissCallback = callback));
+        onDismissAnimated: (callback) => _currentDismissCallback = callback,
+      ),
+    );
 
     _currentOverlay = overlayEntry;
     overlay.insert(overlayEntry);
@@ -94,7 +96,8 @@ class TopNotification {
       context,
       message: message,
       type: NotificationType.success,
-      title: title);
+      title: title,
+    );
   }
 
   static void error(BuildContext context, String message, {String? title}) {
@@ -106,7 +109,8 @@ class TopNotification {
       context,
       message: message,
       type: NotificationType.warning,
-      title: title);
+      title: title,
+    );
   }
 
   static void info(BuildContext context, String message, {String? title}) {
@@ -150,11 +154,13 @@ class _TopNotificationWidgetState extends State<TopNotificationWidget>
     // Softer, shorter animation duration for appearance
     _slideController = AnimationController(
       duration: const Duration(milliseconds: 600),
-      vsync: this);
+      vsync: this,
+    );
 
     _fadeController = AnimationController(
       duration: const Duration(milliseconds: 500),
-      vsync: this);
+      vsync: this,
+    );
 
     // Smooth slide animation from top
     _slideAnimation =
@@ -162,14 +168,16 @@ class _TopNotificationWidgetState extends State<TopNotificationWidget>
           CurvedAnimation(
             parent: _slideController,
             curve: Curves.easeOutQuart, // Smooth curve like when disappearing
-          ));
+          ),
+        );
 
     // Smooth fade animation
     _fadeAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
       CurvedAnimation(
         parent: _fadeController,
         curve: Curves.easeOutCubic, // Smooth curve like when disappearing
-      ));
+      ),
+    );
 
     // Register dismiss callback
     widget.onDismissAnimated?.call(_dismiss);
@@ -193,7 +201,8 @@ class _TopNotificationWidgetState extends State<TopNotificationWidget>
     await _slideController.animateTo(
       0.0,
       duration: const Duration(milliseconds: 400),
-      curve: Curves.easeInQuart);
+      curve: Curves.easeInQuart,
+    );
 
     // Clean up via static method
     TopNotification._onDismissComplete();
@@ -267,25 +276,30 @@ class _TopNotificationWidgetState extends State<TopNotificationWidget>
                   top: statusBarHeight + 25,
                   left: 16,
                   right: 14,
-                  bottom: 14),
+                  bottom: 14,
+                ),
                 decoration: BoxDecoration(
                   color: _getBackgroundColor(),
                   boxShadow: [
                     BoxShadow(
                       color: Colors.black.withOpacity(0.2),
                       blurRadius: 20,
-                      offset: const Offset(0, 4)),
-                  ]),
+                      offset: const Offset(0, 4),
+                    ),
+                  ],
+                ),
                 child: Row(
                   children: [
                     // Icon
                     Container(
-                      padding: EdgeInsets.all(6),
+                      padding: const EdgeInsets.all(6),
                       decoration: BoxDecoration(
                         color: Colors.white.withOpacity(0.2),
-                        borderRadius: BorderRadius.circular(20)),
-                      child: Icon(_getIcon(), color: Colors.white, size: 20)),
-                    SizedBox(width: 10),
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      child: Icon(_getIcon(), color: Colors.white, size: 20),
+                    ),
+                    const SizedBox(width: 10),
 
                     // Content
                     Expanded(
@@ -295,33 +309,49 @@ class _TopNotificationWidgetState extends State<TopNotificationWidget>
                         children: [
                           Text(
                             widget.title ?? _getDefaultTitle(),
-                            style: TextStyle(
+                            style: const TextStyle(
                               color: Colors.white,
                               fontWeight: FontWeight.w700,
-                              fontSize: 15),
+                              fontSize: 15,
+                            ),
                             maxLines: 1,
-                            overflow: TextOverflow.ellipsis),
-                          SizedBox(height: 2),
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                          const SizedBox(height: 2),
                           Text(
                             widget.message,
                             style: TextStyle(
                               color: Colors.white.withOpacity(0.95),
                               fontSize: 15,
-                              fontWeight: FontWeight.w600),
+                              fontWeight: FontWeight.w600,
+                            ),
                             maxLines: 3,
                             overflow: TextOverflow.ellipsis,
-                            softWrap: true),
-                        ])),
+                            softWrap: true,
+                          ),
+                        ],
+                      ),
+                    ),
 
                     // Close button
                     TradeRepublicTap(
                       onTap: _dismiss,
-                      child: Padding(
+                      child: const Padding(
                         padding: EdgeInsets.all(4),
                         child: Icon(
                           Icons.close,
                           color: Colors.white,
-                          size: 22))),
-                  ])))))));
+                          size: 22,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
   }
 }

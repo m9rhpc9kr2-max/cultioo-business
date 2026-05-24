@@ -45,9 +45,16 @@ class GlassEffect {
                         : [
                             Colors.white.withValues(alpha: 0.08),
                             Colors.white.withValues(alpha: 0.04),
-                          ])),
-                child: child))));
-      });
+                          ],
+                  ),
+                ),
+                child: child,
+              ),
+            ),
+          ),
+        );
+      },
+    );
   }
 }
 
@@ -74,7 +81,8 @@ class GlassContainer extends StatelessWidget {
       height: height,
       padding: padding,
       margin: margin,
-      child: child);
+      child: child,
+    );
   }
 }
 
@@ -111,7 +119,8 @@ class CultiooGlassContainer extends StatelessWidget {
       height: height,
       margin: margin,
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(borderRadius)),
+        borderRadius: BorderRadius.circular(borderRadius),
+      ),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(borderRadius),
         child: BackdropFilter(
@@ -131,15 +140,22 @@ class CultiooGlassContainer extends StatelessWidget {
                     : [
                         Colors.black.withValues(alpha: 0.6),
                         Colors.black.withValues(alpha: 0.2),
-                      ]),
+                      ],
+              ),
               boxShadow: [
                 BoxShadow(
                   color: Colors.black.withValues(alpha: isLight ? 0.1 : 0.3),
                   blurRadius: 20,
                   spreadRadius: -5,
-                  offset: const Offset(0, 10)),
-              ]),
-            child: child))));
+                  offset: const Offset(0, 10),
+                ),
+              ],
+            ),
+            child: child,
+          ),
+        ),
+      ),
+    );
   }
 }
 
@@ -161,14 +177,14 @@ class FloatingGlassDock extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: height,
-      margin: EdgeInsets.symmetric(horizontal: 16, vertical: 20),
+      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
       decoration: BoxDecoration(borderRadius: BorderRadius.circular(20)),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(20),
         child: BackdropFilter(
           filter: ImageFilter.blur(sigmaX: 1, sigmaY: 1),
           child: Container(
-            padding: EdgeInsets.all(16),
+            padding: const EdgeInsets.all(16),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(20),
               gradient: LinearGradient(
@@ -182,9 +198,16 @@ class FloatingGlassDock extends StatelessWidget {
                     : [
                         Colors.white.withValues(alpha: 0.12),
                         Colors.white.withValues(alpha: 0.06),
-                      ])),
+                      ],
+              ),
+            ),
             child: Row(
               mainAxisAlignment: mainAxisAlignment,
-              children: children)))));
+              children: children,
+            ),
+          ),
+        ),
+      ),
+    );
   }
 }

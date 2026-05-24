@@ -29,14 +29,17 @@ class DefaultFirebaseOptions {
       case TargetPlatform.windows:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for windows - '
-          'you can reconfigure this by running the FlutterFire CLI again.');
+          'you can reconfigure this by running the FlutterFire CLI again.',
+        );
       case TargetPlatform.linux:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for linux - '
-          'you can reconfigure this by running the FlutterFire CLI again.');
+          'you can reconfigure this by running the FlutterFire CLI again.',
+        );
       default:
         throw UnsupportedError(
-          'DefaultFirebaseOptions are not supported for this platform.');
+          'DefaultFirebaseOptions are not supported for this platform.',
+        );
     }
   }
 
@@ -46,14 +49,16 @@ class DefaultFirebaseOptions {
     messagingSenderId: '324003989634',
     projectId: 'cultioo-business-app',
     authDomain: 'cultioo-business-app.firebaseapp.com',
-    storageBucket: 'cultioo-business-app.firebasestorage.app');
+    storageBucket: 'cultioo-business-app.firebasestorage.app',
+  );
 
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyB4Mh8SOaenYHu_I2BGq4SZuVMq2MmV9mQ',
     appId: '1:324003989634:android:cultioo_business_android',
     messagingSenderId: '324003989634',
     projectId: 'cultioo-business-app',
-    storageBucket: 'cultioo-business-app.firebasestorage.app');
+    storageBucket: 'cultioo-business-app.firebasestorage.app',
+  );
 
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyB4Mh8SOaenYHu_I2BGq4SZuVMq2MmV9mQ',
@@ -61,7 +66,8 @@ class DefaultFirebaseOptions {
     messagingSenderId: '324003989634',
     projectId: 'cultioo-business-app',
     storageBucket: 'cultioo-business-app.firebasestorage.app',
-    iosBundleId: 'com.cultioo.BusinessApp');
+    iosBundleId: 'com.cultioo.BusinessApp',
+  );
 
   // TODO: Register macOS app in Firebase Console (same bundle ID: com.cultioo.BusinessApp)
   // and replace appId with the macOS-specific GOOGLE_APP_ID from the downloaded GoogleService-Info.plist.
@@ -72,5 +78,6 @@ class DefaultFirebaseOptions {
     messagingSenderId: '324003989634',
     projectId: 'cultioo-business-app',
     storageBucket: 'cultioo-business-app.firebasestorage.app',
-    iosBundleId: 'com.cultioo.BusinessApp');
+    iosBundleId: 'com.cultioo.BusinessApp',
+  );
 }

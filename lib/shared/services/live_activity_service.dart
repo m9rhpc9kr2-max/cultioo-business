@@ -33,7 +33,8 @@ class DelviooLiveActivityService {
     try {
       await _plugin.init(
         appGroupId: appGroupId,
-        urlScheme: 'cultioo');
+        urlScheme: 'cultioo',
+      );
       _initialized = true;
 
       // Clean up any stale activities left from a previous app session so they
@@ -107,7 +108,8 @@ class DelviooLiveActivityService {
       await _plugin.createOrUpdateActivity(
         _activityKey,
         data,
-        iOSEnableRemoteUpdates: false);
+        iOSEnableRemoteUpdates: false,
+      );
       _activityCreated = true;
       debugPrint('✅ DelviooLiveActivity: createOrUpdate OK (phase=$phase)');
     } catch (e) {

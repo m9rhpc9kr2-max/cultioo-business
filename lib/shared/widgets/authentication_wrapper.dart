@@ -85,20 +85,22 @@ class _AuthenticationWrapperState extends State<AuthenticationWrapper> {
         mainAxisSize: MainAxisSize.min,
         children: [
           Icon(CupertinoIcons.lock_shield, size: 48, color: Colors.white),
-          SizedBox(height: 16),
+          const SizedBox(height: 16),
           Text(AppLocalizations.of(context)?.authenticationFailed ?? 'Authentication Failed', style: TextStyle(color: Colors.white, fontWeight: FontWeight.w700, fontSize: 18)),
-          SizedBox(height: 12),
+          const SizedBox(height: 12),
           Text(AppLocalizations.of(context)?.authenticationRequiredToAccessApp ?? 'Authentication is required to access the app.', style: TextStyle(color: Colors.white70)),
-          SizedBox(height: 24),
+          const SizedBox(height: 24),
           SizedBox(width: double.infinity, child: TradeRepublicButton(label: AppLocalizations.of(context)?.retry ?? 'Retry', onPressed: () {
             Navigator.of(context).pop();
             _performAuthentication();
           })),
-          SizedBox(height: 12),
+          const SizedBox(height: 12),
           SizedBox(width: double.infinity, child: TradeRepublicButton(label: AppLocalizations.of(context)?.exit ?? 'Exit', isDestructive: true, onPressed: () {
             Navigator.of(context).pop();
           })),
-        ]));
+        ],
+      ),
+    );
   }
 
   @override
@@ -111,24 +113,32 @@ class _AuthenticationWrapperState extends State<AuthenticationWrapper> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Container(
-                padding: EdgeInsets.all(20),
+                padding: const EdgeInsets.all(20),
                 decoration: BoxDecoration(
                   color: Colors.white.withOpacity(0.1),
-                  borderRadius: BorderRadius.circular(20)),
-                child: Icon(
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: const Icon(
                   Icons.security,
                   size: 64,
-                  color: Colors.white)),
-              SizedBox(height: 24),
+                  color: Colors.white,
+                ),
+              ),
+              const SizedBox(height: 24),
               Text(
                 AppLocalizations.of(context)?.initializingSecurity ?? 'Initializing Security',
                 style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.w700,
-                  color: Colors.white)),
-              SizedBox(height: 16),
+                  color: Colors.white,
+                ),
+              ),
+              const SizedBox(height: 16),
               CultiooLoadingIndicator(),
-            ])));
+            ],
+          ),
+        ),
+      );
     }
 
     if (!_isAuthenticated) {
@@ -139,24 +149,32 @@ class _AuthenticationWrapperState extends State<AuthenticationWrapper> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Container(
-                padding: EdgeInsets.all(20),
+                padding: const EdgeInsets.all(20),
                 decoration: BoxDecoration(
                   color: Colors.white.withOpacity(0.1),
-                  borderRadius: BorderRadius.circular(20)),
-                child: Icon(Icons.lock, size: 64, color: Colors.white)),
-              SizedBox(height: 24),
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: const Icon(Icons.lock, size: 64, color: Colors.white),
+              ),
+              const SizedBox(height: 24),
               Text(
                 AppLocalizations.of(context)?.authenticationRequired ?? 'Authentication Required',
                 style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.w700,
-                  color: Colors.white)),
-              SizedBox(height: 16),
+                  color: Colors.white,
+                ),
+              ),
+              const SizedBox(height: 16),
               TradeRepublicButton(
                 label: AppLocalizations.of(context)?.authenticate ?? 'Authenticate',
                 onPressed: _performAuthentication,
-                icon: Icon(Icons.fingerprint)),
-            ])));
+                icon: const Icon(Icons.fingerprint),
+              ),
+            ],
+          ),
+        ),
+      );
     }
 
     return widget.child;

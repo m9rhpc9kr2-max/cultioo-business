@@ -43,10 +43,12 @@ class _TwoFactorBottomSheetState extends State<TwoFactorBottomSheet>
 
     _animationController = AnimationController(
       duration: const Duration(milliseconds: 300),
-      vsync: this);
+      vsync: this,
+    );
 
     _fadeAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
-      CurvedAnimation(parent: _animationController, curve: Curves.easeInOut));
+      CurvedAnimation(parent: _animationController, curve: Curves.easeInOut),
+    );
 
     _animationController.forward();
 
@@ -94,7 +96,8 @@ class _TwoFactorBottomSheetState extends State<TwoFactorBottomSheet>
         opacity: _fadeAnimation,
         child: Padding(
           padding: EdgeInsets.only(
-            bottom: MediaQuery.of(context).viewInsets.bottom),
+            bottom: MediaQuery.of(context).viewInsets.bottom,
+          ),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -112,9 +115,11 @@ class _TwoFactorBottomSheetState extends State<TwoFactorBottomSheet>
                       color: isLight
                           ? Colors.blue.withOpacity(0.1)
                           : Colors.blue.withOpacity(0.2),
-                      borderRadius: BorderRadius.circular(20)),
-                    child: Icon(Icons.security, color: Colors.blue, size: 24)),
-                  SizedBox(width: 16),
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    child: Icon(Icons.security, color: Colors.blue, size: 24),
+                  ),
+                  const SizedBox(width: 16),
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -124,17 +129,24 @@ class _TwoFactorBottomSheetState extends State<TwoFactorBottomSheet>
                           style: TextStyle(
                             color: isLight ? Colors.black : Colors.white,
                             fontSize: 18,
-                            fontWeight: FontWeight.w700)),
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
                         Text(
                           'Enter your 8-digit verification code',
                           style: TextStyle(
                             color: (isLight ? Colors.black : Colors.white)
                                 .withOpacity(0.5),
-                            fontSize: 14)),
-                      ])),
-                ]),
+                            fontSize: 14,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
 
-              SizedBox(height: 32),
+              const SizedBox(height: 32),
 
               // Code input field
               GlassContainer(
@@ -150,10 +162,13 @@ class _TwoFactorBottomSheetState extends State<TwoFactorBottomSheet>
                       textAlign: TextAlign.center,
                       inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                       onChanged: _onCodeChanged,
-                      hintText: '00000000'),
-                  ])),
+                      hintText: '00000000',
+                    ),
+                  ],
+                ),
+              ),
 
-              SizedBox(height: 16),
+              const SizedBox(height: 16),
 
               // Info text
               Center(
@@ -161,10 +176,17 @@ class _TwoFactorBottomSheetState extends State<TwoFactorBottomSheet>
                   AppLocalizations.of(context)?.checkYourAuthenticatorApp ?? 'Check your authenticator app for the code',
                   style: TextStyle(
                     color: (isLight ? Colors.black : Colors.white).withOpacity(
-                      0.5),
-                    fontSize: 12),
-                  textAlign: TextAlign.center)),
-            ])));
+                      0.5,
+                    ),
+                    fontSize: 12,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+              ),
+            ],
+          ),
+        ),
+    );
   }
 }
 
@@ -183,5 +205,7 @@ Future<void> show2FABottomSheet({
       userId: userId,
       email: email,
       password: password,
-      onVerify: onVerify));
+      onVerify: onVerify,
+    ),
+  );
 }

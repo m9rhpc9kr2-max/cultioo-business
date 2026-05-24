@@ -12,7 +12,8 @@ import '../../shared/widgets/trade_republic_tap.dart';
 void showCompactSettingsModal(
   BuildContext context,
   double currentRadius,
-  Function(double) onRadiusChanged) {
+  Function(double) onRadiusChanged,
+) {
   double tempSearchRadius = currentRadius;
 
   TradeRepublicBottomSheet.show(
@@ -29,43 +30,56 @@ void showCompactSettingsModal(
               // Kompakter Header
               DragHandle(),
               Padding(
-                padding: EdgeInsets.all(0),
+                padding: const EdgeInsets.all(0),
                 child: Row(
                   children: [
                     Icon(
                       CupertinoIcons.slider_horizontal_3,
                       color: isLight ? Colors.black : Colors.white,
-                      size: 22),
-                    SizedBox(width: 12),
+                      size: 22,
+                    ),
+                    const SizedBox(width: 12),
                     Expanded(
                       child: Text(
                         AppLocalizations.of(context)?.mapSettings ?? 'Map Settings',
                         style: TextStyle(
                           fontSize: 22,
                           fontWeight: FontWeight.w700,
-                          color: isLight ? Colors.black : Colors.white))),
+                          color: isLight ? Colors.black : Colors.white,
+                        ),
+                      ),
+                    ),
                     // Close Button
                     TradeRepublicTap(
                       onTap: () => Navigator.pop(context),
                       child: Container(
                         width: 20,
                         height: 20,
-                        decoration: BoxDecoration(
+                        decoration: const BoxDecoration(
                           shape: BoxShape.circle,
                           gradient: LinearGradient(
                             colors: [
                               Color(0xFFFF5F56), // macOS red close button top
                               Color(
-                                0xFFE74C3C), // macOS red close button bottom
+                                0xFFE74C3C,
+                              ), // macOS red close button bottom
                             ],
                             begin: Alignment.topLeft,
-                            end: Alignment.bottomRight)),
+                            end: Alignment.bottomRight,
+                          ),
+                        ),
                         child: const Center(
                           child: Icon(
                             CupertinoIcons.xmark,
                             color: Colors.white,
-                            size: 12)))),
-                  ])),
+                            size: 12,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
 
               // Search Radius Slider - very compact
               Column(
@@ -77,8 +91,11 @@ void showCompactSettingsModal(
                         style: TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.w500,
-                          color: isLight ? Colors.black87 : Colors.white))),
-                    SizedBox(height: 8),
+                          color: isLight ? Colors.black87 : Colors.white,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 8),
                     Consumer<AppSettings>(
                       builder: (context, appSettings, _) =>
                           TradeRepublicContinuousSlider(
@@ -88,18 +105,26 @@ void showCompactSettingsModal(
                         divisions: 49,
                         labelBuilder: (v) => appSettings.formatDistance(v),
                         onChanged: (v) =>
-                            setModalState(() => tempSearchRadius = v))),
-                  ]),
+                            setModalState(() => tempSearchRadius = v),
+                      ),
+                    ),
+                  ],
+                ),
 
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
 
               // Buttons - kompakt
               Row(
                   children: [
                     const Spacer(),
-                    SizedBox(width: 16),
+                    const SizedBox(width: 16),
                     const Spacer(),
-                  ]),
-            ]));
-      }));
+                  ],
+                ),
+            ],
+          ),
+        );
+      },
+    ),
+  );
 }

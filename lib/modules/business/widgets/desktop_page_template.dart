@@ -45,7 +45,8 @@ class _DesktopPageTemplateState extends State<DesktopPageTemplate>
     if (isLoading) {
       return Scaffold(
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-        body: buildLoadingState(context));
+        body: buildLoadingState(context),
+      );
     }
 
     // Handle error state
@@ -55,7 +56,9 @@ class _DesktopPageTemplateState extends State<DesktopPageTemplate>
         body: buildErrorState(
           context,
           message: errorMessage,
-          onRetry: _loadData));
+          onRetry: _loadData,
+        ),
+      );
     }
 
     // Handle empty state
@@ -69,10 +72,14 @@ class _DesktopPageTemplateState extends State<DesktopPageTemplate>
           icon: Icon(
             Icons.inbox_outlined,
             size: DesktopOptimizedWidgets.getIconSize() * 3,
-            color: Colors.grey[400]),
+            color: Colors.grey[400],
+          ),
           action: ElevatedButton(
             onPressed: () {},
-            child: Text('Create Item'))));
+            child: const Text('Create Item'),
+          ),
+        ),
+      );
     }
 
     // Main content
@@ -90,10 +97,13 @@ class _DesktopPageTemplateState extends State<DesktopPageTemplate>
               title: 'Page Title',
               subtitle: Text(
                 'Page description goes here',
-                style: getBodyTextStyle(context)),
+                style: getBodyTextStyle(context),
+              ),
               trailing: ElevatedButton(
                 onPressed: () {},
-                child: Text('Action Button'))),
+                child: const Text('Action Button'),
+              ),
+            ),
             SizedBox(height: getSpacing() * 2),
 
             // First section
@@ -102,7 +112,8 @@ class _DesktopPageTemplateState extends State<DesktopPageTemplate>
               title: 'Section 1',
               trailing: TextButton(
                 onPressed: () {},
-                child: Text('View All')),
+                child: const Text('View All'),
+              ),
               child: buildCard(
                 context,
                 child: ListView(
@@ -114,20 +125,28 @@ class _DesktopPageTemplateState extends State<DesktopPageTemplate>
                         context,
                         title: Text(
                           items[i],
-                          style: getSectionTitleStyle(context)),
+                          style: getSectionTitleStyle(context),
+                        ),
                         subtitle: Text(
                           'Item description',
-                          style: getLabelTextStyle(context)),
+                          style: getLabelTextStyle(context),
+                        ),
                         leading: Icon(
                           Icons.check_circle,
-                          color: Colors.green[400]),
+                          color: Colors.green[400],
+                        ),
                         trailing: Icon(
                           Icons.arrow_forward,
                           size: DesktopOptimizedWidgets.getIconSize(),
-                          color: Colors.grey[400]),
-                        showDivider: i < items.length - 1),
+                          color: Colors.grey[400],
+                        ),
+                        showDivider: i < items.length - 1,
+                      ),
                     ],
-                  ]))),
+                  ],
+                ),
+              ),
+            ),
             SizedBox(height: getSpacing() * 2),
 
             // Second section with grid
@@ -151,19 +170,28 @@ class _DesktopPageTemplateState extends State<DesktopPageTemplate>
                             children: [
                               Text(
                                 item,
-                                style: getSectionTitleStyle(context)),
+                                style: getSectionTitleStyle(context),
+                              ),
                               SizedBox(height: getSpacing()),
                               Text(
                                 'Grid item description',
-                                style: getBodyTextStyle(context)),
-                            ]),
+                                style: getBodyTextStyle(context),
+                              ),
+                            ],
+                          ),
                           Align(
                             alignment: Alignment.bottomRight,
                             child: ElevatedButton(
                               onPressed: () {},
-                              child: Text('View'))),
-                        ])),
-                ])),
+                              child: const Text('View'),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                ],
+              ),
+            ),
             SizedBox(height: getSpacing() * 2),
 
             // Third section with custom content
@@ -178,23 +206,35 @@ class _DesktopPageTemplateState extends State<DesktopPageTemplate>
                   children: [
                     Text(
                       'Custom content goes here',
-                      style: getBodyTextStyle(context)),
+                      style: getBodyTextStyle(context),
+                    ),
                     SizedBox(height: getSpacing()),
                     Row(
                       children: [
                         Expanded(
                           child: ElevatedButton(
                             onPressed: () {},
-                            child: Text('Button 1'))),
+                            child: const Text('Button 1'),
+                          ),
+                        ),
                         SizedBox(width: getSpacing()),
                         Expanded(
                           child: OutlinedButton(
                             onPressed: () {},
-                            child: Text('Button 2'))),
-                      ]),
-                  ]))),
+                            child: const Text('Button 2'),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ),
             SizedBox(height: getPadding() * 2),
-          ])));
+          ],
+        ),
+      ),
+    );
   }
 }
 
@@ -228,7 +268,9 @@ class _SimpleListPageExampleState extends State<SimpleListPageExample>
               title: 'Simple List Example',
               subtitle: Text(
                 'This is a simple list page example',
-                style: getBodyTextStyle(context))),
+                style: getBodyTextStyle(context),
+              ),
+            ),
             SizedBox(height: getSpacing() * 2),
             buildCard(
               context,
@@ -241,16 +283,25 @@ class _SimpleListPageExampleState extends State<SimpleListPageExample>
                       context,
                       title: Text(
                         items[i]['title']!,
-                        style: getSectionTitleStyle(context)),
+                        style: getSectionTitleStyle(context),
+                      ),
                       subtitle: Text(
                         items[i]['subtitle']!,
-                        style: getLabelTextStyle(context)),
+                        style: getLabelTextStyle(context),
+                      ),
                       trailing: Text(
                         items[i]['value']!,
-                        style: getBodyTextStyle(context)),
-                      showDivider: i < items.length - 1),
-                ])),
-          ])));
+                        style: getBodyTextStyle(context),
+                      ),
+                      showDivider: i < items.length - 1,
+                    ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }
 
@@ -280,7 +331,9 @@ class _GridPageExampleState extends State<GridPageExample>
               title: 'Grid Example',
               subtitle: Text(
                 'This is a grid page example',
-                style: getBodyTextStyle(context))),
+                style: getBodyTextStyle(context),
+              ),
+            ),
             SizedBox(height: getSpacing() * 2),
             buildGrid(
               context,
@@ -294,8 +347,15 @@ class _GridPageExampleState extends State<GridPageExample>
                       child: Text(
                         item,
                         style: getSectionTitleStyle(context),
-                        textAlign: TextAlign.center))),
-              ]),
-          ])));
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }

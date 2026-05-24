@@ -45,25 +45,30 @@ class _DriverStep10SuccessState extends State<DriverStep10Success>
     // Check mark animation
     _checkController = AnimationController(
       duration: const Duration(milliseconds: 800),
-      vsync: this);
+      vsync: this,
+    );
 
     _checkAnimation = CurvedAnimation(
       parent: _checkController,
-      curve: Curves.easeInOut);
+      curve: Curves.easeInOut,
+    );
 
     // Scale animation for the circle
     _scaleController = AnimationController(
       duration: const Duration(milliseconds: 600),
-      vsync: this);
+      vsync: this,
+    );
 
     _scaleAnimation = CurvedAnimation(
       parent: _scaleController,
-      curve: Curves.elasticOut);
+      curve: Curves.elasticOut,
+    );
 
     // Confetti animation
     _confettiController = AnimationController(
       duration: const Duration(milliseconds: 2000),
-      vsync: this);
+      vsync: this,
+    );
 
     // Start animations in sequence
     Future.delayed(const Duration(milliseconds: 300), () {
@@ -135,7 +140,8 @@ class _DriverStep10SuccessState extends State<DriverStep10Success>
               'Content-Type': 'application/json',
               'Accept': 'application/json',
             },
-            body: json.encode({'email': email}))
+            body: json.encode({'email': email}),
+          )
           .timeout(const Duration(seconds: 10));
 
       if (response.statusCode == 200) {
@@ -144,7 +150,8 @@ class _DriverStep10SuccessState extends State<DriverStep10Success>
           if (mounted) {
             TopNotification.success(
               context,
-              AppLocalizations.of(context)?.verificationCodeSent ?? 'Verification code sent! Please check your inbox.');
+              AppLocalizations.of(context)?.verificationCodeSent ?? 'Verification code sent! Please check your inbox.',
+            );
           }
         } else {
           throw Exception(data['message'] ?? AppLocalizations.of(context)?.failedToResendCode ?? 'Failed to resend code');
@@ -203,7 +210,8 @@ class _DriverStep10SuccessState extends State<DriverStep10Success>
               'Content-Type': 'application/json',
               'Accept': 'application/json',
             },
-            body: json.encode({'email': email, 'code': code}))
+            body: json.encode({'email': email, 'code': code}),
+          )
           .timeout(const Duration(seconds: 10));
 
       if (response.statusCode == 200) {
@@ -213,7 +221,8 @@ class _DriverStep10SuccessState extends State<DriverStep10Success>
             HapticFeedback.mediumImpact();
             TopNotification.success(
               context,
-              AppLocalizations.of(context)?.emailVerifiedLoggingIn ?? 'Email verified successfully! Logging you in...');
+              AppLocalizations.of(context)?.emailVerifiedLoggingIn ?? 'Email verified successfully! Logging you in...',
+            );
 
             // Perform automatic login after successful verification
             await _performAutomaticLogin();
@@ -279,7 +288,8 @@ class _DriverStep10SuccessState extends State<DriverStep10Success>
               'email': username, // Use username for login
               'password': password, // Use actual password from registration
               'isDelviooMode': true, // Important: Use Delvioo mode
-            }))
+            }),
+          )
           .timeout(const Duration(seconds: 30));
 
       print('📤 Login response status: ${response.statusCode}');
@@ -294,14 +304,16 @@ class _DriverStep10SuccessState extends State<DriverStep10Success>
           await prefs.setString('auth_token', loginData['token']);
           await prefs.setString(
             'refresh_token',
-            loginData['refreshToken'] ?? '');
+            loginData['refreshToken'] ?? '',
+          );
           await prefs.setString('user_data', json.encode(loginData['user']));
           await prefs.setBool('is_delvioo_mode', true);
 
           // Set user data in AppSettings Provider
           final AppSettings appSettings = Provider.of<AppSettings>(
             context,
-            listen: false);
+            listen: false,
+          );
           await appSettings.setIsLoggedIn(true);
 
           if (loginData['user'] != null) {
@@ -311,7 +323,8 @@ class _DriverStep10SuccessState extends State<DriverStep10Success>
               email: loginData['user']['email'] ?? '',
               token: loginData['token'] ?? '',
               userType: 'Driver', // ✅ Set as Driver for Delvioo mode
-              authMethod: 'email');
+              authMethod: 'email',
+            );
           }
 
           print('✅ Automatic login successful! Navigating to Delvioo app...');
@@ -320,7 +333,8 @@ class _DriverStep10SuccessState extends State<DriverStep10Success>
           if (mounted) {
             TopNotification.success(
               context,
-              '✅ Login successful! Welcome to Delvioo!');
+              '✅ Login successful! Welcome to Delvioo!',
+            );
 
             // Wait to ensure Provider has propagated the changes
             await Future.delayed(const Duration(milliseconds: 100));
@@ -328,7 +342,8 @@ class _DriverStep10SuccessState extends State<DriverStep10Success>
             // Navigate to Delvioo main app (not business main)
             if (mounted) {
               Navigator.of(
-                context).pushNamedAndRemoveUntil('/delvioo-main', (route) => false);
+                context,
+              ).pushNamedAndRemoveUntil('/delvioo-main', (route) => false);
             }
           }
         } else {
@@ -343,7 +358,8 @@ class _DriverStep10SuccessState extends State<DriverStep10Success>
         // Show error but stay on verification page - don't navigate away
         TopNotification.error(
           context,
-          'Login failed. Please use "Return to Login" button to login manually.');
+          'Login failed. Please use "Return to Login" button to login manually.',
+        );
       }
     }
   }
@@ -365,9 +381,12 @@ class _DriverStep10SuccessState extends State<DriverStep10Success>
               return CustomPaint(
                 painter: ConfettiPainter(
                   animation: _confettiController,
-                  isLight: isLight),
-                size: Size.infinite);
-            }),
+                  isLight: isLight,
+                ),
+                size: Size.infinite,
+              );
+            },
+          ),
 
           // Main content
           Center(
@@ -379,11 +398,12 @@ class _DriverStep10SuccessState extends State<DriverStep10Success>
                   24,
                   MediaQuery.of(context).padding.top + 24,
                   24,
-                  MediaQuery.of(context).padding.bottom + 40),
+                  MediaQuery.of(context).padding.bottom + 40,
+                ),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    SizedBox(height: 16),
+                    const SizedBox(height: 16),
 
                     // Animated success icon
                     ScaleTransition(
@@ -391,19 +411,25 @@ class _DriverStep10SuccessState extends State<DriverStep10Success>
                       child: Container(
                         width: 140,
                         height: 140,
-                        decoration: BoxDecoration(
+                        decoration: const BoxDecoration(
                           color: Colors.green,
-                          shape: BoxShape.circle),
+                          shape: BoxShape.circle,
+                        ),
                         child: AnimatedBuilder(
                           animation: _checkAnimation,
                           builder: (context, child) {
                             return CustomPaint(
                               painter: CheckMarkPainter(
                                 progress: _checkAnimation.value,
-                                color: Colors.white));
-                          }))),
+                                color: Colors.white,
+                              ),
+                            );
+                          },
+                        ),
+                      ),
+                    ),
 
-                    SizedBox(height: 40),
+                    const SizedBox(height: 40),
 
                     // Success title
                     Text(
@@ -412,10 +438,12 @@ class _DriverStep10SuccessState extends State<DriverStep10Success>
                         fontSize: 32,
                         fontWeight: FontWeight.w700,
                         color: isLight ? Colors.black : Colors.white,
-                        letterSpacing: -0.5),
-                      textAlign: TextAlign.center),
+                        letterSpacing: -0.5,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
 
-                    SizedBox(height: 16),
+                    const SizedBox(height: 16),
 
                     // Success subtitle
                     Text(
@@ -424,16 +452,19 @@ class _DriverStep10SuccessState extends State<DriverStep10Success>
                         fontSize: 24,
                         fontWeight: FontWeight.w600,
                         color: (isLight ? Colors.black : Colors.white)
-                            .withOpacity(0.7)),
-                      textAlign: TextAlign.center),
+                            .withOpacity(0.7),
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
 
-                    SizedBox(height: 40),
+                    const SizedBox(height: 40),
 
                     // Email verification card
                     Container(
                       decoration: BoxDecoration(
                         color: isLight ? Colors.white : Colors.black,
-                        borderRadius: BorderRadius.circular(20)),
+                        borderRadius: BorderRadius.circular(20),
+                      ),
                       child: Column(
                         children: [
                           // Email icon
@@ -442,59 +473,73 @@ class _DriverStep10SuccessState extends State<DriverStep10Success>
                             height: 60,
                             decoration: BoxDecoration(
                               color: Colors.blue.withOpacity(0.1),
-                              shape: BoxShape.circle),
+                              shape: BoxShape.circle,
+                            ),
                             child: Icon(
                               CupertinoIcons.mail,
                               size: 30,
-                              color: Colors.blue)),
+                              color: Colors.blue,
+                            ),
+                          ),
 
-                          SizedBox(height: 20),
+                          const SizedBox(height: 20),
 
                           Text(
                             AppLocalizations.of(context)?.verifyYourEmail ?? 'Verify Your Email',
                             style: TextStyle(
                               fontSize: 20,
                               fontWeight: FontWeight.w700,
-                              color: isLight ? Colors.black : Colors.white)),
+                              color: isLight ? Colors.black : Colors.white,
+                            ),
+                          ),
 
-                          SizedBox(height: 12),
+                          const SizedBox(height: 12),
 
                           Text(
                             'We\'ve sent an 8-digit code to:',
                             style: TextStyle(
                               fontSize: 15,
                               color: (isLight ? Colors.black : Colors.white)
-                                  .withOpacity(0.6)),
-                            textAlign: TextAlign.center),
+                                  .withOpacity(0.6),
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
 
-                          SizedBox(height: 8),
+                          const SizedBox(height: 8),
 
                           Container(
-                            padding: EdgeInsets.symmetric(
+                            padding: const EdgeInsets.symmetric(
                               horizontal: 16,
-                              vertical: 12),
+                              vertical: 12,
+                            ),
                             decoration: BoxDecoration(
                               color: (isLight ? Colors.black : Colors.white)
                                   .withOpacity(0.05),
-                              borderRadius: BorderRadius.circular(20)),
+                              borderRadius: BorderRadius.circular(20),
+                            ),
                             child: Text(
                               email,
                               style: TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.w600,
-                                color: Colors.blue),
-                              textAlign: TextAlign.center)),
+                                color: Colors.blue,
+                              ),
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
 
-                          SizedBox(height: 24),
+                          const SizedBox(height: 24),
 
                           Text(
                             AppLocalizations.of(context)?.enterVerificationCode ?? 'Enter Verification Code',
                             style: TextStyle(
                               fontSize: 15,
                               fontWeight: FontWeight.w600,
-                              color: isLight ? Colors.black : Colors.white)),
+                              color: isLight ? Colors.black : Colors.white,
+                            ),
+                          ),
 
-                          SizedBox(height: 16),
+                          const SizedBox(height: 16),
 
                           // OTP boxes — 4 + dash + 4
                           Row(
@@ -504,24 +549,36 @@ class _DriverStep10SuccessState extends State<DriverStep10Success>
                                   children: List.generate(4, (i) => Expanded(
                                     child: Padding(
                                       padding: EdgeInsets.only(right: i < 3 ? 6 : 0),
-                                      child: _buildOtpBox(i, isLight)))))),
+                                      child: _buildOtpBox(i, isLight),
+                                    ),
+                                  )),
+                                ),
+                              ),
                               Padding(
-                                padding: EdgeInsets.symmetric(horizontal: 8),
+                                padding: const EdgeInsets.symmetric(horizontal: 8),
                                 child: Text(
                                   '–',
                                   style: TextStyle(
                                     fontSize: 22,
                                     fontWeight: FontWeight.w300,
-                                    color: (isLight ? Colors.black : Colors.white).withOpacity(0.25)))),
+                                    color: (isLight ? Colors.black : Colors.white).withOpacity(0.25),
+                                  ),
+                                ),
+                              ),
                               Expanded(
                                 child: Row(
                                   children: List.generate(4, (i) => Expanded(
                                     child: Padding(
                                       padding: EdgeInsets.only(right: i < 3 ? 6 : 0),
-                                      child: _buildOtpBox(i + 4, isLight)))))),
-                            ]),
+                                      child: _buildOtpBox(i + 4, isLight),
+                                    ),
+                                  )),
+                                ),
+                              ),
+                            ],
+                          ),
 
-                          SizedBox(height: 20),
+                          const SizedBox(height: 20),
 
                           // Verify button
                           _isVerifying
@@ -529,13 +586,18 @@ class _DriverStep10SuccessState extends State<DriverStep10Success>
                                   child: SizedBox(
                                     width: 20,
                                     height: 20,
-                                    child: CultiooLoadingIndicator(size: 20)))
+                                    child: CultiooLoadingIndicator(size: 20),
+                                  ),
+                                )
                               : TradeRepublicButton(
                                   label: AppLocalizations.of(context)?.verifyEmail ?? 'Verify Email',
-                                  onPressed: _verifyCode),
-                        ])),
+                                  onPressed: _verifyCode,
+                                ),
+                        ],
+                      ),
+                    ),
 
-                    SizedBox(height: 32),
+                    const SizedBox(height: 32),
 
                     // Info cards
                     _buildInfoCard(
@@ -543,18 +605,20 @@ class _DriverStep10SuccessState extends State<DriverStep10Success>
                       title: AppLocalizations.of(context)?.activationTime ?? 'Activation Time',
                       description:
                           AppLocalizations.of(context)?.accountActivatedAfterVerification ?? 'Your account will be activated immediately after email verification',
-                      isLight: isLight),
+                      isLight: isLight,
+                    ),
 
-                    SizedBox(height: 16),
+                    const SizedBox(height: 16),
 
                     _buildInfoCard(
                       icon: CupertinoIcons.mail,
                       title: AppLocalizations.of(context)?.didntReceiveCode ?? 'Didn\'t Receive Code?',
                       description:
                           AppLocalizations.of(context)?.checkSpamOrResend ?? 'Check your spam folder or click below to resend',
-                      isLight: isLight),
+                      isLight: isLight,
+                    ),
 
-                    SizedBox(height: 16),
+                    const SizedBox(height: 16),
 
                     // Resend Code Button
                     _isResending
@@ -562,24 +626,34 @@ class _DriverStep10SuccessState extends State<DriverStep10Success>
                             child: SizedBox(
                               width: 20,
                               height: 20,
-                              child: CultiooLoadingIndicator(size: 20)))
+                              child: CultiooLoadingIndicator(size: 20),
+                            ),
+                          )
                         : TradeRepublicButton(
                             label: AppLocalizations.of(context)?.resendVerificationCode ?? 'Resend Verification Code',
                             icon: Icon(CupertinoIcons.refresh, size: 18),
                             isSecondary: true,
-                            onPressed: _resendVerificationEmail),
+                            onPressed: _resendVerificationEmail,
+                          ),
 
-                    SizedBox(height: 24),
+                    const SizedBox(height: 24),
 
                     // Return to login button
                     TradeRepublicButton(
                             label: AppLocalizations.of(context)?.returnToLogin ?? 'Return to Login',
                             onPressed: () {
                               Navigator.of(context).popUntil((route) => route.isFirst);
-                            }),
+                            },
+                          ),
 
-                  ])))),
-        ]));
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
   }
 
   Widget _buildOtpBox(int index, bool isLight) {
@@ -598,7 +672,9 @@ class _DriverStep10SuccessState extends State<DriverStep10Success>
           color: isFocused
               ? (isLight ? Colors.black : Colors.white)
               : (isLight ? Colors.black : Colors.white).withOpacity(0.12),
-          width: isFocused ? 1.5 : 1.0)),
+          width: isFocused ? 1.5 : 1.0,
+        ),
+      ),
       child: TradeRepublicTextField(
         controller: _codeControllers[index],
         focusNode: _codeFocusNodes[index],
@@ -612,7 +688,8 @@ class _DriverStep10SuccessState extends State<DriverStep10Success>
           fontSize: 22,
           fontWeight: FontWeight.w700,
           color: isLight ? Colors.black : Colors.white,
-          fontFamily: 'Poppins'),
+          fontFamily: 'Poppins',
+        ),
         onChanged: (value) {
           if (value.isNotEmpty && index < 7) {
             _codeFocusNodes[index + 1].requestFocus();
@@ -621,7 +698,9 @@ class _DriverStep10SuccessState extends State<DriverStep10Success>
             Future.microtask(_verifyCode);
           }
           setState(() {});
-        }));
+        },
+      ),
+    );
   }
 
   Widget _buildInfoCard({
@@ -631,24 +710,28 @@ class _DriverStep10SuccessState extends State<DriverStep10Success>
     required bool isLight,
   }) {
     return Container(
-      padding: EdgeInsets.all(20),
+      padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
         color: isLight
             ? Colors.black.withOpacity(0.03)
             : Colors.black.withOpacity(0.24),
-        borderRadius: BorderRadius.circular(20)),
+        borderRadius: BorderRadius.circular(20),
+      ),
       child: Row(
         children: [
           Container(
-            padding: EdgeInsets.all(12),
+            padding: const EdgeInsets.all(12),
             decoration: BoxDecoration(
               color: isLight ? Colors.white : Colors.black,
-              borderRadius: BorderRadius.circular(20)),
+              borderRadius: BorderRadius.circular(20),
+            ),
             child: Icon(
               icon,
               size: 24,
-              color: isLight ? Colors.black : Colors.white)),
-          SizedBox(width: 16),
+              color: isLight ? Colors.black : Colors.white,
+            ),
+          ),
+          const SizedBox(width: 16),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -658,17 +741,26 @@ class _DriverStep10SuccessState extends State<DriverStep10Success>
                   style: TextStyle(
                     fontSize: 15,
                     fontWeight: FontWeight.w600,
-                    color: isLight ? Colors.black : Colors.white)),
-                SizedBox(height: 4),
+                    color: isLight ? Colors.black : Colors.white,
+                  ),
+                ),
+                const SizedBox(height: 4),
                 Text(
                   description,
                   style: TextStyle(
                     fontSize: 13,
                     color: (isLight ? Colors.black : Colors.white).withOpacity(
-                      0.6),
-                    height: 1.4)),
-              ])),
-        ]));
+                      0.6,
+                    ),
+                    height: 1.4,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }
 
@@ -742,7 +834,8 @@ class ConfettiPainter extends CustomPainter {
         0.8,
         hue,
         0.7,
-        isLight ? 0.8 : 0.9).toColor();
+        isLight ? 0.8 : 0.9,
+      ).toColor();
 
       final rotation =
           animation.value * math.pi * 4 + random.nextDouble() * math.pi;
@@ -755,8 +848,10 @@ class ConfettiPainter extends CustomPainter {
       canvas.drawRRect(
         RRect.fromRectAndRadius(
           Rect.fromCenter(center: Offset.zero, width: 8, height: 12),
-          const Radius.circular(2)),
-        paint);
+          const Radius.circular(2),
+        ),
+        paint,
+      );
 
       canvas.restore();
     }

@@ -21,25 +21,30 @@ class _DragHandleState extends State<DragHandle>
     super.initState();
     _controller = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 1000));
+      duration: const Duration(milliseconds: 1000),
+    );
 
     _widthAnimation = TweenSequence<double>([
       TweenSequenceItem(
         tween: Tween(begin: 18.0, end: 40.0)
             .chain(CurveTween(curve: Curves.easeOut)),
-        weight: 35),
+        weight: 35,
+      ),
       TweenSequenceItem(
         tween: Tween(begin: 40.0, end: 26.0)
             .chain(CurveTween(curve: Curves.easeInOut)),
-        weight: 25),
+        weight: 25,
+      ),
       TweenSequenceItem(
         tween: Tween(begin: 26.0, end: 34.0)
             .chain(CurveTween(curve: Curves.easeInOut)),
-        weight: 20),
+        weight: 20,
+      ),
       TweenSequenceItem(
         tween: Tween(begin: 34.0, end: 32.0)
             .chain(CurveTween(curve: Curves.easeOut)),
-        weight: 20),
+        weight: 20,
+      ),
     ]).animate(_controller);
 
     // Start the bounce after a small delay so it syncs with the sheet
@@ -76,10 +81,14 @@ class _DragHandleState extends State<DragHandle>
             height: 8,
             // Standard spacing for the entire app: 8px above, 16px below.
             // Call sites should NOT add any SizedBox before/after DragHandle.
-            margin: EdgeInsets.only(top: 8, bottom: 16),
+            margin: const EdgeInsets.only(top: 8, bottom: 16),
             decoration: BoxDecoration(
               color: (isLight ? Colors.black : Colors.white),
-              borderRadius: BorderRadius.circular(25)));
-        }));
+              borderRadius: BorderRadius.circular(25),
+            ),
+          );
+        },
+      ),
+    );
   }
 }

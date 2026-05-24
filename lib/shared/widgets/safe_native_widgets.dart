@@ -38,11 +38,13 @@ class SafeNativeBlurView extends StatelessWidget {
           final safeWidth = _getSafeSize(
             constraints.maxWidth,
             width,
-            fallback: 100);
+            fallback: 100,
+          );
           final safeHeight = _getSafeSize(
             constraints.maxHeight,
             height,
-            fallback: 100);
+            fallback: 100,
+          );
 
           // If constraints are still invalid, use fallback
           if (!safeWidth.isFinite || !safeHeight.isFinite) {
@@ -58,8 +60,12 @@ class SafeNativeBlurView extends StatelessWidget {
                 _buildPlatformView(safeWidth, safeHeight),
                 // Overlay child if provided
                 if (child != null) child!,
-              ]));
-        }));
+              ],
+            ),
+          );
+        },
+      ),
+    );
   }
 
   Widget _buildPlatformView(double width, double height) {
@@ -73,7 +79,8 @@ class SafeNativeBlurView extends StatelessWidget {
         'height': height,
       },
       creationParamsCodec: const StandardMessageCodec(),
-      onPlatformViewCreated: (_) {});
+      onPlatformViewCreated: (_) {},
+    );
   }
 
   Widget _buildFallback() {
@@ -85,8 +92,10 @@ class SafeNativeBlurView extends StatelessWidget {
         color: Colors.white.withOpacity(0.8),
         borderRadius: cornerRadius > 0
             ? BorderRadius.circular(cornerRadius)
-            : null),
-      child: child);
+            : null,
+      ),
+      child: child,
+    );
   }
 
   double _getSafeSize(
@@ -133,8 +142,10 @@ class SafeNativeViewWrapper extends StatelessWidget {
         minWidth: minWidth,
         minHeight: minHeight,
         maxWidth: width ?? maxWidth,
-        maxHeight: height ?? maxHeight),
-      child: SizedBox(width: width, height: height, child: child));
+        maxHeight: height ?? maxHeight,
+      ),
+      child: SizedBox(width: width, height: height, child: child),
+    );
   }
 }
 
@@ -176,7 +187,8 @@ class SafeBlurContainer extends StatelessWidget {
         cornerRadius: cornerRadius,
         width: width,
         height: height,
-        child: effectiveChild);
+        child: effectiveChild,
+      );
     } else {
       // Fallback for other platforms
       content = Container(
@@ -186,8 +198,10 @@ class SafeBlurContainer extends StatelessWidget {
           color:
               fallbackColor ??
               Theme.of(context).colorScheme.surface.withOpacity(0.8),
-          borderRadius: BorderRadius.circular(cornerRadius)),
-        child: effectiveChild);
+          borderRadius: BorderRadius.circular(cornerRadius),
+        ),
+        child: effectiveChild,
+      );
     }
 
     if (margin != null) {
@@ -212,7 +226,8 @@ extension NativeBlurExtension on Widget {
       cornerRadius: cornerRadius,
       padding: padding,
       margin: margin,
-      child: this);
+      child: this,
+    );
   }
 
   /// Wrap this widget with safe constraints for native views
@@ -227,7 +242,8 @@ extension NativeBlurExtension on Widget {
       height: height,
       minWidth: minWidth,
       minHeight: minHeight,
-      child: this);
+      child: this,
+    );
   }
 }
 
@@ -251,10 +267,14 @@ class CupertinoBlurBackground extends StatelessWidget {
           child: SafeNativeViewWrapper(
             child: SafeNativeBlurView(
               material: material,
-              blendingMode: BlurBlendingMode.behindWindow))),
+              blendingMode: BlurBlendingMode.behindWindow,
+            ),
+          ),
+        ),
         // Content
         child,
-      ]);
+      ],
+    );
   }
 }
 
@@ -284,6 +304,7 @@ class SafeIntrinsicWrapper extends StatelessWidget {
 
         // Return child directly if intrinsic sizing would cause issues
         return child;
-      });
+      },
+    );
   }
 }

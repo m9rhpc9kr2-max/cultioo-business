@@ -15,7 +15,8 @@ mixin DesktopPageMixin {
     return DesktopOptimizedWidgets.getDesktopHeadingStyle(
       color: isDark ? Colors.white : Colors.black,
       fontSize: 24,
-      fontWeight: FontWeight.w700);
+      fontWeight: FontWeight.w700,
+    );
   }
 
   /// Get desktop-optimized section title style
@@ -24,7 +25,8 @@ mixin DesktopPageMixin {
     return DesktopOptimizedWidgets.getDesktopHeadingStyle(
       color: isDark ? Colors.white : Colors.black,
       fontSize: 16,
-      fontWeight: FontWeight.w600);
+      fontWeight: FontWeight.w600,
+    );
   }
 
   /// Get desktop-optimized body text style
@@ -33,7 +35,8 @@ mixin DesktopPageMixin {
     return DesktopOptimizedWidgets.getDesktopTextStyle(
       color: isDark ? Colors.grey[300]! : Colors.grey[700]!,
       fontSize: DesktopOptimizedWidgets.getFontSize(),
-      fontWeight: FontWeight.w400);
+      fontWeight: FontWeight.w400,
+    );
   }
 
   /// Get desktop-optimized label text style
@@ -42,7 +45,8 @@ mixin DesktopPageMixin {
     return DesktopOptimizedWidgets.getDesktopTextStyle(
       color: isDark ? Colors.grey[400]! : Colors.grey[600]!,
       fontSize: DesktopOptimizedWidgets.getFontSize() - 1,
-      fontWeight: FontWeight.w500);
+      fontWeight: FontWeight.w500,
+    );
   }
 
   /// Get desktop-optimized spacing
@@ -75,25 +79,31 @@ mixin DesktopPageMixin {
                 children: [
                   Text(
                     title,
-                    style: getPageTitleStyle(context)),
+                    style: getPageTitleStyle(context),
+                  ),
                   if (subtitle != null) ...[
                     SizedBox(height: getSpacing()),
                     subtitle,
                   ],
-                ])),
+                ],
+              ),
+            ),
             if (trailing != null) ...[
               SizedBox(width: getPadding()),
               trailing,
             ],
-          ]),
+          ],
+        ),
         if (showDivider) ...[
           SizedBox(height: getPadding()),
           Divider(
             thickness: DesktopOptimizedWidgets.getDividerThickness(),
-            color: DesktopOptimizedWidgets.getDividerColor(context)),
+            color: DesktopOptimizedWidgets.getDividerColor(context),
+          ),
         ],
         SizedBox(height: getPadding()),
-      ]);
+      ],
+    );
   }
 
   /// Build a desktop-optimized section
@@ -112,18 +122,22 @@ mixin DesktopPageMixin {
           children: [
             Text(
               title,
-              style: getSectionTitleStyle(context)),
+              style: getSectionTitleStyle(context),
+            ),
             if (trailing != null) trailing,
-          ]),
+          ],
+        ),
         SizedBox(height: getSpacing() * 1.5),
         child,
         if (showDivider) ...[
           SizedBox(height: getPadding()),
           Divider(
             thickness: DesktopOptimizedWidgets.getDividerThickness(),
-            color: DesktopOptimizedWidgets.getDividerColor(context)),
+            color: DesktopOptimizedWidgets.getDividerColor(context),
+          ),
         ],
-      ]);
+      ],
+    );
   }
 
   /// Build a desktop-optimized card
@@ -138,9 +152,11 @@ mixin DesktopPageMixin {
       decoration: DesktopOptimizedWidgets.getDesktopBoxDecoration(
         backgroundColor: backgroundColor ?? (isDark ? Colors.grey[900]! : Colors.white),
         borderRadius: getBorderRadius(),
-        showShadow: true),
+        showShadow: true,
+      ),
       padding: padding ?? DesktopOptimizedWidgets.getDesktopCardPadding(),
-      child: child);
+      child: child,
+    );
   }
 
   /// Build a desktop-optimized list item
@@ -164,7 +180,8 @@ mixin DesktopPageMixin {
           child: Padding(
             padding: EdgeInsets.symmetric(
               vertical: getSpacing(),
-              horizontal: getPadding()),
+              horizontal: getPadding(),
+            ),
             child: Row(
               children: [
                 if (leading != null) ...[
@@ -180,18 +197,25 @@ mixin DesktopPageMixin {
                         SizedBox(height: getSpacing() / 2),
                         subtitle,
                       ],
-                    ])),
+                    ],
+                  ),
+                ),
                 if (trailing != null) ...[
                   SizedBox(width: getSpacing()),
                   trailing,
                 ],
-              ]))),
+              ],
+            ),
+          ),
+        ),
         if (showDivider)
           Divider(
             thickness: DesktopOptimizedWidgets.getDividerThickness(),
             color: DesktopOptimizedWidgets.getDividerColor(context),
-            height: 1),
-      ]);
+            height: 1,
+          ),
+      ],
+    );
   }
 
   /// Build a desktop-optimized grid
@@ -208,7 +232,8 @@ mixin DesktopPageMixin {
       crossAxisSpacing: getPadding(),
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
-      children: children);
+      children: children,
+    );
   }
 
   /// Build a desktop-optimized empty state
@@ -230,17 +255,21 @@ mixin DesktopPageMixin {
           Text(
             title,
             style: getSectionTitleStyle(context),
-            textAlign: TextAlign.center),
+            textAlign: TextAlign.center,
+          ),
           SizedBox(height: getSpacing()),
           Text(
             description,
             style: getBodyTextStyle(context),
-            textAlign: TextAlign.center),
+            textAlign: TextAlign.center,
+          ),
           if (action != null) ...[
             SizedBox(height: getPadding() * 2),
             action,
           ],
-        ]));
+        ],
+      ),
+    );
   }
 
   /// Build a desktop-optimized loading state
@@ -253,8 +282,11 @@ mixin DesktopPageMixin {
           SizedBox(height: getPadding()),
           Text(
             'Loading...',
-            style: getBodyTextStyle(context)),
-        ]));
+            style: getBodyTextStyle(context),
+          ),
+        ],
+      ),
+    );
   }
 
   /// Build a desktop-optimized error state
@@ -270,23 +302,29 @@ mixin DesktopPageMixin {
           Icon(
             Icons.error_outline,
             size: DesktopOptimizedWidgets.getIconSize() * 2,
-            color: Colors.red[400]),
+            color: Colors.red[400],
+          ),
           SizedBox(height: getPadding()),
           Text(
             'Error',
-            style: getSectionTitleStyle(context)),
+            style: getSectionTitleStyle(context),
+          ),
           SizedBox(height: getSpacing()),
           Text(
             message,
             style: getBodyTextStyle(context),
-            textAlign: TextAlign.center),
+            textAlign: TextAlign.center,
+          ),
           if (onRetry != null) ...[
             SizedBox(height: getPadding()),
             ElevatedButton(
               onPressed: onRetry,
-              child: Text('Retry')),
+              child: const Text('Retry'),
+            ),
           ],
-        ]));
+        ],
+      ),
+    );
   }
 
   /// Build a responsive page layout
@@ -301,6 +339,10 @@ mixin DesktopPageMixin {
           constraints: BoxConstraints(maxWidth: maxWidth),
           child: Padding(
             padding: getPagePadding(context),
-            child: child))));
+            child: child,
+          ),
+        ),
+      ),
+    );
   }
 }

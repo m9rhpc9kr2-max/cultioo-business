@@ -70,7 +70,8 @@ class _TradeRepublicValueSliderState extends State<TradeRepublicValueSlider>
     super.initState();
     _pressAnim = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 180));
+      duration: const Duration(milliseconds: 180),
+    );
     _pressT = CurvedAnimation(parent: _pressAnim, curve: Curves.easeOutCubic);
   }
 
@@ -129,7 +130,8 @@ class _TradeRepublicValueSliderState extends State<TradeRepublicValueSlider>
         if (widget.onChanged == null) return;
         _triggerHaptic(widget.min + v * (widget.max - widget.min));
         widget.onChanged!(widget.min + v * (widget.max - widget.min));
-      });
+      },
+    );
   }
 
   // ── Non-iOS: premium animated slider ─────────────────────────────────────
@@ -163,7 +165,8 @@ class _TradeRepublicValueSliderState extends State<TradeRepublicValueSlider>
         final label = widget.labelBuilder != null
             ? widget.labelBuilder!(widget.value)
             : widget.value.toStringAsFixed(
-                widget.divisions != null ? 0 : 1);
+                widget.divisions != null ? 0 : 1,
+              );
 
         return GestureDetector(
           behavior: HitTestBehavior.opaque,
@@ -196,8 +199,14 @@ class _TradeRepublicValueSliderState extends State<TradeRepublicValueSlider>
                   isDark: isDark,
                   divisions: widget.divisions,
                   label: label,
-                  isDragging: _isDragging)))));
-      });
+                  isDragging: _isDragging,
+                ),
+              ),
+            ),
+          ),
+        );
+      },
+    );
   }
 
   void _triggerHaptic(double value) {
@@ -266,22 +275,26 @@ class _PremiumSliderPainter extends CustomPainter {
     final inactiveRRect = RRect.fromLTRBR(
       trackLeft, trackCy - trackHeight / 2,
       trackRight, trackCy + trackHeight / 2,
-      tr);
+      tr,
+    );
     canvas.drawRRect(inactiveRRect, Paint()..color = inactiveColor);
 
     // ── Active track with gradient ────────────────────────────────────────
     if (value > 0.001) {
       final activeRect = Rect.fromLTRB(
         trackLeft, trackCy - trackHeight / 2,
-        thumbX, trackCy + trackHeight / 2);
+        thumbX, trackCy + trackHeight / 2,
+      );
       final gradPaint = Paint()
         ..shader = ui.Gradient.linear(
           Offset(trackLeft, 0),
           Offset(thumbX, 0),
-          [activeColor.withOpacity(0.55), activeColor]);
+          [activeColor.withOpacity(0.55), activeColor],
+        );
       canvas.drawRRect(
         RRect.fromRectAndRadius(activeRect, tr),
-        gradPaint);
+        gradPaint,
+      );
 
       // Subtle glow on active track (only when pressed)
       if (pressT > 0.01) {
@@ -289,7 +302,8 @@ class _PremiumSliderPainter extends CustomPainter {
           RRect.fromRectAndRadius(activeRect, tr),
           Paint()
             ..color = activeColor.withOpacity(0.18 * pressT)
-            ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 6));
+            ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 6),
+        );
       }
     }
 
@@ -305,7 +319,8 @@ class _PremiumSliderPainter extends CustomPainter {
           Paint()
             ..color = (isActive ? dotColor : inactiveColor).withOpacity(0.5)
             ..strokeWidth = 1.5
-            ..strokeCap = StrokeCap.round);
+            ..strokeCap = StrokeCap.round,
+        );
       }
     }
 
@@ -317,15 +332,18 @@ class _PremiumSliderPainter extends CustomPainter {
       Rect.fromCenter(
         center: Offset(thumbX, trackCy),
         width: thumbW,
-        height: thumbH),
-      Radius.circular(thumbH / 2));
+        height: thumbH,
+      ),
+      Radius.circular(thumbH / 2),
+    );
 
     // Thumb shadow
     canvas.drawRRect(
       thumbRRect.inflate(2),
       Paint()
         ..color = Colors.black.withOpacity(0.10 + 0.10 * pressT)
-        ..maskFilter = MaskFilter.blur(BlurStyle.normal, 6 + 4 * pressT));
+        ..maskFilter = MaskFilter.blur(BlurStyle.normal, 6 + 4 * pressT),
+    );
 
     // Thumb fill
     canvas.drawRRect(thumbRRect, Paint()..color = thumbColor);
@@ -336,7 +354,8 @@ class _PremiumSliderPainter extends CustomPainter {
       canvas.drawCircle(
         Offset(thumbX, trackCy),
         dotRadius,
-        Paint()..color = dotColor.withOpacity(0.35));
+        Paint()..color = dotColor.withOpacity(0.35),
+      );
     }
 
     // ── Floating label above thumb ────────────────────────────────────────
@@ -359,8 +378,11 @@ class _PremiumSliderPainter extends CustomPainter {
           fontSize: fontSize,
           fontWeight: FontWeight.w700,
           color: dotColor,
-          letterSpacing: -0.2)),
-      textDirection: TextDirection.ltr)..layout();
+          letterSpacing: -0.2,
+        ),
+      ),
+      textDirection: TextDirection.ltr,
+    )..layout();
 
     final labelW = tp.width + hPad * 2;
     final labelH = tp.height + vPad * 2;
@@ -374,14 +396,17 @@ class _PremiumSliderPainter extends CustomPainter {
       RRect.fromRectAndRadius(pillRect, const Radius.circular(pillR)),
       Paint()
         ..color = thumbColor.withOpacity(pressT)
-        ..maskFilter = MaskFilter.blur(BlurStyle.normal, 4 * pressT));
+        ..maskFilter = MaskFilter.blur(BlurStyle.normal, 4 * pressT),
+    );
     canvas.drawRRect(
       RRect.fromRectAndRadius(pillRect, const Radius.circular(pillR)),
-      Paint()..color = thumbColor.withOpacity(pressT));
+      Paint()..color = thumbColor.withOpacity(pressT),
+    );
 
     tp.paint(
       canvas,
-      Offset(cx - tp.width / 2, cy - tp.height / 2));
+      Offset(cx - tp.width / 2, cy - tp.height / 2),
+    );
   }
 
   @override

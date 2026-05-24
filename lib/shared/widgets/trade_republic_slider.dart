@@ -59,7 +59,8 @@ class _TradeRepublicSliderState extends State<TradeRepublicSlider>
     super.initState();
     _slideController = AnimationController(
       duration: const Duration(milliseconds: 250),
-      vsync: this);
+      vsync: this,
+    );
     _slideController.forward();
   }
 
@@ -85,7 +86,9 @@ class _TradeRepublicSliderState extends State<TradeRepublicSlider>
             onValueChanged: (index) {
               if (widget.enableHaptics) HapticFeedback.selectionClick();
               widget.onChanged(index);
-            }));
+            },
+          ),
+        );
       }
       return LayoutBuilder(
         builder: (context, constraints) {
@@ -101,8 +104,11 @@ class _TradeRepublicSliderState extends State<TradeRepublicSlider>
               onValueChanged: (index) {
                 if (widget.enableHaptics) HapticFeedback.selectionClick();
                 widget.onChanged(index);
-              }));
-        });
+              },
+            ),
+          );
+        },
+      );
     }
 
     final brightness = Theme.of(context).brightness;
@@ -115,7 +121,8 @@ class _TradeRepublicSliderState extends State<TradeRepublicSlider>
         context,
         isLight: isLight,
         segmentWidth: segmentWidth,
-        totalWidth: totalWidth);
+        totalWidth: totalWidth,
+      );
     }
 
     return LayoutBuilder(
@@ -128,8 +135,10 @@ class _TradeRepublicSliderState extends State<TradeRepublicSlider>
           context,
           isLight: isLight,
           segmentWidth: segmentWidth,
-          totalWidth: totalWidth);
-      });
+          totalWidth: totalWidth,
+        );
+      },
+    );
   }
 
   Widget _buildSlider(
@@ -154,7 +163,8 @@ class _TradeRepublicSliderState extends State<TradeRepublicSlider>
       width: totalWidth,
       height: h,
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(br)),
+        borderRadius: BorderRadius.circular(br),
+      ),
       child: Stack(
         children: [
           // Animated sliding indicator
@@ -168,7 +178,10 @@ class _TradeRepublicSliderState extends State<TradeRepublicSlider>
               height: h - 8,
               decoration: BoxDecoration(
                 color: selectedBackgroundColor,
-                borderRadius: BorderRadius.circular((br - 4).clamp(4.0, br))))),
+                borderRadius: BorderRadius.circular((br - 4).clamp(4.0, br)),
+              ),
+            ),
+          ),
           // Interactive buttons with hover & press states
           Row(
             children: List.generate(widget.labels.length, (index) {
@@ -201,7 +214,8 @@ class _TradeRepublicSliderState extends State<TradeRepublicSlider>
                       color: !isSelected && isHovered
                           ? (isLight ? Colors.black : Colors.white).withValues(alpha: 0.03)
                           : Colors.transparent,
-                      borderRadius: BorderRadius.circular(br)),
+                      borderRadius: BorderRadius.circular(br),
+                    ),
                     child: AnimatedScale(
                       scale: isPressed ? 0.96 : 1.0,
                       duration: const Duration(milliseconds: 150),
@@ -220,12 +234,23 @@ class _TradeRepublicSliderState extends State<TradeRepublicSlider>
                                 ? FontWeight.w700
                                 : FontWeight.w500,
                             letterSpacing: isSelected ? -0.4 : -0.3,
-                            height: 1.2),
+                            height: 1.2,
+                          ),
                           child: Text(
                             widget.labels[index],
-                            textAlign: TextAlign.center)))))));
-            })),
-        ]));
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              );
+            }),
+          ),
+        ],
+      ),
+    );
 
     // Apply glass morphism if enabled
     if (widget.useGlassMorphism) {
@@ -233,7 +258,9 @@ class _TradeRepublicSliderState extends State<TradeRepublicSlider>
         borderRadius: BorderRadius.circular(br),
         child: BackdropFilter(
           filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-          child: slider));
+          child: slider,
+        ),
+      );
     }
 
     return slider;
@@ -299,8 +326,12 @@ class _TradeRepublicSliderExpandedState extends State<TradeRepublicSliderExpande
                 onValueChanged: (index) {
                   if (widget.enableHaptics) HapticFeedback.selectionClick();
                   widget.onChanged(index);
-                }));
-          }));
+                },
+              ),
+            );
+          },
+        ),
+      );
     }
 
     final brightness = Theme.of(context).brightness;
@@ -325,7 +356,8 @@ class _TradeRepublicSliderExpandedState extends State<TradeRepublicSliderExpande
           return Container(
             height: effH,
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(effR)),
+              borderRadius: BorderRadius.circular(effR),
+            ),
             child: Stack(
               children: [
                 // Premium animated sliding indicator
@@ -339,7 +371,10 @@ class _TradeRepublicSliderExpandedState extends State<TradeRepublicSliderExpande
                     height: effH - 8,
                     decoration: BoxDecoration(
                       color: selectedBackgroundColor,
-                      borderRadius: BorderRadius.circular((effR - 4).clamp(4.0, effR))))),
+                      borderRadius: BorderRadius.circular((effR - 4).clamp(4.0, effR)),
+                    ),
+                  ),
+                ),
                 // Interactive buttons with premium states
                 Row(
                   children: List.generate(widget.labels.length, (index) {
@@ -372,7 +407,8 @@ class _TradeRepublicSliderExpandedState extends State<TradeRepublicSliderExpande
                               color: !isSelected && isHovered
                                   ? (isLight ? Colors.black : Colors.white).withValues(alpha: 0.03)
                                   : Colors.transparent,
-                              borderRadius: BorderRadius.circular(effR)),
+                              borderRadius: BorderRadius.circular(effR),
+                            ),
                             child: AnimatedScale(
                               scale: isPressed ? 0.96 : 1.0,
                               duration: const Duration(milliseconds: 150),
@@ -391,13 +427,27 @@ class _TradeRepublicSliderExpandedState extends State<TradeRepublicSliderExpande
                                         ? FontWeight.w700
                                         : FontWeight.w500,
                                     letterSpacing: isSelected ? -0.4 : -0.3,
-                                    height: 1.2),
+                                    height: 1.2,
+                                  ),
                                   child: Text(
                                     widget.labels[index],
-                                    textAlign: TextAlign.center))))))));
-                  })),
-              ]));
-        }));
+                                    textAlign: TextAlign.center,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    );
+                  }),
+                ),
+              ],
+            ),
+          );
+        },
+      ),
+    );
   }
 }
 
@@ -442,7 +492,8 @@ class TradeRepublicContinuousSlider extends StatelessWidget {
         onChanged: (v) {
           if (enableHaptics) HapticFeedback.selectionClick();
           onChanged(min + v * (max - min));
-        });
+        },
+      );
     }
 
     return SliderTheme(
@@ -461,7 +512,9 @@ class TradeRepublicContinuousSlider extends StatelessWidget {
           fontSize: 13,
           fontWeight: FontWeight.w700,
           letterSpacing: -0.3,
-          height: 1.0)),
+          height: 1.0,
+        ),
+      ),
       child: Slider(
         value: value,
         min: min,
@@ -471,7 +524,9 @@ class TradeRepublicContinuousSlider extends StatelessWidget {
         onChanged: (v) {
           if (enableHaptics) HapticFeedback.selectionClick();
           onChanged(v);
-        }));
+        },
+      ),
+    );
   }
 }
 
@@ -516,7 +571,8 @@ class _TRLinearThumbShape extends SliderComponentShape {
     canvas.drawCircle(
       center,
       2.5 + activationAnimation.value * 0.8,
-      Paint()..color = dotColor);
+      Paint()..color = dotColor,
+    );
   }
 }
 
@@ -584,8 +640,10 @@ class _TRLinearValueIndicatorShape extends SliderComponentShape {
     canvas.drawRRect(
       RRect.fromRectAndRadius(
         Rect.fromLTWH(pillLeft, pillTop, pillW, pillH),
-        const Radius.circular(10)),
-      Paint()..color = pillColor);
+        const Radius.circular(10),
+      ),
+      Paint()..color = pillColor,
+    );
 
     // Small downward arrow connecting pill to thumb
     final arrowX = center.dx.clamp(pillLeft + 8, pillLeft + pillW - 8);
@@ -601,6 +659,8 @@ class _TRLinearValueIndicatorShape extends SliderComponentShape {
       canvas,
       Offset(
         pillLeft + (pillW - tw) / 2,
-        pillTop + (pillH - th) / 2));
+        pillTop + (pillH - th) / 2,
+      ),
+    );
   }
 }

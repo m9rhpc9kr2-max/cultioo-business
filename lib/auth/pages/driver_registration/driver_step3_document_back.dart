@@ -77,10 +77,12 @@ class _DriverStep3DocumentBackState extends State<DriverStep3DocumentBack>
   void _setupAnimations() {
     _fadeController = AnimationController(
       duration: const Duration(milliseconds: 600),
-      vsync: this);
+      vsync: this,
+    );
 
     _fadeAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
-      CurvedAnimation(parent: _fadeController, curve: Curves.easeInOut));
+      CurvedAnimation(parent: _fadeController, curve: Curves.easeInOut),
+    );
 
     _fadeController.forward();
   }
@@ -102,7 +104,8 @@ class _DriverStep3DocumentBackState extends State<DriverStep3DocumentBack>
   // Upload image to server
   Future<String?> _uploadImageToServer(
     File imageFile,
-    String documentType) async {
+    String documentType,
+  ) async {
     try {
       print('📤 Uploading $documentType image to server...');
 
@@ -191,7 +194,8 @@ class _DriverStep3DocumentBackState extends State<DriverStep3DocumentBack>
           onTimeout: () {
             print('❌ Camera discovery timeout');
             throw Exception('Camera discovery timeout');
-          });
+          },
+        );
       } catch (e) {
         print('❌ Failed to get cameras: $e');
         if (mounted) {
@@ -228,7 +232,8 @@ class _DriverStep3DocumentBackState extends State<DriverStep3DocumentBack>
         _cameras[0],
         ResolutionPreset.medium,
         enableAudio: false,
-        imageFormatGroup: ImageFormatGroup.jpeg);
+        imageFormatGroup: ImageFormatGroup.jpeg,
+      );
 
       try {
         await _cameraController!.initialize().timeout(
@@ -236,7 +241,8 @@ class _DriverStep3DocumentBackState extends State<DriverStep3DocumentBack>
           onTimeout: () {
             print('❌ Camera initialization timeout');
             throw Exception('Camera initialization timeout');
-          });
+          },
+        );
       } catch (e) {
         print('❌ Camera initialization failed: $e');
         if (mounted) {
@@ -297,7 +303,8 @@ class _DriverStep3DocumentBackState extends State<DriverStep3DocumentBack>
 
         final bool idInFrame = await GeminiDocumentDetector.detectDocument(
           cameraController: _cameraController!,
-          documentType: 'id_back');
+          documentType: 'id_back',
+        );
 
         if (!mounted || !_isCameraInitialized) return;
 
@@ -335,7 +342,8 @@ class _DriverStep3DocumentBackState extends State<DriverStep3DocumentBack>
     if (!mounted || !_isCountingDown) return;
 
     print(
-      '🕐 Modern Countdown: $_countdown seconds remaining - UPDATING MODAL!');
+      '🕐 Modern Countdown: $_countdown seconds remaining - UPDATING MODAL!',
+    );
 
     // Check if countdown finished
     if (_countdown <= 0) {
@@ -352,7 +360,8 @@ class _DriverStep3DocumentBackState extends State<DriverStep3DocumentBack>
           print('🔍 Gemini: Re-checking document still in frame...');
           final bool stillInFrame = await GeminiDocumentDetector.detectDocument(
             cameraController: _cameraController!,
-            documentType: 'id_back');
+            documentType: 'id_back',
+          );
 
           if (!mounted || !_isCountingDown) return;
 
@@ -441,7 +450,8 @@ class _DriverStep3DocumentBackState extends State<DriverStep3DocumentBack>
           print('📤 Uploading back ID image to server...');
           final String? uploadedUrl = await _uploadImageToServer(
             croppedFile,
-            'id_back');
+            'id_back',
+          );
 
           if (uploadedUrl != null) {
             setState(() {
@@ -452,7 +462,8 @@ class _DriverStep3DocumentBackState extends State<DriverStep3DocumentBack>
             TopNotification.show(
               context,
               message: AppLocalizations.of(context)?.idBackUploadedSuccess ?? 'ID back uploaded successfully!',
-              type: NotificationType.success);
+              type: NotificationType.success,
+            );
 
             // Save back image data with URL
             widget.initialData.addAll({
@@ -468,7 +479,8 @@ class _DriverStep3DocumentBackState extends State<DriverStep3DocumentBack>
             TopNotification.show(
               context,
               message: AppLocalizations.of(context)?.failedToUploadIdBack ?? 'Failed to upload ID back. Please try again.',
-              type: NotificationType.error);
+              type: NotificationType.error,
+            );
 
             // Clear the image so user can retry
             setState(() {
@@ -483,7 +495,8 @@ class _DriverStep3DocumentBackState extends State<DriverStep3DocumentBack>
           TopNotification.show(
             context,
             message: AppLocalizations.of(context)?.failedToProcessIdArea ?? 'Failed to process ID area. Please try again.',
-            type: NotificationType.error);
+            type: NotificationType.error,
+          );
 
           // Restart detection
           Future.delayed(const Duration(seconds: 1), () {
@@ -500,7 +513,8 @@ class _DriverStep3DocumentBackState extends State<DriverStep3DocumentBack>
       TopNotification.show(
         context,
         message: AppLocalizations.of(context)?.errorCapturingIdBack ?? 'Error capturing ID back. Please try again.',
-        type: NotificationType.error);
+        type: NotificationType.error,
+      );
 
       // Restart detection cycle after error
       Future.delayed(const Duration(seconds: 1), () {
@@ -518,7 +532,8 @@ class _DriverStep3DocumentBackState extends State<DriverStep3DocumentBack>
   void _showCameraBottomSheet(String type) {
     final AppSettings appSettings = Provider.of<AppSettings>(
       context,
-      listen: false);
+      listen: false,
+    );
     final isLight = appSettings.isLightMode(context);
 
     _resetDetection();
@@ -568,21 +583,28 @@ class _DriverStep3DocumentBackState extends State<DriverStep3DocumentBack>
                             gradient: const LinearGradient(
                               begin: Alignment.topLeft,
                               end: Alignment.bottomRight,
-                              colors: [Color(0xFF34C759), Color(0xFF30D158)]),
+                              colors: [Color(0xFF34C759), Color(0xFF30D158)],
+                            ),
                             shape: BoxShape.circle,
                             boxShadow: [
                               BoxShadow(
                                 color:
                                     const Color(0xFF34C759).withOpacity(0.3),
                                 blurRadius: 28,
-                                spreadRadius: 6),
-                            ]),
-                          child: Icon(
+                                spreadRadius: 6,
+                              ),
+                            ],
+                          ),
+                          child: const Icon(
                             CupertinoIcons.checkmark,
                             color: Colors.white,
-                            size: 52)));
-                    }),
-                  SizedBox(height: 28),
+                            size: 52,
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                  const SizedBox(height: 28),
                   // Title — slide up + fade
                   TweenAnimationBuilder<double>(
                     tween: Tween(begin: 0.0, end: 1.0),
@@ -591,7 +613,8 @@ class _DriverStep3DocumentBackState extends State<DriverStep3DocumentBack>
                     builder: (context, v, child) {
                       return Transform.translate(
                         offset: Offset(0, 14 * (1 - v)),
-                        child: Opacity(opacity: v, child: child));
+                        child: Opacity(opacity: v, child: child),
+                      );
                     },
                     child: Text(
                       AppLocalizations.of(context)?.photoCaptured ??
@@ -600,8 +623,11 @@ class _DriverStep3DocumentBackState extends State<DriverStep3DocumentBack>
                         fontSize: 24,
                         fontWeight: FontWeight.w700,
                         color: isLight ? Colors.black : Colors.white,
-                        letterSpacing: -0.5))),
-                  SizedBox(height: 14),
+                        letterSpacing: -0.5,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 14),
                   // Processing row — fade in
                   TweenAnimationBuilder<double>(
                     tween: Tween(begin: 0.0, end: 1.0),
@@ -616,18 +642,25 @@ class _DriverStep3DocumentBackState extends State<DriverStep3DocumentBack>
                         CupertinoActivityIndicator(
                           radius: 8,
                           color: (isLight ? Colors.black : Colors.white)
-                              .withOpacity(0.3)),
-                        SizedBox(width: 10),
+                              .withOpacity(0.3),
+                        ),
+                        const SizedBox(width: 10),
                         Text(
                           AppLocalizations.of(context)?.processingEllipsis ?? 'Processing...',
                           style: TextStyle(
                             fontSize: 15,
                             color: (isLight ? Colors.black : Colors.white)
                                 .withOpacity(0.4),
-                            letterSpacing: -0.2)),
-                      ])),
+                            letterSpacing: -0.2,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
                   const Spacer(flex: 4),
-                ]));
+                ],
+              ),
+            );
           }
 
           // ── Camera scanner view ──
@@ -643,24 +676,29 @@ class _DriverStep3DocumentBackState extends State<DriverStep3DocumentBack>
                     fontSize: 20,
                     fontWeight: FontWeight.w700,
                     color: isLight ? Colors.black : Colors.white,
-                    letterSpacing: -0.4)),
-                SizedBox(height: 4),
+                    letterSpacing: -0.4,
+                  ),
+                ),
+                const SizedBox(height: 4),
                 Text(
                   AppLocalizations.of(context)?.aiCapturesAutomatically ?? 'AI captures automatically when ready',
                   style: TextStyle(
                     fontSize: 14,
                     color: (isLight ? Colors.black : Colors.white)
-                        .withOpacity(0.4))),
+                        .withOpacity(0.4),
+                  ),
+                ),
 
-                SizedBox(height: 16),
+                const SizedBox(height: 16),
 
                 // Camera area
                 Expanded(
                   child: Container(
-                    margin: EdgeInsets.symmetric(horizontal: 16),
+                    margin: const EdgeInsets.symmetric(horizontal: 16),
                     decoration: BoxDecoration(
                       color: Colors.black,
-                      borderRadius: BorderRadius.circular(20)),
+                      borderRadius: BorderRadius.circular(20),
+                    ),
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(20),
                       child: Stack(
@@ -683,7 +721,9 @@ class _DriverStep3DocumentBackState extends State<DriverStep3DocumentBack>
                                               ?.width ??
                                           1,
                                       child: CameraPreview(
-                                          _cameraController!)))
+                                          _cameraController!),
+                                    ),
+                                  )
                                 : Center(
                                     child: _cameraError.isNotEmpty
                                         ? Column(
@@ -693,8 +733,9 @@ class _DriverStep3DocumentBackState extends State<DriverStep3DocumentBack>
                                                 CupertinoIcons.camera_fill,
                                                 size: 36,
                                                 color: Colors.white
-                                                    .withOpacity(0.3)),
-                                              SizedBox(height: 16),
+                                                    .withOpacity(0.3),
+                                              ),
+                                              const SizedBox(height: 16),
                                               Padding(
                                                 padding: const EdgeInsets
                                                     .symmetric(
@@ -706,8 +747,11 @@ class _DriverStep3DocumentBackState extends State<DriverStep3DocumentBack>
                                                   style: TextStyle(
                                                     color: Colors.white
                                                         .withOpacity(0.5),
-                                                    fontSize: 14))),
-                                              SizedBox(height: 16),
+                                                    fontSize: 14,
+                                                  ),
+                                                ),
+                                              ),
+                                              const SizedBox(height: 16),
                                               TradeRepublicButton(
                                                 label: AppLocalizations.of(
                                                             context)
@@ -719,11 +763,16 @@ class _DriverStep3DocumentBackState extends State<DriverStep3DocumentBack>
                                                 backgroundColor: Colors.white
                                                     .withOpacity(0.15),
                                                 foregroundColor: Colors.white,
-                                                onPressed: _initializeCamera),
-                                            ])
+                                                onPressed: _initializeCamera,
+                                              ),
+                                            ],
+                                          )
                                         : const CupertinoActivityIndicator(
                                             radius: 14,
-                                            color: Colors.white))),
+                                            color: Colors.white,
+                                          ),
+                                  ),
+                          ),
 
                           // Corner brackets scanner overlay
                           CustomPaint(
@@ -732,7 +781,9 @@ class _DriverStep3DocumentBackState extends State<DriverStep3DocumentBack>
                               bracketColor: _isIdDetected
                                   ? const Color(0xFF34C759)
                                   : Colors.white.withOpacity(0.45),
-                              isDetected: _isIdDetected)),
+                              isDetected: _isIdDetected,
+                            ),
+                          ),
 
                           // Status pill
                           Positioned(
@@ -744,7 +795,7 @@ class _DriverStep3DocumentBackState extends State<DriverStep3DocumentBack>
                                 duration:
                                     const Duration(milliseconds: 300),
                                 curve: Curves.easeInOut,
-                                padding: EdgeInsets.symmetric(
+                                padding: const EdgeInsets.symmetric(
                                     horizontal: 16, vertical: 8),
                                 decoration: BoxDecoration(
                                   color: _isIdDetected
@@ -752,7 +803,8 @@ class _DriverStep3DocumentBackState extends State<DriverStep3DocumentBack>
                                           .withOpacity(0.9)
                                       : Colors.black.withOpacity(0.55),
                                   borderRadius:
-                                      BorderRadius.circular(20)),
+                                      BorderRadius.circular(20),
+                                ),
                                 child: Row(
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
@@ -764,20 +816,28 @@ class _DriverStep3DocumentBackState extends State<DriverStep3DocumentBack>
                                             ? Colors.white
                                             : Colors.white
                                                 .withOpacity(0.5),
-                                        shape: BoxShape.circle)),
-                                    SizedBox(width: 8),
+                                        shape: BoxShape.circle,
+                                      ),
+                                    ),
+                                    const SizedBox(width: 8),
                                     Text(
                                       _isCountingDown
                                           ? '${AppLocalizations.of(context)?.capturingInCountdown ?? 'Capturing in'} $_countdown...'
                                           : _isIdDetected
                                               ? AppLocalizations.of(context)?.idDetected ?? 'ID Detected'
                                               : AppLocalizations.of(context)?.scanningEllipsis ?? 'Scanning...',
-                                      style: TextStyle(
+                                      style: const TextStyle(
                                         color: Colors.white,
                                         fontSize: 13,
                                         fontWeight: FontWeight.w600,
-                                        letterSpacing: -0.2)),
-                                  ])))),
+                                        letterSpacing: -0.2,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
 
                           // Countdown ring
                           if (_isCountingDown)
@@ -789,7 +849,8 @@ class _DriverStep3DocumentBackState extends State<DriverStep3DocumentBack>
                                   decoration: BoxDecoration(
                                     color:
                                         Colors.black.withOpacity(0.65),
-                                    shape: BoxShape.circle),
+                                    shape: BoxShape.circle,
+                                  ),
                                   child: Stack(
                                     alignment: Alignment.center,
                                     children: [
@@ -815,19 +876,32 @@ class _DriverStep3DocumentBackState extends State<DriverStep3DocumentBack>
                                                   .white
                                                   .withOpacity(0.08),
                                               strokeCap:
-                                                  StrokeCap.round);
-                                          })),
+                                                  StrokeCap.round,
+                                            );
+                                          },
+                                        ),
+                                      ),
                                       Text(
                                         '$_countdown',
-                                        style: TextStyle(
+                                        style: const TextStyle(
                                           color: Colors.white,
                                           fontSize: 38,
                                           fontWeight: FontWeight.w300,
-                                          letterSpacing: -1)),
-                                    ])))),
-                        ])))),
+                                          letterSpacing: -1,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
 
-                SizedBox(height: 16),
+                const SizedBox(height: 16),
 
                 // Cancel button
                 Padding(
@@ -850,9 +924,16 @@ class _DriverStep3DocumentBackState extends State<DriverStep3DocumentBack>
                         _resetDetection();
                         _modalSetState = null;
                         Navigator.pop(context);
-                      }))),
-              ]));
-        }));
+                      },
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          );
+        },
+      ),
+    );
   }
 
 
@@ -884,10 +965,12 @@ class _DriverStep3DocumentBackState extends State<DriverStep3DocumentBack>
         final cropTop = frameTop.clamp(0, imageHeight - frameHeight);
         final cropWidth = frameWidth.clamp(
           10,
-          imageWidth - cropLeft); // Minimum 10px
+          imageWidth - cropLeft,
+        ); // Minimum 10px
         final cropHeight = frameHeight.clamp(
           10,
-          imageHeight - cropTop); // Minimum 10px
+          imageHeight - cropTop,
+        ); // Minimum 10px
 
         print('AI: Back rectangle area calculated:');
         print('  - Frame: ${frameWidth}x$frameHeight');
@@ -900,20 +983,24 @@ class _DriverStep3DocumentBackState extends State<DriverStep3DocumentBack>
           x: cropLeft,
           y: cropTop,
           width: cropWidth,
-          height: cropHeight);
+          height: cropHeight,
+        );
 
         print(
-          'AI: Successfully cropped back to rectangle. New size: ${croppedImage.width}x${croppedImage.height}');
+          'AI: Successfully cropped back to rectangle. New size: ${croppedImage.width}x${croppedImage.height}',
+        );
 
         // Save the cropped rectangle as the final ID back image
         final tempDir = await getTemporaryDirectory();
         final croppedPath = path.join(
           tempDir.path,
-          'id_back_rectangle_${DateTime.now().millisecondsSinceEpoch}.jpg');
+          'id_back_rectangle_${DateTime.now().millisecondsSinceEpoch}.jpg',
+        );
 
         final croppedFile = File(croppedPath);
         await croppedFile.writeAsBytes(
-          img.encodeJpg(croppedImage, quality: 90)); // High quality for ID
+          img.encodeJpg(croppedImage, quality: 90),
+        ); // High quality for ID
 
         print('AI: ID back rectangle saved successfully to: $croppedPath');
         return croppedFile;
@@ -947,19 +1034,20 @@ class _DriverStep3DocumentBackState extends State<DriverStep3DocumentBack>
             24,
             MediaQuery.of(context).padding.top + 20,
             24,
-            MediaQuery.of(context).padding.bottom + 24),
+            MediaQuery.of(context).padding.bottom + 24,
+          ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               // Header
               _buildHeader(isLight),
 
-              SizedBox(height: 40),
+              const SizedBox(height: 40),
 
               // ID upload section
               _buildIDUploadSection(isLight),
 
-              SizedBox(height: 40),
+              const SizedBox(height: 40),
 
               // Navigation Buttons
               Row(
@@ -970,9 +1058,11 @@ class _DriverStep3DocumentBackState extends State<DriverStep3DocumentBack>
                     height: 52,
                     child: TradeRepublicButton.icon(
                       icon: Icon(CupertinoIcons.chevron_back, size: 18),
-                      onPressed: widget.onBack)),
+                      onPressed: widget.onBack,
+                    ),
+                  ),
 
-                  SizedBox(width: 12),
+                  const SizedBox(width: 12),
 
                   // Continue Button
                   Expanded(
@@ -993,9 +1083,19 @@ class _DriverStep3DocumentBackState extends State<DriverStep3DocumentBack>
                                 });
                                 widget.onNext();
                               }
-                            : null))),
-                ]),
-            ]))))));
+                            : null,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
+        ),
+      ),
+    );
   }
 
   Widget _buildHeader(bool isLight) {
@@ -1007,25 +1107,34 @@ class _DriverStep3DocumentBackState extends State<DriverStep3DocumentBack>
             height: 80,
             decoration: BoxDecoration(
               color: isLight ? Colors.black : Colors.white,
-              borderRadius: BorderRadius.circular(20)),
+              borderRadius: BorderRadius.circular(20),
+            ),
             child: Icon(
               CupertinoIcons.creditcard,
               color: isLight ? Colors.white : Colors.black,
-              size: 40)),
-          SizedBox(height: 20),
+              size: 40,
+            ),
+          ),
+          const SizedBox(height: 20),
           Text(
             AppLocalizations.of(context)?.idBackSide ?? 'ID Back Side',
             style: TextStyle(
               color: isLight ? Colors.black : Colors.white,
               fontSize: 32,
-              fontWeight: FontWeight.w700)),
-          SizedBox(height: 8),
+              fontWeight: FontWeight.w700,
+            ),
+          ),
+          const SizedBox(height: 8),
           Text(
             '${AppLocalizations.of(context)?.stepXofY ?? 'Step'} 3 ${AppLocalizations.of(context)?.ofLabel ?? 'of'} 10 - ${AppLocalizations.of(context)?.backOfIdLabel ?? 'Back of ID'}',
             style: TextStyle(
               color: (isLight ? Colors.black : Colors.white).withOpacity(0.5),
-              fontSize: 16)),
-        ]));
+              fontSize: 16,
+            ),
+          ),
+        ],
+      ),
+    );
   }
 
   Widget _buildIDUploadSection(bool isLight) {
@@ -1033,13 +1142,16 @@ class _DriverStep3DocumentBackState extends State<DriverStep3DocumentBack>
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
-          padding: EdgeInsets.only(left: 4, bottom: 16),
+          padding: const EdgeInsets.only(left: 4, bottom: 16),
           child: Text(
             AppLocalizations.of(context)?.captureBackOfYourId ?? 'Capture Back of Your ID',
             style: TextStyle(
               color: isLight ? Colors.black : Colors.white,
               fontSize: 18,
-              fontWeight: FontWeight.w700))),
+              fontWeight: FontWeight.w700,
+            ),
+          ),
+        ),
 
         // Back of ID
         _buildPhotoCapture(
@@ -1047,8 +1159,10 @@ class _DriverStep3DocumentBackState extends State<DriverStep3DocumentBack>
           subtitle: AppLocalizations.of(context)?.includeSignatureAddress ?? 'Include signature and address if present',
           image: _backImage,
           onTap: () => _pickImage('back'),
-          isLight: isLight),
-      ]);
+          isLight: isLight,
+        ),
+      ],
+    );
   }
 
   // Build photo capture widget - Apple iOS Style
@@ -1066,7 +1180,8 @@ class _DriverStep3DocumentBackState extends State<DriverStep3DocumentBack>
         height: 200,
         decoration: BoxDecoration(
           color: isLight ? Colors.white : Colors.black,
-          borderRadius: BorderRadius.circular(20)),
+          borderRadius: BorderRadius.circular(20),
+        ),
         child: image != null
             ? ClipRRect(
                 borderRadius: BorderRadius.circular(20),
@@ -1076,36 +1191,48 @@ class _DriverStep3DocumentBackState extends State<DriverStep3DocumentBack>
                       image,
                       width: double.infinity,
                       height: double.infinity,
-                      fit: BoxFit.cover),
+                      fit: BoxFit.cover,
+                    ),
                     Positioned(
                       top: 12,
                       right: 12,
                       child: Container(
-                        padding: EdgeInsets.all(8),
+                        padding: const EdgeInsets.all(8),
                         decoration: BoxDecoration(
                           color: Colors.green,
-                          borderRadius: BorderRadius.circular(20)),
-                        child: Icon(
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        child: const Icon(
                           CupertinoIcons.checkmark,
                           color: Colors.white,
-                          size: 16))),
+                          size: 16,
+                        ),
+                      ),
+                    ),
                     Positioned(
                       bottom: 12,
                       left: 12,
                       right: 12,
                       child: Container(
-                        padding: EdgeInsets.all(12),
+                        padding: const EdgeInsets.all(12),
                         decoration: BoxDecoration(
                           color: Colors.black.withOpacity(0.7),
-                          borderRadius: BorderRadius.circular(20)),
+                          borderRadius: BorderRadius.circular(20),
+                        ),
                         child: Text(
                           AppLocalizations.of(context)?.tapToRetakePhoto ?? 'Tap to retake photo',
                           style: TextStyle(
                             color: Colors.white,
                             fontSize: 14,
-                            fontWeight: FontWeight.w600),
-                          textAlign: TextAlign.center))),
-                  ]))
+                            fontWeight: FontWeight.w600,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              )
             : Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -1115,33 +1242,45 @@ class _DriverStep3DocumentBackState extends State<DriverStep3DocumentBack>
                     decoration: BoxDecoration(
                       color: (isLight ? Colors.black : Colors.white)
                           .withOpacity(0.1),
-                      borderRadius: BorderRadius.circular(20)),
+                      borderRadius: BorderRadius.circular(20),
+                    ),
                     child: Icon(
                       CupertinoIcons.camera,
                       color: (isLight ? Colors.black : Colors.white)
                           .withOpacity(0.6),
-                      size: 32)),
-                  SizedBox(height: 16),
+                      size: 32,
+                    ),
+                  ),
+                  const SizedBox(height: 16),
                   Text(
                     title,
                     style: TextStyle(
                       color: isLight ? Colors.black : Colors.white,
                       fontSize: 16,
-                      fontWeight: FontWeight.w700)),
-                  SizedBox(height: 4),
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                  const SizedBox(height: 4),
                   Text(
                     subtitle,
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       color: (isLight ? Colors.black : Colors.white)
                           .withOpacity(0.6),
-                      fontSize: 14)),
-                  SizedBox(height: 16),
+                      fontSize: 14,
+                    ),
+                  ),
+                  const SizedBox(height: 16),
                   UnconstrainedBox(
                     child: TradeRepublicButton(
                       label: AppLocalizations.of(context)?.takePhoto ?? 'Take Photo',
-                      onPressed: onTap)),
-                ])));
+                      onPressed: onTap,
+                    ),
+                  ),
+                ],
+              ),
+      ),
+    );
   }
 }
 

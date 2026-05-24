@@ -70,7 +70,8 @@ class _TradeRepublicSwitchState extends State<TradeRepublicSwitch> {
         value: widget.value,
         onChanged: (val) => widget.onChanged?.call(val),
         controller: _controller,
-        color: widget.selectedColor ?? onColor);
+        color: widget.selectedColor ?? onColor,
+      );
     }
 
     // Non-iOS: render as a circular toggle (filled circle that changes color)
@@ -102,12 +103,19 @@ class _TradeRepublicSwitchState extends State<TradeRepublicSwitch> {
               BoxShadow(
                 color: Colors.black.withValues(alpha: 0.15),
                 blurRadius: 4,
-                offset: const Offset(0, 2)),
-            ]),
+                offset: const Offset(0, 2),
+              ),
+            ],
+          ),
           child: Center(
             child: Icon(
               widget.value ? Icons.check : Icons.close,
               color: Colors.white,
-              size: circleSize * 0.5)))));
+              size: circleSize * 0.5,
+            ),
+          ),
+        ),
+      ),
+    );
   }
 }

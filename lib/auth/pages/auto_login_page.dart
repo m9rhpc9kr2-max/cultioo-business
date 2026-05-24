@@ -21,8 +21,6 @@ import 'package:path_provider/path_provider.dart';
 import '../../shared/services/app_localizations.dart';
 import '../../shared/widgets/cultioo_spinner.dart';
 import '../../shared/widgets/trade_republic_tap.dart';
-import 'package:cultioo_business/shared/widgets/desktop_app_wrapper.dart';
-import 'package:cultioo_business/shared/widgets/desktop_optimized_widgets.dart';
 
 Widget _autoLoginSheetTopChrome() {
   final isDesktop = Platform.isMacOS || Platform.isWindows || Platform.isLinux;
@@ -47,7 +45,8 @@ class _AutoLoginPageState extends State<AutoLoginPage> {
   void initState() {
     super.initState();
     print(
-      '🔍🔍🔍 AUTO-LOGIN PAGE INITIATED - This should ONLY appear when app starts with existing token');
+      '🔍🔍🔍 AUTO-LOGIN PAGE INITIATED - This should ONLY appear when app starts with existing token',
+    );
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _checkSilentLogin();
     });
@@ -64,7 +63,8 @@ class _AutoLoginPageState extends State<AutoLoginPage> {
         final appSettings = Provider.of<AppSettings>(context, listen: false);
         final isDriver = appSettings.userType == 'Driver';
         Navigator.of(context).pushReplacementNamed(
-          isDriver ? '/delvioo-main' : '/main');
+          isDriver ? '/delvioo-main' : '/main',
+        );
       }
     }
   }
@@ -82,7 +82,8 @@ class _AutoLoginPageState extends State<AutoLoginPage> {
         await BiometricService.getLocalBiometricEnabled();
 
     print(
-      '🔍 Auto-login security check: localBiometric=$localBiometricEnabled');
+      '🔍 Auto-login security check: localBiometric=$localBiometricEnabled',
+    );
 
     // Check if 2FA is enabled by querying the backend.
     // Use a short timeout so a slow network never blocks navigation.
@@ -95,7 +96,8 @@ class _AutoLoginPageState extends State<AutoLoginPage> {
             body: jsonEncode({
               'email': appSettings.userEmail ?? appSettings.userName ?? '',
               'isDelviooMode': appSettings.userType == 'Driver',
-            }))
+            }),
+          )
           .timeout(const Duration(seconds: 5));
 
       if (response.statusCode == 200) {
@@ -153,7 +155,8 @@ class _AutoLoginPageState extends State<AutoLoginPage> {
 
   Future<void> _showLoginModalFromContext(
     BuildContext ctx,
-    AppSettings appSettings) async {
+    AppSettings appSettings,
+  ) async {
     final isLight = appSettings.isLightMode(ctx);
     _autoLoginAuthCompleted = false;
 
@@ -171,7 +174,9 @@ class _AutoLoginPageState extends State<AutoLoginPage> {
         userSecuritySettings: _userSecuritySettings,
         onAuthenticated: () {
           _autoLoginAuthCompleted = true;
-        }));
+        },
+      ),
+    );
 
     if (!_autoLoginAuthCompleted) {
       await _forceLogoutAndClearLocalData();
@@ -214,8 +219,8 @@ class _AutoLoginPageState extends State<AutoLoginPage> {
     // When fullScreen is true we remove the rounded top and outer padding so
     // the content can occupy the entire vertical space (no top/bottom gap)
     final EdgeInsets outerPadding = fullScreen
-        ? EdgeInsets.symmetric(horizontal: 20, vertical: 8)
-        : EdgeInsets.all(24);
+        ? const EdgeInsets.symmetric(horizontal: 20, vertical: 8)
+        : const EdgeInsets.all(24);
 
     final Widget content = Padding(
       padding: outerPadding,
@@ -233,14 +238,17 @@ class _AutoLoginPageState extends State<AutoLoginPage> {
                     ? CupertinoIcons.car_detailed
                     : CupertinoIcons.briefcase_fill,
                 size: 22,
-                color: isLight ? Colors.black : Colors.white),
-              SizedBox(width: 12),
+                color: isLight ? Colors.black : Colors.white,
+              ),
+              const SizedBox(width: 12),
               Flexible(child: Text(
                 AppLocalizations.of(context)?.welcomeBack ?? 'Welcome back!',
                 style: TextStyle(fontSize: 22, fontWeight: FontWeight.w700,
-                  color: isLight ? Colors.black : Colors.white, letterSpacing: -0.4))),
-            ]),
-          SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+                  color: isLight ? Colors.black : Colors.white, letterSpacing: -0.4),
+              )),
+            ],
+          ),
+          const SizedBox(height: 8),
 
           // Subtitle with Account Type
           Text(
@@ -251,12 +259,14 @@ class _AutoLoginPageState extends State<AutoLoginPage> {
             style: TextStyle(
               fontSize: 15,
               fontWeight: FontWeight.w500,
-              color: (isLight ? Colors.black : Colors.white).withOpacity(0.6))),
-          SizedBox(height: 4),
+              color: (isLight ? Colors.black : Colors.white).withOpacity(0.6),
+            ),
+          ),
+          const SizedBox(height: 4),
 
           // Account Type Badge
           Container(
-            padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 begin: Alignment.topLeft,
@@ -266,8 +276,10 @@ class _AutoLoginPageState extends State<AutoLoginPage> {
                     : [
                         const Color(0xFF007AFF).withOpacity(0.2),
                         const Color(0xFF5AC8FA).withOpacity(0.2),
-                      ]),
-              borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
+                      ],
+              ),
+              borderRadius: BorderRadius.circular(20),
+            ),
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
@@ -278,19 +290,24 @@ class _AutoLoginPageState extends State<AutoLoginPage> {
                   size: 16,
                   color: appSettings.userType == 'Driver'
                       ? Colors.white
-                      : const Color(0xFF007AFF)),
-                SizedBox(width: 8),
+                      : const Color(0xFF007AFF),
+                ),
+                const SizedBox(width: 8),
                 Text(
                   '${appSettings.userType == 'Driver' ? AppLocalizations.of(context)?.delviooLabel ?? 'Delvioo' : 'Business'} Account',
                   style: TextStyle(
-                    fontSize: DesktopOptimizedWidgets.getFontSize(),
+                    fontSize: 14,
                     fontWeight: FontWeight.w600,
                     color: appSettings.userType == 'Driver'
                         ? Colors.white
                         : const Color(0xFF007AFF),
-                    letterSpacing: -0.2)),
-              ])),
-          SizedBox(height: 20),
+                    letterSpacing: -0.2,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(height: 20),
 
           // Authentication options
           Column(
@@ -302,7 +319,8 @@ class _AutoLoginPageState extends State<AutoLoginPage> {
                   title: AppLocalizations.of(context)?.useBiometric ?? 'Use Biometric',
                   subtitle: AppLocalizations.of(context)?.quickAndSecureAccess ?? 'Quick and secure access',
                   onTap: _authenticateWithBiometric,
-                  isLight: isLight),
+                  isLight: isLight,
+                ),
 
               // 2FA authentication
               if (_userSecuritySettings?['has_2fa_enabled'] == 1)
@@ -311,7 +329,8 @@ class _AutoLoginPageState extends State<AutoLoginPage> {
                   title: AppLocalizations.of(context)?.twoFactorAuthentication ?? 'Two-Factor Authentication',
                   subtitle: AppLocalizations.of(context)?.useYour8DigitCode ?? 'Use your 8-digit code',
                   onTap: _showTwoFactorInput,
-                  isLight: isLight),
+                  isLight: isLight,
+                ),
 
               // Password authentication
               _buildAuthOption(
@@ -319,10 +338,12 @@ class _AutoLoginPageState extends State<AutoLoginPage> {
                 title: AppLocalizations.of(context)?.usePassword ?? 'Use Password',
                 subtitle: AppLocalizations.of(context)?.enterYourPassword ?? 'Enter your password',
                 onTap: _showPasswordInput,
-                isLight: isLight),
-            ]),
+                isLight: isLight,
+              ),
+            ],
+          ),
 
-          SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+          const SizedBox(height: 16),
 
           // Action buttons - Uber/Trade Republic Style
           Row(
@@ -334,20 +355,27 @@ class _AutoLoginPageState extends State<AutoLoginPage> {
                     Navigator.of(context).pushReplacementNamed('/login');
                   },
                   child: Container(
-                    padding: EdgeInsets.symmetric(vertical: 18),
+                    padding: const EdgeInsets.symmetric(vertical: 18),
                     decoration: BoxDecoration(
                       color: (isLight ? Colors.black : Colors.white)
                           .withOpacity(isLight ? 0.05 : 0.8),
-                      borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
+                      borderRadius: BorderRadius.circular(20),
+                    ),
                     child: Center(
                       child: Text(
                         AppLocalizations.of(context)?.cancel ?? 'Cancel',
                         style: TextStyle(
-                          fontSize: DesktopOptimizedWidgets.getFontSize(),
+                          fontSize: 16,
                           fontWeight: FontWeight.w600,
                           color: const Color(0xFFFF3B30),
-                          letterSpacing: -0.3)))))),
-              SizedBox(width: 12),
+                          letterSpacing: -0.3,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(width: 12),
               Expanded(
                 child: TradeRepublicTap(
                   onTap: () {
@@ -355,22 +383,32 @@ class _AutoLoginPageState extends State<AutoLoginPage> {
                     _switchAccount();
                   },
                   child: Container(
-                    padding: EdgeInsets.symmetric(vertical: 18),
+                    padding: const EdgeInsets.symmetric(vertical: 18),
                     decoration: BoxDecoration(
                       color: (isLight ? Colors.black : Colors.white)
                           .withOpacity(isLight ? 0.05 : 0.8),
-                      borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
+                      borderRadius: BorderRadius.circular(20),
+                    ),
                     child: Center(
                       child: Text(
                         AppLocalizations.of(context)?.switchAccount ?? 'Switch Account',
                         style: TextStyle(
-                          fontSize: DesktopOptimizedWidgets.getFontSize(),
+                          fontSize: 16,
                           fontWeight: FontWeight.w600,
                           color: isLight ? Colors.black : Colors.white,
-                          letterSpacing: -0.3)))))),
-            ]),
-          SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
-        ]));
+                          letterSpacing: -0.3,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 16),
+        ],
+      ),
+    );
 
     if (fullScreen) {
       // For fullscreen we return the column directly so the caller's Scaffold/SafeArea
@@ -378,7 +416,8 @@ class _AutoLoginPageState extends State<AutoLoginPage> {
       return SingleChildScrollView(
         physics: const BouncingScrollPhysics(),
         padding: EdgeInsets.zero,
-        child: content);
+        child: content,
+      );
     }
 
     return content;
@@ -392,24 +431,26 @@ class _AutoLoginPageState extends State<AutoLoginPage> {
     required bool isLight,
   }) {
     return Container(
-      margin: EdgeInsets.only(bottom: 12),
+      margin: const EdgeInsets.only(bottom: 12),
       child: TradeRepublicTap(
         onTap: onTap,
-        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
+        borderRadius: BorderRadius.circular(20),
         child: Container(
-          padding: EdgeInsets.all(18),
+          padding: const EdgeInsets.all(18),
           decoration: BoxDecoration(
             gradient: LinearGradient(
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
               colors: isLight
                   ? [Colors.white, Colors.transparent]
-                  : [Colors.transparent, const Color(0xFF000000)]),
-            borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
+                  : [Colors.transparent, const Color(0xFF000000)],
+            ),
+            borderRadius: BorderRadius.circular(20),
+          ),
           child: Row(
             children: [
               Container(
-                padding: EdgeInsets.all(10),
+                padding: const EdgeInsets.all(10),
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
                     begin: Alignment.topLeft,
@@ -422,14 +463,19 @@ class _AutoLoginPageState extends State<AutoLoginPage> {
                         : [
                             const Color(0xFF0A84FF).withOpacity(0.25),
                             const Color(0xFF5AC8FA).withOpacity(0.15),
-                          ]),
-                  borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
+                          ],
+                  ),
+                  borderRadius: BorderRadius.circular(20),
+                ),
                 child: Icon(
                   icon,
                   size: 22,
                   color: (isLight ? Colors.black : Colors.white).withOpacity(
-                    0.85))),
-              SizedBox(width: 16),
+                    0.85,
+                  ),
+                ),
+              ),
+              const SizedBox(width: 16),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -437,11 +483,13 @@ class _AutoLoginPageState extends State<AutoLoginPage> {
                     Text(
                       title,
                       style: TextStyle(
-                        fontSize: DesktopOptimizedWidgets.getFontSize(),
+                        fontSize: 16,
                         fontWeight: FontWeight.w600,
                         color: isLight ? Colors.black : Colors.white,
-                        letterSpacing: -0.3)),
-                    SizedBox(height: 3),
+                        letterSpacing: -0.3,
+                      ),
+                    ),
+                    const SizedBox(height: 3),
                     Text(
                       subtitle,
                       style: TextStyle(
@@ -449,14 +497,24 @@ class _AutoLoginPageState extends State<AutoLoginPage> {
                         fontWeight: FontWeight.w500,
                         color: (isLight ? Colors.black : Colors.white)
                             .withOpacity(0.5),
-                        letterSpacing: -0.1)),
-                  ])),
+                        letterSpacing: -0.1,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
               Icon(
                 CupertinoIcons.chevron_right,
                 size: 16,
                 color: (isLight ? Colors.black : Colors.white).withOpacity(
-                  0.25)),
-            ]))));
+                  0.25,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 
   Future<void> _authenticateWithBiometric() async {
@@ -473,7 +531,8 @@ class _AutoLoginPageState extends State<AutoLoginPage> {
         TopNotification.show(
           context,
           message: '${AppLocalizations.of(context)?.biometricAuthFailed ?? 'Biometric authentication failed'}: $e',
-          type: NotificationType.error);
+          type: NotificationType.error,
+        );
       }
     } finally {
       if (mounted) setState(() => _isLoading = false);
@@ -497,7 +556,8 @@ class _AutoLoginPageState extends State<AutoLoginPage> {
         // ✅ Wrap with StatefulBuilder
         builder: (context, setModalState) => Padding(
           padding: EdgeInsets.only(
-            bottom: MediaQuery.of(context).viewInsets.bottom),
+            bottom: MediaQuery.of(context).viewInsets.bottom,
+          ),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -507,13 +567,15 @@ class _AutoLoginPageState extends State<AutoLoginPage> {
               Row(
                 children: [
                   Icon(CupertinoIcons.lock, size: 22, color: isLight ? Colors.black : Colors.white),
-                  SizedBox(width: 12),
+                  const SizedBox(width: 12),
                   Flexible(child: Text(
                     AppLocalizations.of(context)?.enterPassword ?? 'Enter Password',
                     style: TextStyle(fontSize: 22, fontWeight: FontWeight.w700,
-                      color: isLight ? Colors.black : Colors.white, letterSpacing: -0.4))),
-                ]),
-              SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+                      color: isLight ? Colors.black : Colors.white, letterSpacing: -0.4),
+                  )),
+                ],
+              ),
+              const SizedBox(height: 8),
 
               Text(
                 AppLocalizations.of(context)?.authenticateWithPassword ?? 'Authenticate with your password',
@@ -521,20 +583,24 @@ class _AutoLoginPageState extends State<AutoLoginPage> {
                   fontSize: 15,
                   fontWeight: FontWeight.w500,
                   color: (isLight ? Colors.black : Colors.white).withOpacity(
-                    0.5))),
-              SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+                    0.5,
+                  ),
+                ),
+              ),
+              const SizedBox(height: 24),
 
               TradeRepublicTextField.password(
                 controller: _passwordController,
                 hintText: AppLocalizations.of(context)?.password ?? 'Password',
                 autofocus: true,
-                prefixIcon: Icon(CupertinoIcons.lock_fill),
+                prefixIcon: const Icon(CupertinoIcons.lock_fill),
                 onChanged: (value) {
                   if (hasError) {
                     setModalState(() => hasError = false);
                   }
-                }),
-              SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+                },
+              ),
+              const SizedBox(height: 24),
 
               Row(
                 children: [
@@ -545,8 +611,10 @@ class _AutoLoginPageState extends State<AutoLoginPage> {
                       onPressed: () {
                         Navigator.of(context).pop();
                         _handleAuthenticationFailure();
-                      })),
-                  SizedBox(width: 12),
+                      },
+                    ),
+                  ),
+                  const SizedBox(width: 12),
                   Expanded(
                     child: TradeRepublicButton(
                       label: AppLocalizations.of(context)?.login ?? 'Login',
@@ -569,10 +637,17 @@ class _AutoLoginPageState extends State<AutoLoginPage> {
                               } else if (mounted) {
                                 setModalState(() => hasError = true);
                               }
-                            })),
-                ]),
-              SizedBox(height: 20),
-            ]))));
+                            },
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 20),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 
   void _showTwoFactorInput() {
@@ -588,7 +663,8 @@ class _AutoLoginPageState extends State<AutoLoginPage> {
       bottomPadding: 20.0,
       child: Padding(
         padding: EdgeInsets.only(
-          bottom: MediaQuery.of(context).viewInsets.bottom),
+          bottom: MediaQuery.of(context).viewInsets.bottom,
+        ),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -598,28 +674,33 @@ class _AutoLoginPageState extends State<AutoLoginPage> {
             Row(
               children: [
                 Icon(CupertinoIcons.shield, size: 22, color: isLight ? Colors.black : Colors.white),
-                SizedBox(width: 12),
+                const SizedBox(width: 12),
                 Flexible(child: Text(
                   AppLocalizations.of(context)?.twoFactorAuthentication ?? 'Two-Factor Authentication',
                   style: TextStyle(fontSize: 22, fontWeight: FontWeight.w700,
-                    color: isLight ? Colors.black : Colors.white, letterSpacing: -0.4))),
-              ]),
-            SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+                    color: isLight ? Colors.black : Colors.white, letterSpacing: -0.4),
+                )),
+              ],
+            ),
+            const SizedBox(height: 8),
 
             Text(
               AppLocalizations.of(context)?.enterYour8Digit2faCode ?? 'Enter your 8-digit 2FA code',
               style: TextStyle(
                 fontSize: 15,
                 fontWeight: FontWeight.w500,
-                color: (isLight ? Colors.black : Colors.white).withOpacity(0.5))),
-            SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+                color: (isLight ? Colors.black : Colors.white).withOpacity(0.5),
+              ),
+            ),
+            const SizedBox(height: 24),
 
             TradeRepublicTextField.code(
               controller: _twoFactorController,
               hintText: '12345678',
               maxLength: 8,
-              autofocus: true),
-            SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+              autofocus: true,
+            ),
+            const SizedBox(height: 24),
 
             Row(
               children: [
@@ -630,26 +711,34 @@ class _AutoLoginPageState extends State<AutoLoginPage> {
                           onPressed: () {
                             Navigator.of(context).pop();
                             _handleAuthenticationFailure();
-                          })
+                          },
+                        )
                       : TradeRepublicTap(
                           onTap: () {
                             Navigator.of(context).pop();
                             _handleAuthenticationFailure();
                           },
                           child: Container(
-                            padding: EdgeInsets.symmetric(vertical: 16),
+                            padding: const EdgeInsets.symmetric(vertical: 16),
                             decoration: BoxDecoration(
                               color: (isLight ? Colors.black : Colors.white)
                                   .withOpacity(isLight ? 0.1 : 0.7),
-                              borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
+                              borderRadius: BorderRadius.circular(20),
+                            ),
                             child: Center(
                               child: Text(
                                 AppLocalizations.of(context)?.cancel ?? 'Cancel',
                                 style: TextStyle(
-                                  fontSize: DesktopOptimizedWidgets.getFontSize(),
+                                  fontSize: 16,
                                   fontWeight: FontWeight.w600,
-                                  color: Colors.red)))))),
-                SizedBox(width: 12),
+                                  color: Colors.red,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                ),
+                const SizedBox(width: 12),
                 Expanded(
                   child: (Platform.isIOS)
                       ? TradeRepublicButton(
@@ -659,7 +748,8 @@ class _AutoLoginPageState extends State<AutoLoginPage> {
                               : () {
                                   Navigator.of(context).pop();
                                   _authenticateWithTwoFactor();
-                                })
+                                },
+                        )
                       : TradeRepublicTap(
                           onTap: _isLoading
                               ? null
@@ -668,35 +758,50 @@ class _AutoLoginPageState extends State<AutoLoginPage> {
                                   _authenticateWithTwoFactor();
                                 },
                           child: Container(
-                            padding: EdgeInsets.symmetric(vertical: 16),
+                            padding: const EdgeInsets.symmetric(vertical: 16),
                             decoration: BoxDecoration(
                               gradient: const LinearGradient(
                                 begin: Alignment.topLeft,
                                 end: Alignment.bottomRight,
-                                colors: [Color(0xFF34C759), Color(0xFF30D158)]),
-                              borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
+                                colors: [Color(0xFF34C759), Color(0xFF30D158)],
+                              ),
+                              borderRadius: BorderRadius.circular(20),
                               boxShadow: [
                                 BoxShadow(
                                   color: const Color(
-                                    0xFF34C759).withOpacity(0.3),
+                                    0xFF34C759,
+                                  ).withOpacity(0.3),
                                   offset: const Offset(0, 4),
-                                  blurRadius: 12),
-                              ]),
+                                  blurRadius: 12,
+                                ),
+                              ],
+                            ),
                             child: Center(
                               child: _isLoading
-                                  ? SizedBox(
+                                  ? const SizedBox(
                                       width: 20,
                                       height: 20,
-                                      child: CultiooLoadingIndicator(size: 24))
+                                      child: CultiooLoadingIndicator(size: 24),
+                                    )
                                   : Text(
                                       AppLocalizations.of(context)?.verify ?? 'Verify',
                                       style: TextStyle(
-                                        fontSize: DesktopOptimizedWidgets.getFontSize(),
+                                        fontSize: 16,
                                         fontWeight: FontWeight.w600,
-                                        color: Colors.white)))))),
-              ]),
-            SizedBox(height: 20),
-          ])));
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                            ),
+                          ),
+                        ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 20),
+          ],
+        ),
+      ),
+    );
   }
 
   Future<bool> _authenticateWithPassword() async {
@@ -710,7 +815,8 @@ class _AutoLoginPageState extends State<AutoLoginPage> {
       final appSettings = Provider.of<AppSettings>(context, listen: false);
 
       print(
-        '🔍 Available credentials: email=${appSettings.userEmail}, userId=${appSettings.userId}, userName=${appSettings.userName}');
+        '🔍 Available credentials: email=${appSettings.userEmail}, userId=${appSettings.userId}, userName=${appSettings.userName}',
+      );
 
       http.Response? successResponse;
 
@@ -731,7 +837,8 @@ class _AutoLoginPageState extends State<AutoLoginPage> {
         final credentialValue = credentials.values.first;
 
         print(
-          '[LOGIN] Attempt ${i + 1}: Trying login with $credentialType = $credentialValue');
+          '[LOGIN] Attempt ${i + 1}: Trying login with $credentialType = $credentialValue',
+        );
 
         // Build the request body with dynamic key
         final requestBody = <String, dynamic>{
@@ -746,7 +853,8 @@ class _AutoLoginPageState extends State<AutoLoginPage> {
         final response = await http.post(
           Uri.parse('${ApiConfig.baseUrl}/api/auth/login'),
           headers: {'Content-Type': 'application/json'},
-          body: jsonEncode(requestBody));
+          body: jsonEncode(requestBody),
+        );
 
         print('🔍 Response: ${response.statusCode}');
         if (response.statusCode != 200) {
@@ -757,14 +865,16 @@ class _AutoLoginPageState extends State<AutoLoginPage> {
         if (response.statusCode == 200 || response.statusCode == 202) {
           successResponse = response;
           print(
-            '[SUCCESS] Login successful with $credentialType = $credentialValue');
+            '[SUCCESS] Login successful with $credentialType = $credentialValue',
+          );
           break;
         }
       }
 
       if (successResponse != null) {
         print(
-          '[DEBUG] Auto-login password response body: ${successResponse.body}');
+          '[DEBUG] Auto-login password response body: ${successResponse.body}',
+        );
 
         final data = jsonDecode(successResponse.body);
 
@@ -848,7 +958,8 @@ class _AutoLoginPageState extends State<AutoLoginPage> {
         TopNotification.show(
           context,
           message: AppLocalizations.of(context)?.pleaseEnterValid8DigitCode ?? 'Please enter a valid 8-digit 2FA code',
-          type: NotificationType.error);
+          type: NotificationType.error,
+        );
       }
       return;
     }
@@ -869,7 +980,8 @@ class _AutoLoginPageState extends State<AutoLoginPage> {
       final response = await http.post(
         Uri.parse('${ApiConfig.baseUrl}/api/auth/login'),
         headers: {'Content-Type': 'application/json'},
-        body: jsonEncode(requestBody));
+        body: jsonEncode(requestBody),
+      );
 
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body);
@@ -888,7 +1000,8 @@ class _AutoLoginPageState extends State<AutoLoginPage> {
                 '${userData['first_name']} ${userData['last_name']}',
             email: userData['email'] ?? '',
             token: data['token'],
-            userType: userType);
+            userType: userType,
+          );
 
           await _navigateToHome();
         } else {
@@ -896,7 +1009,8 @@ class _AutoLoginPageState extends State<AutoLoginPage> {
             TopNotification.show(
               context,
               message: data['message'] ?? AppLocalizations.of(context)?.invalid2faCode ?? 'Invalid 2FA code',
-              type: NotificationType.error);
+              type: NotificationType.error,
+            );
           }
         }
       } else {
@@ -904,7 +1018,8 @@ class _AutoLoginPageState extends State<AutoLoginPage> {
           TopNotification.show(
             context,
             message: AppLocalizations.of(context)?.invalid2faCode ?? 'Invalid 2FA code',
-            type: NotificationType.error);
+            type: NotificationType.error,
+          );
         }
       }
     } catch (e) {
@@ -913,7 +1028,8 @@ class _AutoLoginPageState extends State<AutoLoginPage> {
           context,
             message:
               '${AppLocalizations.of(context)?.twoFaVerificationFailed ?? ''}: $e',
-          type: NotificationType.error);
+          type: NotificationType.error,
+        );
       }
     } finally {
       if (mounted) setState(() => _isLoading = false);
@@ -954,7 +1070,9 @@ class _AutoLoginPageState extends State<AutoLoginPage> {
     return Scaffold(
       backgroundColor: isDark ? Colors.black : Colors.white,
       body: const Center(
-        child: CultiooLoadingIndicator(size: 36)));
+        child: CultiooLoadingIndicator(size: 36),
+      ),
+    );
   }
 }
 
@@ -1025,7 +1143,8 @@ class _AutoLoginModalContentState extends State<_AutoLoginModalContent> {
         TopNotification.show(
           context,
           message: AppLocalizations.of(context)?.biometricAuthFailed ?? 'Biometric authentication failed',
-          type: NotificationType.error);
+          type: NotificationType.error,
+        );
       }
     } finally {
       if (mounted) setState(() => _isLoading = false);
@@ -1047,7 +1166,8 @@ class _AutoLoginModalContentState extends State<_AutoLoginModalContent> {
       child: StatefulBuilder(
         builder: (context, setModalState) => Padding(
           padding: EdgeInsets.only(
-            bottom: MediaQuery.of(context).viewInsets.bottom),
+            bottom: MediaQuery.of(context).viewInsets.bottom,
+          ),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -1055,40 +1175,47 @@ class _AutoLoginModalContentState extends State<_AutoLoginModalContent> {
               Row(
                 children: [
                   Icon(CupertinoIcons.lock, size: 22, color: widget.isLight ? Colors.black : Colors.white),
-                  SizedBox(width: 12),
+                  const SizedBox(width: 12),
                   Flexible(child: Text(
                     AppLocalizations.of(context)?.enterPassword ?? 'Enter Password',
                     style: TextStyle(fontSize: 22, fontWeight: FontWeight.w700,
-                      color: widget.isLight ? Colors.black : Colors.white, letterSpacing: -0.4))),
-                ]),
-              SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+                      color: widget.isLight ? Colors.black : Colors.white, letterSpacing: -0.4),
+                  )),
+                ],
+              ),
+              const SizedBox(height: 8),
               Text(
                 AppLocalizations.of(context)?.authenticateWithPassword ?? 'Authenticate with your password',
                 style: TextStyle(
                   fontSize: 15,
                   fontWeight: FontWeight.w500,
                   color: (widget.isLight ? Colors.black : Colors.white)
-                      .withOpacity(0.5))),
-              SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+                      .withOpacity(0.5),
+                ),
+              ),
+              const SizedBox(height: 24),
               TradeRepublicTextField.password(
                 controller: _passwordController,
                 hintText: AppLocalizations.of(context)?.password ?? 'Password',
                 autofocus: true,
-                prefixIcon: Icon(CupertinoIcons.lock_fill),
+                prefixIcon: const Icon(CupertinoIcons.lock_fill),
                 onChanged: (value) {
                   if (hasError) {
                     setModalState(() => hasError = false);
                   }
-                }),
-              SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+                },
+              ),
+              const SizedBox(height: 24),
               Row(
                 children: [
                   Expanded(
                     child: TradeRepublicButton(
                       label: AppLocalizations.of(context)?.cancel ?? 'Cancel',
                       isSecondary: true,
-                      onPressed: () => Navigator.of(context).pop())),
-                  SizedBox(width: 12),
+                      onPressed: () => Navigator.of(context).pop(),
+                    ),
+                  ),
+                  const SizedBox(width: 12),
                   Expanded(
                     child: TradeRepublicButton(
                       label: AppLocalizations.of(context)?.login ?? 'Login',
@@ -1111,10 +1238,17 @@ class _AutoLoginModalContentState extends State<_AutoLoginModalContent> {
                               } else if (mounted) {
                                 setModalState(() => hasError = true);
                               }
-                            })),
-                ]),
-              SizedBox(height: 20),
-            ]))));
+                            },
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 20),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 
   Future<bool> _authenticateWithPassword() async {
@@ -1132,7 +1266,8 @@ class _AutoLoginModalContentState extends State<_AutoLoginModalContent> {
           'email': widget.appSettings.userEmail,
           'password': _passwordController.text,
           'isDelviooMode': widget.appSettings.userType == 'Driver',
-        }));
+        }),
+      );
 
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body);
@@ -1155,7 +1290,8 @@ class _AutoLoginModalContentState extends State<_AutoLoginModalContent> {
                 widget.appSettings.userEmail ??
                 'user@example.com',
             token: data['token'],
-            userType: userType);
+            userType: userType,
+          );
 
           await _navigateToHome();
           return true;
@@ -1164,7 +1300,8 @@ class _AutoLoginModalContentState extends State<_AutoLoginModalContent> {
             TopNotification.show(
               context,
               message: data['message'] ?? AppLocalizations.of(context)?.incorrectPassword ?? 'Invalid password',
-              type: NotificationType.error);
+              type: NotificationType.error,
+            );
           }
           return false;
         }
@@ -1191,7 +1328,8 @@ class _AutoLoginModalContentState extends State<_AutoLoginModalContent> {
           TopNotification.show(
             context,
             message: errorMsg,
-            type: NotificationType.error);
+            type: NotificationType.error,
+          );
         }
         return false;
       }
@@ -1200,7 +1338,8 @@ class _AutoLoginModalContentState extends State<_AutoLoginModalContent> {
         TopNotification.show(
           context,
           message: '${AppLocalizations.of(context)?.loginFailed ?? 'Login failed'}: $e',
-          type: NotificationType.error);
+          type: NotificationType.error,
+        );
       }
       return false;
     } finally {
@@ -1217,7 +1356,8 @@ class _AutoLoginModalContentState extends State<_AutoLoginModalContent> {
       bottomPadding: 20.0,
       child: Padding(
         padding: EdgeInsets.only(
-          bottom: MediaQuery.of(context).viewInsets.bottom),
+          bottom: MediaQuery.of(context).viewInsets.bottom,
+        ),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -1225,16 +1365,19 @@ class _AutoLoginModalContentState extends State<_AutoLoginModalContent> {
             Row(
               children: [
                 Icon(CupertinoIcons.shield, size: 22, color: widget.isLight ? Colors.black : Colors.white),
-                SizedBox(width: 12),
+                const SizedBox(width: 12),
                 Flexible(child: Text(
                   AppLocalizations.of(context)?.twoFactorAuthentication ?? 'Two-Factor Authentication',
                   style: TextStyle(fontSize: 22, fontWeight: FontWeight.w700,
-                    color: widget.isLight ? Colors.black : Colors.white, letterSpacing: -0.4))),
-              ]),
-            SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+                    color: widget.isLight ? Colors.black : Colors.white, letterSpacing: -0.4),
+                )),
+              ],
+            ),
+            const SizedBox(height: 8),
             Text(
-              AppLocalizations.of(context)?.pleaseEnterValid8DigitCode ?? 'Please enter your 8-digit 2FA code'),
-            SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+              AppLocalizations.of(context)?.pleaseEnterValid8DigitCode ?? 'Please enter your 8-digit 2FA code',
+            ),
+            const SizedBox(height: 24),
             Row(
               children: [
                 Expanded(
@@ -1243,8 +1386,10 @@ class _AutoLoginModalContentState extends State<_AutoLoginModalContent> {
                       isSecondary: true,
                       onPressed: () {
                         Navigator.of(context).pop();
-                      })),
-                SizedBox(width: 12),
+                      },
+                    ),
+                ),
+                const SizedBox(width: 12),
                 Expanded(
                     child: TradeRepublicButton(
                       label: AppLocalizations.of(context)?.verify ?? 'Verify',
@@ -1254,10 +1399,16 @@ class _AutoLoginModalContentState extends State<_AutoLoginModalContent> {
                           ? null
                           : () async {
                               await _verify2FA();
-                            })),
-              ]),
-            SizedBox(height: 20),
-          ])));
+                            },
+                    ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 20),
+          ],
+        ),
+      ),
+    );
   }
 
   void _show2FAWithPasswordInput() {
@@ -1269,7 +1420,8 @@ class _AutoLoginModalContentState extends State<_AutoLoginModalContent> {
       bottomPadding: 20.0,
       child: Padding(
         padding: EdgeInsets.only(
-          bottom: MediaQuery.of(context).viewInsets.bottom),
+          bottom: MediaQuery.of(context).viewInsets.bottom,
+        ),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -1277,22 +1429,25 @@ class _AutoLoginModalContentState extends State<_AutoLoginModalContent> {
             Row(
               children: [
                 Icon(CupertinoIcons.shield, size: 22, color: widget.isLight ? Colors.black : Colors.white),
-                SizedBox(width: 12),
+                const SizedBox(width: 12),
                 Flexible(child: Text(
                   '2FA Authentication',
                   style: TextStyle(fontSize: 22, fontWeight: FontWeight.w700,
-                    color: widget.isLight ? Colors.black : Colors.white, letterSpacing: -0.4))),
-              ]),
-            SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+                    color: widget.isLight ? Colors.black : Colors.white, letterSpacing: -0.4),
+                )),
+              ],
+            ),
+            const SizedBox(height: 8),
             Text(
-              AppLocalizations.of(context)?.pleaseEnterValid8DigitCode ?? 'Please enter your 8-digit 2FA code'),
+              AppLocalizations.of(context)?.pleaseEnterValid8DigitCode ?? 'Please enter your 8-digit 2FA code',
+            ),
             TradeRepublicTap(
               onTap: () {
                 // Make sure keyboard appears
                 FocusScope.of(context).requestFocus(FocusNode());
               },
               child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 8),
+                padding: const EdgeInsets.symmetric(horizontal: 8),
                 child: ValueListenableBuilder<TextEditingValue>(
                   valueListenable: _twoFactorController,
                   builder: (context, value, child) {
@@ -1305,7 +1460,8 @@ class _AutoLoginModalContentState extends State<_AutoLoginModalContent> {
                         return Container(
                           margin: EdgeInsets.only(
                             left: index == 0 ? 0 : 3,
-                            right: index == 3 ? 8 : 3),
+                            right: index == 3 ? 8 : 3,
+                          ),
                           child: Container(
                             width: 34,
                             height: 52,
@@ -1318,7 +1474,8 @@ class _AutoLoginModalContentState extends State<_AutoLoginModalContent> {
                                             : Colors.white)
                                         .withOpacity(0.08)
                                   : Colors.transparent,
-                              borderRadius: BorderRadius.circular(8)),
+                              borderRadius: BorderRadius.circular(8),
+                            ),
                             child: Center(
                               child: Text(
                                 isFilled ? value.text[index] : '',
@@ -1328,10 +1485,19 @@ class _AutoLoginModalContentState extends State<_AutoLoginModalContent> {
                                   color: widget.isLight
                                       ? Colors.black
                                       : Colors.white,
-                                  height: 1.2)))));
-                      }));
-                  }))),
-            SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+                                  height: 1.2,
+                                ),
+                              ),
+                            ),
+                          ),
+                        );
+                      }),
+                    );
+                  },
+                ),
+              ),
+            ),
+            const SizedBox(height: 16),
             // Hidden TextField for input
             Opacity(
               opacity: 0.0,
@@ -1351,7 +1517,8 @@ class _AutoLoginModalContentState extends State<_AutoLoginModalContent> {
                       _twoFactorController.text = filtered;
                       _twoFactorController.selection =
                           TextSelection.fromPosition(
-                            TextPosition(offset: filtered.length));
+                            TextPosition(offset: filtered.length),
+                          );
                     }
                     // No setState needed - ValueListenableBuilder handles updates
                     if (filtered.length == 8) {
@@ -1360,8 +1527,11 @@ class _AutoLoginModalContentState extends State<_AutoLoginModalContent> {
                         if (mounted) _verify2FAOnly();
                       });
                     }
-                  }))),
-            SizedBox(height: 20),
+                  },
+                ),
+              ),
+            ),
+            const SizedBox(height: 20),
             Row(
               children: [
                 Expanded(
@@ -1371,17 +1541,25 @@ class _AutoLoginModalContentState extends State<_AutoLoginModalContent> {
                     onPressed: () {
                       Navigator.of(context).pop();
                       _twoFactorController.clear();
-                    })),
-                SizedBox(width: 12),
+                    },
+                  ),
+                ),
+                const SizedBox(width: 12),
                 Expanded(
                   child: TradeRepublicButton(
                     label: AppLocalizations.of(context)?.verify ?? 'Verify',
                     backgroundColor: const Color(0xFF34C759),
                     isLoading: _isLoading,
-                    onPressed: _isLoading ? null : _verify2FAOnly)),
-              ]),
-            SizedBox(height: 20),
-          ])));
+                    onPressed: _isLoading ? null : _verify2FAOnly,
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 20),
+          ],
+        ),
+      ),
+    );
   }
 
   Future<void> _verify2FAOnly() async {
@@ -1391,7 +1569,8 @@ class _AutoLoginModalContentState extends State<_AutoLoginModalContent> {
         TopNotification.show(
           context,
           message: AppLocalizations.of(context)?.pleaseEnterValid8Digit ?? 'Please enter a valid 8-digit code',
-          type: NotificationType.error);
+          type: NotificationType.error,
+        );
       }
       return;
     }
@@ -1428,7 +1607,8 @@ class _AutoLoginModalContentState extends State<_AutoLoginModalContent> {
             TopNotification.show(
               context,
               message: AppLocalizations.of(context)?.sessionExpiredPleaseLogin ?? 'Session expired. Please login again.',
-              type: NotificationType.error);
+              type: NotificationType.error,
+            );
             Navigator.of(context).popUntil((route) => route.isFirst);
             Navigator.of(context).pushReplacementNamed('/login');
           }
@@ -1450,7 +1630,8 @@ class _AutoLoginModalContentState extends State<_AutoLoginModalContent> {
               widget.appSettings.userName ?? '',
           'code': _twoFactorController.text,
           'isDelviooMode': widget.appSettings.userType == 'Driver',
-        }));
+        }),
+      );
 
       print('🔐 check-2fa Response: ${response.statusCode} - ${response.body}');
 
@@ -1470,7 +1651,8 @@ class _AutoLoginModalContentState extends State<_AutoLoginModalContent> {
             TopNotification.show(
               context,
               message: AppLocalizations.of(context)?.invalid2faCode ?? 'Invalid 2FA code',
-              type: NotificationType.error);
+              type: NotificationType.error,
+            );
           }
         }
       } else {
@@ -1483,7 +1665,8 @@ class _AutoLoginModalContentState extends State<_AutoLoginModalContent> {
             TopNotification.show(
               context,
               message: errorMessage,
-              type: NotificationType.error);
+              type: NotificationType.error,
+            );
           }
         } catch (e) {
           print('[ERROR] Failed to parse error response: $e');
@@ -1491,7 +1674,8 @@ class _AutoLoginModalContentState extends State<_AutoLoginModalContent> {
             TopNotification.show(
               context,
               message: AppLocalizations.of(context)?.invalid2faCode ?? 'Invalid 2FA code',
-              type: NotificationType.error);
+              type: NotificationType.error,
+            );
           }
         }
       }
@@ -1502,7 +1686,8 @@ class _AutoLoginModalContentState extends State<_AutoLoginModalContent> {
           context,
             message:
               '${AppLocalizations.of(context)?.twoFaVerificationFailed ?? ''}: $e',
-          type: NotificationType.error);
+          type: NotificationType.error,
+        );
       }
     } finally {
       if (mounted) setState(() => _isLoading = false);
@@ -1516,7 +1701,8 @@ class _AutoLoginModalContentState extends State<_AutoLoginModalContent> {
         TopNotification.show(
           context,
           message: AppLocalizations.of(context)?.pleaseEnterValid8Digit ?? 'Please enter a valid 8-digit code',
-          type: NotificationType.error);
+          type: NotificationType.error,
+        );
       }
       return;
     }
@@ -1532,7 +1718,8 @@ class _AutoLoginModalContentState extends State<_AutoLoginModalContent> {
           'password': _passwordController.text,
           'twoFACode': _twoFactorController.text,
           'isDelviooMode': widget.appSettings.userType == 'Driver',
-        }));
+        }),
+      );
 
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body);
@@ -1555,7 +1742,8 @@ class _AutoLoginModalContentState extends State<_AutoLoginModalContent> {
                 widget.appSettings.userEmail ??
                 'user@example.com',
             token: data['token'],
-            userType: userType);
+            userType: userType,
+          );
 
           if (mounted) {
             Navigator.of(context).pop(); // Close 2FA modal
@@ -1566,7 +1754,8 @@ class _AutoLoginModalContentState extends State<_AutoLoginModalContent> {
             TopNotification.show(
               context,
               message: data['message'] ?? AppLocalizations.of(context)?.invalid2faCode ?? 'Invalid 2FA code',
-              type: NotificationType.error);
+              type: NotificationType.error,
+            );
           }
         }
       } else {
@@ -1574,7 +1763,8 @@ class _AutoLoginModalContentState extends State<_AutoLoginModalContent> {
           TopNotification.show(
             context,
             message: AppLocalizations.of(context)?.invalid2faCode ?? 'Invalid 2FA code',
-            type: NotificationType.error);
+            type: NotificationType.error,
+          );
         }
       }
     } catch (e) {
@@ -1583,7 +1773,8 @@ class _AutoLoginModalContentState extends State<_AutoLoginModalContent> {
           context,
             message:
               '${AppLocalizations.of(context)?.twoFaVerificationFailed ?? ''}: $e',
-          type: NotificationType.error);
+          type: NotificationType.error,
+        );
       }
     } finally {
       if (mounted) setState(() => _isLoading = false);
@@ -1609,14 +1800,17 @@ class _AutoLoginModalContentState extends State<_AutoLoginModalContent> {
                         ? CupertinoIcons.car_detailed
                         : CupertinoIcons.briefcase_fill,
                     size: 22,
-                    color: widget.isLight ? Colors.black : Colors.white),
-                  SizedBox(width: 12),
+                    color: widget.isLight ? Colors.black : Colors.white,
+                  ),
+                  const SizedBox(width: 12),
                   Flexible(child: Text(
                     AppLocalizations.of(context)?.welcomeBack ?? 'Welcome back',
                     style: TextStyle(fontSize: 22, fontWeight: FontWeight.w700,
-                      color: widget.isLight ? Colors.black : Colors.white, letterSpacing: -0.4))),
-                ]),
-              SizedBox(height: 6),
+                      color: widget.isLight ? Colors.black : Colors.white, letterSpacing: -0.4),
+                  )),
+                ],
+              ),
+              const SizedBox(height: 6),
               // Account type indicator
               Text(
                 widget.appSettings.userType == 'Driver'
@@ -1627,8 +1821,10 @@ class _AutoLoginModalContentState extends State<_AutoLoginModalContent> {
                   fontWeight: FontWeight.w500,
                   color: widget.appSettings.userType == 'Driver'
                       ? const Color(0xFF34C759)
-                      : const Color(0xFF007AFF))),
-              SizedBox(height: 4),
+                      : const Color(0xFF007AFF),
+                ),
+              ),
+              const SizedBox(height: 4),
               // Subtitle - simplified
               if (widget.appSettings.userId != null)
                 Text(
@@ -1638,8 +1834,10 @@ class _AutoLoginModalContentState extends State<_AutoLoginModalContent> {
                     fontSize: 15,
                     fontWeight: FontWeight.w400,
                     color: (widget.isLight ? Colors.black : Colors.white)
-                        .withOpacity(0.5))),
-              SizedBox(height: 28),
+                        .withOpacity(0.5),
+                  ),
+                ),
+              const SizedBox(height: 28),
               // Authentication options
               Column(
                 children: [
@@ -1649,7 +1847,8 @@ class _AutoLoginModalContentState extends State<_AutoLoginModalContent> {
                       icon: CupertinoIcons.hand_raised_fill,
                       title: AppLocalizations.of(context)?.useBiometric ?? 'Use Biometric',
                       subtitle: AppLocalizations.of(context)?.quickAndSecureAccess ?? 'Quick and secure access',
-                      onTap: _authenticateWithBiometric),
+                      onTap: _authenticateWithBiometric,
+                    ),
                   // 2FA authentication - only show if 2FA is enabled
                   if (widget.userSecuritySettings?['has_2fa_enabled'] == 1)
                     _buildAuthOption(
@@ -1667,7 +1866,8 @@ class _AutoLoginModalContentState extends State<_AutoLoginModalContent> {
                           bottomPadding: 20.0,
                           child: Padding(
                             padding: EdgeInsets.only(
-                              bottom: MediaQuery.of(context).viewInsets.bottom),
+                              bottom: MediaQuery.of(context).viewInsets.bottom,
+                            ),
                             child: Column(
                               mainAxisSize: MainAxisSize.min,
                               children: [
@@ -1675,13 +1875,15 @@ class _AutoLoginModalContentState extends State<_AutoLoginModalContent> {
                                 Row(
                                   children: [
                                     Icon(CupertinoIcons.shield, size: 22, color: widget.isLight ? Colors.black : Colors.white),
-                                    SizedBox(width: 12),
+                                    const SizedBox(width: 12),
                                     Flexible(child: Text(
                                       AppLocalizations.of(context)?.twoFactorAuthentication ?? 'Two-Factor Authentication',
                                       style: TextStyle(fontSize: 22, fontWeight: FontWeight.w700,
-                                        color: widget.isLight ? Colors.black : Colors.white, letterSpacing: -0.4))),
-                                  ]),
-                                SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+                                        color: widget.isLight ? Colors.black : Colors.white, letterSpacing: -0.4),
+                                    )),
+                                  ],
+                                ),
+                                const SizedBox(height: 8),
                                 Text(
                                   AppLocalizations.of(context)?.enterYour8Digit2faCode ?? 'Enter your 8-digit 2FA code',
                                   style: TextStyle(
@@ -1691,14 +1893,17 @@ class _AutoLoginModalContentState extends State<_AutoLoginModalContent> {
                                         (widget.isLight
                                                 ? Colors.black
                                                 : Colors.white)
-                                            .withOpacity(0.5))),
-                                SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+                                            .withOpacity(0.5),
+                                  ),
+                                ),
+                                const SizedBox(height: 24),
                                 TradeRepublicTextField.code(
                                   controller: _twoFactorController,
                                   hintText: '12345678',
                                   maxLength: 8,
-                                  autofocus: true),
-                                SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+                                  autofocus: true,
+                                ),
+                                const SizedBox(height: 24),
                                 Row(
                                   children: [
                                     Expanded(
@@ -1708,15 +1913,18 @@ class _AutoLoginModalContentState extends State<_AutoLoginModalContent> {
                                               onPressed: () {
                                                 HapticFeedback.lightImpact();
                                                 Navigator.of(context).pop();
-                                              })
+                                              },
+                                            )
                                           : TradeRepublicButton(
                                               label: AppLocalizations.of(context)?.cancel ?? 'Cancel',
                                               isSecondary: true,
                                               onPressed: () {
                                                 HapticFeedback.lightImpact();
                                                 Navigator.of(context).pop();
-                                              })),
-                                    SizedBox(width: 12),
+                                              },
+                                            ),
+                                    ),
+                                    const SizedBox(width: 12),
                                     Expanded(
                                       child: (Platform.isIOS)
                                           ? TradeRepublicButton(
@@ -1726,7 +1934,8 @@ class _AutoLoginModalContentState extends State<_AutoLoginModalContent> {
                                                   : () {
                                                       HapticFeedback.lightImpact();
                                                       _verify2FAOnly();
-                                                    })
+                                                    },
+                                            )
                                           : TradeRepublicButton(
                                               label: AppLocalizations.of(context)?.verify ?? 'Verify',
                                               onPressed: _isLoading
@@ -1734,19 +1943,28 @@ class _AutoLoginModalContentState extends State<_AutoLoginModalContent> {
                                                   : () {
                                                       HapticFeedback.lightImpact();
                                                       _verify2FAOnly();
-                                                    })),
-                                  ]),
-                                SizedBox(height: 20),
-                              ])));
-                      }),
+                                                    },
+                                            ),
+                                    ),
+                                  ],
+                                ),
+                                const SizedBox(height: 20),
+                              ],
+                            ),
+                          ),
+                        );
+                      },
+                    ),
                   // Password authentication
                   _buildAuthOption(
                     icon: CupertinoIcons.lock_fill,
                     title: AppLocalizations.of(context)?.usePassword ?? 'Use Password',
                     subtitle: AppLocalizations.of(context)?.enterYourPassword ?? 'Enter your password',
-                    onTap: _showPasswordInput),
-                ]),
-              SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+                    onTap: _showPasswordInput,
+                  ),
+                ],
+              ),
+              const SizedBox(height: 24),
               // Action buttons - Trade Republic Style (text only)
               Row(
                 children: [
@@ -1757,17 +1975,22 @@ class _AutoLoginModalContentState extends State<_AutoLoginModalContent> {
                             onPressed: () {
                               HapticFeedback.lightImpact();
                               Navigator.of(
-                                context).pushReplacementNamed('/login');
-                            })
+                                context,
+                              ).pushReplacementNamed('/login');
+                            },
+                          )
                         : TradeRepublicButton(
                             label: AppLocalizations.of(context)?.cancel ?? 'Cancel',
                             isSecondary: true,
                             onPressed: () {
                               HapticFeedback.lightImpact();
                               Navigator.of(
-                                context).pushReplacementNamed('/login');
-                            })),
-                  SizedBox(width: 12),
+                                context,
+                              ).pushReplacementNamed('/login');
+                            },
+                          ),
+                  ),
+                  const SizedBox(width: 12),
                   Expanded(
                     child: (Platform.isIOS)
                         ? TradeRepublicButton(
@@ -1778,9 +2001,11 @@ class _AutoLoginModalContentState extends State<_AutoLoginModalContent> {
                               await appSettings.logout();
                               if (mounted) {
                                 Navigator.of(
-                                  context).pushReplacementNamed('/login');
+                                  context,
+                                ).pushReplacementNamed('/login');
                               }
-                            })
+                            },
+                          )
                         : TradeRepublicButton(
                             label: AppLocalizations.of(context)?.switchAccount ?? 'Switch Account',
                             onPressed: () async {
@@ -1789,12 +2014,19 @@ class _AutoLoginModalContentState extends State<_AutoLoginModalContent> {
                               await appSettings.logout();
                               if (mounted) {
                                 Navigator.of(
-                                  context).pushReplacementNamed('/login');
+                                  context,
+                                ).pushReplacementNamed('/login');
                               }
-                            })),
-                ]),
-              SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
-            ])));
+                            },
+                          ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 16),
+            ],
+          ),
+        ),
+    );
   }
 
   Widget _buildAuthOption({
@@ -1804,23 +2036,24 @@ class _AutoLoginModalContentState extends State<_AutoLoginModalContent> {
     required VoidCallback onTap,
   }) {
     return Container(
-      margin: EdgeInsets.only(bottom: 8),
+      margin: const EdgeInsets.only(bottom: 8),
       child: Material(
         color: Colors.transparent,
         child: TradeRepublicTap(
           onTap: onTap,
-          borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
+          borderRadius: BorderRadius.circular(20),
           splashColor: (widget.isLight ? Colors.black : Colors.white)
               .withOpacity(0.05),
           highlightColor: (widget.isLight ? Colors.black : Colors.white)
               .withOpacity(0.02),
           child: Container(
-            padding: EdgeInsets.symmetric(vertical: 14, horizontal: 16),
+            padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 16),
             decoration: BoxDecoration(
               color: widget.isLight
                   ? Colors.transparent
                   : Colors.transparent,
-              borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
+              borderRadius: BorderRadius.circular(20),
+            ),
             child: Row(
               children: [
                 Icon(
@@ -1828,22 +2061,32 @@ class _AutoLoginModalContentState extends State<_AutoLoginModalContent> {
                   size: 20,
                   color: widget.isLight
                       ? Colors.black.withOpacity(0.6)
-                      : Colors.white.withOpacity(0.6)),
-                SizedBox(width: 12),
+                      : Colors.white.withOpacity(0.6),
+                ),
+                const SizedBox(width: 12),
                 Expanded(
                   child: Text(
                     title,
                     style: TextStyle(
-                      fontSize: DesktopOptimizedWidgets.getFontSize(),
+                      fontSize: 16,
                       fontWeight: FontWeight.w500,
                       color: widget.isLight ? Colors.black : Colors.white,
-                      letterSpacing: -0.2))),
+                      letterSpacing: -0.2,
+                    ),
+                  ),
+                ),
                 Icon(
                   CupertinoIcons.chevron_right,
                   size: 14,
                   color: (widget.isLight ? Colors.black : Colors.white)
-                      .withOpacity(0.3)),
-              ])))));
+                      .withOpacity(0.3),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
   }
 }
 
@@ -1880,7 +2123,8 @@ class _SuccessAnimationWidgetState extends State<_SuccessAnimationWidget>
     // Apple-style smooth scale animation
     _scaleController = AnimationController(
       duration: const Duration(milliseconds: 800),
-      vsync: this);
+      vsync: this,
+    );
 
     // Apple uses custom curves similar to easeInOut but smoother
     _scaleAnimation = CurvedAnimation(
@@ -1891,7 +2135,8 @@ class _SuccessAnimationWidgetState extends State<_SuccessAnimationWidget>
     // Check mark animation - smooth and fluid
     _checkController = AnimationController(
       duration: const Duration(milliseconds: 900),
-      vsync: this);
+      vsync: this,
+    );
 
     _checkAnimation = CurvedAnimation(
       parent: _checkController,
@@ -1901,25 +2146,30 @@ class _SuccessAnimationWidgetState extends State<_SuccessAnimationWidget>
     // Fade animation for text
     _fadeController = AnimationController(
       duration: const Duration(milliseconds: 600),
-      vsync: this);
+      vsync: this,
+    );
 
     _fadeAnimation = CurvedAnimation(
       parent: _fadeController,
-      curve: Curves.easeInOut);
+      curve: Curves.easeInOut,
+    );
 
     // Blur animation for background
     _blurController = AnimationController(
       duration: const Duration(milliseconds: 400),
-      vsync: this);
+      vsync: this,
+    );
 
     _blurAnimation = CurvedAnimation(
       parent: _blurController,
-      curve: Curves.easeOut);
+      curve: Curves.easeOut,
+    );
 
     // Confetti animation - longer and smoother
     _confettiController = AnimationController(
       duration: const Duration(milliseconds: 2500),
-      vsync: this);
+      vsync: this,
+    );
 
     // Generate confetti particles - Apple style (fewer, more elegant)
     final random = math.Random();
@@ -1934,7 +2184,8 @@ class _SuccessAnimationWidgetState extends State<_SuccessAnimationWidget>
           endY: 1.1 + random.nextDouble() * 0.2,
           rotation: random.nextDouble() * 2 * math.pi,
           size: random.nextDouble() * 6 + 3, // Smaller, more subtle
-        ));
+        ),
+      );
     }
 
     // Start animations
@@ -2007,7 +2258,8 @@ class _SuccessAnimationWidgetState extends State<_SuccessAnimationWidget>
             decoration: BoxDecoration(
               color: widget.isLight
                   ? Colors.white.withOpacity(0.95 * _blurAnimation.value)
-                  : Colors.black.withOpacity(0.95 * _blurAnimation.value)),
+                  : Colors.black.withOpacity(0.95 * _blurAnimation.value),
+            ),
             child: Center(
               child: Stack(
                 children: [
@@ -2024,8 +2276,13 @@ class _SuccessAnimationWidgetState extends State<_SuccessAnimationWidget>
                             color: const Color(0xFF34C759).withOpacity(
                               0.08 *
                                   _scaleAnimation.value *
-                                  (1 - _scaleAnimation.value))));
-                      })),
+                                  (1 - _scaleAnimation.value),
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
 
                   // Second glow ring (delayed)
                   Center(
@@ -2040,8 +2297,13 @@ class _SuccessAnimationWidgetState extends State<_SuccessAnimationWidget>
                             color: const Color(0xFF34C759).withOpacity(
                               0.06 *
                                   _checkAnimation.value *
-                                  (1 - _checkAnimation.value))));
-                      })),
+                                  (1 - _checkAnimation.value),
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
 
                   // Confetti particles (subtle, in background)
                   AnimatedBuilder(
@@ -2050,11 +2312,15 @@ class _SuccessAnimationWidgetState extends State<_SuccessAnimationWidget>
                       return CustomPaint(
                         painter: _ConfettiPainter(
                           particles: _confettiParticles,
-                          progress: _confettiController.value),
+                          progress: _confettiController.value,
+                        ),
                         size: Size(
                           MediaQuery.of(context).size.width,
-                          MediaQuery.of(context).size.height));
-                    }),
+                          MediaQuery.of(context).size.height,
+                        ),
+                      );
+                    },
+                  ),
 
                   // Success checkmark with Apple-style shadow
                   Center(
@@ -2071,27 +2337,37 @@ class _SuccessAnimationWidgetState extends State<_SuccessAnimationWidget>
                               color: const Color(0xFF34C759).withOpacity(0.5),
                               blurRadius: 40,
                               spreadRadius: 0,
-                              offset: const Offset(0, 10)),
+                              offset: const Offset(0, 10),
+                            ),
                             BoxShadow(
                               color: const Color(0xFF34C759).withOpacity(0.3),
                               blurRadius: 80,
                               spreadRadius: 0,
-                              offset: const Offset(0, 25)),
+                              offset: const Offset(0, 25),
+                            ),
                             // Inner glow effect
                             BoxShadow(
                               color: const Color(0xFF34C759).withOpacity(0.8),
                               blurRadius: 20,
                               spreadRadius: -5,
-                              offset: Offset.zero),
-                          ]),
+                              offset: Offset.zero,
+                            ),
+                          ],
+                        ),
                         child: AnimatedBuilder(
                           animation: _checkAnimation,
                           builder: (context, child) {
                             return CustomPaint(
                               painter: _CheckMarkPainter(
                                 progress: _checkAnimation.value,
-                                color: Colors.white));
-                          })))),
+                                color: Colors.white,
+                              ),
+                            );
+                          },
+                        ),
+                      ),
+                    ),
+                  ),
 
                   // Subtle pulse effect on circle
                   Center(
@@ -2110,8 +2386,14 @@ class _SuccessAnimationWidgetState extends State<_SuccessAnimationWidget>
                             decoration: BoxDecoration(
                               shape: BoxShape.circle,
                               color: Colors.white.withOpacity(
-                                0.08 * _fadeAnimation.value))));
-                      })),
+                                0.08 * _fadeAnimation.value,
+                              ),
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
 
                   // Welcome text with smooth fade and slide up
                   Positioned(
@@ -2124,10 +2406,13 @@ class _SuccessAnimationWidgetState extends State<_SuccessAnimationWidget>
                         position:
                             Tween<Offset>(
                               begin: const Offset(0, 0.5),
-                              end: Offset.zero).animate(
+                              end: Offset.zero,
+                            ).animate(
                               CurvedAnimation(
                                 parent: _fadeController,
-                                curve: Curves.easeOutCubic)),
+                                curve: Curves.easeOutCubic,
+                              ),
+                            ),
                         child: Column(
                           children: [
                             Text(
@@ -2145,26 +2430,38 @@ class _SuccessAnimationWidgetState extends State<_SuccessAnimationWidget>
                                         Shadow(
                                           color: Colors.black.withOpacity(0.3),
                                           offset: const Offset(0, 2),
-                                          blurRadius: 4),
-                                      ]),
-                              textAlign: TextAlign.center),
-                            SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+                                          blurRadius: 4,
+                                        ),
+                                      ],
+                              ),
+                              textAlign: TextAlign.center,
+                            ),
+                            const SizedBox(height: 8),
                             Container(
-                              padding: EdgeInsets.symmetric(
+                              padding: const EdgeInsets.symmetric(
                                 horizontal: 20,
-                                vertical: 8),
+                                vertical: 8,
+                              ),
                               decoration: BoxDecoration(
                                 color: const Color(0xFF34C759).withOpacity(0.1),
-                                borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
+                                borderRadius: BorderRadius.circular(20),
+                              ),
                               child: Text(
                                 '✓ Login successful',
                                 style: TextStyle(
-                                  fontSize: DesktopOptimizedWidgets.getFontSize(),
+                                  fontSize: 16,
                                   fontWeight: FontWeight.w500,
                                   color: const Color(0xFF34C759),
-                                  letterSpacing: -0.2),
-                                textAlign: TextAlign.center)),
-                          ])))),
+                                  letterSpacing: -0.2,
+                                ),
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
 
                   // Shimmer effect (Apple-style light reflection)
                   AnimatedBuilder(
@@ -2185,13 +2482,24 @@ class _SuccessAnimationWidgetState extends State<_SuccessAnimationWidget>
                               end: Alignment.bottomRight,
                               colors: [
                                 Colors.white.withOpacity(
-                                  0.4 * (_checkAnimation.value - 0.3)),
+                                  0.4 * (_checkAnimation.value - 0.3),
+                                ),
                                 Colors.transparent,
                               ],
-                              stops: const [0.0, 0.5]))));
-                    }),
-                ]))));
-      });
+                              stops: const [0.0, 0.5],
+                            ),
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                ],
+              ),
+            ),
+          ),
+        );
+      },
+    );
   }
 }
 
@@ -2265,7 +2573,8 @@ class _ConfettiPainter extends CustomPainter {
           ),
           Radius.circular(particle.size * 0.3), // More rounded
         ),
-        paint);
+        paint,
+      );
 
       // Restore canvas state
       canvas.restore();
@@ -2311,7 +2620,8 @@ class _CheckMarkPainter extends CustomPainter {
       final smoothT = t * t * (3 - 2 * t); // Smoothstep
       path.lineTo(
         p1.dx + (p2.dx - p1.dx) * smoothT,
-        p1.dy + (p2.dy - p1.dy) * smoothT);
+        p1.dy + (p2.dy - p1.dy) * smoothT,
+      );
     } else {
       // Draw first part completely
       path.lineTo(p2.dx, p2.dy);
@@ -2322,7 +2632,8 @@ class _CheckMarkPainter extends CustomPainter {
       final smoothT = t * t * (3 - 2 * t); // Smoothstep
       path.lineTo(
         p2.dx + (p3.dx - p2.dx) * smoothT,
-        p2.dy + (p3.dy - p2.dy) * smoothT);
+        p2.dy + (p3.dy - p2.dy) * smoothT,
+      );
     }
 
     canvas.drawPath(path, paint);

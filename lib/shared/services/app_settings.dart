@@ -99,13 +99,15 @@ class AppSettings extends ChangeNotifier {
       if (parts.length < 2) return null;
 
       final payload = json.decode(
-        utf8.decode(base64Url.decode(base64Url.normalize(parts[1]))));
+        utf8.decode(base64Url.decode(base64Url.normalize(parts[1]))),
+      );
 
       if (payload is! Map<String, dynamic>) return null;
 
       return sanitizeUsername(
         payload['username']?.toString() ??
-            payload['user']['username']?.toString());
+            payload['user']['username']?.toString(),
+      );
     } catch (_) {
       return null;
     }
@@ -319,7 +321,8 @@ class AppSettings extends ChangeNotifier {
       await prefs.setString(_keyAuthToken, token);
       _authToken = token;
       print(
-        '✅ AppSettings.setUserData() - Token saved: ${token.substring(0, 20)}...');
+        '✅ AppSettings.setUserData() - Token saved: ${token.substring(0, 20)}...',
+      );
     } else {
       print('⚠️ AppSettings.setUserData() - No token provided!');
     }
@@ -332,7 +335,8 @@ class AppSettings extends ChangeNotifier {
     if (resolvedUsername != null) {
       await prefs.setString('username', resolvedUsername);
       print(
-        '✅ AppSettings.setUserData() - Username saved: $resolvedUsername');
+        '✅ AppSettings.setUserData() - Username saved: $resolvedUsername',
+      );
     } else {
       print('⚠️ AppSettings.setUserData() - No valid username resolved');
     }
@@ -380,7 +384,8 @@ class AppSettings extends ChangeNotifier {
     // Update or add this account to stored accounts
     final existingIndex = _storedAccounts.indexWhere(
       (account) =>
-          account['userId'] == _userId && account['userType'] == _userType);
+          account['userId'] == _userId && account['userType'] == _userType,
+    );
 
     if (existingIndex != -1) {
       // Update existing account
@@ -394,7 +399,9 @@ class AppSettings extends ChangeNotifier {
     if (_storedAccounts.length > 5) {
       _storedAccounts.sort(
         (a, b) => DateTime.parse(
-          b['lastLoginTime']).compareTo(DateTime.parse(a['lastLoginTime'])));
+          b['lastLoginTime'],
+        ).compareTo(DateTime.parse(a['lastLoginTime'])),
+      );
       _storedAccounts = _storedAccounts.take(5).toList();
     }
 
@@ -411,7 +418,9 @@ class AppSettings extends ChangeNotifier {
           try {
             return Map<String, dynamic>.from(
               Uri.splitQueryString(
-                jsonStr).map((key, value) => MapEntry(key, Uri.decodeComponent(value))));
+                jsonStr,
+              ).map((key, value) => MapEntry(key, Uri.decodeComponent(value))),
+            );
           } catch (e) {
             return <String, dynamic>{};
           }
@@ -426,7 +435,8 @@ class AppSettings extends ChangeNotifier {
       return account.entries
           .map(
             (entry) =>
-                '${entry.key}=${Uri.encodeComponent(entry.value.toString())}')
+                '${entry.key}=${Uri.encodeComponent(entry.value.toString())}',
+          )
           .join('&');
     }).toList();
 
@@ -467,7 +477,8 @@ class AppSettings extends ChangeNotifier {
     print('  - userEmail: $_userEmail');
     print('  - authMethod: $_authMethod');
     print(
-      '  - authToken: ${_authToken != null ? "${_authToken!.substring(0, 20)}..." : "NULL"}');
+      '  - authToken: ${_authToken != null ? "${_authToken!.substring(0, 20)}..." : "NULL"}',
+    );
 
     // Load onboarding status
     _onboardingCompleted = prefs.getBool('onboarding_completed') ?? false;
@@ -518,7 +529,8 @@ class AppSettings extends ChangeNotifier {
     await prefs.setString(_keyUserType, accountData['userType']);
     await prefs.setString(
       _keyUserId,
-      accountData['userId'].toString()); // ✅ Convert to String
+      accountData['userId'].toString(),
+    ); // ✅ Convert to String
     await prefs.setString(_keyUserName, accountData['userName']);
     await prefs.setString(_keyUserEmail, accountData['userEmail']);
     await prefs.setString(_keyLastApp, accountData['lastApp'] ?? 'business');
@@ -543,7 +555,8 @@ class AppSettings extends ChangeNotifier {
     final existingIndex = _storedAccounts.indexWhere(
       (account) =>
           account['userId'] == accountData['userId'] &&
-          account['userType'] == accountData['userType']);
+          account['userType'] == accountData['userType'],
+    );
 
     if (existingIndex != -1) {
       _storedAccounts[existingIndex] = updatedAccount;
@@ -559,7 +572,8 @@ class AppSettings extends ChangeNotifier {
     return _storedAccounts.firstWhere(
       (account) =>
           '${account['userEmail']}_${account['userType']}' == _lastUsedAccount,
-      orElse: () => <String, dynamic>{});
+      orElse: () => <String, dynamic>{},
+    );
   }
 
   Future<void> logout() async {
@@ -859,7 +873,8 @@ class AppSettings extends ChangeNotifier {
   // Simplified rates - in real app would use live exchange rates
   double convertCurrency(double dollarAmount) {
     print(
-      '💰 convertCurrency called: input=$dollarAmount, currency=$effectiveCurrency');
+      '💰 convertCurrency called: input=$dollarAmount, currency=$effectiveCurrency',
+    );
 
     double result;
     switch (effectiveCurrency) {

@@ -36,7 +36,7 @@ class TradeRepublicListTile extends StatelessWidget {
     this.leading,
     this.trailing,
     this.onTap,
-    this.padding = EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+    this.padding = const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
     this.titleColor,
     this.enableHaptics = true,
     this.backgroundColor,
@@ -52,7 +52,7 @@ class TradeRepublicListTile extends StatelessWidget {
     String? subtitle,
     Widget? leading,
     required VoidCallback onTap,
-    EdgeInsets padding = EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+    EdgeInsets padding = const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
     int? subtitleMaxLines,
   }) {
     return _TradeRepublicNavigationTile(
@@ -62,7 +62,8 @@ class TradeRepublicListTile extends StatelessWidget {
       leading: leading,
       onTap: onTap,
       padding: padding,
-      subtitleMaxLines: subtitleMaxLines);
+      subtitleMaxLines: subtitleMaxLines,
+    );
   }
 
   /// List tile with a toggle switch
@@ -73,7 +74,7 @@ class TradeRepublicListTile extends StatelessWidget {
     Widget? leading,
     required bool value,
     required ValueChanged<bool> onChanged,
-    EdgeInsets padding = EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+    EdgeInsets padding = const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
     int? subtitleMaxLines,
   }) {
     return _TradeRepublicToggleTile(
@@ -84,7 +85,8 @@ class TradeRepublicListTile extends StatelessWidget {
       value: value,
       onChanged: onChanged,
       padding: padding,
-      subtitleMaxLines: subtitleMaxLines);
+      subtitleMaxLines: subtitleMaxLines,
+    );
   }
 
   /// Emphasized list tile for critical actions (monochrome style)
@@ -94,7 +96,7 @@ class TradeRepublicListTile extends StatelessWidget {
     String? subtitle,
     Widget? leading,
     required VoidCallback onTap,
-    EdgeInsets padding = EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+    EdgeInsets padding = const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
     int? subtitleMaxLines,
   }) {
     return TradeRepublicListTile(
@@ -105,7 +107,8 @@ class TradeRepublicListTile extends StatelessWidget {
       onTap: onTap,
       padding: padding,
       isDestructive: true,
-      subtitleMaxLines: subtitleMaxLines);
+      subtitleMaxLines: subtitleMaxLines,
+    );
   }
 
   @override
@@ -120,7 +123,7 @@ class TradeRepublicListTile extends StatelessWidget {
         children: [
           if (leading != null) ...[
             _buildLeadingContainer(context),
-            SizedBox(width: 14),
+            const SizedBox(width: 14),
           ],
           Expanded(
             child: Column(
@@ -133,24 +136,32 @@ class TradeRepublicListTile extends StatelessWidget {
                     fontSize: 16,
                     fontWeight: FontWeight.w700,
                     letterSpacing: -0.25,
-                    color: effectiveTitleColor)),
+                    color: effectiveTitleColor,
+                  ),
+                ),
                 if (subtitle != null) ...[
-                  SizedBox(height: 2),
+                  const SizedBox(height: 2),
                   Text(
                     subtitle!,
                     style: backgroundColor != null
                         ? TradeRepublicTheme.bodySmall(context).copyWith(
-                            color: _contrastColor(backgroundColor!).withValues(alpha: 0.6))
+                            color: _contrastColor(backgroundColor!).withValues(alpha: 0.6),
+                          )
                         : TradeRepublicTheme.bodySmall(context),
                     maxLines: subtitleMaxLines,
-                    overflow: TextOverflow.ellipsis),
+                    overflow: TextOverflow.ellipsis,
+                  ),
                 ],
-              ])),
+              ],
+            ),
+          ),
           if (trailing != null) ...[
-            SizedBox(width: 12),
+            const SizedBox(width: 12),
             trailing!,
           ],
-        ]));
+        ],
+      ),
+    );
 
     if (backgroundColor != null) {
       tile = AnimatedContainer(
@@ -158,8 +169,10 @@ class TradeRepublicListTile extends StatelessWidget {
         curve: Curves.easeInOut,
         decoration: BoxDecoration(
           color: backgroundColor,
-          borderRadius: borderRadius ?? BorderRadius.circular(12)),
-        child: tile);
+          borderRadius: borderRadius ?? BorderRadius.circular(12),
+        ),
+        child: tile,
+      );
     }
 
     if (onTap != null) {
@@ -169,7 +182,8 @@ class TradeRepublicListTile extends StatelessWidget {
           if (enableHaptics) HapticFeedback.lightImpact();
           onTap!();
         },
-        child: tile);
+        child: tile,
+      );
     }
 
     return tile;
@@ -194,8 +208,10 @@ class TradeRepublicListTile extends StatelessWidget {
       decoration: BoxDecoration(
         color: isLight ? base.withValues(alpha: 0.10) : Colors.transparent,
         border: null,
-        borderRadius: BorderRadius.circular(radius)),
-      child: Center(child: leading));
+        borderRadius: BorderRadius.circular(radius),
+      ),
+      child: Center(child: leading),
+    );
   }
 }
 
@@ -238,15 +254,19 @@ class _HoverableTileState extends State<_HoverableTile> {
         behavior: HitTestBehavior.opaque,
         child: AnimatedContainer(
           duration: const Duration(milliseconds: 120),
-          margin: EdgeInsets.symmetric(horizontal: 6),
+          margin: const EdgeInsets.symmetric(horizontal: 6),
           decoration: BoxDecoration(
             color: _hovered
                 ? (isLight
                     ? Colors.black.withValues(alpha: 0.04)
                     : Colors.white.withValues(alpha: 0.05))
                 : Colors.transparent,
-            borderRadius: widget.borderRadius),
-          child: widget.child)));
+            borderRadius: widget.borderRadius,
+          ),
+          child: widget.child,
+        ),
+      ),
+    );
   }
 }
 
@@ -271,7 +291,7 @@ class _TradeRepublicNavigationTile extends TradeRepublicListTile {
       child: Row(
         children: [
           if (leading != null) ...[            _buildLeadingContainer(context),
-            SizedBox(width: 14),
+            const SizedBox(width: 14),
           ],
           Expanded(
             child: Column(
@@ -284,21 +304,29 @@ class _TradeRepublicNavigationTile extends TradeRepublicListTile {
                     fontSize: 16,
                     fontWeight: FontWeight.w700,
                     letterSpacing: -0.2,
-                    color: TradeRepublicTheme.textColor(context))),
+                    color: TradeRepublicTheme.textColor(context),
+                  ),
+                ),
                 if (subtitle != null) ...[
-                  SizedBox(height: 2),
+                  const SizedBox(height: 2),
                   Text(
                     subtitle!,
                     style: TradeRepublicTheme.bodySmall(context),
                     maxLines: subtitleMaxLines,
-                    overflow: TextOverflow.ellipsis),
+                    overflow: TextOverflow.ellipsis,
+                  ),
                 ],
-              ])),
+              ],
+            ),
+          ),
           Icon(
             CupertinoIcons.chevron_right,
             size: 17,
-            color: iconColor),
-        ]));
+            color: iconColor,
+          ),
+        ],
+      ),
+    );
 
     return _HoverableTile(
       borderRadius: BorderRadius.circular(12),
@@ -306,7 +334,8 @@ class _TradeRepublicNavigationTile extends TradeRepublicListTile {
         if (enableHaptics) HapticFeedback.lightImpact();
         onTap!();
       },
-      child: tile);
+      child: tile,
+    );
   }
 }
 
@@ -333,7 +362,7 @@ class _TradeRepublicToggleTile extends TradeRepublicListTile {
       child: Row(
         children: [
           if (leading != null) ...[            _buildLeadingContainer(context),
-            SizedBox(width: 14),
+            const SizedBox(width: 14),
           ],
           Expanded(
             child: Column(
@@ -346,23 +375,31 @@ class _TradeRepublicToggleTile extends TradeRepublicListTile {
                     fontSize: 16,
                     fontWeight: FontWeight.w700,
                     letterSpacing: -0.2,
-                    color: TradeRepublicTheme.textColor(context))),
+                    color: TradeRepublicTheme.textColor(context),
+                  ),
+                ),
                 if (subtitle != null) ...[
-                  SizedBox(height: 2),
+                  const SizedBox(height: 2),
                   Text(
                     subtitle!,
                     style: TradeRepublicTheme.bodySmall(context),
                     maxLines: subtitleMaxLines,
-                    overflow: TextOverflow.ellipsis),
+                    overflow: TextOverflow.ellipsis,
+                  ),
                 ],
-              ])),
-          SizedBox(width: 12),
+              ],
+            ),
+          ),
+          const SizedBox(width: 12),
           TradeRepublicSwitch(
             value: value,
             onChanged: (v) {
               onChanged(v);
             },
-            size: 44),
-        ]));
+            size: 44,
+          ),
+        ],
+      ),
+    );
   }
 }

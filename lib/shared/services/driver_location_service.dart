@@ -46,7 +46,8 @@ Future<void> initDriverLocationService() async {
       description: 'Live location tracking for Delvioo deliveries',
       importance: Importance.low,
       playSound: false,
-      enableVibration: false);
+      enableVibration: false,
+    );
     await plugin
         .resolvePlatformSpecificImplementation<
             AndroidFlutterLocalNotificationsPlugin>()
@@ -65,12 +66,15 @@ Future<void> initDriverLocationService() async {
       initialNotificationTitle: 'Delvioo – Active',
       initialNotificationContent: 'Tracking your location…',
       foregroundServiceNotificationId: _kForegroundNotificationId,
-      foregroundServiceTypes: [AndroidForegroundType.location]),
+      foregroundServiceTypes: [AndroidForegroundType.location],
+    ),
     // ── iOS ──────────────────────────────────────────────────────────────────
     iosConfiguration: IosConfiguration(
       autoStart: false,
       onForeground: _serviceEntryPoint,
-      onBackground: _iosBackgroundHandler));
+      onBackground: _iosBackgroundHandler,
+    ),
+  );
 
   print('[DriverLocationService] Background service configured');
 }
@@ -94,7 +98,8 @@ Future<void> startDriverLocationService() async {
     await _sendDirectPing(); // immediate first ping
     _foregroundTimer = Timer.periodic(
       const Duration(seconds: _kIntervalSeconds),
-      (_) => _sendDirectPing());
+      (_) => _sendDirectPing(),
+    );
     print('[DriverLocationService] Foreground timer started');
   } else {
     print('[DriverLocationService] Foreground timer already running');
@@ -187,7 +192,8 @@ Future<void> _sendPing(ServiceInstance? service) async {
 
     final pos = await Geolocator.getCurrentPosition(
       desiredAccuracy: LocationAccuracy.high,
-      timeLimit: const Duration(seconds: 7));
+      timeLimit: const Duration(seconds: 7),
+    );
 
     // ── Auth token ───────────────────────────────────────────────────────────
     final prefs = await SharedPreferences.getInstance();
@@ -210,7 +216,8 @@ Future<void> _sendPing(ServiceInstance? service) async {
           body: jsonEncode({
             'lat': pos.latitude,
             'lng': pos.longitude,
-          }))
+          }),
+        )
         .timeout(const Duration(seconds: 6));
 
     if (response.statusCode == 200) {
@@ -222,7 +229,8 @@ Future<void> _sendPing(ServiceInstance? service) async {
       if (service is AndroidServiceInstance) {
         service.setForegroundNotificationInfo(
           title: _kDriverActiveTitle,
-          content: '$latStr, $lngStr');
+          content: '$latStr, $lngStr',
+        );
       }
     } else {
       print('[DriverLocationService] Ping failed: ${response.statusCode} ${response.body}');

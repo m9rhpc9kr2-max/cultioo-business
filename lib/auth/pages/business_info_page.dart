@@ -16,8 +16,6 @@ import '../../shared/widgets/trade_republic_bottom_sheet.dart';
 import '../../shared/services/app_localizations.dart';
 import '../../shared/widgets/cultioo_spinner.dart';
 import '../../shared/widgets/trade_republic_tap.dart';
-import 'package:cultioo_business/shared/widgets/desktop_app_wrapper.dart';
-import 'package:cultioo_business/shared/widgets/desktop_optimized_widgets.dart';
 
 class BusinessInfoPage extends StatefulWidget {
   final String email;
@@ -59,19 +57,23 @@ class _BusinessInfoPageState extends State<BusinessInfoPage>
 
     _fadeController = AnimationController(
       duration: const Duration(milliseconds: 800),
-      vsync: this);
+      vsync: this,
+    );
 
     _slideController = AnimationController(
       duration: const Duration(milliseconds: 600),
-      vsync: this);
+      vsync: this,
+    );
 
     _fadeAnimation = Tween<double>(
       begin: 0.0,
-      end: 1.0).animate(CurvedAnimation(parent: _fadeController, curve: Curves.easeOut));
+      end: 1.0,
+    ).animate(CurvedAnimation(parent: _fadeController, curve: Curves.easeOut));
 
     _slideAnimation =
         Tween<Offset>(begin: const Offset(0, 0.3), end: Offset.zero).animate(
-          CurvedAnimation(parent: _slideController, curve: Curves.easeOutBack));
+          CurvedAnimation(parent: _slideController, curve: Curves.easeOutBack),
+        );
 
     // Start animations
     _fadeController.forward();
@@ -99,7 +101,7 @@ class _BusinessInfoPageState extends State<BusinessInfoPage>
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      SizedBox(height: 60),
+                      const SizedBox(height: 60),
 
                       // Step progress indicator
                       Row(
@@ -110,21 +112,28 @@ class _BusinessInfoPageState extends State<BusinessInfoPage>
                             height: 30,
                             decoration: BoxDecoration(
                               color: Colors.green,
-                              borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
+                              borderRadius: BorderRadius.circular(20),
+                            ),
                             child: Center(
-                              child: Icon(
+                              child: const Icon(
                                   Icons.check,
                                   color: Colors.white,
-                                  size: 16))),
+                                  size: 16,
+                                ),
+                            ),
+                          ),
 
                           // Connection line
                           Expanded(
                             child: Container(
                               height: 2,
-                              margin: EdgeInsets.symmetric(horizontal: 8),
+                              margin: const EdgeInsets.symmetric(horizontal: 8),
                               decoration: BoxDecoration(
                                 color: Colors.blue,
-                                borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)))),
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                            ),
+                          ),
 
                           // Step 2 - Active
                           Container(
@@ -132,43 +141,54 @@ class _BusinessInfoPageState extends State<BusinessInfoPage>
                             height: 30,
                             decoration: BoxDecoration(
                               color: Colors.blue,
-                              borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
+                              borderRadius: BorderRadius.circular(20),
+                            ),
                             child: const Center(
                               child: Text(
                                 '2',
                                 style: TextStyle(
                                   color: Colors.white,
                                   fontWeight: FontWeight.w700,
-                                  fontSize: 14)))),
-                        ]),
+                                  fontSize: 14,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
 
-                      SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+                      const SizedBox(height: 24),
 
                       Text(
                         AppLocalizations.of(context)?.businessInformation ?? 'Business Information',
                         style: TextStyle(
                           color: isLight ? Colors.black : Colors.white,
                           fontSize: 28,
-                          fontWeight: FontWeight.w700)),
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
 
-                      SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+                      const SizedBox(height: 8),
                       Text(
                         AppLocalizations.of(context)?.completeBusinessProfile ?? 'Complete your business profile',
                         style: TextStyle(
                           color: (isLight ? Colors.black : Colors.white)
                               .withOpacity(0.5),
-                          fontSize: DesktopOptimizedWidgets.getFontSize())),
+                          fontSize: 16,
+                        ),
+                      ),
 
-                      SizedBox(height: 48),
+                      const SizedBox(height: 48),
 
                       // Business Name
                       _buildTextField(
                         AppLocalizations.of(context)?.businessName ?? 'Business Name',
                         'Enter your business name',
                         _businessNameController,
-                        isLight),
+                        isLight,
+                      ),
 
-                      SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+                      const SizedBox(height: 24),
 
                       // Business Email
                       _buildTextField(
@@ -176,37 +196,40 @@ class _BusinessInfoPageState extends State<BusinessInfoPage>
                         'Enter your business email',
                         _businessEmailController,
                         isLight,
-                        keyboardType: TextInputType.emailAddress),
+                        keyboardType: TextInputType.emailAddress,
+                      ),
 
-                      SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+                      const SizedBox(height: 24),
 
                       // Business Size Selection
                       _buildSelectionField(
                         AppLocalizations.of(context)?.businessSize ?? 'Business Size',
                         _selectedBusinessSize,
                         () => _showBusinessSizeBottomSheet(),
-                        isLight),
+                        isLight,
+                      ),
 
-                      SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+                      const SizedBox(height: 24),
 
                       // Country Selection
                       _buildSelectionField(
                         AppLocalizations.of(context)?.businessCountry ?? 'Business Country',
                         _selectedCountry,
                         () => _showCountryBottomSheet(),
-                        isLight),
+                        isLight,
+                      ),
 
-                      SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+                      const SizedBox(height: 24),
 
                       // Business Phone with Country Code
                       _buildPhoneField(isLight),
 
-                      SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+                      const SizedBox(height: 24),
 
                       // Business Address
                       _buildAddressField(isLight),
 
-                      SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+                      const SizedBox(height: 24),
 
                       // Business Description
                       _buildTextField(
@@ -214,9 +237,10 @@ class _BusinessInfoPageState extends State<BusinessInfoPage>
                         'Brief description of your business',
                         _businessDescriptionController,
                         isLight,
-                        maxLines: 3),
+                        maxLines: 3,
+                      ),
 
-                      SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+                      const SizedBox(height: 24),
 
                       // Business Website
                       _buildTextField(
@@ -224,23 +248,25 @@ class _BusinessInfoPageState extends State<BusinessInfoPage>
                         'https://www.yourcompany.com',
                         _businessWebsiteController,
                         isLight,
-                        keyboardType: TextInputType.url),
+                        keyboardType: TextInputType.url,
+                      ),
 
-                      SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+                      const SizedBox(height: 24),
 
                       // Tax ID Number
                       _buildTextField(
                         'Tax ID Number (EIN)',
                         'Enter your Employer Identification Number',
                         _taxVatNumberController,
-                        isLight),
+                        isLight,
+                      ),
 
-                      SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+                      const SizedBox(height: 24),
 
                       // Business Logo Upload
                       _buildLogoUploadField(isLight),
 
-                      SizedBox(height: 60),
+                      const SizedBox(height: 60),
 
                       // Complete button
                       SizedBox(
@@ -250,16 +276,18 @@ class _BusinessInfoPageState extends State<BusinessInfoPage>
                                 onPressed: _isLoading
                                     ? null
                                     : _completeBusinessUpgrade,
-                                label: AppLocalizations.of(context)?.completeUpgrade ?? 'Complete Upgrade')
+                                label: AppLocalizations.of(context)?.completeUpgrade ?? 'Complete Upgrade',
+                              )
                             : TradeRepublicTap(
                                 onTap: _isLoading
                                     ? null
                                     : _completeBusinessUpgrade,
                                 child: Container(
-                                  padding: EdgeInsets.symmetric(
-                                    vertical: 20),
+                                  padding: const EdgeInsets.symmetric(
+                                    vertical: 20,
+                                  ),
                                   decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
+                                    borderRadius: BorderRadius.circular(20),
                                     gradient: LinearGradient(
                                       colors: _isLoading
                                           ? [
@@ -274,22 +302,36 @@ class _BusinessInfoPageState extends State<BusinessInfoPage>
                                             ]
                                           : [Colors.blue, Colors.blue.shade700],
                                       begin: Alignment.centerLeft,
-                                      end: Alignment.centerRight)),
+                                      end: Alignment.centerRight,
+                                    ),
+                                  ),
                                   child: _isLoading
                                       ? const Center(
                                           child: SizedBox(
                                             width: 24,
                                             height: 24,
-                                            child: CultiooLoadingIndicator(size: 20)))
+                                            child: CultiooLoadingIndicator(size: 20),
+                                          ),
+                                        )
                                       : Text(
                                           AppLocalizations.of(context)?.completeUpgrade ?? 'Complete Upgrade',
                                           textAlign: TextAlign.center,
-                                          style: TextStyle(
+                                          style: const TextStyle(
                                             color: Colors.white,
                                             fontWeight: FontWeight.w600,
-                                            fontSize: DesktopOptimizedWidgets.getFontSize() + 4))))),
-                      SizedBox(height: 40),
-                    ]))))),
+                                            fontSize: 18,
+                                          ),
+                                        ),
+                                ),
+                              ),
+                      ),
+                      const SizedBox(height: 40),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ),
 
           // Back button
           Positioned(
@@ -298,16 +340,24 @@ class _BusinessInfoPageState extends State<BusinessInfoPage>
             child: TradeRepublicTap(
               onTap: () => Navigator.of(context).pop(),
               child: Container(
-                padding: EdgeInsets.all(12),
+                padding: const EdgeInsets.all(12),
                 decoration: BoxDecoration(
                   color: (isLight ? Colors.white : Colors.black).withOpacity(
-                    0.9),
-                  borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
+                    0.9,
+                  ),
+                  borderRadius: BorderRadius.circular(20),
+                ),
                 child: Icon(
                   Icons.arrow_back,
                   color: isLight ? Colors.black : Colors.white,
-                  size: 24)))),
-        ]));
+                  size: 24,
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
   }
 
   Widget _buildTextField(
@@ -325,22 +375,27 @@ class _BusinessInfoPageState extends State<BusinessInfoPage>
           label,
           style: TextStyle(
             color: isLight ? Colors.black : Colors.white,
-            fontSize: DesktopOptimizedWidgets.getFontSize(),
-            fontWeight: FontWeight.w500)),
-        SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+            fontSize: 16,
+            fontWeight: FontWeight.w500,
+          ),
+        ),
+        const SizedBox(height: 12),
         TradeRepublicTextField(
           controller: controller,
           hintText: hint,
           keyboardType: keyboardType,
-          maxLines: maxLines),
-      ]);
+          maxLines: maxLines,
+        ),
+      ],
+    );
   }
 
   Widget _buildSelectionField(
     String label,
     String value,
     VoidCallback onTap,
-    bool isLight) {
+    bool isLight,
+  ) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -348,19 +403,22 @@ class _BusinessInfoPageState extends State<BusinessInfoPage>
           label,
           style: TextStyle(
             color: isLight ? Colors.black : Colors.white,
-            fontSize: DesktopOptimizedWidgets.getFontSize(),
-            fontWeight: FontWeight.w500)),
-        SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+            fontSize: 16,
+            fontWeight: FontWeight.w500,
+          ),
+        ),
+        const SizedBox(height: 12),
         Container(
-          decoration: BoxDecoration(borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
+          decoration: BoxDecoration(borderRadius: BorderRadius.circular(20)),
           child: TradeRepublicTap(
             onTap: onTap,
             child: Container(
               width: double.infinity,
-              padding: EdgeInsets.symmetric(horizontal: 24, vertical: 20),
+              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 20),
               decoration: BoxDecoration(
                 color: isLight ? Colors.white : Colors.black,
-                borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
+                borderRadius: BorderRadius.circular(20),
+              ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -368,13 +426,22 @@ class _BusinessInfoPageState extends State<BusinessInfoPage>
                     value,
                     style: TextStyle(
                       color: isLight ? Colors.black : Colors.white,
-                      fontSize: DesktopOptimizedWidgets.getFontSize())),
+                      fontSize: 16,
+                    ),
+                  ),
                   Icon(
                     Icons.keyboard_arrow_down,
                     color: (isLight ? Colors.black : Colors.white).withOpacity(
-                      0.5)),
-                ])))),
-      ]);
+                      0.5,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
   }
 
   Widget _buildPhoneField(bool isLight) {
@@ -385,26 +452,32 @@ class _BusinessInfoPageState extends State<BusinessInfoPage>
           AppLocalizations.of(context)?.businessPhone ?? 'Business Phone',
           style: TextStyle(
             color: isLight ? Colors.black : Colors.white,
-            fontSize: DesktopOptimizedWidgets.getFontSize(),
-            fontWeight: FontWeight.w500)),
-        SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+            fontSize: 16,
+            fontWeight: FontWeight.w500,
+          ),
+        ),
+        const SizedBox(height: 12),
         Container(
-          decoration: BoxDecoration(borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
+          decoration: BoxDecoration(borderRadius: BorderRadius.circular(20)),
           child: Row(
             children: [
               // Country Code Selector
               TradeRepublicTap(
                 onTap: () => _showPhoneCodeBottomSheet(),
                 child: Container(
-                  padding: EdgeInsets.symmetric(
+                  padding: const EdgeInsets.symmetric(
                     horizontal: 20,
-                    vertical: 20),
+                    vertical: 20,
+                  ),
                   decoration: BoxDecoration(
                     color: (isLight ? Colors.black : Colors.white).withOpacity(
-                      isLight ? 0.05 : 0.7),
-                    borderRadius: BorderRadius.only(
+                      isLight ? 0.05 : 0.7,
+                    ),
+                    borderRadius: const BorderRadius.only(
                       topLeft: Radius.circular(20),
-                      bottomLeft: Radius.circular(20))),
+                      bottomLeft: Radius.circular(20),
+                    ),
+                  ),
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
@@ -412,23 +485,34 @@ class _BusinessInfoPageState extends State<BusinessInfoPage>
                         _selectedPhoneCode,
                         style: TextStyle(
                           color: isLight ? Colors.black : Colors.white,
-                          fontSize: DesktopOptimizedWidgets.getFontSize(),
-                          fontWeight: FontWeight.w500)),
-                      SizedBox(width: 8),
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                      const SizedBox(width: 8),
                       Icon(
                         Icons.keyboard_arrow_down,
                         color: (isLight ? Colors.black : Colors.white)
                             .withOpacity(0.5),
-                        size: 20),
-                    ]))),
+                        size: 20,
+                      ),
+                    ],
+                  ),
+                ),
+              ),
               // Phone Number Input
               Expanded(
                 child: TradeRepublicTextField(
                   controller: _businessPhoneController,
                   keyboardType: TextInputType.phone,
-                  hintText: AppLocalizations.of(context)?.enterPhoneNumber ?? 'Enter phone number')),
-            ])),
-      ]);
+                  hintText: AppLocalizations.of(context)?.enterPhoneNumber ?? 'Enter phone number',
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
   }
 
   Widget _buildAddressField(bool isLight) {
@@ -439,12 +523,14 @@ class _BusinessInfoPageState extends State<BusinessInfoPage>
           AppLocalizations.of(context)?.businessAddress ?? 'Business Address',
           style: TextStyle(
             color: isLight ? Colors.black : Colors.white,
-            fontSize: DesktopOptimizedWidgets.getFontSize(),
-            fontWeight: FontWeight.w500)),
-        SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+            fontSize: 16,
+            fontWeight: FontWeight.w500,
+          ),
+        ),
+        const SizedBox(height: 12),
         Container(
-          padding: DesktopAppWrapper.getPagePadding(),
-          decoration: BoxDecoration(borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
+          padding: const EdgeInsets.all(16),
+          decoration: BoxDecoration(borderRadius: BorderRadius.circular(20)),
           child: Column(
             children: [
               TradeRepublicTextField(
@@ -459,17 +545,20 @@ class _BusinessInfoPageState extends State<BusinessInfoPage>
 
                   // Use Nominatim for real address suggestions
                   await _searchAddresses(value);
-                }),
+                },
+              ),
               // Address suggestions list
               if (_showAddressSuggestions &&
                   _filteredAddressSuggestions.isNotEmpty)
                 Container(
-                  margin: EdgeInsets.only(top: 8),
+                  margin: const EdgeInsets.only(top: 8),
                   constraints: const BoxConstraints(
-                    maxHeight: 200), // Limit height
+                    maxHeight: 200,
+                  ), // Limit height
                   decoration: BoxDecoration(
                     color: isLight ? Colors.white : Colors.black,
-                    borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
+                    borderRadius: BorderRadius.circular(20),
+                  ),
                   child: ListView.builder(
                     shrinkWrap: true,
                     padding: EdgeInsets.zero,
@@ -486,19 +575,21 @@ class _BusinessInfoPageState extends State<BusinessInfoPage>
                                 true; // Mark as valid when selected from list
                           });
                         },
-                        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
+                        borderRadius: BorderRadius.circular(20),
                         child: Container(
                           width: double.infinity,
-                          padding: EdgeInsets.symmetric(
+                          padding: const EdgeInsets.symmetric(
                             horizontal: 20,
-                            vertical: 16),
+                            vertical: 16,
+                          ),
                           child: Row(
                             children: [
                               Icon(
                                 Icons.location_on,
                                 color: Colors.blue,
-                                size: 18),
-                              SizedBox(width: 12),
+                                size: 18,
+                              ),
+                              const SizedBox(width: 12),
                               Expanded(
                                 child: Text(
                                   address,
@@ -506,17 +597,30 @@ class _BusinessInfoPageState extends State<BusinessInfoPage>
                                     color: isLight
                                         ? Colors.black
                                         : Colors.white,
-                                    fontSize: DesktopOptimizedWidgets.getFontSize()))),
-                            ])));
-                    })),
-            ])),
+                                    fontSize: 14,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                ),
+            ],
+          ),
+        ),
         if (!_isAddressValid)
           Padding(
-            padding: EdgeInsets.only(top: 8, left: 16),
+            padding: const EdgeInsets.only(top: 8, left: 16),
             child: Text(
               AppLocalizations.of(context)?.enterBusinessAddress ?? 'Please enter a valid business address',
-              style: TextStyle(color: Colors.red, fontSize: 12))),
-      ]);
+              style: TextStyle(color: Colors.red, fontSize: 12),
+            ),
+          ),
+      ],
+    );
   }
 
   Future<void> _searchAddresses(String query) async {
@@ -579,7 +683,8 @@ class _BusinessInfoPageState extends State<BusinessInfoPage>
     ];
 
     bool isAddressFromSuggestions = addressSuggestions.contains(
-      _businessAddressController.text);
+      _businessAddressController.text,
+    );
 
     if (_businessNameController.text.isEmpty ||
         _businessEmailController.text.isEmpty ||
@@ -611,7 +716,8 @@ class _BusinessInfoPageState extends State<BusinessInfoPage>
       final urlRegex = RegExp(r'^https?:\/\/.+\..+');
       if (!urlRegex.hasMatch(_businessWebsiteController.text)) {
         _showError(
-          'Please enter a valid website URL (starting with http:// or https://)');
+          'Please enter a valid website URL (starting with http:// or https://)',
+        );
         return;
       }
     }
@@ -624,7 +730,8 @@ class _BusinessInfoPageState extends State<BusinessInfoPage>
       // Get the auth token from AppSettings
       final AppSettings appSettings = Provider.of<AppSettings>(
         context,
-        listen: false);
+        listen: false,
+      );
       final String? token = appSettings.authToken;
 
       if (token == null) {
@@ -653,7 +760,8 @@ class _BusinessInfoPageState extends State<BusinessInfoPage>
         businessWebsite: _businessWebsiteController.text.isNotEmpty
             ? _businessWebsiteController.text
             : null,
-        businessLogoPath: _businessLogoPath);
+        businessLogoPath: _businessLogoPath,
+      );
 
       setState(() {
         _isLoading = false;
@@ -672,7 +780,8 @@ class _BusinessInfoPageState extends State<BusinessInfoPage>
         // Navigate to main app after a short delay
         Future.delayed(const Duration(seconds: 1), () {
           Navigator.of(
-            context).pushNamedAndRemoveUntil('/main', (route) => false);
+            context,
+          ).pushNamedAndRemoveUntil('/main', (route) => false);
         });
       } else {
         print('❌ Failed to save business information: ${result['message']}');
@@ -680,7 +789,8 @@ class _BusinessInfoPageState extends State<BusinessInfoPage>
         // Check if user already upgraded
         if (result['alreadyUpgraded'] == true) {
           _showError(
-            'Your business account has already been upgraded. Redirecting to main app...');
+            'Your business account has already been upgraded. Redirecting to main app...',
+          );
 
           // Set user as logged in and redirect
           appSettings.setIsLoggedIn(true);
@@ -688,12 +798,14 @@ class _BusinessInfoPageState extends State<BusinessInfoPage>
 
           Future.delayed(const Duration(seconds: 2), () {
             Navigator.of(
-              context).pushNamedAndRemoveUntil('/main', (route) => false);
+              context,
+            ).pushNamedAndRemoveUntil('/main', (route) => false);
           });
         } else {
           _showError(
             result['message'] ??
-                (AppLocalizations.of(context)?.failedToCompleteBusinessUpgrade ?? 'Failed to complete business upgrade. Please try again.'));
+                (AppLocalizations.of(context)?.failedToCompleteBusinessUpgrade ?? 'Failed to complete business upgrade. Please try again.'),
+          );
         }
       }
     } catch (e) {
@@ -721,11 +833,13 @@ class _BusinessInfoPageState extends State<BusinessInfoPage>
           AppLocalizations.of(context)?.businessLogoOptional ?? 'Business Logo (Optional)',
           style: TextStyle(
             color: isLight ? Colors.black : Colors.white,
-            fontSize: DesktopOptimizedWidgets.getFontSize(),
-            fontWeight: FontWeight.w500)),
-        SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+            fontSize: 16,
+            fontWeight: FontWeight.w500,
+          ),
+        ),
+        const SizedBox(height: 12),
         Container(
-          decoration: BoxDecoration(borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
+          decoration: BoxDecoration(borderRadius: BorderRadius.circular(20)),
           child: TradeRepublicTap(
             onTap: _pickBusinessLogo,
             child: Container(
@@ -733,20 +847,22 @@ class _BusinessInfoPageState extends State<BusinessInfoPage>
               height: 120,
               decoration: BoxDecoration(
                 color: isLight ? Colors.white : Colors.black,
-                borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
+                borderRadius: BorderRadius.circular(20),
+              ),
               child: _businessLogoPath != null
                   ? Stack(
                       children: [
                         Container(
                           width: double.infinity,
                           height: 120,
-                          padding: DesktopAppWrapper.getPagePadding(),
+                          padding: const EdgeInsets.all(16),
                           decoration: BoxDecoration(
                             color: (isLight ? Colors.black : Colors.white)
                                 .withOpacity(0.1),
-                            borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
+                            borderRadius: BorderRadius.circular(20),
+                          ),
                           child: ClipRRect(
-                            borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
+                            borderRadius: BorderRadius.circular(20),
                             child: Image.file(
                               File(_businessLogoPath!),
                               width: double.infinity,
@@ -758,23 +874,32 @@ class _BusinessInfoPageState extends State<BusinessInfoPage>
                                   height: 120,
                                   decoration: BoxDecoration(
                                     color: Colors.blue.withOpacity(0.1),
-                                    borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
+                                    borderRadius: BorderRadius.circular(20),
+                                  ),
                                   child: Column(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       Icon(
                                         Icons.business,
                                         color: Colors.blue,
-                                        size: 32),
-                                      SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+                                        size: 32,
+                                      ),
+                                      const SizedBox(height: 8),
                                       Text(
                                         AppLocalizations.of(context)?.logoSelected ?? 'Logo Selected',
                                         style: TextStyle(
                                           color: Colors.blue,
-                                          fontSize: DesktopOptimizedWidgets.getFontSize(),
-                                          fontWeight: FontWeight.w500)),
-                                    ]));
-                              }))),
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w500,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                );
+                              },
+                            ),
+                          ),
+                        ),
                         Positioned(
                           top: 8,
                           right: 8,
@@ -785,15 +910,21 @@ class _BusinessInfoPageState extends State<BusinessInfoPage>
                               });
                             },
                             child: Container(
-                              padding: EdgeInsets.all(4),
+                              padding: const EdgeInsets.all(4),
                               decoration: BoxDecoration(
                                 color: Colors.red,
-                                borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
-                              child: Icon(
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                              child: const Icon(
                                 Icons.close_rounded,
                                 color: Colors.white,
-                                size: 16)))),
-                      ])
+                                size: 16,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    )
                   : Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -801,28 +932,39 @@ class _BusinessInfoPageState extends State<BusinessInfoPage>
                           Icons.add_photo_alternate_outlined,
                           color: (isLight ? Colors.black : Colors.white)
                               .withOpacity(0.5),
-                          size: 32),
-                        SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+                          size: 32,
+                        ),
+                        const SizedBox(height: 8),
                         Text(
                           AppLocalizations.of(context)?.uploadBusinessLogo ?? 'Upload Business Logo',
                           style: TextStyle(
                             color: (isLight ? Colors.black : Colors.white)
                                 .withOpacity(0.5),
-                            fontSize: DesktopOptimizedWidgets.getFontSize())),
-                        SizedBox(height: 4),
+                            fontSize: 14,
+                          ),
+                        ),
+                        const SizedBox(height: 4),
                         Text(
                           AppLocalizations.of(context)?.pngJpgUpTo5mb ?? 'PNG, JPG up to 5MB',
                           style: TextStyle(
                             color: isLight ? Colors.black38 : Colors.white38,
-                            fontSize: 12)),
-                      ])))),
-      ]);
+                            fontSize: 12,
+                          ),
+                        ),
+                      ],
+                    ),
+            ),
+          ),
+        ),
+      ],
+    );
   }
 
   void _pickBusinessLogo() async {
     final AppSettings appSettings = Provider.of<AppSettings>(
       context,
-      listen: false);
+      listen: false,
+    );
     final isLight = appSettings.isLightMode(context);
 
     TradeRepublicBottomSheet.show(
@@ -835,13 +977,15 @@ class _BusinessInfoPageState extends State<BusinessInfoPage>
             Row(
               children: [
                 Icon(CupertinoIcons.photo, size: 22, color: isLight ? Colors.black : Colors.white),
-                SizedBox(width: 12),
+                const SizedBox(width: 12),
                 Flexible(child: Text(
                   AppLocalizations.of(context)?.chooseImageSource ?? 'Choose Image Source',
                   style: TextStyle(fontSize: 22, fontWeight: FontWeight.w700,
-                    color: isLight ? Colors.black : Colors.white, letterSpacing: -0.4))),
-              ]),
-            SizedBox(height: 4),
+                    color: isLight ? Colors.black : Colors.white, letterSpacing: -0.4),
+                )),
+              ],
+            ),
+            const SizedBox(height: 4),
 
             Row(
               children: [
@@ -852,26 +996,34 @@ class _BusinessInfoPageState extends State<BusinessInfoPage>
                       await _pickImageFromGallery();
                     },
                     child: Container(
-                      padding: DesktopAppWrapper.getPagePadding(),
+                      padding: const EdgeInsets.all(20),
                       decoration: BoxDecoration(
                         color: (isLight ? Colors.black : Colors.white)
                             .withOpacity(isLight ? 0.05 : 0.7),
-                        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
+                        borderRadius: BorderRadius.circular(20),
+                      ),
                       child: Column(
                         children: [
                           Icon(
                             Icons.photo_library,
                             color: Colors.blue,
-                            size: 32),
-                          SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+                            size: 32,
+                          ),
+                          const SizedBox(height: 8),
                           Text(
                             AppLocalizations.of(context)?.gallery ?? 'Gallery',
                             style: TextStyle(
                               color: isLight ? Colors.black : Colors.white,
-                              fontSize: DesktopOptimizedWidgets.getFontSize(),
-                              fontWeight: FontWeight.w500)),
-                        ])))),
-                SizedBox(width: 16),
+                              fontSize: 16,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(width: 16),
                 Expanded(
                   child: TradeRepublicTap(
                     onTap: () async {
@@ -879,34 +1031,46 @@ class _BusinessInfoPageState extends State<BusinessInfoPage>
                       await _pickImageFromCamera();
                     },
                     child: Container(
-                      padding: DesktopAppWrapper.getPagePadding(),
+                      padding: const EdgeInsets.all(20),
                       decoration: BoxDecoration(
                         color: (isLight ? Colors.black : Colors.white)
                             .withOpacity(isLight ? 0.05 : 0.7),
-                        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
+                        borderRadius: BorderRadius.circular(20),
+                      ),
                       child: Column(
                         children: [
-                          Icon(
+                          const Icon(
                                   Icons.camera_alt,
                                   color: Colors.blue,
-                                  size: 32),
-                          SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+                                  size: 32,
+                                ),
+                          const SizedBox(height: 8),
                           Text(
                             AppLocalizations.of(context)?.camera ?? 'Camera',
                             style: TextStyle(
                               color: isLight ? Colors.black : Colors.white,
-                              fontSize: DesktopOptimizedWidgets.getFontSize(),
-                              fontWeight: FontWeight.w500)),
-                        ])))),
-              ]),
-            SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
-          ]));
+                              fontSize: 16,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 16),
+          ],
+        ),
+    );
   }
 
   void _showBusinessSizeBottomSheet() {
     final AppSettings appSettings = Provider.of<AppSettings>(
       context,
-      listen: false);
+      listen: false,
+    );
     final isLight = appSettings.isLightMode(context);
 
     final businessSizes = [
@@ -928,26 +1092,32 @@ class _BusinessInfoPageState extends State<BusinessInfoPage>
               Row(
                 children: [
                   Icon(CupertinoIcons.person_2, size: 22, color: isLight ? Colors.black : Colors.white),
-                  SizedBox(width: 12),
+                  const SizedBox(width: 12),
                   Flexible(child: Text(
                     AppLocalizations.of(context)?.businessSize ?? 'Business Size',
                     style: TextStyle(fontSize: 22, fontWeight: FontWeight.w700,
-                      color: isLight ? Colors.black : Colors.white, letterSpacing: -0.4))),
-                ]),
-              SizedBox(height: 4),
+                      color: isLight ? Colors.black : Colors.white, letterSpacing: -0.4),
+                  )),
+                ],
+              ),
+              const SizedBox(height: 4),
               ...businessSizes.map(
                 (size) => TradeRepublicListTile(
                   title: size,
                   trailing: _selectedBusinessSize == size
-                      ? Icon(Icons.check, color: Colors.blue, size: 20)
+                      ? const Icon(Icons.check, color: Colors.blue, size: 20)
                       : null,
                   onTap: () {
                     setState(() {
                       _selectedBusinessSize = size;
                     });
                     Navigator.pop(context);
-                  })),
-            ]));
+                  },
+                ),
+              ),
+            ],
+          ),
+      );
     } else {
       _showSelectionBottomSheet(
         title: AppLocalizations.of(context)?.businessSize ?? 'Business Size',
@@ -959,14 +1129,16 @@ class _BusinessInfoPageState extends State<BusinessInfoPage>
           });
         },
         isLight: isLight,
-        isScrollable: false);
+        isScrollable: false,
+      );
     }
   }
 
   void _showCountryBottomSheet() {
     final AppSettings appSettings = Provider.of<AppSettings>(
       context,
-      listen: false);
+      listen: false,
+    );
     final isLight = appSettings.isLightMode(context);
 
     final countries = [
@@ -1018,30 +1190,37 @@ class _BusinessInfoPageState extends State<BusinessInfoPage>
               Row(
                 children: [
                   Icon(CupertinoIcons.globe, size: 22, color: isLight ? Colors.black : Colors.white),
-                  SizedBox(width: 12),
+                  const SizedBox(width: 12),
                   Flexible(child: Text(
                     AppLocalizations.of(context)?.businessCountry ?? 'Business Country',
                     style: TextStyle(fontSize: 22, fontWeight: FontWeight.w700,
-                      color: isLight ? Colors.black : Colors.white, letterSpacing: -0.4))),
-                ]),
-              SizedBox(height: 20),
+                      color: isLight ? Colors.black : Colors.white, letterSpacing: -0.4),
+                  )),
+                ],
+              ),
+              const SizedBox(height: 20),
               ...countries.map(
                 (country) => TradeRepublicListTile(
                   leading: Icon(
                       country == 'United States' ? Icons.flag : Icons.flag_outlined,
                       size: 20,
-                      color: country == 'United States' ? Colors.red : Colors.black),
+                      color: country == 'United States' ? Colors.red : Colors.black,
+                    ),
                   title: country,
                   trailing: _selectedCountry == country
-                      ? Icon(Icons.check, color: Colors.blue, size: 20)
+                      ? const Icon(Icons.check, color: Colors.blue, size: 20)
                       : null,
                   onTap: () {
                     setState(() {
                       _selectedCountry = country;
                     });
                     Navigator.pop(context);
-                  })),
-            ]));
+                  },
+                ),
+              ),
+            ],
+          ),
+      );
     } else {
       _showSelectionBottomSheet(
         title: AppLocalizations.of(context)?.businessCountry ?? 'Business Country',
@@ -1053,14 +1232,16 @@ class _BusinessInfoPageState extends State<BusinessInfoPage>
           });
         },
         isLight: isLight,
-        isScrollable: true);
+        isScrollable: true,
+      );
     }
   }
 
   void _showPhoneCodeBottomSheet() {
     final AppSettings appSettings = Provider.of<AppSettings>(
       context,
-      listen: false);
+      listen: false,
+    );
     final isLight = appSettings.isLightMode(context);
 
     final phoneCodes = [
@@ -1116,13 +1297,15 @@ class _BusinessInfoPageState extends State<BusinessInfoPage>
               Row(
                 children: [
                   Icon(CupertinoIcons.phone, size: 22, color: isLight ? Colors.black : Colors.white),
-                  SizedBox(width: 12),
+                  const SizedBox(width: 12),
                   Flexible(child: Text(
                     AppLocalizations.of(context)?.selectCountryCode ?? 'Select Country Code',
                     style: TextStyle(fontSize: 22, fontWeight: FontWeight.w700,
-                      color: isLight ? Colors.black : Colors.white, letterSpacing: -0.4))),
-                ]),
-              SizedBox(height: 4),
+                      color: isLight ? Colors.black : Colors.white, letterSpacing: -0.4),
+                  )),
+                ],
+              ),
+              const SizedBox(height: 4),
 
               Expanded(
                 child: ListView.builder(
@@ -1141,14 +1324,15 @@ class _BusinessInfoPageState extends State<BusinessInfoPage>
                         Navigator.pop(context);
                       },
                       child: Container(
-                        margin: EdgeInsets.only(bottom: 12),
-                        padding: DesktopAppWrapper.getPagePadding(),
+                        margin: const EdgeInsets.only(bottom: 12),
+                        padding: const EdgeInsets.all(16),
                         decoration: BoxDecoration(
                           color: isSelected
                               ? Colors.blue.withOpacity(0.15)
                               : (isLight ? Colors.black : Colors.white)
                                     .withOpacity(isLight ? 0.05 : 0.7),
-                          borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
+                          borderRadius: BorderRadius.circular(20),
+                        ),
                         child: Row(
                           children: [
                             Text(
@@ -1157,19 +1341,30 @@ class _BusinessInfoPageState extends State<BusinessInfoPage>
                                 color: isSelected
                                     ? Colors.blue
                                     : (isLight ? Colors.black : Colors.white),
-                                fontSize: DesktopOptimizedWidgets.getFontSize(),
+                                fontSize: 16,
                                 fontWeight: isSelected
                                     ? FontWeight.w600
-                                    : FontWeight.normal)),
+                                    : FontWeight.normal,
+                              ),
+                            ),
                             const Spacer(),
                             if (isSelected)
-                              Icon(
+                              const Icon(
                                 Icons.check_circle,
                                 color: Colors.blue,
-                                size: 20),
-                          ])));
-                  })),
-            ])));
+                                size: 20,
+                              ),
+                          ],
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              ),
+            ],
+          ),
+      ),
+    );
   }
 
   void _showSelectionBottomSheet({
@@ -1195,13 +1390,15 @@ class _BusinessInfoPageState extends State<BusinessInfoPage>
                 Row(
                   children: [
                     Icon(CupertinoIcons.list_bullet, size: 22, color: isLight ? Colors.black : Colors.white),
-                    SizedBox(width: 12),
+                    const SizedBox(width: 12),
                     Flexible(child: Text(
                       title,
                       style: TextStyle(fontSize: 22, fontWeight: FontWeight.w700,
-                        color: isLight ? Colors.black : Colors.white, letterSpacing: -0.4))),
-                  ]),
-                SizedBox(height: 4),
+                        color: isLight ? Colors.black : Colors.white, letterSpacing: -0.4),
+                    )),
+                  ],
+                ),
+                const SizedBox(height: 4),
 
                 Expanded(
                   child: ListView.builder(
@@ -1217,14 +1414,15 @@ class _BusinessInfoPageState extends State<BusinessInfoPage>
                           Navigator.pop(context);
                         },
                         child: Container(
-                          margin: EdgeInsets.only(bottom: 12),
-                          padding: DesktopAppWrapper.getPagePadding(),
+                          margin: const EdgeInsets.only(bottom: 12),
+                          padding: const EdgeInsets.all(16),
                           decoration: BoxDecoration(
                             color: isSelected
                                 ? Colors.blue.withOpacity(0.15)
                                 : (isLight ? Colors.black : Colors.white)
                                       .withOpacity(isLight ? 0.05 : 0.7),
-                            borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
+                            borderRadius: BorderRadius.circular(20),
+                          ),
                           child: Row(
                             children: [
                               Text(
@@ -1233,19 +1431,30 @@ class _BusinessInfoPageState extends State<BusinessInfoPage>
                                   color: isSelected
                                       ? Colors.blue
                                       : (isLight ? Colors.black : Colors.white),
-                                  fontSize: DesktopOptimizedWidgets.getFontSize(),
+                                  fontSize: 16,
                                   fontWeight: isSelected
                                       ? FontWeight.w600
-                                      : FontWeight.normal)),
+                                      : FontWeight.normal,
+                                ),
+                              ),
                               const Spacer(),
                               if (isSelected)
-                                Icon(
+                                const Icon(
                                   Icons.check_circle,
                                   color: Colors.blue,
-                                  size: 20),
-                            ])));
-                    })),
-              ])));
+                                  size: 20,
+                                ),
+                            ],
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                ),
+              ],
+            ),
+        ),
+      );
     } else {
       // Use regular BottomSheet for shorter lists
       TradeRepublicBottomSheet.show(
@@ -1258,13 +1467,15 @@ class _BusinessInfoPageState extends State<BusinessInfoPage>
               Row(
                 children: [
                   Icon(CupertinoIcons.list_bullet, size: 22, color: isLight ? Colors.black : Colors.white),
-                  SizedBox(width: 12),
+                  const SizedBox(width: 12),
                   Flexible(child: Text(
                     title,
                     style: TextStyle(fontSize: 22, fontWeight: FontWeight.w700,
-                      color: isLight ? Colors.black : Colors.white, letterSpacing: -0.4))),
-                ]),
-              SizedBox(height: 4),
+                      color: isLight ? Colors.black : Colors.white, letterSpacing: -0.4),
+                  )),
+                ],
+              ),
+              const SizedBox(height: 4),
 
               Column(
                 children: options.map((option) {
@@ -1277,14 +1488,15 @@ class _BusinessInfoPageState extends State<BusinessInfoPage>
                     },
                     child: Container(
                       width: double.infinity,
-                      margin: EdgeInsets.only(bottom: 12),
-                      padding: DesktopAppWrapper.getPagePadding(),
+                      margin: const EdgeInsets.only(bottom: 12),
+                      padding: const EdgeInsets.all(16),
                       decoration: BoxDecoration(
                         color: isSelected
                             ? Colors.blue.withOpacity(0.15)
                             : (isLight ? Colors.black : Colors.white)
                                   .withOpacity(isLight ? 0.05 : 0.7),
-                        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
+                        borderRadius: BorderRadius.circular(20),
+                      ),
                       child: Row(
                         children: [
                           Text(
@@ -1293,20 +1505,29 @@ class _BusinessInfoPageState extends State<BusinessInfoPage>
                               color: isSelected
                                   ? Colors.blue
                                   : (isLight ? Colors.black : Colors.white),
-                              fontSize: DesktopOptimizedWidgets.getFontSize(),
+                              fontSize: 16,
                               fontWeight: isSelected
                                   ? FontWeight.w600
-                                  : FontWeight.normal)),
+                                  : FontWeight.normal,
+                            ),
+                          ),
                           const Spacer(),
                           if (isSelected)
-                            Icon(
+                            const Icon(
                               Icons.check_circle,
                               color: Colors.blue,
-                              size: 20),
-                        ])));
-                }).toList()),
-              SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
-            ]));
+                              size: 20,
+                            ),
+                        ],
+                      ),
+                    ),
+                  );
+                }).toList(),
+              ),
+              const SizedBox(height: 16),
+            ],
+          ),
+      );
     }
   }
 
@@ -1332,7 +1553,8 @@ class _BusinessInfoPageState extends State<BusinessInfoPage>
         source: ImageSource.gallery,
         maxWidth: 1024,
         maxHeight: 1024,
-        imageQuality: 85);
+        imageQuality: 85,
+      );
 
       if (image != null) {
         setState(() {
@@ -1358,7 +1580,8 @@ class _BusinessInfoPageState extends State<BusinessInfoPage>
         source: ImageSource.camera,
         maxWidth: 1024,
         maxHeight: 1024,
-        imageQuality: 85);
+        imageQuality: 85,
+      );
 
       if (image != null) {
         setState(() {

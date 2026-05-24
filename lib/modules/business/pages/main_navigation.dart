@@ -73,18 +73,23 @@ class _MainNavigationPageState extends State<MainNavigationPage>
     // Initialize logo animation
     _logoAnimationController = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 800));
+      duration: const Duration(milliseconds: 800),
+    );
     _logoScaleAnimation = Tween<double>(begin: 0.8, end: 1.0).animate(
       CurvedAnimation(
         parent: _logoAnimationController!,
-        curve: Curves.easeOutBack));
+        curve: Curves.easeOutBack,
+      ),
+    );
     _logoFadeAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
-      CurvedAnimation(parent: _logoAnimationController!, curve: Curves.easeOut));
+      CurvedAnimation(parent: _logoAnimationController!, curve: Curves.easeOut),
+    );
 
     // Initialize sidebar items stagger animation
     _sidebarItemsController = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 600));
+      duration: const Duration(milliseconds: 600),
+    );
 
     // Start animations after build
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -93,7 +98,8 @@ class _MainNavigationPageState extends State<MainNavigationPage>
     });
 
     print(
-      '🚀 MainNavigation initState - Platform.isMacOS: ${Platform.isMacOS}');
+      '🚀 MainNavigation initState - Platform.isMacOS: ${Platform.isMacOS}',
+    );
 
     // Load user profile data for desktop sidebar
     if (Platform.isMacOS || Platform.isWindows || Platform.isLinux) {
@@ -244,12 +250,12 @@ class _MainNavigationPageState extends State<MainNavigationPage>
       child: SafeArea(
         child: SingleChildScrollView(
           child: Padding(
-            padding: EdgeInsets.only(top: 4, bottom: 12),
+            padding: const EdgeInsets.only(top: 4, bottom: 12),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
                 TradeRepublicListTile(
-                  leading: Icon(CupertinoIcons.arrow_right_circle_fill),
+                  leading: const Icon(CupertinoIcons.arrow_right_circle_fill),
                   title: AppLocalizations.of(context)!.tr('Open Tab') ?? AppLocalizations.of(context)!.tr('Open Tab'),
                   onTap: () {
                     Navigator.pop(context);
@@ -258,9 +264,10 @@ class _MainNavigationPageState extends State<MainNavigationPage>
                       _currentIndex = page;
                     });
                     _pageController?.jumpToPage(page);
-                  }),
+                  },
+                ),
                 TradeRepublicListTile(
-                  leading: Icon(CupertinoIcons.rectangle_split_3x1),
+                  leading: const Icon(CupertinoIcons.rectangle_split_3x1),
                   title: AppLocalizations.of(context)!.tr('Split Left') ?? AppLocalizations.of(context)!.tr('Split Left'),
                   onTap: () {
                     Navigator.pop(context);
@@ -272,9 +279,10 @@ class _MainNavigationPageState extends State<MainNavigationPage>
                       _desktopSplitRightTab = partner;
                       _desktopSplitRatio = 0.5;
                     });
-                  }),
+                  },
+                ),
                 TradeRepublicListTile(
-                  leading: Icon(CupertinoIcons.rectangle_split_3x1_fill),
+                  leading: const Icon(CupertinoIcons.rectangle_split_3x1_fill),
                   title: AppLocalizations.of(context)!.tr('Split Right') ?? AppLocalizations.of(context)!.tr('Split Right'),
                   onTap: () {
                     Navigator.pop(context);
@@ -286,24 +294,32 @@ class _MainNavigationPageState extends State<MainNavigationPage>
                       _desktopSplitRightTab = tabIndex;
                       _desktopSplitRatio = 0.5;
                     });
-                  }),
+                  },
+                ),
                 if (_isDesktopSplitView)
                   TradeRepublicListTile(
-                    leading: Icon(CupertinoIcons.rectangle),
+                    leading: const Icon(CupertinoIcons.rectangle),
                     title: AppLocalizations.of(context)!.tr('Exit Split Screen') ?? AppLocalizations.of(context)!.tr('Exit Split Screen'),
                     onTap: () {
                       Navigator.pop(context);
                       setState(() => _isDesktopSplitView = false);
-                    }),
+                    },
+                  ),
                 if (_desktopTabPages.length > 1)
                   TradeRepublicListTile.destructive(
-                    leading: Icon(CupertinoIcons.xmark_circle_fill),
+                    leading: const Icon(CupertinoIcons.xmark_circle_fill),
                     title: AppLocalizations.of(context)!.tr('Close Tab') ?? AppLocalizations.of(context)!.tr('Close Tab'),
                     onTap: () {
                       Navigator.pop(context);
                       _closeDesktopTab(tabIndex);
-                    }),
-              ])))));
+                    },
+                  ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
   }
 
   Widget _buildDesktopTabChip({
@@ -336,41 +352,49 @@ class _MainNavigationPageState extends State<MainNavigationPage>
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 180),
         curve: Curves.easeOut,
-        padding: EdgeInsets.symmetric(horizontal: 12, vertical: 7),
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 7),
         decoration: BoxDecoration(
           color: highlightDrop
               ? (isLight ? Colors.black : Colors.white).withOpacity(0.18)
               : isSelected
                   ? (isLight ? Colors.black : Colors.white)
                   : (isLight ? Colors.black : Colors.white).withOpacity(0.05),
-          borderRadius: BorderRadius.circular(12)),
+          borderRadius: BorderRadius.circular(12),
+        ),
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
             Icon(
               isInSplit ? CupertinoIcons.rectangle_split_3x1_fill : tabIcon,
               size: 14,
-              color: fg),
-            SizedBox(width: 8),
+              color: fg,
+            ),
+            const SizedBox(width: 8),
             Text(
               tabLabel,
               style: TextStyle(
                 color: fg,
                 fontSize: 13,
-                fontWeight: isSelected ? FontWeight.w700 : FontWeight.w500)),
+                fontWeight: isSelected ? FontWeight.w700 : FontWeight.w500,
+              ),
+            ),
             if (_desktopTabPages.length > 1) ...[
-              SizedBox(width: 8),
+              const SizedBox(width: 8),
               TradeRepublicTap(
                 onTap: () => _closeDesktopTab(tabIndex),
-                child: Icon(CupertinoIcons.xmark, size: 12, color: fg)),
+                child: Icon(CupertinoIcons.xmark, size: 12, color: fg),
+              ),
             ],
-          ])));
+          ],
+        ),
+      ),
+    );
   }
 
   Widget _buildDesktopTopTabBar(bool isLight) {
     return Container(
-      padding: EdgeInsets.fromLTRB(16, 10, 12, 10),
-      decoration: BoxDecoration(),
+      padding: const EdgeInsets.fromLTRB(16, 10, 12, 10),
+      decoration: const BoxDecoration(),
       child: Row(
         children: [
           Expanded(
@@ -383,7 +407,7 @@ class _MainNavigationPageState extends State<MainNavigationPage>
                       (i == _desktopSplitLeftTab || i == _desktopSplitRightTab);
 
                   return Padding(
-                    padding: EdgeInsets.only(right: 10),
+                    padding: const EdgeInsets.only(right: 10),
                     child: DragTarget<int>(
                       onWillAcceptWithDetails: (details) => details.data != i,
                       onAcceptWithDetails: (details) => _startDesktopSplit(details.data, i),
@@ -397,7 +421,9 @@ class _MainNavigationPageState extends State<MainNavigationPage>
                               isLight: isLight,
                               isSelected: true,
                               isInSplit: isInSplit,
-                              highlightDrop: false)),
+                              highlightDrop: false,
+                            ),
+                          ),
                           childWhenDragging: Opacity(
                             opacity: 0.45,
                             child: _buildDesktopTabChip(
@@ -405,33 +431,47 @@ class _MainNavigationPageState extends State<MainNavigationPage>
                               isLight: isLight,
                               isSelected: isSelected,
                               isInSplit: isInSplit,
-                              highlightDrop: false)),
+                              highlightDrop: false,
+                            ),
+                          ),
                           child: _buildDesktopTabChip(
                             tabIndex: i,
                             isLight: isLight,
                             isSelected: isSelected,
                             isInSplit: isInSplit,
-                            highlightDrop: candidateData.isNotEmpty));
-                      }));
-                })))),
+                            highlightDrop: candidateData.isNotEmpty,
+                          ),
+                        );
+                      },
+                    ),
+                  );
+                }),
+              ),
+            ),
+          ),
           if (_isDesktopSplitView)
             Container(
-              margin: EdgeInsets.only(right: 10),
-              padding: EdgeInsets.symmetric(horizontal: 10, vertical: 7),
+              margin: const EdgeInsets.only(right: 10),
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 7),
               decoration: BoxDecoration(
                 color: (isLight ? Colors.black : Colors.white).withOpacity(0.08),
-                borderRadius: BorderRadius.circular(10)),
+                borderRadius: BorderRadius.circular(10),
+              ),
               child: Text(
                 'Split',
                 style: TextStyle(
                   fontSize: 12,
                   fontWeight: FontWeight.w700,
-                  color: isLight ? Colors.black : Colors.white))),
+                  color: isLight ? Colors.black : Colors.white,
+                ),
+              ),
+            ),
           TradeRepublicButton.icon(
             icon: Icon(
               CupertinoIcons.add,
               size: 18,
-              color: isLight ? Colors.black : Colors.white),
+              color: isLight ? Colors.black : Colors.white,
+            ),
             size: 38,
             isSecondary: true,
             onPressed: () {
@@ -439,8 +479,11 @@ class _MainNavigationPageState extends State<MainNavigationPage>
                 _desktopTabPages.add(_currentIndex);
                 _activeDesktopTab = _desktopTabPages.length - 1;
               });
-            }),
-        ]));
+            },
+          ),
+        ],
+      ),
+    );
   }
 
   Widget _buildDesktopSplitView(bool isLight) {
@@ -455,7 +498,8 @@ class _MainNavigationPageState extends State<MainNavigationPage>
           children: [
             SizedBox(
               width: leftWidth,
-              child: _buildDesktopPageByIndex(_desktopTabPages[_desktopSplitLeftTab])),
+              child: _buildDesktopPageByIndex(_desktopTabPages[_desktopSplitLeftTab]),
+            ),
             MouseRegion(
               cursor: SystemMouseCursors.resizeLeftRight,
               child: TradeRepublicTap(
@@ -476,12 +520,21 @@ class _MainNavigationPageState extends State<MainNavigationPage>
                         color: isLight
                             ? Colors.black.withOpacity(0.16)
                             : Colors.white.withOpacity(0.18),
-                        borderRadius: BorderRadius.circular(999))))))),
+                        borderRadius: BorderRadius.circular(999),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
             SizedBox(
               width: rightWidth,
-              child: _buildDesktopPageByIndex(_desktopTabPages[_desktopSplitRightTab])),
-          ]);
-      });
+              child: _buildDesktopPageByIndex(_desktopTabPages[_desktopSplitRightTab]),
+            ),
+          ],
+        );
+      },
+    );
   }
 
   Future<void> _loadUserData() async {
@@ -494,7 +547,8 @@ class _MainNavigationPageState extends State<MainNavigationPage>
 
       print('🔍 SharedPreferences keys: ${prefs.getKeys()}');
       print(
-        '🔑 auth_token: ${token != null ? "Found (${token.length} chars)" : "NULL"}');
+        '🔑 auth_token: ${token != null ? "Found (${token.length} chars)" : "NULL"}',
+      );
 
       final tokenUsername = AppSettings.extractUsernameFromToken(token);
       if (tokenUsername != null) {
@@ -522,7 +576,8 @@ class _MainNavigationPageState extends State<MainNavigationPage>
 
       if (username == null || username.isEmpty) {
         print(
-          '❌ CRITICAL: No username found in SharedPreferences or AppSettings');
+          '❌ CRITICAL: No username found in SharedPreferences or AppSettings',
+        );
         print('❌ Cannot load profile without username!');
         return;
       }
@@ -530,7 +585,8 @@ class _MainNavigationPageState extends State<MainNavigationPage>
       print('📡 Loading business user data for: $username');
 
       print(
-        '🔑 Auth token found: ${token != null ? 'YES (${token.length} chars)' : 'NO'}');
+        '🔑 Auth token found: ${token != null ? 'YES (${token.length} chars)' : 'NO'}',
+      );
 
       if (token == null || token.isEmpty) {
         print('⚠️ No auth token found - trying without token');
@@ -550,7 +606,8 @@ class _MainNavigationPageState extends State<MainNavigationPage>
                 'Authorization': 'Bearer $token',
                 'Content-Type': 'application/json',
               }
-            : {'Content-Type': 'application/json'});
+            : {'Content-Type': 'application/json'},
+      );
 
       print('📡 Response status: ${response.statusCode}');
       print('📡 Response body: ${response.body}');
@@ -605,26 +662,32 @@ class _MainNavigationPageState extends State<MainNavigationPage>
             isLight,
             CupertinoIcons.cube_box,
             CupertinoIcons.cube_box_fill,
-            AppLocalizations.of(context)?.products ?? AppLocalizations.of(context)!.tr('Products')),
+            AppLocalizations.of(context)?.products ?? AppLocalizations.of(context)!.tr('Products'),
+          ),
           _buildDockItem(
             2,
             isLight,
             CupertinoIcons.doc_text,
             Icons.receipt_long,
-            AppLocalizations.of(context)?.orders ?? AppLocalizations.of(context)!.tr('Orders')),
+            AppLocalizations.of(context)?.orders ?? AppLocalizations.of(context)!.tr('Orders'),
+          ),
           _buildDockItem(
             3,
             isLight,
             CupertinoIcons.chat_bubble_fill,
             Icons.message,
-            AppLocalizations.of(context)?.messages ?? AppLocalizations.of(context)!.tr('Messages')),
+            AppLocalizations.of(context)?.messages ?? AppLocalizations.of(context)!.tr('Messages'),
+          ),
           _buildDockItem(
             4,
             isLight,
             CupertinoIcons.person,
             CupertinoIcons.person_fill,
-            AppLocalizations.of(context)?.account ?? AppLocalizations.of(context)!.tr('Account')),
-        ]));
+            AppLocalizations.of(context)?.account ?? AppLocalizations.of(context)!.tr('Account'),
+          ),
+        ],
+      ),
+    );
   }
 
   Widget _buildDockItem(
@@ -632,7 +695,8 @@ class _MainNavigationPageState extends State<MainNavigationPage>
     bool isLight,
     IconData inactiveIcon,
     IconData activeIcon,
-    String label) {
+    String label,
+  ) {
     final isSelected = _currentIndex == index;
 
     return Expanded(
@@ -647,7 +711,12 @@ class _MainNavigationPageState extends State<MainNavigationPage>
               size: 22,
               color: isSelected
                   ? (isLight ? Colors.black : Colors.white)
-                  : (isLight ? Colors.black : Colors.white).withOpacity(0.4))))));
+                  : (isLight ? Colors.black : Colors.white).withOpacity(0.4),
+            ),
+          ),
+        ),
+      ),
+    );
   }
 
   @override
@@ -678,7 +747,8 @@ class _MainNavigationPageState extends State<MainNavigationPage>
               OrdersPage(),
               MessengerPage(),
               BusinessAccountPage(),
-            ]),
+            ],
+          ),
 
           // Floating page indicator - centered at the bottom
           ValueListenableBuilder<bool>(
@@ -702,10 +772,17 @@ class _MainNavigationPageState extends State<MainNavigationPage>
                         ? PageIndicator(
                             currentPage: _currentIndex,
                             pageCount: 5,
-                            pageController: _pageController!)
-                        : const SizedBox.shrink())));
-            }),
-        ]));
+                            pageController: _pageController!,
+                          )
+                        : const SizedBox.shrink(),
+                  ),
+                ),
+              );
+            },
+          ),
+        ],
+      ),
+    );
   }
 
   // macOS/Windows Sidebar Interface - Trade Republic Minimalist Design
@@ -727,7 +804,10 @@ class _MainNavigationPageState extends State<MainNavigationPage>
               border: Border(
                 right: BorderSide(
                   color: CultiooDesktopLayout.hairlineColor(context),
-                  width: CultiooDesktopLayout.hairlineWidth))),
+                  width: CultiooDesktopLayout.hairlineWidth,
+                ),
+              ),
+            ),
             child: SafeArea(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -735,7 +815,8 @@ class _MainNavigationPageState extends State<MainNavigationPage>
                   // Logo Section - Animated with scale and fade
                   Padding(
                     padding: EdgeInsets.fromLTRB(
-                      showLabels ? 22 : 14, 24, showLabels ? 22 : 14, 20),
+                      showLabels ? 22 : 14, 24, showLabels ? 22 : 14, 20,
+                    ),
                     child: _logoAnimationController != null
                         ? AnimatedBuilder(
                             animation: _logoAnimationController!,
@@ -744,7 +825,9 @@ class _MainNavigationPageState extends State<MainNavigationPage>
                                 scale: _logoScaleAnimation?.value ?? 1.0,
                                 child: Opacity(
                                   opacity: _logoFadeAnimation?.value ?? 1.0,
-                                  child: child));
+                                  child: child,
+                                ),
+                              );
                             },
                             child: AnimatedContainer(
                               duration: const Duration(milliseconds: 200),
@@ -761,13 +844,18 @@ class _MainNavigationPageState extends State<MainNavigationPage>
                                             : 'assets/images/cultioo_logo_light.png',
                                         key: const ValueKey('full_logo'),
                                         height: 110,
-                                        fit: BoxFit.contain)
+                                        fit: BoxFit.contain,
+                                      )
                                     : Image.asset(
                                         'logo/cultioo_logo.png',
                                         key: const ValueKey('leaf_logo'),
                                         height: 48,
                                         fit: BoxFit.contain,
-                                        color: isLight ? Colors.black : Colors.white))))
+                                        color: isLight ? Colors.black : Colors.white,
+                                      ),
+                              ),
+                            ),
+                          )
                         : AnimatedContainer(
                             duration: const Duration(milliseconds: 200),
                             curve: Curves.easeOutCubic,
@@ -783,13 +871,18 @@ class _MainNavigationPageState extends State<MainNavigationPage>
                                           : 'assets/images/cultioo_logo_light.png',
                                       key: const ValueKey('full_logo'),
                                       height: 110,
-                                      fit: BoxFit.contain)
+                                      fit: BoxFit.contain,
+                                    )
                                   : Image.asset(
                                       'logo/cultioo_logo.png',
                                       key: const ValueKey('leaf_logo'),
                                       height: 48,
                                       fit: BoxFit.contain,
-                                      color: isLight ? Colors.black : Colors.white)))),
+                                      color: isLight ? Colors.black : Colors.white,
+                                    ),
+                            ),
+                          ),
+                  ),
 
                   // Navigation Items - Trade Republic Style with stagger animation
                   Expanded(
@@ -798,7 +891,8 @@ class _MainNavigationPageState extends State<MainNavigationPage>
                         showLabels ? 14 : 10,
                         8,
                         showLabels ? 14 : 10,
-                        16),
+                        16,
+                      ),
                       children: [
                         _buildAnimatedSidebarItem(
                           0,
@@ -806,49 +900,58 @@ class _MainNavigationPageState extends State<MainNavigationPage>
                           CupertinoIcons.home,
                           CupertinoIcons.house_fill,
                           AppLocalizations.of(context)?.home ?? AppLocalizations.of(context)!.tr('Home'),
-                          0),
+                          0,
+                        ),
                         _buildAnimatedSidebarItem(
                           1,
                           isLight,
                           CupertinoIcons.cube_box,
                           CupertinoIcons.cube_box_fill,
                           AppLocalizations.of(context)?.products ?? AppLocalizations.of(context)!.tr('Products'),
-                          1),
+                          1,
+                        ),
                         _buildAnimatedSidebarItem(
                           2,
                           isLight,
                           CupertinoIcons.doc_text,
                           CupertinoIcons.doc_text_fill,
                           AppLocalizations.of(context)?.orders ?? AppLocalizations.of(context)!.tr('Orders'),
-                          2),
+                          2,
+                        ),
                         _buildAnimatedSidebarItem(
                           3,
                           isLight,
                           CupertinoIcons.chat_bubble,
                           CupertinoIcons.chat_bubble_fill,
                           AppLocalizations.of(context)?.messages ?? AppLocalizations.of(context)!.tr('Messages'),
-                          3),
+                          3,
+                        ),
                         _buildAnimatedSidebarItem(
                           4,
                           isLight,
                           CupertinoIcons.person,
                           CupertinoIcons.person_fill,
                           AppLocalizations.of(context)?.account ?? AppLocalizations.of(context)!.tr('Account'),
-                          4),
-                      ])),
+                          4,
+                        ),
+                      ],
+                    ),
+                  ),
 
                   // Profile Section - Trade Republic minimal bottom
                   if (showLabels)
                     Container(
-                      margin: EdgeInsets.all(12),
-                      padding: EdgeInsets.all(12),
+                      margin: const EdgeInsets.all(12),
+                      padding: const EdgeInsets.all(12),
                       decoration: BoxDecoration(
                         color: isLight ? Colors.white : const Color(0xFF000000),
                         border: Border.all(
                           color: isLight
                               ? Colors.black.withOpacity(0.06)
-                              : Colors.white.withOpacity(0.08)),
-                        borderRadius: BorderRadius.circular(16)),
+                              : Colors.white.withOpacity(0.08),
+                        ),
+                        borderRadius: BorderRadius.circular(16),
+                      ),
                       child: Row(
                         children: [
                           // Profile Image
@@ -857,7 +960,8 @@ class _MainNavigationPageState extends State<MainNavigationPage>
                             height: 34,
                             decoration: BoxDecoration(
                               color: isLight ? Colors.black : Colors.white,
-                              borderRadius: BorderRadius.circular(17)),
+                              borderRadius: BorderRadius.circular(17),
+                            ),
                             child: Builder(
                               builder: (context) {
                                 final fallbackLetter = (appSettings.userName?.isNotEmpty == true)
@@ -869,7 +973,10 @@ class _MainNavigationPageState extends State<MainNavigationPage>
                                     style: TextStyle(
                                       fontSize: 16,
                                       fontWeight: FontWeight.w600,
-                                      color: isLight ? Colors.white : Colors.black)));
+                                      color: isLight ? Colors.white : Colors.black,
+                                    ),
+                                  ),
+                                );
                                 final rawUrl = userData?['profilePic']?.toString() ?? AppLocalizations.of(context)!.tr('');
                                 if (rawUrl.isEmpty || rawUrl.startsWith('<svg')) {
                                   return fallbackWidget;
@@ -883,7 +990,9 @@ class _MainNavigationPageState extends State<MainNavigationPage>
                                       child: Image.memory(
                                         bytes,
                                         width: 40, height: 40, fit: BoxFit.cover,
-                                        errorBuilder: (_, __, ___) => fallbackWidget));
+                                        errorBuilder: (_, __, ___) => fallbackWidget,
+                                      ),
+                                    );
                                   } catch (_) {
                                     return fallbackWidget;
                                   }
@@ -895,9 +1004,13 @@ class _MainNavigationPageState extends State<MainNavigationPage>
                                   child: Image.network(
                                     fullUrl,
                                     width: 40, height: 40, fit: BoxFit.cover,
-                                    errorBuilder: (_, __, ___) => fallbackWidget));
-                              })),
-                          SizedBox(width: 12),
+                                    errorBuilder: (_, __, ___) => fallbackWidget,
+                                  ),
+                                );
+                              },
+                            ),
+                          ),
+                          const SizedBox(width: 12),
                           // Name
                           Expanded(
                             child: Column(
@@ -909,10 +1022,12 @@ class _MainNavigationPageState extends State<MainNavigationPage>
                                   style: TextStyle(
                                     fontSize: 14,
                                     fontWeight: FontWeight.w600,
-                                    color: isLight ? Colors.black : Colors.white),
+                                    color: isLight ? Colors.black : Colors.white,
+                                  ),
                                   maxLines: 1,
-                                  overflow: TextOverflow.ellipsis),
-                                SizedBox(height: 2),
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                                const SizedBox(height: 2),
                                 Text(
                                   (userData?['businessName'] as String?)?.isNotEmpty == true
                                       ? userData!['businessName'] as String
@@ -922,18 +1037,28 @@ class _MainNavigationPageState extends State<MainNavigationPage>
                                     fontWeight: FontWeight.w400,
                                     color: isLight
                                         ? Colors.black.withOpacity(0.5)
-                                        : Colors.white.withOpacity(0.5)),
+                                        : Colors.white.withOpacity(0.5),
+                                  ),
                                   maxLines: 1,
-                                  overflow: TextOverflow.ellipsis),
-                              ])),
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ],
+                            ),
+                          ),
                           Icon(
                             CupertinoIcons.chevron_right,
                             size: 14,
                             color: isLight
                                 ? Colors.black.withOpacity(0.3)
-                                : Colors.white.withOpacity(0.3)),
-                        ])),
-                ]))),
+                                : Colors.white.withOpacity(0.3),
+                          ),
+                        ],
+                      ),
+                    ),
+                ],
+              ),
+            ),
+          ),
 
           // Draggable Resize Handle
           _buildSidebarResizeHandle(isLight),
@@ -969,16 +1094,26 @@ class _MainNavigationPageState extends State<MainNavigationPage>
                               OrdersPage(),
                               MessengerPage(),
                               BusinessAccountPage(),
-                            ])),
-                ]))),
+                            ],
+                          ),
+                  ),
+                ],
+              ),
+            ),
+          ),
           // Right desktop panel host for stacked bottom sheets.
           Padding(
             padding: EdgeInsets.only(
-              right: MediaQuery.paddingOf(context).right),
+              right: MediaQuery.paddingOf(context).right,
+            ),
             child: CultiooDesktopSheetNavigator.buildPanelHost(
               width: _desktopRightPanelWidth(context),
-              isDark: !isLight)),
-        ]));
+              isDark: !isLight,
+            ),
+          ),
+        ],
+      ),
+    );
   }
 
   double _desktopRightPanelWidth(BuildContext context) {
@@ -1035,7 +1170,13 @@ class _MainNavigationPageState extends State<MainNavigationPage>
                 color: _isResizeHandleHovered
                     ? (isLight ? Colors.black.withOpacity(0.25) : Colors.white.withOpacity(0.4))
                     : (isLight ? Colors.black.withOpacity(0.08) : Colors.white.withOpacity(0.08)),
-                borderRadius: BorderRadius.circular(2)))))));
+                borderRadius: BorderRadius.circular(2),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
   }
 
   Widget _buildAnimatedSidebarItem(
@@ -1044,7 +1185,8 @@ class _MainNavigationPageState extends State<MainNavigationPage>
     IconData inactiveIcon,
     IconData activeIcon,
     String label,
-    int animationIndex) {
+    int animationIndex,
+  ) {
     // Calculate stagger delay based on index
     final double startInterval = animationIndex * 0.1;
     final double endInterval = startInterval + 0.4;
@@ -1060,12 +1202,15 @@ class _MainNavigationPageState extends State<MainNavigationPage>
         final curvedValue = Curves.easeOutCubic.transform(
           (((_sidebarItemsController!.value - startInterval) /
                   (endInterval - startInterval))
-              .clamp(0.0, 1.0)));
+              .clamp(0.0, 1.0)),
+        );
         return Transform.translate(
           offset: Offset(-20 * (1 - curvedValue), 0),
-          child: Opacity(opacity: curvedValue, child: child));
+          child: Opacity(opacity: curvedValue, child: child),
+        );
       },
-      child: _buildSidebarItem(index, isLight, inactiveIcon, activeIcon, label));
+      child: _buildSidebarItem(index, isLight, inactiveIcon, activeIcon, label),
+    );
   }
 
   Widget _buildSidebarItem(
@@ -1073,7 +1218,8 @@ class _MainNavigationPageState extends State<MainNavigationPage>
     bool isLight,
     IconData inactiveIcon,
     IconData activeIcon,
-    String label) {
+    String label,
+  ) {
     final isSelected = _currentIndex == index;
     final showLabels = _sidebarWidth > 140;
     final selBg = TradeRepublicTheme.selectionContainerBackground(context);
@@ -1083,7 +1229,7 @@ class _MainNavigationPageState extends State<MainNavigationPage>
         : Colors.white.withOpacity(0.72);
 
     return Padding(
-      padding: EdgeInsets.symmetric(vertical: 2),
+      padding: const EdgeInsets.symmetric(vertical: 2),
       child: Material(
         color: Colors.transparent,
         child: TradeRepublicTap(
@@ -1094,11 +1240,12 @@ class _MainNavigationPageState extends State<MainNavigationPage>
             duration: const Duration(milliseconds: 200),
             curve: Curves.easeOutCubic,
             padding: showLabels
-                ? EdgeInsets.symmetric(horizontal: 12, vertical: 10)
-                : EdgeInsets.symmetric(vertical: 8),
+                ? const EdgeInsets.symmetric(horizontal: 12, vertical: 10)
+                : const EdgeInsets.symmetric(vertical: 8),
             decoration: BoxDecoration(
               color: isSelected ? selBg : Colors.transparent,
-              borderRadius: BorderRadius.circular(10)),
+              borderRadius: BorderRadius.circular(10),
+            ),
             child: Row(
               mainAxisAlignment:
                   showLabels ? MainAxisAlignment.start : MainAxisAlignment.center,
@@ -1109,9 +1256,11 @@ class _MainNavigationPageState extends State<MainNavigationPage>
                     isSelected ? activeIcon : inactiveIcon,
                     key: ValueKey(isSelected),
                     size: 20,
-                    color: isSelected ? selFg : muted)),
+                    color: isSelected ? selFg : muted,
+                  ),
+                ),
                 if (showLabels) ...[
-                  SizedBox(width: 8),
+                  const SizedBox(width: 8),
                   Flexible(
                     child: AnimatedOpacity(
                       duration: const Duration(milliseconds: 150),
@@ -1121,10 +1270,19 @@ class _MainNavigationPageState extends State<MainNavigationPage>
                         style: TextStyle(
                           fontSize: 12.5,
                           fontWeight: isSelected ? FontWeight.w700 : FontWeight.w500,
-                          color: isSelected ? selFg : muted),
+                          color: isSelected ? selFg : muted,
+                        ),
                         overflow: TextOverflow.ellipsis,
-                        maxLines: 1))),
+                        maxLines: 1,
+                      ),
+                    ),
+                  ),
                 ],
-              ])))));
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
   }
 }

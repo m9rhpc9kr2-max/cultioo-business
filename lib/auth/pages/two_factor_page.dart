@@ -8,8 +8,6 @@ import '../../shared/widgets/trade_republic_button.dart';
 import '../../shared/widgets/trade_republic_text_field.dart';
 import '../../shared/widgets/trade_republic_bottom_sheet.dart';
 import '../../shared/services/app_localizations.dart';
-import 'package:cultioo_business/shared/widgets/desktop_app_wrapper.dart';
-import 'package:cultioo_business/shared/widgets/desktop_optimized_widgets.dart';
 
 class TwoFactorPage extends StatefulWidget {
   final String userId;
@@ -54,7 +52,8 @@ class _TwoFactorPageState extends State<TwoFactorPage> {
       final result = await ApiService.login(
         email: widget.email,
         password: widget.password,
-        twoFACode: _codeController.text);
+        twoFACode: _codeController.text,
+      );
 
       if (mounted) {
         setState(() => _isLoading = false);
@@ -68,7 +67,8 @@ class _TwoFactorPageState extends State<TwoFactorPage> {
             userId: result['user']['username'], // username als ID
             name:
                 '${result['user']['firstname'] ?? ''} ${result['user']['lastname'] ?? ''}',
-            email: result['user']['email']);
+            email: result['user']['email'],
+          );
 
           // Navigate to main app
           if (mounted) {
@@ -96,28 +96,36 @@ class _TwoFactorPageState extends State<TwoFactorPage> {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(CupertinoIcons.exclamationmark_circle, size: 48, color: Colors.red),
-          SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+          const Icon(CupertinoIcons.exclamationmark_circle, size: 48, color: Colors.red),
+          const SizedBox(height: 16),
           Text(
             title,
             style: TextStyle(
               color: isLight ? Colors.black : Colors.white,
-              fontSize: DesktopOptimizedWidgets.getFontSize() + 4,
-              fontWeight: FontWeight.w700)),
-          SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+              fontSize: 18,
+              fontWeight: FontWeight.w700,
+            ),
+          ),
+          const SizedBox(height: 12),
           Text(
             message,
             style: TextStyle(
-              color: (isLight ? Colors.black : Colors.white).withOpacity(0.7)),
-            textAlign: TextAlign.center),
-          SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+              color: (isLight ? Colors.black : Colors.white).withOpacity(0.7),
+            ),
+            textAlign: TextAlign.center,
+          ),
+          const SizedBox(height: 24),
           SizedBox(
             width: double.infinity,
             child: TradeRepublicButton(
               label: AppLocalizations.of(context)?.ok ?? 'OK',
               onPressed: () => Navigator.of(context).pop(),
-              isSecondary: true)),
-        ]));
+              isSecondary: true,
+            ),
+          ),
+        ],
+      ),
+    );
   }
 
   @override
@@ -138,7 +146,8 @@ class _TwoFactorPageState extends State<TwoFactorPage> {
                 : const ClampingScrollPhysics(),
             child: Container(
               constraints: BoxConstraints(
-                maxWidth: isDesktop ? 380 : double.infinity),
+                maxWidth: isDesktop ? 380 : double.infinity,
+              ),
               padding: EdgeInsets.symmetric(horizontal: isDesktop ? 0 : 24),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -151,13 +160,16 @@ class _TwoFactorPageState extends State<TwoFactorPage> {
                     height: 64,
                     decoration: BoxDecoration(
                       color: isLight ? Colors.black : Colors.white,
-                      borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
+                      borderRadius: BorderRadius.circular(20),
+                    ),
                     child: Icon(
                       CupertinoIcons.lock_shield_fill,
                       size: 32,
-                      color: isLight ? Colors.white : Colors.black)),
+                      color: isLight ? Colors.white : Colors.black,
+                    ),
+                  ),
 
-                  SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+                  const SizedBox(height: 24),
 
                   // Title
                   Text(
@@ -166,10 +178,12 @@ class _TwoFactorPageState extends State<TwoFactorPage> {
                       fontSize: 28,
                       fontWeight: FontWeight.w700,
                       color: isLight ? Colors.black : Colors.white,
-                      letterSpacing: -0.5),
-                    textAlign: TextAlign.center),
+                      letterSpacing: -0.5,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
 
-                  SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+                  const SizedBox(height: 8),
 
                   // Subtitle
                   Text(
@@ -178,10 +192,12 @@ class _TwoFactorPageState extends State<TwoFactorPage> {
                       fontSize: 15,
                       fontWeight: FontWeight.w400,
                       color: (isLight ? Colors.black : Colors.white)
-                          .withOpacity(0.5)),
-                    textAlign: TextAlign.center),
+                          .withOpacity(0.5),
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
 
-                  SizedBox(height: 48),
+                  const SizedBox(height: 48),
 
                   // Code Input
                   Container(
@@ -189,16 +205,19 @@ class _TwoFactorPageState extends State<TwoFactorPage> {
                     decoration: BoxDecoration(
                       color: (isLight ? Colors.black : Colors.white)
                           .withOpacity(0.04),
-                      borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
+                      borderRadius: BorderRadius.circular(20),
+                    ),
                     child: TradeRepublicTextField(
                       controller: _codeController,
                       keyboardType: TextInputType.number,
                       maxLength: 6,
                       textAlign: TextAlign.center,
                       inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                      hintText: '000000')),
+                      hintText: '000000',
+                    ),
+                  ),
 
-                  SizedBox(height: 32),
+                  const SizedBox(height: 32),
 
                   // Verify Button
                   SizedBox(
@@ -207,9 +226,11 @@ class _TwoFactorPageState extends State<TwoFactorPage> {
                     child: TradeRepublicButton(
                       label: AppLocalizations.of(context)?.verify ?? 'Verify',
                       onPressed: _isLoading ? null : _verify2FA,
-                      isLoading: _isLoading)),
+                      isLoading: _isLoading,
+                    ),
+                  ),
 
-                  SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+                  const SizedBox(height: 16),
 
                   // Back Button
                   SizedBox(
@@ -218,9 +239,11 @@ class _TwoFactorPageState extends State<TwoFactorPage> {
                     child: TradeRepublicButton(
                       label: AppLocalizations.of(context)?.backToLogin ?? 'Back to Login',
                       onPressed: () => Navigator.of(context).pop(),
-                      isSecondary: true)),
+                      isSecondary: true,
+                    ),
+                  ),
 
-                  SizedBox(height: 48),
+                  const SizedBox(height: 48),
 
                   // Info Text
                   Row(
@@ -230,17 +253,27 @@ class _TwoFactorPageState extends State<TwoFactorPage> {
                         CupertinoIcons.info_circle,
                         size: 16,
                         color: (isLight ? Colors.black : Colors.white)
-                            .withOpacity(0.4)),
-                      SizedBox(width: 8),
+                            .withOpacity(0.4),
+                      ),
+                      const SizedBox(width: 8),
                       Text(
                         AppLocalizations.of(context)?.havingTroubleContactSupport ?? 'Having trouble? Contact support',
                         style: TextStyle(
                           fontSize: 13,
                           color: (isLight ? Colors.black : Colors.white)
-                              .withOpacity(0.4))),
-                    ]),
+                              .withOpacity(0.4),
+                        ),
+                      ),
+                    ],
+                  ),
 
                   SizedBox(height: screenHeight * 0.1),
-                ]))))));
+                ],
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
   }
 }

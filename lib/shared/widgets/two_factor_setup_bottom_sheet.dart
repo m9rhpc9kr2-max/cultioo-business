@@ -35,7 +35,9 @@ class TwoFactorSetupBottomSheet extends StatefulWidget {
       isDismissible: true,
       child: TwoFactorSetupBottomSheet(
         isEnabled: isEnabled,
-        onSuccess: onSuccess));
+        onSuccess: onSuccess,
+      ),
+    );
   }
 }
 
@@ -129,19 +131,23 @@ class _TwoFactorSetupBottomSheetState extends State<TwoFactorSetupBottomSheet> {
           Row(
             children: [
               Icon(CupertinoIcons.shield, size: 22),
-              SizedBox(width: 12),
+              const SizedBox(width: 12),
               const Flexible(child: Text(
                 'Disable Two-Factor Authentication',
-                style: TextStyle(fontSize: 22, fontWeight: FontWeight.w700, letterSpacing: -0.4))),
-            ]),
-          SizedBox(height: 12),
+                style: TextStyle(fontSize: 22, fontWeight: FontWeight.w700, letterSpacing: -0.4),
+              )),
+            ],
+          ),
+          const SizedBox(height: 12),
           // Content
           Text(
             'Are you sure you want to disable two-factor authentication?',
             textAlign: TextAlign.center,
             style: TextStyle(
               fontSize: 14,
-              color: Colors.black.withOpacity(0.5))),
+              color: Colors.black.withOpacity(0.5),
+            ),
+          ),
           SizedBox(height: 24),
           // Buttons
           Row(
@@ -149,9 +155,12 @@ class _TwoFactorSetupBottomSheetState extends State<TwoFactorSetupBottomSheet> {
               Expanded(child: Container()),
               SizedBox(width: 16),
               Expanded(child: Container()),
-            ]),
+            ],
+          ),
           SizedBox(height: 16),
-        ]));
+        ],
+      ),
+    );
 
     if (confirmed == true) {
       setState(() {
@@ -209,7 +218,8 @@ class _TwoFactorSetupBottomSheetState extends State<TwoFactorSetupBottomSheet> {
               color: Theme.of(context).brightness == Brightness.light
                   ? Colors.black
                   : Colors.white,
-              size: 28),
+              size: 28,
+            ),
             SizedBox(width: 12),
             Expanded(
               child: Column(
@@ -219,19 +229,26 @@ class _TwoFactorSetupBottomSheetState extends State<TwoFactorSetupBottomSheet> {
                     widget.isEnabled
                         ? AppLocalizations.of(context)?.change2FACode ?? 'Change 2FA Code'
                         : AppLocalizations.of(context)?.enableTwoFactorAuth ?? 'Enable Two-Factor Authentication',
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700)),
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700),
+                  ),
                   Text(
                     'Enter an 8-digit numeric code',
                     style: TextStyle(
                       fontSize: 14,
-                      color: Colors.black.withOpacity(0.5))),
-                ])),
+                      color: Colors.black.withOpacity(0.5),
+                    ),
+                  ),
+                ],
+              ),
+            ),
             TradeRepublicButton.icon(
-              icon: Icon(Icons.close, size: 20),
+              icon: const Icon(Icons.close, size: 20),
               size: 36,
               isSecondary: true,
-              onPressed: () => Navigator.of(context).pop()),
-          ]),
+              onPressed: () => Navigator.of(context).pop(),
+            ),
+          ],
+        ),
 
         SizedBox(height: 24),
 
@@ -249,7 +266,8 @@ class _TwoFactorSetupBottomSheetState extends State<TwoFactorSetupBottomSheet> {
                 _errorMessage = null;
               });
             }
-          }),
+          },
+        ),
 
         if (_errorMessage != null) ...[
           SizedBox(height: 8),
@@ -257,7 +275,8 @@ class _TwoFactorSetupBottomSheetState extends State<TwoFactorSetupBottomSheet> {
             padding: EdgeInsets.all(12),
             decoration: BoxDecoration(
               color: Colors.white.withOpacity(0.10),
-              borderRadius: BorderRadius.circular(20)),
+              borderRadius: BorderRadius.circular(20),
+            ),
             child: Row(
               children: [
                 Icon(Icons.error_outline, color: Colors.white, size: 20),
@@ -265,8 +284,12 @@ class _TwoFactorSetupBottomSheetState extends State<TwoFactorSetupBottomSheet> {
                 Expanded(
                   child: Text(
                     _errorMessage!,
-                    style: TextStyle(color: Colors.white))),
-              ])),
+                    style: TextStyle(color: Colors.white),
+                  ),
+                ),
+              ],
+            ),
+          ),
         ],
 
         SizedBox(height: 24),
@@ -278,7 +301,8 @@ class _TwoFactorSetupBottomSheetState extends State<TwoFactorSetupBottomSheet> {
             color: Theme.of(context).brightness == Brightness.light
                 ? Colors.black.withOpacity(0.05)
                 : Colors.white.withOpacity(0.05),
-            borderRadius: BorderRadius.circular(20)),
+            borderRadius: BorderRadius.circular(20),
+          ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -289,7 +313,8 @@ class _TwoFactorSetupBottomSheetState extends State<TwoFactorSetupBottomSheet> {
                     color: Theme.of(context).brightness == Brightness.light
                         ? Colors.black
                         : Colors.white,
-                    size: 20),
+                    size: 20,
+                  ),
                   SizedBox(width: 8),
                   Text(
                     'Important Notes:',
@@ -297,8 +322,11 @@ class _TwoFactorSetupBottomSheetState extends State<TwoFactorSetupBottomSheet> {
                       fontWeight: FontWeight.w700,
                       color: Theme.of(context).brightness == Brightness.light
                           ? Colors.black
-                          : Colors.white)),
-                ]),
+                          : Colors.white,
+                    ),
+                  ),
+                ],
+              ),
               SizedBox(height: 8),
               Text(
                 '• Code must be exactly 8 digits (0-9 only)\n'
@@ -309,21 +337,27 @@ class _TwoFactorSetupBottomSheetState extends State<TwoFactorSetupBottomSheet> {
                   fontSize: 12,
                   color: Theme.of(context).brightness == Brightness.light
                       ? Colors.black.withOpacity(0.7)
-                      : Colors.white.withOpacity(0.7))),
-            ])),
+                      : Colors.white.withOpacity(0.7),
+                ),
+              ),
+            ],
+          ),
+        ),
 
-        SizedBox(height: 24),
+        const SizedBox(height: 24),
 
         // Action buttons
         Row(
           children: [
             if (widget.isEnabled) ...[
               const Spacer(),
-              SizedBox(width: 12),
+              const SizedBox(width: 12),
             ],
             const Spacer(),
-          ]),
-      ]);
+          ],
+        ),
+      ],
+    );
   }
 
   @override

@@ -19,7 +19,8 @@ class TwoFactorService {
 
       final response = await http.get(
         Uri.parse('$_baseUrl/api/user-settings?userId=$userId'),
-        headers: {'Content-Type': 'application/json'});
+        headers: {'Content-Type': 'application/json'},
+      );
 
       print('2FA Status Response: ${response.statusCode}');
       print('2FA Status Body: ${response.body}');
@@ -43,7 +44,8 @@ class TwoFactorService {
 
   /// Enable 2FA with an 8-digit code
   static Future<Map<String, dynamic>> enableTwoFactor(
-    String eightDigitCode) async {
+    String eightDigitCode,
+  ) async {
     try {
       // Validate the code format - must be exactly 8 digits
       if (eightDigitCode.length != 8 ||
@@ -77,7 +79,8 @@ class TwoFactorService {
           'userId': userId,
           'twoFactorCode': eightDigitCode,
           'twoFactorEnabled': true,
-        }));
+        }),
+      );
 
       print('Enable 2FA Response: ${response.statusCode}');
       print('Enable 2FA Body: ${response.body}');
@@ -126,7 +129,8 @@ class TwoFactorService {
           'userId': userId,
           'twoFactorCode': '',
           'twoFactorEnabled': false,
-        }));
+        }),
+      );
 
       print('Disable 2FA Response: ${response.statusCode}');
       print('Disable 2FA Body: ${response.body}');
@@ -156,7 +160,8 @@ class TwoFactorService {
 
   /// Update 2FA code (change existing code)
   static Future<Map<String, dynamic>> updateTwoFactorCode(
-    String newEightDigitCode) async {
+    String newEightDigitCode,
+  ) async {
     try {
       // Validate the code format - must be exactly 8 digits
       if (newEightDigitCode.length != 8 ||
@@ -185,7 +190,8 @@ class TwoFactorService {
           'userId': userId,
           'twoFactorCode': newEightDigitCode,
           'twoFactorEnabled': true,
-        }));
+        }),
+      );
 
       print('Update 2FA Code Response: ${response.statusCode}');
       print('Update 2FA Code Body: ${response.body}');

@@ -99,7 +99,8 @@ class _DriverStep1PersonalInfoState extends State<DriverStep1PersonalInfo> {
     // Each letter becomes a regional indicator symbol
     final int base = 0x1F1E6 - 65; // 'A' = 65
     return String.fromCharCodes(
-      iso.toUpperCase().codeUnits.map((c) => base + c));
+      iso.toUpperCase().codeUnits.map((c) => base + c),
+    );
   }
 
   // Selected values
@@ -276,12 +277,14 @@ class _DriverStep1PersonalInfoState extends State<DriverStep1PersonalInfo> {
   Future<void> _selectDate(BuildContext context) async {
     final AppSettings appSettings = Provider.of<AppSettings>(
       context,
-      listen: false);
+      listen: false,
+    );
     final isLight = appSettings.isLightMode(context);
     final loc = AppLocalizations.of(context);
 
     DateTime selectedDate = DateTime.now().subtract(
-      const Duration(days: 6570)); // default: 18 years ago
+      const Duration(days: 6570),
+    ); // default: 18 years ago
 
     // Parse existing date if available (MM/DD/YYYY)
     if (_birthdateController.text.isNotEmpty) {
@@ -307,7 +310,7 @@ class _DriverStep1PersonalInfoState extends State<DriverStep1PersonalInfo> {
 
           // ── Header ──────────────────────────────────────────────────
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: 4),
+            padding: const EdgeInsets.symmetric(horizontal: 4),
             child: Row(
               children: [
                 Container(
@@ -315,21 +318,28 @@ class _DriverStep1PersonalInfoState extends State<DriverStep1PersonalInfo> {
                   height: 44,
                   decoration: BoxDecoration(
                     color: (isLight ? Colors.black : Colors.white).withOpacity(0.06),
-                    borderRadius: BorderRadius.circular(14)),
+                    borderRadius: BorderRadius.circular(14),
+                  ),
                   child: Icon(
                     CupertinoIcons.calendar,
                     size: 20,
-                    color: isLight ? Colors.black : Colors.white)),
-                SizedBox(width: 12),
+                    color: isLight ? Colors.black : Colors.white,
+                  ),
+                ),
+                const SizedBox(width: 12),
                 Text(
                   loc?.dateOfBirth ?? AppLocalizations.of(context)!.tr('Date of Birth'),
                   style: TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.w700,
                     letterSpacing: -0.4,
-                    color: isLight ? Colors.black : Colors.white)),
-              ])),
-          SizedBox(height: 20),
+                    color: isLight ? Colors.black : Colors.white,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(height: 20),
 
           // ── iOS drum-roll picker ─────────────────────────────────────
           SizedBox(
@@ -341,17 +351,24 @@ class _DriverStep1PersonalInfoState extends State<DriverStep1PersonalInfo> {
                   dateTimePickerTextStyle: TextStyle(
                     color: isLight ? Colors.black : Colors.white,
                     fontSize: 21,
-                    fontWeight: FontWeight.w500))),
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ),
               child: CupertinoDatePicker(
                 mode: CupertinoDatePickerMode.date,
                 initialDateTime: selectedDate,
                 minimumDate: DateTime(1924),
                 maximumDate: DateTime.now().subtract(
-                  const Duration(days: 6570)),
+                  const Duration(days: 6570),
+                ),
                 onDateTimeChanged: (DateTime newDate) {
                   selectedDate = newDate;
-                }))),
-          SizedBox(height: 20),
+                },
+              ),
+            ),
+          ),
+          const SizedBox(height: 20),
 
           // ── Confirm button ───────────────────────────────────────────
           TradeRepublicButton(
@@ -365,8 +382,11 @@ class _DriverStep1PersonalInfoState extends State<DriverStep1PersonalInfo> {
                 _birthdateError = false;
               });
               Navigator.pop(context);
-            }),
-        ]));
+            },
+          ),
+        ],
+      ),
+    );
   }
 
   // Live check without dialog (silent)
@@ -384,7 +404,8 @@ class _DriverStep1PersonalInfoState extends State<DriverStep1PersonalInfo> {
             headers: {
               'Content-Type': 'application/json',
               'Accept': 'application/json',
-            })
+            },
+          )
           .timeout(const Duration(seconds: 10));
 
       print('DEBUG: Response status code: ${response.statusCode}');
@@ -436,7 +457,8 @@ class _DriverStep1PersonalInfoState extends State<DriverStep1PersonalInfo> {
             headers: {
               'Content-Type': 'application/json',
               'Accept': 'application/json',
-            })
+            },
+          )
           .timeout(const Duration(seconds: 10));
 
       print('DEBUG: Response status code: ${response.statusCode}');
@@ -483,12 +505,14 @@ class _DriverStep1PersonalInfoState extends State<DriverStep1PersonalInfo> {
         context: context,
         isDismissible: false,
         enableDrag: false,
-        child: Column(
+        child: const Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             CultiooLoadingIndicator(),
             SizedBox(height: 16),
-          ]));
+          ],
+        ),
+      );
 
       // Use backend API endpoint from ApiConfig (supports Google Cloud)
       final String baseUrl = ApiConfig.baseUrl;
@@ -503,7 +527,8 @@ class _DriverStep1PersonalInfoState extends State<DriverStep1PersonalInfo> {
             headers: {
               'Content-Type': 'application/json',
               'Accept': 'application/json',
-            })
+            },
+          )
           .timeout(const Duration(seconds: 10));
 
       // Close loading dialog
@@ -523,19 +548,22 @@ class _DriverStep1PersonalInfoState extends State<DriverStep1PersonalInfo> {
           print('DEBUG: Username is already taken');
           TopNotification.error(
             context,
-            'Username "$username" is already taken. Please choose a different one.');
+            'Username "$username" is already taken. Please choose a different one.',
+          );
           return false;
         } else {
           // Username is available
           print('DEBUG: Username is available');
           TopNotification.success(
             context,
-            'Username "$username" is available!');
+            'Username "$username" is available!',
+          );
           return true;
         }
       } else {
         print(
-          'DEBUG: HTTP error - status code: ${response.statusCode}, body: ${response.body}');
+          'DEBUG: HTTP error - status code: ${response.statusCode}, body: ${response.body}',
+        );
         throw Exception('Failed to check username: ${response.statusCode}');
       }
     } catch (e) {
@@ -606,7 +634,8 @@ class _DriverStep1PersonalInfoState extends State<DriverStep1PersonalInfo> {
 
     if (_emailController.text.isEmpty ||
         !RegExp(
-          r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(_emailController.text)) {
+          r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$',
+        ).hasMatch(_emailController.text)) {
       _emailError = true;
       isValid = false;
     }
@@ -671,7 +700,8 @@ class _DriverStep1PersonalInfoState extends State<DriverStep1PersonalInfo> {
       if (_emailAvailable == false) {
         TopNotification.error(
           context,
-          AppLocalizations.of(context)!.tr('This email is already registered. Please use a different email.') ?? AppLocalizations.of(context)!.tr('This email is already registered. Please use a different email.'));
+          AppLocalizations.of(context)!.tr('This email is already registered. Please use a different email.') ?? AppLocalizations.of(context)!.tr('This email is already registered. Please use a different email.'),
+        );
         setState(() {
           _emailError = true;
         });
@@ -685,7 +715,8 @@ class _DriverStep1PersonalInfoState extends State<DriverStep1PersonalInfo> {
         if (_emailAvailable == false) {
           TopNotification.error(
             context,
-            AppLocalizations.of(context)!.tr('This email is already registered. Please use a different email.') ?? AppLocalizations.of(context)!.tr('This email is already registered. Please use a different email.'));
+            AppLocalizations.of(context)!.tr('This email is already registered. Please use a different email.') ?? AppLocalizations.of(context)!.tr('This email is already registered. Please use a different email.'),
+          );
           setState(() {
             _emailError = true;
           });
@@ -700,7 +731,8 @@ class _DriverStep1PersonalInfoState extends State<DriverStep1PersonalInfo> {
       if (_usernameAvailable == false) {
         TopNotification.error(
           context,
-          AppLocalizations.of(context)!.tr('This username is already taken. Please choose a different username.') ?? AppLocalizations.of(context)!.tr('This username is already taken. Please choose a different username.'));
+          AppLocalizations.of(context)!.tr('This username is already taken. Please choose a different username.') ?? AppLocalizations.of(context)!.tr('This username is already taken. Please choose a different username.'),
+        );
         setState(() {
           _usernameError = true;
         });
@@ -710,7 +742,8 @@ class _DriverStep1PersonalInfoState extends State<DriverStep1PersonalInfo> {
       // If username wasn't checked yet, check it now
       if (_usernameAvailable == null) {
         bool usernameAvailable = await _checkUsernameAvailability(
-          _usernameController.text);
+          _usernameController.text,
+        );
         if (!usernameAvailable) {
           setState(() {
             _usernameError = true;
@@ -778,7 +811,8 @@ class _DriverStep1PersonalInfoState extends State<DriverStep1PersonalInfo> {
             24,
             MediaQuery.of(context).padding.top + 20,
             24,
-            MediaQuery.of(context).padding.bottom + 24),
+            MediaQuery.of(context).padding.bottom + 24,
+          ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -790,10 +824,13 @@ class _DriverStep1PersonalInfoState extends State<DriverStep1PersonalInfo> {
                     height: 52,
                     child: TradeRepublicButton.icon(
                       icon: Icon(CupertinoIcons.chevron_back, size: 18),
-                      onPressed: () => Navigator.of(context).pop())),
+                      onPressed: () => Navigator.of(context).pop(),
+                    ),
+                  ),
                   const Spacer(),
-                ]),
-              SizedBox(height: 24),
+                ],
+              ),
+              const SizedBox(height: 24),
 
               // Main Header
               Center(
@@ -804,32 +841,41 @@ class _DriverStep1PersonalInfoState extends State<DriverStep1PersonalInfo> {
                       height: 80,
                       decoration: BoxDecoration(
                         color: isLight ? Colors.black : Colors.white,
-                        borderRadius: BorderRadius.circular(20)),
+                        borderRadius: BorderRadius.circular(20),
+                      ),
                       child: Icon(
                         CupertinoIcons.person_add,
                         color: isLight ? Colors.white : Colors.black,
-                        size: 40)),
-                    SizedBox(height: 20),
+                        size: 40,
+                      ),
+                    ),
+                    const SizedBox(height: 20),
                     Text(
                       AppLocalizations.of(context)?.personalInformation ?? AppLocalizations.of(context)!.tr('Personal Information'),
                       style: TextStyle(
                         color: isLight ? Colors.black : Colors.white,
                         fontSize: 32,
-                        fontWeight: FontWeight.w700)),
-                    SizedBox(height: 8),
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                    const SizedBox(height: 8),
                     Text(
                       AppLocalizations.of(context)?.stepOfDriverRegistration ?? AppLocalizations.of(context)!.tr('Step 1 of 10 - Driver Registration'),
                       style: TextStyle(
                         color: (isLight ? Colors.black : Colors.white)
                             .withOpacity(0.5),
-                        fontSize: 16)),
-                  ])),
+                        fontSize: 16,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
 
-              SizedBox(height: 40),
+              const SizedBox(height: 40),
 
               // PERSONAL DETAILS SECTION
               _buildSectionHeader('Personal Details', isLight),
-              SizedBox(height: 16),
+              const SizedBox(height: 16),
 
               // Name Fields Row
               Row(
@@ -846,8 +892,10 @@ class _DriverStep1PersonalInfoState extends State<DriverStep1PersonalInfo> {
                           return AppLocalizations.of(context)?.pleaseEnterFirstName ?? AppLocalizations.of(context)!.tr('Please enter your first name');
                         }
                         return null;
-                      })),
-                  SizedBox(width: 16),
+                      },
+                    ),
+                  ),
+                  const SizedBox(width: 16),
                   Expanded(
                     child: _buildModernTextField(
                       controller: _lastNameController,
@@ -860,38 +908,41 @@ class _DriverStep1PersonalInfoState extends State<DriverStep1PersonalInfo> {
                           return AppLocalizations.of(context)?.pleaseEnterLastName ?? AppLocalizations.of(context)!.tr('Please enter your last name');
                         }
                         return null;
-                      })),
-                ]),
+                      },
+                    ),
+                  ),
+                ],
+              ),
 
-              SizedBox(height: 16),
+              const SizedBox(height: 16),
 
               // Birthdate Field
               _buildDateField(isLight, hasError: _birthdateError),
 
-              SizedBox(height: 32),
+              const SizedBox(height: 32),
 
               // CONTACT INFORMATION SECTION
               _buildSectionHeader('Contact Information', isLight),
-              SizedBox(height: 16),
+              const SizedBox(height: 16),
 
               // Email Field with Live Availability Check
               _buildEmailFieldWithLiveCheck(isLight),
 
-              SizedBox(height: 16),
+              const SizedBox(height: 16),
 
               // Phone Field with Country Code
               _buildPhoneFieldWithCode(isLight, hasError: _phoneError),
 
-              SizedBox(height: 32),
+              const SizedBox(height: 32),
 
               // ACCOUNT SECTION
               _buildSectionHeader('Account Information', isLight),
-              SizedBox(height: 16),
+              const SizedBox(height: 16),
 
               // Username Field with Live Availability Check
               _buildUsernameFieldWithLiveCheck(isLight),
 
-              SizedBox(height: 16),
+              const SizedBox(height: 16),
 
               // Password Field
               _buildModernTextField(
@@ -908,14 +959,17 @@ class _DriverStep1PersonalInfoState extends State<DriverStep1PersonalInfo> {
                     });
                   },
                   child: Padding(
-                    padding: EdgeInsets.all(12),
+                    padding: const EdgeInsets.all(12),
                     child: Icon(
                       _obscurePassword
                           ? CupertinoIcons.eye_slash
                           : CupertinoIcons.eye,
                       color: (isLight ? Colors.black : Colors.white)
                           .withOpacity(0.5),
-                      size: 20))),
+                      size: 20,
+                    ),
+                  ),
+                ),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return AppLocalizations.of(context)?.pleaseEnterPassword ?? AppLocalizations.of(context)!.tr('Please enter a password');
@@ -924,9 +978,10 @@ class _DriverStep1PersonalInfoState extends State<DriverStep1PersonalInfo> {
                     return AppLocalizations.of(context)?.passwordMustBeAtLeast6Chars ?? AppLocalizations.of(context)!.tr('Password must be at least 6 characters');
                   }
                   return null;
-                }),
+                },
+              ),
 
-              SizedBox(height: 16),
+              const SizedBox(height: 16),
 
               // Confirm Password Field
               _buildModernTextField(
@@ -943,14 +998,17 @@ class _DriverStep1PersonalInfoState extends State<DriverStep1PersonalInfo> {
                     });
                   },
                   child: Padding(
-                    padding: EdgeInsets.all(12),
+                    padding: const EdgeInsets.all(12),
                     child: Icon(
                       _obscurePassword
                           ? CupertinoIcons.eye_slash
                           : CupertinoIcons.eye,
                       color: (isLight ? Colors.black : Colors.white)
                           .withOpacity(0.5),
-                      size: 20))),
+                      size: 20,
+                    ),
+                  ),
+                ),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return AppLocalizations.of(context)?.pleaseConfirmPassword ?? AppLocalizations.of(context)!.tr('Please confirm your password');
@@ -959,13 +1017,14 @@ class _DriverStep1PersonalInfoState extends State<DriverStep1PersonalInfo> {
                     return AppLocalizations.of(context)?.passwordsDoNotMatch ?? AppLocalizations.of(context)!.tr('Passwords do not match');
                   }
                   return null;
-                }),
+                },
+              ),
 
-              SizedBox(height: 32),
+              const SizedBox(height: 32),
 
               // ADDRESS SECTION
               _buildSectionHeader('Address Information', isLight),
-              SizedBox(height: 16),
+              const SizedBox(height: 16),
 
               // Street and Number Row
               Row(
@@ -983,8 +1042,10 @@ class _DriverStep1PersonalInfoState extends State<DriverStep1PersonalInfo> {
                           return AppLocalizations.of(context)?.pleaseEnterStreetName ?? AppLocalizations.of(context)!.tr('Please enter street name');
                         }
                         return null;
-                      })),
-                  SizedBox(width: 16),
+                      },
+                    ),
+                  ),
+                  const SizedBox(width: 16),
                   Expanded(
                     flex: 1,
                     child: _buildModernTextField(
@@ -998,10 +1059,13 @@ class _DriverStep1PersonalInfoState extends State<DriverStep1PersonalInfo> {
                           return 'Required';
                         }
                         return null;
-                      })),
-                ]),
+                      },
+                    ),
+                  ),
+                ],
+              ),
 
-              SizedBox(height: 16),
+              const SizedBox(height: 16),
 
               // ZIP and City Row
               Row(
@@ -1020,8 +1084,10 @@ class _DriverStep1PersonalInfoState extends State<DriverStep1PersonalInfo> {
                           return AppLocalizations.of(context)?.pleaseEnterZipCode ?? AppLocalizations.of(context)!.tr('Please enter ZIP code');
                         }
                         return null;
-                      })),
-                  SizedBox(width: 16),
+                      },
+                    ),
+                  ),
+                  const SizedBox(width: 16),
                   Expanded(
                     flex: 2,
                     child: _buildModernTextField(
@@ -1035,34 +1101,47 @@ class _DriverStep1PersonalInfoState extends State<DriverStep1PersonalInfo> {
                           return AppLocalizations.of(context)?.pleaseEnterCity ?? AppLocalizations.of(context)!.tr('Please enter city');
                         }
                         return null;
-                      })),
-                ]),
+                      },
+                    ),
+                  ),
+                ],
+              ),
 
-              SizedBox(height: 16),
+              const SizedBox(height: 16),
 
               // Country Field
               _buildCountryField(isLight, hasError: _countryError),
 
-              SizedBox(height: 40),
+              const SizedBox(height: 40),
 
               // Continue Button
               TradeRepublicButton(
                 label: AppLocalizations.of(context)?.continueAction ?? AppLocalizations.of(context)!.tr('Continue'),
                 icon: Icon(CupertinoIcons.arrow_right, size: 18),
-                onPressed: _validateAndContinue),
-            ]))))));
+                onPressed: _validateAndContinue,
+              ),
+            ],
+          ),
+        ),
+      ),
+        ),
+      ),
+    );
   }
 
   // Section Header Builder
   Widget _buildSectionHeader(String title, bool isLight) {
     return Padding(
-      padding: EdgeInsets.only(left: 4),
+      padding: const EdgeInsets.only(left: 4),
       child: Text(
         title,
         style: TextStyle(
           color: isLight ? Colors.black : Colors.white,
           fontSize: 18,
-          fontWeight: FontWeight.w700)));
+          fontWeight: FontWeight.w700,
+        ),
+      ),
+    );
   }
 
   // Modern TextField Builder
@@ -1081,12 +1160,13 @@ class _DriverStep1PersonalInfoState extends State<DriverStep1PersonalInfo> {
     List<TextInputFormatter>? inputFormatters,
   }) {
     final container = Container(
-      margin: EdgeInsets.only(bottom: 16),
+      margin: const EdgeInsets.only(bottom: 16),
       decoration: BoxDecoration(
         color: hasError ? Colors.red.withOpacity(0.08) : (isLight ? Colors.white : Colors.black),
-        borderRadius: BorderRadius.circular(20)),
+        borderRadius: BorderRadius.circular(20),
+      ),
       child: Padding(
-        padding: EdgeInsets.all(20),
+        padding: const EdgeInsets.all(20),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
@@ -1099,12 +1179,15 @@ class _DriverStep1PersonalInfoState extends State<DriverStep1PersonalInfo> {
                   height: 36,
                   decoration: BoxDecoration(
                     color: isLight ? Colors.black : Colors.white,
-                    borderRadius: BorderRadius.circular(20)),
+                    borderRadius: BorderRadius.circular(20),
+                  ),
                   child: Icon(
                     icon,
                     size: 18,
-                    color: isLight ? Colors.white : Colors.black)),
-                SizedBox(width: 12),
+                    color: isLight ? Colors.white : Colors.black,
+                  ),
+                ),
+                const SizedBox(width: 12),
                 Expanded(
                   child: Text(
                     label,
@@ -1112,9 +1195,13 @@ class _DriverStep1PersonalInfoState extends State<DriverStep1PersonalInfo> {
                       fontSize: 15,
                       fontWeight: FontWeight.w600,
                       color: isLight ? Colors.black : Colors.white,
-                      letterSpacing: -0.4))),
-              ]),
-            SizedBox(height: 12),
+                      letterSpacing: -0.4,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 12),
 
             // TradeRepublicTextField without extra wrapper
             TradeRepublicTextField(
@@ -1127,14 +1214,19 @@ class _DriverStep1PersonalInfoState extends State<DriverStep1PersonalInfo> {
               inputFormatters: inputFormatters,
               readOnly: readOnly,
               hintText: '${AppLocalizations.of(context)?.enterLabel ?? AppLocalizations.of(context)!.tr('Enter')} $label',
-              suffixIcon: suffixIcon),
-          ])));
+              suffixIcon: suffixIcon,
+            ),
+          ],
+        ),
+      ),
+    );
 
     if (onTap != null) {
       return TradeRepublicTap(
         onTap: onTap,
         behavior: HitTestBehavior.opaque,
-        child: AbsorbPointer(child: container));
+        child: AbsorbPointer(child: container),
+      );
     }
     return container;
   }
@@ -1142,13 +1234,14 @@ class _DriverStep1PersonalInfoState extends State<DriverStep1PersonalInfo> {
   // Phone Field with Country Code
   Widget _buildPhoneFieldWithCode(bool isLight, {bool hasError = false}) {
     return Container(
-      margin: EdgeInsets.only(bottom: 16),
+      margin: const EdgeInsets.only(bottom: 16),
       height: 140, // Increased height for better input field size
       decoration: BoxDecoration(
         color: hasError ? Colors.red.withOpacity(0.08) : (isLight ? Colors.white : Colors.black),
-        borderRadius: BorderRadius.circular(20)),
+        borderRadius: BorderRadius.circular(20),
+      ),
       child: Padding(
-        padding: EdgeInsets.all(20),
+        padding: const EdgeInsets.all(20),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -1160,12 +1253,15 @@ class _DriverStep1PersonalInfoState extends State<DriverStep1PersonalInfo> {
                   height: 36,
                   decoration: BoxDecoration(
                     color: isLight ? Colors.black : Colors.white,
-                    borderRadius: BorderRadius.circular(20)),
+                    borderRadius: BorderRadius.circular(20),
+                  ),
                   child: Icon(
                     CupertinoIcons.phone,
                     size: 18,
-                    color: isLight ? Colors.white : Colors.black)),
-                SizedBox(width: 12),
+                    color: isLight ? Colors.white : Colors.black,
+                  ),
+                ),
+                const SizedBox(width: 12),
                 Expanded(
                   child: Text(
                     AppLocalizations.of(context)?.phoneNumber ?? AppLocalizations.of(context)!.tr('Phone Number'),
@@ -1173,60 +1269,76 @@ class _DriverStep1PersonalInfoState extends State<DriverStep1PersonalInfo> {
                       fontSize: 15,
                       fontWeight: FontWeight.w600,
                       color: isLight ? Colors.black : Colors.white,
-                      letterSpacing: -0.4))),
-              ]),
-            SizedBox(height: 12),
+                      letterSpacing: -0.4,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 12),
 
             // Enhanced phone input with TradeRepublicTextField styling
             Expanded(
               child: Container(
                 decoration: BoxDecoration(
                   color: (isLight ? Colors.black : Colors.white).withOpacity(
-                    isLight ? 0.05 : 0.05),
-                  borderRadius: BorderRadius.circular(20)),
+                    isLight ? 0.05 : 0.05,
+                  ),
+                  borderRadius: BorderRadius.circular(20),
+                ),
                 child: Row(
                   children: [
                     // Country Code Dropdown with Flag
                     TradeRepublicTap(
                       onTap: () => _showPhoneCodeBottomSheet(context, isLight),
                       child: Container(
-                        padding: EdgeInsets.symmetric(horizontal: 10),
+                        padding: const EdgeInsets.symmetric(horizontal: 10),
                         height: double.infinity,
                         decoration: BoxDecoration(
                           color: Colors.transparent,
-                          borderRadius: BorderRadius.only(
+                          borderRadius: const BorderRadius.only(
                             topLeft: Radius.circular(20),
-                            bottomLeft: Radius.circular(20))),
+                            bottomLeft: Radius.circular(20),
+                          ),
+                        ),
                         child: Row(
                           mainAxisSize: MainAxisSize.min,
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
                               _isoToFlag(_selectedPhoneIso),
-                              style: TextStyle(fontSize: 18)),
-                            SizedBox(width: 4),
+                              style: const TextStyle(fontSize: 18),
+                            ),
+                            const SizedBox(width: 4),
                             Text(
                               _selectedPhoneCode,
                               style: TextStyle(
                                 color: isLight ? Colors.black : Colors.white,
                                 fontWeight: FontWeight.w500,
-                                fontSize: 13)),
-                            SizedBox(width: 2),
+                                fontSize: 13,
+                              ),
+                            ),
+                            const SizedBox(width: 2),
                             Icon(
                               CupertinoIcons.chevron_down,
                               size: 10,
-                              color: (isLight ? Colors.black : Colors.white).withOpacity(0.4)),
-                          ]))),
+                              color: (isLight ? Colors.black : Colors.white).withOpacity(0.4),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
                     // Separator
                     Container(
                       width: 1,
                       height: double.infinity,
                       color: (isLight ? Colors.black : Colors.white)
-                          .withOpacity(0.1)),
+                          .withOpacity(0.1),
+                    ),
                     // Phone Number Field
                     Expanded(
                       child: Padding(
-                        padding: EdgeInsets.only(left: 16),
+                        padding: const EdgeInsets.only(left: 16),
                         child: TradeRepublicTextField(
                           controller: _phoneController,
                           keyboardType: TextInputType.phone,
@@ -1235,19 +1347,22 @@ class _DriverStep1PersonalInfoState extends State<DriverStep1PersonalInfo> {
                               ? [
                                   FilteringTextInputFormatter.digitsOnly,
                                   LengthLimitingTextInputFormatter(
-                                    10), // US format: 10 digits
+                                    10,
+                                  ), // US format: 10 digits
                                   _USPhoneFormatter(),
                                 ]
                               : [
                                   FilteringTextInputFormatter.digitsOnly,
                                   LengthLimitingTextInputFormatter(
-                                    15), // Max 15 digits for international numbers
+                                    15,
+                                  ), // Max 15 digits for international numbers
                                 ],
                           style: TextStyle(
                             color: isLight ? Colors.black : Colors.white,
                             fontSize: 16,
                             fontWeight: FontWeight.w500,
-                            letterSpacing: -0.2),
+                            letterSpacing: -0.2,
+                          ),
                           hintText: _selectedPhoneCode == '+1'
                               ? '(555) 123-4567'
                               : AppLocalizations.of(context)?.phoneNumber ?? AppLocalizations.of(context)!.tr('Phone Number'),
@@ -1255,7 +1370,8 @@ class _DriverStep1PersonalInfoState extends State<DriverStep1PersonalInfo> {
                             color: (isLight ? Colors.black : Colors.white)
                                 .withOpacity(0.5),
                             fontSize: 16,
-                            fontWeight: FontWeight.w400),
+                            fontWeight: FontWeight.w400,
+                          ),
                           filled: false,
                           validator: (value) {
                             if (value == null || value.isEmpty) {
@@ -1267,7 +1383,8 @@ class _DriverStep1PersonalInfoState extends State<DriverStep1PersonalInfo> {
                               // US phone number validation
                               final digitsOnly = value.replaceAll(
                                 RegExp(r'[^\d]'),
-                                '');
+                                '',
+                              );
                               if (digitsOnly.length != 10) {
                                 return AppLocalizations.of(context)?.pleaseEnterValidUsPhoneNumber ?? AppLocalizations.of(context)!.tr('Please enter a valid US phone number');
                               }
@@ -1285,9 +1402,18 @@ class _DriverStep1PersonalInfoState extends State<DriverStep1PersonalInfo> {
                               }
                             }
                             return null;
-                          }))),
-                  ]))),
-          ])));
+                          },
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 
   // Show Phone Code Bottom Sheet
@@ -1303,14 +1429,16 @@ class _DriverStep1PersonalInfoState extends State<DriverStep1PersonalInfo> {
                 Row(
                   children: [
                     Icon(CupertinoIcons.phone, size: 22, color: isLight ? Colors.black : Colors.white),
-                    SizedBox(width: 12),
+                    const SizedBox(width: 12),
                     Flexible(child: Text(
                       AppLocalizations.of(context)?.countryCode ?? AppLocalizations.of(context)!.tr('Country Code'),
                       style: TextStyle(fontSize: 22, fontWeight: FontWeight.w700,
-                        color: isLight ? Colors.black : Colors.white, letterSpacing: -0.4))),
-                  ]),
+                        color: isLight ? Colors.black : Colors.white, letterSpacing: -0.4),
+                    )),
+                  ],
+                ),
 
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
 
                 // Scrollable Options
                 Expanded(
@@ -1322,7 +1450,7 @@ class _DriverStep1PersonalInfoState extends State<DriverStep1PersonalInfo> {
                           _selectedPhoneCode == countryData['code'];
 
                       return Padding(
-                        padding: EdgeInsets.only(bottom: 12),
+                        padding: const EdgeInsets.only(bottom: 12),
                         child: _buildBottomSheetOption(
                           countryName,
                           countryData['code']!,
@@ -1338,10 +1466,14 @@ class _DriverStep1PersonalInfoState extends State<DriverStep1PersonalInfo> {
                             });
                             Navigator.pop(context);
                           },
-                          isLight));
-                    }).toList())),
+                          isLight,
+                        ),
+                      );
+                    }).toList(),
+                  ),
+                ),
 
-                SizedBox(height: 12),
+                const SizedBox(height: 12),
 
                 // Cancel button
                 TradeRepublicButton(
@@ -1350,8 +1482,12 @@ class _DriverStep1PersonalInfoState extends State<DriverStep1PersonalInfo> {
                   onPressed: () {
                     HapticFeedback.lightImpact();
                     Navigator.pop(context);
-                  }),
-              ])));
+                  },
+                ),
+              ],
+            ),
+          ),
+      );
   }
 
   Widget _buildBottomSheetOption(
@@ -1360,22 +1496,24 @@ class _DriverStep1PersonalInfoState extends State<DriverStep1PersonalInfo> {
     String isoCode,
     bool isSelected,
     VoidCallback onTap,
-    bool isLight) {
+    bool isLight,
+  ) {
     return TradeRepublicTap(
       onTap: onTap,
       child: Container(
-        padding: EdgeInsets.all(16),
+        padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
           color: isSelected
               ? (isLight ? Colors.black : Colors.white)
               : (isLight
                     ? Colors.black.withOpacity(0.04)
                     : const Color(0xFF121212)),
-          borderRadius: BorderRadius.circular(20)),
+          borderRadius: BorderRadius.circular(20),
+        ),
         child: Row(
           children: [
-            Text(_isoToFlag(isoCode), style: TextStyle(fontSize: 24)),
-            SizedBox(width: 12),
+            Text(_isoToFlag(isoCode), style: const TextStyle(fontSize: 24)),
+            const SizedBox(width: 12),
             Expanded(
               child: Text(
                 '$countryName ($countryCode)',
@@ -1385,13 +1523,20 @@ class _DriverStep1PersonalInfoState extends State<DriverStep1PersonalInfo> {
                   color: isSelected
                       ? (isLight ? Colors.white : Colors.black)
                       : (isLight ? Colors.black : Colors.white),
-                  letterSpacing: -0.2))),
+                  letterSpacing: -0.2,
+                ),
+              ),
+            ),
             if (isSelected)
               Icon(
                 CupertinoIcons.check_mark_circled,
                 color: isLight ? Colors.white : Colors.black,
-                size: 24),
-          ])));
+                size: 24,
+              ),
+          ],
+        ),
+      ),
+    );
   }
 
   // Date Field
@@ -1409,7 +1554,8 @@ class _DriverStep1PersonalInfoState extends State<DriverStep1PersonalInfo> {
           return AppLocalizations.of(context)?.pleaseSelectDateOfBirth ?? AppLocalizations.of(context)!.tr('Please select your date of birth');
         }
         return null;
-      });
+      },
+    );
   }
 
   // Country Field
@@ -1417,13 +1563,14 @@ class _DriverStep1PersonalInfoState extends State<DriverStep1PersonalInfo> {
     return TradeRepublicTap(
       onTap: () => _showCountryBottomSheet(context, isLight),
       child: Container(
-        margin: EdgeInsets.only(bottom: 16),
+        margin: const EdgeInsets.only(bottom: 16),
         height: 140, // Increased height for better input field size
         decoration: BoxDecoration(
           color: hasError ? Colors.red.withOpacity(0.08) : (isLight ? Colors.white : Colors.black),
-          borderRadius: BorderRadius.circular(20)),
+          borderRadius: BorderRadius.circular(20),
+        ),
         child: Padding(
-          padding: EdgeInsets.all(20),
+          padding: const EdgeInsets.all(20),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -1435,12 +1582,15 @@ class _DriverStep1PersonalInfoState extends State<DriverStep1PersonalInfo> {
                     height: 36,
                     decoration: BoxDecoration(
                       color: isLight ? Colors.black : Colors.white,
-                      borderRadius: BorderRadius.circular(20)),
+                      borderRadius: BorderRadius.circular(20),
+                    ),
                     child: Icon(
                       CupertinoIcons.globe,
                       size: 18,
-                      color: isLight ? Colors.white : Colors.black)),
-                  SizedBox(width: 12),
+                      color: isLight ? Colors.white : Colors.black,
+                    ),
+                  ),
+                  const SizedBox(width: 12),
                   Expanded(
                     child: Text(
                       AppLocalizations.of(context)?.country ?? AppLocalizations.of(context)!.tr('Country'),
@@ -1448,20 +1598,27 @@ class _DriverStep1PersonalInfoState extends State<DriverStep1PersonalInfo> {
                         fontSize: 15,
                         fontWeight: FontWeight.w600,
                         color: isLight ? Colors.black : Colors.white,
-                        letterSpacing: -0.4))),
-                ]),
-              SizedBox(height: 12),
+                        letterSpacing: -0.4,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 12),
 
               // Enhanced country selector with gray background
               Expanded(
                 child: Container(
-                  padding: EdgeInsets.symmetric(
+                  padding: const EdgeInsets.symmetric(
                     horizontal: 20,
-                    vertical: 8),
+                    vertical: 8,
+                  ),
                   decoration: BoxDecoration(
                     color: (isLight ? Colors.black : Colors.white).withOpacity(
-                      0.05),
-                    borderRadius: BorderRadius.circular(20)),
+                      0.05,
+                    ),
+                    borderRadius: BorderRadius.circular(20),
+                  ),
                   child: Row(
                     children: [
                       Expanded(
@@ -1474,13 +1631,24 @@ class _DriverStep1PersonalInfoState extends State<DriverStep1PersonalInfo> {
                                       .withOpacity(0.5),
                             fontSize: 16,
                             fontWeight: FontWeight.w500,
-                            letterSpacing: -0.2))),
+                            letterSpacing: -0.2,
+                          ),
+                        ),
+                      ),
                       Icon(
                         CupertinoIcons.chevron_down,
                         size: 16,
-                        color: (isLight ? Colors.black : Colors.white).withOpacity(0.4)),
-                    ]))),
-            ]))));
+                        color: (isLight ? Colors.black : Colors.white).withOpacity(0.4),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 
   // Show Country Bottom Sheet
@@ -1496,14 +1664,16 @@ class _DriverStep1PersonalInfoState extends State<DriverStep1PersonalInfo> {
                 Row(
                   children: [
                     Icon(CupertinoIcons.globe, size: 22, color: isLight ? Colors.black : Colors.white),
-                    SizedBox(width: 12),
+                    const SizedBox(width: 12),
                     Flexible(child: Text(
                       AppLocalizations.of(context)?.selectCountry ?? AppLocalizations.of(context)!.tr('Select Country'),
                       style: TextStyle(fontSize: 22, fontWeight: FontWeight.w700,
-                        color: isLight ? Colors.black : Colors.white, letterSpacing: -0.4))),
-                  ]),
+                        color: isLight ? Colors.black : Colors.white, letterSpacing: -0.4),
+                    )),
+                  ],
+                ),
 
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
 
                 // Scrollable Options
                 Expanded(
@@ -1514,7 +1684,7 @@ class _DriverStep1PersonalInfoState extends State<DriverStep1PersonalInfo> {
                       final isSelected = _selectedCountryString == countryName;
 
                       return Padding(
-                        padding: EdgeInsets.only(bottom: 12),
+                        padding: const EdgeInsets.only(bottom: 12),
                         child: _buildCountryBottomSheetOption(
                           countryName,
                           countryData['iso']!,
@@ -1526,10 +1696,14 @@ class _DriverStep1PersonalInfoState extends State<DriverStep1PersonalInfo> {
                             });
                             Navigator.pop(context);
                           },
-                          isLight));
-                    }).toList())),
+                          isLight,
+                        ),
+                      );
+                    }).toList(),
+                  ),
+                ),
 
-                SizedBox(height: 12),
+                const SizedBox(height: 12),
 
                 // Cancel button
                 TradeRepublicButton(
@@ -1538,8 +1712,12 @@ class _DriverStep1PersonalInfoState extends State<DriverStep1PersonalInfo> {
                   onPressed: () {
                     HapticFeedback.lightImpact();
                     Navigator.pop(context);
-                  }),
-              ])));
+                  },
+                ),
+              ],
+            ),
+          ),
+      );
   }
 
   Widget _buildCountryBottomSheetOption(
@@ -1547,22 +1725,24 @@ class _DriverStep1PersonalInfoState extends State<DriverStep1PersonalInfo> {
     String isoCode,
     bool isSelected,
     VoidCallback onTap,
-    bool isLight) {
+    bool isLight,
+  ) {
     return TradeRepublicTap(
       onTap: onTap,
       child: Container(
-        padding: EdgeInsets.all(16),
+        padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
           color: isSelected
               ? (isLight ? Colors.black : Colors.white)
               : (isLight
                     ? Colors.black.withOpacity(0.04)
                     : const Color(0xFF121212)),
-          borderRadius: BorderRadius.circular(20)),
+          borderRadius: BorderRadius.circular(20),
+        ),
         child: Row(
           children: [
-            Text(_isoToFlag(isoCode), style: TextStyle(fontSize: 24)),
-            SizedBox(width: 12),
+            Text(_isoToFlag(isoCode), style: const TextStyle(fontSize: 24)),
+            const SizedBox(width: 12),
             Expanded(
               child: Text(
                 countryName,
@@ -1572,13 +1752,20 @@ class _DriverStep1PersonalInfoState extends State<DriverStep1PersonalInfo> {
                   color: isSelected
                       ? (isLight ? Colors.white : Colors.black)
                       : (isLight ? Colors.black : Colors.white),
-                  letterSpacing: -0.2))),
+                  letterSpacing: -0.2,
+                ),
+              ),
+            ),
             if (isSelected)
               Icon(
                 CupertinoIcons.check_mark_circled,
                 color: isLight ? Colors.white : Colors.black,
-                size: 24),
-          ])));
+                size: 24,
+              ),
+          ],
+        ),
+      ),
+    );
   }
 
   // Build Username Field with Live Availability Check
@@ -1591,32 +1778,38 @@ class _DriverStep1PersonalInfoState extends State<DriverStep1PersonalInfo> {
     // Determine state
     if (_isCheckingUsername) {
       borderColor = isLight ? Colors.blue : Colors.blue;
-      suffixIcon = Padding(
+      suffixIcon = const Padding(
         padding: EdgeInsets.all(12),
         child: SizedBox(
           width: 20,
           height: 20,
-          child: CultiooLoadingIndicator(size: 20)));
+          child: CultiooLoadingIndicator(size: 20),
+        ),
+      );
       helperText = AppLocalizations.of(context)?.checkingAvailability ?? AppLocalizations.of(context)!.tr('Checking availability...');
       helperColor = Colors.blue;
     } else if (_usernameAvailable == true) {
       borderColor = Colors.green;
-      suffixIcon = Padding(
+      suffixIcon = const Padding(
         padding: EdgeInsets.all(12),
         child: Icon(
           CupertinoIcons.checkmark_circle_fill,
           color: Colors.green,
-          size: 20));
+          size: 20,
+        ),
+      );
       helperText = AppLocalizations.of(context)?.usernameIsAvailable ?? AppLocalizations.of(context)!.tr('✓ Username is available');
       helperColor = Colors.green;
     } else if (_usernameAvailable == false) {
       borderColor = Colors.red;
-      suffixIcon = Padding(
+      suffixIcon = const Padding(
         padding: EdgeInsets.all(12),
         child: Icon(
           CupertinoIcons.xmark_circle_fill,
           color: Colors.red,
-          size: 20));
+          size: 20,
+        ),
+      );
       helperText = AppLocalizations.of(context)?.usernameIsAlreadyTaken ?? AppLocalizations.of(context)!.tr('✗ Username is already taken');
       helperColor = Colors.red;
     } else {
@@ -1638,17 +1831,21 @@ class _DriverStep1PersonalInfoState extends State<DriverStep1PersonalInfo> {
                 : (isLight
                     ? Colors.black.withOpacity(0.04)
                     : const Color(0xFF121212)),
-            borderRadius: BorderRadius.circular(20)),
+            borderRadius: BorderRadius.circular(20),
+          ),
           child: Row(
             children: [
               Padding(
-                padding: EdgeInsets.only(left: 20),
+                padding: const EdgeInsets.only(left: 20),
                 child: Icon(
                   CupertinoIcons.person_circle,
                   color: (isLight ? Colors.black : Colors.white).withOpacity(
-                    0.5),
-                  size: 20)),
-              SizedBox(width: 12),
+                    0.5,
+                  ),
+                  size: 20,
+                ),
+              ),
+              const SizedBox(width: 12),
               Expanded(
                 child: TradeRepublicTextField(
                   controller: _usernameController,
@@ -1656,20 +1853,28 @@ class _DriverStep1PersonalInfoState extends State<DriverStep1PersonalInfo> {
                     FilteringTextInputFormatter.allow(RegExp(r'[a-z0-9_]')),
                     LowerCaseTextFormatter(),
                   ],
-                  hintText: AppLocalizations.of(context)?.username ?? AppLocalizations.of(context)!.tr('Username'))),
+                  hintText: AppLocalizations.of(context)?.username ?? AppLocalizations.of(context)!.tr('Username'),
+                ),
+              ),
               if (suffixIcon != null) suffixIcon,
-              if (suffixIcon == null) SizedBox(width: 20),
-            ])),
+              if (suffixIcon == null) const SizedBox(width: 20),
+            ],
+          ),
+        ),
         if (helperText != null)
           Padding(
-            padding: EdgeInsets.only(left: 20, top: 8),
+            padding: const EdgeInsets.only(left: 20, top: 8),
             child: Text(
               helperText,
               style: TextStyle(
                 color: helperColor,
                 fontSize: 13,
-                fontWeight: FontWeight.w500))),
-      ]);
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+          ),
+      ],
+    );
   }
 
   // Build Email Field with Live Availability Check
@@ -1682,32 +1887,38 @@ class _DriverStep1PersonalInfoState extends State<DriverStep1PersonalInfo> {
     // Determine state
     if (_isCheckingEmail) {
       borderColor = isLight ? Colors.blue : Colors.blue;
-      suffixIcon = Padding(
+      suffixIcon = const Padding(
         padding: EdgeInsets.all(12),
         child: SizedBox(
           width: 20,
           height: 20,
-          child: CultiooLoadingIndicator(size: 20)));
+          child: CultiooLoadingIndicator(size: 20),
+        ),
+      );
       helperText = AppLocalizations.of(context)?.checkingAvailability ?? AppLocalizations.of(context)!.tr('Checking availability...');
       helperColor = Colors.blue;
     } else if (_emailAvailable == true) {
       borderColor = Colors.green;
-      suffixIcon = Padding(
+      suffixIcon = const Padding(
         padding: EdgeInsets.all(12),
         child: Icon(
           CupertinoIcons.checkmark_circle_fill,
           color: Colors.green,
-          size: 20));
+          size: 20,
+        ),
+      );
       helperText = AppLocalizations.of(context)?.emailIsAvailable ?? AppLocalizations.of(context)!.tr('✓ Email is available');
       helperColor = Colors.green;
     } else if (_emailAvailable == false) {
       borderColor = Colors.red;
-      suffixIcon = Padding(
+      suffixIcon = const Padding(
         padding: EdgeInsets.all(12),
         child: Icon(
           CupertinoIcons.xmark_circle_fill,
           color: Colors.red,
-          size: 20));
+          size: 20,
+        ),
+      );
       helperText = AppLocalizations.of(context)?.emailIsAlreadyRegistered ?? AppLocalizations.of(context)!.tr('✗ Email is already registered');
       helperColor = Colors.red;
     } else {
@@ -1729,35 +1940,47 @@ class _DriverStep1PersonalInfoState extends State<DriverStep1PersonalInfo> {
                 : (isLight
                     ? Colors.black.withOpacity(0.04)
                     : const Color(0xFF121212)),
-            borderRadius: BorderRadius.circular(20)),
+            borderRadius: BorderRadius.circular(20),
+          ),
           child: Row(
             children: [
               Padding(
-                padding: EdgeInsets.only(left: 20),
+                padding: const EdgeInsets.only(left: 20),
                 child: Icon(
                   CupertinoIcons.mail,
                   color: (isLight ? Colors.black : Colors.white).withOpacity(
-                    0.5),
-                  size: 20)),
-              SizedBox(width: 12),
+                    0.5,
+                  ),
+                  size: 20,
+                ),
+              ),
+              const SizedBox(width: 12),
               Expanded(
                 child: TradeRepublicTextField(
                   controller: _emailController,
                   keyboardType: TextInputType.emailAddress,
-                  hintText: AppLocalizations.of(context)?.emailAddress ?? AppLocalizations.of(context)!.tr('Email Address'))),
+                  hintText: AppLocalizations.of(context)?.emailAddress ?? AppLocalizations.of(context)!.tr('Email Address'),
+                ),
+              ),
               if (suffixIcon != null) suffixIcon,
-              if (suffixIcon == null) SizedBox(width: 20),
-            ])),
+              if (suffixIcon == null) const SizedBox(width: 20),
+            ],
+          ),
+        ),
         if (helperText != null)
           Padding(
-            padding: EdgeInsets.only(left: 20, top: 8),
+            padding: const EdgeInsets.only(left: 20, top: 8),
             child: Text(
               helperText,
               style: TextStyle(
                 color: helperColor,
                 fontSize: 13,
-                fontWeight: FontWeight.w500))),
-      ]);
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+          ),
+      ],
+    );
   }
 }
 
@@ -1766,7 +1989,8 @@ class _USPhoneFormatter extends TextInputFormatter {
   @override
   TextEditingValue formatEditUpdate(
     TextEditingValue oldValue,
-    TextEditingValue newValue) {
+    TextEditingValue newValue,
+  ) {
     // Remove all non-digit characters
     final digitsOnly = newValue.text.replaceAll(RegExp(r'[^\d]'), '');
 
@@ -1791,7 +2015,8 @@ class _USPhoneFormatter extends TextInputFormatter {
 
     return TextEditingValue(
       text: formatted,
-      selection: TextSelection.collapsed(offset: formatted.length));
+      selection: TextSelection.collapsed(offset: formatted.length),
+    );
   }
 }
 
@@ -1800,9 +2025,11 @@ class LowerCaseTextFormatter extends TextInputFormatter {
   @override
   TextEditingValue formatEditUpdate(
     TextEditingValue oldValue,
-    TextEditingValue newValue) {
+    TextEditingValue newValue,
+  ) {
     return TextEditingValue(
       text: newValue.text.toLowerCase(),
-      selection: newValue.selection);
+      selection: newValue.selection,
+    );
   }
 }

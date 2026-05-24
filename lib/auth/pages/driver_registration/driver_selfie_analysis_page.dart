@@ -11,8 +11,6 @@ import '../../../shared/services/app_settings.dart';
 import '../../../shared/services/app_localizations.dart';
 import '../../../config/api_config.dart';
 import '../../../shared/widgets/trade_republic_button.dart';
-import 'package:cultioo_business/shared/widgets/desktop_app_wrapper.dart';
-import 'package:cultioo_business/shared/widgets/desktop_optimized_widgets.dart';
 
 /// Full-screen analysis page shown after selfie capture.
 ///
@@ -80,41 +78,52 @@ class _DriverSelfieAnalysisPageState extends State<DriverSelfieAnalysisPage>
     // Result icon + text
     _resultController = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 700));
+      duration: const Duration(milliseconds: 700),
+    );
     _resultScale = CurvedAnimation(
       parent: _resultController,
-      curve: Curves.elasticOut);
+      curve: Curves.elasticOut,
+    );
     _resultFade = CurvedAnimation(
       parent: _resultController,
-      curve: const Interval(0.0, 0.4, curve: Curves.easeIn));
+      curve: const Interval(0.0, 0.4, curve: Curves.easeIn),
+    );
 
     // Step rows fade in
     _step1Controller = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 400));
+      duration: const Duration(milliseconds: 400),
+    );
     _step1Fade = CurvedAnimation(
       parent: _step1Controller,
-      curve: Curves.easeOut);
+      curve: Curves.easeOut,
+    );
 
     _step2Controller = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 400));
+      duration: const Duration(milliseconds: 400),
+    );
     _step2Fade = CurvedAnimation(
       parent: _step2Controller,
-      curve: Curves.easeOut);
+      curve: Curves.easeOut,
+    );
 
     // Bottom button slide-up
     _buttonController = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 500));
+      duration: const Duration(milliseconds: 500),
+    );
     _buttonFade = CurvedAnimation(
       parent: _buttonController,
-      curve: Curves.easeOut);
+      curve: Curves.easeOut,
+    );
     _buttonSlide = Tween<Offset>(
       begin: const Offset(0, 0.3),
-      end: Offset.zero).animate(CurvedAnimation(
+      end: Offset.zero,
+    ).animate(CurvedAnimation(
       parent: _buttonController,
-      curve: Curves.easeOutCubic));
+      curve: Curves.easeOutCubic,
+    ));
   }
 
   // ─────────────────────── Verification flow ───────────────────────
@@ -153,7 +162,8 @@ class _DriverSelfieAnalysisPageState extends State<DriverSelfieAnalysisPage>
           'expectedFirstName': widget.expectedFirstName,
           'expectedLastName': widget.expectedLastName,
           'expectedDateOfBirth': widget.expectedDob,
-        }));
+        }),
+      );
 
       if (!mounted) return;
 
@@ -182,12 +192,14 @@ class _DriverSelfieAnalysisPageState extends State<DriverSelfieAnalysisPage>
     try {
       final request = http.MultipartRequest(
         'POST',
-        Uri.parse('$baseUrl/api/verification/verify-face'));
+        Uri.parse('$baseUrl/api/verification/verify-face'),
+      );
 
       request.files.add(await http.MultipartFile.fromPath(
         'selfie',
         widget.selfieImage.path,
-        contentType: MediaType('image', 'jpeg')));
+        contentType: MediaType('image', 'jpeg'),
+      ));
 
       if (widget.frontImageUrl != null) {
         request.fields['idImageUrl'] = widget.frontImageUrl!;
@@ -246,7 +258,7 @@ class _DriverSelfieAnalysisPageState extends State<DriverSelfieAnalysisPage>
       backgroundColor: isLight ? Colors.white : Colors.black,
       body: SafeArea(
         child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 32),
+          padding: const EdgeInsets.symmetric(horizontal: 32),
           child: Column(
             children: [
               const Spacer(flex: 3),
@@ -258,7 +270,8 @@ class _DriverSelfieAnalysisPageState extends State<DriverSelfieAnalysisPage>
                 switchOutCurve: Curves.easeIn,
                 child: _isAnalyzing
                     ? _buildSpinner(isLight, loc)
-                    : _buildResult(isLight, loc)),
+                    : _buildResult(isLight, loc),
+              ),
 
               const Spacer(flex: 2),
 
@@ -272,11 +285,18 @@ class _DriverSelfieAnalysisPageState extends State<DriverSelfieAnalysisPage>
                 position: _buttonSlide,
                 child: FadeTransition(
                   opacity: _buttonFade,
-                  child: _buildButton(isLight, loc))),
+                  child: _buildButton(isLight, loc),
+                ),
+              ),
 
               SizedBox(
-                height: MediaQuery.of(context).padding.bottom + 24),
-            ]))));
+                height: MediaQuery.of(context).padding.bottom + 24,
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 
   // ──────────────────── Widget helpers ────────────────────
@@ -288,24 +308,30 @@ class _DriverSelfieAnalysisPageState extends State<DriverSelfieAnalysisPage>
       children: [
         CupertinoActivityIndicator(
           radius: 22,
-          color: isLight ? Colors.black : Colors.white),
-        SizedBox(height: 28),
+          color: isLight ? Colors.black : Colors.white,
+        ),
+        const SizedBox(height: 28),
         Text(
           loc?.verifyingIdentity ?? AppLocalizations.of(context)!.tr('Verifying Identity…'),
           style: TextStyle(
-            fontSize: DesktopOptimizedWidgets.getFontSize() + 10,
+            fontSize: 24,
             fontWeight: FontWeight.w700,
             color: isLight ? Colors.black : Colors.white,
-            letterSpacing: -0.4)),
-        SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+            letterSpacing: -0.4,
+          ),
+        ),
+        const SizedBox(height: 8),
         Text(
           loc?.aiAnalyzingFace ?? AppLocalizations.of(context)!.tr('AI is analyzing your face and comparing with your ID'),
           textAlign: TextAlign.center,
           style: TextStyle(
             fontSize: 15,
             color: (isLight ? Colors.black : Colors.white).withOpacity(0.5),
-            height: 1.4)),
-      ]);
+            height: 1.4,
+          ),
+        ),
+      ],
+    );
   }
 
   Widget _buildResult(bool isLight, AppLocalizations? loc) {
@@ -323,24 +349,29 @@ class _DriverSelfieAnalysisPageState extends State<DriverSelfieAnalysisPage>
               decoration: BoxDecoration(
                 color:
                     (_allPassed ? Colors.green : Colors.red).withOpacity(0.10),
-                shape: BoxShape.circle),
+                shape: BoxShape.circle,
+              ),
               child: Icon(
                 _allPassed
                     ? CupertinoIcons.checkmark_circle_fill
                     : CupertinoIcons.xmark_circle_fill,
                 size: 52,
-                color: _allPassed ? Colors.green : Colors.red)),
-            SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+                color: _allPassed ? Colors.green : Colors.red,
+              ),
+            ),
+            const SizedBox(height: 24),
             Text(
               _allPassed
                   ? (loc?.verificationPassed ?? AppLocalizations.of(context)!.tr('Verification Passed'))
                   : (loc?.verificationFailed ?? AppLocalizations.of(context)!.tr('Verification Failed')),
               style: TextStyle(
-                fontSize: DesktopOptimizedWidgets.getFontSize() + 10,
+                fontSize: 24,
                 fontWeight: FontWeight.w700,
                 color: isLight ? Colors.black : Colors.white,
-                letterSpacing: -0.4)),
-            SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+                letterSpacing: -0.4,
+              ),
+            ),
+            const SizedBox(height: 8),
             Text(
               _allPassed
                   ? (loc?.allChecksPassed ?? AppLocalizations.of(context)!.tr('All checks passed successfully.'))
@@ -350,8 +381,13 @@ class _DriverSelfieAnalysisPageState extends State<DriverSelfieAnalysisPage>
                 fontSize: 15,
                 color:
                     (isLight ? Colors.black : Colors.white).withOpacity(0.5),
-                height: 1.4)),
-          ])));
+                height: 1.4,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 
   Widget _buildSteps(bool isLight, AppLocalizations? loc) {
@@ -362,8 +398,10 @@ class _DriverSelfieAnalysisPageState extends State<DriverSelfieAnalysisPage>
           child: _stepRow(
             isLight: isLight,
             title: loc?.analyzingDocuments ?? AppLocalizations.of(context)!.tr('Checking document data…'),
-            passed: _documentCheckPassed)),
-        SizedBox(height: 10),
+            passed: _documentCheckPassed,
+          ),
+        ),
+        const SizedBox(height: 10),
         FadeTransition(
           opacity: _step2Fade,
           child: _stepRow(
@@ -371,8 +409,11 @@ class _DriverSelfieAnalysisPageState extends State<DriverSelfieAnalysisPage>
             title: loc?.aiAnalyzingFace ?? AppLocalizations.of(context)!.tr('Comparing face with ID…'),
             passed: _faceCheckPassed,
             confidence:
-                _faceCheckPassed == true && _faceConfidence > 0 ? _faceConfidence : null)),
-      ]);
+                _faceCheckPassed == true && _faceConfidence > 0 ? _faceConfidence : null,
+          ),
+        ),
+      ],
+    );
   }
 
   Widget _stepRow({
@@ -383,23 +424,25 @@ class _DriverSelfieAnalysisPageState extends State<DriverSelfieAnalysisPage>
   }) {
     Widget leading;
     if (passed == null) {
-      leading = SizedBox(
+      leading = const SizedBox(
         width: 22,
         height: 22,
-        child: CupertinoActivityIndicator(radius: 10));
+        child: CupertinoActivityIndicator(radius: 10),
+      );
     } else if (passed) {
-      leading = Icon(CupertinoIcons.checkmark_circle_fill,
+      leading = const Icon(CupertinoIcons.checkmark_circle_fill,
           color: Colors.green, size: 22);
     } else {
-      leading = Icon(CupertinoIcons.xmark_circle_fill,
+      leading = const Icon(CupertinoIcons.xmark_circle_fill,
           color: Colors.red, size: 22);
     }
 
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
       decoration: BoxDecoration(
         color: (isLight ? Colors.black : Colors.white).withOpacity(0.04),
-        borderRadius: BorderRadius.circular(14)),
+        borderRadius: BorderRadius.circular(14),
+      ),
       child: Row(
         children: [
           AnimatedSwitcher(
@@ -408,8 +451,10 @@ class _DriverSelfieAnalysisPageState extends State<DriverSelfieAnalysisPage>
               key: ValueKey(passed),
               width: 22,
               height: 22,
-              child: leading)),
-          SizedBox(width: 12),
+              child: leading,
+            ),
+          ),
+          const SizedBox(width: 12),
           Expanded(
             child: Text(
               title,
@@ -417,15 +462,22 @@ class _DriverSelfieAnalysisPageState extends State<DriverSelfieAnalysisPage>
                 fontSize: 15,
                 fontWeight: FontWeight.w500,
                 color: (isLight ? Colors.black : Colors.white)
-                    .withOpacity(passed == null ? 0.5 : 1.0)))),
+                    .withOpacity(passed == null ? 0.5 : 1.0),
+              ),
+            ),
+          ),
           if (confidence != null)
             Text(
               '${(confidence * 100).toInt()}%',
               style: TextStyle(
-                fontSize: DesktopOptimizedWidgets.getFontSize(),
+                fontSize: 14,
                 fontWeight: FontWeight.w600,
-                color: Colors.green.withOpacity(0.8))),
-        ]));
+                color: Colors.green.withOpacity(0.8),
+              ),
+            ),
+        ],
+      ),
+    );
   }
 
   Widget _buildButton(bool isLight, AppLocalizations? loc) {
@@ -445,6 +497,8 @@ class _DriverSelfieAnalysisPageState extends State<DriverSelfieAnalysisPage>
         foregroundColor: _allPassed ? null : Colors.white,
         onPressed: () {
           Navigator.of(context).pop(_allPassed);
-        }));
+        },
+      ),
+    );
   }
 }

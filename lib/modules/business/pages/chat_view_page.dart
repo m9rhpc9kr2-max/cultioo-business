@@ -14,8 +14,6 @@ import '../../../shared/widgets/trade_republic_button.dart';
 import '../../../shared/widgets/trade_republic_card.dart';
 import '../../../shared/widgets/cultioo_spinner.dart';
 import '../../../shared/widgets/trade_republic_tap.dart';
-import 'package:cultioo_business/shared/widgets/desktop_app_wrapper.dart';
-import 'package:cultioo_business/shared/widgets/desktop_optimized_widgets.dart';
 
 class ChatViewPage extends StatefulWidget {
   final String otherPerson;
@@ -63,7 +61,8 @@ class _ChatViewPageState extends State<ChatViewPage> {
       _scrollController.animateTo(
         _scrollController.position.maxScrollExtent,
         duration: const Duration(milliseconds: 300),
-        curve: Curves.easeOut);
+        curve: Curves.easeOut,
+      );
     }
   }
 
@@ -77,7 +76,8 @@ class _ChatViewPageState extends State<ChatViewPage> {
     try {
       final response = await http.get(
         Uri.parse('${ApiConfig.baseUrl}/api/messages/orders/${widget.orderId}'),
-        headers: {'Content-Type': 'application/json'});
+        headers: {'Content-Type': 'application/json'},
+      );
 
       if (response.statusCode == 200) {
         final data = json.decode(response.body);
@@ -119,32 +119,39 @@ class _ChatViewPageState extends State<ChatViewPage> {
       appBar: AppBar(
         toolbarHeight: isDesktop ? 68 : kToolbarHeight,
         leading: TradeRepublicButton.icon(
-          icon: Icon(CupertinoIcons.back),
+          icon: const Icon(CupertinoIcons.back),
           size: 40,
           isSecondary: true,
-          onPressed: () => Navigator.pop(context)),
+          onPressed: () => Navigator.pop(context),
+        ),
         title: Row(
           children: [
             Container(
               width: isDesktop ? 44 : 40,
               height: isDesktop ? 44 : 40,
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
+                borderRadius: BorderRadius.circular(20),
                 gradient: LinearGradient(
                   colors: [
                     Colors.orange.withOpacity(0.8),
                     Colors.pink.withOpacity(0.8),
-                  ])),
+                  ],
+                ),
+              ),
               child: Center(
                 child: Text(
                   widget.otherPerson.isNotEmpty
                       ? widget.otherPerson[0].toUpperCase()
                       : 'U',
-                  style: TextStyle(
+                  style: const TextStyle(
                     color: Colors.white,
                     fontSize: 15,
-                    fontWeight: FontWeight.w700)))),
-            SizedBox(width: 12),
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+              ),
+            ),
+            const SizedBox(width: 12),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -154,20 +161,29 @@ class _ChatViewPageState extends State<ChatViewPage> {
                     style: TextStyle(
                       color: isLight ? Colors.black : Colors.white,
                       fontSize: isDesktop ? 20 : 18,
-                      fontWeight: FontWeight.w700)),
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
                   Text(
                     '${_allMessages.length} messages',
                     style: TextStyle(
                       color: (isLight ? Colors.black : Colors.white)
                           .withOpacity(0.6),
-                      fontSize: isDesktop ? 13 : 12)),
-                ])),
-          ])),
+                      fontSize: isDesktop ? 13 : 12,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
       body: Align(
         alignment: Alignment.topCenter,
         child: ConstrainedBox(
           constraints: BoxConstraints(
-            maxWidth: isDesktop ? 980 : double.infinity),
+            maxWidth: isDesktop ? 980 : double.infinity,
+          ),
           child: Column(
             children: [
               Expanded(
@@ -177,17 +193,25 @@ class _ChatViewPageState extends State<ChatViewPage> {
                         controller: _scrollController,
                         padding: EdgeInsets.symmetric(
                           horizontal: isDesktop ? 24 : 16,
-                          vertical: isDesktop ? 20 : 16),
+                          vertical: isDesktop ? 20 : 16,
+                        ),
                         itemCount: _allMessages.length,
                         itemBuilder: (context, index) {
                           final message = _allMessages[index];
                           return _buildMessageBubble(
                             message,
                             isLight,
-                            isDesktop: isDesktop);
-                        })),
+                            isDesktop: isDesktop,
+                          );
+                        },
+                      ),
+              ),
               _buildMessageInput(isLight, isDesktop: isDesktop),
-            ]))));
+            ],
+          ),
+        ),
+      ),
+    );
   }
 
   List<String> _orderChatFileCandidates(Map<String, dynamic> message) {
@@ -204,7 +228,8 @@ class _ChatViewPageState extends State<ChatViewPage> {
         return Icon(
           CupertinoIcons.photo,
           size: 48,
-          color: Colors.white.withOpacity(0.6));
+          color: Colors.white.withOpacity(0.6),
+        );
       }
       final url = candidates[index];
       return Image.network(
@@ -215,15 +240,18 @@ class _ChatViewPageState extends State<ChatViewPage> {
         errorBuilder: (_, __, ___) => buildAt(index + 1),
         loadingBuilder: (context, child, loadingProgress) {
           if (loadingProgress == null) return child;
-          return SizedBox(
+          return const SizedBox(
             height: 200,
-            child: Center(child: CultiooLoadingIndicator()));
-        });
+            child: Center(child: CultiooLoadingIndicator()),
+          );
+        },
+      );
     }
 
     return ClipRRect(
-      borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius()),
-      child: buildAt(0));
+      borderRadius: BorderRadius.circular(12),
+      child: buildAt(0),
+    );
   }
 
   Widget _buildMessageBubble(
@@ -241,7 +269,7 @@ class _ChatViewPageState extends State<ChatViewPage> {
     final candidates = _orderChatFileCandidates(message);
 
     return Container(
-      margin: EdgeInsets.symmetric(vertical: 4),
+      margin: const EdgeInsets.symmetric(vertical: 4),
       child: Row(
         mainAxisAlignment: isFromMe
             ? MainAxisAlignment.end
@@ -252,36 +280,45 @@ class _ChatViewPageState extends State<ChatViewPage> {
               width: 32,
               height: 32,
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
+                borderRadius: BorderRadius.circular(20),
                 gradient: LinearGradient(
                   colors: [
                     Colors.orange.withOpacity(0.8),
                     Colors.pink.withOpacity(0.8),
-                  ])),
+                  ],
+                ),
+              ),
               child: Center(
                 child: Text(
                   sender.isNotEmpty ? sender[0].toUpperCase() : 'U',
-                  style: TextStyle(
+                  style: const TextStyle(
                     color: Colors.white,
                     fontSize: 12,
-                    fontWeight: FontWeight.w700)))),
-            SizedBox(width: 8),
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+              ),
+            ),
+            const SizedBox(width: 8),
           ],
           Flexible(
             child: ConstrainedBox(
               constraints: BoxConstraints(
-                maxWidth: isDesktop ? 620 : 340),
+                maxWidth: isDesktop ? 620 : 340,
+              ),
               child: Container(
                 padding: EdgeInsets.symmetric(
                   horizontal: isDesktop ? 14 : 12,
-                  vertical: isDesktop ? 10 : 12),
+                  vertical: isDesktop ? 10 : 12,
+                ),
                 decoration: BoxDecoration(
                   color: isFromMe
                       ? Colors.blue.withOpacity(0.8)
                       : isLight
                       ? Colors.black.withOpacity(0.05)
                       : Colors.white.withOpacity(0.08),
-                  borderRadius: BorderRadius.circular(isDesktop ? 16 : 20)),
+                  borderRadius: BorderRadius.circular(isDesktop ? 16 : 20),
+                ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -293,10 +330,11 @@ class _ChatViewPageState extends State<ChatViewPage> {
                             await launchUrl(u, mode: LaunchMode.inAppBrowserView);
                           }
                         },
-                        child: _orderChatImagePreview(candidates)),
+                        child: _orderChatImagePreview(candidates),
+                      ),
                       if (content.toString().trim().isNotEmpty &&
                           !content.toString().contains('uploads/')) ...[
-                        SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+                        const SizedBox(height: 8),
                         Text(
                           content.toString(),
                           style: TextStyle(
@@ -305,29 +343,33 @@ class _ChatViewPageState extends State<ChatViewPage> {
                                 : isLight
                                 ? Colors.black
                                 : Colors.white,
-                            fontSize: isDesktop ? 15 : 14)),
+                            fontSize: isDesktop ? 15 : 14,
+                          ),
+                        ),
                       ],
                     ] else if (messageType == 'pdf' && candidates.isNotEmpty) ...[
                       TradeRepublicCard.transparent(
-                        padding: EdgeInsets.symmetric(vertical: 8),
-                        borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius()),
+                        padding: const EdgeInsets.symmetric(vertical: 8),
+                        borderRadius: BorderRadius.circular(12),
                         onTap: () {
                           unawaited(() async {
                             final u = Uri.tryParse(candidates.first);
                             if (u != null && await canLaunchUrl(u)) {
                               await launchUrl(
                                 u,
-                                mode: LaunchMode.inAppBrowserView);
+                                mode: LaunchMode.inAppBrowserView,
+                              );
                             }
                           }());
                         },
                         child: Row(
                           children: [
-                            Icon(
+                            const Icon(
                               CupertinoIcons.doc_text_fill,
                               color: Colors.red,
-                              size: 28),
-                            SizedBox(width: 10),
+                              size: 28,
+                            ),
+                            const SizedBox(width: 10),
                             Expanded(
                               child: Text(
                                 content.toString().isNotEmpty
@@ -342,14 +384,20 @@ class _ChatViewPageState extends State<ChatViewPage> {
                                       ? Colors.black
                                       : Colors.white,
                                   fontSize: isDesktop ? 15 : 14,
-                                  fontWeight: FontWeight.w600))),
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                            ),
                             Icon(
                               CupertinoIcons.arrow_up_right_square,
                               color: isFromMe
                                   ? Colors.white70
                                   : (isLight ? Colors.black54 : Colors.white70),
-                              size: 20),
-                          ])),
+                              size: 20,
+                            ),
+                          ],
+                        ),
+                      ),
                     ] else
                       Text(
                         content.toString(),
@@ -359,9 +407,11 @@ class _ChatViewPageState extends State<ChatViewPage> {
                               : isLight
                               ? Colors.black
                               : Colors.white,
-                          fontSize: isDesktop ? 15 : 14)),
+                          fontSize: isDesktop ? 15 : 14,
+                        ),
+                      ),
                     if (timestamp.isNotEmpty) ...[
-                      SizedBox(height: 4),
+                      const SizedBox(height: 4),
                       Text(
                         _formatMessageTime(timestamp),
                         style: TextStyle(
@@ -369,26 +419,39 @@ class _ChatViewPageState extends State<ChatViewPage> {
                               ? Colors.white.withOpacity(0.7)
                               : (isLight ? Colors.black : Colors.white)
                                     .withOpacity(0.5),
-                          fontSize: isDesktop ? 11 : 10)),
+                          fontSize: isDesktop ? 11 : 10,
+                        ),
+                      ),
                     ],
-                  ])))),
+                  ],
+                ),
+              ),
+            ),
+          ),
           if (isFromMe) ...[
-            SizedBox(width: 8),
+            const SizedBox(width: 8),
             Container(
               width: 32,
               height: 32,
               decoration: BoxDecoration(
                 color: Colors.blue,
-                borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
+                borderRadius: BorderRadius.circular(20),
+              ),
               child: const Center(
                 child: Text(
                   'A',
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 12,
-                    fontWeight: FontWeight.w700)))),
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+              ),
+            ),
           ],
-        ]));
+        ],
+      ),
+    );
   }
 
   Widget _buildMessageInput(bool isLight, {bool isDesktop = false}) {
@@ -397,7 +460,8 @@ class _ChatViewPageState extends State<ChatViewPage> {
         isDesktop ? 24 : 16,
         isDesktop ? 12 : 16,
         isDesktop ? 24 : 16,
-        isDesktop ? 14 : 16),
+        isDesktop ? 14 : 16,
+      ),
       decoration: BoxDecoration(color: isLight ? Colors.white : Colors.black),
       child: SafeArea(
         child: Row(
@@ -407,22 +471,29 @@ class _ChatViewPageState extends State<ChatViewPage> {
                 padding: EdgeInsets.symmetric(horizontal: isDesktop ? 14 : 16),
                 decoration: BoxDecoration(
                   color: (isLight ? Colors.black : Colors.white).withOpacity(
-                    0.05),
-                  borderRadius: BorderRadius.circular(isDesktop ? 14 : 20)),
+                    0.05,
+                  ),
+                  borderRadius: BorderRadius.circular(isDesktop ? 14 : 20),
+                ),
                 child: TradeRepublicTextField(
                   controller: _messageController,
                   hintText: AppLocalizations.of(context)?.typeAMessage ?? 'Type a message...',
                   style: TextStyle(
-                    color: isLight ? Colors.black : Colors.white),
+                    color: isLight ? Colors.black : Colors.white,
+                  ),
                   maxLines: null,
                   textCapitalization: TextCapitalization.sentences,
-                  onChanged: (_) => setState(() {})))),
-            SizedBox(width: 12),
+                  onChanged: (_) => setState(() {}),
+                ),
+              ),
+            ),
+            const SizedBox(width: 12),
             TradeRepublicButton.icon(
               icon: Icon(
                 CupertinoIcons.arrow_up,
                 size: isDesktop ? 16 : 18,
-                color: isLight ? Colors.white : Colors.black),
+                color: isLight ? Colors.white : Colors.black,
+              ),
               size: isDesktop ? 38 : 44,
               onPressed: _messageController.text.trim().isEmpty
                   ? null
@@ -448,8 +519,12 @@ class _ChatViewPageState extends State<ChatViewPage> {
                       Future.delayed(const Duration(milliseconds: 100), () {
                         _scrollToBottom();
                       });
-                    }),
-          ])));
+                    },
+            ),
+          ],
+        ),
+      ),
+    );
   }
 
   String _formatMessageTime(String? dateString) {

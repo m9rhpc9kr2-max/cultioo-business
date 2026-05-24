@@ -88,28 +88,36 @@ class _DriverStep6FaceVerificationState
   void _setupAnimations() {
     _fadeController = AnimationController(
       duration: const Duration(milliseconds: 600),
-      vsync: this);
+      vsync: this,
+    );
     _fadeAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
-      CurvedAnimation(parent: _fadeController, curve: Curves.easeInOut));
+      CurvedAnimation(parent: _fadeController, curve: Curves.easeInOut),
+    );
     _fadeController.forward();
 
     _pulseController = AnimationController(
       duration: const Duration(milliseconds: 1500),
-      vsync: this)..repeat(reverse: true);
+      vsync: this,
+    )..repeat(reverse: true);
     _pulseAnimation = Tween<double>(begin: 0.8, end: 1.0).animate(
-      CurvedAnimation(parent: _pulseController, curve: Curves.easeInOut));
+      CurvedAnimation(parent: _pulseController, curve: Curves.easeInOut),
+    );
 
     _rotationController = AnimationController(
       duration: const Duration(milliseconds: 3000),
-      vsync: this)..repeat();
+      vsync: this,
+    )..repeat();
     _rotationAnimation = Tween<double>(begin: 0.0, end: 2 * pi).animate(
-      CurvedAnimation(parent: _rotationController, curve: Curves.linear));
+      CurvedAnimation(parent: _rotationController, curve: Curves.linear),
+    );
 
     _rippleController = AnimationController(
       duration: const Duration(milliseconds: 1800),
-      vsync: this)..repeat();
+      vsync: this,
+    )..repeat();
     _rippleAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
-      CurvedAnimation(parent: _rippleController, curve: Curves.easeOut));
+      CurvedAnimation(parent: _rippleController, curve: Curves.easeOut),
+    );
     _animationsInitialized = true;
   }
 
@@ -133,7 +141,8 @@ class _DriverStep6FaceVerificationState
           const Duration(seconds: 5),
           onTimeout: () {
             throw Exception('Camera discovery timeout');
-          });
+          },
+        );
       } catch (e) {
         print('❌ Failed to get cameras: $e');
         if (mounted) {
@@ -175,14 +184,16 @@ class _DriverStep6FaceVerificationState
         frontCamera,
         ResolutionPreset.medium,
         enableAudio: false,
-        imageFormatGroup: ImageFormatGroup.jpeg);
+        imageFormatGroup: ImageFormatGroup.jpeg,
+      );
 
       // Initialize with timeout
       await _cameraController!.initialize().timeout(
         const Duration(seconds: 10),
         onTimeout: () {
           throw Exception('Camera initialization timeout');
-        });
+        },
+      );
 
       try {
         await _cameraController!.setFlashMode(FlashMode.off);
@@ -254,7 +265,8 @@ class _DriverStep6FaceVerificationState
         TopNotification.show(
           context,
           message: AppLocalizations.of(context)?.failedToCaptureSelfie ?? AppLocalizations.of(context)!.tr('Failed to capture selfie. Please try again.'),
-          type: NotificationType.error);
+          type: NotificationType.error,
+        );
       }
     }
   }
@@ -296,7 +308,8 @@ class _DriverStep6FaceVerificationState
 
       print('🔍 Gemini: Scanning for face...');
       final bool faceInFrame = await GeminiDocumentDetector.detectFace(
-        cameraController: _cameraController!);
+        cameraController: _cameraController!,
+      );
 
       if (!mounted || !_isCameraInitialized || !_isModalActive) return;
 
@@ -342,7 +355,8 @@ class _DriverStep6FaceVerificationState
       if (_countdown == 2 && _cameraController != null && _isCameraInitialized) {
         print('🔍 Gemini: Re-checking face still in frame...');
         final bool stillThere = await GeminiDocumentDetector.detectFace(
-          cameraController: _cameraController!);
+          cameraController: _cameraController!,
+        );
 
         if (!mounted || !_isCountingDown || !_isModalActive) return;
 
@@ -388,7 +402,10 @@ class _DriverStep6FaceVerificationState
           backImageUrl: widget.initialData['backImageUrl'],
           expectedFirstName: widget.initialData['firstName'],
           expectedLastName: widget.initialData['lastName'],
-          expectedDob: widget.initialData['birthdate'])));
+          expectedDob: widget.initialData['birthdate'],
+        ),
+      ),
+    );
 
     if (!mounted) return;
 
@@ -409,7 +426,8 @@ class _DriverStep6FaceVerificationState
   void _showSelfieCamera() {
     final AppSettings appSettings = Provider.of<AppSettings>(
       context,
-      listen: false);
+      listen: false,
+    );
     final isLight = appSettings.isLightMode(context);
 
     // Dispose previous camera & reset state
@@ -450,7 +468,7 @@ class _DriverStep6FaceVerificationState
 
                 // Header
                 Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 4),
+                  padding: const EdgeInsets.symmetric(horizontal: 4),
                   child: Row(
                     children: [
                       Container(
@@ -459,13 +477,16 @@ class _DriverStep6FaceVerificationState
                         decoration: BoxDecoration(
                           color: (isLight ? Colors.black : Colors.white)
                               .withOpacity(0.06),
-                          borderRadius: BorderRadius.circular(14)),
+                          borderRadius: BorderRadius.circular(14),
+                        ),
                         child: Icon(
                           CupertinoIcons.person_crop_circle,
                           size: 20,
                           color: (isLight ? Colors.black : Colors.white)
-                              .withOpacity(0.6))),
-                      SizedBox(width: 12),
+                              .withOpacity(0.6),
+                        ),
+                      ),
+                      const SizedBox(width: 12),
                       Expanded(
                         child: Text(
                           AppLocalizations.of(context)?.takeASelfie ?? AppLocalizations.of(context)!.tr('Take a Selfie'),
@@ -473,22 +494,30 @@ class _DriverStep6FaceVerificationState
                             fontSize: 22,
                             fontWeight: FontWeight.w700,
                             color: isLight ? Colors.black : Colors.white,
-                            letterSpacing: -0.4))),
-                    ])),
+                            letterSpacing: -0.4,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
 
-                SizedBox(height: 8),
+                const SizedBox(height: 8),
 
                 // Subtitle
                 Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 4),
+                  padding: const EdgeInsets.symmetric(horizontal: 4),
                   child: Text(
                     AppLocalizations.of(context)?.lookDirectlyAtCamera ?? AppLocalizations.of(context)!.tr('Look directly at the camera. Make sure your face is well lit.'),
                     style: TextStyle(
                       fontSize: 14,
                       color: (isLight ? Colors.black : Colors.white)
-                          .withOpacity(0.5)))),
+                          .withOpacity(0.5),
+                    ),
+                  ),
+                ),
 
-                SizedBox(height: 16),
+                const SizedBox(height: 16),
 
                 // Camera preview
                 Expanded(
@@ -507,7 +536,10 @@ class _DriverStep6FaceVerificationState
                                   height: _cameraController!.value.previewSize!.width,
                                   child: Transform.flip(
                                     flipX: true,
-                                    child: CameraPreview(_cameraController!)))),
+                                    child: CameraPreview(_cameraController!),
+                                  ),
+                                ),
+                              ),
 
                               // Soft vignette
                               Container(
@@ -517,13 +549,17 @@ class _DriverStep6FaceVerificationState
                                       Colors.transparent,
                                       Colors.black.withOpacity(0.3),
                                     ],
-                                    radius: 0.85))),
+                                    radius: 0.85,
+                                  ),
+                                ),
+                              ),
 
                               // Modern animated face oval (CustomPainter)
                               if (_animationsInitialized)
                               AnimatedBuilder(
                                 animation: Listenable.merge(
-                                  [_rotationAnimation, _rippleAnimation]),
+                                  [_rotationAnimation, _rippleAnimation],
+                                ),
                                 builder: (context, child) => CustomPaint(
                                   size: Size.infinite,
                                   painter: _FaceOvalPainter(
@@ -532,7 +568,10 @@ class _DriverStep6FaceVerificationState
                                         ? _rippleAnimation.value
                                         : 0.0,
                                     faceDetected: _isFaceDetected,
-                                    showSuccess: _showCaptureSuccess))),
+                                    showSuccess: _showCaptureSuccess,
+                                  ),
+                                ),
+                              ),
 
                               // Countdown — big glowing floating number
                               if (_isCountingDown && _countdown > 0)
@@ -556,13 +595,20 @@ class _DriverStep6FaceVerificationState
                                               Shadow(
                                                 color: Colors.greenAccent
                                                     .withOpacity(0.9),
-                                                blurRadius: 32),
+                                                blurRadius: 32,
+                                              ),
                                               Shadow(
                                                 color: Colors.greenAccent
                                                     .withOpacity(0.4),
-                                                blurRadius: 64),
-                                            ])));
-                                    })),
+                                                blurRadius: 64,
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                  ),
+                                ),
 
                               // Capture success flash
                               if (_showCaptureSuccess)
@@ -575,7 +621,11 @@ class _DriverStep6FaceVerificationState
                                       child: Icon(
                                         CupertinoIcons.checkmark_circle_fill,
                                         size: 64,
-                                        color: Colors.greenAccent.shade700)))),
+                                        color: Colors.greenAccent.shade700,
+                                      ),
+                                    ),
+                                  ),
+                                ),
 
                               // Status pill at bottom
                               Positioned(
@@ -587,9 +637,10 @@ class _DriverStep6FaceVerificationState
                                     duration: const Duration(milliseconds: 300),
                                     child: Container(
                                       key: ValueKey(_isFaceDetected ? 'detected' : 'scanning'),
-                                      padding: EdgeInsets.symmetric(
+                                      padding: const EdgeInsets.symmetric(
                                         horizontal: 20,
-                                        vertical: 10),
+                                        vertical: 10,
+                                      ),
                                       decoration: BoxDecoration(
                                         color: _isFaceDetected
                                             ? Colors.greenAccent.shade700.withOpacity(0.85)
@@ -598,7 +649,9 @@ class _DriverStep6FaceVerificationState
                                         border: Border.all(
                                           color: _isFaceDetected
                                               ? Colors.greenAccent.withOpacity(0.3)
-                                              : Colors.white.withOpacity(0.1))),
+                                              : Colors.white.withOpacity(0.1),
+                                        ),
+                                      ),
                                       child: Row(
                                         mainAxisSize: MainAxisSize.min,
                                         children: [
@@ -607,8 +660,9 @@ class _DriverStep6FaceVerificationState
                                                 ? CupertinoIcons.checkmark_shield
                                                 : CupertinoIcons.viewfinder,
                                             color: Colors.white.withOpacity(0.9),
-                                            size: 16),
-                                          SizedBox(width: 8),
+                                            size: 16,
+                                          ),
+                                          const SizedBox(width: 8),
                                           Text(
                                             _isFaceDetected
                                                 ? (AppLocalizations.of(context)?.faceDetectedHoldStill ?? AppLocalizations.of(context)!.tr('Face detected — hold still'))
@@ -617,15 +671,24 @@ class _DriverStep6FaceVerificationState
                                               color: Colors.white.withOpacity(0.95),
                                               fontSize: 13,
                                               fontWeight: FontWeight.w600,
-                                              letterSpacing: -0.2)),
-                                        ]))))),
-                            ]))
+                                              letterSpacing: -0.2,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        )
                       : Center(
                           child: Column(
                             mainAxisSize: MainAxisSize.min,
                             children: [
                               const CultiooLoadingIndicator(size: 40),
-                              SizedBox(height: 16),
+                              const SizedBox(height: 16),
                               Text(
                                 _cameraError.isNotEmpty
                                     ? _cameraError
@@ -635,12 +698,21 @@ class _DriverStep6FaceVerificationState
                                   color:
                                       (isLight ? Colors.black : Colors.white)
                                           .withOpacity(0.5),
-                                  fontSize: 14)),
-                            ]))),
+                                  fontSize: 14,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                ),
 
-                SizedBox(height: 16),
-              ]));
-        })).whenComplete(() {
+                const SizedBox(height: 16),
+              ],
+            ),
+          );
+        },
+      ),
+    ).whenComplete(() {
       // Null out modal refs FIRST — prevents any pending async from calling setState on disposed widget
       _isModalActive = false;
       _modalSetState = null;
@@ -686,19 +758,20 @@ class _DriverStep6FaceVerificationState
                 24,
                 MediaQuery.of(context).padding.top + 20,
                 24,
-                MediaQuery.of(context).padding.bottom + 24),
+                MediaQuery.of(context).padding.bottom + 24,
+              ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   // Header
                   _buildHeader(isLight, loc),
 
-                  SizedBox(height: 40),
+                  const SizedBox(height: 40),
 
                   // Selfie section
                   _buildSelfieSection(isLight, loc),
 
-                  SizedBox(height: 40),
+                  const SizedBox(height: 40),
 
                   // Navigation buttons
                   Row(
@@ -708,11 +781,13 @@ class _DriverStep6FaceVerificationState
                         height: 52,
                         width: 52,
                         child: TradeRepublicButton.icon(
-                          icon: Icon(CupertinoIcons.chevron_back,
+                          icon: const Icon(CupertinoIcons.chevron_back,
                               size: 18),
-                          onPressed: widget.onBack)),
+                          onPressed: widget.onBack,
+                        ),
+                      ),
 
-                      SizedBox(width: 12),
+                      const SizedBox(width: 12),
 
                       // Take Selfie button
                       Expanded(
@@ -720,10 +795,20 @@ class _DriverStep6FaceVerificationState
                           height: 52,
                           child: TradeRepublicButton(
                             label: loc?.takeASelfie ?? AppLocalizations.of(context)!.tr('Take a Selfie'),
-                            icon: Icon(CupertinoIcons.camera, size: 18),
-                            onPressed: _showSelfieCamera))),
-                    ]),
-                ]))))));
+                            icon: const Icon(CupertinoIcons.camera, size: 18),
+                            onPressed: _showSelfieCamera,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
   }
 
   Widget _buildHeader(bool isLight, AppLocalizations? loc) {
@@ -741,27 +826,36 @@ class _DriverStep6FaceVerificationState
                   height: 80,
                   decoration: BoxDecoration(
                     color: isLight ? Colors.black : Colors.white,
-                    borderRadius: BorderRadius.circular(20)),
+                    borderRadius: BorderRadius.circular(20),
+                  ),
                   child: Icon(
                     CupertinoIcons.person_crop_circle_badge_checkmark,
                     color: isLight ? Colors.white : Colors.black,
-                    size: 40)));
-            }),
-          SizedBox(height: 20),
+                    size: 40,
+                  ),
+                ),
+              );
+            },
+          ),
+          const SizedBox(height: 20),
           Text(
             loc?.identityVerification ?? AppLocalizations.of(context)!.tr('Identity Verification'),
             style: TextStyle(
               color: isLight ? Colors.black : Colors.white,
               fontSize: 32,
-              fontWeight: FontWeight.w700)),
-          SizedBox(height: 8),
+              fontWeight: FontWeight.w700,
+            ),
+          ),
+          const SizedBox(height: 8),
           Text(
             '${AppLocalizations.of(context)?.stepXofY ?? AppLocalizations.of(context)!.tr('Step')} 6 ${AppLocalizations.of(context)?.ofLabel ?? AppLocalizations.of(context)!.tr('of')} 10 — ${AppLocalizations.of(context)?.aiVerificationLabel ?? AppLocalizations.of(context)!.tr('AI Verification')}',
             style: TextStyle(
               color:
                   (isLight ? Colors.black : Colors.white).withOpacity(0.5),
-              fontSize: 16)),
-          SizedBox(height: 12),
+              fontSize: 16,
+            ),
+          ),
+          const SizedBox(height: 12),
           Text(
             loc?.weVerifyYourIdentity ?? AppLocalizations.of(context)!.tr('We use AI to verify your identity matches your documents.'),
             textAlign: TextAlign.center,
@@ -769,8 +863,12 @@ class _DriverStep6FaceVerificationState
               color:
                   (isLight ? Colors.black : Colors.white).withOpacity(0.6),
               fontSize: 14,
-              height: 1.4)),
-        ]));
+              height: 1.4,
+            ),
+          ),
+        ],
+      ),
+    );
   }
 
   Widget _buildSelfieSection(bool isLight, AppLocalizations? loc) {
@@ -787,7 +885,9 @@ class _DriverStep6FaceVerificationState
               borderRadius: BorderRadius.circular(28),
               border: Border.all(
                 color: (isLight ? Colors.black : Colors.white).withOpacity(0.08),
-                width: 1.5)),
+                width: 1.5,
+              ),
+            ),
             child: _selfieImage != null
                 ? ClipRRect(
                     borderRadius: BorderRadius.circular(27),
@@ -797,36 +897,48 @@ class _DriverStep6FaceVerificationState
                         // Show the taken selfie (normal orientation)
                         Image.file(
                           _selfieImage!,
-                          fit: BoxFit.cover),
+                          fit: BoxFit.cover,
+                        ),
                         // Retake overlay
                         Positioned(
                           bottom: 16,
                           right: 16,
                           child: Container(
-                            padding: EdgeInsets.symmetric(
+                            padding: const EdgeInsets.symmetric(
                               horizontal: 14,
-                              vertical: 8),
+                              vertical: 8,
+                            ),
                             decoration: BoxDecoration(
                               color: Colors.black.withOpacity(0.6),
                               borderRadius: BorderRadius.circular(20),
                               border: Border.all(
-                                color: Colors.white.withOpacity(0.15))),
+                                color: Colors.white.withOpacity(0.15),
+                              ),
+                            ),
                             child: Row(
                               mainAxisSize: MainAxisSize.min,
                               children: [
                                 Icon(
                                   CupertinoIcons.camera_rotate,
                                   color: Colors.white.withOpacity(0.9),
-                                  size: 14),
-                                SizedBox(width: 6),
+                                  size: 14,
+                                ),
+                                const SizedBox(width: 6),
                                 Text(
                                   loc?.retake ?? AppLocalizations.of(context)!.tr('Retake'),
                                   style: TextStyle(
                                     color: Colors.white.withOpacity(0.9),
                                     fontSize: 13,
-                                    fontWeight: FontWeight.w500)),
-                              ]))),
-                      ]))
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  )
                 : Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -843,25 +955,33 @@ class _DriverStep6FaceVerificationState
                                 border: Border.all(
                                   color: (isLight ? Colors.black : Colors.white)
                                       .withOpacity(0.15),
-                                  width: 2),
-                                borderRadius: BorderRadius.circular(40)),
+                                  width: 2,
+                                ),
+                                borderRadius: BorderRadius.circular(40),
+                              ),
                               child: Icon(
                                 CupertinoIcons.person_fill,
                                 size: 40,
                                 color: (isLight ? Colors.black : Colors.white)
-                                    .withOpacity(0.15))));
-                        }),
-                      SizedBox(height: 20),
+                                    .withOpacity(0.15),
+                              ),
+                            ),
+                          );
+                        },
+                      ),
+                      const SizedBox(height: 20),
                       Text(
                         loc?.takeASelfie ?? AppLocalizations.of(context)!.tr('Take a Selfie'),
                         style: TextStyle(
                           fontSize: 17,
                           fontWeight: FontWeight.w600,
                           color: isLight ? Colors.black : Colors.white,
-                          letterSpacing: -0.3)),
-                      SizedBox(height: 8),
+                          letterSpacing: -0.3,
+                        ),
+                      ),
+                      const SizedBox(height: 8),
                       Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 40),
+                        padding: const EdgeInsets.symmetric(horizontal: 40),
                         child: Text(
                           loc?.selfieInstructions ?? AppLocalizations.of(context)!.tr('Tap to open the camera and take a clear selfie for face matching'),
                           textAlign: TextAlign.center,
@@ -869,9 +989,16 @@ class _DriverStep6FaceVerificationState
                             fontSize: 13,
                             color: (isLight ? Colors.black : Colors.white)
                                 .withOpacity(0.45),
-                            height: 1.5))),
-                    ]))),
-      ]);
+                            height: 1.5,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+          ),
+        ),
+      ],
+    );
   }
 }
 
@@ -902,7 +1029,8 @@ class _FaceOvalPainter extends CustomPainter {
     final ovalRect = Rect.fromCenter(
       center: Offset(cx, cy),
       width: _ovalW,
-      height: _ovalH);
+      height: _ovalH,
+    );
 
     // ── 1. Dark vignette mask with oval cutout ──────────────────
     canvas.saveLayer(Rect.fromLTWH(0, 0, size.width, size.height), Paint());
@@ -910,7 +1038,8 @@ class _FaceOvalPainter extends CustomPainter {
       Rect.fromLTWH(0, 0, size.width, size.height),
       Paint()
         ..color =
-            Colors.black.withOpacity(faceDetected || showSuccess ? 0.38 : 0.52));
+            Colors.black.withOpacity(faceDetected || showSuccess ? 0.38 : 0.52),
+    );
     // Punch a transparent oval hole through the mask
     canvas.drawOval(ovalRect.inflate(1), Paint()..blendMode = BlendMode.clear);
     canvas.restore();
@@ -943,7 +1072,8 @@ class _FaceOvalPainter extends CustomPainter {
             Paint()
               ..color = Colors.greenAccent.withOpacity((1 - t) * 0.45)
               ..style = PaintingStyle.stroke
-              ..strokeWidth = 1.5);
+              ..strokeWidth = 1.5,
+          );
         }
       }
       // Glow border
@@ -953,13 +1083,15 @@ class _FaceOvalPainter extends CustomPainter {
           ..color = Colors.greenAccent.withOpacity(0.65)
           ..style = PaintingStyle.stroke
           ..strokeWidth = 4.5
-          ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 14));
+          ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 14),
+      );
       canvas.drawOval(
         ovalRect,
         Paint()
           ..color = Colors.greenAccent
           ..style = PaintingStyle.stroke
-          ..strokeWidth = 3);
+          ..strokeWidth = 3,
+      );
       _drawCornerBrackets(canvas, ovalRect, Colors.greenAccent);
       return;
     }
@@ -979,7 +1111,8 @@ class _FaceOvalPainter extends CustomPainter {
         endAngle: rotation,
         colors: [Colors.transparent, Colors.white.withOpacity(0.95)],
         tileMode: TileMode.clamp,
-        transform: GradientRotation(rotation - sweepLen)).createShader(ovalRect);
+        transform: GradientRotation(rotation - sweepLen),
+      ).createShader(ovalRect);
     canvas.drawArc(ovalRect, rotation - sweepLen, sweepLen, false, sweepPaint);
 
     // Secondary faint arc 180° behind
@@ -993,7 +1126,8 @@ class _FaceOvalPainter extends CustomPainter {
         endAngle: r2,
         colors: [Colors.transparent, Colors.white.withOpacity(0.35)],
         tileMode: TileMode.clamp,
-        transform: GradientRotation(r2 - sweepLen)).createShader(ovalRect);
+        transform: GradientRotation(r2 - sweepLen),
+      ).createShader(ovalRect);
     canvas.drawArc(
         ovalRect, r2 - sweepLen, sweepLen, false, sweepPaint2);
 

@@ -5,8 +5,6 @@ import '../services/biometric_service.dart';
 import '../widgets/top_notification.dart';
 import '../widgets/trade_republic_button.dart';
 import '../../shared/widgets/cultioo_spinner.dart';
-import 'package:cultioo_business/shared/widgets/desktop_app_wrapper.dart';
-import 'package:cultioo_business/shared/widgets/desktop_optimized_widgets.dart';
 
 class BiometricTestPage extends StatefulWidget {
   const BiometricTestPage({super.key});
@@ -47,7 +45,8 @@ class _BiometricTestPageState extends State<BiometricTestPage> {
     } catch (e) {
       TopNotification.error(
         context,
-        '${AppLocalizations.of(context)?.errorCheckingBiometricCapabilities ?? "Error checking biometric capabilities"}: $e');
+        '${AppLocalizations.of(context)?.errorCheckingBiometricCapabilities ?? "Error checking biometric capabilities"}: $e',
+      );
     } finally {
       setState(() {
         _isLoading = false;
@@ -66,12 +65,14 @@ class _BiometricTestPageState extends State<BiometricTestPage> {
       if (success) {
         TopNotification.success(
           context,
-          AppLocalizations.of(context)?.biometricAuthEnabledSuccessfully ?? 'Biometric authentication enabled successfully!');
+          AppLocalizations.of(context)?.biometricAuthEnabledSuccessfully ?? 'Biometric authentication enabled successfully!',
+        );
         await _checkBiometricCapabilities(); // Refresh status
       } else {
         TopNotification.error(
           context,
-          AppLocalizations.of(context)?.failedToEnableBiometricAuth ?? 'Failed to enable biometric authentication');
+          AppLocalizations.of(context)?.failedToEnableBiometricAuth ?? 'Failed to enable biometric authentication',
+        );
       }
     } catch (e) {
       TopNotification.error(context, '${AppLocalizations.of(context)?.errorEnablingBiometric ?? "Error enabling biometric"}: $e');
@@ -115,12 +116,14 @@ class _BiometricTestPageState extends State<BiometricTestPage> {
       if (success) {
         TopNotification.success(
           context,
-          AppLocalizations.of(context)?.biometricAuthDisabledSuccessfully ?? 'Biometric authentication disabled successfully!');
+          AppLocalizations.of(context)?.biometricAuthDisabledSuccessfully ?? 'Biometric authentication disabled successfully!',
+        );
         await _checkBiometricCapabilities(); // Refresh status
       } else {
         TopNotification.error(
           context,
-          AppLocalizations.of(context)?.failedToDisableBiometricAuth ?? 'Failed to disable biometric authentication');
+          AppLocalizations.of(context)?.failedToDisableBiometricAuth ?? 'Failed to disable biometric authentication',
+        );
       }
     } catch (e) {
       TopNotification.error(context, '${AppLocalizations.of(context)?.errorDisablingBiometric ?? "Error disabling biometric"}: $e');
@@ -137,38 +140,47 @@ class _BiometricTestPageState extends State<BiometricTestPage> {
       appBar: AppBar(
         title: Text(AppLocalizations.of(context)?.biometricTest ?? 'Biometric Test'),
         backgroundColor: Colors.blue,
-        foregroundColor: Colors.white),
+        foregroundColor: Colors.white,
+      ),
       body: Padding(
-        padding: EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // Status Information
             Card(
               child: Padding(
-                padding: EdgeInsets.all(16.0),
+                padding: const EdgeInsets.all(16.0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
                       AppLocalizations.of(context)?.biometricStatus ?? 'Biometric Status',
-                      style: TextStyle(fontSize: DesktopOptimizedWidgets.getFontSize() + 4,
-                        fontWeight: FontWeight.w700)),
-                    SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+                      style: const TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                    const SizedBox(height: 12),
                     _buildStatusRow(AppLocalizations.of(context)?.deviceSupported ?? 'Device Supported', _isDeviceSupported),
                     _buildStatusRow(AppLocalizations.of(context)?.biometricEnabled ?? 'Biometric Enabled', _isBiometricEnabled),
-                    SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+                    const SizedBox(height: 8),
                     Text(
                       'Available Biometrics: ${_availableBiometrics.map((e) => e.toString().split('.').last).join(', ')}',
-                      style: TextStyle(fontSize: DesktopOptimizedWidgets.getFontSize()),
-                  ]))),
-            SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+                      style: const TextStyle(fontSize: 14),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            const SizedBox(height: 24),
 
             // Test Buttons
             Text(
               AppLocalizations.of(context)?.testActions ?? 'Test Actions',
-              style: TextStyle(fontSize: DesktopOptimizedWidgets.getFontSize() + 4, fontWeight: FontWeight.w700)),
-            SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w700),
+            ),
+            const SizedBox(height: 16),
 
             // Refresh Status
             SizedBox(
@@ -176,9 +188,11 @@ class _BiometricTestPageState extends State<BiometricTestPage> {
               child: TradeRepublicButton(
                 label: AppLocalizations.of(context)?.refreshStatus ?? 'Refresh Status',
                 onPressed: _isLoading ? null : _checkBiometricCapabilities,
-                icon: Icon(Icons.refresh),
-                isSecondary: true)),
-            SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+                icon: const Icon(Icons.refresh),
+                isSecondary: true,
+              ),
+            ),
+            const SizedBox(height: 8),
 
             // Enable Biometric
             SizedBox(
@@ -189,8 +203,10 @@ class _BiometricTestPageState extends State<BiometricTestPage> {
                     (_isLoading || !_isDeviceSupported || _isBiometricEnabled)
                     ? null
                     : _testEnableBiometric,
-                icon: Icon(Icons.fingerprint))),
-            SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+                icon: const Icon(Icons.fingerprint),
+              ),
+            ),
+            const SizedBox(height: 8),
 
             // Test Biometric Login
             SizedBox(
@@ -200,8 +216,10 @@ class _BiometricTestPageState extends State<BiometricTestPage> {
                 onPressed: (_isLoading || !_isBiometricEnabled)
                     ? null
                     : _testBiometricLogin,
-                icon: Icon(Icons.login))),
-            SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+                icon: const Icon(Icons.login),
+              ),
+            ),
+            const SizedBox(height: 8),
 
             // Disable Biometric
             SizedBox(
@@ -211,27 +229,35 @@ class _BiometricTestPageState extends State<BiometricTestPage> {
                 onPressed: (_isLoading || !_isBiometricEnabled)
                     ? null
                     : _testDisableBiometric,
-                icon: Icon(Icons.fingerprint_outlined),
-                isDestructive: true)),
+                icon: const Icon(Icons.fingerprint_outlined),
+                isDestructive: true,
+              ),
+            ),
 
             const Spacer(),
 
             // Loading Indicator
             if (_isLoading) const Center(child: CultiooLoadingIndicator()),
-          ])));
+          ],
+        ),
+      ),
+    );
   }
 
   Widget _buildStatusRow(String label, bool status) {
     return Padding(
-      padding: EdgeInsets.symmetric(vertical: 4.0),
+      padding: const EdgeInsets.symmetric(vertical: 4.0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(label, style: TextStyle(fontSize: DesktopOptimizedWidgets.getFontSize()),
+          Text(label, style: const TextStyle(fontSize: 14)),
           Icon(
             status ? Icons.check_circle : Icons.cancel,
             color: status ? Colors.green : Colors.red,
-            size: 20),
-        ]));
+            size: 20,
+          ),
+        ],
+      ),
+    );
   }
 }

@@ -32,7 +32,8 @@ class _PageIndicatorState extends State<PageIndicator> {
       widget.pageController.animateToPage(
         index,
         duration: const Duration(milliseconds: 350),
-        curve: Curves.easeInOut);
+        curve: Curves.easeInOut,
+      );
     }
   }
 
@@ -86,10 +87,11 @@ class _PageIndicatorState extends State<PageIndicator> {
         child: BackdropFilter(
           filter: ImageFilter.blur(sigmaX: 14, sigmaY: 14),
           child: Container(
-            padding: EdgeInsets.symmetric(horizontal: 18, vertical: 11),
+            padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 11),
             decoration: BoxDecoration(
               color: ink.withOpacity(0.07),
-              borderRadius: BorderRadius.circular(32)),
+              borderRadius: BorderRadius.circular(32),
+            ),
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: List.generate(widget.pageCount, (index) {
@@ -112,7 +114,7 @@ class _PageIndicatorState extends State<PageIndicator> {
                     child: AnimatedContainer(
                       duration: const Duration(milliseconds: 280),
                       curve: Curves.easeInOut,
-                      margin: EdgeInsets.symmetric(horizontal: 4),
+                      margin: const EdgeInsets.symmetric(horizontal: 4),
                       width: isActive ? 22 : 7,
                       height: 7,
                       decoration: BoxDecoration(
@@ -121,7 +123,16 @@ class _PageIndicatorState extends State<PageIndicator> {
                             : isPressed
                                 ? ink.withOpacity(0.55)
                                 : ink.withOpacity(0.25),
-                        borderRadius: BorderRadius.circular(4)))));
-              }))))));
+                        borderRadius: BorderRadius.circular(4),
+                      ),
+                    ),
+                  ),
+                );
+              }),
+            ),
+          ),
+        ),
+      ),
+    );
   }
 }

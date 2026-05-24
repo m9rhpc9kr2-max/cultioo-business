@@ -3,8 +3,6 @@ import 'package:flutter/material.dart';
 import 'widgets/glass_effect.dart';
 import 'services/app_settings.dart';
 import 'services/app_localizations.dart';
-import 'package:cultioo_business/shared/widgets/desktop_app_wrapper.dart';
-import 'package:cultioo_business/shared/widgets/desktop_optimized_widgets.dart';
 
 class MyAccountPage extends StatelessWidget {
   const MyAccountPage({super.key});
@@ -24,14 +22,17 @@ class MyAccountPage extends StatelessWidget {
           style: TextStyle(
             color: isLight ? Colors.black : Colors.white,
             fontSize: 28,
-            fontWeight: FontWeight.w700))),
+            fontWeight: FontWeight.w700,
+          ),
+        ),
+      ),
       body: Center(
         child: ConstrainedBox(
           constraints: BoxConstraints(maxWidth: isDesktop ? 800 : double.infinity),
           child: SingleChildScrollView(
             physics: const BouncingScrollPhysics(),
             child: Padding(
-              padding: DesktopAppWrapper.getPagePadding(),
+              padding: const EdgeInsets.all(20),
               child: Column(
                 children: [
             // Profile Section
@@ -46,12 +47,15 @@ class MyAccountPage extends StatelessWidget {
                       color: isLight
                           ? Colors.black.withOpacity(0.1)
                           : Colors.white.withOpacity(0.1),
-                      borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
+                      borderRadius: BorderRadius.circular(20),
+                    ),
                     child: Icon(
                       Icons.person,
                       size: 40,
-                      color: isLight ? Colors.black54 : Colors.white70)),
-                  SizedBox(width: 16),
+                      color: isLight ? Colors.black54 : Colors.white70,
+                    ),
+                  ),
+                  const SizedBox(width: 16),
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -60,36 +64,50 @@ class MyAccountPage extends StatelessWidget {
                           AppLocalizations.of(context)?.unknownUser ?? 'User',
                           style: TextStyle(
                             color: isLight ? Colors.black : Colors.white,
-                            fontSize: DesktopOptimizedWidgets.getFontSize() + 10,
-                            fontWeight: FontWeight.w700)),
-                        SizedBox(height: 4),
+                            fontSize: 24,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                        const SizedBox(height: 4),
                         Text(
                           'john.doe@cultioo.com',
                           style: TextStyle(
                             color: isLight ? Colors.black54 : Colors.white70,
-                            fontSize: DesktopOptimizedWidgets.getFontSize())),
-                        SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+                            fontSize: 16,
+                          ),
+                        ),
+                        const SizedBox(height: 8),
                         Container(
-                          padding: EdgeInsets.symmetric(
+                          padding: const EdgeInsets.symmetric(
                             horizontal: 12,
-                            vertical: 4),
+                            vertical: 4,
+                          ),
                           decoration: BoxDecoration(
                             color: Colors.green.withOpacity(0.2),
-                            borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
+                            borderRadius: BorderRadius.circular(20),
+                          ),
                           child: Text(
                             AppLocalizations.of(context)?.premiumMember ?? 'Premium Member',
                             style: TextStyle(
                               color: Colors.green,
                               fontSize: 12,
-                              fontWeight: FontWeight.w600))),
-                      ])),
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
                   Icon(
                     Icons.edit,
                     color: isLight ? Colors.black54 : Colors.white70,
-                    size: 20),
-                ])),
+                    size: 20,
+                  ),
+                ],
+              ),
+            ),
 
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
 
             // Account Options
             Column(
@@ -97,7 +115,7 @@ class MyAccountPage extends StatelessWidget {
                   // Account Type Info
                   GlassContainer(
                     width: double.infinity,
-                    margin: EdgeInsets.only(bottom: 20),
+                    margin: const EdgeInsets.only(bottom: 20),
                     child: Column(
                       children: [
                         Row(
@@ -105,23 +123,31 @@ class MyAccountPage extends StatelessWidget {
                             Icon(
                               Icons.info_outline,
                               color: Colors.blue,
-                              size: 20),
-                            SizedBox(width: 8),
+                              size: 20,
+                            ),
+                            const SizedBox(width: 8),
                             Text(
                               AppLocalizations.of(context)?.accountInformation ?? 'Account Information',
                               style: TextStyle(
                                 color: Colors.blue,
-                                fontSize: DesktopOptimizedWidgets.getFontSize(),
-                                fontWeight: FontWeight.w600)),
-                          ]),
-                        SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+                                fontSize: 16,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 12),
                         Text(
                           AppLocalizations.of(context)?.upgradeToBusinessInfo ?? 'To upgrade to Business features, you need a regular Cultioo account from the Cultioo App or Website. Drivers can register directly without a Cultioo account.',
                           style: TextStyle(
                             color: isLight ? Colors.black54 : Colors.white70,
-                            fontSize: DesktopOptimizedWidgets.getFontSize(),
-                            height: 1.4)),
-                      ])),
+                            fontSize: 14,
+                            height: 1.4,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
                   // Options Grid
                   GridView.count(
                       shrinkWrap: true,
@@ -135,43 +161,57 @@ class MyAccountPage extends StatelessWidget {
                           title: AppLocalizations.of(context)?.payment ?? 'Payment',
                           subtitle: AppLocalizations.of(context)?.methods ?? 'Methods',
                           color: Colors.blue,
-                          isLight: isLight),
+                          isLight: isLight,
+                        ),
                         _buildAccountOption(
                           icon: Icons.security,
                           title: AppLocalizations.of(context)?.security ?? 'Security',
                           subtitle: AppLocalizations.of(context)?.privacy ?? 'Privacy',
                           color: (isLight ? Colors.black : Colors.white)
                               .withOpacity(0.5),
-                          isLight: isLight),
+                          isLight: isLight,
+                        ),
                         _buildAccountOption(
                           icon: Icons.notifications,
                           title: AppLocalizations.of(context)?.notifications ?? 'Notifications',
                           subtitle: AppLocalizations.of(context)?.preferences ?? 'Preferences',
                           color: Colors.blue,
-                          isLight: isLight),
+                          isLight: isLight,
+                        ),
                         _buildAccountOption(
                           icon: Icons.help_outline,
                           title: AppLocalizations.of(context)?.help ?? 'Help',
                           subtitle: AppLocalizations.of(context)?.support ?? 'Support',
                           color: (isLight ? Colors.black : Colors.white)
                               .withOpacity(0.5),
-                          isLight: isLight),
+                          isLight: isLight,
+                        ),
                         _buildAccountOption(
                           icon: Icons.star_outline,
                           title: AppLocalizations.of(context)?.subscription ?? 'Subscription',
                           subtitle: AppLocalizations.of(context)?.premium ?? 'Premium',
                           color: Colors.blue,
-                          isLight: isLight),
+                          isLight: isLight,
+                        ),
                         _buildAccountOption(
                           icon: Icons.logout,
                           title: AppLocalizations.of(context)?.signOut ?? 'Sign Out',
                           subtitle: AppLocalizations.of(context)?.logout ?? 'Logout',
                           color: (isLight ? Colors.black : Colors.white)
                               .withOpacity(0.5),
-                          isLight: isLight),
-                      ]),
-                ]),
-                ]))))));
+                          isLight: isLight,
+                        ),
+                      ],
+                    ),
+                ],
+              ),
+                ],
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
   }
 
   Widget _buildAccountOption({
@@ -186,19 +226,25 @@ class MyAccountPage extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Icon(icon, size: 32, color: color),
-          SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+          const SizedBox(height: 8),
           Text(
             title,
             style: TextStyle(
               color: isLight ? Colors.black : Colors.white,
-              fontSize: DesktopOptimizedWidgets.getFontSize(),
-              fontWeight: FontWeight.w600)),
-          SizedBox(height: 2),
+              fontSize: 16,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+          const SizedBox(height: 2),
           Text(
             subtitle,
             style: TextStyle(
               color: isLight ? Colors.black54 : Colors.white70,
-              fontSize: 12)),
-        ]));
+              fontSize: 12,
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }

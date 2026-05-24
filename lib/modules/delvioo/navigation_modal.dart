@@ -100,7 +100,8 @@ class CheckmarkPainter extends CustomPainter {
         final currentPoint = Offset.lerp(
           middlePoint,
           endPoint,
-          (progress - 0.5) * 2);
+          (progress - 0.5) * 2,
+        );
         canvas.drawLine(middlePoint, currentPoint!, paint);
       }
     }
@@ -186,10 +187,12 @@ class _NavigationModalState extends State<NavigationModal>
   _currentLocation; // Will be set from real GPS only, null if permission denied
   LatLng _pickupLocation = const LatLng(
     0.0,
-    0.0); // Will be set from order data
+    0.0,
+  ); // Will be set from order data
   LatLng _deliveryLocation = const LatLng(
     0.0,
-    0.0); // Will be loaded from API or order data
+    0.0,
+  ); // Will be loaded from API or order data
   List<LatLng> _routePoints = [];
   List<String> _routeInstructions = [];
   List<Color> _routeColors = [];
@@ -399,7 +402,8 @@ class _NavigationModalState extends State<NavigationModal>
         final parts = token.split('.');
         if (parts.length == 3) {
           final payload = json.decode(
-            utf8.decode(base64Url.decode(base64Url.normalize(parts[1]))));
+            utf8.decode(base64Url.decode(base64Url.normalize(parts[1]))),
+          );
 
           final tokenCandidates = <dynamic>[
             payload['driver_id'],
@@ -473,11 +477,14 @@ class _NavigationModalState extends State<NavigationModal>
         widget.order.containsKey('batch_orders') ||
         orderId.toString().startsWith('multi_');
     print(
-      '   widget.order.containsKey(batch_orders): ${widget.order.containsKey('batch_orders')}');
+      '   widget.order.containsKey(batch_orders): ${widget.order.containsKey('batch_orders')}',
+    );
     print(
-      '   widget.order[batch_orders] type: ${widget.order['batch_orders']?.runtimeType}');
+      '   widget.order[batch_orders] type: ${widget.order['batch_orders']?.runtimeType}',
+    );
     print(
-      '   widget.order[batch_orders] value: ${widget.order['batch_orders']}');
+      '   widget.order[batch_orders] value: ${widget.order['batch_orders']}',
+    );
 
     // CRITICAL: Always try to load navigation state from database first
     // This allows resuming navigation for both single and multi-order modes
@@ -488,13 +495,15 @@ class _NavigationModalState extends State<NavigationModal>
         widget.order.containsKey('batch_orders') &&
         widget.order['batch_orders'] != null) {
       _allOrders = List<Map<String, dynamic>>.from(
-        widget.order['batch_orders']);
+        widget.order['batch_orders'],
+      );
     }
 
     http
         .get(
           Uri.parse('${ApiConfig.baseUrl}/api/delvioo/orders'),
-          headers: {'Content-Type': 'application/json'})
+          headers: {'Content-Type': 'application/json'},
+        )
         .then((response) {
           if (response.statusCode == 200) {
             final List<dynamic> allOrdersFromAPI = jsonDecode(response.body);
@@ -510,7 +519,8 @@ class _NavigationModalState extends State<NavigationModal>
                 // Find this order in API response
                 final freshOrder = allOrdersFromAPI.firstWhere(
                   (o) => (o['id'] ?? o['order_id']) == batchOrderId,
-                  orElse: () => null);
+                  orElse: () => null,
+                );
 
                 if (freshOrder != null) {
                   // Update ALL coordinate fields
@@ -557,7 +567,8 @@ class _NavigationModalState extends State<NavigationModal>
               if (!_navigationStarted &&
                   _currentPhase != NavigationPhase.completed) {
                 print(
-                  '🗺️ Scheduling preview route generation for multi-order');
+                  '🗺️ Scheduling preview route generation for multi-order',
+                );
                 WidgetsBinding.instance.addPostFrameCallback((_) {
                   if (mounted &&
                       !_navigationStarted &&
@@ -572,18 +583,23 @@ class _NavigationModalState extends State<NavigationModal>
               final orderIdStr = orderId.toString();
               final freshOrder = allOrdersFromAPI.firstWhere(
                 (o) => (o['id'] ?? o['order_id']).toString() == orderIdStr,
-                orElse: () => null);
+                orElse: () => null,
+              );
 
               print(
-                '🔍 Looking for order $orderIdStr in ${allOrdersFromAPI.length} orders from API');
+                '🔍 Looking for order $orderIdStr in ${allOrdersFromAPI.length} orders from API',
+              );
 
               if (freshOrder != null) {
                 print(
-                  '🔄 ✅ Found and updating single order $orderId with fresh API data...');
+                  '🔄 ✅ Found and updating single order $orderId with fresh API data...',
+                );
                 print(
-                  '   Fresh order pickup_street: ${freshOrder['pickup_street']}');
+                  '   Fresh order pickup_street: ${freshOrder['pickup_street']}',
+                );
                 print(
-                  '   Fresh order pickup_city: ${freshOrder['pickup_city']}');
+                  '   Fresh order pickup_city: ${freshOrder['pickup_city']}',
+                );
                 print('   Fresh order pickup_lat: ${freshOrder['pickup_lat']}');
                 print('   Fresh order pickup_lng: ${freshOrder['pickup_lng']}');
 
@@ -664,13 +680,15 @@ class _NavigationModalState extends State<NavigationModal>
               _initializeMultiOrderMode();
             } else {
               print(
-                '🔄 Skipping multi-order initialization - state was restored from DB');
+                '🔄 Skipping multi-order initialization - state was restored from DB',
+              );
             }
 
             if (mounted) {
               setState(() {
                 print(
-                  '🔄 Force UI update after navigation restoration - Phase: $_currentPhase, RestoredFromDB: $_navigationStateRestoredFromDB');
+                  '🔄 Force UI update after navigation restoration - Phase: $_currentPhase, RestoredFromDB: $_navigationStateRestoredFromDB',
+                );
               });
             }
           });
@@ -678,7 +696,8 @@ class _NavigationModalState extends State<NavigationModal>
           final orderStatus =
               widget.order['status']?.toString().toLowerCase() ?? AppLocalizations.of(context)!.tr('');
           print(
-            '🔍 Order $orderId status check: $orderStatus, current phase: $_currentPhase, restored from DB: $_navigationStateRestoredFromDB');
+            '🔍 Order $orderId status check: $orderStatus, current phase: $_currentPhase, restored from DB: $_navigationStateRestoredFromDB',
+          );
 
           // Schedule status-based phase changes for after build completes
           WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -688,7 +707,8 @@ class _NavigationModalState extends State<NavigationModal>
             if (!_navigationStateRestoredFromDB) {
               if (orderStatus == 'picked_up') {
                 print(
-                  '🚚 Order already picked up - starting delivery phase immediately');
+                  '🚚 Order already picked up - starting delivery phase immediately',
+                );
                 setState(() {
                   _currentPhase = NavigationPhase.toDelivery;
                   _navigationStarted =
@@ -696,7 +716,8 @@ class _NavigationModalState extends State<NavigationModal>
                 });
               } else if (orderStatus == 'delivered') {
                 print(
-                  '✅ Order already delivered - marking as completed and showing success UI');
+                  '✅ Order already delivered - marking as completed and showing success UI',
+                );
                 setState(() {
                   _currentPhase = NavigationPhase.completed;
                   _navigationStarted = false;
@@ -720,7 +741,8 @@ class _NavigationModalState extends State<NavigationModal>
                 });
               } else if (orderStatus == 'accepted') {
                 print(
-                  '📦 Order accepted but not picked up - starting pickup phase');
+                  '📦 Order accepted but not picked up - starting pickup phase',
+                );
                 setState(() {
                   _currentPhase = NavigationPhase.toPickup;
                   _navigationStarted = false;
@@ -728,7 +750,8 @@ class _NavigationModalState extends State<NavigationModal>
               }
             } else {
               print(
-                '✅ Navigation state restored from database - keeping current phase: $_currentPhase');
+                '✅ Navigation state restored from database - keeping current phase: $_currentPhase',
+              );
             }
           });
 
@@ -736,31 +759,36 @@ class _NavigationModalState extends State<NavigationModal>
           // But DON'T generate route here - it was already generated in the API callback above
           if (_isMultiOrderMode && _allOrders.isNotEmpty) {
             print(
-              '   Orders: ${_allOrders.length}, Pickups: ${_allPickupLocations.length}, Deliveries: ${_allDeliveryLocations.length}');
+              '   Orders: ${_allOrders.length}, Pickups: ${_allPickupLocations.length}, Deliveries: ${_allDeliveryLocations.length}',
+            );
 
             if (_allPickupLocations.isEmpty || _allDeliveryLocations.isEmpty) {
               _extractAllLocations();
               print(
-                '✅ Locations extracted: ${_allPickupLocations.length} pickups, ${_allDeliveryLocations.length} deliveries');
+                '✅ Locations extracted: ${_allPickupLocations.length} pickups, ${_allDeliveryLocations.length} deliveries',
+              );
             }
           }
 
           // CRITICAL: Get real GPS location FIRST
           await _getCurrentLocation();
           print(
-            '📍 GPS location ready: ${_currentLocation!.latitude}, ${_currentLocation!.longitude}');
+            '📍 GPS location ready: ${_currentLocation!.latitude}, ${_currentLocation!.longitude}',
+          );
 
           // CRITICAL: Always regenerate route after DB restoration to use correct indices
           // This overrides the preview route generated earlier with the correct destination
           if (_navigationStateRestoredFromDB &&
               _currentPhase != NavigationPhase.completed) {
             print(
-              '🗺️ Navigation state restored from DB - regenerating route with restored state');
+              '🗺️ Navigation state restored from DB - regenerating route with restored state',
+            );
             print('   Navigation started: $_navigationStarted');
             print('   Current phase: $_currentPhase');
             if (_isMultiOrderMode) {
               print(
-                '   Multi-order indices: pickup $_currentPickupIndex/${_allPickupLocations.length}, delivery $_currentDeliveryIndex/${_allDeliveryLocations.length}');
+                '   Multi-order indices: pickup $_currentPickupIndex/${_allPickupLocations.length}, delivery $_currentDeliveryIndex/${_allDeliveryLocations.length}',
+              );
             }
             _generateRoute(); // Call without await since it's async but returns void
           }
@@ -811,8 +839,10 @@ class _NavigationModalState extends State<NavigationModal>
 
       final response = await http.get(
         Uri.parse(
-          '${ApiConfig.baseUrl}/api/delvioo/driver/$driverId/waiting-settings'),
-        headers: {'Content-Type': 'application/json'});
+          '${ApiConfig.baseUrl}/api/delvioo/driver/$driverId/waiting-settings',
+        ),
+        headers: {'Content-Type': 'application/json'},
+      );
 
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body);
@@ -823,7 +853,8 @@ class _NavigationModalState extends State<NavigationModal>
                 .toDouble();
           });
           print(
-            '✅ Loaded waiting settings: $_waitingFreeMinutes min free, \$$_waitingRatePerHour/hr');
+            '✅ Loaded waiting settings: $_waitingFreeMinutes min free, \$$_waitingRatePerHour/hr',
+          );
         }
       }
     } catch (e) {
@@ -846,7 +877,8 @@ class _NavigationModalState extends State<NavigationModal>
     _totalWaitingCharges = 0.0;
 
     print(
-      '⏱️ Starting waiting timer - Free time: $_waitingFreeMinutes minutes');
+      '⏱️ Starting waiting timer - Free time: $_waitingFreeMinutes minutes',
+    );
 
     _waitingTimer?.cancel();
     _waitingTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
@@ -891,7 +923,8 @@ class _NavigationModalState extends State<NavigationModal>
     _waitingTimer = null;
     _calculateWaitingCharges();
     print(
-      '⏱️ Waiting timer stopped - Total time: ${_formatWaitingTime(_waitingElapsedSeconds)}, Charges: \$${_totalWaitingCharges.toStringAsFixed(2)}');
+      '⏱️ Waiting timer stopped - Total time: ${_formatWaitingTime(_waitingElapsedSeconds)}, Charges: \$${_totalWaitingCharges.toStringAsFixed(2)}',
+    );
   }
 
   // Start loading timer (begins after 1st QR scan = check-in)
@@ -1043,7 +1076,7 @@ class _NavigationModalState extends State<NavigationModal>
     final checkOutTime = isDelivery ? _buyerCheckOutAt : _sellerCheckOutAt;
 
     return TradeRepublicCard(
-      padding: EdgeInsets.all(14),
+      padding: const EdgeInsets.all(14),
       borderRadius: BorderRadius.circular(14),
       backgroundColor: isCheckInDone
           ? Colors.green.withOpacity(0.10)
@@ -1058,28 +1091,36 @@ class _NavigationModalState extends State<NavigationModal>
                     ? CupertinoIcons.checkmark_seal_fill
                     : CupertinoIcons.clock_fill,
                 size: 18,
-                color: isCheckInDone ? Colors.green : Colors.orange),
-              SizedBox(width: 8),
+                color: isCheckInDone ? Colors.green : Colors.orange,
+              ),
+              const SizedBox(width: 8),
               Expanded(
                 child: Text(
                   stepTitle,
                   style: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w700,
-                    color: isLight ? Colors.black : Colors.white))),
-            ]),
-          SizedBox(height: 6),
+                    color: isLight ? Colors.black : Colors.white,
+                  ),
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 6),
           Text(
             stepSubtitle,
             style: TextStyle(
               fontSize: 13,
               fontWeight: FontWeight.w500,
-              color: (isLight ? Colors.black : Colors.white).withOpacity(0.72))),
-          SizedBox(height: 10),
+              color: (isLight ? Colors.black : Colors.white).withOpacity(0.72),
+            ),
+          ),
+          const SizedBox(height: 10),
           Divider(
             height: 1,
-            color: (isLight ? Colors.black : Colors.white).withOpacity(0.12)),
-          SizedBox(height: 8),
+            color: (isLight ? Colors.black : Colors.white).withOpacity(0.12),
+          ),
+          const SizedBox(height: 8),
           Row(
             children: [
               Expanded(
@@ -1088,7 +1129,10 @@ class _NavigationModalState extends State<NavigationModal>
                   style: TextStyle(
                     fontSize: 12,
                     fontWeight: FontWeight.w600,
-                    color: isLight ? Colors.black87 : Colors.white70))),
+                    color: isLight ? Colors.black87 : Colors.white70,
+                  ),
+                ),
+              ),
               Expanded(
                 child: Text(
                   'Check-out ${_formatClock(checkOutTime)}',
@@ -1096,9 +1140,15 @@ class _NavigationModalState extends State<NavigationModal>
                   style: TextStyle(
                     fontSize: 12,
                     fontWeight: FontWeight.w600,
-                    color: isLight ? Colors.black87 : Colors.white70))),
-            ]),
-        ]));
+                    color: isLight ? Colors.black87 : Colors.white70,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
   }
 
   // Get remaining free time
@@ -1127,7 +1177,8 @@ class _NavigationModalState extends State<NavigationModal>
     TopNotification.warning(
       context,
       AppLocalizations.of(context)?.freeWaitingTimeExpiresIn5Min ?? 'Free waiting time expires in 5 minutes. After that, ${_waitingRatePerHour.toStringAsFixed(0)}{currencySymbol}/hr will be charged.',
-      title: AppLocalizations.of(context)?.fiveMinutesRemaining ?? AppLocalizations.of(context)!.tr('5 Minutes Remaining'));
+      title: AppLocalizations.of(context)?.fiveMinutesRemaining ?? AppLocalizations.of(context)!.tr('5 Minutes Remaining'),
+    );
 
     print('⚠️ 5-minute warning shown');
   }
@@ -1146,7 +1197,8 @@ class _NavigationModalState extends State<NavigationModal>
     TopNotification.error(
       context,
       AppLocalizations.of(context)?.chargingPerHourStartingNow ?? 'Charging ${_waitingRatePerHour.toStringAsFixed(0)}{currencySymbol}/hr starting now.',
-      title: AppLocalizations.of(context)?.freeWaitingTimeExpired ?? AppLocalizations.of(context)!.tr('Free Waiting Time Expired'));
+      title: AppLocalizations.of(context)?.freeWaitingTimeExpired ?? AppLocalizations.of(context)!.tr('Free Waiting Time Expired'),
+    );
 
     print('🔴 Free time expired - charging started');
   }
@@ -1168,7 +1220,8 @@ class _NavigationModalState extends State<NavigationModal>
           'waiting_start_time': _waitingStartTime!.toIso8601String(),
           'waiting_seconds': _waitingElapsedSeconds,
           'in_progress': true, // Signal that waiting is ongoing, no end time yet
-        }));
+        }),
+      );
       if (response.statusCode == 200) {
         print('✅ [$phase] Waiting START saved to orders (timer still running)');
       } else {
@@ -1190,7 +1243,8 @@ class _NavigationModalState extends State<NavigationModal>
 
       final response = await http.put(
         Uri.parse(
-          '${ApiConfig.baseUrl}/api/delvioo/orders/$orderId/waiting-time'),
+          '${ApiConfig.baseUrl}/api/delvioo/orders/$orderId/waiting-time',
+        ),
         headers: {'Content-Type': 'application/json'},
         body: jsonEncode({
           'phase': phase,
@@ -1198,7 +1252,8 @@ class _NavigationModalState extends State<NavigationModal>
           'waiting_end_time': DateTime.now().toIso8601String(),
           'waiting_seconds': _waitingElapsedSeconds,
           // settings come from delvioo_users on the backend — no need to send them
-        }));
+        }),
+      );
 
       if (response.statusCode == 200) {
         final responseData = json.decode(response.body);
@@ -1210,7 +1265,8 @@ class _NavigationModalState extends State<NavigationModal>
           });
         }
         print(
-          '✅ [$phase] Waiting time saved: ${_formatWaitingTime(_waitingElapsedSeconds)}, charges: ${_totalWaitingCharges.toStringAsFixed(2)}{currencySymbol}');
+          '✅ [$phase] Waiting time saved: ${_formatWaitingTime(_waitingElapsedSeconds)}, charges: ${_totalWaitingCharges.toStringAsFixed(2)}{currencySymbol}',
+        );
       } else {
         print('⚠️ Failed to save waiting time: ${response.statusCode}');
       }
@@ -1234,7 +1290,8 @@ class _NavigationModalState extends State<NavigationModal>
           'loading_start_time': _loadingStartTime!.toIso8601String(),
           'loading_end_time': DateTime.now().toIso8601String(),
           'loading_seconds': _loadingElapsedSeconds,
-        }));
+        }),
+      );
       if (response.statusCode == 200) {
         print('✅ [$phase] Loading time saved: ${_formatWaitingTime(_loadingElapsedSeconds)}');
       } else {
@@ -1261,7 +1318,8 @@ class _NavigationModalState extends State<NavigationModal>
           'loading_start_time': _loadingStartTime!.toIso8601String(),
           'loading_seconds': _loadingElapsedSeconds,
           // NO loading_end_time — timer still running
-        }));
+        }),
+      );
       if (response.statusCode == 200) {
         print('✅ [$phase] Loading progress saved (timer still running)');
       } else {
@@ -1296,7 +1354,8 @@ class _NavigationModalState extends State<NavigationModal>
       final response = await http.put(
         Uri.parse('${ApiConfig.baseUrl}/api/delvioo/orders/$orderId/checkin-checkout'),
         headers: {'Content-Type': 'application/json'},
-        body: jsonEncode(body));
+        body: jsonEncode(body),
+      );
 
       if (response.statusCode == 200) {
         print('✅ Check-in/out saved for order $orderId: $body');
@@ -1345,7 +1404,8 @@ class _NavigationModalState extends State<NavigationModal>
           final response = await http
               .delete(
                 Uri.parse(endpoint),
-                headers: {'Content-Type': 'application/json'})
+                headers: {'Content-Type': 'application/json'},
+              )
               .timeout(Duration(seconds: 3));
 
           if (response.statusCode == 200) {
@@ -1357,7 +1417,8 @@ class _NavigationModalState extends State<NavigationModal>
       }
 
       print(
-        '⚠️ All database cleanup attempts failed, but local data is cleared');
+        '⚠️ All database cleanup attempts failed, but local data is cleared',
+      );
     } catch (e) {
       print('⚠️ Database cleanup error: $e');
     }
@@ -1376,7 +1437,8 @@ class _NavigationModalState extends State<NavigationModal>
       // If there's an active local session, DON'T clear - allow resumption
       if (hasActiveLocalSession) {
         print(
-          '🔄 Active local navigation session found - preserving state for resumption');
+          '🔄 Active local navigation session found - preserving state for resumption',
+        );
         return;
       }
 
@@ -1388,7 +1450,8 @@ class _NavigationModalState extends State<NavigationModal>
         final response = await http
             .get(
               Uri.parse('${ApiConfig.baseUrl}/api/navigation/active/$driverId'),
-              headers: {'Content-Type': 'application/json'})
+              headers: {'Content-Type': 'application/json'},
+            )
             .timeout(const Duration(seconds: 5));
 
         if (response.statusCode == 200) {
@@ -1406,12 +1469,14 @@ class _NavigationModalState extends State<NavigationModal>
               final allOrders = navData['all_orders'] as List? ?? [];
               dbSessionMatchesOrder = allOrders.any(
                 (o) =>
-                    (o['order_id'] ?? o['id'])?.toString() == currentOrderId);
+                    (o['order_id'] ?? o['id'])?.toString() == currentOrderId,
+              );
             }
 
             if (dbSessionMatchesOrder) {
               print(
-                '🔄 Active DB session found for order $currentOrderId on different device — preserving for cross-device resumption');
+                '🔄 Active DB session found for order $currentOrderId on different device — preserving for cross-device resumption',
+              );
               // Don't clear anything; _loadNavigationState() will restore from DB
               return;
             }
@@ -1420,7 +1485,8 @@ class _NavigationModalState extends State<NavigationModal>
       } catch (e) {
         // Network error or timeout — be safe: don't wipe the DB session
         print(
-          '⚠️ Could not verify DB session before clear (network issue) — skipping clear to be safe: $e');
+          '⚠️ Could not verify DB session before clear (network issue) — skipping clear to be safe: $e',
+        );
         return;
       }
 
@@ -1429,16 +1495,19 @@ class _NavigationModalState extends State<NavigationModal>
 
       if (orderId.toString().startsWith('multi_')) {
         print(
-          '🆕 Multi-order detected - clearing ALL old multi-order sessions');
+          '🆕 Multi-order detected - clearing ALL old multi-order sessions',
+        );
         _clearAllMultiOrderSessions();
 
         // Re-initialize _allOrders after clearing (for multi-orders)
         if (widget.order.containsKey('batch_orders') &&
             widget.order['batch_orders'] != null) {
           _allOrders = List<Map<String, dynamic>>.from(
-            widget.order['batch_orders']);
+            widget.order['batch_orders'],
+          );
           print(
-            '🔄 Re-initialized _allOrders with ${_allOrders.length} batch orders AFTER clearing old sessions');
+            '🔄 Re-initialized _allOrders with ${_allOrders.length} batch orders AFTER clearing old sessions',
+          );
         }
       }
 
@@ -1450,7 +1519,8 @@ class _NavigationModalState extends State<NavigationModal>
 
       if (isNewSingleOrder) {
         print(
-          '🆕 New single order detected - clearing all old multi-order sessions');
+          '🆕 New single order detected - clearing all old multi-order sessions',
+        );
         _clearAllMultiOrderSessions();
       }
     } catch (e) {
@@ -1510,7 +1580,8 @@ class _NavigationModalState extends State<NavigationModal>
       } catch (e) {
         // Map not rendered yet, rotation will be set on first render
         print(
-          'ℹ️ Map controller not ready yet, rotation will be reset on render');
+          'ℹ️ Map controller not ready yet, rotation will be reset on render',
+        );
       }
     }
 
@@ -1527,68 +1598,88 @@ class _NavigationModalState extends State<NavigationModal>
   void _setupAnimations() {
     _pulseController = AnimationController(
       duration: const Duration(seconds: 2),
-      vsync: this);
+      vsync: this,
+    );
 
     _pulseAnimation = Tween<double>(begin: 0.8, end: 1.2).animate(
-      CurvedAnimation(parent: _pulseController, curve: Curves.easeInOut));
+      CurvedAnimation(parent: _pulseController, curve: Curves.easeInOut),
+    );
 
     _pulseController.repeat(reverse: true);
 
     // Modern Completion Animations
     _completionController = AnimationController(
       duration: const Duration(
-        milliseconds: 2000), // 2 seconds for full completion animation
-      vsync: this);
+        milliseconds: 2000,
+      ), // 2 seconds for full completion animation
+      vsync: this,
+    );
 
     // Scale animation for the completion container (bouncy entrance)
     _completionScaleAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
       CurvedAnimation(
         parent: _completionController,
-        curve: const Interval(0.0, 0.6, curve: Curves.elasticOut)));
+        curve: const Interval(0.0, 0.6, curve: Curves.elasticOut),
+      ),
+    );
 
     // Fade animation for smooth appearance
     _completionFadeAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
       CurvedAnimation(
         parent: _completionController,
-        curve: const Interval(0.0, 0.4, curve: Curves.easeOut)));
+        curve: const Interval(0.0, 0.4, curve: Curves.easeOut),
+      ),
+    );
 
     // Checkmark drawing animation
     _checkmarkAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
       CurvedAnimation(
         parent: _completionController,
-        curve: const Interval(0.4, 0.8, curve: Curves.easeInOut)));
+        curve: const Interval(0.4, 0.8, curve: Curves.easeInOut),
+      ),
+    );
 
     // Confetti/celebration animation
     _confettiAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
       CurvedAnimation(
         parent: _completionController,
-        curve: const Interval(0.6, 1.0, curve: Curves.easeOut)));
+        curve: const Interval(0.6, 1.0, curve: Curves.easeOut),
+      ),
+    );
 
     // Security Code Panel Animation (smooth slide up from bottom)
     _securityCodePanelController = AnimationController(
       duration: const Duration(milliseconds: 600),
-      vsync: this);
+      vsync: this,
+    );
 
     _securityCodeScaleAnimation = Tween<double>(begin: 0.8, end: 1.0).animate(
       CurvedAnimation(
         parent: _securityCodePanelController,
-        curve: Curves.easeOutCubic));
+        curve: Curves.easeOutCubic,
+      ),
+    );
 
     _securityCodeFadeAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
       CurvedAnimation(
         parent: _securityCodePanelController,
-        curve: Curves.easeOut));
+        curve: Curves.easeOut,
+      ),
+    );
 
     // QR Scan Success Animation (beautiful checkmark and scale)
     _scanSuccessController = AnimationController(
       duration: const Duration(milliseconds: 1200),
-      vsync: this);
+      vsync: this,
+    );
 
     _scanSuccessScaleAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
-      CurvedAnimation(parent: _scanSuccessController, curve: Curves.elasticOut));
+      CurvedAnimation(parent: _scanSuccessController, curve: Curves.elasticOut),
+    );
 
     _scanSuccessFadeAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
-      CurvedAnimation(parent: _scanSuccessController, curve: Curves.easeOut));
+      CurvedAnimation(parent: _scanSuccessController, curve: Curves.easeOut),
+    );
   }
 
   String _formatDuration(int totalMinutes) {
@@ -1616,7 +1707,8 @@ class _NavigationModalState extends State<NavigationModal>
         widget.order['batch_orders'] != null) {
       // Multiple orders in batch format
       _allOrders = List<Map<String, dynamic>>.from(
-        widget.order['batch_orders']);
+        widget.order['batch_orders'],
+      );
       _isMultiOrderMode = true;
       _extractAllLocations();
       _currentPhase = NavigationPhase.multiOrderPickups;
@@ -1625,7 +1717,8 @@ class _NavigationModalState extends State<NavigationModal>
       // Main order + additional orders
       _allOrders = [widget.order];
       _allOrders.addAll(
-        List<Map<String, dynamic>>.from(widget.order['additional_orders']));
+        List<Map<String, dynamic>>.from(widget.order['additional_orders']),
+      );
       _isMultiOrderMode = true;
       _extractAllLocations();
       _currentPhase = NavigationPhase.multiOrderPickups;
@@ -1641,7 +1734,8 @@ class _NavigationModalState extends State<NavigationModal>
         // Product already picked up, start with delivery phase
         _currentPhase = NavigationPhase.toDelivery;
         debugPrint(
-          '📦 Order already picked up, starting navigation at delivery phase');
+          '📦 Order already picked up, starting navigation at delivery phase',
+        );
       } else {
         // Normal flow - start with pickup
         _currentPhase = NavigationPhase.toPickup;
@@ -1727,15 +1821,18 @@ class _NavigationModalState extends State<NavigationModal>
       // 2. OR navigation state was restored and we're continuing multi-order navigation
       if (isMultiOrderBatch) {
         print(
-          '🔄 Multi-order batch detected - checking for additional active orders to combine');
+          '🔄 Multi-order batch detected - checking for additional active orders to combine',
+        );
         await _checkAndCombineActiveOrders();
       } else {
         print(
-          '📦 Single order in picked_up status - NOT auto-combining with other active orders');
+          '📦 Single order in picked_up status - NOT auto-combining with other active orders',
+        );
       }
     } else {
       print(
-        '🆕 New single order (ready_for_pickup) - skipping existing navigation checks and auto-combining');
+        '🆕 New single order (ready_for_pickup) - skipping existing navigation checks and auto-combining',
+      );
     }
 
     // If we didn't already set up multi-order mode synchronously, check again
@@ -1745,14 +1842,16 @@ class _NavigationModalState extends State<NavigationModal>
           widget.order['batch_orders'] != null) {
         // Multiple orders in batch format
         _allOrders = List<Map<String, dynamic>>.from(
-          widget.order['batch_orders']);
+          widget.order['batch_orders'],
+        );
         _isMultiOrderMode = true;
       } else if (widget.order.containsKey('additional_orders') &&
           widget.order['additional_orders'] != null) {
         // Main order + additional orders
         _allOrders = [widget.order];
         _allOrders.addAll(
-          List<Map<String, dynamic>>.from(widget.order['additional_orders']));
+          List<Map<String, dynamic>>.from(widget.order['additional_orders']),
+        );
         _isMultiOrderMode = true;
       } else {
         // Single order mode (default) - but we may have found other active orders above
@@ -1773,7 +1872,8 @@ class _NavigationModalState extends State<NavigationModal>
       _currentDeliveryIndex = 0;
     } else if (_navigationStateRestoredFromDB) {
       print(
-        '✅ Keeping restored multi-order indices: pickup=$_currentPickupIndex, delivery=$_currentDeliveryIndex');
+        '✅ Keeping restored multi-order indices: pickup=$_currentPickupIndex, delivery=$_currentDeliveryIndex',
+      );
     }
 
     // Determine optimal phase based on current state - but only if not restored from DB
@@ -1798,7 +1898,8 @@ class _NavigationModalState extends State<NavigationModal>
 
           final response = await http.get(
             Uri.parse(url),
-            headers: {'Content-Type': 'application/json'});
+            headers: {'Content-Type': 'application/json'},
+          );
 
           if (response.statusCode == 200) {
             final data = json.decode(response.body);
@@ -1827,7 +1928,8 @@ class _NavigationModalState extends State<NavigationModal>
           '${ApiConfig.baseUrl}/api/navigation/active/$driverId';
       final response = await http.get(
         Uri.parse(url),
-        headers: {'Content-Type': 'application/json'});
+        headers: {'Content-Type': 'application/json'},
+      );
 
       if (response.statusCode == 200) {
         final data = json.decode(response.body);
@@ -1858,7 +1960,8 @@ class _NavigationModalState extends State<NavigationModal>
           '${ApiConfig.baseUrl}/api/delvioo/driver/$driverId/active-orders';
       final response = await http.get(
         Uri.parse(url),
-        headers: {'Content-Type': 'application/json'});
+        headers: {'Content-Type': 'application/json'},
+      );
 
       if (response.statusCode == 200) {
         final data = json.decode(response.body);
@@ -1876,19 +1979,23 @@ class _NavigationModalState extends State<NavigationModal>
             final currentOrderId =
                 widget.order['id'] ?? widget.order['order_id'];
             final bool isAlreadyActive = activeOrders.any(
-              (order) => order['id'].toString() == currentOrderId.toString());
+              (order) => order['id'].toString() == currentOrderId.toString(),
+            );
 
             print(
-              '📦 [DEBUG] Current order ID: $currentOrderId, Already active: $isAlreadyActive');
+              '📦 [DEBUG] Current order ID: $currentOrderId, Already active: $isAlreadyActive',
+            );
 
             if (!isAlreadyActive && activeOrders.isNotEmpty) {
               print(
-                '✅ [DEBUG] Combining current order with ${activeOrders.length} active orders');
+                '✅ [DEBUG] Combining current order with ${activeOrders.length} active orders',
+              );
               // Combine current order with existing active orders
               await _combineWithActiveOrders(activeOrders);
             } else if (activeOrders.length > 1) {
               print(
-                '✅ [DEBUG] Setting up multi-order mode for ${activeOrders.length} orders');
+                '✅ [DEBUG] Setting up multi-order mode for ${activeOrders.length} orders',
+              );
               // Even if current order is already active, set up multi-order mode if we have multiple orders
               await _combineWithActiveOrders(activeOrders);
             }
@@ -1903,14 +2010,16 @@ class _NavigationModalState extends State<NavigationModal>
   Future<void> _combineWithActiveOrders(List activeOrders) async {
     try {
       print(
-        '🔄 [DEBUG] Combining ${activeOrders.length} active orders into multi-order mode');
+        '🔄 [DEBUG] Combining ${activeOrders.length} active orders into multi-order mode',
+      );
 
       // Convert active orders to proper format with coordinates
       List<Map<String, dynamic>> formattedOrders = [];
 
       for (var activeOrder in activeOrders) {
         print(
-          '📦 [DEBUG] Processing order ${activeOrder['order_id']} - ${activeOrder['pickup_address']}');
+          '📦 [DEBUG] Processing order ${activeOrder['order_id']} - ${activeOrder['pickup_address']}',
+        );
         formattedOrders.add({
           'id': activeOrder['id'],
           'order_id': activeOrder['order_id'],
@@ -1935,7 +2044,8 @@ class _NavigationModalState extends State<NavigationModal>
       _isMultiOrderMode = true;
 
       print(
-        '✅ [DEBUG] Multi-order mode activated with ${_allOrders.length} orders');
+        '✅ [DEBUG] Multi-order mode activated with ${_allOrders.length} orders',
+      );
 
       // Only set initial phase if not restored from DB
       if (!_navigationStateRestoredFromDB) {
@@ -1948,7 +2058,8 @@ class _NavigationModalState extends State<NavigationModal>
       _extractAllLocations();
 
       print(
-        '📍 [DEBUG] Extracted ${_allPickupLocations.length} pickup locations and ${_allDeliveryLocations.length} delivery locations');
+        '📍 [DEBUG] Extracted ${_allPickupLocations.length} pickup locations and ${_allDeliveryLocations.length} delivery locations',
+      );
 
       // Force UI rebuild
       if (mounted) {
@@ -1958,12 +2069,14 @@ class _NavigationModalState extends State<NavigationModal>
       // Show notification to user
       TopNotification.success(
         context,
-        'Multi-Order Navigation: ${formattedOrders.length} orders combined');
+        'Multi-Order Navigation: ${formattedOrders.length} orders combined',
+      );
     } catch (e) {}
   }
 
   Future<void> _mergeWithExistingNavigation(
-    Map<String, dynamic> existingNav) async {
+    Map<String, dynamic> existingNav,
+  ) async {
     try {
       // Get the existing order data
       final existingOrderId = existingNav['order_id'];
@@ -1995,14 +2108,16 @@ class _NavigationModalState extends State<NavigationModal>
         if (mounted) {
           TopNotification.success(
             context,
-            '🚚 Orders combined! ${_allOrders.length} orders in route');
+            '🚚 Orders combined! ${_allOrders.length} orders in route',
+          );
         }
       }
     } catch (e) {}
   }
 
   Future<void> _loadExistingNavigationState(
-    Map<String, dynamic> navigation) async {
+    Map<String, dynamic> navigation,
+  ) async {
     try {
       // Extract navigation state
       final currentPhase = navigation['current_phase'] ?? AppLocalizations.of(context)!.tr('toPickup');
@@ -2011,13 +2126,16 @@ class _NavigationModalState extends State<NavigationModal>
           navigation['driver_started_driving'] ?? false;
 
       print(
-        '   Raw navigation_started from DB: ${navigation['navigation_started']}');
+        '   Raw navigation_started from DB: ${navigation['navigation_started']}',
+      );
       print(
-        '   Raw driver_started_driving from DB: ${navigation['driver_started_driving']}');
+        '   Raw driver_started_driving from DB: ${navigation['driver_started_driving']}',
+      );
       print('   Parsed navigationStarted: $navigationStarted');
       print('   Parsed driverStartedDriving: $driverStartedDriving');
       print(
-        '   Will set _navigationStarted to: ${navigationStarted || driverStartedDriving}');
+        '   Will set _navigationStarted to: ${navigationStarted || driverStartedDriving}',
+      );
 
       setState(() {
         _navigationStarted = navigationStarted || driverStartedDriving;
@@ -2056,7 +2174,8 @@ class _NavigationModalState extends State<NavigationModal>
           _routePoints = routeData
               .map(
                 (point) =>
-                    LatLng(point['lat'].toDouble(), point['lng'].toDouble()))
+                    LatLng(point['lat'].toDouble(), point['lng'].toDouble()),
+              )
               .toList();
         }
 
@@ -2073,7 +2192,8 @@ class _NavigationModalState extends State<NavigationModal>
     try {
       final response = await http.get(
         Uri.parse('${ApiConfig.baseUrl}/api/delvioo/orders/$orderId'),
-        headers: {'Content-Type': 'application/json'});
+        headers: {'Content-Type': 'application/json'},
+      );
 
       if (response.statusCode == 200) {
         final data = json.decode(response.body);
@@ -2107,7 +2227,8 @@ class _NavigationModalState extends State<NavigationModal>
     if (alreadyPickedUpCount > 0) {
       _currentPickupIndex = alreadyPickedUpCount;
       debugPrint(
-        '📦 Found $alreadyPickedUpCount already picked up orders, adjusting pickup index to $_currentPickupIndex');
+        '📦 Found $alreadyPickedUpCount already picked up orders, adjusting pickup index to $_currentPickupIndex',
+      );
     }
 
     // Simple sequential logic: Complete all pickups first, then all deliveries
@@ -2166,11 +2287,13 @@ class _NavigationModalState extends State<NavigationModal>
       // Validate coordinates
       if (pickupLat == 0.0 || pickupLng == 0.0) {
         debugPrint(
-          '⚠️ Multi-order: Order $orderId has invalid pickup coordinates ($pickupLat, $pickupLng)');
+          '⚠️ Multi-order: Order $orderId has invalid pickup coordinates ($pickupLat, $pickupLng)',
+        );
       }
 
       debugPrint(
-        '📍 Multi-order: Order $orderId pickup coordinates: $pickupLat, $pickupLng');
+        '📍 Multi-order: Order $orderId pickup coordinates: $pickupLat, $pickupLng',
+      );
       _allPickupLocations.add(LatLng(pickupLat, pickupLng));
 
       // Extract delivery location for this order
@@ -2218,7 +2341,8 @@ class _NavigationModalState extends State<NavigationModal>
             }
           } catch (e) {
             debugPrint(
-              '⚠️ Multi-order: Error parsing deliveryAddress JSON for order $orderId: $e');
+              '⚠️ Multi-order: Error parsing deliveryAddress JSON for order $orderId: $e',
+            );
           }
         }
       }
@@ -2237,7 +2361,8 @@ class _NavigationModalState extends State<NavigationModal>
                 double.tryParse(coords['lng']?.toString() ?? AppLocalizations.of(context)!.tr('0.0')) ??
                 deliveryLng;
             debugPrint(
-              '📍 Multi-order: Order $orderId delivery coords from delivery.coordinates: $deliveryLat, $deliveryLng');
+              '📍 Multi-order: Order $orderId delivery coords from delivery.coordinates: $deliveryLat, $deliveryLng',
+            );
           }
         }
       }
@@ -2245,11 +2370,13 @@ class _NavigationModalState extends State<NavigationModal>
       // If still no coordinates, log warning
       if (deliveryLat == 0.0 || deliveryLng == 0.0) {
         debugPrint(
-          '⚠️ Multi-order: No delivery coordinates available for order $orderId');
+          '⚠️ Multi-order: No delivery coordinates available for order $orderId',
+        );
       }
 
       debugPrint(
-        '📍 Multi-order: Order $orderId delivery coordinates: $deliveryLat, $deliveryLng');
+        '📍 Multi-order: Order $orderId delivery coordinates: $deliveryLat, $deliveryLng',
+      );
       _allDeliveryLocations.add(LatLng(deliveryLat, deliveryLng));
     }
   }
@@ -2287,12 +2414,14 @@ class _NavigationModalState extends State<NavigationModal>
     // Validate final pickup coordinates
     if (pickupLat == 0.0 || pickupLng == 0.0) {
       print(
-        '⚠️ Invalid pickup coordinates for order $orderId: $pickupLat, $pickupLng');
+        '⚠️ Invalid pickup coordinates for order $orderId: $pickupLat, $pickupLng',
+      );
     }
 
     _pickupLocation = LatLng(pickupLat, pickupLng);
     print(
-      '📍 Final pickup location set: ${_pickupLocation.latitude}, ${_pickupLocation.longitude}');
+      '📍 Final pickup location set: ${_pickupLocation.latitude}, ${_pickupLocation.longitude}',
+    );
 
     // Extract delivery location
     double deliveryLat = 0.0; // Will be set from order data
@@ -2406,12 +2535,14 @@ class _NavigationModalState extends State<NavigationModal>
 
   void _generateRoute() async {
     print(
-      '🗺️ _generateRoute() called - _navigationStarted: $_navigationStarted, Phase: $_currentPhase, GPS Available: ${_currentLocation != null}');
+      '🗺️ _generateRoute() called - _navigationStarted: $_navigationStarted, Phase: $_currentPhase, GPS Available: ${_currentLocation != null}',
+    );
 
     // CRITICAL: If GPS not available yet, generate preview route without current location
     if (_currentLocation == null) {
       print(
-        '🗺️ GPS not available yet - generating preview route from pickup to delivery');
+        '🗺️ GPS not available yet - generating preview route from pickup to delivery',
+      );
       await _generateRouteWithoutGPS();
       return;
     }
@@ -2424,7 +2555,8 @@ class _NavigationModalState extends State<NavigationModal>
     // WICHTIG: If order is picked_up, show ONLY current location → delivery route
     if (currentOrderStatus == 'picked_up') {
       print(
-        '🚚 Order already picked up - showing direct route to delivery only');
+        '🚚 Order already picked up - showing direct route to delivery only',
+      );
 
       LatLng deliveryDestination;
 
@@ -2455,7 +2587,8 @@ class _NavigationModalState extends State<NavigationModal>
         setState(() {
           _routePoints = _generateSimpleRoute(
             _currentLocation!,
-            deliveryDestination);
+            deliveryDestination,
+          );
         });
         _navigationMode = NavigationMode.offline;
       }
@@ -2477,18 +2610,23 @@ class _NavigationModalState extends State<NavigationModal>
       if (_isMultiOrderMode) {
         // Multi-order: Show complete route with ALL pickups and ALL deliveries
         print(
-          '🗺️ Generating COMPLETE multi-order preview route (Current → All Pickups → All Deliveries)');
+          '🗺️ Generating COMPLETE multi-order preview route (Current → All Pickups → All Deliveries)',
+        );
         await _generateMultiOrderFullRoute();
       } else {
         // Single order: Show current → pickup → delivery
         print(
-          '🗺️ Generating full preview route (Current → Pickup → Delivery)');
+          '🗺️ Generating full preview route (Current → Pickup → Delivery)',
+        );
         print(
-          '   Current: ${_currentLocation!.latitude}, ${_currentLocation!.longitude}');
+          '   Current: ${_currentLocation!.latitude}, ${_currentLocation!.longitude}',
+        );
         print(
-          '   Pickup: ${_pickupLocation.latitude}, ${_pickupLocation.longitude}');
+          '   Pickup: ${_pickupLocation.latitude}, ${_pickupLocation.longitude}',
+        );
         print(
-          '   Delivery: ${_deliveryLocation.latitude}, ${_deliveryLocation.longitude}');
+          '   Delivery: ${_deliveryLocation.latitude}, ${_deliveryLocation.longitude}',
+        );
         await _generateFullPreviewRoute();
       }
       return;
@@ -2496,7 +2634,8 @@ class _NavigationModalState extends State<NavigationModal>
 
     // CRITICAL: Navigation already running - show ONLY remaining route (current position → destination)
     print(
-      '🗺️ Navigation active - generating route from CURRENT position to destination');
+      '🗺️ Navigation active - generating route from CURRENT position to destination',
+    );
 
     LatLng destination;
 
@@ -2507,7 +2646,8 @@ class _NavigationModalState extends State<NavigationModal>
         if (_currentPickupIndex < _allPickupLocations.length) {
           destination = _allPickupLocations[_currentPickupIndex];
           print(
-            '🎯 Multi-order PICKUP route: Index $_currentPickupIndex, Destination: ${destination.latitude}, ${destination.longitude}');
+            '🎯 Multi-order PICKUP route: Index $_currentPickupIndex, Destination: ${destination.latitude}, ${destination.longitude}',
+          );
         } else {
           // All pickups completed, start deliveries
           _currentPhase = NavigationPhase.multiOrderDeliveries;
@@ -2516,7 +2656,8 @@ class _NavigationModalState extends State<NavigationModal>
           if (_currentDeliveryIndex < _allDeliveryLocations.length) {
             destination = _allDeliveryLocations[_currentDeliveryIndex];
             print(
-              '🎯 Multi-order switching to DELIVERY route: Index $_currentDeliveryIndex, Destination: ${destination.latitude}, ${destination.longitude}');
+              '🎯 Multi-order switching to DELIVERY route: Index $_currentDeliveryIndex, Destination: ${destination.latitude}, ${destination.longitude}',
+            );
           } else {
             // All deliveries completed
             _currentPhase = NavigationPhase.completed;
@@ -2529,7 +2670,8 @@ class _NavigationModalState extends State<NavigationModal>
         if (_currentDeliveryIndex < _allDeliveryLocations.length) {
           destination = _allDeliveryLocations[_currentDeliveryIndex];
           print(
-            '🎯 Multi-order DELIVERY route: Index $_currentDeliveryIndex, Destination: ${destination.latitude}, ${destination.longitude}');
+            '🎯 Multi-order DELIVERY route: Index $_currentDeliveryIndex, Destination: ${destination.latitude}, ${destination.longitude}',
+          );
         } else {
           // All deliveries completed
           _currentPhase = NavigationPhase.completed;
@@ -2540,7 +2682,8 @@ class _NavigationModalState extends State<NavigationModal>
         // CRITICAL: Fallback should be pickup for new multi-order navigation
         destination = _pickupLocation;
         print(
-          '🎯 Multi-order fallback to PICKUP: ${destination.latitude}, ${destination.longitude}');
+          '🎯 Multi-order fallback to PICKUP: ${destination.latitude}, ${destination.longitude}',
+        );
       }
     } else {
       // Single order mode (existing logic)
@@ -2553,11 +2696,13 @@ class _NavigationModalState extends State<NavigationModal>
           _currentPhase == NavigationPhase.multiOrderPickups) {
         destination = _pickupLocation;
         print(
-          '🎯 PICKUP destination: ${_pickupLocation.latitude}, ${_pickupLocation.longitude}');
+          '🎯 PICKUP destination: ${_pickupLocation.latitude}, ${_pickupLocation.longitude}',
+        );
       } else {
         destination = _deliveryLocation;
         print(
-          '🎯 DELIVERY destination: ${_deliveryLocation.latitude}, ${_deliveryLocation.longitude}');
+          '🎯 DELIVERY destination: ${_deliveryLocation.latitude}, ${_deliveryLocation.longitude}',
+        );
       }
     }
 
@@ -2587,7 +2732,8 @@ class _NavigationModalState extends State<NavigationModal>
     // Validate coordinates before making API call
     if (_currentLocation != null) {
       print(
-        '   Current location: ${_currentLocation!.latitude}, ${_currentLocation!.longitude}');
+        '   Current location: ${_currentLocation!.latitude}, ${_currentLocation!.longitude}',
+      );
     } else {
       print('   Current location: GPS not available');
     }
@@ -2719,9 +2865,11 @@ class _NavigationModalState extends State<NavigationModal>
   Future<void> _generateRouteWithoutGPS() async {
     print('🗺️ _generateRouteWithoutGPS called');
     print(
-      '   _pickupLocation: ${_pickupLocation.latitude}, ${_pickupLocation.longitude}');
+      '   _pickupLocation: ${_pickupLocation.latitude}, ${_pickupLocation.longitude}',
+    );
     print(
-      '   _deliveryLocation: ${_deliveryLocation.latitude}, ${_deliveryLocation.longitude}');
+      '   _deliveryLocation: ${_deliveryLocation.latitude}, ${_deliveryLocation.longitude}',
+    );
     print('   widget.order pickup_street: ${widget.order['pickup_street']}');
     print('   widget.order pickup_lat: ${widget.order['pickup_lat']}');
     print('   widget.order pickup_lng: ${widget.order['pickup_lng']}');
@@ -2729,7 +2877,8 @@ class _NavigationModalState extends State<NavigationModal>
     // Check if this is multi-order mode
     if (_isMultiOrderMode) {
       print(
-        '🗺️ Multi-order mode detected - generating FULL multi-order preview without GPS');
+        '🗺️ Multi-order mode detected - generating FULL multi-order preview without GPS',
+      );
       await _generateMultiOrderRouteWithoutGPS();
       return;
     }
@@ -2753,14 +2902,17 @@ class _NavigationModalState extends State<NavigationModal>
       }
 
       print(
-        '   From: ${_pickupLocation.latitude}, ${_pickupLocation.longitude}');
+        '   From: ${_pickupLocation.latitude}, ${_pickupLocation.longitude}',
+      );
       print(
-        '   To: ${_deliveryLocation.latitude}, ${_deliveryLocation.longitude}');
+        '   To: ${_deliveryLocation.latitude}, ${_deliveryLocation.longitude}',
+      );
 
       // Generate route from Pickup to Delivery
       List<LatLng> routePoints = await _fetchRoutePoints(
         _pickupLocation,
-        _deliveryLocation);
+        _deliveryLocation,
+      );
 
       double distance = _calculateDistance(_pickupLocation, _deliveryLocation);
 
@@ -2774,7 +2926,8 @@ class _NavigationModalState extends State<NavigationModal>
           "✅ Complete delivery at destination",
         ];
         _totalDistance = appSettings.formatDistance(
-          (distance / 1000).toDouble());
+          (distance / 1000).toDouble(),
+        );
         _estimatedArrival =
             "${_formatDuration((distance / 1000 * 2).round())} (estimate)";
       });
@@ -2786,7 +2939,8 @@ class _NavigationModalState extends State<NavigationModal>
       // Fallback to simple route
       List<LatLng> realisticRoute = _generateSimpleRoute(
         _pickupLocation,
-        _deliveryLocation);
+        _deliveryLocation,
+      );
       double distance = _calculateDistance(_pickupLocation, _deliveryLocation);
 
       final appSettings = Provider.of<AppSettings>(context, listen: false);
@@ -2798,7 +2952,8 @@ class _NavigationModalState extends State<NavigationModal>
           "🚚 Navigate to delivery location",
         ];
         _totalDistance = appSettings.formatDistance(
-          (distance / 1000).toDouble());
+          (distance / 1000).toDouble(),
+        );
         _estimatedArrival =
             "${_formatDuration((distance / 1000 * 2).round())} (est.)";
       });
@@ -2830,9 +2985,11 @@ class _NavigationModalState extends State<NavigationModal>
   // Generate MULTI-ORDER route preview WITHOUT GPS (All Pickups → All Deliveries)
   Future<void> _generateMultiOrderRouteWithoutGPS() async {
     print(
-      '🗺️ _generateMultiOrderRouteWithoutGPS() - Showing ALL pickups → ALL deliveries');
+      '🗺️ _generateMultiOrderRouteWithoutGPS() - Showing ALL pickups → ALL deliveries',
+    );
     print(
-      '   Pickups: ${_allPickupLocations.length}, Deliveries: ${_allDeliveryLocations.length}');
+      '   Pickups: ${_allPickupLocations.length}, Deliveries: ${_allDeliveryLocations.length}',
+    );
 
     setState(() {
       _isLoadingRoute = true;
@@ -2854,7 +3011,8 @@ class _NavigationModalState extends State<NavigationModal>
 
       // Phase 1: Connect all pickups (Pickup1 → Pickup2 → Pickup3...)
       print(
-        '🗺️ Phase 1: Connecting ${_allPickupLocations.length} pickup locations');
+        '🗺️ Phase 1: Connecting ${_allPickupLocations.length} pickup locations',
+      );
       for (int i = 0; i < _allPickupLocations.length; i++) {
         if (i == 0) {
           fullInstructions.add("📦 Start at Pickup ${i + 1}");
@@ -2877,7 +3035,8 @@ class _NavigationModalState extends State<NavigationModal>
 
           final appSettings = Provider.of<AppSettings>(context, listen: false);
           fullInstructions.add(
-            "🚗 Drive ${appSettings.formatDistance((segmentDistance / 1000).toDouble())} to Pickup ${i + 1}");
+            "🚗 Drive ${appSettings.formatDistance((segmentDistance / 1000).toDouble())} to Pickup ${i + 1}",
+          );
         }
       }
 
@@ -2887,7 +3046,8 @@ class _NavigationModalState extends State<NavigationModal>
 
       List<LatLng> transitionSegment = await _fetchRoutePoints(
         lastPickup,
-        firstDelivery);
+        firstDelivery,
+      );
       if (transitionSegment.isNotEmpty && fullRoutePoints.isNotEmpty) {
         transitionSegment.removeAt(0);
       }
@@ -2899,11 +3059,13 @@ class _NavigationModalState extends State<NavigationModal>
       final appSettings = Provider.of<AppSettings>(context, listen: false);
       fullInstructions.add("📦 All pickups collected!");
       fullInstructions.add(
-        "🚚 Drive ${appSettings.formatDistance((transitionDistance / 1000).toDouble())} to first delivery");
+        "🚚 Drive ${appSettings.formatDistance((transitionDistance / 1000).toDouble())} to first delivery",
+      );
 
       // Phase 3: Connect all deliveries (Delivery1 → Delivery2 → Delivery3...)
       print(
-        '🗺️ Phase 3: Connecting ${_allDeliveryLocations.length} delivery locations');
+        '🗺️ Phase 3: Connecting ${_allDeliveryLocations.length} delivery locations',
+      );
       for (int i = 0; i < _allDeliveryLocations.length; i++) {
         if (i > 0) {
           LatLng from = _allDeliveryLocations[i - 1];
@@ -2923,7 +3085,8 @@ class _NavigationModalState extends State<NavigationModal>
           totalDistance += segmentDistance;
 
           fullInstructions.add(
-            "🚚 Drive ${appSettings.formatDistance((segmentDistance / 1000).toDouble())} to Delivery ${i + 1}");
+            "🚚 Drive ${appSettings.formatDistance((segmentDistance / 1000).toDouble())} to Delivery ${i + 1}",
+          );
         } else {
           fullInstructions.add("🏠 Complete Delivery 1");
         }
@@ -2935,14 +3098,16 @@ class _NavigationModalState extends State<NavigationModal>
         _routePoints = fullRoutePoints;
         _routeInstructions = fullInstructions;
         _totalDistance = appSettings.formatDistance(
-          (totalDistance / 1000).toDouble());
+          (totalDistance / 1000).toDouble(),
+        );
         _estimatedArrival =
             "${_formatDuration((totalDistance / 1000 * 2).round())} (estimate)";
       });
 
       _navigationMode = NavigationMode.online;
       print(
-        '✅ Multi-order route generated: ${fullRoutePoints.length} points, ${(totalDistance / 1000).toStringAsFixed(1)}km total');
+        '✅ Multi-order route generated: ${fullRoutePoints.length} points, ${(totalDistance / 1000).toStringAsFixed(1)}km total',
+      );
     } catch (e) {
       print('❌ Multi-order route generation without GPS failed: $e');
 
@@ -2957,36 +3122,42 @@ class _NavigationModalState extends State<NavigationModal>
         } else {
           List<LatLng> segment = _generateSimpleRoute(
             _allPickupLocations[i - 1],
-            _allPickupLocations[i]);
+            _allPickupLocations[i],
+          );
           segment.removeAt(0); // Remove duplicate
           fallbackRoute.addAll(segment);
           totalDistance += _calculateDistance(
             _allPickupLocations[i - 1],
-            _allPickupLocations[i]);
+            _allPickupLocations[i],
+          );
         }
       }
 
       // Connect to deliveries
       List<LatLng> transitionSegment = _generateSimpleRoute(
         _allPickupLocations.last,
-        _allDeliveryLocations.first);
+        _allDeliveryLocations.first,
+      );
       transitionSegment.removeAt(0);
       fallbackRoute.addAll(transitionSegment);
       totalDistance += _calculateDistance(
         _allPickupLocations.last,
-        _allDeliveryLocations.first);
+        _allDeliveryLocations.first,
+      );
 
       // Connect all deliveries
       for (int i = 0; i < _allDeliveryLocations.length; i++) {
         if (i > 0) {
           List<LatLng> segment = _generateSimpleRoute(
             _allDeliveryLocations[i - 1],
-            _allDeliveryLocations[i]);
+            _allDeliveryLocations[i],
+          );
           segment.removeAt(0);
           fallbackRoute.addAll(segment);
           totalDistance += _calculateDistance(
             _allDeliveryLocations[i - 1],
-            _allDeliveryLocations[i]);
+            _allDeliveryLocations[i],
+          );
         }
       }
 
@@ -3000,7 +3171,8 @@ class _NavigationModalState extends State<NavigationModal>
           "✅ Complete all ${_allOrders.length} orders",
         ];
         _totalDistance = appSettings.formatDistance(
-          (totalDistance / 1000).toDouble());
+          (totalDistance / 1000).toDouble(),
+        );
         _estimatedArrival =
             "${_formatDuration((totalDistance / 1000 * 2).round())} (est.)";
       });
@@ -3021,7 +3193,8 @@ class _NavigationModalState extends State<NavigationModal>
       Timer.periodic(const Duration(seconds: 2), (timer) {
         if (_currentLocation != null) {
           print(
-            '✅ GPS now available - regenerating FULL multi-order route with current location');
+            '✅ GPS now available - regenerating FULL multi-order route with current location',
+          );
           timer.cancel();
           _generateRoute();
         } else if (!mounted) {
@@ -3057,7 +3230,8 @@ class _NavigationModalState extends State<NavigationModal>
     }
 
     print(
-      '🗺️ Centering map on multi-order route with ${allPoints.length} points');
+      '🗺️ Centering map on multi-order route with ${allPoints.length} points',
+    );
 
     double minLat = allPoints.map((p) => p.latitude).reduce(math.min);
     double maxLat = allPoints.map((p) => p.latitude).reduce(math.max);
@@ -3072,7 +3246,9 @@ class _NavigationModalState extends State<NavigationModal>
       _mapController.fitCamera(
         CameraFit.bounds(
           bounds: LatLngBounds(southwest, northeast),
-          padding: EdgeInsets.all(50)));
+          padding: const EdgeInsets.all(50),
+        ),
+      );
     } catch (e) {
       print('⚠️ Could not center map: $e');
     }
@@ -3081,7 +3257,8 @@ class _NavigationModalState extends State<NavigationModal>
   // Generate full preview route: current location → pickup → delivery
   Future<void> _generateFullPreviewRoute() async {
     print(
-      '🗺️🗺️🗺️ _generateFullPreviewRoute() started - FULL ROUTE CALCULATION');
+      '🗺️🗺️🗺️ _generateFullPreviewRoute() started - FULL ROUTE CALCULATION',
+    );
     setState(() {
       _isLoadingRoute = true;
       _routeInstructions = [];
@@ -3092,19 +3269,22 @@ class _NavigationModalState extends State<NavigationModal>
       List<String> fullInstructions = [];
 
       print(
-        '   From: ${_currentLocation!.latitude}, ${_currentLocation!.longitude}');
+        '   From: ${_currentLocation!.latitude}, ${_currentLocation!.longitude}',
+      );
       print('   To: ${_pickupLocation.latitude}, ${_pickupLocation.longitude}');
 
       // Route segment 1: Current location → Pickup (with metrics)
       final toPickupData = await _fetchRouteWithMetrics(
         _currentLocation!,
-        _pickupLocation);
+        _pickupLocation,
+      );
       final List<LatLng> toPickupPoints = toPickupData['points'];
       final double pickupDistance = toPickupData['distance']; // meters
       final double pickupDuration = toPickupData['duration']; // seconds
 
       print(
-        '✅ Received ${toPickupPoints.length} points for Current → Pickup: ${pickupDistance}m, ${pickupDuration}s');
+        '✅ Received ${toPickupPoints.length} points for Current → Pickup: ${pickupDistance}m, ${pickupDuration}s',
+      );
       fullRoutePoints.addAll(toPickupPoints);
 
       double deliveryDistance = 0.0;
@@ -3114,23 +3294,28 @@ class _NavigationModalState extends State<NavigationModal>
       if (_deliveryLocation.latitude != 0.0 ||
           _deliveryLocation.longitude != 0.0) {
         print(
-          '   From: ${_pickupLocation.latitude}, ${_pickupLocation.longitude}');
+          '   From: ${_pickupLocation.latitude}, ${_pickupLocation.longitude}',
+        );
         print(
-          '   To: ${_deliveryLocation.latitude}, ${_deliveryLocation.longitude}');
+          '   To: ${_deliveryLocation.latitude}, ${_deliveryLocation.longitude}',
+        );
 
         final toDeliveryData = await _fetchRouteWithMetrics(
           _pickupLocation,
-          _deliveryLocation);
+          _deliveryLocation,
+        );
         final List<LatLng> toDeliveryPoints = toDeliveryData['points'];
         deliveryDistance = toDeliveryData['distance']; // meters
         deliveryDuration = toDeliveryData['duration']; // seconds
 
         print(
-          '✅ Received ${toDeliveryPoints.length} points for Pickup → Delivery: ${deliveryDistance}m, ${deliveryDuration}s');
+          '✅ Received ${toDeliveryPoints.length} points for Pickup → Delivery: ${deliveryDistance}m, ${deliveryDuration}s',
+        );
         fullRoutePoints.addAll(toDeliveryPoints);
       } else {
         print(
-          '⚠️ Skipping Pickup → Delivery segment (invalid delivery coords)');
+          '⚠️ Skipping Pickup → Delivery segment (invalid delivery coords)',
+        );
       }
 
       // Calculate TOTAL distance and duration from API data
@@ -3151,17 +3336,21 @@ class _NavigationModalState extends State<NavigationModal>
         _routeInstructions = fullInstructions;
         // Use ACTUAL distance and duration from OSRM API
         _totalDistance = appSettings.formatDistance(
-          (totalDistance / 1000).toDouble());
+          (totalDistance / 1000).toDouble(),
+        );
         _estimatedArrival = _formatDuration(
-          (totalDuration / 60).round()); // convert seconds to minutes
+          (totalDuration / 60).round(),
+        ); // convert seconds to minutes
 
         print('   📏 Total distance: $_totalDistance (${totalDistance}m)');
         print('   ⏱️ Total time: $_estimatedArrival (${totalDuration}s)');
         print('   🗺️ Total points: ${fullRoutePoints.length}');
         print(
-          '   📍 Pickup distance: ${appSettings.formatDistance((pickupDistance / 1000).toDouble())}');
+          '   📍 Pickup distance: ${appSettings.formatDistance((pickupDistance / 1000).toDouble())}',
+        );
         print(
-          '   📍 Delivery distance: ${appSettings.formatDistance((deliveryDistance / 1000).toDouble())}');
+          '   📍 Delivery distance: ${appSettings.formatDistance((deliveryDistance / 1000).toDouble())}',
+        );
       });
 
       _navigationMode = NavigationMode.online;
@@ -3171,12 +3360,14 @@ class _NavigationModalState extends State<NavigationModal>
       // Fallback to realistic combined route (not straight lines)
       List<LatLng> realisticRoute = [];
       realisticRoute.addAll(
-        _generateSimpleRoute(_currentLocation!, _pickupLocation));
+        _generateSimpleRoute(_currentLocation!, _pickupLocation),
+      );
 
       // Remove duplicate point between pickup and delivery segments
       List<LatLng> deliverySegment = _generateSimpleRoute(
         _pickupLocation,
-        _deliveryLocation);
+        _deliveryLocation,
+      );
       if (deliverySegment.isNotEmpty) {
         deliverySegment.removeAt(0); // Remove duplicate pickup point
         realisticRoute.addAll(deliverySegment);
@@ -3184,10 +3375,12 @@ class _NavigationModalState extends State<NavigationModal>
 
       double pickupDistance = _calculateDistance(
         _currentLocation!,
-        _pickupLocation);
+        _pickupLocation,
+      );
       double deliveryDistance = _calculateDistance(
         _pickupLocation,
-        _deliveryLocation);
+        _deliveryLocation,
+      );
       double totalDistance = pickupDistance + deliveryDistance;
 
       final appSettings = Provider.of<AppSettings>(context, listen: false);
@@ -3221,12 +3414,14 @@ class _NavigationModalState extends State<NavigationModal>
   // Generate complete multi-order route: current → pickup1 → pickup2 → ... → delivery1 → delivery2 → ...
   Future<void> _generateMultiOrderFullRoute() async {
     print(
-      '🗺️ _generateMultiOrderFullRoute() started - ${_allPickupLocations.length} pickups, ${_allDeliveryLocations.length} deliveries');
+      '🗺️ _generateMultiOrderFullRoute() started - ${_allPickupLocations.length} pickups, ${_allDeliveryLocations.length} deliveries',
+    );
 
     // Validate we have locations to work with
     if (_allPickupLocations.isEmpty && _allDeliveryLocations.isEmpty) {
       print(
-        '❌ No pickup or delivery locations available - cannot generate multi-order route');
+        '❌ No pickup or delivery locations available - cannot generate multi-order route',
+      );
       return;
     }
 
@@ -3245,7 +3440,8 @@ class _NavigationModalState extends State<NavigationModal>
       // Start from current location
       LatLng currentPoint = _currentLocation!;
       print(
-        '🗺️ Starting from current location: ${currentPoint.latitude}, ${currentPoint.longitude}');
+        '🗺️ Starting from current location: ${currentPoint.latitude}, ${currentPoint.longitude}',
+      );
 
       // Step 1: Route through ALL pickup locations
       for (int i = 0; i < _allPickupLocations.length; i++) {
@@ -3255,9 +3451,11 @@ class _NavigationModalState extends State<NavigationModal>
 
         List<LatLng> segmentPoints = await _fetchRoutePoints(
           currentPoint,
-          pickup);
+          pickup,
+        );
         print(
-          '✅ Received ${segmentPoints.length} points for segment to Pickup ${i + 1}');
+          '✅ Received ${segmentPoints.length} points for segment to Pickup ${i + 1}',
+        );
 
         if (segmentPoints.isNotEmpty) {
           // Remove first point if it duplicates the last point of previous segment
@@ -3270,14 +3468,16 @@ class _NavigationModalState extends State<NavigationModal>
           double segmentDistance = _calculateDistance(currentPoint, pickup);
           totalDistance += segmentDistance;
           fullInstructions.add(
-            '📦 Pickup ${i + 1}: ${appSettings.formatDistance((segmentDistance / 1000).toDouble())}');
+            '📦 Pickup ${i + 1}: ${appSettings.formatDistance((segmentDistance / 1000).toDouble())}',
+          );
         }
 
         currentPoint = pickup; // Move to next starting point
       }
 
       print(
-        '✅ All pickup segments complete. Total pickups: ${_allPickupLocations.length}');
+        '✅ All pickup segments complete. Total pickups: ${_allPickupLocations.length}',
+      );
 
       // Step 2: Route through ALL delivery locations
       for (int i = 0; i < _allDeliveryLocations.length; i++) {
@@ -3287,9 +3487,11 @@ class _NavigationModalState extends State<NavigationModal>
 
         List<LatLng> segmentPoints = await _fetchRoutePoints(
           currentPoint,
-          delivery);
+          delivery,
+        );
         print(
-          '✅ Received ${segmentPoints.length} points for segment to Delivery ${i + 1}');
+          '✅ Received ${segmentPoints.length} points for segment to Delivery ${i + 1}',
+        );
 
         if (segmentPoints.isNotEmpty) {
           // Remove first point if it duplicates the last point of previous segment
@@ -3302,16 +3504,19 @@ class _NavigationModalState extends State<NavigationModal>
           double segmentDistance = _calculateDistance(currentPoint, delivery);
           totalDistance += segmentDistance;
           fullInstructions.add(
-            '🏠 Delivery ${i + 1}: ${appSettings.formatDistance((segmentDistance / 1000).toDouble())}');
+            '🏠 Delivery ${i + 1}: ${appSettings.formatDistance((segmentDistance / 1000).toDouble())}',
+          );
         }
 
         currentPoint = delivery; // Move to next starting point
       }
 
       print(
-        '✅ All delivery segments complete. Total deliveries: ${_allDeliveryLocations.length}');
+        '✅ All delivery segments complete. Total deliveries: ${_allDeliveryLocations.length}',
+      );
       print(
-        '✅ Complete multi-order route: ${fullRoutePoints.length} points, ${(totalDistance / 1000).toStringAsFixed(1)} km total');
+        '✅ Complete multi-order route: ${fullRoutePoints.length} points, ${(totalDistance / 1000).toStringAsFixed(1)} km total',
+      );
 
       setState(() {
         _routePoints = fullRoutePoints;
@@ -3341,14 +3546,16 @@ class _NavigationModalState extends State<NavigationModal>
       for (int i = 0; i < _allPickupLocations.length; i++) {
         List<LatLng> segment = _generateSimpleRoute(
           currentPoint,
-          _allPickupLocations[i]);
+          _allPickupLocations[i],
+        );
         if (realisticRoute.isNotEmpty && segment.isNotEmpty) {
           segment.removeAt(0); // Remove duplicate point
         }
         realisticRoute.addAll(segment);
         totalDistance += _calculateDistance(
           currentPoint,
-          _allPickupLocations[i]);
+          _allPickupLocations[i],
+        );
         currentPoint = _allPickupLocations[i];
       }
 
@@ -3356,14 +3563,16 @@ class _NavigationModalState extends State<NavigationModal>
       for (int i = 0; i < _allDeliveryLocations.length; i++) {
         List<LatLng> segment = _generateSimpleRoute(
           currentPoint,
-          _allDeliveryLocations[i]);
+          _allDeliveryLocations[i],
+        );
         if (realisticRoute.isNotEmpty && segment.isNotEmpty) {
           segment.removeAt(0); // Remove duplicate point
         }
         realisticRoute.addAll(segment);
         totalDistance += _calculateDistance(
           currentPoint,
-          _allDeliveryLocations[i]);
+          _allDeliveryLocations[i],
+        );
         currentPoint = _allDeliveryLocations[i];
       }
 
@@ -3416,7 +3625,8 @@ class _NavigationModalState extends State<NavigationModal>
     }
 
     print(
-      '🔗 Fetching route segment: ${start.latitude.toStringAsFixed(4)}, ${start.longitude.toStringAsFixed(4)} → ${end.latitude.toStringAsFixed(4)}, ${end.longitude.toStringAsFixed(4)}');
+      '🔗 Fetching route segment: ${start.latitude.toStringAsFixed(4)}, ${start.longitude.toStringAsFixed(4)} → ${end.latitude.toStringAsFixed(4)}, ${end.longitude.toStringAsFixed(4)}',
+    );
 
     final String url =
         'https://router.project-osrm.org/route/v1/driving/'
@@ -3433,13 +3643,15 @@ class _NavigationModalState extends State<NavigationModal>
             headers: {
               'User-Agent': 'CultiooBusinessApp/1.0',
               'Accept': 'application/json',
-            })
+            },
+          )
           .timeout(
             const Duration(seconds: 30),
             onTimeout: () {
               print('❌ OSRM segment API timeout after 30 seconds on Android');
               throw Exception('Segment timeout');
-            });
+            },
+          );
 
       if (response.statusCode == 200) {
         final data = json.decode(response.body);
@@ -3472,7 +3684,8 @@ class _NavigationModalState extends State<NavigationModal>
           }
         } else {
           print(
-            '❌ OSRM error for segment: ${data['code']} - ${data['message'] ?? AppLocalizations.of(context)!.tr('Unknown')}');
+            '❌ OSRM error for segment: ${data['code']} - ${data['message'] ?? AppLocalizations.of(context)!.tr('Unknown')}',
+          );
         }
       } else {
         print('❌ OSRM HTTP error: ${response.statusCode} - ${response.body}');
@@ -3489,7 +3702,8 @@ class _NavigationModalState extends State<NavigationModal>
   /// Fetches route with distance and duration information
   Future<Map<String, dynamic>> _fetchRouteWithMetrics(
     LatLng start,
-    LatLng end) async {
+    LatLng end,
+  ) async {
     // Validate coordinates before making API call
     if (start.latitude == 0.0 && start.longitude == 0.0) {
       print('❌ Invalid start coordinates (0.0, 0.0) - using fallback');
@@ -3518,7 +3732,8 @@ class _NavigationModalState extends State<NavigationModal>
           .get(Uri.parse(url))
           .timeout(
             const Duration(seconds: 30),
-            onTimeout: () => throw Exception('Segment timeout'));
+            onTimeout: () => throw Exception('Segment timeout'),
+          );
 
       if (response.statusCode == 200) {
         final data = json.decode(response.body);
@@ -3550,7 +3765,8 @@ class _NavigationModalState extends State<NavigationModal>
 
             if (points.isNotEmpty) {
               print(
-                '✅ Fetched route segment: ${points.length} points, ${distance}m, ${duration}s');
+                '✅ Fetched route segment: ${points.length} points, ${distance}m, ${duration}s',
+              );
               return {
                 'points': points,
                 'distance': distance,
@@ -3573,7 +3789,8 @@ class _NavigationModalState extends State<NavigationModal>
         (fallbackDistance / 1000 * 60); // 1 minute per km = 60 km/h average
 
     print(
-      '⚠️ Using fallback route calculation: ${(fallbackDistance / 1000).toStringAsFixed(2)}km, ${(estimatedDuration / 60).toStringAsFixed(1)}min');
+      '⚠️ Using fallback route calculation: ${(fallbackDistance / 1000).toStringAsFixed(2)}km, ${(estimatedDuration / 60).toStringAsFixed(1)}min',
+    );
 
     return {
       'points': _generateSimpleRoute(start, end),
@@ -3603,7 +3820,8 @@ class _NavigationModalState extends State<NavigationModal>
     }
 
     print(
-      '🛣️ Fetching real route from ${start.latitude.toStringAsFixed(4)}, ${start.longitude.toStringAsFixed(4)} to ${end.latitude.toStringAsFixed(4)}, ${end.longitude.toStringAsFixed(4)}');
+      '🛣️ Fetching real route from ${start.latitude.toStringAsFixed(4)}, ${start.longitude.toStringAsFixed(4)} to ${end.latitude.toStringAsFixed(4)}, ${end.longitude.toStringAsFixed(4)}',
+    );
 
     // Using OSRM (Open Source Routing Machine) - Free, no API key required
     final String url =
@@ -3623,14 +3841,17 @@ class _NavigationModalState extends State<NavigationModal>
             headers: {
               'User-Agent': 'CultiooBusinessApp/1.0',
               'Accept': 'application/json',
-            })
+            },
+          )
           .timeout(
             const Duration(seconds: 30), // Increased timeout for Android
             onTimeout: () {
               print('❌ OSRM API timeout after 30 seconds on Android');
               throw Exception(
-                'Network timeout after 30 seconds - using offline route');
-            });
+                'Network timeout after 30 seconds - using offline route',
+              );
+            },
+          );
 
       if (response.statusCode == 200) {
         final data = json.decode(response.body);
@@ -3663,7 +3884,8 @@ class _NavigationModalState extends State<NavigationModal>
             if (routePoints.isNotEmpty) {
               _routePoints = routePoints;
               print(
-                '✅ Successfully parsed ${routePoints.length} valid route points');
+                '✅ Successfully parsed ${routePoints.length} valid route points',
+              );
 
               // Generate traffic-aware colors for route segments
               _generateTrafficColors();
@@ -3678,7 +3900,8 @@ class _NavigationModalState extends State<NavigationModal>
 
               final appSettings = Provider.of<AppSettings>(
                 context,
-                listen: false);
+                listen: false,
+              );
               _totalDistance = appSettings.formatDistance(distance.toDouble());
               _estimatedArrival = _formatDuration(duration.round());
 
@@ -3688,7 +3911,8 @@ class _NavigationModalState extends State<NavigationModal>
                 _fullRouteDistance = _totalDistance;
                 _fullRouteTime = _estimatedArrival;
                 print(
-                  '📏 Full route saved: $_fullRouteDistance, Time: $_fullRouteTime');
+                  '📏 Full route saved: $_fullRouteDistance, Time: $_fullRouteTime',
+                );
               }
 
               // Extract turn-by-turn instructions
@@ -3721,7 +3945,8 @@ class _NavigationModalState extends State<NavigationModal>
 
                         String friendlyInstruction = _convertOSRMInstruction(
                           type,
-                          enhancedInstruction);
+                          enhancedInstruction,
+                        );
                         if (friendlyInstruction.isNotEmpty &&
                             friendlyInstruction != 'Follow route' &&
                             friendlyInstruction != (AppLocalizations.of(context)?.startYourJourney ?? AppLocalizations.of(context)!.tr('Start your journey'))) {
@@ -3734,7 +3959,8 @@ class _NavigationModalState extends State<NavigationModal>
               }
 
               print(
-                '✅ Parsed ${_routeInstructions.length} navigation instructions');
+                '✅ Parsed ${_routeInstructions.length} navigation instructions',
+              );
             } else {
               print('❌ No valid route points found after parsing');
               throw Exception('No valid route coordinates found');
@@ -3745,9 +3971,11 @@ class _NavigationModalState extends State<NavigationModal>
           }
         } else {
           print(
-            '❌ OSRM returned error: ${data['code']} - ${data['message'] ?? AppLocalizations.of(context)!.tr('Unknown error')}');
+            '❌ OSRM returned error: ${data['code']} - ${data['message'] ?? AppLocalizations.of(context)!.tr('Unknown error')}',
+          );
           throw Exception(
-            'No route found: ${data['code']} - ${data['message'] ?? AppLocalizations.of(context)!.tr('Unknown error')}');
+            'No route found: ${data['code']} - ${data['message'] ?? AppLocalizations.of(context)!.tr('Unknown error')}',
+          );
         }
       } else {
         print('❌ OSRM API failed with status: ${response.statusCode}');
@@ -3866,7 +4094,9 @@ class _NavigationModalState extends State<NavigationModal>
           Polyline(
             points: _routePoints,
             color: const Color(0xFF007AFF), // Apple Blue
-            strokeWidth: 6));
+            strokeWidth: 6,
+          ),
+        );
       }
       return polylines;
     }
@@ -3880,14 +4110,16 @@ class _NavigationModalState extends State<NavigationModal>
           color: Colors.white,
           strokeWidth: 10,
           strokeCap: StrokeCap.round,
-          strokeJoin: StrokeJoin.round),
+          strokeJoin: StrokeJoin.round,
+        ),
         // Black route line (inner layer)
         Polyline(
           points: _routePoints,
           color: Colors.black,
           strokeWidth: 5,
           strokeCap: StrokeCap.round,
-          strokeJoin: StrokeJoin.round),
+          strokeJoin: StrokeJoin.round,
+        ),
       ];
     }
 
@@ -3903,7 +4135,8 @@ class _NavigationModalState extends State<NavigationModal>
     if (safeClosestRoutePointIndex > 0) {
       List<LatLng> drivenPoints = _routePoints.sublist(
         0,
-        safeClosestRoutePointIndex + 1);
+        safeClosestRoutePointIndex + 1,
+      );
 
       // White border for driven section
       polylines.add(
@@ -3912,7 +4145,9 @@ class _NavigationModalState extends State<NavigationModal>
           color: Colors.white.withOpacity(0.5),
           strokeWidth: 10,
           strokeCap: StrokeCap.round,
-          strokeJoin: StrokeJoin.round));
+          strokeJoin: StrokeJoin.round,
+        ),
+      );
 
       // Green line for driven section
       polylines.add(
@@ -3921,7 +4156,9 @@ class _NavigationModalState extends State<NavigationModal>
           color: const Color(0xFF34C759), // Apple Green
           strokeWidth: 5,
           strokeCap: StrokeCap.round,
-          strokeJoin: StrokeJoin.round));
+          strokeJoin: StrokeJoin.round,
+        ),
+      );
     }
 
     // Then, draw the remaining route with traffic colors
@@ -3953,7 +4190,9 @@ class _NavigationModalState extends State<NavigationModal>
           color: Colors.white,
           strokeWidth: 10,
           strokeCap: StrokeCap.round,
-          strokeJoin: StrokeJoin.round));
+          strokeJoin: StrokeJoin.round,
+        ),
+      );
 
       // Create colored traffic segment (inner layer)
       polylines.add(
@@ -3962,7 +4201,9 @@ class _NavigationModalState extends State<NavigationModal>
           color: currentColor,
           strokeWidth: 5,
           strokeCap: StrokeCap.round,
-          strokeJoin: StrokeJoin.round));
+          strokeJoin: StrokeJoin.round,
+        ),
+      );
 
       i = j - 1; // Move to next different color segment
     }
@@ -3983,7 +4224,8 @@ class _NavigationModalState extends State<NavigationModal>
     // Instead of straight line, create waypoints that simulate real road curves
     int numWaypoints = math.max(
       8,
-      (totalDistance / 5000).round()); // More waypoints for longer routes
+      (totalDistance / 5000).round(),
+    ); // More waypoints for longer routes
 
     for (int i = 1; i < numWaypoints; i++) {
       double progress = i / numWaypoints;
@@ -4023,7 +4265,8 @@ class _NavigationModalState extends State<NavigationModal>
     route.add(end);
 
     print(
-      '✅ Generated realistic fallback route with ${route.length} waypoints (${(totalDistance / 1000).toStringAsFixed(1)}km)');
+      '✅ Generated realistic fallback route with ${route.length} waypoints (${(totalDistance / 1000).toStringAsFixed(1)}km)',
+    );
     return route;
   }
 
@@ -4064,7 +4307,8 @@ class _NavigationModalState extends State<NavigationModal>
         _getCurrentLocation();
 
         _locationTimer = Timer.periodic(const Duration(seconds: 2), (
-          timer) async {
+          timer,
+        ) async {
           if (mounted) {
             _getCurrentLocation();
 
@@ -4079,7 +4323,8 @@ class _NavigationModalState extends State<NavigationModal>
             if (timer.tick % 15 == 0) {
               // Every 30 seconds (15 * 2 seconds)
               _updateOrderLocation(
-                widget.order['order_id'] ?? widget.order['id']);
+                widget.order['order_id'] ?? widget.order['id'],
+              );
             }
 
             // ENABLED: Automatic order status checking every 30 seconds to keep UI synchronized
@@ -4090,7 +4335,8 @@ class _NavigationModalState extends State<NavigationModal>
                   .then((currentStatus) {
                     if (currentStatus != null && mounted) {
                       print(
-                        '🔄 Auto-check: Order $orderId status is "$currentStatus", UI phase: $_currentPhase');
+                        '🔄 Auto-check: Order $orderId status is "$currentStatus", UI phase: $_currentPhase',
+                      );
                       _synchronizeUIWithDatabaseStatus(currentStatus);
                     }
                   })
@@ -4117,7 +4363,8 @@ class _NavigationModalState extends State<NavigationModal>
       final sessionId = await _getSessionId();
 
       print(
-        '📍 Saving location to database: ${_currentLocation!.latitude}, ${_currentLocation!.longitude} for session $sessionId');
+        '📍 Saving location to database: ${_currentLocation!.latitude}, ${_currentLocation!.longitude} for session $sessionId',
+      );
 
       // Save to navigation_sessions table
       final navResponse = await http.put(
@@ -4130,12 +4377,14 @@ class _NavigationModalState extends State<NavigationModal>
           },
           'current_phase': _currentPhase.toString(),
           'current_instruction_index': _currentInstructionIndex,
-        }));
+        }),
+      );
 
       if (navResponse.statusCode == 200) {
       } else {
         print(
-          '⚠️ Failed to save location to navigation_sessions: ${navResponse.statusCode}');
+          '⚠️ Failed to save location to navigation_sessions: ${navResponse.statusCode}',
+        );
       }
 
       // Also save to orders table (driver_latitude, driver_longitude)
@@ -4168,12 +4417,14 @@ class _NavigationModalState extends State<NavigationModal>
         body: json.encode({
           'driver_latitude': _currentLocation!.latitude,
           'driver_longitude': _currentLocation!.longitude,
-        }));
+        }),
+      );
 
       if (response.statusCode == 200) {
       } else {
         print(
-          '⚠️ Failed to save driver location to orders table: ${response.statusCode}');
+          '⚠️ Failed to save driver location to orders table: ${response.statusCode}',
+        );
       }
     } catch (e) {
       print('❌ Error updating order location: $e');
@@ -4203,7 +4454,8 @@ class _NavigationModalState extends State<NavigationModal>
       Position position = await Geolocator.getCurrentPosition(
         desiredAccuracy: LocationAccuracy.high,
         timeLimit: const Duration(
-          seconds: 30), // Increased from 10 to 30 seconds
+          seconds: 30,
+        ), // Increased from 10 to 30 seconds
       );
 
       LatLng newLocation = LatLng(position.latitude, position.longitude);
@@ -4240,10 +4492,12 @@ class _NavigationModalState extends State<NavigationModal>
       // Only set to null if we've never had a GPS fix
       if (_currentLocation == null) {
         print(
-          '📍 No GPS data available yet - route will be shown without current location');
+          '📍 No GPS data available yet - route will be shown without current location',
+        );
       } else {
         print(
-          '📍 GPS timeout, but using last known location: ${_currentLocation!.latitude}, ${_currentLocation!.longitude}');
+          '📍 GPS timeout, but using last known location: ${_currentLocation!.latitude}, ${_currentLocation!.longitude}',
+        );
       }
 
       // Don't remove existing location on temporary GPS errors
@@ -4288,7 +4542,9 @@ class _NavigationModalState extends State<NavigationModal>
       // Call backend API to find nearby orders
       final response = await http.get(
         Uri.parse(
-          '${ApiConfig.baseUrl}/api/delvioo/last-mile-opportunities?driver_id=$driverId&lat=${_currentLocation!.latitude}&lng=${_currentLocation!.longitude}&radius=$radiusMeters'));
+          '${ApiConfig.baseUrl}/api/delvioo/last-mile-opportunities?driver_id=$driverId&lat=${_currentLocation!.latitude}&lng=${_currentLocation!.longitude}&radius=$radiusMeters',
+        ),
+      );
 
       if (response.statusCode == 200) {
         final data = json.decode(response.body);
@@ -4339,10 +4595,12 @@ class _NavigationModalState extends State<NavigationModal>
         // Calculate distances
         final distanceToPickup = _calculateDistance(
           _currentLocation!,
-          pickupLocation);
+          pickupLocation,
+        );
         final pickupToDelivery = _calculateDistance(
           pickupLocation,
-          deliveryLocation);
+          deliveryLocation,
+        );
 
         // Calculate detour from current route
         LatLng currentDestination;
@@ -4355,7 +4613,8 @@ class _NavigationModalState extends State<NavigationModal>
 
         final directDistance = _calculateDistance(
           _currentLocation!,
-          currentDestination);
+          currentDestination,
+        );
         final detourDistance =
             distanceToPickup +
             _calculateDistance(pickupLocation, currentDestination);
@@ -4404,7 +4663,8 @@ class _NavigationModalState extends State<NavigationModal>
 
     // Sort by score (highest first)
     scoredOpportunities.sort(
-      (a, b) => (b['score'] as double).compareTo(a['score'] as double));
+      (a, b) => (b['score'] as double).compareTo(a['score'] as double),
+    );
 
     // Return best match if score is positive
     if (scoredOpportunities.isNotEmpty &&
@@ -4488,7 +4748,7 @@ class _NavigationModalState extends State<NavigationModal>
             final bidAmount = bidCents / 100.0;
 
             return Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16),
+              padding: const EdgeInsets.symmetric(horizontal: 16),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
@@ -4500,21 +4760,25 @@ class _NavigationModalState extends State<NavigationModal>
                       Icon(
                         CupertinoIcons.money_dollar_circle,
                         size: 22,
-                        color: isLight ? Colors.black : Colors.white),
-                      SizedBox(width: 12),
+                        color: isLight ? Colors.black : Colors.white,
+                      ),
+                      const SizedBox(width: 12),
                       Text(
                         '${AppLocalizations.of(context)?.placeBid ?? AppLocalizations.of(context)!.tr('Place Bid')}?',
                         style: TextStyle(
                           fontSize: 22,
                           fontWeight: FontWeight.w700,
                           color: isLight ? Colors.black : Colors.white,
-                          letterSpacing: -0.4)),
-                    ]),
-                  SizedBox(height: 12),
+                          letterSpacing: -0.4,
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 12),
 
                   // Maps-style route summary (compact)
                   TradeRepublicCard(
-                    padding: EdgeInsets.all(14),
+                    padding: const EdgeInsets.all(14),
                     borderRadius: BorderRadius.circular(16),
                     child: Column(
                       children: [
@@ -4526,8 +4790,10 @@ class _NavigationModalState extends State<NavigationModal>
                               height: 10,
                               decoration: BoxDecoration(
                                 color: const Color(0xFF34C759),
-                                borderRadius: BorderRadius.circular(5))),
-                            SizedBox(width: 10),
+                                borderRadius: BorderRadius.circular(5),
+                              ),
+                            ),
+                            const SizedBox(width: 10),
                             Expanded(
                               child: Text(
                                 pickupAddressText.isNotEmpty 
@@ -4536,24 +4802,33 @@ class _NavigationModalState extends State<NavigationModal>
                                 style: TextStyle(
                                   fontSize: 13,
                                   fontWeight: FontWeight.w500,
-                                  color: isLight ? Colors.black : Colors.white),
+                                  color: isLight ? Colors.black : Colors.white,
+                                ),
                                 maxLines: 1,
-                                overflow: TextOverflow.ellipsis)),
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ),
                             Text(
                               appSettings.formatDistance(distanceToPickup / 1000),
                               style: TextStyle(
                                 fontSize: 12,
                                 fontWeight: FontWeight.w600,
-                                color: (isLight ? Colors.black : Colors.white).withOpacity(0.5))),
-                          ]),
+                                color: (isLight ? Colors.black : Colors.white).withOpacity(0.5),
+                              ),
+                            ),
+                          ],
+                        ),
                         Padding(
-                          padding: EdgeInsets.only(left: 4),
+                          padding: const EdgeInsets.only(left: 4),
                           child: Align(
                             alignment: Alignment.centerLeft,
                             child: Container(
                               width: 2,
                               height: 16,
-                              color: (isLight ? Colors.black : Colors.white).withOpacity(0.12)))),
+                              color: (isLight ? Colors.black : Colors.white).withOpacity(0.12),
+                            ),
+                          ),
+                        ),
                         // Delivery row
                         Row(
                           children: [
@@ -4562,8 +4837,10 @@ class _NavigationModalState extends State<NavigationModal>
                               height: 10,
                               decoration: BoxDecoration(
                                 color: const Color(0xFFFF3B30),
-                                borderRadius: BorderRadius.circular(5))),
-                            SizedBox(width: 10),
+                                borderRadius: BorderRadius.circular(5),
+                              ),
+                            ),
+                            const SizedBox(width: 10),
                             Expanded(
                               child: Text(
                                 deliveryAddressText.isNotEmpty 
@@ -4572,22 +4849,30 @@ class _NavigationModalState extends State<NavigationModal>
                                 style: TextStyle(
                                   fontSize: 13,
                                   fontWeight: FontWeight.w500,
-                                  color: isLight ? Colors.black : Colors.white),
+                                  color: isLight ? Colors.black : Colors.white,
+                                ),
                                 maxLines: 1,
-                                overflow: TextOverflow.ellipsis)),
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ),
                             Text(
                               appSettings.formatDistance(pickupToDelivery / 1000),
                               style: TextStyle(
                                 fontSize: 12,
                                 fontWeight: FontWeight.w600,
-                                color: (isLight ? Colors.black : Colors.white).withOpacity(0.5))),
-                          ]),
-                      ])),
-                  SizedBox(height: 12),
+                                color: (isLight ? Colors.black : Colors.white).withOpacity(0.5),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 12),
 
                   // Order value row
                   TradeRepublicCard(
-                    padding: EdgeInsets.all(14),
+                    padding: const EdgeInsets.all(14),
                     borderRadius: BorderRadius.circular(16),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -4596,15 +4881,21 @@ class _NavigationModalState extends State<NavigationModal>
                           AppLocalizations.of(context)?.orderValue ?? AppLocalizations.of(context)!.tr('Order Value'),
                           style: TextStyle(
                             fontSize: 15,
-                            color: (isLight ? Colors.black : Colors.white).withOpacity(0.7))),
+                            color: (isLight ? Colors.black : Colors.white).withOpacity(0.7),
+                          ),
+                        ),
                         Text(
                           appSettings.formatCurrency(orderValue),
                           style: TextStyle(
                             fontSize: 17,
                             fontWeight: FontWeight.w700,
-                            color: isLight ? Colors.black : Colors.white)),
-                      ])),
-                  SizedBox(height: 16),
+                            color: isLight ? Colors.black : Colors.white,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 16),
 
                   // Big price display
                   Text(
@@ -4617,13 +4908,17 @@ class _NavigationModalState extends State<NavigationModal>
                       color: bidCents == 0
                           ? (isLight ? Colors.black : Colors.white).withOpacity(0.3)
                           : const Color(0xFF34C759),
-                      letterSpacing: -2)),
+                      letterSpacing: -2,
+                    ),
+                  ),
                   Text(
                     AppLocalizations.of(context)?.yourBid ?? AppLocalizations.of(context)!.tr('Your Bid'),
                     style: TextStyle(
                       fontSize: 14,
-                      color: (isLight ? Colors.black : Colors.white).withOpacity(0.5))),
-                  SizedBox(height: 20),
+                      color: (isLight ? Colors.black : Colors.white).withOpacity(0.5),
+                    ),
+                  ),
+                  const SizedBox(height: 20),
 
                   // Numpad
                   _buildBidNumpad(
@@ -4633,23 +4928,30 @@ class _NavigationModalState extends State<NavigationModal>
                       setSheetState(() {
                         bidCents = newCents;
                       });
-                    }),
-                  SizedBox(height: 20),
+                    },
+                  ),
+                  const SizedBox(height: 20),
 
                   // Submit button
                   TradeRepublicButton(
                     label: AppLocalizations.of(context)?.submitBid ?? AppLocalizations.of(context)!.tr('Submit Bid'),
-                    icon: Icon(CupertinoIcons.hammer),
+                    icon: const Icon(CupertinoIcons.hammer),
                     onPressed: bidCents > 0
                         ? () async {
                             Navigator.pop(context);
                             await _submitAiBid(bidAmount);
                           }
                         : null,
-                    width: double.infinity),
-                  SizedBox(height: 16),
-                ]));
-          })));
+                    width: double.infinity,
+                  ),
+                  const SizedBox(height: 16),
+                ],
+              ),
+            );
+          },
+        ),
+      ),
+    );
   }
 
   // Numpad widget for bid input (right-to-left cents input)
@@ -4668,22 +4970,30 @@ class _NavigationModalState extends State<NavigationModal>
           },
           child: Container(
             height: 52,
-            margin: EdgeInsets.all(4),
+            margin: const EdgeInsets.all(4),
             decoration: BoxDecoration(
               color: (isLight ? Colors.black : Colors.white).withOpacity(label == '⌫' ? 0.04 : 0.08),
-              borderRadius: BorderRadius.circular(16)),
+              borderRadius: BorderRadius.circular(16),
+            ),
             child: Center(
               child: label == '⌫'
                   ? Icon(
                       CupertinoIcons.delete_left,
                       color: isLight ? Colors.black : Colors.white,
-                      size: 22)
+                      size: 22,
+                    )
                   : Text(
                       label,
                       style: TextStyle(
                         fontSize: 22,
                         fontWeight: FontWeight.w600,
-                        color: isLight ? Colors.black : Colors.white))))));
+                        color: isLight ? Colors.black : Colors.white,
+                      ),
+                    ),
+            ),
+          ),
+        ),
+      );
     }
 
     return Column(
@@ -4708,7 +5018,8 @@ class _NavigationModalState extends State<NavigationModal>
           buildKey('0', onTap: () => onChanged(currentCents * 10)),
           buildKey('⌫', onTap: () => onChanged(currentCents ~/ 10)),
         ]),
-      ]);
+      ],
+    );
   }
 
   // Submit bid for AI-suggested order
@@ -4732,7 +5043,8 @@ class _NavigationModalState extends State<NavigationModal>
         headers: {
           'Content-Type': 'application/json',
           if (token != null) 'Authorization': 'Bearer $token',
-        });
+        },
+      );
 
       int? auctionId;
       if (auctionsResponse.statusCode == 200) {
@@ -4761,7 +5073,8 @@ class _NavigationModalState extends State<NavigationModal>
             'price_mode': 'total',
             'vehicle_type': 'truck',
             'message': AppLocalizations.of(context)?.aiSuggestionDuringNav ?? AppLocalizations.of(context)!.tr('AI suggestion during navigation'),
-          }));
+          }),
+        );
 
         if (response.statusCode == 200 || response.statusCode == 201) {
           final data = json.decode(response.body);
@@ -4771,7 +5084,8 @@ class _NavigationModalState extends State<NavigationModal>
               HapticFeedback.heavyImpact();
               TopNotification.success(
                 context,
-                '${AppLocalizations.of(context)?.bidSubmittedForOrder ?? AppLocalizations.of(context)!.tr('Bid submitted for Order')} #$orderId \$${bidAmount.toStringAsFixed(2)} 🎯');
+                '${AppLocalizations.of(context)?.bidSubmittedForOrder ?? AppLocalizations.of(context)!.tr('Bid submitted for Order')} #$orderId \$${bidAmount.toStringAsFixed(2)} 🎯',
+              );
             }
           } else {
             throw Exception(data['error'] ?? AppLocalizations.of(context)!.tr('Bid failed'));
@@ -4791,7 +5105,8 @@ class _NavigationModalState extends State<NavigationModal>
             'driver_id': driverId,
             'accepted_via': 'ai_suggestion',
             'bid_amount': bidAmount,
-          }));
+          }),
+        );
 
         if (response.statusCode == 200) {
           print('✅ Order direkt angenommen (keine Auktion)');
@@ -4799,7 +5114,8 @@ class _NavigationModalState extends State<NavigationModal>
             HapticFeedback.heavyImpact();
             TopNotification.success(
               context,
-              '${AppLocalizations.of(context)?.orderAccepted ?? AppLocalizations.of(context)!.tr('Order accepted')} #$orderId \$${bidAmount.toStringAsFixed(2)} 🎯');
+              '${AppLocalizations.of(context)?.orderAccepted ?? AppLocalizations.of(context)!.tr('Order accepted')} #$orderId \$${bidAmount.toStringAsFixed(2)} 🎯',
+            );
           }
         } else {
           throw Exception('HTTP ${response.statusCode}');
@@ -4816,7 +5132,8 @@ class _NavigationModalState extends State<NavigationModal>
       if (mounted) {
         TopNotification.error(
           context,
-          AppLocalizations.of(context)?.bidFailed ?? AppLocalizations.of(context)!.tr('Bid failed. Please try again.'));
+          AppLocalizations.of(context)?.bidFailed ?? AppLocalizations.of(context)!.tr('Bid failed. Please try again.'),
+        );
       }
     }
   }
@@ -4876,13 +5193,15 @@ class _NavigationModalState extends State<NavigationModal>
       // Prevent multiple simultaneous calculations
       if (_isFetchingTotalRoute || _totalRouteCalculated) {
         print(
-          '⏭️ Skipping total route calculation (already done or in progress)');
+          '⏭️ Skipping total route calculation (already done or in progress)',
+        );
         return; // Already calculating or already calculated
       }
 
       _isFetchingTotalRoute = true;
       print(
-        '📊 Navigation NOT started - fetching REAL TOTAL route data from API');
+        '📊 Navigation NOT started - fetching REAL TOTAL route data from API',
+      );
 
       // Fetch real route data from OSRM API asynchronously
       _fetchRouteWithMetrics(_currentLocation!, _pickupLocation)
@@ -4892,7 +5211,8 @@ class _NavigationModalState extends State<NavigationModal>
 
             return _fetchRouteWithMetrics(
               _pickupLocation,
-              _deliveryLocation).then((toDeliveryData) {
+              _deliveryLocation,
+            ).then((toDeliveryData) {
               final double deliveryDistance =
                   toDeliveryData['distance']; // meters
               final double deliveryDuration =
@@ -4906,22 +5226,27 @@ class _NavigationModalState extends State<NavigationModal>
 
               final appSettings = Provider.of<AppSettings>(
                 context,
-                listen: false);
+                listen: false,
+              );
 
               if (mounted) {
                 setState(() {
                   _totalDistance = appSettings.formatDistance(
-                    (totalDistance / 1000).toDouble());
+                    (totalDistance / 1000).toDouble(),
+                  );
                   _estimatedArrival = _formatDuration(
-                    (totalDuration / 60).round()); // seconds to minutes
+                    (totalDuration / 60).round(),
+                  ); // seconds to minutes
                   _totalRouteCalculated = true; // Mark as calculated
                   _isFetchingTotalRoute = false;
                 });
 
                 print(
-                  '   📍 Current → Pickup: ${(pickupDistance / 1000).toStringAsFixed(2)} km, ${(pickupDuration / 60).toStringAsFixed(1)} min');
+                  '   📍 Current → Pickup: ${(pickupDistance / 1000).toStringAsFixed(2)} km, ${(pickupDuration / 60).toStringAsFixed(1)} min',
+                );
                 print(
-                  '   📍 Pickup → Delivery: ${(deliveryDistance / 1000).toStringAsFixed(2)} km, ${(deliveryDuration / 60).toStringAsFixed(1)} min');
+                  '   📍 Pickup → Delivery: ${(deliveryDistance / 1000).toStringAsFixed(2)} km, ${(deliveryDuration / 60).toStringAsFixed(1)} min',
+                );
                 print('   📏 TOTAL Distance: $_totalDistance');
                 print('   ⏱️ TOTAL Time: $_estimatedArrival');
               }
@@ -4929,26 +5254,31 @@ class _NavigationModalState extends State<NavigationModal>
           })
           .catchError((error) {
             print(
-              '⚠️ Failed to fetch real route data, using GPS estimate: $error');
+              '⚠️ Failed to fetch real route data, using GPS estimate: $error',
+            );
 
             // Fallback to GPS distance calculation
             double distanceToPickup = _calculateDistance(
               _currentLocation!,
-              _pickupLocation);
+              _pickupLocation,
+            );
             double distanceToDelivery = _calculateDistance(
               _pickupLocation,
-              _deliveryLocation);
+              _deliveryLocation,
+            );
             double totalDistance = distanceToPickup + distanceToDelivery;
             double estimatedMinutes = (totalDistance / 1000) * 2;
 
             final appSettings = Provider.of<AppSettings>(
               context,
-              listen: false);
+              listen: false,
+            );
 
             if (mounted) {
               setState(() {
                 _totalDistance = appSettings.formatDistance(
-                  (totalDistance / 1000).toDouble());
+                  (totalDistance / 1000).toDouble(),
+                );
                 _estimatedArrival = _formatDuration(estimatedMinutes.round());
                 _totalRouteCalculated = true;
                 _isFetchingTotalRoute = false;
@@ -4973,16 +5303,19 @@ class _NavigationModalState extends State<NavigationModal>
           _currentDeliveryIndex < _allDeliveryLocations.length) {
         destination = _allDeliveryLocations[_currentDeliveryIndex];
         print(
-          '🎯 [PICKED_UP] Multi-order DELIVERY destination: Index $_currentDeliveryIndex, Coords: ${destination.latitude}, ${destination.longitude}');
+          '🎯 [PICKED_UP] Multi-order DELIVERY destination: Index $_currentDeliveryIndex, Coords: ${destination.latitude}, ${destination.longitude}',
+        );
         if (destination.latitude == 0.0 && destination.longitude == 0.0) {
           print(
-            '❌ Invalid multi-order delivery coordinates (0.0, 0.0) - using single order delivery');
+            '❌ Invalid multi-order delivery coordinates (0.0, 0.0) - using single order delivery',
+          );
           destination = _deliveryLocation;
         }
       } else {
         destination = _deliveryLocation;
         print(
-          '🎯 [PICKED_UP] Single-order DELIVERY destination: ${destination.latitude}, ${destination.longitude}');
+          '🎯 [PICKED_UP] Single-order DELIVERY destination: ${destination.latitude}, ${destination.longitude}',
+        );
       }
     }
     // CRITICAL: Always prioritize pickup locations for pickup phases
@@ -4993,11 +5326,13 @@ class _NavigationModalState extends State<NavigationModal>
           _currentPickupIndex < _allPickupLocations.length) {
         destination = _allPickupLocations[_currentPickupIndex];
         print(
-          '🎯 Multi-order PICKUP destination: Index $_currentPickupIndex, Coords: ${destination.latitude}, ${destination.longitude}');
+          '🎯 Multi-order PICKUP destination: Index $_currentPickupIndex, Coords: ${destination.latitude}, ${destination.longitude}',
+        );
         // CRITICAL FIX: Check if destination coordinates are valid
         if (destination.latitude == 0.0 && destination.longitude == 0.0) {
           print(
-            '❌ Invalid multi-order pickup coordinates (0.0, 0.0) - using single order pickup');
+            '❌ Invalid multi-order pickup coordinates (0.0, 0.0) - using single order pickup',
+          );
           destination = _pickupLocation;
         }
       } else {
@@ -5020,13 +5355,15 @@ class _NavigationModalState extends State<NavigationModal>
       // Fallback - default to pickup
       destination = _pickupLocation;
       print(
-        '🎯 FALLBACK to pickup destination: ${destination.latitude}, ${destination.longitude}');
+        '🎯 FALLBACK to pickup destination: ${destination.latitude}, ${destination.longitude}',
+      );
     }
 
     // Calculate current GPS distance to destination
     double distanceToDestination = _calculateDistance(
       _currentLocation!,
-      destination);
+      destination,
+    );
 
     // Get app settings for unit system
     final appSettings = Provider.of<AppSettings>(context, listen: false);
@@ -5046,7 +5383,8 @@ class _NavigationModalState extends State<NavigationModal>
       setState(() {
         if (distanceToDestination > 0) {
           _totalDistance = appSettings.formatDistance(
-            (distanceToDestination / 1000).toDouble());
+            (distanceToDestination / 1000).toDouble(),
+          );
         }
 
         // Realistic time estimation based on distance and travel type
@@ -5055,7 +5393,8 @@ class _NavigationModalState extends State<NavigationModal>
           // Walking distance - 1-2 minutes max
           estimatedTimeMinutes = math.max(
             1,
-            (distanceToDestination / 100)); // ~1 min per 100m walking
+            (distanceToDestination / 100),
+          ); // ~1 min per 100m walking
         } else if (distanceToDestination < 2000) {
           // Short driving distance - city speed ~25 km/h
           estimatedTimeMinutes =
@@ -5157,7 +5496,8 @@ class _NavigationModalState extends State<NavigationModal>
 
     for (var point in allPoints) {
       print(
-        '   Point: ${point.latitude.toStringAsFixed(6)}, ${point.longitude.toStringAsFixed(6)}');
+        '   Point: ${point.latitude.toStringAsFixed(6)}, ${point.longitude.toStringAsFixed(6)}',
+      );
     }
 
     double minLat = allPoints.map((p) => p.latitude).reduce(math.min);
@@ -5169,7 +5509,8 @@ class _NavigationModalState extends State<NavigationModal>
     LatLng northeast = LatLng(maxLat + 0.01, maxLng + 0.01);
 
     print(
-      '🗺️ Map bounds: SW(${southwest.latitude}, ${southwest.longitude}) - NE(${northeast.latitude}, ${northeast.longitude})');
+      '🗺️ Map bounds: SW(${southwest.latitude}, ${southwest.longitude}) - NE(${northeast.latitude}, ${northeast.longitude})',
+    );
 
     try {
       // During active navigation, don't use fitCamera (it resets rotation)
@@ -5181,7 +5522,9 @@ class _NavigationModalState extends State<NavigationModal>
         _mapController.fitCamera(
           CameraFit.bounds(
             bounds: LatLngBounds(southwest, northeast),
-            padding: EdgeInsets.all(80)));
+            padding: const EdgeInsets.all(80),
+          ),
+        );
       }
     } catch (e) {}
   }
@@ -5259,7 +5602,8 @@ class _NavigationModalState extends State<NavigationModal>
       destinationAddress: destAddr,
       isWaitingTimerActive: isActiveTimerPhase,
       waitingElapsedSeconds: activeTimerSeconds,
-      force: force);
+      force: force,
+    );
   }
 
   void _startNavigation() async {
@@ -5283,7 +5627,8 @@ class _NavigationModalState extends State<NavigationModal>
       await _launchExternalMapApp(
         origin: _currentLocation!,
         destination: dest,
-        app: _externalMapApp);
+        app: _externalMapApp,
+      );
     }
 
     // CRITICAL: Calculate initial bearing AFTER route is generated
@@ -5294,7 +5639,8 @@ class _NavigationModalState extends State<NavigationModal>
       // Calculate bearing to second point (first point is usually current location)
       _currentBearing = _calculateBearing(_currentLocation!, _routePoints[1]);
       print(
-        '🧭 🔥 Navigation started - initial bearing: $_currentBearing° - ROTATING MAP NOW');
+        '🧭 🔥 Navigation started - initial bearing: $_currentBearing° - ROTATING MAP NOW',
+      );
 
       // Apply rotation by forcing map rebuild with new rotation value
       try {
@@ -5312,13 +5658,15 @@ class _NavigationModalState extends State<NavigationModal>
         }
 
         print(
-          '✅ Map rebuilt with rotation: $_currentBearing° - route now points UP');
+          '✅ Map rebuilt with rotation: $_currentBearing° - route now points UP',
+        );
       } catch (e) {
         print('❌ Failed to rotate map: $e');
       }
     } else {
       print(
-        '⚠️ Cannot calculate bearing: location=${_currentLocation != null}, points=${_routePoints.length}');
+        '⚠️ Cannot calculate bearing: location=${_currentLocation != null}, points=${_routePoints.length}',
+      );
     }
 
     // CRITICAL: Save navigation state to database WITH await
@@ -5345,7 +5693,8 @@ class _NavigationModalState extends State<NavigationModal>
 
     try {
       print(
-        '📍 Saving driver start location: ${_currentLocation!.latitude}, ${_currentLocation!.longitude}');
+        '📍 Saving driver start location: ${_currentLocation!.latitude}, ${_currentLocation!.longitude}',
+      );
 
       final orderId = widget.order['order_id'] ?? widget.order['id'];
 
@@ -5356,15 +5705,18 @@ class _NavigationModalState extends State<NavigationModal>
         final pickupLocation = _allPickupLocations[_currentPickupIndex];
         distanceToPickup = _calculateDistance(
           _currentLocation!,
-          pickupLocation);
+          pickupLocation,
+        );
       } else {
         distanceToPickup = _calculateDistance(
           _currentLocation!,
-          _pickupLocation);
+          _pickupLocation,
+        );
       }
 
       print(
-        '📏 Distance from driver start to pickup: ${distanceToPickup.toStringAsFixed(1)} km');
+        '📏 Distance from driver start to pickup: ${distanceToPickup.toStringAsFixed(1)} km',
+      );
 
       // Save to database
       final response = await http.post(
@@ -5376,13 +5728,15 @@ class _NavigationModalState extends State<NavigationModal>
           'driver_start_longitude': _currentLocation!.longitude,
           'distance_to_pickup': distanceToPickup,
           'timestamp': DateTime.now().toIso8601String(),
-        }));
+        }),
+      );
 
       if (response.statusCode == 200) {
         final data = json.decode(response.body);
         if (data['success'] == true) {
           print(
-            '   Distance to pickup: ${distanceToPickup.toStringAsFixed(1)} km');
+            '   Distance to pickup: ${distanceToPickup.toStringAsFixed(1)} km',
+          );
         } else {
           print('⚠️ Failed to save driver start location: ${data['message']}');
         }
@@ -5428,7 +5782,8 @@ class _NavigationModalState extends State<NavigationModal>
         case 'google':
           // Native Google Maps scheme → falls back to web URL if not installed
           final native = Uri.parse(
-            'comgooglemaps://?daddr=$lat,$lng&directionsmode=driving');
+            'comgooglemaps://?daddr=$lat,$lng&directionsmode=driving',
+          );
           if (await canLaunchUrl(native)) {
             await launchUrl(native, mode: LaunchMode.externalApplication);
             return;
@@ -5436,7 +5791,8 @@ class _NavigationModalState extends State<NavigationModal>
           uri = Uri.parse(
             'https://www.google.com/maps/dir/?api=1'
             '&destination=$lat,$lng'
-            '&travelmode=driving');
+            '&travelmode=driving',
+          );
           break;
         case 'waze':
           // Waze always navigates from current location
@@ -5456,7 +5812,8 @@ class _NavigationModalState extends State<NavigationModal>
         if (mounted) {
           TopNotification.error(
             context,
-            AppLocalizations.of(context)?.noNavigationAppAvailable ?? AppLocalizations.of(context)!.tr('App not available on this device'));
+            AppLocalizations.of(context)?.noNavigationAppAvailable ?? AppLocalizations.of(context)!.tr('App not available on this device'),
+          );
         }
       }
     } catch (e) {
@@ -5491,26 +5848,33 @@ class _NavigationModalState extends State<NavigationModal>
       child: TradeRepublicTap(
         onTap: _showMapAppSheet,
         child: Container(
-          padding: EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
           decoration: BoxDecoration(
             color: isLight
                 ? Colors.black.withOpacity(0.08)
                 : Colors.white.withOpacity(0.10),
-            borderRadius: BorderRadius.circular(16)),
+            borderRadius: BorderRadius.circular(16),
+          ),
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
               Icon(icon, size: 13, color: color),
-              SizedBox(width: 5),
+              const SizedBox(width: 5),
               Text(
                 label,
                 style: TextStyle(
                   fontSize: 12,
                   fontWeight: FontWeight.w600,
-                  color: color)),
-              SizedBox(width: 3),
+                  color: color,
+                ),
+              ),
+              const SizedBox(width: 3),
               Icon(CupertinoIcons.chevron_down, size: 14, color: color),
-            ]))));
+            ],
+          ),
+        ),
+      ),
+    );
   }
 
   /// Checks which map apps are installed and shows a bottom sheet so the user
@@ -5527,21 +5891,24 @@ class _NavigationModalState extends State<NavigationModal>
         id: 'apple',
         icon: CupertinoIcons.map_fill,
         label: AppLocalizations.of(context)!.tr('Apple Maps') ?? AppLocalizations.of(context)!.tr('Apple Maps'),
-        color: Colors.grey.shade700));
+        color: Colors.grey.shade700,
+      ));
     }
     if (await canLaunchUrl(Uri.parse('comgooglemaps://'))) {
       available.add((
         id: 'google',
         icon: CupertinoIcons.map,
         label: AppLocalizations.of(context)!.tr('Google Maps') ?? AppLocalizations.of(context)!.tr('Google Maps'),
-        color: const Color(0xFF4285F4)));
+        color: const Color(0xFF4285F4),
+      ));
     }
     if (await canLaunchUrl(Uri.parse('waze://'))) {
       available.add((
         id: 'waze',
         icon: CupertinoIcons.car_fill,
         label: AppLocalizations.of(context)!.tr('Waze') ?? AppLocalizations.of(context)!.tr('Waze'),
-        color: const Color(0xFF33CCFF)));
+        color: const Color(0xFF33CCFF),
+      ));
     }
 
     if (!mounted) return;
@@ -5561,8 +5928,10 @@ class _NavigationModalState extends State<NavigationModal>
               letterSpacing: -0.4,
               color: Theme.of(context).brightness == Brightness.dark
                   ? Colors.white
-                  : Colors.black87)),
-          SizedBox(height: 8),
+                  : Colors.black87,
+            ),
+          ),
+          const SizedBox(height: 8),
           ...available.map((app) {
             final selected = _externalMapApp == app.id;
             return TradeRepublicListTile(
@@ -5572,8 +5941,10 @@ class _NavigationModalState extends State<NavigationModal>
                 height: 40,
                 decoration: BoxDecoration(
                   color: app.color.withOpacity(0.12),
-                  borderRadius: BorderRadius.circular(12)),
-                child: Icon(app.icon, color: app.color, size: 22)),
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Icon(app.icon, color: app.color, size: 22),
+              ),
               trailing: selected
                   ? Icon(CupertinoIcons.checkmark_circle_fill, color: app.color, size: 22)
                   : null,
@@ -5586,12 +5957,16 @@ class _NavigationModalState extends State<NavigationModal>
                   await _launchExternalMapApp(
                     origin: _currentLocation!,
                     destination: dest,
-                    app: app.id);
+                    app: app.id,
+                  );
                 }
-              });
+              },
+            );
           }),
-          SizedBox(height: 8),
-        ]));
+          const SizedBox(height: 8),
+        ],
+      ),
+    );
   }
 
   // Launch native MapBox Navigation
@@ -5605,7 +5980,8 @@ class _NavigationModalState extends State<NavigationModal>
         'https://www.google.com/maps/dir/?api=1'
         '&origin=${origin.latitude},${origin.longitude}'
         '&destination=${destination.latitude},${destination.longitude}'
-        '&travelmode=driving');
+        '&travelmode=driving',
+      );
 
       if (await canLaunchUrl(googleMapsUrl)) {
         await launchUrl(googleMapsUrl, mode: LaunchMode.externalApplication);
@@ -5615,7 +5991,8 @@ class _NavigationModalState extends State<NavigationModal>
           'https://maps.apple.com/?'
           'saddr=${origin.latitude},${origin.longitude}&'
           'daddr=${destination.latitude},${destination.longitude}&'
-          'dirflg=d');
+          'dirflg=d',
+        );
 
         print('⚠️ Google Maps not available, trying Apple Maps');
 
@@ -5633,7 +6010,8 @@ class _NavigationModalState extends State<NavigationModal>
       if (mounted) {
         TopNotification.error(
           context,
-          '${AppLocalizations.of(context)?.errorStartingNavigation ?? AppLocalizations.of(context)!.tr('Error starting navigation')}: $e');
+          '${AppLocalizations.of(context)?.errorStartingNavigation ?? AppLocalizations.of(context)!.tr('Error starting navigation')}: $e',
+        );
       }
     }
   }
@@ -5678,7 +6056,8 @@ class _NavigationModalState extends State<NavigationModal>
       final String url = '${ApiConfig.baseUrl}/api/navigation/start';
 
       print(
-        '☁️ ${_isMultiOrderMode ? (AppLocalizations.of(context)?.multiOrderLabel ?? AppLocalizations.of(context)!.tr('')) : (AppLocalizations.of(context)?.singleOrderLabel ?? AppLocalizations.of(context)!.tr(''))} navigation: saving to cloud database');
+        '☁️ ${_isMultiOrderMode ? (AppLocalizations.of(context)?.multiOrderLabel ?? AppLocalizations.of(context)!.tr('')) : (AppLocalizations.of(context)?.singleOrderLabel ?? AppLocalizations.of(context)!.tr(''))} navigation: saving to cloud database',
+      );
       final response = await http.post(
         Uri.parse(url),
         headers: {'Content-Type': 'application/json'},
@@ -5738,13 +6117,15 @@ class _NavigationModalState extends State<NavigationModal>
           'seller_check_out_at': _sellerCheckOutAt?.toIso8601String(),
           'buyer_check_in_at': _buyerCheckInAt?.toIso8601String(),
           'buyer_check_out_at': _buyerCheckOutAt?.toIso8601String(),
-        }));
+        }),
+      );
 
       if (response.statusCode == 200 || response.statusCode == 201) {
         final responseData = json.decode(response.body);
         if (responseData['success'] == true) {
           print(
-            '✅ ${_isMultiOrderMode ? (AppLocalizations.of(context)?.multiOrderLabel ?? AppLocalizations.of(context)!.tr('')) : (AppLocalizations.of(context)?.singleOrderLabel ?? AppLocalizations.of(context)!.tr(''))} navigation saved to cloud database');
+            '✅ ${_isMultiOrderMode ? (AppLocalizations.of(context)?.multiOrderLabel ?? AppLocalizations.of(context)!.tr('')) : (AppLocalizations.of(context)?.singleOrderLabel ?? AppLocalizations.of(context)!.tr(''))} navigation saved to cloud database',
+          );
         }
       } else {
         print('⚠️ Failed to save navigation to cloud: ${response.statusCode}');
@@ -5763,12 +6144,14 @@ class _NavigationModalState extends State<NavigationModal>
     try {
       final driverId = await _getDriverId();
       print(
-        '🔍 CRITICAL: Checking for active navigation to restore state immediately...');
+        '🔍 CRITICAL: Checking for active navigation to restore state immediately...',
+      );
 
       final String url = '${ApiConfig.baseUrl}/api/navigation/active/$driverId';
       final response = await http.get(
         Uri.parse(url),
-        headers: {'Content-Type': 'application/json'});
+        headers: {'Content-Type': 'application/json'},
+      );
 
       if (response.statusCode == 200) {
         final responseData = json.decode(response.body);
@@ -5780,32 +6163,38 @@ class _NavigationModalState extends State<NavigationModal>
           final orderId = widget.order['order_id'] ?? widget.order['id'] ?? 0;
 
           print(
-            '🔍 Active navigation found: order $navOrderId, current order: $orderId');
+            '🔍 Active navigation found: order $navOrderId, current order: $orderId',
+          );
 
           // Check if this navigation is for our current order (exact match only)
           // Ignore old multi-order sessions that don't match the current single order
           if (navOrderId.toString() == orderId.toString()) {
             print(
-              '✅ CRITICAL: Restoring navigation state immediately for matching order!');
+              '✅ CRITICAL: Restoring navigation state immediately for matching order!',
+            );
           } else if (navOrderId.toString().contains('multi_order')) {
             // For multi-order sessions, check if current order is actually part of it
             final allOrders = navData['all_orders'] as List<dynamic>? ?? [];
             final hasCurrentOrder = allOrders.any(
               (order) =>
                   order['order_id'].toString() == orderId.toString() ||
-                  order['id'].toString() == orderId.toString());
+                  order['id'].toString() == orderId.toString(),
+            );
 
             if (hasCurrentOrder) {
               print(
-                '✅ CRITICAL: Restoring valid multi-order navigation containing current order!');
+                '✅ CRITICAL: Restoring valid multi-order navigation containing current order!',
+              );
             } else {
               print(
-                '❌ Multi-order session does not contain current order $orderId - ignoring old session');
+                '❌ Multi-order session does not contain current order $orderId - ignoring old session',
+              );
               return; // Exit early to avoid restoring invalid state
             }
           } else {
             print(
-              '❌ Navigation order mismatch - not restoring (nav: $navOrderId, current: $orderId)');
+              '❌ Navigation order mismatch - not restoring (nav: $navOrderId, current: $orderId)',
+            );
             return; // Exit early to avoid restoring invalid state
           }
 
@@ -5815,7 +6204,8 @@ class _NavigationModalState extends State<NavigationModal>
                   (navData['all_orders'] as List<dynamic>? ?? []).any(
                     (order) =>
                         order['order_id'].toString() == orderId.toString() ||
-                        order['id'].toString() == orderId.toString()))) {
+                        order['id'].toString() == orderId.toString(),
+                  ))) {
             setState(() {
               // Restore phase first
               final phaseString =
@@ -5839,7 +6229,8 @@ class _NavigationModalState extends State<NavigationModal>
               _navigationStateRestoredFromDB = true;
 
               print(
-                '🔄 IMMEDIATE STATE RESTORATION: Phase=$_currentPhase, Started=$_navigationStarted');
+                '🔄 IMMEDIATE STATE RESTORATION: Phase=$_currentPhase, Started=$_navigationStarted',
+              );
             });
           }
         }
@@ -5880,12 +6271,14 @@ class _NavigationModalState extends State<NavigationModal>
 
       final response = await http.get(
         Uri.parse(url),
-        headers: {'Content-Type': 'application/json'});
+        headers: {'Content-Type': 'application/json'},
+      );
 
       if (response.statusCode == 200) {
         final responseData = json.decode(response.body);
         print(
-          '🔍 Navigation API response data: success=${responseData['success']}, hasNavigation=${responseData['navigation'] != null}');
+          '🔍 Navigation API response data: success=${responseData['success']}, hasNavigation=${responseData['navigation'] != null}',
+        );
 
         if (responseData['success'] == true &&
             responseData['navigation'] != null) {
@@ -5922,9 +6315,11 @@ class _NavigationModalState extends State<NavigationModal>
               // Check if current order is one of the orders in the batch
               shouldRestoreNavigation = navAllOrders.any(
                 (navOrder) =>
-                    (navOrder['order_id'] ?? navOrder['id']) == orderId);
+                    (navOrder['order_id'] ?? navOrder['id']) == orderId,
+              );
               print(
-                '🔍 Checking if order $orderId is in batch: $shouldRestoreNavigation');
+                '🔍 Checking if order $orderId is in batch: $shouldRestoreNavigation',
+              );
             }
 
             // If we should restore, update our local multi-order state NOW
@@ -5933,29 +6328,35 @@ class _NavigationModalState extends State<NavigationModal>
               _allOrders = List<Map<String, dynamic>>.from(navAllOrders);
               _extractAllLocations();
               print(
-                '✅ Multi-order state pre-loaded: ${_allOrders.length} orders, ${_allPickupLocations.length} pickups, ${_allDeliveryLocations.length} deliveries');
+                '✅ Multi-order state pre-loaded: ${_allOrders.length} orders, ${_allPickupLocations.length} pickups, ${_allDeliveryLocations.length} deliveries',
+              );
             }
           } else if (_isMultiOrderMode && _allOrders.isNotEmpty) {
             // Check if any order in our batch matches the navigation order
             shouldRestoreNavigation = _allOrders.any(
-              (order) => (order['order_id'] ?? order['id']) == navOrderId);
+              (order) => (order['order_id'] ?? order['id']) == navOrderId,
+            );
             print(
-              '🔍 Checking if navOrderId $navOrderId is in our batch: $shouldRestoreNavigation');
+              '🔍 Checking if navOrderId $navOrderId is in our batch: $shouldRestoreNavigation',
+            );
           } else {
             // Single order mode - direct match (ensure both are strings for comparison)
             shouldRestoreNavigation =
                 navOrderId.toString() == orderId.toString();
             print(
-              '🔍 Single order comparison: navOrderId="$navOrderId" vs orderId="$orderId" -> $shouldRestoreNavigation');
+              '🔍 Single order comparison: navOrderId="$navOrderId" vs orderId="$orderId" -> $shouldRestoreNavigation',
+            );
           }
 
           print(
-            '🔍 Navigation restoration check: navOrderId=$navOrderId, orderId=$orderId, shouldRestore=$shouldRestoreNavigation, isMultiOrder=$_isMultiOrderMode, hasMultiOrderData=$hasMultiOrderData');
+            '🔍 Navigation restoration check: navOrderId=$navOrderId, orderId=$orderId, shouldRestore=$shouldRestoreNavigation, isMultiOrder=$_isMultiOrderMode, hasMultiOrderData=$hasMultiOrderData',
+          );
 
           // Only restore state if this navigation belongs to our order(s)
           if (shouldRestoreNavigation) {
             print(
-              '🔄 Restoring navigation state from Google Cloud database...');
+              '🔄 Restoring navigation state from Google Cloud database...',
+            );
 
             // CRITICAL: Determine phase BEFORE loading coordinates
             final phaseString =
@@ -5976,17 +6377,20 @@ class _NavigationModalState extends State<NavigationModal>
             // CRITICAL: ALWAYS reload fresh order data from Delvioo API to get delivery coordinates
             // This is needed for ALL phases, not just delivery phase
             print(
-              '🔄 Reloading fresh order data from API to get delivery coordinates...');
+              '🔄 Reloading fresh order data from API to get delivery coordinates...',
+            );
             try {
               final response = await http.get(
                 Uri.parse('${ApiConfig.baseUrl}/api/delvioo/orders'),
-                headers: {'Content-Type': 'application/json'});
+                headers: {'Content-Type': 'application/json'},
+              );
 
               if (response.statusCode == 200) {
                 final List<dynamic> orders = jsonDecode(response.body);
                 final freshOrder = orders.firstWhere(
                   (o) => (o['id'] ?? o['order_id']) == orderId,
-                  orElse: () => null);
+                  orElse: () => null,
+                );
 
                 if (freshOrder != null && freshOrder['delivery'] != null) {
                   final delivery = freshOrder['delivery'];
@@ -6002,7 +6406,8 @@ class _NavigationModalState extends State<NavigationModal>
                     if (lat != 0.0 && lng != 0.0) {
                       _deliveryLocation = LatLng(lat, lng);
                       print(
-                        '✅ Reloaded delivery coordinates from API: $lat, $lng');
+                        '✅ Reloaded delivery coordinates from API: $lat, $lng',
+                      );
                     } else {
                       print('⚠️ API returned 0.0 coordinates for delivery');
                     }
@@ -6035,7 +6440,8 @@ class _NavigationModalState extends State<NavigationModal>
 
                 print('🚗 Navigation resume check:');
                 print(
-                  '   - Previous navigation_started: $wasNavigationStarted');
+                  '   - Previous navigation_started: $wasNavigationStarted',
+                );
                 print('   - Driver started driving: $driverStartedDriving');
                 print('   - Resuming navigation: $_navigationStarted');
 
@@ -6066,14 +6472,16 @@ class _NavigationModalState extends State<NavigationModal>
                   // Restore all orders
                   if (navData['all_orders'] != null) {
                     _allOrders = List<Map<String, dynamic>>.from(
-                      navData['all_orders']);
+                      navData['all_orders'],
+                    );
                     _extractAllLocations(); // Rebuild location arrays
                   }
 
                   // Restore current order
                   if (navData['current_order'] != null) {
                     _currentOrder = Map<String, dynamic>.from(
-                      navData['current_order']);
+                      navData['current_order'],
+                    );
                   }
 
                   // Restore multi-order session ID
@@ -6083,7 +6491,8 @@ class _NavigationModalState extends State<NavigationModal>
                   }
 
                   print(
-                    '✅ Multi-order state restored: pickup $_currentPickupIndex/${_allPickupLocations.length}, delivery $_currentDeliveryIndex/${_allDeliveryLocations.length}');
+                    '✅ Multi-order state restored: pickup $_currentPickupIndex/${_allPickupLocations.length}, delivery $_currentDeliveryIndex/${_allDeliveryLocations.length}',
+                  );
                 }
 
                 // Restore current phase - including multi-order phases
@@ -6134,7 +6543,9 @@ class _NavigationModalState extends State<NavigationModal>
                       .map(
                         (point) => LatLng(
                           double.tryParse(point['lat'].toString()) ?? 0.0,
-                          double.tryParse(point['lng'].toString()) ?? 0.0))
+                          double.tryParse(point['lng'].toString()) ?? 0.0,
+                        ),
+                      )
                       .toList();
                   if (_routePoints.isNotEmpty) {
                     _generateTrafficColors();
@@ -6167,12 +6578,14 @@ class _NavigationModalState extends State<NavigationModal>
                 } else {}
                 if (navData['all_orders'] != null) {
                   _allOrders = List<Map<String, dynamic>>.from(
-                    navData['all_orders']);
+                    navData['all_orders'],
+                  );
                   _extractAllLocations(); // Rebuild location arrays
                 }
                 if (navData['current_order'] != null) {
                   _currentOrder = Map<String, dynamic>.from(
-                    navData['current_order']);
+                    navData['current_order'],
+                  );
                 }
 
                 // If multi-order data not found directly, check if it's nested
@@ -6204,13 +6617,15 @@ class _NavigationModalState extends State<NavigationModal>
 
                     if (multiOrderData['all_orders'] != null) {
                       _allOrders = List<Map<String, dynamic>>.from(
-                        multiOrderData['all_orders']);
+                        multiOrderData['all_orders'],
+                      );
                       _extractAllLocations();
                     }
 
                     if (multiOrderData['current_order'] != null) {
                       _currentOrder = Map<String, dynamic>.from(
-                        multiOrderData['current_order']);
+                        multiOrderData['current_order'],
+                      );
                     }
                   }
                 }
@@ -6240,7 +6655,8 @@ class _NavigationModalState extends State<NavigationModal>
                         _allPickupLocations[_currentPickupIndex];
                     final distance = _calculateDistance(
                       _currentLocation!,
-                      destination);
+                      destination,
+                    );
                     if (distance < 5000) {
                       // Within 5km
                       _showArrivedButton = true;
@@ -6273,11 +6689,13 @@ class _NavigationModalState extends State<NavigationModal>
                       _currentOrder!['pickup_lng'] != null) {
                     final pickupLat =
                         double.tryParse(
-                          _currentOrder!['pickup_lat'].toString()) ??
+                          _currentOrder!['pickup_lat'].toString(),
+                        ) ??
                         0.0;
                     final pickupLng =
                         double.tryParse(
-                          _currentOrder!['pickup_lng'].toString()) ??
+                          _currentOrder!['pickup_lng'].toString(),
+                        ) ??
                         0.0;
                     if (pickupLat != 0.0 && pickupLng != 0.0) {
                       _pickupLocation = LatLng(pickupLat, pickupLng);
@@ -6294,14 +6712,16 @@ class _NavigationModalState extends State<NavigationModal>
                       _currentOrder!['delivery_lat'] != null) {
                     deliveryLat =
                         double.tryParse(
-                          _currentOrder!['delivery_lat'].toString()) ??
+                          _currentOrder!['delivery_lat'].toString(),
+                        ) ??
                         0.0;
                   }
                   if (_currentOrder!.containsKey('delivery_lng') &&
                       _currentOrder!['delivery_lng'] != null) {
                     deliveryLng =
                         double.tryParse(
-                          _currentOrder!['delivery_lng'].toString()) ??
+                          _currentOrder!['delivery_lng'].toString(),
+                        ) ??
                         0.0;
                   }
 
@@ -6315,11 +6735,13 @@ class _NavigationModalState extends State<NavigationModal>
                       if (coords is Map) {
                         deliveryLat =
                             double.tryParse(
-                              coords['lat']?.toString() ?? AppLocalizations.of(context)!.tr('0.0')) ??
+                              coords['lat']?.toString() ?? AppLocalizations.of(context)!.tr('0.0'),
+                            ) ??
                             0.0;
                         deliveryLng =
                             double.tryParse(
-                              coords['lng']?.toString() ?? AppLocalizations.of(context)!.tr('0.0')) ??
+                              coords['lng']?.toString() ?? AppLocalizations.of(context)!.tr('0.0'),
+                            ) ??
                             0.0;
                       }
                     }
@@ -6332,11 +6754,13 @@ class _NavigationModalState extends State<NavigationModal>
                     if (deliveryAddress is Map) {
                       deliveryLat =
                           double.tryParse(
-                            deliveryAddress['lat']?.toString() ?? AppLocalizations.of(context)!.tr('0.0')) ??
+                            deliveryAddress['lat']?.toString() ?? AppLocalizations.of(context)!.tr('0.0'),
+                          ) ??
                           0.0;
                       deliveryLng =
                           double.tryParse(
-                            deliveryAddress['lng']?.toString() ?? AppLocalizations.of(context)!.tr('0.0')) ??
+                            deliveryAddress['lng']?.toString() ?? AppLocalizations.of(context)!.tr('0.0'),
+                          ) ??
                           0.0;
                     } else if (deliveryAddress is String) {
                       try {
@@ -6344,11 +6768,13 @@ class _NavigationModalState extends State<NavigationModal>
                         if (parsed is Map) {
                           deliveryLat =
                               double.tryParse(
-                                parsed['lat']?.toString() ?? AppLocalizations.of(context)!.tr('0.0')) ??
+                                parsed['lat']?.toString() ?? AppLocalizations.of(context)!.tr('0.0'),
+                              ) ??
                               0.0;
                           deliveryLng =
                               double.tryParse(
-                                parsed['lng']?.toString() ?? AppLocalizations.of(context)!.tr('0.0')) ??
+                                parsed['lng']?.toString() ?? AppLocalizations.of(context)!.tr('0.0'),
+                              ) ??
                               0.0;
                         }
                       } catch (e) {
@@ -6360,7 +6786,8 @@ class _NavigationModalState extends State<NavigationModal>
                   if (deliveryLat != 0.0 && deliveryLng != 0.0) {
                     _deliveryLocation = LatLng(deliveryLat, deliveryLng);
                     print(
-                      '   📍 Restored delivery: $deliveryLat, $deliveryLng');
+                      '   📍 Restored delivery: $deliveryLat, $deliveryLng',
+                    );
                   }
                 }
 
@@ -6370,24 +6797,28 @@ class _NavigationModalState extends State<NavigationModal>
                   _deliveryLocation =
                       _allDeliveryLocations[_currentDeliveryIndex];
                   print(
-                    '   📍 Multi-order delivery from array: ${_deliveryLocation.latitude}, ${_deliveryLocation.longitude}');
+                    '   📍 Multi-order delivery from array: ${_deliveryLocation.latitude}, ${_deliveryLocation.longitude}',
+                  );
                 }
                 if (_isMultiOrderMode &&
                     _currentPickupIndex < _allPickupLocations.length) {
                   _pickupLocation = _allPickupLocations[_currentPickupIndex];
                   print(
-                    '   📍 Multi-order pickup from array: ${_pickupLocation.latitude}, ${_pickupLocation.longitude}');
+                    '   📍 Multi-order pickup from array: ${_pickupLocation.latitude}, ${_pickupLocation.longitude}',
+                  );
                 }
               });
 
               // CRITICAL: Force UI update after restoring navigation state
               print(
-                '🔄 Force updating UI components after navigation state restoration...');
+                '🔄 Force updating UI components after navigation state restoration...',
+              );
 
               // CRITICAL: Mark that navigation state was successfully restored for ANY navigation phase
               _navigationStateRestoredFromDB = true;
               print(
-                '✅ Navigation state restored from database - Phase: $_currentPhase, Started: $_navigationStarted');
+                '✅ Navigation state restored from database - Phase: $_currentPhase, Started: $_navigationStarted',
+              );
 
               // Restore active scan sheet for pickup/delivery if a scan flow is in progress.
               _restoreActiveScanSheetIfNeeded();
@@ -6399,7 +6830,8 @@ class _NavigationModalState extends State<NavigationModal>
                     // Force complete UI rebuild to show correct phase text and navigation state
                     _updateCurrentDistanceAndTime();
                     print(
-                      '✅ UI components fully updated after navigation restoration - Phase: $_currentPhase, NavigationStarted: $_navigationStarted');
+                      '✅ UI components fully updated after navigation restoration - Phase: $_currentPhase, NavigationStarted: $_navigationStarted',
+                    );
                   });
                   // Update Live Activity if navigation was restored as active
                   if (_navigationStarted) _updateLiveActivity(force: true);
@@ -6411,17 +6843,20 @@ class _NavigationModalState extends State<NavigationModal>
               if (orderId != null &&
                   _currentPhase == NavigationPhase.toDelivery) {
                 print(
-                  '🔄 Reloading fresh order data from API to get delivery coordinates...');
+                  '🔄 Reloading fresh order data from API to get delivery coordinates...',
+                );
                 try {
                   final response = await http.get(
                     Uri.parse('${ApiConfig.baseUrl}/api/delvioo/orders'),
-                    headers: {'Content-Type': 'application/json'});
+                    headers: {'Content-Type': 'application/json'},
+                  );
 
                   if (response.statusCode == 200) {
                     final List<dynamic> orders = jsonDecode(response.body);
                     final freshOrder = orders.firstWhere(
                       (o) => (o['id'] ?? o['order_id']) == orderId,
-                      orElse: () => null);
+                      orElse: () => null,
+                    );
 
                     if (freshOrder != null && freshOrder['delivery'] != null) {
                       final delivery = freshOrder['delivery'];
@@ -6429,17 +6864,20 @@ class _NavigationModalState extends State<NavigationModal>
                         final coords = delivery['coordinates'];
                         final lat =
                             double.tryParse(
-                              coords['lat']?.toString() ?? AppLocalizations.of(context)!.tr('0.0')) ??
+                              coords['lat']?.toString() ?? AppLocalizations.of(context)!.tr('0.0'),
+                            ) ??
                             0.0;
                         final lng =
                             double.tryParse(
-                              coords['lng']?.toString() ?? AppLocalizations.of(context)!.tr('0.0')) ??
+                              coords['lng']?.toString() ?? AppLocalizations.of(context)!.tr('0.0'),
+                            ) ??
                             0.0;
 
                         if (lat != 0.0 && lng != 0.0) {
                           _deliveryLocation = LatLng(lat, lng);
                           print(
-                            '✅ Reloaded delivery coordinates from API: $lat, $lng');
+                            '✅ Reloaded delivery coordinates from API: $lat, $lng',
+                          );
                         } else {
                           print('⚠️ API returned 0.0 coordinates');
                         }
@@ -6462,11 +6900,14 @@ class _NavigationModalState extends State<NavigationModal>
                 WidgetsBinding.instance.addPostFrameCallback((_) {
                   if (mounted) {
                     print(
-                      '🗺️ Regenerating route after state restoration - Phase: $_currentPhase');
+                      '🗺️ Regenerating route after state restoration - Phase: $_currentPhase',
+                    );
                     print(
-                      '   Pickup: ${_pickupLocation.latitude}, ${_pickupLocation.longitude}');
+                      '   Pickup: ${_pickupLocation.latitude}, ${_pickupLocation.longitude}',
+                    );
                     print(
-                      '   Delivery: ${_deliveryLocation.latitude}, ${_deliveryLocation.longitude}');
+                      '   Delivery: ${_deliveryLocation.latitude}, ${_deliveryLocation.longitude}',
+                    );
                     _generateRoute();
                   }
                 });
@@ -6491,7 +6932,8 @@ class _NavigationModalState extends State<NavigationModal>
             }
           } else {
             print(
-              '❌ Navigation NOT restored - order mismatch or condition not met');
+              '❌ Navigation NOT restored - order mismatch or condition not met',
+            );
           }
         } else {
           print('❌ No navigation data found in response');
@@ -6503,7 +6945,8 @@ class _NavigationModalState extends State<NavigationModal>
     if (mounted) {
       setState(() {
         print(
-          '🎯 Final UI update after _loadNavigationState - Phase: $_currentPhase, Started: $_navigationStarted, RestoredFromDB: $_navigationStateRestoredFromDB');
+          '🎯 Final UI update after _loadNavigationState - Phase: $_currentPhase, Started: $_navigationStarted, RestoredFromDB: $_navigationStateRestoredFromDB',
+        );
       });
     }
 
@@ -6533,9 +6976,11 @@ class _NavigationModalState extends State<NavigationModal>
 
         if (isMultiOrder && stateData['all_orders'] != null) {
           final allOrders = List<Map<String, dynamic>>.from(
-            stateData['all_orders']);
+            stateData['all_orders'],
+          );
           isRelevantState = allOrders.any(
-            (order) => (order['order_id'] ?? order['id']) == currentOrderId);
+            (order) => (order['order_id'] ?? order['id']) == currentOrderId,
+          );
         } else {
           isRelevantState = stateOrderId == currentOrderId;
         }
@@ -6562,13 +7007,15 @@ class _NavigationModalState extends State<NavigationModal>
 
               if (stateData['all_orders'] != null) {
                 _allOrders = List<Map<String, dynamic>>.from(
-                  stateData['all_orders']);
+                  stateData['all_orders'],
+                );
                 _extractAllLocations();
               }
 
               if (stateData['current_order'] != null) {
                 _currentOrder = Map<String, dynamic>.from(
-                  stateData['current_order']);
+                  stateData['current_order'],
+                );
               }
             }
 
@@ -6721,7 +7168,8 @@ class _NavigationModalState extends State<NavigationModal>
       if (!mounted) return;
 
       print(
-        '🔁 Restoring active scan sheet: ${isDeliveryPhase ? "delivery" : "pickup"} (phase=$_currentPhase, scanPhase=$_scanPhase)');
+        '🔁 Restoring active scan sheet: ${isDeliveryPhase ? "delivery" : "pickup"} (phase=$_currentPhase, scanPhase=$_scanPhase)',
+      );
 
       if (isDeliveryPhase) {
         _showDeliveryBottomSheet();
@@ -6738,13 +7186,15 @@ class _NavigationModalState extends State<NavigationModal>
 
       final response = await http.get(
         Uri.parse(url),
-        headers: {'Content-Type': 'application/json'});
+        headers: {'Content-Type': 'application/json'},
+      );
 
       if (response.statusCode == 200) {
         final data = json.decode(response.body);
         if (data['success'] == true && data['acceptances'] != null) {
           final acceptances = List<Map<String, dynamic>>.from(
-            data['acceptances']);
+            data['acceptances'],
+          );
 
           for (var acceptance in acceptances) {
             final acceptanceOrderId =
@@ -6773,13 +7223,15 @@ class _NavigationModalState extends State<NavigationModal>
 
   void _synchronizeUIWithDatabaseStatus(String status) {
     print(
-      '🔄 Synchronizing UI with database status: $status, current phase: $_currentPhase');
+      '🔄 Synchronizing UI with database status: $status, current phase: $_currentPhase',
+    );
 
     if (status == 'picked_up' &&
         (_currentPhase == NavigationPhase.toPickup ||
             _currentPhase == NavigationPhase.atPickup)) {
       print(
-        '🔄 Status is picked_up but UI shows pickup phase - switching to delivery');
+        '🔄 Status is picked_up but UI shows pickup phase - switching to delivery',
+      );
       setState(() {
         _currentPhase = NavigationPhase.toDelivery;
         _navigationStarted = true;
@@ -6801,13 +7253,15 @@ class _NavigationModalState extends State<NavigationModal>
     } else if (status == 'delivered' &&
         _currentPhase != NavigationPhase.completed) {
       print(
-        '✅ Status is DELIVERED - checking if more deliveries in multi-order mode');
+        '✅ Status is DELIVERED - checking if more deliveries in multi-order mode',
+      );
 
       // CRITICAL: Check if we're in multi-order mode and have more deliveries
       if (_isMultiOrderMode &&
           _currentDeliveryIndex + 1 < _allDeliveryLocations.length) {
         print(
-          '🚚 Multi-order mode: Proceeding to next delivery (${_currentDeliveryIndex + 1} of ${_allDeliveryLocations.length})');
+          '🚚 Multi-order mode: Proceeding to next delivery (${_currentDeliveryIndex + 1} of ${_allDeliveryLocations.length})',
+        );
 
         // Save multi-order delivery completion to backend BEFORE advancing index
         _saveMultiOrderDeliveryCompletion();
@@ -6824,7 +7278,8 @@ class _NavigationModalState extends State<NavigationModal>
         if (mounted) {
           TopNotification.success(
             context,
-            AppLocalizations.of(context)!.tr('✅ Delivery completed! Proceeding to next delivery...') ?? AppLocalizations.of(context)!.tr('✅ Delivery completed! Proceeding to next delivery...'));
+            AppLocalizations.of(context)!.tr('✅ Delivery completed! Proceeding to next delivery...') ?? AppLocalizations.of(context)!.tr('✅ Delivery completed! Proceeding to next delivery...'),
+          );
         }
 
         return; // Don't complete navigation yet
@@ -6862,7 +7317,8 @@ class _NavigationModalState extends State<NavigationModal>
     // Prevent multiple simultaneous close operations
     if (_isClosingNavigation) {
       print(
-        '⚠️ Close navigation already in progress - ignoring duplicate call');
+        '⚠️ Close navigation already in progress - ignoring duplicate call',
+      );
       return;
     }
 
@@ -6871,9 +7327,11 @@ class _NavigationModalState extends State<NavigationModal>
     print('   Current Phase: $_currentPhase');
     print('   Navigation Started: $_navigationStarted');
     print(
-      '   Pickup Index: $_currentPickupIndex/${_allPickupLocations.length}');
+      '   Pickup Index: $_currentPickupIndex/${_allPickupLocations.length}',
+    );
     print(
-      '   Delivery Index: $_currentDeliveryIndex/${_allDeliveryLocations.length}');
+      '   Delivery Index: $_currentDeliveryIndex/${_allDeliveryLocations.length}',
+    );
 
     // CRITICAL: Save running timer progress to orders table
     // so even if the app is killed, the orders table has the latest elapsed time
@@ -6916,7 +7374,8 @@ class _NavigationModalState extends State<NavigationModal>
   Future<void> _completeNavigationAndCleanup() async {
     try {
       print(
-        '🧹 Starting complete navigation cleanup for new multi-order preparation...');
+        '🧹 Starting complete navigation cleanup for new multi-order preparation...',
+      );
 
       // 1. Mark all orders in this navigation as delivered
       await _markOrdersAsDelivered();
@@ -6942,7 +7401,8 @@ class _NavigationModalState extends State<NavigationModal>
       }
 
       print(
-        '✅ Complete navigation cleanup finished - ready for new multi-orders');
+        '✅ Complete navigation cleanup finished - ready for new multi-orders',
+      );
     } catch (e) {}
   }
 
@@ -6972,13 +7432,15 @@ class _NavigationModalState extends State<NavigationModal>
         try {
           final response = await http.post(
             Uri.parse(
-              '${ApiConfig.baseUrl}/api/delvioo/orders/$orderId/mark-delivered'),
+              '${ApiConfig.baseUrl}/api/delvioo/orders/$orderId/mark-delivered',
+            ),
             headers: {'Content-Type': 'application/json'},
             body: json.encode({
               'driver_id': 1,
               'delivered_at': DateTime.now().toIso8601String(),
               'delivery_notes': 'Completed via navigation system',
-            }));
+            }),
+          );
 
           if (response.statusCode == 200) {
             final data = json.decode(response.body);
@@ -6995,7 +7457,8 @@ class _NavigationModalState extends State<NavigationModal>
 
       final response = await http.delete(
         Uri.parse('${ApiConfig.baseUrl}/api/navigation/clear/$sessionId'),
-        headers: {'Content-Type': 'application/json'});
+        headers: {'Content-Type': 'application/json'},
+      );
 
       if (response.statusCode == 200) {}
     } catch (e) {}
@@ -7046,7 +7509,8 @@ class _NavigationModalState extends State<NavigationModal>
       for (int i = 0; i < _routePoints.length; i++) {
         double distance = _calculateDistance(
           _currentLocation!,
-          _routePoints[i]);
+          _routePoints[i],
+        );
         if (distance < minDistance && distance > 5) {
           // Only points more than 5m away
           minDistance = distance;
@@ -7088,7 +7552,8 @@ class _NavigationModalState extends State<NavigationModal>
     } else {
       finalDistance = math.max(
         10.0,
-        math.min(20000.0, distance)); // Up to 20km for medium distances
+        math.min(20000.0, distance),
+      ); // Up to 20km for medium distances
     }
 
     return finalDistance;
@@ -7149,7 +7614,8 @@ class _NavigationModalState extends State<NavigationModal>
         String nestedCode = orderData['securityCode'].toString();
         if (!nestedCode.startsWith('data:image')) {
           debugPrint(
-            '✅ Security code found (nested securityCode): $nestedCode');
+            '✅ Security code found (nested securityCode): $nestedCode',
+          );
           return nestedCode;
         }
       }
@@ -7161,7 +7627,8 @@ class _NavigationModalState extends State<NavigationModal>
         String nestedCode = orderData['security_code'].toString();
         if (!nestedCode.startsWith('data:image')) {
           debugPrint(
-            '✅ Security code found (nested security_code): $nestedCode');
+            '✅ Security code found (nested security_code): $nestedCode',
+          );
           return nestedCode;
         }
       }
@@ -7187,18 +7654,21 @@ class _NavigationModalState extends State<NavigationModal>
               _allOrders[_currentPickupIndex]['order_id'] ??
               _allOrders[_currentPickupIndex]['id'];
           print(
-            '🔐 Multi-order pickup mode: Loading security code for order $orderId (index $_currentPickupIndex/${_allOrders.length})');
+            '🔐 Multi-order pickup mode: Loading security code for order $orderId (index $_currentPickupIndex/${_allOrders.length})',
+          );
         } else if (_currentPhase == NavigationPhase.multiOrderDeliveries &&
             _currentDeliveryIndex < _allOrders.length) {
           orderId =
               _allOrders[_currentDeliveryIndex]['order_id'] ??
               _allOrders[_currentDeliveryIndex]['id'];
           print(
-            '🔐 Multi-order delivery mode: Loading security code for order $orderId (index $_currentDeliveryIndex/${_allOrders.length})');
+            '🔐 Multi-order delivery mode: Loading security code for order $orderId (index $_currentDeliveryIndex/${_allOrders.length})',
+          );
         } else {
           orderId = widget.order['order_id'] ?? widget.order['id'];
           print(
-            '🔐 Multi-order fallback: Loading security code for widget order $orderId');
+            '🔐 Multi-order fallback: Loading security code for widget order $orderId',
+          );
         }
       } else {
         // Single order mode: Use widget order ID
@@ -7218,7 +7688,8 @@ class _NavigationModalState extends State<NavigationModal>
       final response = await http
           .get(
             Uri.parse('${ApiConfig.baseUrl}/api/delvioo/orders/$orderId'),
-            headers: {'Content-Type': 'application/json'})
+            headers: {'Content-Type': 'application/json'},
+          )
           .timeout(const Duration(seconds: 5));
 
       if (response.statusCode == 200) {
@@ -7247,7 +7718,8 @@ class _NavigationModalState extends State<NavigationModal>
           if (loadedSecurityCode != null &&
               !loadedSecurityCode.startsWith('data:image')) {
             print(
-              '✅ Security code loaded successfully from database: $loadedSecurityCode');
+              '✅ Security code loaded successfully from database: $loadedSecurityCode',
+            );
 
             if (mounted) {
               setState(() {
@@ -7317,7 +7789,8 @@ class _NavigationModalState extends State<NavigationModal>
       String securityCode = _currentOrder!['securityCode'].toString();
       if (!securityCode.startsWith('data:image')) {
         debugPrint(
-          '✅ Security code found in current order (securityCode): $securityCode');
+          '✅ Security code found in current order (securityCode): $securityCode',
+        );
         return securityCode;
       }
     }
@@ -7329,7 +7802,8 @@ class _NavigationModalState extends State<NavigationModal>
       String securityCode = _currentOrder!['security_code'].toString();
       if (!securityCode.startsWith('data:image')) {
         debugPrint(
-          '✅ Security code found in current order (security_code): $securityCode');
+          '✅ Security code found in current order (security_code): $securityCode',
+        );
         return securityCode;
       }
     }
@@ -7367,14 +7841,16 @@ class _NavigationModalState extends State<NavigationModal>
   }
 
   Future<bool> _loadSecurityCodeFromDatabaseForCurrentOrder(
-    dynamic orderId) async {
+    dynamic orderId,
+  ) async {
     try {
       print('🔐 Loading security code for Order $orderId...');
 
       final response = await http
           .get(
             Uri.parse('${ApiConfig.baseUrl}/api/delvioo/orders/$orderId'),
-            headers: {'Content-Type': 'application/json'})
+            headers: {'Content-Type': 'application/json'},
+          )
           .timeout(const Duration(seconds: 5));
 
       if (response.statusCode == 200) {
@@ -7529,45 +8005,59 @@ class _NavigationModalState extends State<NavigationModal>
             : '${m.toString().padLeft(2,'0')}:${s.toString().padLeft(2,'0')}';
         return Container(
           margin: EdgeInsets.zero,
-          padding: EdgeInsets.all(16),
+          padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
             gradient: LinearGradient(
               colors: [Color(0xFF1B5E20), Color(0xFF2E7D32)],
               begin: Alignment.topLeft,
-              end: Alignment.bottomRight),
-            borderRadius: BorderRadius.circular(16)),
+              end: Alignment.bottomRight,
+            ),
+            borderRadius: BorderRadius.circular(16),
+          ),
           child: Row(
             children: [
               Container(
-                padding: EdgeInsets.all(10),
+                padding: const EdgeInsets.all(10),
                 decoration: BoxDecoration(
                   color: Colors.white.withOpacity(0.15),
-                  borderRadius: BorderRadius.circular(12)),
-                child: Icon(CupertinoIcons.cube_box, color: Colors.white, size: 24)),
-              SizedBox(width: 14),
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Icon(CupertinoIcons.cube_box, color: Colors.white, size: 24),
+              ),
+              const SizedBox(width: 14),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
                       'Loading timer running',
-                      style: TextStyle(color: Colors.white70, fontSize: 12, fontWeight: FontWeight.w500)),
+                      style: TextStyle(color: Colors.white70, fontSize: 12, fontWeight: FontWeight.w500),
+                    ),
                     Text(
                       timeStr,
-                      style: TextStyle(color: Colors.white, fontSize: 28, fontWeight: FontWeight.w700, letterSpacing: 2)),
-                  ])),
+                      style: TextStyle(color: Colors.white, fontSize: 28, fontWeight: FontWeight.w700, letterSpacing: 2),
+                    ),
+                  ],
+                ),
+              ),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   Container(
-                    padding: EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
                     decoration: BoxDecoration(
                       color: Colors.white.withOpacity(0.2),
-                      borderRadius: BorderRadius.circular(20)),
-                    child: Text(AppLocalizations.of(context)?.checkoutScan ?? AppLocalizations.of(context)!.tr('Scan Check-out'), style: TextStyle(color: Colors.white, fontSize: 11, fontWeight: FontWeight.w600))),
-                ]),
-            ]));
-      });
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    child: Text(AppLocalizations.of(context)?.checkoutScan ?? AppLocalizations.of(context)!.tr('Scan Check-out'), style: TextStyle(color: Colors.white, fontSize: 11, fontWeight: FontWeight.w600)),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        );
+      },
+    );
   }
 
   // Build Waiting Time Card with live timer - Trade Republic Style
@@ -7584,7 +8074,7 @@ class _NavigationModalState extends State<NavigationModal>
             : 0.0;
         return Container(
           margin: EdgeInsets.zero,
-          padding: EdgeInsets.all(16),
+          padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
             gradient: LinearGradient(
               colors: isCharging
@@ -7597,8 +8087,10 @@ class _NavigationModalState extends State<NavigationModal>
                       Colors.blue.withOpacity(0.1),
                     ],
               begin: Alignment.topLeft,
-              end: Alignment.bottomRight),
-            borderRadius: BorderRadius.circular(20)),
+              end: Alignment.bottomRight,
+            ),
+            borderRadius: BorderRadius.circular(20),
+          ),
           child: Column(
             children: [
               // Header Row
@@ -7608,19 +8100,22 @@ class _NavigationModalState extends State<NavigationModal>
                   Row(
                     children: [
                       Container(
-                        padding: EdgeInsets.all(8),
+                        padding: const EdgeInsets.all(8),
                         decoration: BoxDecoration(
                           color: isCharging
                               ? Colors.red.withOpacity(0.2)
                               : Colors.green.withOpacity(0.2),
-                          borderRadius: BorderRadius.circular(20)),
+                          borderRadius: BorderRadius.circular(20),
+                        ),
                         child: Icon(
                           isCharging
                               ? CupertinoIcons.timer
                               : CupertinoIcons.timer,
                           color: isCharging ? Colors.red : Colors.green,
-                          size: 20)),
-                      SizedBox(width: 12),
+                          size: 20,
+                        ),
+                      ),
+                      const SizedBox(width: 12),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -7629,34 +8124,46 @@ class _NavigationModalState extends State<NavigationModal>
                             style: TextStyle(
                               fontSize: 14,
                               fontWeight: FontWeight.w600,
-                              color: isLight ? Colors.black87 : Colors.white)),
+                              color: isLight ? Colors.black87 : Colors.white,
+                            ),
+                          ),
                           Text(
                             isCharging
                                 ? '${Provider.of<AppSettings>(context, listen: false).formatCurrency(_waitingRatePerHour)} / hr'
                                 : '$_waitingFreeMinutes min free',
                             style: TextStyle(
                               fontSize: 12,
-                              color: isLight ? Colors.black54 : Colors.white70)),
-                        ]),
-                    ]),
+                              color: isLight ? Colors.black54 : Colors.white70,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
                   // Charges Badge (only show when charging)
                   if (isCharging && _totalWaitingCharges > 0)
                     Container(
-                      padding: EdgeInsets.symmetric(
+                      padding: const EdgeInsets.symmetric(
                         horizontal: 12,
-                        vertical: 6),
+                        vertical: 6,
+                      ),
                       decoration: BoxDecoration(
                         color: Colors.red,
-                        borderRadius: BorderRadius.circular(20)),
+                        borderRadius: BorderRadius.circular(20),
+                      ),
                       child: Text(
                         '+${Provider.of<AppSettings>(context, listen: false).formatCurrency(_totalWaitingCharges)}',
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.w700,
-                          color: Colors.white))),
-                ]),
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                ],
+              ),
 
-              SizedBox(height: 16),
+              const SizedBox(height: 16),
 
               // Timer Display
               Row(
@@ -7673,19 +8180,26 @@ class _NavigationModalState extends State<NavigationModal>
                             color: isCharging
                                 ? Colors.red
                                 : (isLight ? Colors.black : Colors.white),
-                            fontFeatures: const [FontFeature.tabularFigures()])),
+                            fontFeatures: const [FontFeature.tabularFigures()],
+                          ),
+                        ),
                         Text(
                           AppLocalizations.of(context)?.timeElapsed ?? AppLocalizations.of(context)!.tr('Time Elapsed'),
                           style: TextStyle(
                             fontSize: 12,
-                            color: isLight ? Colors.black54 : Colors.white70)),
-                      ])),
+                            color: isLight ? Colors.black54 : Colors.white70,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
 
                   // Divider
                   Container(
                     height: 40,
                     width: 1,
-                    color: isLight ? Colors.black12 : Colors.white24),
+                    color: isLight ? Colors.black12 : Colors.white24,
+                  ),
 
                   // Remaining/Overage
                   Expanded(
@@ -7699,18 +8213,25 @@ class _NavigationModalState extends State<NavigationModal>
                             fontSize: 28,
                             fontWeight: FontWeight.w800,
                             color: isCharging ? Colors.red : Colors.green,
-                            fontFeatures: const [FontFeature.tabularFigures()])),
+                            fontFeatures: const [FontFeature.tabularFigures()],
+                          ),
+                        ),
                         Text(
                           isCharging
                               ? (AppLocalizations.of(context)?.chargeable ?? AppLocalizations.of(context)!.tr('Chargeable'))
                               : (AppLocalizations.of(context)?.freeRemaining ?? AppLocalizations.of(context)!.tr('Free Remaining')),
                           style: TextStyle(
                             fontSize: 12,
-                            color: isLight ? Colors.black54 : Colors.white70)),
-                      ])),
-                ]),
+                            color: isLight ? Colors.black54 : Colors.white70,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
 
-              SizedBox(height: 16),
+              const SizedBox(height: 16),
 
               // Progress Bar
               ClipRRect(
@@ -7719,32 +8240,43 @@ class _NavigationModalState extends State<NavigationModal>
                   value: progress.clamp(0.0, 1.0),
                   backgroundColor: isLight ? Colors.black12 : Colors.white24,
                   valueColor: AlwaysStoppedAnimation<Color>(
-                    isCharging ? Colors.red : Colors.green),
-                  minHeight: 6)),
+                    isCharging ? Colors.red : Colors.green,
+                  ),
+                  minHeight: 6,
+                ),
+              ),
 
               // Warning text when close to expiring
               if (!isCharging &&
                   remainingFreeSeconds <= 300 &&
                   remainingFreeSeconds > 0)
                 Padding(
-                  padding: EdgeInsets.only(top: 12),
+                  padding: const EdgeInsets.only(top: 12),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Icon(
                         CupertinoIcons.exclamationmark_triangle_fill,
                         color: Colors.orange,
-                        size: 16),
-                      SizedBox(width: 6),
+                        size: 16,
+                      ),
+                      const SizedBox(width: 6),
                       Text(
                         AppLocalizations.of(context)?.freeTimeExpiringSoon ?? AppLocalizations.of(context)!.tr('Free time expiring soon!'),
                         style: TextStyle(
                           fontSize: 12,
                           fontWeight: FontWeight.w600,
-                          color: Colors.orange)),
-                    ])),
-            ]));
-      });
+                          color: Colors.orange,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+            ],
+          ),
+        );
+      },
+    );
   }
 
   Future<void> _showPickupBottomSheet() async {
@@ -7774,7 +8306,8 @@ class _NavigationModalState extends State<NavigationModal>
 
     final AppSettings appSettings = Provider.of<AppSettings>(
       context,
-      listen: false);
+      listen: false,
+    );
     final isLight = appSettings.isLightMode(context);
 
     void startPickupScanFlow() {
@@ -7808,8 +8341,10 @@ class _NavigationModalState extends State<NavigationModal>
                           fontSize: 24,
                           fontWeight: FontWeight.w800,
                           color: isLight ? Colors.black : Colors.white,
-                          letterSpacing: -0.45)),
-                      SizedBox(height: 4),
+                          letterSpacing: -0.45,
+                        ),
+                      ),
+                      const SizedBox(height: 4),
                       Text(
                         _scanPhase == 'waiting'
                             ? 'Ready for check-in'
@@ -7817,22 +8352,31 @@ class _NavigationModalState extends State<NavigationModal>
                         style: TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.w500,
-                          color: isLight ? Colors.black54 : Colors.white70)),
-                    ])),
+                          color: isLight ? Colors.black54 : Colors.white70,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
                 Container(
-                  padding: EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
                   decoration: BoxDecoration(
                     color: Colors.green.withValues(alpha: 0.12),
-                    borderRadius: BorderRadius.circular(999)),
+                    borderRadius: BorderRadius.circular(999),
+                  ),
                   child: Text(
                     '${AppLocalizations.of(context)?.orderNumber ?? AppLocalizations.of(context)!.tr('Order #')}$orderId',
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 12,
                       fontWeight: FontWeight.w700,
-                      color: Colors.green))),
-              ]),
+                      color: Colors.green,
+                    ),
+                  ),
+                ),
+              ],
+            ),
 
-            SizedBox(height: 14),
+            const SizedBox(height: 14),
 
             Expanded(
               child: SingleChildScrollView(
@@ -7841,18 +8385,20 @@ class _NavigationModalState extends State<NavigationModal>
                   children: [
                     if (loadingInstruction.isNotEmpty)
                       Container(
-                        padding: EdgeInsets.all(14),
+                        padding: const EdgeInsets.all(14),
                         decoration: BoxDecoration(
                           color: Colors.orange.withValues(alpha: 0.10),
-                          borderRadius: BorderRadius.circular(16)),
+                          borderRadius: BorderRadius.circular(16),
+                        ),
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Icon(
+                            const Icon(
                               CupertinoIcons.exclamationmark_triangle_fill,
                               color: Colors.orange,
-                              size: 18),
-                            SizedBox(width: 10),
+                              size: 18,
+                            ),
+                            const SizedBox(width: 10),
                             Expanded(
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -7862,27 +8408,36 @@ class _NavigationModalState extends State<NavigationModal>
                                     style: TextStyle(
                                       fontSize: 12,
                                       fontWeight: FontWeight.w700,
-                                      color: isLight ? Colors.black87 : Colors.white)),
-                                  SizedBox(height: 4),
+                                      color: isLight ? Colors.black87 : Colors.white,
+                                    ),
+                                  ),
+                                  const SizedBox(height: 4),
                                   Text(
                                     loadingInstruction,
                                     style: TextStyle(
                                       fontSize: 13,
                                       fontWeight: FontWeight.w500,
                                       height: 1.35,
-                                      color: isLight ? Colors.black87 : Colors.white70)),
-                                ])),
-                          ])),
+                                      color: isLight ? Colors.black87 : Colors.white70,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
 
-                    if (loadingInstruction.isNotEmpty) SizedBox(height: 12),
+                    if (loadingInstruction.isNotEmpty) const SizedBox(height: 12),
 
                     if (pickupDepartment.isNotEmpty)
                       Container(
                         width: double.infinity,
-                        padding: EdgeInsets.all(16),
+                        padding: const EdgeInsets.all(16),
                         decoration: BoxDecoration(
                           color: Colors.green.withValues(alpha: 0.10),
-                          borderRadius: BorderRadius.circular(16)),
+                          borderRadius: BorderRadius.circular(16),
+                        ),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -7891,8 +8446,10 @@ class _NavigationModalState extends State<NavigationModal>
                               style: TextStyle(
                                 fontSize: 12,
                                 fontWeight: FontWeight.w700,
-                                color: Colors.green.shade700)),
-                            SizedBox(height: 6),
+                                color: Colors.green.shade700,
+                              ),
+                            ),
+                            const SizedBox(height: 6),
                             Text(
                               pickupDepartment.toUpperCase(),
                               style: TextStyle(
@@ -7900,10 +8457,14 @@ class _NavigationModalState extends State<NavigationModal>
                                 fontSize: 24,
                                 fontWeight: FontWeight.w800,
                                 height: 1.15,
-                                letterSpacing: 0.3)),
-                          ])),
+                                letterSpacing: 0.3,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
 
-                    if (pickupDepartment.isNotEmpty) SizedBox(height: 12),
+                    if (pickupDepartment.isNotEmpty) const SizedBox(height: 12),
 
                     Text(
                       AppLocalizations.of(context)?.scanBusinessQrCode ?? AppLocalizations.of(context)!.tr('Scan business QR code'),
@@ -7911,27 +8472,30 @@ class _NavigationModalState extends State<NavigationModal>
                         fontSize: 13,
                         fontWeight: FontWeight.w600,
                         color: isLight ? Colors.black87 : Colors.white70,
-                        letterSpacing: 0.2)),
+                        letterSpacing: 0.2,
+                      ),
+                    ),
 
-                    SizedBox(height: 12),
+                    const SizedBox(height: 12),
 
                     _buildScanPhaseStatusCard(isLight, isDelivery: false),
 
-                    SizedBox(height: 12),
+                    const SizedBox(height: 12),
 
                     if (_scanPhase == 'waiting') _buildWaitingTimeCard(isLight),
                     if (_scanPhase == 'loading') _buildLoadingTimerCard(isLight),
 
-                    SizedBox(height: 16),
+                    const SizedBox(height: 16),
 
                     // Security code
                     Container(
-                      padding: EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
                       decoration: BoxDecoration(
                         color: isLight
                             ? Colors.black.withValues(alpha: 0.03)
                             : Colors.white.withValues(alpha: 0.05),
-                        borderRadius: BorderRadius.circular(16)),
+                        borderRadius: BorderRadius.circular(16),
+                      ),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -7942,7 +8506,9 @@ class _NavigationModalState extends State<NavigationModal>
                                 style: TextStyle(
                                   fontSize: 13,
                                   fontWeight: FontWeight.w600,
-                                  color: isLight ? Colors.black54 : Colors.white60)),
+                                  color: isLight ? Colors.black54 : Colors.white60,
+                                ),
+                              ),
                               const Spacer(),
                               if (_securityCode.isNotEmpty && _securityCode != 'Loading...')
                                 TradeRepublicTap(
@@ -7950,14 +8516,18 @@ class _NavigationModalState extends State<NavigationModal>
                                     Clipboard.setData(ClipboardData(text: _securityCode));
                                     TopNotification.success(
                                       context,
-                                      AppLocalizations.of(context)!.tr('Sicherheitscode kopiert') ?? AppLocalizations.of(context)!.tr('Sicherheitscode kopiert'));
+                                      AppLocalizations.of(context)!.tr('Sicherheitscode kopiert') ?? AppLocalizations.of(context)!.tr('Sicherheitscode kopiert'),
+                                    );
                                   },
                                   child: Icon(
                                     CupertinoIcons.doc_on_doc,
                                     size: 16,
-                                    color: isLight ? Colors.black54 : Colors.white70)),
-                            ]),
-                          SizedBox(height: 12),
+                                    color: isLight ? Colors.black54 : Colors.white70,
+                                  ),
+                                ),
+                            ],
+                          ),
+                          const SizedBox(height: 12),
                           Center(
                             child: _securityCode.isNotEmpty && _securityCode != 'Loading...'
                                 ? Text(
@@ -7966,40 +8536,50 @@ class _NavigationModalState extends State<NavigationModal>
                                       fontSize: 42,
                                       fontWeight: FontWeight.w800,
                                       color: isLight ? Colors.black : Colors.white,
-                                      letterSpacing: 5.5))
-                                : SizedBox(
+                                      letterSpacing: 5.5,
+                                    ),
+                                  )
+                                : const SizedBox(
                                     width: 30,
                                     height: 30,
-                                    child: CultiooLoadingIndicator(size: 24))),
-                          SizedBox(height: 10),
+                                    child: CultiooLoadingIndicator(size: 24),
+                                  ),
+                          ),
+                          const SizedBox(height: 10),
                           Text(
                             AppLocalizations.of(context)?.matchCodeWithBusiness ?? AppLocalizations.of(context)!.tr('Match this code with business'),
                             style: TextStyle(
                               fontSize: 13,
                               fontWeight: FontWeight.w500,
-                              color: isLight ? Colors.black87 : Colors.white70)),
-                        ])),
+                              color: isLight ? Colors.black87 : Colors.white70,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
 
-                    SizedBox(height: 16),
+                    const SizedBox(height: 16),
 
                     _buildVehicleSectionCard(currentOrderForPickup, isLight),
 
-                    SizedBox(height: 16),
+                    const SizedBox(height: 16),
 
                     Container(
-                      padding: EdgeInsets.all(14),
+                      padding: const EdgeInsets.all(14),
                       decoration: BoxDecoration(
                         color: isLight
                             ? Colors.green.withValues(alpha: 0.06)
                             : Colors.green.withValues(alpha: 0.10),
-                        borderRadius: BorderRadius.circular(18)),
+                        borderRadius: BorderRadius.circular(18),
+                      ),
                       child: Row(
                         children: [
-                          Icon(
+                          const Icon(
                             CupertinoIcons.qrcode_viewfinder,
                             color: Colors.green,
-                            size: 20),
-                          SizedBox(width: 10),
+                            size: 20,
+                          ),
+                          const SizedBox(width: 10),
                           Expanded(
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -8011,8 +8591,10 @@ class _NavigationModalState extends State<NavigationModal>
                                   style: TextStyle(
                                     fontSize: 16,
                                     fontWeight: FontWeight.w700,
-                                    color: isLight ? Colors.black : Colors.white)),
-                                SizedBox(height: 2),
+                                    color: isLight ? Colors.black : Colors.white,
+                                  ),
+                                ),
+                                const SizedBox(height: 2),
                                 Text(
                                   _scanPhase == 'waiting'
                                       ? 'Scan business QR code now'
@@ -8021,14 +8603,23 @@ class _NavigationModalState extends State<NavigationModal>
                                     fontSize: 13,
                                     fontWeight: FontWeight.w500,
                                     color: (isLight ? Colors.black : Colors.white)
-                                        .withValues(alpha: 0.6))),
-                              ])),
-                        ])),
+                                        .withValues(alpha: 0.6),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
 
-                    SizedBox(height: 8),
-                  ]))),
+                    const SizedBox(height: 8),
+                  ],
+                ),
+              ),
+            ),
 
-            SizedBox(height: 12),
+            const SizedBox(height: 12),
 
             // Bottom actions
             Column(
@@ -8037,15 +8628,21 @@ class _NavigationModalState extends State<NavigationModal>
                   label: _scanPhase == 'waiting'
                       ? 'Scan check-in'
                       : 'Scan check-out',
-                  icon: Icon(CupertinoIcons.qrcode_viewfinder),
-                  onPressed: startPickupScanFlow),
-                SizedBox(height: 10),
+                  icon: const Icon(CupertinoIcons.qrcode_viewfinder),
+                  onPressed: startPickupScanFlow,
+                ),
+                const SizedBox(height: 10),
                 TradeRepublicButton(
                   label: AppLocalizations.of(context)?.close ?? AppLocalizations.of(context)!.tr('Close'),
                   onPressed: () => Navigator.pop(context),
-                  isSecondary: true),
-              ]),
-          ])));
+                  isSecondary: true,
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
 
     // Sheet was dismissed – persist timer/scan-phase so it survives a re-open
     _isPickupSheetOpen = false;
@@ -8110,7 +8707,7 @@ class _NavigationModalState extends State<NavigationModal>
 
     return Container(
       width: double.infinity,
-      padding: EdgeInsets.all(16),
+      padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(20),
@@ -8119,8 +8716,10 @@ class _NavigationModalState extends State<NavigationModal>
             color: Colors.black.withOpacity(0.08),
             blurRadius: 20,
             spreadRadius: 0,
-            offset: const Offset(0, 4)),
-        ]),
+            offset: const Offset(0, 4),
+          ),
+        ],
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -8128,15 +8727,18 @@ class _NavigationModalState extends State<NavigationModal>
           Row(
             children: [
               Container(
-                padding: EdgeInsets.all(10),
+                padding: const EdgeInsets.all(10),
                 decoration: BoxDecoration(
                   color: Colors.blue.withOpacity(0.1),
-                  borderRadius: BorderRadius.circular(20)),
+                  borderRadius: BorderRadius.circular(20),
+                ),
                 child: Icon(
                   CupertinoIcons.cube_box,
                   color: Colors.blue,
-                  size: 24)),
-              SizedBox(width: 12),
+                  size: 24,
+                ),
+              ),
+              const SizedBox(width: 12),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -8147,40 +8749,53 @@ class _NavigationModalState extends State<NavigationModal>
                         fontSize: 13,
                         fontWeight: FontWeight.w500,
                         color: Colors.black54,
-                        letterSpacing: 0.2)),
-                    SizedBox(height: 2),
+                        letterSpacing: 0.2,
+                      ),
+                    ),
+                    const SizedBox(height: 2),
                     Text(
                       displaySectionName,
                       style: TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.w700,
                         color: Colors.black,
-                        letterSpacing: -0.3)),
-                  ])),
+                        letterSpacing: -0.3,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
               // Section number badge
               Container(
                 width: 44,
                 height: 44,
                 decoration: BoxDecoration(
                   color: Colors.black,
-                  borderRadius: BorderRadius.circular(20)),
+                  borderRadius: BorderRadius.circular(20),
+                ),
                 child: Center(
                   child: Text(
                     '${selectedIdx + 1}',
                     style: TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.w800,
-                      color: Colors.white)))),
-            ]),
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
 
-          SizedBox(height: 20),
+          const SizedBox(height: 20),
 
           // Truck Visualization
           Container(
             height: 80,
             decoration: BoxDecoration(
               color: isLight ? Colors.white : const Color(0xFF1A1A1A),
-              borderRadius: BorderRadius.circular(20)),
+              borderRadius: BorderRadius.circular(20),
+            ),
             child: ClipRRect(
               borderRadius: BorderRadius.circular(20),
               child: Row(
@@ -8189,13 +8804,17 @@ class _NavigationModalState extends State<NavigationModal>
                   Container(
                     width: 40,
                     decoration: BoxDecoration(
-                      color: isLight ? Colors.white : const Color(0xFF252525)),
+                      color: isLight ? Colors.white : const Color(0xFF252525),
+                    ),
                     child: Center(
                       child: Icon(
                         CupertinoIcons.cube_box,
                         color: (isLight ? Colors.black : Colors.white)
                             .withOpacity(0.3),
-                        size: 20))),
+                        size: 20,
+                      ),
+                    ),
+                  ),
                   // Sections
                   Expanded(
                     child: Row(
@@ -8217,7 +8836,8 @@ class _NavigationModalState extends State<NavigationModal>
                                   ? Colors.green
                                   : (isLight
                                         ? Colors.white
-                                        : const Color(0xFF1A1A1A))),
+                                        : const Color(0xFF1A1A1A)),
+                            ),
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
@@ -8232,49 +8852,70 @@ class _NavigationModalState extends State<NavigationModal>
                                         : (isLight
                                                   ? Colors.black
                                                   : Colors.white)
-                                              .withOpacity(0.3))),
+                                              .withOpacity(0.3),
+                                  ),
+                                ),
                                 if (isSelected) ...[
-                                  SizedBox(height: 2),
+                                  const SizedBox(height: 2),
                                   Icon(
                                     CupertinoIcons.arrow_down,
                                     color: Colors.white,
-                                    size: 16),
+                                    size: 16,
+                                  ),
                                 ],
-                              ])));
-                      }))),
-                ]))),
+                              ],
+                            ),
+                          ),
+                        );
+                      }),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
 
-          SizedBox(height: 12),
+          const SizedBox(height: 12),
 
           // Instruction text
           Container(
-            padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
             decoration: BoxDecoration(
               color: Colors.green.withOpacity(0.1),
-              borderRadius: BorderRadius.circular(20)),
+              borderRadius: BorderRadius.circular(20),
+            ),
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
                 Icon(
                   CupertinoIcons.info,
                   color: Colors.green[700],
-                  size: 16),
-                SizedBox(width: 6),
+                  size: 16,
+                ),
+                const SizedBox(width: 6),
                 Flexible(
                   child: Text(
                     AppLocalizations.of(context)?.openSectionLoad ?? AppLocalizations.of(context)!.tr('Open section and load the goods'),
                     style: TextStyle(
                       fontSize: 13,
                       fontWeight: FontWeight.w600,
-                      color: Colors.green[700]))),
-              ])),
-        ]));
+                      color: Colors.green[700],
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
   }
 
   // Build Vehicle Section Card for Delivery - Shows which section to unload from
   Widget _buildVehicleSectionCardForDelivery(
     Map<String, dynamic> order,
-    bool isLight) {
+    bool isLight,
+  ) {
     // Extract section information from order
     final sectionIndex = order['section_index'];
     final sectionName = order['section_name'] ?? AppLocalizations.of(context)!.tr('');
@@ -8327,7 +8968,7 @@ class _NavigationModalState extends State<NavigationModal>
 
     return Container(
       width: double.infinity,
-      padding: EdgeInsets.all(16),
+      padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(20),
@@ -8336,8 +8977,10 @@ class _NavigationModalState extends State<NavigationModal>
             color: Colors.black.withOpacity(0.08),
             blurRadius: 20,
             spreadRadius: 0,
-            offset: const Offset(0, 4)),
-        ]),
+            offset: const Offset(0, 4),
+          ),
+        ],
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -8345,15 +8988,18 @@ class _NavigationModalState extends State<NavigationModal>
           Row(
             children: [
               Container(
-                padding: EdgeInsets.all(10),
+                padding: const EdgeInsets.all(10),
                 decoration: BoxDecoration(
                   color: Colors.orange.withOpacity(0.1),
-                  borderRadius: BorderRadius.circular(20)),
+                  borderRadius: BorderRadius.circular(20),
+                ),
                 child: Icon(
                   CupertinoIcons.cube_box,
                   color: Colors.orange,
-                  size: 24)),
-              SizedBox(width: 12),
+                  size: 24,
+                ),
+              ),
+              const SizedBox(width: 12),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -8364,40 +9010,53 @@ class _NavigationModalState extends State<NavigationModal>
                         fontSize: 13,
                         fontWeight: FontWeight.w500,
                         color: Colors.black54,
-                        letterSpacing: 0.2)),
-                    SizedBox(height: 2),
+                        letterSpacing: 0.2,
+                      ),
+                    ),
+                    const SizedBox(height: 2),
                     Text(
                       displaySectionName,
                       style: TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.w700,
                         color: Colors.black,
-                        letterSpacing: -0.3)),
-                  ])),
+                        letterSpacing: -0.3,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
               // Section number badge
               Container(
                 width: 44,
                 height: 44,
                 decoration: BoxDecoration(
                   color: Colors.orange,
-                  borderRadius: BorderRadius.circular(20)),
+                  borderRadius: BorderRadius.circular(20),
+                ),
                 child: Center(
                   child: Text(
                     '${selectedIdx + 1}',
                     style: TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.w800,
-                      color: Colors.white)))),
-            ]),
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
 
-          SizedBox(height: 20),
+          const SizedBox(height: 20),
 
           // Truck Visualization
           Container(
             height: 80,
             decoration: BoxDecoration(
               color: isLight ? Colors.white : const Color(0xFF1A1A1A),
-              borderRadius: BorderRadius.circular(20)),
+              borderRadius: BorderRadius.circular(20),
+            ),
             child: ClipRRect(
               borderRadius: BorderRadius.circular(20),
               child: Row(
@@ -8406,13 +9065,17 @@ class _NavigationModalState extends State<NavigationModal>
                   Container(
                     width: 40,
                     decoration: BoxDecoration(
-                      color: isLight ? Colors.white : const Color(0xFF252525)),
+                      color: isLight ? Colors.white : const Color(0xFF252525),
+                    ),
                     child: Center(
                       child: Icon(
                         CupertinoIcons.cube_box,
                         color: (isLight ? Colors.black : Colors.white)
                             .withOpacity(0.3),
-                        size: 20))),
+                        size: 20,
+                      ),
+                    ),
+                  ),
                   // Sections
                   Expanded(
                     child: Row(
@@ -8434,7 +9097,8 @@ class _NavigationModalState extends State<NavigationModal>
                                   ? Colors.orange
                                   : (isLight
                                         ? Colors.white
-                                        : const Color(0xFF1A1A1A))),
+                                        : const Color(0xFF1A1A1A)),
+                            ),
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
@@ -8449,43 +9113,63 @@ class _NavigationModalState extends State<NavigationModal>
                                         : (isLight
                                                   ? Colors.black
                                                   : Colors.white)
-                                              .withOpacity(0.3))),
+                                              .withOpacity(0.3),
+                                  ),
+                                ),
                                 if (isSelected) ...[
-                                  SizedBox(height: 2),
+                                  const SizedBox(height: 2),
                                   Icon(
                                     CupertinoIcons.arrow_up,
                                     color: Colors.white,
-                                    size: 16),
+                                    size: 16,
+                                  ),
                                 ],
-                              ])));
-                      }))),
-                ]))),
+                              ],
+                            ),
+                          ),
+                        );
+                      }),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
 
-          SizedBox(height: 12),
+          const SizedBox(height: 12),
 
           // Instruction text
           Container(
-            padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
             decoration: BoxDecoration(
               color: Colors.orange.withOpacity(0.1),
-              borderRadius: BorderRadius.circular(20)),
+              borderRadius: BorderRadius.circular(20),
+            ),
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
                 Icon(
                   CupertinoIcons.info,
                   color: Colors.orange[700],
-                  size: 16),
-                SizedBox(width: 6),
+                  size: 16,
+                ),
+                const SizedBox(width: 6),
                 Flexible(
                   child: Text(
                     AppLocalizations.of(context)?.openSectionUnload ?? AppLocalizations.of(context)!.tr('Open section and unload the goods'),
                     style: TextStyle(
                       fontSize: 13,
                       fontWeight: FontWeight.w600,
-                      color: Colors.orange[700]))),
-              ])),
-        ]));
+                      color: Colors.orange[700],
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
   }
 
   Future<void> _saveNavigationStateToSharedPreferences() async {
@@ -8547,7 +9231,8 @@ class _NavigationModalState extends State<NavigationModal>
       _qrScannerController = MobileScannerController(
         detectionSpeed: DetectionSpeed.normal,
         facing: CameraFacing.back,
-        autoStart: true);
+        autoStart: true,
+      );
       _qrScanResult = '';
       _isQRScannerLoading = false;
       _qrLoadingNotifier.value = false;
@@ -8572,7 +9257,8 @@ class _NavigationModalState extends State<NavigationModal>
         onSheetReady: ({required setter, required close}) {
           _scannerSheetSetter  = setter;
           _closeScannerSheet   = close;
-        });
+        },
+      );
 
       // Sheet dismissed (user dragged down or we called pop)
       _scannerSheetSetter = null;
@@ -8614,21 +9300,27 @@ class _NavigationModalState extends State<NavigationModal>
               const DragHandle(),
                 Row(
                   children: [
-                    Icon(CupertinoIcons.camera, size: 22),
-                    SizedBox(width: 12),
+                    const Icon(CupertinoIcons.camera, size: 22),
+                    const SizedBox(width: 12),
                     Flexible(child: Text(
                       AppLocalizations.of(context)?.cameraError ?? AppLocalizations.of(context)!.tr('Camera Error'),
-                      style: TextStyle(fontSize: 22, fontWeight: FontWeight.w700, letterSpacing: -0.4))),
-                  ]),
-                SizedBox(height: 4),
+                      style: TextStyle(fontSize: 22, fontWeight: FontWeight.w700, letterSpacing: -0.4),
+                    )),
+                  ],
+                ),
+                const SizedBox(height: 4),
                 Text(
                   '${AppLocalizations.of(context)?.failedToOpenCameraCheckPermissions ?? AppLocalizations.of(context)!.tr('Failed to open camera. Please check camera permissions in Settings.')}\n\n${e.toString()}',
-                  textAlign: TextAlign.center),
-                SizedBox(height: 24),
+                  textAlign: TextAlign.center,
+                ),
+                const SizedBox(height: 24),
                 TradeRepublicButton(
                   label: AppLocalizations.of(context)?.ok ?? AppLocalizations.of(context)!.tr('OK'),
-                  onPressed: () => Navigator.pop(context)),
-            ]));
+                  onPressed: () => Navigator.pop(context),
+                ),
+            ],
+          ),
+        );
       }
     }
   }
@@ -8791,7 +9483,8 @@ class _NavigationModalState extends State<NavigationModal>
       if (mounted) {
         TopNotification.success(
           context,
-          AppLocalizations.of(context)!.tr('Check-in successful. Now start check-out in pickup confirmation.') ?? AppLocalizations.of(context)!.tr('Check-in successful. Now start check-out in pickup confirmation.'));
+          AppLocalizations.of(context)!.tr('Check-in successful. Now start check-out in pickup confirmation.') ?? AppLocalizations.of(context)!.tr('Check-in successful. Now start check-out in pickup confirmation.'),
+        );
       }
       print('✅ Pickup check-in: waiting stopped, loading started, check-in time saved');
     } else {
@@ -8804,7 +9497,8 @@ class _NavigationModalState extends State<NavigationModal>
       if (mounted) {
         TopNotification.success(
           context,
-          AppLocalizations.of(context)!.tr('Check-out successful. Proceeding to delivery.') ?? AppLocalizations.of(context)!.tr('Check-out successful. Proceeding to delivery.'));
+          AppLocalizations.of(context)!.tr('Check-out successful. Proceeding to delivery.') ?? AppLocalizations.of(context)!.tr('Check-out successful. Proceeding to delivery.'),
+        );
       }
       _updateOrderStatusToPickedUp();
       Timer(const Duration(milliseconds: 600), () {
@@ -8834,7 +9528,8 @@ class _NavigationModalState extends State<NavigationModal>
           'status': 'picked_up',
           'picked_up_at': DateTime.now().toIso8601String(),
           'driver_id': 1, // TODO: Get from authentication
-        }));
+        }),
+      );
 
       if (response.statusCode == 200) {
       } else {
@@ -8872,7 +9567,8 @@ class _NavigationModalState extends State<NavigationModal>
       if (mounted) {
         TopNotification.success(
           context,
-          AppLocalizations.of(context)!.tr('Delivery check-in successful. Timer running – please complete check-out.') ?? AppLocalizations.of(context)!.tr('Delivery check-in successful. Timer running – please complete check-out.'));
+          AppLocalizations.of(context)!.tr('Delivery check-in successful. Timer running – please complete check-out.') ?? AppLocalizations.of(context)!.tr('Delivery check-in successful. Timer running – please complete check-out.'),
+        );
       }
       print('✅ Delivery check-in: waiting stopped, unloading timer started, check-in time saved');
     } else {
@@ -8885,7 +9581,8 @@ class _NavigationModalState extends State<NavigationModal>
       if (mounted) {
         TopNotification.success(
           context,
-          AppLocalizations.of(context)!.tr('Delivery Check-out erfolgreich. Lieferung wird abgeschlossen.') ?? AppLocalizations.of(context)!.tr('Delivery Check-out erfolgreich. Lieferung wird abgeschlossen.'));
+          AppLocalizations.of(context)!.tr('Delivery Check-out erfolgreich. Lieferung wird abgeschlossen.') ?? AppLocalizations.of(context)!.tr('Delivery Check-out erfolgreich. Lieferung wird abgeschlossen.'),
+        );
       }
       Timer(const Duration(milliseconds: 600), () {
         if (mounted) {
@@ -8984,7 +9681,8 @@ class _NavigationModalState extends State<NavigationModal>
       final response = await http.post(
         Uri.parse(url),
         headers: {'Content-Type': 'application/json'},
-        body: json.encode(requestBody));
+        body: json.encode(requestBody),
+      );
 
       if (response.statusCode == 200 || response.statusCode == 201) {
         final responseData = json.decode(response.body);
@@ -9026,7 +9724,8 @@ class _NavigationModalState extends State<NavigationModal>
               'lat': _currentLocation!.latitude,
               'lng': _currentLocation!.longitude,
             },
-          }));
+          }),
+        );
 
         if (response.statusCode == 200 || response.statusCode == 201) {
           final responseData = json.decode(response.body);
@@ -9069,7 +9768,8 @@ class _NavigationModalState extends State<NavigationModal>
     final orderId = widget.order['order_id'] ?? widget.order['id'] ?? 0;
     _markOrderAsPickedUp(orderId).then((_) {}).catchError((error) {
       print(
-        '⚠️ Could not save single-order pickup to cloud, but continuing: $error');
+        '⚠️ Could not save single-order pickup to cloud, but continuing: $error',
+      );
     });
 
     setState(() {
@@ -9087,15 +9787,18 @@ class _NavigationModalState extends State<NavigationModal>
     _updateLiveActivity(force: true);
 
     print(
-      '🚚 Starting delivery phase: Navigation automatically started to delivery location');
+      '🚚 Starting delivery phase: Navigation automatically started to delivery location',
+    );
     print(
-      '📍 Current GPS position: ${_currentLocation!.latitude}, ${_currentLocation!.longitude}');
+      '📍 Current GPS position: ${_currentLocation!.latitude}, ${_currentLocation!.longitude}',
+    );
 
     // CRITICAL: Get fresh GPS position before generating route
     _getCurrentLocation()
         .then((_) {
           print(
-            '✅ GPS position updated for delivery phase: ${_currentLocation!.latitude}, ${_currentLocation!.longitude}');
+            '✅ GPS position updated for delivery phase: ${_currentLocation!.latitude}, ${_currentLocation!.longitude}',
+          );
 
           // Generate new route to delivery location from CURRENT GPS position
           _generateRoute();
@@ -9113,7 +9816,8 @@ class _NavigationModalState extends State<NavigationModal>
         })
         .catchError((error) {
           print(
-            '⚠️ Could not get GPS position, using last known location: $error');
+            '⚠️ Could not get GPS position, using last known location: $error',
+          );
           // Fallback: Generate route anyway with last known position
           _generateRoute();
           _updateCurrentDistanceAndTime();
@@ -9123,7 +9827,8 @@ class _NavigationModalState extends State<NavigationModal>
     _saveNavigationState()
         .then((_) {
           print(
-            '✅ Delivery phase saved to database - will persist on modal reopen');
+            '✅ Delivery phase saved to database - will persist on modal reopen',
+          );
         })
         .catchError((error) {
           print('⚠️ Could not save delivery phase to database: $error');
@@ -9260,7 +9965,8 @@ class _NavigationModalState extends State<NavigationModal>
     } else {
       // All deliveries completed
       print(
-        '🎉 All multi-order deliveries completed! Starting complete cleanup...');
+        '🎉 All multi-order deliveries completed! Starting complete cleanup...',
+      );
 
       setState(() {
         _currentPhase = NavigationPhase.completed;
@@ -9307,7 +10013,7 @@ class _NavigationModalState extends State<NavigationModal>
     final progress = totalSteps > 0 ? completedSteps / totalSteps : 0.0;
 
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: 24, vertical: 0),
+      margin: const EdgeInsets.symmetric(horizontal: 24, vertical: 0),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -9317,7 +10023,8 @@ class _NavigationModalState extends State<NavigationModal>
             width: double.infinity,
             decoration: BoxDecoration(
               color: Colors.black.withOpacity(0.2),
-              borderRadius: BorderRadius.circular(20)),
+              borderRadius: BorderRadius.circular(20),
+            ),
             child: ClipRRect(
               borderRadius: BorderRadius.circular(20),
               child: LinearProgressIndicator(
@@ -9327,8 +10034,13 @@ class _NavigationModalState extends State<NavigationModal>
                   _currentPhase == NavigationPhase.completed
                       ? Colors.green
                       : const Color(0xFF007AFF), // Apple Blue
-                )))),
-        ]));
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
   }
 
   void _markArrivedAtDelivery() async {
@@ -9434,7 +10146,8 @@ class _NavigationModalState extends State<NavigationModal>
 
     final AppSettings appSettings = Provider.of<AppSettings>(
       context,
-      listen: false);
+      listen: false,
+    );
     final isLight = appSettings.isLightMode(context);
 
     // Start polling so driver app auto-detects when buyer scans the QR URL
@@ -9450,7 +10163,7 @@ class _NavigationModalState extends State<NavigationModal>
             Expanded(
               child: SingleChildScrollView(
                 physics: const BouncingScrollPhysics(),
-                padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
+                padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
@@ -9467,46 +10180,57 @@ class _NavigationModalState extends State<NavigationModal>
                                   fontSize: 24,
                                   fontWeight: FontWeight.w800,
                                   color: isLight ? Colors.black : Colors.white,
-                                  letterSpacing: -0.45)),
-                              SizedBox(height: 4),
+                                  letterSpacing: -0.45,
+                                ),
+                              ),
+                              const SizedBox(height: 4),
                               Text(
                                 '${AppLocalizations.of(context)?.showQrCodeTo ?? AppLocalizations.of(context)!.tr('Show QR code to')} $customerName',
                                 style: TextStyle(
                                   fontSize: 14,
                                   fontWeight: FontWeight.w500,
-                                  color: isLight ? Colors.black54 : Colors.white70)),
-                            ])),
+                                  color: isLight ? Colors.black54 : Colors.white70,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
                         Container(
-                          padding: EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
                           decoration: BoxDecoration(
                             color: Colors.blue.withOpacity(0.12),
-                            borderRadius: BorderRadius.circular(999)),
+                            borderRadius: BorderRadius.circular(999),
+                          ),
                           child: Text(
                             '${AppLocalizations.of(context)?.orderNumber ?? AppLocalizations.of(context)!.tr('Order #')}$orderId',
-                            style: TextStyle(
+                            style: const TextStyle(
                               fontSize: 12,
                               fontWeight: FontWeight.w700,
-                              color: Colors.blue))),
-                      ]),
+                              color: Colors.blue,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
 
-                    SizedBox(height: 12),
+                    const SizedBox(height: 12),
                     _buildScanPhaseStatusCard(isLight, isDelivery: true),
-                    SizedBox(height: 12),
+                    const SizedBox(height: 12),
 
                     if (_scanPhase == 'waiting') ...[
                       _buildWaitingTimeCard(isLight),
-                      SizedBox(height: 12),
+                      const SizedBox(height: 12),
                     ],
 
                     if (_scanPhase == 'loading') ...[
                       _buildLoadingTimerCard(isLight),
-                      SizedBox(height: 12),
+                      const SizedBox(height: 12),
                     ],
 
                     Center(
                       child: Container(
                         width: 252,
-                        padding: EdgeInsets.all(16),
+                        padding: const EdgeInsets.all(16),
                         decoration: BoxDecoration(
                           color: Colors.white,
                           borderRadius: BorderRadius.circular(24),
@@ -9514,8 +10238,10 @@ class _NavigationModalState extends State<NavigationModal>
                             BoxShadow(
                               color: Colors.black.withOpacity(0.08),
                               blurRadius: 20,
-                              offset: const Offset(0, 8)),
-                          ]),
+                              offset: const Offset(0, 8),
+                            ),
+                          ],
+                        ),
                         child: _securityCode.isNotEmpty && _securityCode != 'Loading...'
                             ? QrImageView(
                                 data: _generateDeliveryQRData(),
@@ -9524,26 +10250,35 @@ class _NavigationModalState extends State<NavigationModal>
                                 backgroundColor: Colors.white,
                                 dataModuleStyle: const QrDataModuleStyle(
                                   dataModuleShape: QrDataModuleShape.square,
-                                  color: Colors.black),
+                                  color: Colors.black,
+                                ),
                                 eyeStyle: const QrEyeStyle(
                                   eyeShape: QrEyeShape.square,
-                                  color: Colors.black))
+                                  color: Colors.black,
+                                ),
+                              )
                             : Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   SizedBox(
                                     width: 32,
                                     height: 32,
-                                    child: CultiooLoadingIndicator(size: 24)),
-                                  SizedBox(height: 16),
+                                    child: CultiooLoadingIndicator(size: 24),
+                                  ),
+                                  const SizedBox(height: 16),
                                   Text(
                                     AppLocalizations.of(context)?.loading ?? AppLocalizations.of(context)!.tr('Loading...'),
                                     style: TextStyle(
                                       color: Colors.black54,
                                       fontSize: 15,
-                                      fontWeight: FontWeight.w500)),
-                                ]))),
-                    SizedBox(height: 14),
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                      ),
+                    ),
+                    const SizedBox(height: 14),
                     Text(
                       _scanPhase == 'loading'
                           ? (AppLocalizations.of(context)?.buyerScanAgainCheckout ?? AppLocalizations.of(context)!.tr('Buyer: scan again for check-out'))
@@ -9554,28 +10289,34 @@ class _NavigationModalState extends State<NavigationModal>
                         fontWeight: FontWeight.w700,
                         color: _scanPhase == 'loading'
                             ? Colors.green
-                            : (isLight ? Colors.black87 : Colors.white))),
+                            : (isLight ? Colors.black87 : Colors.white),
+                      ),
+                    ),
 
                     if (_securityCode.isNotEmpty && _securityCode != 'Loading...') ...[
-                      SizedBox(height: 12),
+                      const SizedBox(height: 12),
                       Container(
-                        padding: EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+                        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
                         decoration: BoxDecoration(
                           color: isLight ? Colors.black.withOpacity(0.03) : Colors.white.withOpacity(0.05),
-                          borderRadius: BorderRadius.circular(16)),
+                          borderRadius: BorderRadius.circular(16),
+                        ),
                         child: Row(
                           children: [
-                            Icon(
+                            const Icon(
                               CupertinoIcons.lock_fill,
                               color: Colors.blue,
-                              size: 18),
-                            SizedBox(width: 10),
+                              size: 18,
+                            ),
+                            const SizedBox(width: 10),
                             Text(
                               AppLocalizations.of(context)?.securityCode ?? AppLocalizations.of(context)!.tr('Security Code'),
                               style: TextStyle(
                                 fontSize: 13,
                                 fontWeight: FontWeight.w600,
-                                color: isLight ? Colors.black54 : Colors.white60)),
+                                color: isLight ? Colors.black54 : Colors.white60,
+                              ),
+                            ),
                             const Spacer(),
                             Text(
                               _securityCode,
@@ -9583,18 +10324,23 @@ class _NavigationModalState extends State<NavigationModal>
                                 fontSize: 22,
                                 fontWeight: FontWeight.w800,
                                 color: isLight ? Colors.black : Colors.white,
-                                letterSpacing: 2)),
-                          ])),
+                                letterSpacing: 2,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
                     ],
 
-                    SizedBox(height: 12),
+                    const SizedBox(height: 12),
                     _buildVehicleSectionCardForDelivery(
                       currentOrderForDelivery,
-                      isLight),
+                      isLight,
+                    ),
 
-                    SizedBox(height: 12),
+                    const SizedBox(height: 12),
                     Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 4),
+                      padding: const EdgeInsets.symmetric(horizontal: 4),
                       child: Text(
                         AppLocalizations.of(context)?.deliveryCompleteAuto ?? AppLocalizations.of(context)!.tr('Delivery will complete automatically when customer scans the QR code'),
                         textAlign: TextAlign.center,
@@ -9602,9 +10348,12 @@ class _NavigationModalState extends State<NavigationModal>
                           fontSize: 13,
                           fontWeight: FontWeight.w500,
                           color: isLight ? Colors.black54 : Colors.white70,
-                          height: 1.35))),
+                          height: 1.35,
+                        ),
+                      ),
+                    ),
 
-                    SizedBox(height: 12),
+                    const SizedBox(height: 12),
                     TradeRepublicButton(
                       label: AppLocalizations.of(context)?.close ?? AppLocalizations.of(context)!.tr('Close'),
                       onPressed: () {
@@ -9614,9 +10363,16 @@ class _NavigationModalState extends State<NavigationModal>
                           _showArrivedButton = true;
                         });
                       },
-                      isSecondary: true),
-                  ]))),
-          ])));
+                      isSecondary: true,
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
 
     // Sheet was dismissed – persist timer/scan-phase
     _isDeliverySheetOpen = false;
@@ -9696,7 +10452,8 @@ class _NavigationModalState extends State<NavigationModal>
       final checkResponse = await http
           .get(
             Uri.parse(checkUrl),
-            headers: {'Content-Type': 'application/json'})
+            headers: {'Content-Type': 'application/json'},
+          )
           .timeout(const Duration(seconds: 5));
 
       if (checkResponse.statusCode == 200) {
@@ -9717,11 +10474,13 @@ class _NavigationModalState extends State<NavigationModal>
               // Check if there are more deliveries pending
               if (_currentDeliveryIndex + 1 < _allDeliveryLocations.length) {
                 print(
-                  '🚚 Multi-order mode: More deliveries pending (${_currentDeliveryIndex + 1}/${_allDeliveryLocations.length}) - NOT clearing navigation');
+                  '🚚 Multi-order mode: More deliveries pending (${_currentDeliveryIndex + 1}/${_allDeliveryLocations.length}) - NOT clearing navigation',
+                );
                 shouldClearNavigation = false;
               } else {
                 print(
-                  '✅ Multi-order mode: Last delivery completed - WILL clear navigation');
+                  '✅ Multi-order mode: Last delivery completed - WILL clear navigation',
+                );
               }
             } else {}
 
@@ -9731,22 +10490,27 @@ class _NavigationModalState extends State<NavigationModal>
                 final deleteNavResponse = await http
                     .delete(
                       Uri.parse(
-                        '${ApiConfig.baseUrl}/api/navigation/clear/$orderId'),
-                      headers: {'Content-Type': 'application/json'})
+                        '${ApiConfig.baseUrl}/api/navigation/clear/$orderId',
+                      ),
+                      headers: {'Content-Type': 'application/json'},
+                    )
                     .timeout(const Duration(seconds: 5));
 
                 if (deleteNavResponse.statusCode == 200) {
                   final deleteData = json.decode(deleteNavResponse.body);
                   if (deleteData['success'] == true) {
                     print(
-                      '✅ Navigation cleared from backend for order $orderId');
+                      '✅ Navigation cleared from backend for order $orderId',
+                    );
                   } else {
                     print(
-                      '⚠️ Backend returned success: false when clearing navigation');
+                      '⚠️ Backend returned success: false when clearing navigation',
+                    );
                   }
                 } else {
                   print(
-                    '⚠️ Failed to clear navigation: HTTP ${deleteNavResponse.statusCode}');
+                    '⚠️ Failed to clear navigation: HTTP ${deleteNavResponse.statusCode}',
+                  );
                 }
               } catch (e) {
                 print('⚠️ Error clearing navigation from backend: $e');
@@ -9762,7 +10526,8 @@ class _NavigationModalState extends State<NavigationModal>
             return;
           } else {
             print(
-              '⚠️ Status not yet updated to delivered (still: $currentStatus)');
+              '⚠️ Status not yet updated to delivered (still: $currentStatus)',
+            );
 
             if (markDeliveredCallFailed) {
               throw Exception('Failed to mark order as delivered');
@@ -9775,11 +10540,13 @@ class _NavigationModalState extends State<NavigationModal>
               // Check if there are more deliveries pending
               if (_currentDeliveryIndex + 1 < _allDeliveryLocations.length) {
                 print(
-                  '🚚 Multi-order mode: More deliveries pending - NOT clearing navigation (fallback)');
+                  '🚚 Multi-order mode: More deliveries pending - NOT clearing navigation (fallback)',
+                );
                 shouldClearNavigation = false;
               } else {
                 print(
-                  '✅ Multi-order mode: Last delivery completed - WILL clear navigation (fallback)');
+                  '✅ Multi-order mode: Last delivery completed - WILL clear navigation (fallback)',
+                );
               }
             }
 
@@ -9789,8 +10556,10 @@ class _NavigationModalState extends State<NavigationModal>
                 final deleteNavResponse = await http
                     .delete(
                       Uri.parse(
-                        '${ApiConfig.baseUrl}/api/navigation/clear/$orderId'),
-                      headers: {'Content-Type': 'application/json'})
+                        '${ApiConfig.baseUrl}/api/navigation/clear/$orderId',
+                      ),
+                      headers: {'Content-Type': 'application/json'},
+                    )
                     .timeout(const Duration(seconds: 5));
 
                 if (deleteNavResponse.statusCode == 200) {}
@@ -9799,7 +10568,8 @@ class _NavigationModalState extends State<NavigationModal>
               }
             } else {
               print(
-                '📌 Keeping navigation active for remaining deliveries (fallback)');
+                '📌 Keeping navigation active for remaining deliveries (fallback)',
+              );
               await _saveNavigationState();
             }
 
@@ -9811,7 +10581,8 @@ class _NavigationModalState extends State<NavigationModal>
         }
       } else {
         throw Exception(
-          'Failed to check order status: ${checkResponse.statusCode}');
+          'Failed to check order status: ${checkResponse.statusCode}',
+        );
       }
     } catch (e) {
       print('❌ Error completing delivery for order $orderId: $e');
@@ -9849,7 +10620,8 @@ class _NavigationModalState extends State<NavigationModal>
             'lng': _currentLocation!.longitude,
           },
           'delivery_notes': 'Delivered successfully',
-        }));
+        }),
+      );
 
       if (navResponse.statusCode == 200 || navResponse.statusCode == 201) {
       } else {}
@@ -9865,13 +10637,15 @@ class _NavigationModalState extends State<NavigationModal>
           'driver_id': 1, // TODO: Get from authentication
           'delivered_at': DateTime.now().toIso8601String(),
           'delivery_notes': 'Delivered successfully via navigation system',
-        }));
+        }),
+      );
 
       if (orderResponse.statusCode == 200 || orderResponse.statusCode == 201) {
         final responseData = json.decode(orderResponse.body);
       } else {
         print(
-          '❌ Failed to mark order as delivered: ${orderResponse.statusCode}');
+          '❌ Failed to mark order as delivered: ${orderResponse.statusCode}',
+        );
       }
     } catch (e) {}
   }
@@ -9905,7 +10679,8 @@ class _NavigationModalState extends State<NavigationModal>
             'lng': _deliveryLocation.longitude,
           },
           'security_code': _securityCode,
-        }));
+        }),
+      );
 
       if (response.statusCode == 200 || response.statusCode == 201) {
         final responseData = json.decode(response.body);
@@ -9965,16 +10740,19 @@ class _NavigationModalState extends State<NavigationModal>
               'lat': _currentLocation!.latitude,
               'lng': _currentLocation!.longitude,
             },
-          }));
+          }),
+        );
 
         if (response.statusCode == 200 || response.statusCode == 201) {
         } else {
           print(
-            '⚠️ Multi-order navigation not saved locally (using memory): ${response.body}');
+            '⚠️ Multi-order navigation not saved locally (using memory): ${response.body}',
+          );
         }
       } catch (navError) {
         print(
-          '⚠️ Multi-order navigation save error (order pickup still recorded): $navError');
+          '⚠️ Multi-order navigation save error (order pickup still recorded): $navError',
+        );
       }
     } catch (e) {
       print('❌ Error saving multi-order pickup completion: $e');
@@ -9985,7 +10763,8 @@ class _NavigationModalState extends State<NavigationModal>
   Future<void> _markOrderAsPickedUp(dynamic orderId) async {
     try {
       print(
-        '📦 Marking order $orderId as picked up in Google Cloud database...');
+        '📦 Marking order $orderId as picked up in Google Cloud database...',
+      );
 
       final String url =
           '${ApiConfig.baseUrl}/api/delvioo/orders/$orderId/mark-picked-up';
@@ -10002,16 +10781,19 @@ class _NavigationModalState extends State<NavigationModal>
             'lat': _currentLocation!.latitude,
             'lng': _currentLocation!.longitude,
           },
-        }));
+        }),
+      );
 
       if (response.statusCode == 200 || response.statusCode == 201) {
         final responseData = json.decode(response.body);
         print(
-          '✅ Order $orderId marked as picked up in Google Cloud: ${responseData['message']}');
+          '✅ Order $orderId marked as picked up in Google Cloud: ${responseData['message']}',
+        );
       } else {
         print('❌ Failed to mark order $orderId as picked up: ${response.body}');
         throw Exception(
-          'Failed to mark order as picked up: ${response.statusCode}');
+          'Failed to mark order as picked up: ${response.statusCode}',
+        );
       }
     } catch (e) {
       print('❌ Error marking order $orderId as picked up: $e');
@@ -10055,7 +10837,8 @@ class _NavigationModalState extends State<NavigationModal>
             'lat': _currentLocation!.latitude,
             'lng': _currentLocation!.longitude,
           },
-        }));
+        }),
+      );
 
       if (response.statusCode == 200 || response.statusCode == 201) {
       } else {}
@@ -10110,16 +10893,19 @@ class _NavigationModalState extends State<NavigationModal>
               'lat': _currentLocation!.latitude,
               'lng': _currentLocation!.longitude,
             },
-          }));
+          }),
+        );
 
         if (navResponse.statusCode == 200 || navResponse.statusCode == 201) {
         } else {
           print(
-            '⚠️ Multi-order navigation not saved locally (using memory): ${navResponse.body}');
+            '⚠️ Multi-order navigation not saved locally (using memory): ${navResponse.body}',
+          );
         }
       } catch (navError) {
         print(
-          '⚠️ Multi-order navigation save error (order delivery still recorded): $navError');
+          '⚠️ Multi-order navigation save error (order delivery still recorded): $navError',
+        );
       }
     } catch (e) {
       print('❌ Error saving multi-order delivery completion: $e');
@@ -10130,7 +10916,8 @@ class _NavigationModalState extends State<NavigationModal>
   Future<void> _markOrderAsDelivered(dynamic orderId) async {
     try {
       print(
-        '📦 Marking order $orderId as delivered in Google Cloud database...');
+        '📦 Marking order $orderId as delivered in Google Cloud database...',
+      );
 
       final String url =
           '${ApiConfig.baseUrl}/api/delvioo/orders/$orderId/mark-delivered';
@@ -10151,17 +10938,20 @@ class _NavigationModalState extends State<NavigationModal>
       final response = await http.post(
         Uri.parse(url),
         headers: {'Content-Type': 'application/json'},
-        body: json.encode(requestBody));
+        body: json.encode(requestBody),
+      );
 
       if (response.statusCode == 200 || response.statusCode == 201) {
         final responseData = json.decode(response.body);
         print(
-          '✅ Order $orderId marked as delivered in Google Cloud: ${responseData['message']}');
+          '✅ Order $orderId marked as delivered in Google Cloud: ${responseData['message']}',
+        );
       } else {
         final responseBody = response.body;
         print('❌ Failed to mark order $orderId as delivered: HTTP ${response.statusCode} - $responseBody');
         throw Exception(
-          'Failed to mark order as delivered: ${response.statusCode}');
+          'Failed to mark order as delivered: ${response.statusCode}',
+        );
       }
     } catch (e) {
       print('❌ Error marking order $orderId as delivered: $e');
@@ -10216,7 +11006,8 @@ class _NavigationModalState extends State<NavigationModal>
 
     // DEBUG: Log destination consistency check
     print(
-      '🎯 _getCurrentInstruction DESTINATION: Phase=$_currentPhase, Coords=${destination.latitude.toStringAsFixed(6)}, ${destination.longitude.toStringAsFixed(6)}, Distance=${(distance / 1000).toStringAsFixed(3)}km');
+      '🎯 _getCurrentInstruction DESTINATION: Phase=$_currentPhase, Coords=${destination.latitude.toStringAsFixed(6)}, ${destination.longitude.toStringAsFixed(6)}, Distance=${(distance / 1000).toStringAsFixed(3)}km',
+    );
 
     if (_isLoadingRoute) {
       return AppLocalizations.of(context)?.calculatingRoute ?? AppLocalizations.of(context)!.tr('Calculating route...');
@@ -10259,9 +11050,11 @@ class _NavigationModalState extends State<NavigationModal>
 
     // DEBUG: Check current state for arrived button logic
     print(
-      '🔍 Arrived button check: navigationStarted=$_navigationStarted, phase=$_currentPhase, distance=${(distance / 1000).toStringAsFixed(1)}km');
+      '🔍 Arrived button check: navigationStarted=$_navigationStarted, phase=$_currentPhase, distance=${(distance / 1000).toStringAsFixed(1)}km',
+    );
     print(
-      '🔍 Current UI state: showArrived=$_showArrivedButton, showSecurity=$_showSecurityCode, showQR=$_showQRScanner');
+      '🔍 Current UI state: showArrived=$_showArrivedButton, showSecurity=$_showSecurityCode, showQR=$_showQRScanner',
+    );
 
     // Show arrived button when navigation is active.
     // For delivery phases, do not enforce a distance radius.
@@ -10285,10 +11078,12 @@ class _NavigationModalState extends State<NavigationModal>
         print(
           isDeliveryPhase
               ? '🔘 Delivery phase active - showing arrived button without radius lock'
-              : '🔘 Within 5km radius (${(distance / 1000).toStringAsFixed(1)}km) - showing arrived button');
+              : '🔘 Within 5km radius (${(distance / 1000).toStringAsFixed(1)}km) - showing arrived button',
+        );
       } else {
         print(
-          '🔘 Too far from destination (${(distance / 1000).toStringAsFixed(1)}km > 5km) - hiding arrived button');
+          '🔘 Too far from destination (${(distance / 1000).toStringAsFixed(1)}km > 5km) - hiding arrived button',
+        );
       }
     }
 
@@ -10433,7 +11228,8 @@ class _NavigationModalState extends State<NavigationModal>
     for (int i = 0; i < _routePoints.length; i++) {
       double distanceToPoint = _calculateDistance(
         _currentLocation!,
-        _routePoints[i]);
+        _routePoints[i],
+      );
       if (distanceToPoint < minDistanceToRoute) {
         minDistanceToRoute = distanceToPoint;
         closestRouteIndex = i;
@@ -10443,7 +11239,8 @@ class _NavigationModalState extends State<NavigationModal>
     // IMPORTANT: If user is more than 200m off route, recalculate route automatically (wrong turn detection)
     if (minDistanceToRoute > 200) {
       print(
-        '⚠️ User is ${minDistanceToRoute.toInt()}m off route - recalculating route automatically');
+        '⚠️ User is ${minDistanceToRoute.toInt()}m off route - recalculating route automatically',
+      );
       _generateRoute(); // Automatically recalculate route from current position
       HapticFeedback.heavyImpact(); // Strong feedback for route recalculation
       return;
@@ -10458,14 +11255,16 @@ class _NavigationModalState extends State<NavigationModal>
         _closestRoutePointIndex = closestRouteIndex;
         needsUpdate = true;
         print(
-          '📍 Route progress updated: $_closestRoutePointIndex/${_routePoints.length} points');
+          '📍 Route progress updated: $_closestRoutePointIndex/${_routePoints.length} points',
+        );
       }
 
       // Calculate bearing (direction) to next route point for map rotation (heading-up mode)
       if (closestRouteIndex < _routePoints.length - 1) {
         double newBearing = _calculateBearing(
           _currentLocation!,
-          _routePoints[closestRouteIndex + 1]);
+          _routePoints[closestRouteIndex + 1],
+        );
 
         // Update bearing if changed (more responsive rotation, 2° threshold)
         if ((_currentBearing - newBearing).abs() > 2) {
@@ -10475,7 +11274,8 @@ class _NavigationModalState extends State<NavigationModal>
           needsUpdate = true;
 
           print(
-            '🧭 Rotating map to bearing: $_currentBearing° (route points up) - TRIGGERING UI REBUILD');
+            '🧭 Rotating map to bearing: $_currentBearing° (route points up) - TRIGGERING UI REBUILD',
+          );
 
           // CRITICAL: Rotate map so route ALWAYS points straight up (heading-up mode)
           // The blue marker stays pointing up, the map rotates around it
@@ -10494,7 +11294,8 @@ class _NavigationModalState extends State<NavigationModal>
           .floor();
       newInstructionIndex = math.min(
         newInstructionIndex,
-        _routeInstructions.length - 1);
+        _routeInstructions.length - 1,
+      );
 
       // Only update instruction if user has made significant progress along route
       if (newInstructionIndex > _currentInstructionIndex) {
@@ -10529,14 +11330,19 @@ class _NavigationModalState extends State<NavigationModal>
       // Center on iOS Apple Maps
       if (Platform.isIOS && _appleMapController != null) {
         print(
-          '📍 Centering Apple Maps on current location: ${_currentLocation!.latitude}, ${_currentLocation!.longitude}');
+          '📍 Centering Apple Maps on current location: ${_currentLocation!.latitude}, ${_currentLocation!.longitude}',
+        );
         _appleMapController!.animateCamera(
           apple.CameraUpdate.newCameraPosition(
             apple.CameraPosition(
               target: apple.LatLng(
                 _currentLocation!.latitude,
-                _currentLocation!.longitude),
-              zoom: 16.0)));
+                _currentLocation!.longitude,
+              ),
+              zoom: 16.0,
+            ),
+          ),
+        );
         HapticFeedback.mediumImpact();
       } else {
         // Center on Android/other platforms with FlutterMap
@@ -10550,7 +11356,8 @@ class _NavigationModalState extends State<NavigationModal>
             for (int i = 0; i < _routePoints.length; i++) {
               double distance = _calculateDistance(
                 _currentLocation!,
-                _routePoints[i]);
+                _routePoints[i],
+              );
               if (distance < minDistance) {
                 minDistance = distance;
                 closestIndex = i;
@@ -10561,14 +11368,16 @@ class _NavigationModalState extends State<NavigationModal>
             if (closestIndex < _routePoints.length - 1) {
               double newBearing = _calculateBearing(
                 _currentLocation!,
-                _routePoints[closestIndex + 1]);
+                _routePoints[closestIndex + 1],
+              );
 
               setState(() {
                 _currentBearing = newBearing;
               });
 
               print(
-                '🧭 My Location clicked - rotating to bearing: $_currentBearing°');
+                '🧭 My Location clicked - rotating to bearing: $_currentBearing°',
+              );
 
               // Wait for rebuild with new rotation, then center the map
               Future.delayed(const Duration(milliseconds: 100), () {
@@ -10589,7 +11398,8 @@ class _NavigationModalState extends State<NavigationModal>
 
         HapticFeedback.mediumImpact();
         print(
-          '📍 Map centered on current location: ${_currentLocation!.latitude}, ${_currentLocation!.longitude}');
+          '📍 Map centered on current location: ${_currentLocation!.latitude}, ${_currentLocation!.longitude}',
+        );
       }
     } catch (e) {
       print('❌ Error centering on location: $e');
@@ -10603,8 +11413,10 @@ class _NavigationModalState extends State<NavigationModal>
       builder: (context, child) {
         return CustomPaint(
           size: const Size(100, 100),
-          painter: CheckmarkPainter(_checkmarkAnimation.value));
-      });
+          painter: CheckmarkPainter(_checkmarkAnimation.value),
+        );
+      },
+    );
   }
 
   // Modern completion celebration widget with confetti effect
@@ -10642,21 +11454,30 @@ class _NavigationModalState extends State<NavigationModal>
                           Colors.blue,
                           Colors.green,
                         ][index % 6],
-                        borderRadius: BorderRadius.circular(20))))));
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                    ),
+                  ),
+                ),
+              );
             }),
-          ]);
-      });
+          ],
+        );
+      },
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     final AppSettings appSettings = Provider.of<AppSettings>(
       context,
-      listen: false);
+      listen: false,
+    );
     final isLight = appSettings.isLightMode(context);
 
     print(
-      '🔍 Building UI - _navigationStarted: $_navigationStarted'); // Debug log
+      '🔍 Building UI - _navigationStarted: $_navigationStarted',
+    ); // Debug log
 
     return Scaffold(
       backgroundColor: isLight
@@ -10669,12 +11490,12 @@ class _NavigationModalState extends State<NavigationModal>
         children: [
           // ── Top Controls Bar ─────────────────────────────────────
           Padding(
-            padding: EdgeInsets.fromLTRB(16, 10, 16, 0),
+            padding: const EdgeInsets.fromLTRB(16, 10, 16, 0),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 _NavCloseButton(onTap: () => _closeNavigation(context)),
-                SizedBox(width: 14),
+                const SizedBox(width: 14),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -10688,10 +11509,12 @@ class _NavigationModalState extends State<NavigationModal>
                           fontWeight: FontWeight.w600,
                           fontFamily: 'Poppins',
                           letterSpacing: -0.3,
-                          height: 1.2),
+                          height: 1.2,
+                        ),
                         maxLines: 1,
-                        overflow: TextOverflow.ellipsis),
-                      SizedBox(height: 1),
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                      const SizedBox(height: 1),
                       Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
@@ -10700,41 +11523,53 @@ class _NavigationModalState extends State<NavigationModal>
                             height: 6,
                             decoration: BoxDecoration(
                               color: _getPhaseAccentColor(),
-                              shape: BoxShape.circle)),
-                          SizedBox(width: 5),
+                              shape: BoxShape.circle,
+                            ),
+                          ),
+                          const SizedBox(width: 5),
                           Text(
                             '#${widget.order['order_id'] ?? widget.order['id'] ?? AppLocalizations.of(context)!.tr('–')}',
                             style: TextStyle(
                               color: (isLight ? Colors.black : Colors.white).withOpacity(0.38),
                               fontSize: 12,
                               fontWeight: FontWeight.w500,
-                              letterSpacing: 0.2)),
-                        ]),
-                    ])),
+                              letterSpacing: 0.2,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
                 if (!_showQRScanner && !_showQRDisplay) ...[
-                  SizedBox(width: 8),
+                  const SizedBox(width: 8),
                   _TopNavButton(
                     icon: _navigationStarted
                         ? CupertinoIcons.location_north_fill
                         : CupertinoIcons.location,
                     onTap: _centerOnMyLocation,
-                    isLight: isLight),
+                    isLight: isLight,
+                  ),
                 ],
                 if (_navigationStarted &&
                     _currentPhase != NavigationPhase.completed) ...[
-                  SizedBox(width: 8),
+                  const SizedBox(width: 8),
                   _TopNavButton(
                     icon: _externalMapApp == 'apple'
                         ? CupertinoIcons.map_fill
                         : CupertinoIcons.map,
                     onTap: _showMapAppSheet,
-                    isLight: isLight),
+                    isLight: isLight,
+                  ),
                 ],
-              ])),
+              ],
+            ),
+          ),
           Divider(
             height: 1,
             thickness: 0.5,
-            color: (isLight ? Colors.black : Colors.white).withOpacity(0.08)),
+            color: (isLight ? Colors.black : Colors.white).withOpacity(0.08),
+          ),
           // ── Map + overlays ────────────────────────────────────────
           Expanded(
             child: Stack(
@@ -10749,7 +11584,8 @@ class _NavigationModalState extends State<NavigationModal>
                         _appleMapController = controller;
                         print('🍎 Apple Maps created in Navigation Modal');
                         print(
-                          '🍎 Initial position: ${(_currentLocation ?? _pickupLocation).latitude}, ${(_currentLocation ?? _pickupLocation).longitude}');
+                          '🍎 Initial position: ${(_currentLocation ?? _pickupLocation).latitude}, ${(_currentLocation ?? _pickupLocation).longitude}',
+                        );
 
                         // Move camera to show route after map is created
                         WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -10765,8 +11601,12 @@ class _NavigationModalState extends State<NavigationModal>
                                 apple.CameraPosition(
                                   target: apple.LatLng(
                                     center.latitude,
-                                    center.longitude),
-                                  zoom: 14.0)));
+                                    center.longitude,
+                                  ),
+                                  zoom: 14.0,
+                                ),
+                              ),
+                            );
                           }
                         });
                       },
@@ -10777,8 +11617,10 @@ class _NavigationModalState extends State<NavigationModal>
                               : 50.8503, // Fallback to Frankfurt
                           _pickupLocation.longitude != 0.0
                               ? _pickupLocation.longitude
-                              : 4.3517),
-                        zoom: 14.0),
+                              : 4.3517,
+                        ),
+                        zoom: 14.0,
+                      ),
                       mapType: apple.MapType.standard,
                       myLocationEnabled: true,
                       myLocationButtonEnabled: false,
@@ -10792,15 +11634,19 @@ class _NavigationModalState extends State<NavigationModal>
                       annotations: _buildAppleMapsAnnotations(isLight),
                       onTap: (apple.LatLng position) {
                         print(
-                          '🍎 Navigation Map tapped at: ${position.latitude}, ${position.longitude}');
+                          '🍎 Navigation Map tapped at: ${position.latitude}, ${position.longitude}',
+                        );
                       },
                       onCameraMove: (apple.CameraPosition position) {
                         print(
-                          '🍎 Navigation Camera: zoom=${position.zoom}, lat=${position.target.latitude}');
-                      })
+                          '🍎 Navigation Camera: zoom=${position.zoom}, lat=${position.target.latitude}',
+                        );
+                      },
+                    )
                   : FlutterMap(
                       key: ValueKey(
-                        'flutter_map_rotation_${_currentBearing.toStringAsFixed(0)}'),
+                        'flutter_map_rotation_${_currentBearing.toStringAsFixed(0)}',
+                      ),
                       mapController: _mapController,
                       options: MapOptions(
                         initialCenter: _currentLocation ?? _pickupLocation,
@@ -10817,16 +11663,19 @@ class _NavigationModalState extends State<NavigationModal>
                               ? (InteractiveFlag.drag |
                                     InteractiveFlag.pinchZoom |
                                     InteractiveFlag.rotate)
-                              : InteractiveFlag.all),
+                              : InteractiveFlag.all,
+                        ),
                         onMapEvent: (event) {
                           // Log map events for debugging network issues
                           if (event is MapEventMoveEnd ||
                               event is MapEventFlingAnimationEnd) {}
-                        }),
+                        },
+                      ),
                       children: [
                         TileLayer(
                           key: ValueKey(
-                            'navigation_map_${isLight ? 'light' : 'dark'}'),
+                            'navigation_map_${isLight ? 'light' : 'dark'}',
+                          ),
                           // CartoDB Voyager - Same as delvioo_maps_page
                           urlTemplate: isLight
                               ? MapTileConfig.lightUrl
@@ -10841,7 +11690,8 @@ class _NavigationModalState extends State<NavigationModal>
                           additionalOptions: const {
                             'attribution':
                                 '© CartoDB © OpenStreetMap contributors',
-                          }),
+                          },
+                        ),
                         PolylineLayer(polylines: _buildTrafficAwarePolylines()),
                         MarkerLayer(
                           markers: [
@@ -10859,14 +11709,19 @@ class _NavigationModalState extends State<NavigationModal>
                                           boxShadow: [
                                             BoxShadow(
                                               color: const Color(
-                                                0xFF007AFF).withOpacity(0.5),
+                                                0xFF007AFF,
+                                              ).withOpacity(0.5),
                                               blurRadius: 12,
-                                              spreadRadius: 3),
-                                          ]),
+                                              spreadRadius: 3,
+                                            ),
+                                          ],
+                                        ),
                                         child: Icon(
                                           CupertinoIcons.location_north_fill,
                                           color: Colors.white,
-                                          size: 24))
+                                          size: 24,
+                                        ),
+                                      )
                                     : AnimatedBuilder(
                                         animation: _pulseAnimation,
                                         builder: (context, child) =>
@@ -10880,15 +11735,23 @@ class _NavigationModalState extends State<NavigationModal>
                                                     colors: [
                                                       const Color(0xFF007AFF),
                                                       const Color(0xFF0051D5),
-                                                    ]),
+                                                    ],
+                                                  ),
                                                   shape: BoxShape.circle,
                                                   boxShadow: [
                                                     BoxShadow(
                                                       color: const Color(
-                                                        0xFF007AFF).withOpacity(0.4),
+                                                        0xFF007AFF,
+                                                      ).withOpacity(0.4),
                                                       blurRadius: 8,
-                                                      spreadRadius: 2),
-                                                  ]))))),
+                                                      spreadRadius: 2,
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            ),
+                                      ),
+                              ),
 
                             // Multi-Order Mode: Show ALL pickup and delivery locations with numbers
                             if (_isMultiOrderMode) ...[
@@ -10928,8 +11791,10 @@ class _NavigationModalState extends State<NavigationModal>
                                             painter: _NavSolidTrianglePainter(
                                               color: firstIndex <= _currentPickupIndex
                                                   ? Colors.green
-                                                  : const Color(0xFFFFC107)),
-                                            size: Size(sz, sz)),
+                                                  : const Color(0xFFFFC107),
+                                            ),
+                                            size: Size(sz, sz),
+                                          ),
                                           if (count > 1)
                                             Positioned(
                                               top: 2,
@@ -10939,15 +11804,24 @@ class _NavigationModalState extends State<NavigationModal>
                                                 height: 16,
                                                 decoration: BoxDecoration(
                                                   color: Colors.black.withOpacity(0.75),
-                                                  shape: BoxShape.circle),
+                                                  shape: BoxShape.circle,
+                                                ),
                                                 child: Center(
                                                   child: Text(
                                                     '$count',
-                                                    style: TextStyle(
+                                                    style: const TextStyle(
                                                       color: Colors.white,
                                                       fontSize: 10,
-                                                      fontWeight: FontWeight.w700))))),
-                                        ])));
+                                                      fontWeight: FontWeight.w700,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                        ],
+                                      ),
+                                    ),
+                                  );
                                 }
                                 return markers;
                               }(),
@@ -10998,16 +11872,24 @@ class _NavigationModalState extends State<NavigationModal>
                                                   color: deliveryColor.withOpacity(0.5),
                                                   blurRadius: 8,
                                                   spreadRadius: 1,
-                                                  offset: const Offset(0, 2)),
-                                              ])),
+                                                  offset: const Offset(0, 2),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
                                           if (count > 1)
                                             Text(
                                               '$count',
-                                              style: TextStyle(
+                                              style: const TextStyle(
                                                 color: Colors.white,
                                                 fontSize: 13,
-                                                fontWeight: FontWeight.w700)),
-                                        ])));
+                                                fontWeight: FontWeight.w700,
+                                              ),
+                                            ),
+                                        ],
+                                      ),
+                                    ),
+                                  );
                                 }
                                 return markers;
                               }(),
@@ -11022,8 +11904,11 @@ class _NavigationModalState extends State<NavigationModal>
                                 height: 26,
                                 child: CustomPaint(
                                   painter: _NavSolidTrianglePainter(
-                                    color: const Color(0xFFFFC107)),
-                                  size: const Size(26, 26))),
+                                    color: const Color(0xFFFFC107),
+                                  ),
+                                  size: const Size(26, 26),
+                                ),
+                              ),
                               // Delivery Location - green rectangle (like maps page)
                               Marker(
                                 point: _deliveryLocation,
@@ -11036,14 +11921,23 @@ class _NavigationModalState extends State<NavigationModal>
                                     boxShadow: [
                                       BoxShadow(
                                         color: const Color(
-                                          0xFF4CAF50).withOpacity(0.5),
+                                          0xFF4CAF50,
+                                        ).withOpacity(0.5),
                                         blurRadius: 8,
                                         spreadRadius: 1,
-                                        offset: const Offset(0, 2)),
-                                    ]))),
+                                        offset: const Offset(0, 2),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
                             ],
-                          ]),
-                      ]))),
+                          ],
+                        ),
+                      ],
+                    ),
+            ),
+          ),
 
           // Bottom Instructions
           Positioned(
@@ -11051,20 +11945,23 @@ class _NavigationModalState extends State<NavigationModal>
             left: 0,
             right: 0,
             child: Container(
-                padding: EdgeInsets.fromLTRB(16, 14, 16, 0),
+                padding: const EdgeInsets.fromLTRB(16, 14, 16, 0),
                 decoration: BoxDecoration(
                   color: isLight
                       ? Colors.white
                       : const Color(0xFF1C1C1E),
-                  borderRadius: BorderRadius.only(
+                  borderRadius: const BorderRadius.only(
                     topLeft: Radius.circular(24),
-                    topRight: Radius.circular(24)),
+                    topRight: Radius.circular(24),
+                  ),
                   boxShadow: [
                     BoxShadow(
                       color: Colors.black.withOpacity(isLight ? 0.06 : 0.2),
                       blurRadius: 20,
-                      offset: const Offset(0, -4)),
-                  ]),
+                      offset: const Offset(0, -4),
+                    ),
+                  ],
+                ),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -11104,7 +12001,7 @@ class _NavigationModalState extends State<NavigationModal>
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             TradeRepublicCard.elevated(
-                              padding: EdgeInsets.all(14),
+                              padding: const EdgeInsets.all(14),
                               borderRadius: BorderRadius.circular(18),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -11116,15 +12013,19 @@ class _NavigationModalState extends State<NavigationModal>
                                         height: 46,
                                         decoration: BoxDecoration(
                                           color: _getPhaseAccentColor().withValues(alpha: 0.16),
-                                          borderRadius: BorderRadius.circular(14)),
+                                          borderRadius: BorderRadius.circular(14),
+                                        ),
                                         child: _isLoadingRoute
                                             ? Center(
-                                                child: CultiooLoadingIndicator(size: 22))
+                                                child: CultiooLoadingIndicator(size: 22),
+                                              )
                                             : Icon(
                                                 _getNavigationIcon(),
                                                 size: 24,
-                                                color: _getPhaseAccentColor())),
-                                      SizedBox(width: 12),
+                                                color: _getPhaseAccentColor(),
+                                              ),
+                                      ),
+                                      const SizedBox(width: 12),
                                       Expanded(
                                         child: Column(
                                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -11136,8 +12037,10 @@ class _NavigationModalState extends State<NavigationModal>
                                                 fontWeight: FontWeight.w700,
                                                 letterSpacing: 0.7,
                                                 color: (isLight ? Colors.black : Colors.white)
-                                                    .withValues(alpha: 0.55))),
-                                            SizedBox(height: 2),
+                                                    .withValues(alpha: 0.55),
+                                              ),
+                                            ),
+                                            const SizedBox(height: 2),
                                             Text(
                                               nextActionTitle,
                                               style: TextStyle(
@@ -11145,10 +12048,14 @@ class _NavigationModalState extends State<NavigationModal>
                                                 fontWeight: FontWeight.w800,
                                                 height: 1.15,
                                                 color: isLight ? Colors.black : Colors.white,
-                                                letterSpacing: -0.5),
+                                                letterSpacing: -0.5,
+                                              ),
                                               maxLines: 2,
-                                              overflow: TextOverflow.ellipsis),
-                                          ])),
+                                              overflow: TextOverflow.ellipsis,
+                                            ),
+                                          ],
+                                        ),
+                                      ),
                                       if (distPart.isNotEmpty)
                                         Text(
                                           distPart,
@@ -11156,30 +12063,39 @@ class _NavigationModalState extends State<NavigationModal>
                                             fontSize: 24,
                                             fontWeight: FontWeight.w900,
                                             color: _getPhaseAccentColor(),
-                                            letterSpacing: -0.8)),
-                                    ]),
-                                  SizedBox(height: 10),
+                                            letterSpacing: -0.8,
+                                          ),
+                                        ),
+                                    ],
+                                  ),
+                                  const SizedBox(height: 10),
                                   Text(
                                     nextActionHint,
                                     style: TextStyle(
                                       fontSize: 13,
                                       fontWeight: FontWeight.w600,
                                       color: (isLight ? Colors.black : Colors.white)
-                                          .withValues(alpha: 0.62))),
+                                          .withValues(alpha: 0.62),
+                                    ),
+                                  ),
                                   if (textPart.isNotEmpty) ...[
-                                    SizedBox(height: 6),
+                                    const SizedBox(height: 6),
                                     Text(
                                       textPart,
                                       style: TextStyle(
                                         fontSize: 14,
                                         fontWeight: FontWeight.w600,
                                         color: (isLight ? Colors.black : Colors.white)
-                                            .withValues(alpha: 0.78)),
+                                            .withValues(alpha: 0.78),
+                                      ),
                                       maxLines: 2,
-                                      overflow: TextOverflow.ellipsis),
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
                                   ],
-                                ])),
-                            SizedBox(height: 10),
+                                ],
+                              ),
+                            ),
+                            const SizedBox(height: 10),
                             Wrap(
                               spacing: 8,
                               runSpacing: 8,
@@ -11188,24 +12104,30 @@ class _NavigationModalState extends State<NavigationModal>
                                   _MetricPill(
                                     label: _totalDistance,
                                     color: _getPhaseAccentColor(),
-                                    isLight: isLight),
+                                    isLight: isLight,
+                                  ),
                                 if (_estimatedArrival.isNotEmpty && _estimatedArrival != 'Loading...')
                                   _MetricPill(
                                     label: _estimatedArrival,
                                     color: isLight ? Colors.black : Colors.white,
                                     isLight: isLight,
-                                    dimmed: true),
+                                    dimmed: true,
+                                  ),
                                 if (_waitingStartTime != null)
                                   _MetricPill(
                                     icon: CupertinoIcons.timer,
                                     label: _formatWaitingTime(_waitingElapsedSeconds),
                                     color: const Color(0xFFFFB300),
-                                    isLight: isLight),
-                              ]),
-                          ]);
-                      }),
+                                    isLight: isLight,
+                                  ),
+                              ],
+                            ),
+                          ],
+                        );
+                      },
+                    ),
 
-                    SizedBox(height: 10),
+                    const SizedBox(height: 10),
 
                         // Security Code Display with Beautiful Animations
                         if (_showSecurityCode)
@@ -11218,12 +12140,13 @@ class _NavigationModalState extends State<NavigationModal>
                                   scale: _securityCodeScaleAnimation,
                                   child: Container(
                                     width: double.infinity,
-                                    padding: EdgeInsets.symmetric(horizontal: 20, vertical: 18),
+                                    padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 18),
                                     decoration: BoxDecoration(
                                       color: isLight
                                           ? Colors.white
                                           : Colors.transparent,
-                                      borderRadius: BorderRadius.circular(20)),
+                                      borderRadius: BorderRadius.circular(20),
+                                    ),
                                     child: Column(
                                       children: [
                                         // Hero security code
@@ -11235,41 +12158,53 @@ class _NavigationModalState extends State<NavigationModal>
                                             fontWeight: FontWeight.w900,
                                             letterSpacing: 8,
                                             fontFamily: 'Poppins',
-                                            fontFeatures: const [FontFeature.tabularFigures()]),
-                                          textAlign: TextAlign.center),
-                                        SizedBox(height: 4),
+                                            fontFeatures: const [FontFeature.tabularFigures()],
+                                          ),
+                                          textAlign: TextAlign.center,
+                                        ),
+                                        const SizedBox(height: 4),
                                         // Countdown only while pending
                                         if (_securityCodeCountdown > 0)
                                           Row(
                                             mainAxisAlignment: MainAxisAlignment.center,
                                             children: [
                                               CultiooLoadingIndicator(size: 14),
-                                              SizedBox(width: 6),
+                                              const SizedBox(width: 6),
                                               Text(
                                                 '${AppLocalizations.of(context)?.scannerOpensIn ?? AppLocalizations.of(context)!.tr('Opens in')} $_securityCodeCountdown',
                                                 style: TextStyle(
                                                   fontSize: 13,
                                                   fontWeight: FontWeight.w500,
-                                                  color: (isLight ? Colors.black : Colors.white).withOpacity(0.45))),
-                                            ]),
-                                        SizedBox(height: 14),
+                                                  color: (isLight ? Colors.black : Colors.white).withOpacity(0.45),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        const SizedBox(height: 14),
                                         // QR Scanner Button
                                         TradeRepublicButton(
                                           label: AppLocalizations.of(context)?.openQrScanner ?? AppLocalizations.of(context)!.tr('Open QR Scanner'),
-                                          icon: Icon(CupertinoIcons.qrcode_viewfinder, size: 22),
-                                          onPressed: _showQRCodeScanner),
-                                      ]))));
-                            }),
+                                          icon: const Icon(CupertinoIcons.qrcode_viewfinder, size: 22),
+                                          onPressed: _showQRCodeScanner,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              );
+                            },
+                          ),
 
                         // QR Code Display for Delivery (Customer scans from driver's phone) - Apple Style Minimalistic
                         if (_showQRDisplay)
                           Container(
                             width: double.infinity,
-                            margin: EdgeInsets.symmetric(
+                            margin: const EdgeInsets.symmetric(
                               horizontal: 16,
-                              vertical: 16),
+                              vertical: 16,
+                            ),
                             child: Container(
-                              padding: EdgeInsets.all(16),
+                              padding: const EdgeInsets.all(16),
                               decoration: BoxDecoration(
                                 color: isLight
                                     ? Colors.white
@@ -11279,8 +12214,10 @@ class _NavigationModalState extends State<NavigationModal>
                                   BoxShadow(
                                     color: Colors.black.withOpacity(0.1),
                                     blurRadius: 20,
-                                    offset: const Offset(0, 10)),
-                                ]),
+                                    offset: const Offset(0, 10),
+                                  ),
+                                ],
+                              ),
                               child: Column(
                                 children: [
                                   // Header
@@ -11291,9 +12228,11 @@ class _NavigationModalState extends State<NavigationModal>
                                       color: isLight
                                           ? const Color(0xFFF2F2F7)
                                           : const Color(0xFF2C2C2E),
-                                      borderRadius: BorderRadius.only(
+                                      borderRadius: const BorderRadius.only(
                                         topLeft: Radius.circular(20),
-                                        topRight: Radius.circular(20))),
+                                        topRight: Radius.circular(20),
+                                      ),
+                                    ),
                                     child: Column(
                                       children: [
                                         Text(
@@ -11304,8 +12243,10 @@ class _NavigationModalState extends State<NavigationModal>
                                                 : Colors.white,
                                             fontSize: 20,
                                             fontWeight: FontWeight.w600,
-                                            letterSpacing: -0.4)),
-                                        SizedBox(height: 8),
+                                            letterSpacing: -0.4,
+                                          ),
+                                        ),
+                                        const SizedBox(height: 8),
                                         Text(
                                           AppLocalizations.of(context)?.showThisToCustomer ?? AppLocalizations.of(context)!.tr('Show this to the customer'),
                                           style: TextStyle(
@@ -11313,12 +12254,16 @@ class _NavigationModalState extends State<NavigationModal>
                                                 ? Colors.black54
                                                 : Colors.white70,
                                             fontSize: 15,
-                                            fontWeight: FontWeight.w400)),
-                                      ])),
+                                            fontWeight: FontWeight.w400,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
 
                                   // QR Code
                                   Container(
-                                    padding: EdgeInsets.all(32),
+                                    padding: const EdgeInsets.all(32),
                                     child:
                                         _securityCode.isNotEmpty &&
                                             _securityCode != "Loading..."
@@ -11334,9 +12279,11 @@ class _NavigationModalState extends State<NavigationModal>
                                                   color: Colors.black
                                                       .withOpacity(0.05),
                                                   blurRadius: 10,
-                                                  offset: const Offset(0, 4)),
-                                              ]),
-                                            padding: EdgeInsets.all(16),
+                                                  offset: const Offset(0, 4),
+                                                ),
+                                              ],
+                                            ),
+                                            padding: const EdgeInsets.all(16),
                                             child: QrImageView(
                                               data: _generateQRCodeData(),
                                               version: QrVersions.auto,
@@ -11347,10 +12294,14 @@ class _NavigationModalState extends State<NavigationModal>
                                                     dataModuleShape:
                                                         QrDataModuleShape
                                                             .square,
-                                                    color: Colors.black),
+                                                    color: Colors.black,
+                                                  ),
                                               eyeStyle: const QrEyeStyle(
                                                 eyeShape: QrEyeShape.square,
-                                                color: Colors.black)))
+                                                color: Colors.black,
+                                              ),
+                                            ),
+                                          )
                                         : Container(
                                             width: 220,
                                             height: 220,
@@ -11359,7 +12310,8 @@ class _NavigationModalState extends State<NavigationModal>
                                                   ? const Color(0xFFF2F2F7)
                                                   : const Color(0xFF2C2C2E),
                                               borderRadius:
-                                                  BorderRadius.circular(20)),
+                                                  BorderRadius.circular(20),
+                                            ),
                                             child: Column(
                                               mainAxisAlignment:
                                                   MainAxisAlignment.center,
@@ -11368,8 +12320,9 @@ class _NavigationModalState extends State<NavigationModal>
                                                   width: 24,
                                                   height: 24,
                                                   child:
-                                                      CultiooLoadingIndicator(size: 20)),
-                                                SizedBox(height: 16),
+                                                      CultiooLoadingIndicator(size: 20),
+                                                ),
+                                                const SizedBox(height: 16),
                                                 Text(
                                                   AppLocalizations.of(context)?.loading ?? AppLocalizations.of(context)!.tr('Loading...'),
                                                   style: TextStyle(
@@ -11377,26 +12330,35 @@ class _NavigationModalState extends State<NavigationModal>
                                                         ? Colors.black54
                                                         : Colors.white70,
                                                     fontSize: 15,
-                                                    fontWeight: FontWeight.w500)),
-                                              ]))),
+                                                    fontWeight: FontWeight.w500,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                  ),
 
                                   // Security Code Display
                                   if (_securityCode.isNotEmpty &&
                                       _securityCode != "Loading...")
                                     Container(
-                                      padding: EdgeInsets.symmetric(
+                                      padding: const EdgeInsets.symmetric(
                                         horizontal: 32,
-                                        vertical: 16),
+                                        vertical: 16,
+                                      ),
                                       child: Container(
-                                        padding: EdgeInsets.symmetric(
+                                        padding: const EdgeInsets.symmetric(
                                           horizontal: 16,
-                                          vertical: 12),
+                                          vertical: 12,
+                                        ),
                                         decoration: BoxDecoration(
                                           color: isLight
                                               ? const Color(0xFFF2F2F7)
                                               : const Color(0xFF2C2C2E),
                                           borderRadius: BorderRadius.circular(
-                                            25)),
+                                            25,
+                                          ),
+                                        ),
                                         child: Row(
                                           mainAxisAlignment:
                                               MainAxisAlignment.center,
@@ -11408,7 +12370,9 @@ class _NavigationModalState extends State<NavigationModal>
                                                     ? Colors.black54
                                                     : Colors.white70,
                                                 fontSize: 15,
-                                                fontWeight: FontWeight.w500)),
+                                                fontWeight: FontWeight.w500,
+                                              ),
+                                            ),
                                             Flexible(
                                               child: Text(
                                                 _securityCode,
@@ -11418,9 +12382,15 @@ class _NavigationModalState extends State<NavigationModal>
                                                       : Colors.white,
                                                   fontSize: 16,
                                                   fontWeight: FontWeight.w600,
-                                                  letterSpacing: 1.0),
-                                                overflow: TextOverflow.ellipsis)),
-                                          ]))),
+                                                  letterSpacing: 1.0,
+                                                ),
+                                                overflow: TextOverflow.ellipsis,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
 
                                   // Action Buttons
                                   Container(
@@ -11429,12 +12399,17 @@ class _NavigationModalState extends State<NavigationModal>
                                         // Complete Delivery Button
                                         SizedBox(width: double.infinity),
 
-                                        SizedBox(height: 12),
+                                        const SizedBox(height: 12),
 
                                         // Cancel Button
                                         SizedBox(width: double.infinity),
-                                      ])),
-                                ]))),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
 
                         // Arrived Button – modern full-width card
                         // Shows "Resume scan" once arrival was already confirmed
@@ -11449,7 +12424,8 @@ class _NavigationModalState extends State<NavigationModal>
                                 _waitingStartTime != null
                                     ? CupertinoIcons.qrcode_viewfinder
                                     : CupertinoIcons.location_fill,
-                                size: 22),
+                                size: 22,
+                              ),
                               backgroundColor: _waitingStartTime != null
                                   ? const Color(0xFF007AFF)
                                   : const Color(0xFF22C55E),
@@ -11463,7 +12439,8 @@ class _NavigationModalState extends State<NavigationModal>
                                 } else {
                                   _markAsArrived();
                                 }
-                              }),
+                              },
+                            ),
 
                         // Resume checkout/unloading flow if 2nd QR is still pending
                         // and the scan bottom sheet was closed by mistake.
@@ -11475,9 +12452,10 @@ class _NavigationModalState extends State<NavigationModal>
                             !_isDeliverySheetOpen)
                           TradeRepublicButton(
                             label: AppLocalizations.of(context)?.resumeScan ?? AppLocalizations.of(context)!.tr('Resume Scan'),
-                            icon: Icon(CupertinoIcons.square_arrow_up_on_square),
+                            icon: const Icon(CupertinoIcons.square_arrow_up_on_square),
                             width: double.infinity,
-                            onPressed: _reopenActiveScanBottomSheet),
+                            onPressed: _reopenActiveScanBottomSheet,
+                          ),
 
                         // Delivery sheet quick access (instead of manual delivered action)
                         if ((_currentPhase == NavigationPhase.toDelivery ||
@@ -11491,9 +12469,10 @@ class _NavigationModalState extends State<NavigationModal>
                             !_isDeliverySheetOpen)
                           TradeRepublicButton(
                             label: AppLocalizations.of(context)!.tr('Open delivery sheet') ?? AppLocalizations.of(context)!.tr('Open delivery sheet'),
-                            icon: Icon(CupertinoIcons.rectangle_stack_badge_person_crop),
+                            icon: const Icon(CupertinoIcons.rectangle_stack_badge_person_crop),
                             onPressed: _showDeliveryBottomSheet,
-                            isSecondary: true),
+                            isSecondary: true,
+                          ),
 
                         // Go Button - nur wenn Navigation nicht gestartet und nicht abgeschlossen
                         if (!_navigationStarted &&
@@ -11504,8 +12483,9 @@ class _NavigationModalState extends State<NavigationModal>
                             _currentPhase != NavigationPhase.completed)
                           TradeRepublicButton(
                             label: AppLocalizations.of(context)?.goExclamation ?? AppLocalizations.of(context)!.tr('Go!'),
-                            icon: Icon(CupertinoIcons.location_north_fill, size: 22, color: Colors.white),
-                            onPressed: _startNavigation),
+                            icon: const Icon(CupertinoIcons.location_north_fill, size: 22, color: Colors.white),
+                            onPressed: _startNavigation,
+                          ),
 
                         // Navigating Button - darker, non-interactive when navigation has started
                         if (_navigationStarted &&
@@ -11519,9 +12499,11 @@ class _NavigationModalState extends State<NavigationModal>
                             icon: Icon(
                               CupertinoIcons.location_north_fill,
                               size: 20,
-                              color: isLight ? Colors.black.withOpacity(0.45) : Colors.white.withOpacity(0.45)),
+                              color: isLight ? Colors.black.withOpacity(0.45) : Colors.white.withOpacity(0.45),
+                            ),
                             onPressed: null,
-                            isSecondary: true),
+                            isSecondary: true,
+                          ),
 
                         // Modern Animated Completion Message
                         if (_currentPhase == NavigationPhase.completed)
@@ -11534,8 +12516,9 @@ class _NavigationModalState extends State<NavigationModal>
                                   opacity: _completionFadeAnimation.value,
                                   child: Container(
                                     width: double.infinity,
-                                    margin: EdgeInsets.symmetric(
-                                      horizontal: 8),
+                                    margin: const EdgeInsets.symmetric(
+                                      horizontal: 8,
+                                    ),
                                     child: Stack(
                                       alignment: Alignment.center,
                                       children: [
@@ -11545,23 +12528,28 @@ class _NavigationModalState extends State<NavigationModal>
                                         // Main completion card
                                         ClipRRect(
                                           borderRadius: BorderRadius.circular(
-                                            25),
+                                            25,
+                                          ),
                                           child: BackdropFilter(
                                             filter: ImageFilter.blur(
                                               sigmaX: 20,
-                                              sigmaY: 20),
+                                              sigmaY: 20,
+                                            ),
                                             child: Container(
-                                              padding: EdgeInsets.all(48),
+                                              padding: const EdgeInsets.all(48),
                                               decoration: BoxDecoration(
                                                 gradient: LinearGradient(
                                                   begin: Alignment.topLeft,
                                                   end: Alignment.bottomRight,
                                                   colors: [
                                                     Colors.green.withOpacity(
-                                                      0.3),
+                                                      0.3,
+                                                    ),
                                                     Colors.blue.withOpacity(
-                                                      0.2),
-                                                  ]),
+                                                      0.2,
+                                                    ),
+                                                  ],
+                                                ),
                                                 borderRadius:
                                                     BorderRadius.circular(28),
                                                 boxShadow: [
@@ -11569,15 +12557,17 @@ class _NavigationModalState extends State<NavigationModal>
                                                     color: Colors.green
                                                         .withOpacity(0.3),
                                                     blurRadius: 24,
-                                                    spreadRadius: 8),
-                                                ]),
+                                                    spreadRadius: 8,
+                                                  ),
+                                                ],
+                                              ),
                                               child: Column(
                                                 mainAxisSize: MainAxisSize.min,
                                                 children: [
                                                   // Animated checkmark
                                                   _buildAnimatedCheckmark(),
 
-                                                  SizedBox(height: 32),
+                                                  const SizedBox(height: 32),
 
                                                   // Success text
                                                   Text(
@@ -11597,10 +12587,14 @@ class _NavigationModalState extends State<NavigationModal>
                                                           blurRadius: 10,
                                                           offset: const Offset(
                                                             0,
-                                                            3)),
-                                                      ])),
+                                                            3,
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
 
-                                                  SizedBox(height: 18),
+                                                  const SizedBox(height: 18),
 
                                                   // Subtitle
                                                   Text(
@@ -11612,11 +12606,25 @@ class _NavigationModalState extends State<NavigationModal>
                                                       fontWeight:
                                                           FontWeight.w500,
                                                       letterSpacing: -0.3,
-                                                      fontFamily: 'Poppins')),
-                                                ])))),
-                                      ]))));
-                            }),
-                      ]))),
+                                                      fontFamily: 'Poppins',
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              );
+                            },
+                          ),
+                      ],
+                    ),
+                  ),
+            ),
 
           // Multi-Order Progress Indicator - positioned at the very top
           if (_isMultiOrderMode)
@@ -11624,7 +12632,8 @@ class _NavigationModalState extends State<NavigationModal>
               top: 10,
               left: 0,
               right: 0,
-              child: _buildMultiOrderProgressIndicator()),
+              child: _buildMultiOrderProgressIndicator(),
+            ),
 
           // Last Mile AI Order Suggestion - Center of screen
           if (_showLastMileOrder && _suggestedOrder != null)
@@ -11632,9 +12641,15 @@ class _NavigationModalState extends State<NavigationModal>
               top: MediaQuery.of(context).size.height * 0.35,
               left: 20,
               right: 20,
-              child: _buildLastMileOrderCard(isLight)),
-              ])),
-        ])));
+              child: _buildLastMileOrderCard(isLight),
+            ),
+              ],
+            ),
+          ),
+        ],
+      ),
+      ),
+    );
   }
 
   // Build Last Mile order suggestion card
@@ -11705,15 +12720,18 @@ class _NavigationModalState extends State<NavigationModal>
                       Colors.transparent.withOpacity(0.85),
                     ],
               begin: Alignment.topLeft,
-              end: Alignment.bottomRight),
+              end: Alignment.bottomRight,
+            ),
             borderRadius: BorderRadius.circular(20),
             boxShadow: [
               BoxShadow(
                 color: Colors.black.withOpacity(0.2),
                 blurRadius: 24,
                 offset: const Offset(0, 8),
-                spreadRadius: 0),
-            ]),
+                spreadRadius: 0,
+              ),
+            ],
+          ),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -11721,18 +12739,22 @@ class _NavigationModalState extends State<NavigationModal>
               Row(
                 children: [
                   Container(
-                    padding: EdgeInsets.all(12),
+                    padding: const EdgeInsets.all(12),
                     decoration: BoxDecoration(
                       gradient: const LinearGradient(
                         colors: [Color(0xFF007AFF), Color(0xFF5856D6)],
                         begin: Alignment.topLeft,
-                        end: Alignment.bottomRight),
-                      borderRadius: BorderRadius.circular(20)),
-                    child: Icon(
+                        end: Alignment.bottomRight,
+                      ),
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    child: const Icon(
                       CupertinoIcons.sparkles,
                       color: Colors.white,
-                      size: 24)),
-                  SizedBox(width: 16),
+                      size: 24,
+                    ),
+                  ),
+                  const SizedBox(width: 16),
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -11742,33 +12764,44 @@ class _NavigationModalState extends State<NavigationModal>
                           style: TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.w700,
-                            color: isLight ? Colors.black : Colors.white)),
-                        SizedBox(height: 2),
+                            color: isLight ? Colors.black : Colors.white,
+                          ),
+                        ),
+                        const SizedBox(height: 2),
                         Text(
                           '${AppLocalizations.of(context)?.orderNumber ?? AppLocalizations.of(context)!.tr('Order #')}$orderId',
                           style: TextStyle(
                             fontSize: 13,
                             color: (isLight ? Colors.black : Colors.white)
-                                .withOpacity(0.6))),
-                      ])),
+                                .withOpacity(0.6),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
                   // Order value badge
                   Container(
-                    padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                     decoration: BoxDecoration(
                       color: const Color(0xFF34C759).withOpacity(0.15),
-                      borderRadius: BorderRadius.circular(20)),
+                      borderRadius: BorderRadius.circular(20),
+                    ),
                     child: Text(
                       appSettings.formatCurrency(orderValue),
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 15,
                         fontWeight: FontWeight.w700,
-                        color: Color(0xFF34C759)))),
-                ]),
-              SizedBox(height: 16),
+                        color: Color(0xFF34C759),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 16),
 
               // Maps-style route card with from → to addresses
               TradeRepublicCard(
-                padding: EdgeInsets.all(16),
+                padding: const EdgeInsets.all(16),
                 child: Column(
                   children: [
                     // Pickup row (from)
@@ -11787,18 +12820,24 @@ class _NavigationModalState extends State<NavigationModal>
                                 boxShadow: [
                                   BoxShadow(
                                     color: const Color(0xFF34C759).withOpacity(0.3),
-                                    blurRadius: 4),
-                                ])),
+                                    blurRadius: 4,
+                                  ),
+                                ],
+                              ),
+                            ),
                             // Dotted line connector
                             Container(
                               width: 2,
                               height: 30,
-                              margin: EdgeInsets.symmetric(vertical: 4),
+                              margin: const EdgeInsets.symmetric(vertical: 4),
                               decoration: BoxDecoration(
                                 color: (isLight ? Colors.black : Colors.white).withOpacity(0.15),
-                                borderRadius: BorderRadius.circular(1))),
-                          ]),
-                        SizedBox(width: 12),
+                                borderRadius: BorderRadius.circular(1),
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(width: 12),
                         // Pickup address info
                         Expanded(
                           child: Column(
@@ -11810,8 +12849,10 @@ class _NavigationModalState extends State<NavigationModal>
                                   fontSize: 11,
                                   fontWeight: FontWeight.w600,
                                   color: const Color(0xFF34C759),
-                                  letterSpacing: 0.5)),
-                              SizedBox(height: 2),
+                                  letterSpacing: 0.5,
+                                ),
+                              ),
+                              const SizedBox(height: 2),
                               Text(
                                 pickupAddressText.isNotEmpty 
                                     ? pickupAddressText 
@@ -11819,23 +12860,32 @@ class _NavigationModalState extends State<NavigationModal>
                                 style: TextStyle(
                                   fontSize: 14,
                                   fontWeight: FontWeight.w600,
-                                  color: isLight ? Colors.black : Colors.white),
+                                  color: isLight ? Colors.black : Colors.white,
+                                ),
                                 maxLines: 1,
-                                overflow: TextOverflow.ellipsis),
-                            ])),
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ],
+                          ),
+                        ),
                         // Distance to pickup
                         Container(
-                          padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                           decoration: BoxDecoration(
                             color: (isLight ? Colors.black : Colors.white).withOpacity(0.08),
-                            borderRadius: BorderRadius.circular(8)),
+                            borderRadius: BorderRadius.circular(8),
+                          ),
                           child: Text(
                             appSettings.formatDistance(distanceToPickup / 1000),
                             style: TextStyle(
                               fontSize: 12,
                               fontWeight: FontWeight.w600,
-                              color: (isLight ? Colors.black : Colors.white).withOpacity(0.7)))),
-                      ]),
+                              color: (isLight ? Colors.black : Colors.white).withOpacity(0.7),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
 
                     // Delivery row (to)
                     Row(
@@ -11851,9 +12901,12 @@ class _NavigationModalState extends State<NavigationModal>
                             boxShadow: [
                               BoxShadow(
                                 color: const Color(0xFFFF3B30).withOpacity(0.3),
-                                blurRadius: 4),
-                            ])),
-                        SizedBox(width: 12),
+                                blurRadius: 4,
+                              ),
+                            ],
+                          ),
+                        ),
+                        const SizedBox(width: 12),
                         // Delivery address info
                         Expanded(
                           child: Column(
@@ -11865,8 +12918,10 @@ class _NavigationModalState extends State<NavigationModal>
                                   fontSize: 11,
                                   fontWeight: FontWeight.w600,
                                   color: const Color(0xFFFF3B30),
-                                  letterSpacing: 0.5)),
-                              SizedBox(height: 2),
+                                  letterSpacing: 0.5,
+                                ),
+                              ),
+                              const SizedBox(height: 2),
                               Text(
                                 deliveryAddressText.isNotEmpty 
                                     ? deliveryAddressText 
@@ -11874,25 +12929,36 @@ class _NavigationModalState extends State<NavigationModal>
                                 style: TextStyle(
                                   fontSize: 14,
                                   fontWeight: FontWeight.w600,
-                                  color: isLight ? Colors.black : Colors.white),
+                                  color: isLight ? Colors.black : Colors.white,
+                                ),
                                 maxLines: 1,
-                                overflow: TextOverflow.ellipsis),
-                            ])),
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ],
+                          ),
+                        ),
                         // Pickup to delivery distance
                         Container(
-                          padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                           decoration: BoxDecoration(
                             color: (isLight ? Colors.black : Colors.white).withOpacity(0.08),
-                            borderRadius: BorderRadius.circular(8)),
+                            borderRadius: BorderRadius.circular(8),
+                          ),
                           child: Text(
                             appSettings.formatDistance(pickupToDelivery / 1000),
                             style: TextStyle(
                               fontSize: 12,
                               fontWeight: FontWeight.w600,
-                              color: (isLight ? Colors.black : Colors.white).withOpacity(0.7)))),
-                      ]),
-                  ])),
-              SizedBox(height: 12),
+                              color: (isLight ? Colors.black : Colors.white).withOpacity(0.7),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 12),
 
               // Distance chips row
               Row(
@@ -11901,18 +12967,24 @@ class _NavigationModalState extends State<NavigationModal>
                     child: _buildInfoChip(
                       icon: CupertinoIcons.location_fill,
                       label: appSettings.formatDistance(
-                        distanceToPickup / 1000),
+                        distanceToPickup / 1000,
+                      ),
                       subtitle: AppLocalizations.of(context)?.toPickup ?? AppLocalizations.of(context)!.tr('to pickup'),
-                      isLight: isLight)),
-                  SizedBox(width: 8),
+                      isLight: isLight,
+                    ),
+                  ),
+                  const SizedBox(width: 8),
                   Expanded(
                     child: _buildInfoChip(
                       icon: CupertinoIcons.cube_box,
                       label: appSettings.formatDistance(
-                        pickupToDelivery / 1000),
+                        pickupToDelivery / 1000,
+                      ),
                       subtitle: AppLocalizations.of(context)?.pickupToDelivery ?? AppLocalizations.of(context)!.tr('Pickup → Delivery'),
-                      isLight: isLight)),
-                  SizedBox(width: 8),
+                      isLight: isLight,
+                    ),
+                  ),
+                  const SizedBox(width: 8),
                   Expanded(
                     child: _buildInfoChip(
                       icon: CupertinoIcons.map,
@@ -11924,9 +12996,12 @@ class _NavigationModalState extends State<NavigationModal>
                           ? const Color(0xFF34C759)
                           : detourPercentage < 25
                           ? const Color(0xFFFF9500)
-                          : const Color(0xFFFF3B30))),
-                ]),
-              SizedBox(height: 20),
+                          : const Color(0xFFFF3B30),
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 20),
 
               // Action Buttons
               Row(
@@ -11936,18 +13011,27 @@ class _NavigationModalState extends State<NavigationModal>
                     child: TradeRepublicButton(
                       label: AppLocalizations.of(context)?.skip ?? AppLocalizations.of(context)!.tr('Skip'),
                       isSecondary: true,
-                      onPressed: _declineLastMileOrder)),
-                  SizedBox(width: 12),
+                      onPressed: _declineLastMileOrder,
+                    ),
+                  ),
+                  const SizedBox(width: 12),
                   // Bid Button
                   Expanded(
                     flex: 2,
                     child: TradeRepublicButton(
                       label: AppLocalizations.of(context)?.placeBid ?? AppLocalizations.of(context)!.tr('Place Bid'),
-                      icon: Icon(CupertinoIcons.hammer),
+                      icon: const Icon(CupertinoIcons.hammer),
                       tint: const Color(0xFF007AFF),
-                      onPressed: _showBidBottomSheet)),
-                ]),
-            ]))));
+                      onPressed: _showBidBottomSheet,
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 
   // Helper widget for info chips in Last Mile card
@@ -11959,32 +13043,40 @@ class _NavigationModalState extends State<NavigationModal>
     Color? color,
   }) {
     return Container(
-      padding: EdgeInsets.all(12),
+      padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
         color: isLight
             ? Colors.white.withOpacity(0.6)
             : Colors.black.withOpacity(0.3),
-        borderRadius: BorderRadius.circular(20)),
+        borderRadius: BorderRadius.circular(20),
+      ),
       child: Column(
         children: [
           Icon(
             icon,
             color: color ?? (isLight ? Colors.black : Colors.white),
-            size: 20),
-          SizedBox(height: 6),
+            size: 20,
+          ),
+          const SizedBox(height: 6),
           Text(
             label,
             style: TextStyle(
               fontSize: 15,
               fontWeight: FontWeight.w700,
-              color: color ?? (isLight ? Colors.black : Colors.white))),
-          SizedBox(height: 2),
+              color: color ?? (isLight ? Colors.black : Colors.white),
+            ),
+          ),
+          const SizedBox(height: 2),
           Text(
             subtitle,
             style: TextStyle(
               fontSize: 11,
-              color: (isLight ? Colors.black : Colors.white).withOpacity(0.5))),
-        ]));
+              color: (isLight ? Colors.black : Colors.white).withOpacity(0.5),
+            ),
+          ),
+        ],
+      ),
+    );
   }
 
   /// Splits a navigation instruction string into [distancePart, actionText].
@@ -12104,7 +13196,8 @@ class _NavigationModalState extends State<NavigationModal>
     if (_isMultiOrderMode && _allOrders.isNotEmpty) {
       final firstOrder = _allOrders[0];
       debugPrint(
-        '   Multi-order: Using first order (${firstOrder['order_id'] ?? firstOrder['id']}) for pickup address');
+        '   Multi-order: Using first order (${firstOrder['order_id'] ?? firstOrder['id']}) for pickup address',
+      );
       debugPrint('   pickup_street: ${firstOrder['pickup_street']}');
       debugPrint('   pickup_city: ${firstOrder['pickup_city']}');
       debugPrint('   pickup_zip: ${firstOrder['pickup_zip']}');
@@ -12130,7 +13223,8 @@ class _NavigationModalState extends State<NavigationModal>
         final firstCountry = firstOrder['pickup_country']?.toString().trim() ?? AppLocalizations.of(context)!.tr('');
         if (firstCountry.isNotEmpty) pickupAddress += ', $firstCountry';
         debugPrint(
-          '✅ [NavigationModal Multi-Order] Using pickup address from first order: $pickupAddress');
+          '✅ [NavigationModal Multi-Order] Using pickup address from first order: $pickupAddress',
+        );
         return pickupAddress;
       }
     }
@@ -12152,7 +13246,8 @@ class _NavigationModalState extends State<NavigationModal>
       // If pickup_street already contains the city name, use it as is
       if (city.isNotEmpty && street.contains(city)) {
         debugPrint(
-          '✅ [NavigationModal Order $orderId] Using complete pickup address from database (street contains city): $pickupAddress');
+          '✅ [NavigationModal Order $orderId] Using complete pickup address from database (street contains city): $pickupAddress',
+        );
         return pickupAddress;
       }
 
@@ -12174,7 +13269,8 @@ class _NavigationModalState extends State<NavigationModal>
       final pickupCountry = widget.order['pickup_country']?.toString().trim() ?? AppLocalizations.of(context)!.tr('');
       if (pickupCountry.isNotEmpty) pickupAddress += ', $pickupCountry';
       debugPrint(
-        '✅ [NavigationModal Order $orderId] Using constructed pickup address from database: $pickupAddress');
+        '✅ [NavigationModal Order $orderId] Using constructed pickup address from database: $pickupAddress',
+      );
       return pickupAddress;
     }
 
@@ -12183,12 +13279,14 @@ class _NavigationModalState extends State<NavigationModal>
     final hasAppleProduct = cartItems.any(
       (item) =>
           (item['name'] ?? AppLocalizations.of(context)!.tr('')).toString().toLowerCase().contains('apple') ||
-          (item['title'] ?? AppLocalizations.of(context)!.tr('')).toString().toLowerCase().contains('apple'));
+          (item['title'] ?? AppLocalizations.of(context)!.tr('')).toString().toLowerCase().contains('apple'),
+    );
 
     if (hasAppleProduct) {
       const appleAddress = 'Jungfernstieg 12, 20354 Hamburg';
       debugPrint(
-        '✅ [NavigationModal Order $orderId] Apple product - using Apple Store: $appleAddress');
+        '✅ [NavigationModal Order $orderId] Apple product - using Apple Store: $appleAddress',
+      );
       return appleAddress;
     }
 
@@ -12197,13 +13295,15 @@ class _NavigationModalState extends State<NavigationModal>
         widget.order['businessAddress'].toString().trim().isNotEmpty) {
       final address = widget.order['businessAddress'].toString().trim();
       debugPrint(
-        '✅ [NavigationModal Order $orderId] Using businessAddress: $address');
+        '✅ [NavigationModal Order $orderId] Using businessAddress: $address',
+      );
       return address;
     }
 
     // Priority 4: Generic fallback - no hardcoded addresses
     debugPrint(
-      '⚠️ [NavigationModal Order $orderId] No pickup address found - using generic fallback');
+      '⚠️ [NavigationModal Order $orderId] No pickup address found - using generic fallback',
+    );
     return AppLocalizations.of(context)?.storeLocationContactSeller ?? AppLocalizations.of(context)!.tr('Store Location - Contact Seller');
   }
 
@@ -12217,13 +13317,16 @@ class _NavigationModalState extends State<NavigationModal>
       // Clear all multi-order sessions for this driver
       final response = await http.delete(
         Uri.parse(
-          '${ApiConfig.baseUrl}/api/navigation/clear-all/1'), // Driver ID 1
-        headers: {'Content-Type': 'application/json'});
+          '${ApiConfig.baseUrl}/api/navigation/clear-all/1',
+        ), // Driver ID 1
+        headers: {'Content-Type': 'application/json'},
+      );
 
       if (response.statusCode == 200) {
       } else {
         print(
-          '⚠️ Could not clear all navigation sessions: ${response.statusCode}');
+          '⚠️ Could not clear all navigation sessions: ${response.statusCode}',
+        );
       }
     } catch (e) {
       print('❌ Error clearing all navigation sessions: $e');
@@ -12233,7 +13336,8 @@ class _NavigationModalState extends State<NavigationModal>
   Future<void> _resetAllNavigationDataForNewMultiOrder() async {
     try {
       print(
-        '🔄 Resetting ALL navigation data for new multi-order capability...');
+        '🔄 Resetting ALL navigation data for new multi-order capability...',
+      );
 
       // Clear SharedPreferences completely
       final prefs = await SharedPreferences.getInstance();
@@ -12258,7 +13362,8 @@ class _NavigationModalState extends State<NavigationModal>
       // Delete all navigation records for this driver
       final response = await http.delete(
         Uri.parse('${ApiConfig.baseUrl}/api/navigation/driver/1/clear-all'),
-        headers: {'Content-Type': 'application/json'});
+        headers: {'Content-Type': 'application/json'},
+      );
 
       if (response.statusCode == 200) {
       } else {
@@ -12291,7 +13396,8 @@ class _NavigationModalState extends State<NavigationModal>
     if (_appleMapController == null || _routePoints.isEmpty) return;
 
     print(
-      '🍎 Centering Apple Maps on route with ${_routePoints.length} points');
+      '🍎 Centering Apple Maps on route with ${_routePoints.length} points',
+    );
 
     double minLat = _routePoints.first.latitude;
     double maxLat = _routePoints.first.latitude;
@@ -12327,7 +13433,10 @@ class _NavigationModalState extends State<NavigationModal>
       apple.CameraUpdate.newCameraPosition(
         apple.CameraPosition(
           target: apple.LatLng(centerLat, centerLng),
-          zoom: zoom)));
+          zoom: zoom,
+        ),
+      ),
+    );
   }
 
   // Build Apple Maps polylines from route points
@@ -12341,7 +13450,8 @@ class _NavigationModalState extends State<NavigationModal>
             .map((point) => apple.LatLng(point.latitude, point.longitude))
             .toList(),
         color: const Color(0xFF007AFF), // Apple Blue
-        width: 5),
+        width: 5,
+      ),
     };
   }
 
@@ -12356,8 +13466,11 @@ class _NavigationModalState extends State<NavigationModal>
           annotationId: apple.AnnotationId('pickup'),
           position: apple.LatLng(
             _pickupLocation.latitude,
-            _pickupLocation.longitude),
-          infoWindow: apple.InfoWindow(title: AppLocalizations.of(context)?.pickupLocation ?? AppLocalizations.of(context)!.tr('Pickup Location'))));
+            _pickupLocation.longitude,
+          ),
+          infoWindow: apple.InfoWindow(title: AppLocalizations.of(context)?.pickupLocation ?? AppLocalizations.of(context)!.tr('Pickup Location')),
+        ),
+      );
     }
 
     // Delivery location marker
@@ -12368,8 +13481,11 @@ class _NavigationModalState extends State<NavigationModal>
           annotationId: apple.AnnotationId('delivery'),
           position: apple.LatLng(
             _deliveryLocation.latitude,
-            _deliveryLocation.longitude),
-          infoWindow: apple.InfoWindow(title: AppLocalizations.of(context)?.deliveryLocation ?? AppLocalizations.of(context)!.tr('Delivery Location'))));
+            _deliveryLocation.longitude,
+          ),
+          infoWindow: apple.InfoWindow(title: AppLocalizations.of(context)?.deliveryLocation ?? AppLocalizations.of(context)!.tr('Delivery Location')),
+        ),
+      );
     }
 
     // Multi-order pickup markers
@@ -12380,8 +13496,11 @@ class _NavigationModalState extends State<NavigationModal>
             annotationId: apple.AnnotationId('pickup_$i'),
             position: apple.LatLng(
               _allPickupLocations[i].latitude,
-              _allPickupLocations[i].longitude),
-            infoWindow: apple.InfoWindow(title: '${AppLocalizations.of(context)?.pickup ?? AppLocalizations.of(context)!.tr('Pickup')} ${i + 1}')));
+              _allPickupLocations[i].longitude,
+            ),
+            infoWindow: apple.InfoWindow(title: '${AppLocalizations.of(context)?.pickup ?? AppLocalizations.of(context)!.tr('Pickup')} ${i + 1}'),
+          ),
+        );
       }
 
       // Multi-order delivery markers
@@ -12391,8 +13510,11 @@ class _NavigationModalState extends State<NavigationModal>
             annotationId: apple.AnnotationId('delivery_$i'),
             position: apple.LatLng(
               _allDeliveryLocations[i].latitude,
-              _allDeliveryLocations[i].longitude),
-            infoWindow: apple.InfoWindow(title: '${AppLocalizations.of(context)?.delivery ?? AppLocalizations.of(context)!.tr('Delivery')} ${i + 1}')));
+              _allDeliveryLocations[i].longitude,
+            ),
+            infoWindow: apple.InfoWindow(title: '${AppLocalizations.of(context)?.delivery ?? AppLocalizations.of(context)!.tr('Delivery')} ${i + 1}'),
+          ),
+        );
       }
     }
 
@@ -12420,22 +13542,27 @@ class _MetricPill extends StatelessWidget {
   Widget build(BuildContext context) {
     final effectiveColor = dimmed ? color.withOpacity(0.45) : color;
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
       decoration: BoxDecoration(
         color: effectiveColor.withOpacity(0.10),
-        borderRadius: BorderRadius.circular(10)),
+        borderRadius: BorderRadius.circular(10),
+      ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          if (icon != null) ...[Icon(icon, size: 13, color: effectiveColor), SizedBox(width: 4)],
+          if (icon != null) ...[Icon(icon, size: 13, color: effectiveColor), const SizedBox(width: 4)],
           Text(
             label,
             style: TextStyle(
               fontSize: 13,
               fontWeight: FontWeight.w700,
               color: effectiveColor,
-              letterSpacing: -0.1)),
-        ]));
+              letterSpacing: -0.1,
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }
 
@@ -12460,9 +13587,11 @@ class _NavCloseButtonState extends State<_NavCloseButton>
     super.initState();
     _ctrl = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 140));
+      duration: const Duration(milliseconds: 140),
+    );
     _scaleAnim = Tween<double>(begin: 1.0, end: 0.76).animate(
-      CurvedAnimation(parent: _ctrl, curve: Curves.easeInOut));
+      CurvedAnimation(parent: _ctrl, curve: Curves.easeInOut),
+    );
   }
 
   @override
@@ -12489,12 +13618,18 @@ class _NavCloseButtonState extends State<_NavCloseButton>
           height: 36,
           decoration: BoxDecoration(
             shape: BoxShape.circle,
-            color: const Color(0xFFFF5F57)),
+            color: const Color(0xFFFF5F57),
+          ),
           child: const Center(
             child: Icon(
               CupertinoIcons.xmark,
               size: 16,
-              color: Colors.white)))));
+              color: Colors.white,
+            ),
+          ),
+        ),
+      ),
+    );
   }
 }
 
@@ -12521,6 +13656,10 @@ class _TopNavButton extends StatelessWidget {
           child: Icon(
             icon,
             size: 20,
-            color: (isLight ? Colors.black : Colors.white).withOpacity(0.45)))));
+            color: (isLight ? Colors.black : Colors.white).withOpacity(0.45),
+          ),
+        ),
+      ),
+    );
   }
 }

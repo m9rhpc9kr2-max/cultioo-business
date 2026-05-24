@@ -6,8 +6,6 @@ import 'shared/services/app_settings.dart';
 import 'shared/widgets/trade_republic_button.dart';
 import 'shared/widgets/page_indicator.dart';
 import 'shared/services/app_localizations.dart';
-import 'package:cultioo_business/shared/widgets/desktop_app_wrapper.dart';
-import 'package:cultioo_business/shared/widgets/desktop_optimized_widgets.dart';
 
 class OnboardingStep {
   final String title;
@@ -70,7 +68,8 @@ class _OnboardingPageState extends State<OnboardingPage>
           AppLocalizations.of(context)?.yourCompleteBusinessManagement ??
           'Your complete business management solution for deliveries and logistics',
       icon: Icons.business,
-      isWelcome: true),
+      isWelcome: true,
+    ),
     OnboardingStep(
       title: AppLocalizations.of(context)?.accountInfo ?? 'Account Info',
       subtitle:
@@ -80,7 +79,8 @@ class _OnboardingPageState extends State<OnboardingPage>
 
 Driver Registration: Free to go! No Cultioo account required - just register as a driver and start working.''',
       icon: Icons.account_circle,
-      isInfo: true),
+      isInfo: true,
+    ),
     OnboardingStep(
       title: AppLocalizations.of(context)?.setupComplete ?? 'Setup Complete',
       subtitle: AppLocalizations.of(context)?.readyToStart ?? 'Ready to Start',
@@ -88,7 +88,8 @@ Driver Registration: Free to go! No Cultioo account required - just register as 
           AppLocalizations.of(context)?.cameraStoragePermissions ??
           'You can grant camera and storage permissions later in app settings when you need to take photos or access files.',
       icon: Icons.check_circle,
-      isWelcome: true),
+      isWelcome: true,
+    ),
   ];
 
   @override
@@ -98,23 +99,28 @@ Driver Registration: Free to go! No Cultioo account required - just register as 
     // Initialize animation controllers
     _slideController = AnimationController(
       duration: const Duration(milliseconds: 600),
-      vsync: this);
+      vsync: this,
+    );
 
     _scaleController = AnimationController(
       duration: const Duration(milliseconds: 400),
-      vsync: this);
+      vsync: this,
+    );
 
     _permissionController = AnimationController(
       duration: const Duration(milliseconds: 500),
-      vsync: this);
+      vsync: this,
+    );
 
     // Initialize animations
     _slideAnimation = Tween<Offset>(
       begin: const Offset(0, 0.1), // Smaller movement
-      end: Offset.zero).animate(CurvedAnimation(parent: _slideController, curve: Curves.easeOut));
+      end: Offset.zero,
+    ).animate(CurvedAnimation(parent: _slideController, curve: Curves.easeOut));
 
     _scaleAnimation = Tween<double>(begin: 0.8, end: 1.0).animate(
-      CurvedAnimation(parent: _scaleController, curve: Curves.easeOutBack));
+      CurvedAnimation(parent: _scaleController, curve: Curves.easeOutBack),
+    );
 
     // Start initial animations
     _startAnimations();
@@ -153,7 +159,8 @@ Driver Registration: Free to go! No Cultioo account required - just register as 
       _pageController.animateToPage(
         _currentPage,
         duration: const Duration(milliseconds: 500),
-        curve: Curves.easeOutCubic);
+        curve: Curves.easeOutCubic,
+      );
     } else {
       _completeOnboarding();
     }
@@ -201,18 +208,26 @@ Driver Registration: Free to go! No Cultioo account required - just register as 
                           _steps[index],
                           isLight,
                           isMacOS,
-                          index);
-                      }))),
+                          index,
+                        );
+                      },
+                  ),
+                ),
+              ),
               _buildBottomSection(isLight, isMacOS),
-            ]);
-        }));
+            ],
+          );
+        },
+      ),
+    );
   }
 
   Widget _buildOnboardingStep(
     OnboardingStep step,
     bool isLight,
     bool isMacOS,
-    int index) {
+    int index,
+  ) {
     final scrollController = _getScrollController(index);
 
     if (isMacOS) {
@@ -221,7 +236,7 @@ Driver Registration: Free to go! No Cultioo account required - just register as 
         child: ConstrainedBox(
           constraints: const BoxConstraints(maxWidth: 860, maxHeight: 620),
           child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 48, vertical: 32),
+            padding: const EdgeInsets.symmetric(horizontal: 48, vertical: 32),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
@@ -246,13 +261,18 @@ Driver Registration: Free to go! No Cultioo account required - just register as 
                                   BoxShadow(
                                     color: Colors.black.withValues(alpha: 0.10),
                                     blurRadius: 24,
-                                    offset: const Offset(0, 10)),
-                                ]),
+                                    offset: const Offset(0, 10),
+                                  ),
+                                ],
+                              ),
                               child: Icon(
                                 step.icon,
                                 size: 72,
-                                color: isLight ? Colors.white : Colors.black));
-                          })
+                                color: isLight ? Colors.white : Colors.black,
+                              ),
+                            );
+                          },
+                        )
                       : Container(
                           width: 140,
                           height: 140,
@@ -263,13 +283,18 @@ Driver Registration: Free to go! No Cultioo account required - just register as 
                               BoxShadow(
                                 color: Colors.black.withValues(alpha: 0.10),
                                 blurRadius: 24,
-                                offset: const Offset(0, 10)),
-                            ]),
+                                offset: const Offset(0, 10),
+                              ),
+                            ],
+                          ),
                           child: Icon(
                             step.icon,
                             size: 64,
-                            color: isLight ? Colors.white : Colors.black))),
-                SizedBox(width: 48),
+                            color: isLight ? Colors.white : Colors.black,
+                          ),
+                        ),
+                ),
+                const SizedBox(width: 48),
                 // Right Side - Content
                 Expanded(
                   child: Column(
@@ -285,8 +310,11 @@ Driver Registration: Free to go! No Cultioo account required - just register as 
                             fontSize: 34,
                             fontWeight: FontWeight.w800,
                             letterSpacing: -1.0,
-                            height: 1.1))),
-                      SizedBox(height: DesktopOptimizedWidgets.getSpacing()),
+                            height: 1.1,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 8),
                       Text(
                         step.subtitle,
                         style: TextStyle(
@@ -295,17 +323,20 @@ Driver Registration: Free to go! No Cultioo account required - just register as 
                               : Colors.white.withValues(alpha: 0.6),
                           fontSize: 17,
                           fontWeight: FontWeight.w500,
-                          letterSpacing: -0.2)),
-                      SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 3),
+                          letterSpacing: -0.2,
+                        ),
+                      ),
+                      const SizedBox(height: 24),
                       SlideTransition(
                         position: _slideAnimation,
                         child: Container(
-                          padding: DesktopAppWrapper.getPagePadding(),
+                          padding: const EdgeInsets.all(20),
                           decoration: BoxDecoration(
                             color: isLight
                                 ? Colors.black.withValues(alpha: 0.03)
                                 : Colors.white.withValues(alpha: 0.06),
-                            borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius())),
+                            borderRadius: BorderRadius.circular(16),
+                          ),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -315,17 +346,28 @@ Driver Registration: Free to go! No Cultioo account required - just register as 
                                   color: isLight
                                       ? Colors.black.withValues(alpha: 0.80)
                                       : Colors.white.withValues(alpha: 0.80),
-                                  fontSize: DesktopOptimizedWidgets.getFontSize(),
+                                  fontSize: 14,
                                   height: 1.55,
                                   letterSpacing: 0.1,
-                                  fontWeight: FontWeight.w400)),
+                                  fontWeight: FontWeight.w400,
+                                ),
+                              ),
                               if (step.isInfo) ...[
-                                SizedBox(height: 20),
+                                const SizedBox(height: 20),
                                 _buildAccountOptionsDesktop(isLight),
                               ],
-                            ]))),
-                    ])),
-              ]))));
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      );
     }
 
     // Mobile Layout
@@ -341,19 +383,24 @@ Driver Registration: Free to go! No Cultioo account required - just register as 
             height: 120,
             decoration: BoxDecoration(
               color: isLight ? Colors.black : Colors.white,
-              borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8),
+              borderRadius: BorderRadius.circular(20),
               boxShadow: [
                 BoxShadow(
                   color: Colors.black.withValues(alpha: 0.1),
                   blurRadius: 20,
                   spreadRadius: 0,
-                  offset: const Offset(0, 10)),
-              ]),
+                  offset: const Offset(0, 10),
+                ),
+              ],
+            ),
             child: Icon(
               step.icon,
               size: 60,
-              color: isLight ? Colors.white : Colors.black))),
-        SizedBox(height: 50),
+              color: isLight ? Colors.white : Colors.black,
+            ),
+          ),
+        ),
+        const SizedBox(height: 50),
         // Animated Title
         FadeTransition(
           opacity: _scaleAnimation,
@@ -363,42 +410,55 @@ Driver Registration: Free to go! No Cultioo account required - just register as 
               color: isLight ? Colors.black : Colors.white,
               fontSize: 32,
               fontWeight: FontWeight.w700,
-              letterSpacing: -0.5),
-            textAlign: TextAlign.center)),
-        SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+              letterSpacing: -0.5,
+            ),
+            textAlign: TextAlign.center,
+          ),
+        ),
+        const SizedBox(height: 16),
         Text(
           step.subtitle,
           style: TextStyle(
             color: isLight ? Colors.black54 : Colors.white70,
-            fontSize: DesktopOptimizedWidgets.getFontSize() + 4),
-          textAlign: TextAlign.center),
-        SizedBox(height: 32),
+            fontSize: 18,
+          ),
+          textAlign: TextAlign.center,
+        ),
+        const SizedBox(height: 32),
         // Animated Content
         SlideTransition(
           position: _slideAnimation,
           child: Container(
-                  padding: DesktopAppWrapper.getPagePadding(),
+                  padding: const EdgeInsets.all(16),
                   decoration: BoxDecoration(
                     color: isLight
                         ? Colors.black.withValues(alpha: 0.05)
                         : Colors.white.withValues(alpha: 0.1),
-                    borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
+                    borderRadius: BorderRadius.circular(20),
+                  ),
                   child: Column(
                     children: [
                       Text(
                         step.description,
                         style: TextStyle(
                           color: isLight ? Colors.black : Colors.white,
-                          fontSize: DesktopOptimizedWidgets.getFontSize(),
-                          height: 1.5),
-                        textAlign: TextAlign.center),
+                          fontSize: 16,
+                          height: 1.5,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
                       if (step.isInfo) _buildAccountOptions(isLight),
-                    ]))),
-      ]);
+                    ],
+                  ),
+                ),
+        ),
+      ],
+    );
 
     return SingleChildScrollView(
-      padding: DesktopAppWrapper.getPagePadding(),
-      child: content);
+      padding: const EdgeInsets.all(20),
+      child: content,
+    );
   }
 
   Widget _buildAccountOptionsDesktop(bool isLight) {
@@ -410,32 +470,37 @@ Driver Registration: Free to go! No Cultioo account required - just register as 
           AppLocalizations.of(context)?.upgradeFromExistingCultioo ??
               'Upgrade from existing Cultioo account',
           Icons.business_center,
-          isLight),
-        SizedBox(height: 10),
+          isLight,
+        ),
+        const SizedBox(height: 10),
         _buildAccountOptionDesktop(
           AppLocalizations.of(context)?.driverAccount ??
               'Driver Account',
           AppLocalizations.of(context)?.registerDirectlyAsDriver ??
               'Register directly as a driver',
           Icons.delivery_dining,
-          isLight),
-      ]);
+          isLight,
+        ),
+      ],
+    );
   }
 
   Widget _buildAccountOptionDesktop(
     String title,
     String description,
     IconData icon,
-    bool isLight) {
+    bool isLight,
+  ) {
     return ScaleTransition(
       scale: _scaleAnimation,
       child: Container(
-        padding: EdgeInsets.all(14),
+        padding: const EdgeInsets.all(14),
         decoration: BoxDecoration(
           color: isLight
               ? Colors.black.withValues(alpha: 0.025)
               : Colors.white.withValues(alpha: 0.05),
-          borderRadius: BorderRadius.circular(14)),
+          borderRadius: BorderRadius.circular(14),
+        ),
         child: Row(
           children: [
             Container(
@@ -448,13 +513,17 @@ Driver Registration: Free to go! No Cultioo account required - just register as 
                   BoxShadow(
                     color: Colors.black.withValues(alpha: 0.08),
                     blurRadius: 10,
-                    offset: const Offset(0, 4)),
-                ]),
+                    offset: const Offset(0, 4),
+                  ),
+                ],
+              ),
               child: Icon(
                 icon,
                 color: isLight ? Colors.white : Colors.black,
-                size: 20)),
-            SizedBox(width: 14),
+                size: 20,
+              ),
+            ),
+            const SizedBox(width: 14),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -463,10 +532,12 @@ Driver Registration: Free to go! No Cultioo account required - just register as 
                     title,
                     style: TextStyle(
                       color: isLight ? Colors.black : Colors.white,
-                      fontSize: DesktopOptimizedWidgets.getFontSize(),
+                      fontSize: 14,
                       fontWeight: FontWeight.w700,
-                      letterSpacing: -0.2)),
-                  SizedBox(height: 3),
+                      letterSpacing: -0.2,
+                    ),
+                  ),
+                  const SizedBox(height: 3),
                   Text(
                     description,
                     style: TextStyle(
@@ -475,14 +546,21 @@ Driver Registration: Free to go! No Cultioo account required - just register as 
                           : Colors.white.withValues(alpha: 0.6),
                       fontSize: 12,
                       fontWeight: FontWeight.w400,
-                      height: 1.4)),
-                ])),
-          ])));
+                      height: 1.4,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 
   Widget _buildAccountOptions(bool isLight) {
     return Padding(
-      padding: EdgeInsets.only(top: 24),
+      padding: const EdgeInsets.only(top: 24),
       child: Column(
         children: [
           _buildAccountOption(
@@ -490,32 +568,38 @@ Driver Registration: Free to go! No Cultioo account required - just register as 
             AppLocalizations.of(context)?.upgradeFromExistingCultioo ??
                 'Upgrade from existing Cultioo account',
             Icons.business_center,
-            isLight),
-          SizedBox(height: DesktopOptimizedWidgets.getSpacing() * 2),
+            isLight,
+          ),
+          const SizedBox(height: 16),
           _buildAccountOption(
             AppLocalizations.of(context)?.driverAccount ?? 'Driver Account',
             AppLocalizations.of(context)?.registerDirectlyAsDriver ??
                 'Register directly as a driver',
             Icons.delivery_dining,
-            isLight),
-          SizedBox(height: 50),
-        ]));
+            isLight,
+          ),
+          const SizedBox(height: 50),
+        ],
+      ),
+    );
   }
 
   Widget _buildAccountOption(
     String title,
     String description,
     IconData icon,
-    bool isLight) {
+    bool isLight,
+  ) {
     return ScaleTransition(
       scale: _scaleAnimation,
       child: Container(
-        padding: DesktopAppWrapper.getPagePadding(),
+        padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
           color: isLight
               ? Colors.black.withValues(alpha: 0.05)
               : Colors.white.withValues(alpha: 0.1),
-          borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
+          borderRadius: BorderRadius.circular(20),
+        ),
         child: Row(
           children: [
             Container(
@@ -523,12 +607,15 @@ Driver Registration: Free to go! No Cultioo account required - just register as 
               height: 50,
               decoration: BoxDecoration(
                 color: isLight ? Colors.black : Colors.white,
-                borderRadius: BorderRadius.circular(DesktopOptimizedWidgets.getBorderRadius() + 8)),
+                borderRadius: BorderRadius.circular(20),
+              ),
               child: Icon(
                 icon,
                 color: isLight ? Colors.white : Colors.black,
-                size: 24)),
-            SizedBox(width: 16),
+                size: 24,
+              ),
+            ),
+            const SizedBox(width: 16),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -537,23 +624,33 @@ Driver Registration: Free to go! No Cultioo account required - just register as 
                     title,
                     style: TextStyle(
                       color: isLight ? Colors.black : Colors.white,
-                      fontSize: DesktopOptimizedWidgets.getFontSize(),
-                      fontWeight: FontWeight.w600)),
-                  SizedBox(height: 4),
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                  const SizedBox(height: 4),
                   Text(
                     description,
                     style: TextStyle(
                       color: isLight ? Colors.black54 : Colors.white70,
-                      fontSize: DesktopOptimizedWidgets.getFontSize())),
-                ])),
-          ])));
+                      fontSize: 14,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 
   Widget _buildBottomSection(bool isLight, bool isMacOS) {
     return Padding(
       padding: EdgeInsets.symmetric(
         horizontal: isMacOS ? 48 : 24,
-        vertical: isMacOS ? 20 : 24),
+        vertical: isMacOS ? 20 : 24,
+      ),
       child: Center(
         child: Container(
           constraints: isMacOS ? const BoxConstraints(maxWidth: 860) : null,
@@ -566,7 +663,9 @@ Driver Registration: Free to go! No Cultioo account required - just register as 
                 child: PageIndicator(
                   currentPage: _currentPage,
                   pageCount: _steps.length,
-                  pageController: _pageController)),
+                  pageController: _pageController,
+                ),
+              ),
               SizedBox(height: isMacOS ? 20 : 32),
               // Action Buttons with Animation
               ScaleTransition(
@@ -582,7 +681,8 @@ Driver Registration: Free to go! No Cultioo account required - just register as 
                           icon: Icon(
                             CupertinoIcons.chevron_left,
                             size: 20,
-                            color: isLight ? Colors.white : Colors.black),
+                            color: isLight ? Colors.white : Colors.black,
+                          ),
                           onPressed: () {
                             if (_currentPage > 0) {
                               setState(() {
@@ -591,11 +691,14 @@ Driver Registration: Free to go! No Cultioo account required - just register as 
                               _pageController.animateToPage(
                                 _currentPage,
                                 duration: const Duration(milliseconds: 500),
-                                curve: Curves.easeOutCubic);
+                                curve: Curves.easeOutCubic,
+                              );
                             }
                           },
-                          isSecondary: true)),
-                      SizedBox(width: 16),
+                          isSecondary: true,
+                        ),
+                      ),
+                      const SizedBox(width: 16),
                     ],
                     // Next/Get Started button
                     Expanded(
@@ -603,9 +706,18 @@ Driver Registration: Free to go! No Cultioo account required - just register as 
                         height: isMacOS ? 60 : 56,
                         child: TradeRepublicButton(
                           label: _getButtonText(),
-                          onPressed: _nextPage))),
-                  ])),
-            ]))));
+                          onPressed: _nextPage,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 
   String _getButtonText() {

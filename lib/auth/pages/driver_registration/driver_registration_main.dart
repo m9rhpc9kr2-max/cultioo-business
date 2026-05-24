@@ -29,7 +29,8 @@ class _DriverRegistrationMainState extends State<DriverRegistrationMain> {
     super.initState();
     print('📋 REGISTRATION: Starting at step ${_currentStep + 1}');
     print(
-      '📋 REGISTRATION: PageController initial page: ${_pageController.initialPage}');
+      '📋 REGISTRATION: PageController initial page: ${_pageController.initialPage}',
+    );
   }
 
   @override
@@ -42,22 +43,26 @@ class _DriverRegistrationMainState extends State<DriverRegistrationMain> {
     print('🚀 NAVIGATION: _nextStep() called from step ${_currentStep + 1}');
     print('🚀 NAVIGATION: Current _currentStep value: $_currentStep');
     print(
-      '🚀 NAVIGATION: PageController current page: ${_pageController.page}');
+      '🚀 NAVIGATION: PageController current page: ${_pageController.page}',
+    );
 
     if (_currentStep < 9) {
       // 10 steps total (0-9), last step is success page
       final nextStep = _currentStep + 1;
       print(
-        '🚀 NAVIGATION: Moving from step ${_currentStep + 1} to step ${nextStep + 1}');
+        '🚀 NAVIGATION: Moving from step ${_currentStep + 1} to step ${nextStep + 1}',
+      );
       print(
-        '🚀 NAVIGATION: Setting _currentStep from $_currentStep to $nextStep');
+        '🚀 NAVIGATION: Setting _currentStep from $_currentStep to $nextStep',
+      );
 
       setState(() {
         _currentStep = nextStep;
       });
 
       print(
-        '🚀 NAVIGATION: After setState - _currentStep is now: $_currentStep');
+        '🚀 NAVIGATION: After setState - _currentStep is now: $_currentStep',
+      );
       print('🚀 NAVIGATION: Calling animateToPage($nextStep)');
 
       // Use animateToPage for better control
@@ -65,14 +70,18 @@ class _DriverRegistrationMainState extends State<DriverRegistrationMain> {
           .animateToPage(
             nextStep,
             duration: const Duration(milliseconds: 300),
-            curve: Curves.easeInOut)
+            curve: Curves.easeInOut,
+          )
           .then((_) {
             print(
-              '🚀 NAVIGATION: Animation completed - now at step ${_currentStep + 1}');
+              '🚀 NAVIGATION: Animation completed - now at step ${_currentStep + 1}',
+            );
             print(
-              '🚀 NAVIGATION: PageController page after animation: ${_pageController.page}');
+              '🚀 NAVIGATION: PageController page after animation: ${_pageController.page}',
+            );
             print(
-              '🚀 NAVIGATION: SUCCESS - Should be on Step ${_currentStep + 1}');
+              '🚀 NAVIGATION: SUCCESS - Should be on Step ${_currentStep + 1}',
+            );
           });
     } else {
       print('🚀 NAVIGATION: Already at final step ${_currentStep + 1}');
@@ -81,17 +90,21 @@ class _DriverRegistrationMainState extends State<DriverRegistrationMain> {
 
   void _previousStep() {
     print(
-      '🔙 NAVIGATION: _previousStep() called from step ${_currentStep + 1}');
+      '🔙 NAVIGATION: _previousStep() called from step ${_currentStep + 1}',
+    );
     print(
-      '🔙 NAVIGATION: !!!WARNING!!! Going BACKWARD - this should NOT happen from Step 4 Continue button!');
+      '🔙 NAVIGATION: !!!WARNING!!! Going BACKWARD - this should NOT happen from Step 4 Continue button!',
+    );
     print('🔙 NAVIGATION: Current _currentStep value: $_currentStep');
     print(
-      '🔙 NAVIGATION: PageController current page: ${_pageController.page}');
+      '🔙 NAVIGATION: PageController current page: ${_pageController.page}',
+    );
 
     if (_currentStep > 0) {
       final prevStep = _currentStep - 1;
       print(
-        '🔙 NAVIGATION: Moving BACKWARD from step ${_currentStep + 1} to step ${prevStep + 1}');
+        '🔙 NAVIGATION: Moving BACKWARD from step ${_currentStep + 1} to step ${prevStep + 1}',
+      );
 
       setState(() {
         _currentStep = prevStep;
@@ -101,12 +114,15 @@ class _DriverRegistrationMainState extends State<DriverRegistrationMain> {
           .animateToPage(
             prevStep,
             duration: const Duration(milliseconds: 300),
-            curve: Curves.easeInOut)
+            curve: Curves.easeInOut,
+          )
           .then((_) {
             print(
-              '🔙 NAVIGATION: BACKWARD animation completed - now at step ${_currentStep + 1}');
+              '🔙 NAVIGATION: BACKWARD animation completed - now at step ${_currentStep + 1}',
+            );
             print(
-              '🔙 NAVIGATION: PageController page after animation: ${_pageController.page}');
+              '🔙 NAVIGATION: PageController page after animation: ${_pageController.page}',
+            );
           });
     } else {
       print('🔙 NAVIGATION: At first step, popping navigation');
@@ -127,7 +143,8 @@ class _DriverRegistrationMainState extends State<DriverRegistrationMain> {
             const NeverScrollableScrollPhysics(), // Disable swipe navigation
         onPageChanged: (index) {
           print(
-            '📄 PAGEVIEW: Page changed to index $index (Step ${index + 1})');
+            '📄 PAGEVIEW: Page changed to index $index (Step ${index + 1})',
+          );
         },
         children: [
           // Step 1: Personal Info
@@ -135,68 +152,80 @@ class _DriverRegistrationMainState extends State<DriverRegistrationMain> {
             key: const ValueKey('step_1_personal_info'),
             initialData: _registrationData,
             onNext: _nextStep,
-            onBack: _previousStep),
+            onBack: _previousStep,
+          ),
 
           // Step 2: Document Upload (Front)
           DriverStep2DocumentUpload(
             key: const ValueKey('step_2_document_front'),
             initialData: _registrationData,
             onNext: _nextStep,
-            onBack: _previousStep),
+            onBack: _previousStep,
+          ),
 
           // Step 3: Document Upload (Back)
           DriverStep3DocumentBack(
             key: const ValueKey('step_3_document_back'),
             initialData: _registrationData,
             onNext: _nextStep,
-            onBack: _previousStep),
+            onBack: _previousStep,
+          ),
 
           // Step 4: License Front
           DriverStep4LicenseFront(
             key: const ValueKey('step_4_license_front'),
             initialData: _registrationData,
             onNext: _nextStep,
-            onBack: _previousStep),
+            onBack: _previousStep,
+          ),
 
           // Step 5: License Back
           DriverStep5LicenseBack(
             key: const ValueKey('step_5_license_back'),
             initialData: _registrationData,
             onNext: _nextStep,
-            onBack: _previousStep),
+            onBack: _previousStep,
+          ),
 
           // Step 6: Face Verification (AI)
           DriverStep6FaceVerification(
             key: const ValueKey('step_6_face_verification'),
             initialData: _registrationData,
             onNext: _nextStep,
-            onBack: _previousStep),
+            onBack: _previousStep,
+          ),
 
           // Step 7: Consent
           DriverStep7Consent(
             key: const ValueKey('step_7_consent'),
             onBack: _previousStep,
             onNext: _nextStep,
-            initialData: _registrationData),
+            initialData: _registrationData,
+          ),
 
           // Step 8: Company Information
           DriverStep8Company(
             key: const ValueKey('step_8_company'),
             initialData: _registrationData,
             onNext: _nextStep,
-            onBack: _previousStep),
+            onBack: _previousStep,
+          ),
 
           // Step 9: Verification
           DriverStep9Verification(
             key: const ValueKey('step_9_verification'),
             initialData: _registrationData,
             onNext: _nextStep,
-            onBack: _previousStep),
+            onBack: _previousStep,
+          ),
 
           // Step 10: Success
           DriverStep10Success(
             key: const ValueKey('step_10_success'),
-            registrationData: _registrationData),
-        ]));
+            registrationData: _registrationData,
+          ),
+        ],
+      ),
+    );
   }
 }

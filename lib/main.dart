@@ -39,7 +39,8 @@ class DesktopScrollBehavior extends MaterialScrollBehavior {
   Widget buildScrollbar(
     BuildContext context,
     Widget child,
-    ScrollableDetails details) {
+    ScrollableDetails details,
+  ) {
     // Disable automatic desktop scrollbars. Several screens already provide
     // explicit Scrollbar widgets with dedicated controllers.
     return child;
@@ -61,7 +62,8 @@ void main() async {
       minimumSize: minimumSize,
       center: true,
       backgroundColor: Colors.transparent,
-      titleBarStyle: TitleBarStyle.hidden);
+      titleBarStyle: TitleBarStyle.hidden,
+    );
     
     await windowManager.waitUntilReadyToShow(windowOptions, () async {
       await windowManager.show();
@@ -78,7 +80,8 @@ void main() async {
   // Initialize Firebase and Push Notifications
   try {
     await Firebase.initializeApp(
-      options: DefaultFirebaseOptions.currentPlatform);
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
     print('[SUCCESS] Firebase initialized successfully');
 
     // Register background message handler BEFORE any other Firebase calls
@@ -130,10 +133,12 @@ class _MyAppState extends State<MyApp> {
     try {
       await precacheImage(
         const AssetImage('assets/images/cultioo_logo_light.png'),
-        context);
+        context,
+      );
       await precacheImage(
         const AssetImage('assets/images/cultioo_logo_dark.png'),
-        context);
+        context,
+      );
       print('🖼️ Splash logos pre-cached');
     } catch (e) {
       print('[WARNING] Failed to precache logos: $e');
@@ -155,7 +160,8 @@ class _MyAppState extends State<MyApp> {
             _isLoading = false;
           });
           print(
-            '[SUCCESS] User data loaded - Token available: ${_appSettings.authToken != null}');
+            '[SUCCESS] User data loaded - Token available: ${_appSettings.authToken != null}',
+          );
         }
       });
     }
@@ -210,7 +216,7 @@ class _MyAppState extends State<MyApp> {
         theme: ThemeData.light(),
         darkTheme: ThemeData.dark(),
         builder: (context, child) =>
-            KeyboardToolbar(child: child ?? SizedBox()),
+            KeyboardToolbar(child: child ?? const SizedBox()),
         home: Builder(
           builder: (context) {
             final isDark =
@@ -236,16 +242,24 @@ class _MyAppState extends State<MyApp> {
                         return Icon(
                           Icons.eco_rounded,
                           size: 60,
-                          color: const Color(0xFF34C759));
-                      }),
-                    SizedBox(height: 48),
+                          color: const Color(0xFF34C759),
+                        );
+                      },
+                    ),
+                    const SizedBox(height: 48),
                     // Modern minimal loading indicator
                     SizedBox(
                       width: 24,
                       height: 24,
-                      child: CultiooLoadingIndicator(size: 20)),
-                  ])));
-          }));
+                      child: CultiooLoadingIndicator(size: 20),
+                    ),
+                  ],
+                ),
+              ),
+            );
+          },
+        ),
+      );
     }
 
     return ChangeNotifierProvider<AppSettings>(
@@ -254,13 +268,14 @@ class _MyAppState extends State<MyApp> {
         // Apply global text scale factor from AppSettings so changes in App Settings
         // (Small/Medium/Large) affect the whole app consistently.
         data: MediaQuery.of(context).copyWith(
-          textScaler: TextScaler.linear(_appSettings.getTextSizeMultiplier())),
+          textScaler: TextScaler.linear(_appSettings.getTextSizeMultiplier()),
+        ),
         child: MaterialApp(
           title: AppLocalizations.of(context)?.cultiooBusiness ?? 'Cultioo Business',
           debugShowCheckedModeBanner: false,
           scrollBehavior: DesktopScrollBehavior(),
           builder: (context, child) =>
-              KeyboardToolbar(child: child ?? SizedBox()),
+              KeyboardToolbar(child: child ?? const SizedBox()),
           // Locale from AppSettings
           locale: _appSettings.appLocale,
           supportedLocales: AppLocales.supportedLocales,
@@ -275,75 +290,95 @@ class _MyAppState extends State<MyApp> {
             colorScheme:
                 ColorScheme.fromSeed(
                   seedColor: Colors.white,
-                  brightness: Brightness.light).copyWith(
+                  brightness: Brightness.light,
+                ).copyWith(
                   primary: Colors.black,
-                  secondary: Colors.black.withOpacity(0.7)),
+                  secondary: Colors.black.withOpacity(0.7),
+                ),
             textSelectionTheme: TextSelectionThemeData(
               cursorColor: Colors.black,
               selectionColor: Colors.black.withOpacity(0.15),
-              selectionHandleColor: Colors.black),
+              selectionHandleColor: Colors.black,
+            ),
             // Konsistente Switch-Farben im Light Mode
             switchTheme: SwitchThemeData(
               thumbColor: WidgetStateProperty.resolveWith<Color>((
-                Set<WidgetState> states) {
+                Set<WidgetState> states,
+              ) {
                 if (states.contains(WidgetState.selected)) {
                   return Colors.white; // White thumb when active
                 }
                 return Colors.black.withOpacity(
-                  0.4); // Lighter gray thumb when inactive
+                  0.4,
+                ); // Lighter gray thumb when inactive
               }),
               trackColor: WidgetStateProperty.resolveWith<Color>((
-                Set<WidgetState> states) {
+                Set<WidgetState> states,
+              ) {
                 if (states.contains(WidgetState.selected)) {
                   return Colors.black;
                 }
                 return Colors.black.withOpacity(
-                  0.15); // Heller Track wenn inaktiv
+                  0.15,
+                ); // Heller Track wenn inaktiv
               }),
               trackOutlineColor: WidgetStateProperty.resolveWith<Color>((
-                Set<WidgetState> states) {
+                Set<WidgetState> states,
+              ) {
                 return Colors.transparent; // Kein Rand im Light Mode
-              })),
+              }),
+            ),
             fontFamily: 'Poppins',
-            useMaterial3: true),
+            useMaterial3: true,
+          ),
           darkTheme: ThemeData(
             colorScheme:
                 ColorScheme.fromSeed(
                   seedColor: Colors.black,
-                  brightness: Brightness.dark).copyWith(
+                  brightness: Brightness.dark,
+                ).copyWith(
                   primary: Colors.white,
-                  secondary: Colors.white.withOpacity(0.15)),
+                  secondary: Colors.white.withOpacity(0.15),
+                ),
             textSelectionTheme: TextSelectionThemeData(
               cursorColor: Colors.white,
               selectionColor: Colors.white.withOpacity(0.5),
-              selectionHandleColor: Colors.white),
+              selectionHandleColor: Colors.white,
+            ),
             // Fix for red switches in Dark Mode on Android
             switchTheme: SwitchThemeData(
               thumbColor: WidgetStateProperty.resolveWith<Color>((
-                Set<WidgetState> states) {
+                Set<WidgetState> states,
+              ) {
                 if (states.contains(WidgetState.selected)) {
                   return Colors.white; // White thumb when active
                 }
                 return Colors.white.withOpacity(
-                  0.4); // Lighter thumb when inactive
+                  0.4,
+                ); // Lighter thumb when inactive
               }),
               trackColor: WidgetStateProperty.resolveWith<Color>((
-                Set<WidgetState> states) {
+                Set<WidgetState> states,
+              ) {
                 if (states.contains(WidgetState.selected)) {
                   return Colors.white;
                 }
                 return Colors.transparent; // Transparent track when inactive
               }),
               trackOutlineColor: WidgetStateProperty.resolveWith<Color>((
-                Set<WidgetState> states) {
+                Set<WidgetState> states,
+              ) {
                 if (states.contains(WidgetState.selected)) {
                   return Colors.transparent; // Kein Rand wenn aktiv
                 }
                 return Colors.white.withOpacity(
-                  0.5); // White border when inactive
-              })),
+                  0.5,
+                ); // White border when inactive
+              }),
+            ),
             fontFamily: 'Poppins',
-            useMaterial3: true),
+            useMaterial3: true,
+          ),
           home:
               _initialRoute, // ✅ Use stored initial route instead of calling method again
           onGenerateRoute: (settings) {
@@ -375,7 +410,11 @@ class _MyAppState extends State<MyApp> {
             }
             return CupertinoPageRoute(
               settings: settings,
-              builder: (_) => page);
-          })));
+              builder: (_) => page,
+            );
+          },
+        ),
+      ),
+    );
   }
 }
