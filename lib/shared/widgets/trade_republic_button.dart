@@ -1,10 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart' show defaultTargetPlatform, TargetPlatform, kIsWeb;
 import 'cultioo_spinner.dart';
 import 'pointer_safe.dart';
 
 /// Primary label buttons: default height.
 const double _kButtonHeightDefault = 48;
 const double _kButtonHeightLegacyTall = 56;
+
+/// Desktop-optimized button height (more compact)
+const double _kButtonHeightDesktop = 40;
+
+/// Check if running on desktop platform
+bool _isDesktopPlatform() =>
+    !kIsWeb &&
+    (defaultTargetPlatform == TargetPlatform.macOS ||
+        defaultTargetPlatform == TargetPlatform.windows ||
+        defaultTargetPlatform == TargetPlatform.linux);
 
 /// Trade Republic styled button with clean, minimal design
 /// Supports both label-only and icon-only variants
@@ -267,7 +278,9 @@ class _TradeRepublicButtonState extends State<TradeRepublicButton>
   /// Slightly shorter on phone; extra compact on desktop for the default sizes.
   static double _resolveLabelButtonHeight(double height) {
     if (height == _kButtonHeightLegacyTall) return _kButtonHeightDefault;
-    if (height == _kButtonHeightDefault) return 44;
+    if (height == _kButtonHeightDefault) {
+      return _isDesktopPlatform() ? _kButtonHeightDesktop : 44;
+    }
     return height;
   }
 }
